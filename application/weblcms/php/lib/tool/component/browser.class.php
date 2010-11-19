@@ -48,12 +48,12 @@ class ToolComponentBrowserComponent extends ToolComponent
         $publication_renderer = ContentObjectPublicationListRenderer :: factory($this->get_parent()->get_browser_type(), $this);
 
         $actions = new ObjectTableFormActions(__NAMESPACE__, Tool :: PARAM_ACTION);
-        $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected', null ,Utilities:: COMMON_LIBRARIES)));
+        $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));
         $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_TOGGLE_VISIBILITY, Translation :: get('ToggleVisibility'), false));
         //$actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_TOGGLE_VISIBILITY, Translation :: get('ToggleVisibility'), false));
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $this->get_parent() instanceof Categorizable)
         {
-            $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_MOVE_TO_CATEGORY, Translation :: get('MoveSelected', null ,Utilities:: COMMON_LIBRARIES), false));
+            $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_MOVE_TO_CATEGORY, Translation :: get('MoveSelected', null, Utilities :: COMMON_LIBRARIES), false));
         }
         $publication_renderer->set_actions($actions);
 
@@ -125,26 +125,32 @@ class ToolComponentBrowserComponent extends ToolComponent
         $action_bar->set_search_url($this->get_url());
         if ($this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(
+                    Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        if ($this->get_user()->is_platform_admin() || $this->get_course()->is_course_admin($this->get_user()) )
+        if ($this->get_user()->is_platform_admin() || $this->get_course()->is_course_admin($this->get_user()))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS, WeblcmsManager :: PARAM_CATEGORY => Request :: get(WeblcmsManager :: PARAM_CATEGORY))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(
+                    Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS,
+                    WeblcmsManager :: PARAM_CATEGORY => Request :: get(WeblcmsManager :: PARAM_CATEGORY))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(
+                Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $this->get_parent() instanceof Categorizable)
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(
+                    Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         if (! $this->introduction_text && $this->get_course()->get_intro_text())
         {
             if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             {
-                $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(
+                        Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
         }
 
@@ -159,7 +165,8 @@ class ToolComponentBrowserComponent extends ToolComponent
         {
             foreach ($browser_types as $browser_type)
             {
-                $action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($browser_type) . 'View'), Theme :: get_image_path() . 'view_' . $browser_type . '.png', $this->get_url(array(Tool :: PARAM_BROWSER_TYPE => $browser_type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                $action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($browser_type) . 'View', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'view_' . $browser_type . '.png', $this->get_url(array(
+                        Tool :: PARAM_BROWSER_TYPE => $browser_type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
         }
 
@@ -213,7 +220,8 @@ class ToolComponentBrowserComponent extends ToolComponent
         if (! empty($user_id) || ! empty($course_group_ids))
         {
             $access[] = new AndCondition(array(
-                    new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+                    new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()),
+                    new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
         }
 
         $conditions[] = new OrCondition($access);
@@ -242,11 +250,16 @@ class ToolComponentBrowserComponent extends ToolComponent
             $time_conditions = array();
             $time_conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_HIDDEN, 0);
 
-            $forever_condition = new AndCondition(array(new EqualityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, 0), new EqualityCondition(ContentObjectPublication :: PROPERTY_TO_DATE, 0)));
+            $forever_condition = new AndCondition(array(
+                    new EqualityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, 0),
+                    new EqualityCondition(ContentObjectPublication :: PROPERTY_TO_DATE, 0)));
             $between_condition = new AndCondition(array(
-                    new InequalityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time()), new InequalityCondition(ContentObjectPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time())));
+                    new InequalityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time()),
+                    new InequalityCondition(ContentObjectPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time())));
 
-            $time_conditions[] = new OrCondition(array($forever_condition, $between_condition));
+            $time_conditions[] = new OrCondition(array(
+                    $forever_condition,
+                    $between_condition));
 
             $conditions[] = new AndCondition($time_conditions);
         }
