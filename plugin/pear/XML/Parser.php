@@ -207,7 +207,7 @@ class XML_Parser extends PEAR
      *                       to have it call functions named after elements
      * @param string $tgtenc a valid target encoding
      */
-    function __construct($srcenc = null, $mode = 'event', $tgtenc = null)
+    function XML_Parser($srcenc = null, $mode = 'event', $tgtenc = null)
     {
         XML_Parser::__construct($srcenc, $mode, $tgtenc);
     }
