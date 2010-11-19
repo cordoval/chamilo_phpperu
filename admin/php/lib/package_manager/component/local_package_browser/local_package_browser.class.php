@@ -13,6 +13,7 @@ use common\libraries\Theme;
 use common\libraries\SimpleTable;
 use common\libraries\DynamicVisualTabsRenderer;
 use common\libraries\DynamicVisualTab;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 /**
  * $Id: local_package_browser.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
@@ -190,6 +191,34 @@ class LocalPackageBrowser
         }
 
         return $applications;
+    }
+
+    function get_external_repository_manager_data()
+    {
+        $external_repository_managers = array();
+
+        $external_repository_manager_path = Path :: get_common_extensions_path() . 'external_repository_manager/implementation/';
+        $folders = Filesystem :: get_directory_content($external_repository_manager_path, Filesystem :: LIST_DIRECTORIES, false);
+
+        sort($folders, SORT_STRING);
+
+        foreach ($folders as $folder)
+        {
+            $data = array();
+            $data[] = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($folder));
+
+            $toolbar = new Toolbar();
+//            $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'action_install.png', $this->manager->get_url(array(
+//                    PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE,
+//                    PackageManager :: PARAM_SECTION => 'language',
+//                    PackageManager :: PARAM_PACKAGE => $installable_language,
+//                    PackageManager :: PARAM_INSTALL_TYPE => 'local')), ToolbarItem :: DISPLAY_ICON));
+            $data[] = $toolbar->as_html();
+
+            $external_repository_managers[] = $data;
+        }
+
+        return $external_repository_managers;
     }
 }
 ?>
