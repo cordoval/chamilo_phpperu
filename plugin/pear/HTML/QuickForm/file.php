@@ -72,7 +72,7 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
      */
     function __construct($elementName=null, $elementLabel=null, $attributes=null)
     {
-        parent::__construct($elementName, $elementLabel, $attributes);
+        parent :: __construct($elementName, $elementLabel, $attributes);
         $this->setType('file');
     } //end constructor
 
@@ -185,8 +185,7 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
                 return $this->onQuickFormEvent('updateValue', null, $caller);
                 break;
             case 'createElement':
-                $className = get_class($this);
-                $this->$className($arg[0], $arg[1], $arg[2]);
+                $this->__construct($arg[0], $arg[1], $arg[2]);
                 break;
         }
         return true;
