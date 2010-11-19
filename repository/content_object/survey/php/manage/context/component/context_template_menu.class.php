@@ -78,7 +78,7 @@ class SurveyContextTemplateMenu extends HTML_Menu
         //		} else {
         $menu = array();
 
-        $context_template = SurveyContextDataManager::get_instance()->retrieve_survey_context_template($context_template_id);
+        $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
 
         $menu_item = array();
         $menu_item['title'] = $context_template->get_context_type_name();
@@ -165,6 +165,6 @@ class SurveyContextTemplateMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

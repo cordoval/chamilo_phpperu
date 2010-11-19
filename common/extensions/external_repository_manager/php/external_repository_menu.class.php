@@ -91,6 +91,6 @@ class ExternalRepositoryMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: get_classname_from_namespace(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

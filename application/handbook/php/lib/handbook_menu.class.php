@@ -18,17 +18,17 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 
 /**
  * This class provides a navigation menu representing the structure of a handbook
- * 
+ *
  */
 class HandbookMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
     private $urlFmt;
-    
+
     /**
      * The array renderer used to determine the breadcrumbs.
      */
@@ -36,14 +36,14 @@ class HandbookMenu extends HTML_Menu
 
     private $handbook_id;
     private $handbook_selection_id;
-   
+
 
     /**
      * Creates a new category navigation menu.
      * @param string $url_format The format to use for the URL of a category.
      *                           Passed to sprintf(). Defaults to the string
      *                           "?category=%s".
-     * 
+     *
      */
     function __construct($url_format, $handbook_id, $handbook_selection_id)
     {
@@ -53,8 +53,8 @@ class HandbookMenu extends HTML_Menu
 
         $this->handbook_id = $handbook_id;
         $this->handbook_selection_id = $handbook_selection_id;
-   
-        
+
+
         $menu = $this->get_menu();
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
@@ -71,7 +71,7 @@ class HandbookMenu extends HTML_Menu
         {
             $this->forceCurrentUrl($this->get_sub_item_url($handbook_id, $handbook_selection_id));
         }
-    
+
     }
 
     /**
@@ -84,9 +84,9 @@ class HandbookMenu extends HTML_Menu
      */
     private function get_menu()
     {
-        
+
         $menu = array();
-        
+
 //        $handbooks = array();
 
         $hdm = HandbookDataManager :: get_instance();
@@ -97,28 +97,28 @@ class HandbookMenu extends HTML_Menu
         $pub['class'] = 'handbook';
         $pub['sub'] = $this->get_handbook_items($this->handbook_id, $this->handbook_id);
         $menu[] = $pub;
-        
+
 //        $udm = UserDataManager :: get_instance();
 //        $handbooks['title'] = 'handbook';
 //        $handbooks['url'] = $this->get_root_url();
 //        $handbooks['class'] = 'home';
 //        $subs = $this->get_publications();
-        
+
 //        if (count($subs) > 0)
 //            $handbooks['sub'] = $subs;
-        
+
 //        $menu[] = $handbooks;
-        
+
         return $menu;
     }
 
     private function get_publications()
     {
         $menu = array();
-        
+
         $hdm = HandbookDataManager :: get_instance();
         $rdm = RepositoryDataManager :: get_instance();
-  
+
         $handbook = $rdm->retrieve_content_object($this->handbook_id);
         if($handbook)
         {
@@ -130,7 +130,7 @@ class HandbookMenu extends HTML_Menu
                 $menu[] = $pub;
          }
 
-        
+
         return $menu;
     }
 
@@ -138,13 +138,13 @@ class HandbookMenu extends HTML_Menu
     {
         $menu = array();
         $rdm = RepositoryDataManager :: get_instance();
-        
+
         $children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name()));
-        
+
         while ($child = $children->next_result())
         {
             $lo = $rdm->retrieve_content_object($child->get_ref());
-            
+
             $item = array();
             if($lo->get_type() == HandbookItem::get_type_name())
             {
@@ -172,13 +172,13 @@ class HandbookMenu extends HTML_Menu
                 $item['title'] = $lo->get_title();
             }
 
-            
+
             $item['url'] = $this->get_sub_item_url($handbook_id, $child->get_ref());
            $item['class'] = $lo->get_type();
 //            $item['class'] = 'test';
             $menu[] = $item;
         }
-        
+
         return $menu;
     }
 
@@ -228,9 +228,9 @@ class HandbookMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+    	return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

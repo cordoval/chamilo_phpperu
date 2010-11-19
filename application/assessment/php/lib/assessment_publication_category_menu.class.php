@@ -26,7 +26,7 @@ require_once dirname(__FILE__) . '/assessment_data_manager.class.php';
 class AssessmentPublicationCategoryMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -35,7 +35,7 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-    
+
     private $current_category;
 
     /**
@@ -53,10 +53,10 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
     {
         $this->current_category = $current_category;
         $this->urlFmt = $url_format;
-        
+
         $menu = $this->get_menu();
         parent :: __construct($menu);
-        
+
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
         $this->forceCurrentUrl($this->get_url($current_category));
     }
@@ -64,23 +64,23 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
     function get_menu()
     {
         $menu = array();
-        
+
         $menu_item = array();
         $menu_item['title'] = Translation :: get('Root', null, Utilities :: COMMON_LIBRARIES) . ' (' . $this->get_publication_count(0) . ')';
         $menu_item['url'] = $this->get_url(0);
-        
+
         $sub_menu_items = $this->get_menu_items(0);
         if (count($sub_menu_items) > 0)
         {
             $menu_item['sub'] = $sub_menu_items;
         }
-        
+
         $menu_item['class'] = 'home';
         $menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
         $menu[0] = $menu_item;
-        
+
         return $menu;
-    
+
     }
 
     /**
@@ -95,26 +95,26 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
     {
         $condition = new EqualityCondition(AssessmentPublicationCategory :: PROPERTY_PARENT, $parent_id);
         $categories = AssessmentDataManager :: get_instance()->retrieve_assessment_publication_categories($condition, null, null, new ObjectTableOrder(AssessmentPublicationCategory :: PROPERTY_DISPLAY_ORDER));
-        
+
         while ($category = $categories->next_result())
         {
-            
+
             $menu_item = array();
             $menu_item['title'] = $category->get_name() . ' (' . $this->get_publication_count($category->get_id()) . ')';
             $menu_item['url'] = $this->get_url($category->get_id());
-            
+
             $sub_menu_items = $this->get_menu_items($category->get_id());
-            
+
             if (count($sub_menu_items) > 0)
             {
                 $menu_item['sub'] = $sub_menu_items;
             }
-            
+
             $menu_item['class'] = 'category';
             $menu_item[OptionsMenuRenderer :: KEY_ID] = $category->get_id();
             $menu[$category->get_id()] = $menu_item;
         }
-        
+
         return $menu;
     }
 
@@ -152,7 +152,7 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
                 $i ++;
                 continue;
             }
-            
+
             $trail->add(new Breadcrumb($crumb['url'], substr($crumb['title'], 0, strpos($crumb['title'], '(') - 1)));
         }
         return $trail;
@@ -168,9 +168,9 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: TREE_NAME));
+    	return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

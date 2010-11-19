@@ -109,7 +109,9 @@ class RequestsTreeRenderer extends HTML_Menu
             $menu_item['class'] = 'type type_request';
             $menu_item['title'] = Translation :: get($translation) . ' (' . $count . ')';
             $menu_item['description'] = Translation :: get($translation);
-            $menu_item['url'] = $this->parent->get_url(Array(WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type, WeblcmsManager :: PARAM_REQUEST_VIEW => $request_view));
+            $menu_item['url'] = $this->parent->get_url(Array(
+                    WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type,
+                    WeblcmsManager :: PARAM_REQUEST_VIEW => $request_view));
             $this->check_selected_item($menu_item, $request_type, $request_view);
             $sub_menu[] = $menu_item;
         }
@@ -131,6 +133,6 @@ class RequestsTreeRenderer extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

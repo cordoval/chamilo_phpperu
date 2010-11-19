@@ -27,7 +27,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class ProfilerMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -43,10 +43,10 @@ class ProfilerMenu extends HTML_Menu
      * this menu.
      * @param int $current_category The ID of the current category in the menu.
      * @param string $url_format The format to use for the URL of a category.
-     *                           Passed to sprintf(). Defaults to the string
-     *                           "?category=%s".
+     * Passed to sprintf(). Defaults to the string
+     * "?category=%s".
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      */
     function __construct($current_category, $url_format = '?application=profiler&go=browser&category=%s')
     {
@@ -60,22 +60,22 @@ class ProfilerMenu extends HTML_Menu
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_menu()
     {
         $menu = array();
-        
+
         $home = array();
         $home['title'] = Translation :: get('Home');
         $home['url'] = $this->get_category_url(0);
         $home['class'] = 'home';
         $home['sub'] = $this->get_menu_items(0);
         $menu[] = $home;
-        
+
         return $menu;
     }
 
@@ -84,7 +84,7 @@ class ProfilerMenu extends HTML_Menu
         $pdm = ProfilerDataManager :: get_instance();
         $condition = new EqualityCondition(ProfilerCategory :: PROPERTY_PARENT, $parent_id);
         $categories = $pdm->retrieve_categories($condition);
-        
+
         while ($category = $categories->next_result())
         {
             $item['title'] = $category->get_name();
@@ -93,7 +93,7 @@ class ProfilerMenu extends HTML_Menu
             $item['sub'] = $this->get_menu_items($category->get_id());
             $tree[] = $item;
         }
-        
+
         return $tree;
     }
 
@@ -138,15 +138,15 @@ class ProfilerMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-	function render_as_tree()
+    function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }
