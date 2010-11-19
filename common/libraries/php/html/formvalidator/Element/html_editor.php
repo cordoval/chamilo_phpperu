@@ -25,11 +25,11 @@ abstract class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
         $this->options['show_tags'] = (isset($options['show_tags']) ? $options['show_tags'] : true);
         $this->options['full_page'] = (isset($options['full_page']) ? $options['full_page'] : false);
         $this->options['toolbar_set'] = (isset($options['toolbar_set']) ? $options['toolbar_set'] : 'Basic');
-        
+
         $this->_persistantFreeze = true;
         $this->set_type();
-        
-        HTML_QuickForm_element :: HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+
+        HTML_QuickForm_element :: __construct($elementName, $elementLabel, $attributes);
     }
 
     function get_options()
@@ -96,19 +96,19 @@ abstract class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
     function render_textarea()
     {
         $html = parent :: toHTML();
-        
+
         $width = $this->options['width'];
         if (strpos($width, '%') === false)
         {
             $width .= 'px';
         }
-        
+
         $height = $this->options['height'];
         if (strpos($height, '%') === false)
         {
             $height .= 'px';
         }
-        
+
         $string = '<textarea style="width: ' . $width . '; height: ' . $height . ';"';
         $html = str_replace('<textarea', $string, $html);
         return $html;

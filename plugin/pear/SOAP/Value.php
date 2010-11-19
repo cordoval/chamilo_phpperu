@@ -201,7 +201,7 @@ class SOAP_Header extends SOAP_Value
             $attributes = array();
         }
 
-        parent::SOAP_Value($name, $type, $value, $attributes);
+        parent :: __construct($name, $type, $value, $attributes);
 
         if (isset($actor)) {
             $this->attributes[SOAP_BASE::SOAPENVPrefix().':actor'] = $actor;
@@ -236,7 +236,7 @@ class SOAP_Attachment extends SOAP_Value
     function __construct($name = '', $type = 'application/octet-stream',
                              $filename, $file = null, $attributes = null)
     {
-        parent::SOAP_Value($name, null, null);
+        parent :: __construct($name, null, null);
 
         $filedata = $file === null ? $this->_file2str($filename) : $file;
         $filename = basename($filename);

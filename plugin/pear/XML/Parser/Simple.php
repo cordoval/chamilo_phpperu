@@ -147,7 +147,7 @@ class XML_Parser_Simple extends XML_Parser
      */
     function __construct($srcenc = null, $mode = 'event', $tgtenc = null)
     {
-        $this->XML_Parser($srcenc, $mode, $tgtenc);
+        parent :: __construct($srcenc, $mode, $tgtenc);
     }
 
     /**

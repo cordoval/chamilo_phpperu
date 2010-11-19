@@ -42,7 +42,7 @@ abstract class ContentObjectDisplay
      * of the current object from the query string,
      * and replace it.
      */
-    protected function __construct($content_object, $url_format = null)
+    public function __construct($content_object, $url_format = null)
     {
 
         $this->content_object = $content_object;

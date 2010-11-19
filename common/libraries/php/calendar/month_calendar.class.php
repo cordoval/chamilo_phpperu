@@ -29,7 +29,7 @@ class MonthCalendar extends CalendarTable
     function __construct($display_time)
     {
         $this->navigation_html = '';
-        parent :: CalendarTable($display_time);
+        parent :: __construct($display_time);
         $cell_mapping = array();
         $this->build_table();
         $this->events_to_show = array();

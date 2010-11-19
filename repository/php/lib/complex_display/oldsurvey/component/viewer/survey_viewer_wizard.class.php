@@ -28,7 +28,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
 
     function __construct($parent, $survey, $template_id)
     {
-        parent :: HTML_QuickForm_Controller('SurveyViewerWizard_' . $survey->get_id(), true);
+        parent :: __construct('SurveyViewerWizard_' . $survey->get_id(), true);
 
         $this->parent = $parent;
         $this->survey = $survey;

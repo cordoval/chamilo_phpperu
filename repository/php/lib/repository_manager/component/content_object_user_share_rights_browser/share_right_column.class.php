@@ -17,7 +17,7 @@ class ShareRightColumn extends StaticTableColumn
     function __construct($title, $right_id)
     {
         $this->right_id = $right_id;
-        parent :: StaticTableColumn($title);
+        parent :: __construct($title);
     }
 
     function get_right_id()

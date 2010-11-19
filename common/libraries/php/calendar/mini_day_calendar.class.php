@@ -18,7 +18,7 @@ class MiniDayCalendar extends DayCalendar
 
     function __construct($display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24')
     {
-        parent :: DayCalendar($display_time, $hour_step);
+        parent :: __construct($display_time, $hour_step);
         $this->start_hour = $start_hour;
         $this->end_hour = $end_hour;
         $this->updateAttributes('class="calendar_table mini_calendar"');

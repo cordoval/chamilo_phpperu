@@ -38,7 +38,7 @@ class MaintenanceWizard extends HTML_QuickForm_Controller
     function __construct($parent)
     {
         $this->parent = $parent;
-        parent :: HTML_QuickForm_Controller('MaintenanceWizard', true);
+        parent :: __construct('MaintenanceWizard', true);
         $this->addPage(new ActionSelectionMaintenanceWizardPage('action_selection', $this->parent));
         $this->addAction('process', new MaintenanceWizardProcess($this->parent));
         $this->addAction('display', new MaintenanceWizardDisplay($this->parent));

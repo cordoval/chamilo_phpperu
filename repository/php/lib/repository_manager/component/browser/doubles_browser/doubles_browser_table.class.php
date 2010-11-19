@@ -23,7 +23,7 @@ class DoublesBrowserTable extends RepositoryBrowserTable
         $model = new DoublesBrowserTableColumnModel($is_detail);
         $renderer = new DoublesBrowserTableCellRenderer($browser, $is_detail);
         $data_provider = new DoublesBrowserTableDataProvider($browser, $condition, $is_detail);
-        parent :: ObjectTable($data_provider, DoublesBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, DoublesBrowserTable :: DEFAULT_NAME, $model, $renderer);
         
         $actions = array();
         $this->set_form_actions($actions);

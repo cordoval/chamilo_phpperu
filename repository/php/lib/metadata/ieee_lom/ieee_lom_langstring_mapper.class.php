@@ -17,7 +17,7 @@ class IeeeLomLangStringMapper extends IeeeLomLangString
 
     public function __construct($string = null, $language = null, $string_metadata_id = null, $language_metadata_id = null, $string_override_id = null, $language_override_id = null, $string_original_id = null, $language_original_id = null, $strip_tag = true)
     {
-        parent :: IeeeLomLangString($string, $language, $strip_tag);
+        parent :: __construct($string, $language, $strip_tag);
         
         if (isset($this->strings[0]))
         {

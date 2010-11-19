@@ -29,7 +29,7 @@ class AssessmentSelectQuestionOption extends SelectQuestionOption
      * @param string $feedback The feedback of this answer in the question
      */
     function __construct($value, $correct, $score, $feedback){
-    	parent :: SelectQuestionOption($value);
+    	parent :: __construct($value);
     	$this->correct = $correct;
     	$this->score = $score;
     	$this->feedback = $feedback;

@@ -53,7 +53,7 @@ class PEAR_Task_Postinstallscript_rw extends PEAR_Task_Postinstallscript
      */
     function __construct(&$pkg, &$config, &$logger, $fileXml)
     {
-        parent::PEAR_Task_Common($config, $logger, PEAR_TASK_PACKAGE);
+        parent :: __construct($config, $logger, PEAR_TASK_PACKAGE);
         $this->_contents = $fileXml;
         $this->_pkg = &$pkg;
         $this->_params = array();

@@ -84,7 +84,7 @@ generate both package.xml.
      */
     function __construct(&$ui, &$config)
     {
-        parent::PEAR_Command_Common($ui, $config);
+        parent :: __construct($ui, $config);
     }
 
 

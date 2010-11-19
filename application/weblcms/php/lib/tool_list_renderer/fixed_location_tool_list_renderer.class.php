@@ -35,7 +35,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
      */
     function __construct($parent, $visible_tools)
     {
-        parent :: ToolListRenderer($parent, $visible_tools);
+        parent :: __construct($parent, $visible_tools);
 
         $course = $parent->get_course();
         $this->course = $course;

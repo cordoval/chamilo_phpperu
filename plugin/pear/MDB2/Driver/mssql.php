@@ -69,7 +69,7 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
      */
     function __construct()
     {
-        parent::__construct();
+        parent :: __construct();
 
         $this->phptype = 'mssql';
         $this->dbsyntax = 'mssql';

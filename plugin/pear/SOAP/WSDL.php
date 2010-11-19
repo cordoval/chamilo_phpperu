@@ -166,7 +166,7 @@ class SOAP_WSDL extends SOAP_Base
                        $cacheMaxAge = WSDL_CACHE_MAX_AGE,
                        $docs        = false)
     {
-        parent::SOAP_Base('WSDL');
+        parent :: __construct('WSDL');
         $this->uri         = $wsdl_uri;
         $this->proxy       = $proxy;
         $this->cacheUse    = !empty($cacheUse);
@@ -994,7 +994,7 @@ class SOAP_WSDL_Cache extends SOAP_Base
                              $cacheMaxAge = WSDL_CACHE_MAX_AGE,
                              $cacheDir = null)
     {
-        parent::SOAP_Base('WSDLCACHE');
+        parent :: __construct('WSDLCACHE');
         $this->_cacheUse = $cacheUse;
         $this->_cacheDir = $cacheDir;
         $this->_cacheMaxAge = $cacheMaxAge;
@@ -1155,7 +1155,7 @@ class SOAP_WSDL_Parser extends SOAP_Base
      */
     function __construct($uri, &$wsdl, $docs = false)
     {
-        parent::SOAP_Base('WSDLPARSER');
+        parent :: __construct('WSDLPARSER');
         $this->cache =& new SOAP_WSDL_Cache($wsdl->cacheUse,
                                             $wsdl->cacheMaxAge,
                                             $wsdl->cacheDir);
@@ -1987,7 +1987,7 @@ class SOAP_WSDL_ObjectParser extends SOAP_Base
     function __construct($objects, &$wsdl, $targetNamespace,
                                     $service_name, $service_desc = '')
     {
-        parent::SOAP_Base('WSDLOBJECTPARSER');
+        parent :: __construct('WSDLOBJECTPARSER');
 
         $this->wsdl = &$wsdl;
 

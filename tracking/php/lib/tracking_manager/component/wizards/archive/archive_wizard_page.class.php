@@ -34,7 +34,7 @@ abstract class ArchiveWizardPage extends FormValidatorPage
     {
         $this->parent = $parent;
         $this->name = $name;
-        parent :: FormValidatorPage($name, 'post');
+        parent :: __construct($name, 'post');
         $this->updateAttributes(array('action' => $parent->get_url()));
     }
 

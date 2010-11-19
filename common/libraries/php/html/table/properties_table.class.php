@@ -15,7 +15,7 @@ class PropertiesTable extends HTML_Table
      */
     function __construct(array $properties)
     {
-        parent :: HTML_Table(array('class' => 'data_table data_table_no_header'));
+        parent :: __construct(array('class' => 'data_table data_table_no_header'));
         $this->properties = $properties;
 
         $this->build_table();

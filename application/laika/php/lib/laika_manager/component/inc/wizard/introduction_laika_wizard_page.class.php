@@ -28,7 +28,7 @@ class IntroductionLaikaWizardPage extends LaikaWizardPage
      */
     public function __construct($name, $parent, $message)
     {
-        parent :: LaikaWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
         $this->message = $message;
     }
 

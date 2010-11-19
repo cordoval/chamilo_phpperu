@@ -118,7 +118,7 @@ class GalleryTable extends HTML_Table
      */
     function __construct($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $get_properties_function = null, $default_items_per_page = 20, $default_property = 0, $default_order_direction = SORT_ASC, $enable_order_directions = true, $ajax_enabled = false)
     {
-        parent :: HTML_Table(array('class' => 'gallery_table'), 0, true);
+        parent :: __construct(array('class' => 'gallery_table'), 0, true);
         $this->table_name = $table_name;
         $this->additional_parameters = array();
         $this->param_prefix = $table_name . '_';
@@ -790,7 +790,7 @@ class GalleryTableFromArray extends GalleryTable
     function __construct($table_data, $default_property = 1, $default_items_per_page = 20, $tablename = 'tablename')
     {
         $this->table_data = $table_data;
-        parent :: GalleryTable($tablename, array($this, 'get_total_number_of_items'), array($this, 'get_table_data'), array($this, 'get_table_properties'), $default_items_per_page, $default_property, $default_order_direction, $ajax_enabled);
+        parent :: __construct($tablename, array($this, 'get_total_number_of_items'), array($this, 'get_table_data'), array($this, 'get_table_properties'), $default_items_per_page, $default_property, $default_order_direction, $ajax_enabled);
     }
 
     /**

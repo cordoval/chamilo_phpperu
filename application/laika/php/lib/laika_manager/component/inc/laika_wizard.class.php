@@ -34,7 +34,7 @@ class LaikaWizard extends HTML_QuickForm_Controller
     function __construct($parent)
     {
         $this->parent = $parent;
-        parent :: HTML_QuickForm_Controller('LaikaWizard', true);
+        parent :: __construct('LaikaWizard', true);
         
         $values = $this->exportValues();
         

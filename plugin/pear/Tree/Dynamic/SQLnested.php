@@ -49,7 +49,7 @@ class Tree_Dynamic_SQLnested extends Tree
       */
     function __construct($config)
     {
-        $this->Tree_Dynamic_SQLnested($config);
+        parent :: __construct($config);
     }
 
     // }}}

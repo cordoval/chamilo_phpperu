@@ -47,7 +47,7 @@ class SOAP_Server_Email_Gateway extends SOAP_Server_Email {
     function __construct($gateway = '', $send_response = true,
                                        $dump = false)
     {
-        parent::SOAP_Server();
+        parent :: __construct();
         $this->send_response = $send_response;
         $this->gateway = $gateway;
         $this->dump = $dump;

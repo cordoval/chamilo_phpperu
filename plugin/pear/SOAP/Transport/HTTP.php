@@ -82,7 +82,7 @@ class SOAP_Transport_HTTP extends SOAP_Transport
      */
     function __construct($url, $encoding = SOAP_DEFAULT_ENCODING)
     {
-        parent::SOAP_Base('HTTP');
+        parent :: __construct('HTTP');
         $this->urlparts = @parse_url($url);
         $this->url = $url;
         $this->encoding = $encoding;

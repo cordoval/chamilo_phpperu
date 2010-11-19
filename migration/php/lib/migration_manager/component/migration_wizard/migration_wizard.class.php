@@ -42,7 +42,7 @@ class MigrationWizard extends HTML_QuickForm_Controller
      */
     function __construct($parent)
     {
-        parent :: HTML_QuickForm_Controller('MigrationWizard', true);
+        parent :: __construct('MigrationWizard', true);
     	$this->parent = $parent;
         $this->platform = PlatformSetting :: get(self :: SETTING_PLATFORM, MigrationManager :: APPLICATION_NAME);
 
