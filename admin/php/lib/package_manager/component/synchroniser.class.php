@@ -7,6 +7,7 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\PlatformSetting;
 
 
 /**
@@ -56,8 +57,9 @@ class PackageManagerSynchroniserComponent extends PackageManager
 
     function get_remote_packages_data()
     {
+        $online_repository = PlatformSetting :: get('package_repository');
 
-    	$xml_data = file_get_contents(Path :: get(WEB_PATH) . 'packages.xml');
+    	$xml_data = file_get_contents($online_repository . 'packages.xml');
 
         if ($xml_data)
         {

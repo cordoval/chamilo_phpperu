@@ -79,7 +79,7 @@
 				</options>
 			</setting>
 			<setting name="cda_url" field="text" default="http://translate.chamilo.org/" />
-                        <setting name="write_new_variables_to_translation_file" field="checkbox" default="0">
+			<setting name="write_new_variables_to_translation_file" field="checkbox" default="0">
 				<options type="static">
 					<option name="write_new_variables_to_translation_file" value="1" />
 				</options>
@@ -142,6 +142,7 @@
 					<option name="show_version_data" value="1" />
 				</options>
 			</setting>
+			<setting name="package_repository" field="text" default="http://packages.chamilo.org/" />
 		</category>
 		<category name="security">
 			<setting name="type_of_filtering" field="radio" default="blacklist">
