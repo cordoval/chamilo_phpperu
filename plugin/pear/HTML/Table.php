@@ -20,7 +20,7 @@
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * Copyright (c) 2005-2007, Adam Daniel <adaniel1@eesus.jnj.com>,
  *                          Bertrand Mansion <bmansion@mamasam.com>,
  *                          Mark Wiesemann <wiesemann@php.net>
@@ -33,9 +33,9 @@
  *    * Redistributions of source code must retain the above copyright
  *      notice, this list of conditions and the following disclaimer.
  *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the 
+ *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products 
+ *    * The names of the authors may not be used to endorse or promote products
  *      derived from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
@@ -173,7 +173,7 @@ class HTML_Table extends HTML_Common {
      */
     function __construct($attributes = null, $tabOffset = 0, $useTGroups = false)
     {
-        HTML_Common::HTML_Common($attributes, (int)$tabOffset);
+        parent::__construct($attributes, (int)$tabOffset);
         $this->_useTGroups = (boolean)$useTGroups;
         $this->addBody();
         if ($this->_useTGroups) {
@@ -682,7 +682,7 @@ class HTML_Table extends HTML_Common {
      * @param    string    $type         (optional) Cell type either 'th' or 'td'
      * @param    bool      $inTR         false if attributes are to be applied
      *                                   in TD tags; true if attributes are to
-     *                                  ´be applied in TR tag
+     *                                  ï¿½be applied in TR tag
      * @param    int       $body         (optional) The index of the body to use.
      * @return   int
      * @access   public
@@ -808,7 +808,7 @@ class HTML_Table extends HTML_Common {
             }
         }
     }
-    
+
 	/**
      * Alternates the col attributes starting at $start
      * @param   int     $start            Col index of col in which alternating
