@@ -52,7 +52,7 @@ class ObjectImportFactory {
     	}
 
 	    $file_name = basename($settings->get_path());
-	    $settings->get_log()->error(Translation::get('ObjectNotImported', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES). ': ' .$file_name);
+	    $settings->get_log()->error(Translation::translate('ContentObjectNotImported'). ': ' .$file_name);
 	    return EmptyObjectImport::get_instance();
 	}
 

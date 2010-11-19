@@ -13,6 +13,8 @@ namespace common\libraries;
  */
 class fedora_fs_base{
 
+	//maximum results
+
 	protected static $max_results = 250;
 
 	public static function get_max_results(){
@@ -25,6 +27,18 @@ class fedora_fs_base{
 
 	public static function set_max_results($value){
 		self::$max_results = $value;
+	}
+
+	//resource base, i.e. the web folder path where resouces - icons - can be found
+
+	protected static $resource_base = '';
+
+	public static function get_resource_base(){
+		return self::$resource_base;
+	}
+
+	public static function set_resource_base($value){
+		self::$resource_base = rtrim($value, '/') . '/';
 	}
 
 	public function __construct($fsid = ''){
@@ -48,6 +62,27 @@ class fedora_fs_base{
 	}
 
 	public function set_fsid($value){
+		$this->set(__FUNCTION__, $value);
+	}
+
+	public function get_state(){
+		return $this->get(__FUNCTION__, 'A');
+	}
+
+	public function get_state_text(){
+		$state = $this->get_state();
+		if($state == 'A'){
+			return 'Active';
+		}else if($state == 'I'){
+			return 'Inactive';
+		}else if($state == 'D'){
+			return 'Deleted';
+		}else{
+			return false;
+		}
+	}
+
+	public function set_state($value){
 		$this->set(__FUNCTION__, $value);
 	}
 
@@ -97,7 +132,7 @@ class fedora_fs_base{
 		return false;
 	}
 
-	public function __construct(mat($path = array()){
+	public function format($path = array()){
 		$title = $this->get_title();
 		if($title){
 			$result = array(
@@ -184,9 +219,6 @@ class fedora_fs_base{
 		}
 	}
 
-	protected function translate($key){
-		return fedora_fs_translate($key, 'repository_fedora');
-	}
 
 }
 

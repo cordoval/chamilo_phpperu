@@ -41,7 +41,7 @@ class fedora_fs_datastream extends fedora_fs_base{
 	}
 
 	public function get_thumbnail(){
-		$default = fedora_fs_resource('datastream.png');
+		$default = self::$resource_base . 'datastream.png';
 		return $this->get(__FUNCTION__, $default);
 	}
 

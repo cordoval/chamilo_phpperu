@@ -14,7 +14,7 @@ namespace common\libraries;
  */
 class fedora_fs_itql_query{
 
-	public static function __construct(mat_datetime($timestamp){
+	public static function format_datetime($timestamp){
 		if(empty($timestamp)){
 			return $timestamp;
 		}
@@ -36,8 +36,9 @@ class fedora_fs_itql_query{
 	public $hitPageSize = 0;
 	public $offset = 0;
 	public $sort = '';
+	public $state_text = 'Active';
 
-	public function __construct(mat(){
+	public function format(){
 		$start_date = $this->start_date;
 		$end_date = $this->end_date;
 		$owner = $this->owner;
@@ -62,6 +63,9 @@ class fedora_fs_itql_query{
 		$result .= 'and $pid <fedora-model:label> $label ';
 		$result .= 'and $pid <fedora-model:ownerId> $ownerId ';
 		$result .= 'and $pid <fedora-model:createdDate> $created ';
+		if($state = $this->state_text){
+			$result .= 'and $pid <fedora-model:state> <fedora-model:'. $state. '>';
+		}
 		if($start_date){
 			$result .= 'and $modified <mulgara:after> ' . self::format_datetime($start_date) . ' in <#xsd> ' ;
 		}

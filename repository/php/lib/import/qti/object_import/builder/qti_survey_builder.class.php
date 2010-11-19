@@ -1,9 +1,9 @@
 <?php
 namespace repository;
-use common\libraries\Path; 
+use common\libraries\Path;
 
-require_once Path :: get_repository_content_object_path() . 'survey/php/survey.class.php';
-require_once Path :: get_repository_content_object_path() . 'survey_page/php/complex_survey_page.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/survey/survey.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/survey_page/complex_survey_page.class.php';
 
 /**
  * Survey builder.
@@ -13,7 +13,6 @@ require_once Path :: get_repository_content_object_path() . 'survey_page/php/com
  *
  */
 
-//@todo: test when survey is working serializer
 class QtiSurveyBuilder extends QtiBuilderBase{
 
 	const CLASS_DESCRIPTION = 'description';
@@ -67,7 +66,6 @@ class QtiSurveyBuilder extends QtiBuilderBase{
     	$description = '';
 		$blocks = $section->list_rubricBlock();
 		foreach($blocks as $block){
-			//@todo: change serializer
 			if($block->class == 'description'){
 				$description = $this->to_html($block);
 			}

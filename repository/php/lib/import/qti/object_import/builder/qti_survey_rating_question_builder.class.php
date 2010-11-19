@@ -29,14 +29,14 @@ class QtiSurveyRatingQuestionBuilder extends QtiQuestionBuilder{
 		$result = new SurveyRatingQuestion();
         return $result;
 	}
-
-	protected function eval_answer($answer){
+/*
+	protected function eval_answer($item, $answer){
 		if($this->is_formula($answer)){
-			return $this->execute_formula($answer);
+			return $this->execute_formula($item, $answer);
 		}else{
 			return $answer;
 		}
-	}
+	}*/
 
 	public function build(ImsXmlReader $item){
 		$result = $this->create_question();
@@ -50,6 +50,7 @@ class QtiSurveyRatingQuestionBuilder extends QtiQuestionBuilder{
 		return $result;
 	}
 }
+
 
 
 

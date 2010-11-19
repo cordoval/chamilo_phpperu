@@ -13,143 +13,137 @@ use common\libraries\Translation;
  * @author laurent.opprecht@unige.ch
  *
  */
-class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExternalRepositoryManager
-{
+class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExternalRepositoryManager{
 
-    function run()
-    {
-        if ($api = $this->create_api_component())
-        {
-            return $api->run();
-        }
-        ExternalRepositoryComponent :: launch($this);
-    }
+	function run(){
+		if($api = $this->create_api_component()){
+			return $api->run();
+		}
 
-    function synchronize_external_repository_object(ExternalRepositoryObject $external_object)
-    {
-        $synchronization_data = $external_object->get_synchronization_data();
-        $content_object = $synchronization_data->get_content_object();
+		$id = Request::get(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
 
-        if ($this->update_document($external_object, $content_object))
-        {
-            $external_object = $this->get_external_repository_connector()->retrieve_external_repository_object($external_object->get_id());
+		if($id){
+			$object = $this->retrieve_external_repository_object($id);
+			if (! $object->is_importable() && ($object->get_synchronization_status() == ExternalRepositorySync::SYNC_STATUS_EXTERNAL || $object->get_synchronization_status() == ExternalRepositorySync::SYNC_STATUS_CONFLICT)){
+				$succes = $this->synchronize_external_repository_object($object);
+				$params = $this->get_parameters();
+				$params[self::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self::ACTION_BROWSE_EXTERNAL_REPOSITORY;
 
-            $synchronization_data->set_content_object_timestamp($content_object->get_modification_date());
-            $synchronization_data->set_external_repository_object_timestamp($external_object->get_modified());
-            if ($synchronization_data->update())
-            {
-                $parameters = $this->get_parameters();
-                $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS;
-                $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_ID] = $content_object->get_id();
-                $this->redirect(Translation :: get('ContentObjectUpdatedSuccessful'), false, $parameters, array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
-            }
-            else
-            {
-                $parameters = $this->get_parameters();
-                $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
-                $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
-                $this->redirect(Translation :: get('ContentObjectUpdatedFailed'), true, $parameters);
-            }
-        }
-        else
-        {
-            $parameters = $this->get_parameters();
-            $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
-            $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
-            $this->redirect(Translation :: get('ExternalRepositoryObjectUpdatedFailed'), true, $parameters);
-        }
-    }
+				if($succes){
+					$this->redirect(Translation::get('Succes'), false, $params);
+				}else{
+					$this->redirect(Translation::get('Failed'), true, $params);
+				}
+			}
+		}
+		$params = $this->get_parameters();
+		$params[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager::ACTION_VIEW_EXTERNAL_REPOSITORY;
+		$this->redirect(null, false, $params);
+	}
 
-    function update_document(ExternalRepositoryObject $external_object, Document $document)
-    {
-        $pid = $external_object->get_id();
-        $label = $document->get_title();
+	function get_external_repository_id(){
+		return Request::get(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
+	}
 
-        $mime_type = $document->get_mime_type();
-        $path = Path :: get(SYS_FILE_PATH) . 'repository/' . $document->get_path();
+	function synchronize_external_repository_object(ExternalRepositoryObject $external_object){
+		$synchronization_data = $external_object->get_synchronization_data();
+		$content_object = $synchronization_data->get_content_object();
 
-        $name = $document->get_filename();
+		if($this->update_document($external_object, $content_object)){
+			$external_object = $this->get_external_repository_connector()->retrieve_external_repository_object($external_object->get_id());
+			$synchronization_data->set_content_object_timestamp($content_object->get_modification_date());
+			$synchronization_data->set_external_repository_object_timestamp($external_object->get_modified());
+			return $synchronization_data->update();
+		}else{
+			return false;
+		}
+	}
 
-        if ($document->is_image())
-        {
-            $this->update_thumbnail($pid, $name, $path, $mime_type);
-        }
+	function update_document(ExternalRepositoryObject $external_object, Document $document){
+		$pid = $external_object->get_id();
+		$label = $document->get_title();
 
-        $this->update_data($pid, $name, $path, $mime_type);
-        $this->update_label($pid, $label);
+		$mime_type = $document->get_mime_type();
+		$path = Path::get(SYS_FILE_PATH) .'repository/' . $document->get_path();
 
-        $data = $external_object->get_metadata();
-        $description = $document->get_description();
-        $description = $this->html2txt($description);
-        $description = html_entity_decode($description);
-        $description = trim($description);
-        $description = utf8_encode($description);
+		$name = $document->get_filename();
 
-        $this->update_metadata($pid, $description, $data);
-        return true;
-    }
+		if($document->is_image()){
+			$this->update_thumbnail($pid, $name, $path, $mime_type);
+		}
 
-    function update_label($pid, $label)
-    {
-        $fedora = $this->get_external_repository_connector()->get_fedora();
-        $fedora->modify_object($pid, $label);
-        $fedora->modify_datastream($pid, 'DS1', $label);
-    }
+		$this->update_data($pid, $name, $path, $mime_type);
+		$this->update_label($pid, $label);
 
-    function update_thumbnail($pid, $name, $path, $mime_type)
-    {
-        $connector = $this->get_external_repository_connector();
-        $connector->update_thumbnail($pid, $name, $path, $mime_type);
-    }
+		$data = $external_object->get_metadata();
+		$description = $document->get_description();
+		$description = $this->html2txt($description);
+		$description = html_entity_decode($description);
+		$description = trim($description);
+		$description = utf8_encode($description);
 
-    function update_metadata($pid, $description, $data)
-    {
-        $meta = new fedora_object_meta();
-        $meta->pid = $pid;
-        $switch = new switch_object_meta();
+		$this->update_metadata($pid, $description, $data);
+		return true;
+	}
 
-        foreach ($data as $key => $value)
-        {
-            $switch->{$key} = $data[$key];
-        }
+	function update_label($pid, $label){
+		$fedora = $this->get_external_repository_connector()->get_fedora();
+		$fedora->modify_object($pid, $label);
+		$fedora->modify_datastream($pid, 'DS1', $label);
+	}
 
-        $switch->discipline = $data['subject'];
-        $switch->discipline_text = $data['subject_dd']['subject_text'];
-        $switch->creator = isset($data['creator']) ? $data['creator'] : $this->get_user()->get_fullname();
-        $switch->description = $description;
+	function update_thumbnail($pid, $name, $path, $mime_type){
+		$connector = $this->get_external_repository_connector();
+		$connector->update_thumbnail($pid, $name, $path, $mime_type);
+	}
 
-        $connector = $this->get_external_repository_connector();
-        $fedora = $connector->get_fedora();
+	function update_metadata($pid, $description, $data){
+		$meta = new fedora_object_meta();
+		$meta->pid = $pid;
 
-        $content = SWITCH_get_rels_int($meta, $switch);
-        $fedora->modify_datastream($pid, 'RELS-EXT', 'Relationships to other objects', $content, 'application/rdf+xml');
-        $content = SWITCH_get_chor_dc($meta, $switch);
-        $fedora->modify_datastream($pid, 'CHOR_DC', 'SWITCH CHOR_DC record for this object', $content, 'text/xml');
-    }
+		$switch = new switch_object_meta();
+		foreach($data as $key=>$value){
+			$switch->{$key} = $data[$key];
+		}
 
-    function update_data($pid, $name, $path, $mime_type)
-    {
-        $fedora = $this->get_external_repository_connector()->get_fedora();
-        $content = file_get_contents($path);
-        //try{
-        $fedora->modify_datastream($pid, 'DS1', $name, $content, $mime_type, false);
-        //}catch(Exception $e){
-    //	$fedora->add_datastream($pid, 'DS1', $name, $content, $mime_type, false);
-    //}
-    }
+		$switch->aaiid = FedoraExternalRepositoryConnector::get_owner_id();
+		$switch->rights = isset($data['edit_rights']) ? $data['edit_rights'] : 'private';
+		$switch->accessRights = isset($data['access_rights']) ? $data['access_rights'] : 'private';
+		$switch->rightsHolder = $data['author'];
+		$switch->publisher = PlatformSetting::get('institution', 'admin');
+		$switch->discipline = $data['subject'];
+		$switch->discipline_text = $data['subject_dd']['subject_text'];
+		$switch->creator = isset($data['author']) ? $data['author'] : $this->get_user()->get_fullname();
+		$switch->description = $description;
+		$switch->collections = $data['collection'];
+		$switch->source = $this->get_external_repository_connector()->get_datastream_content_url($meta->pid, 'DS1');
 
-    function html2txt($html)
-    {
-        $search = array('@<script[^>]*?>.*?</script>@si', // Strip out javascript
-'@<style[^>]*?>.*?</style>@siU', // Strip style tags properly
-'@<[?]php[^>].*?[?]>@si', //scripts php
-'@<[?][^>].*?[?]>@si', //scripts php
-'@<[\/\!]*?[^<>]*?>@si', // Strip out HTML tags
-'@<![\s\S]*?--[ \t\n\r]*>@')// Strip multi-line comments including CDATA
-;
-        $result = preg_replace($search, '', $html);
-        return $result;
-    }
+		$connector = $this->get_external_repository_connector();
+		$fedora = $connector->get_fedora();
+
+		$content = SWITCH_get_rels_ext($meta, $switch);
+		$fedora->modify_datastream($pid, 'RELS-EXT', 'Relationships to other objects', $content, 'application/rdf+xml');
+		$content = SWITCH_get_chor_dc($meta, $switch);
+		$fedora->modify_datastream($pid, 'CHOR_DC', 'SWITCH CHOR_DC record for this object', $content, 'text/xml');
+	}
+
+	function update_data($pid, $name, $path, $mime_type){
+		$fedora = $this->get_external_repository_connector()->get_fedora();
+		$content = file_get_contents($path);
+		$fedora->modify_datastream($pid, 'DS1', $name, $content, $mime_type, false);
+	}
+
+	function html2txt($html){
+		$search = array('@<script[^>]*?>.*?</script>@si', // Strip out javascript
+     					'@<style[^>]*?>.*?</style>@siU', // Strip style tags properly
+     					'@<[?]php[^>].*?[?]>@si', //scripts php
+				     	'@<[?][^>].*?[?]>@si', //scripts php
+				     	'@<[\/\!]*?[^<>]*?>@si', // Strip out HTML tags
+				    	 '@<![\s\S]*?--[ \t\n\r]*>@' // Strip multi-line comments including CDATA
+		);
+		$result = preg_replace($search, '', $html);
+		return $result;
+	}
 
 }
 ?>

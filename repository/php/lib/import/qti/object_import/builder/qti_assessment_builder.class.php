@@ -2,7 +2,7 @@
 namespace repository;
 use common\libraries\Path;
 
-require_once Path :: get_repository_content_object_path() . 'assessment/php/assessment.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/assessment/assessment.class.php';
 
 /**
  * Assessment builder.
@@ -50,7 +50,6 @@ class QtiAssessmentBuilder extends QtiBuilderBase{
 
     function import_testpart($part, $assessment){
         $maximum_attempts = $part->get_itemSessionControl()->maxAttempts;
-        //@todo: update serializer
         if(!empty($maximum_attempts)){
             $assessment->set_maximum_attempts($maximum_attempts);
         }
@@ -117,6 +116,7 @@ class QtiAssessmentBuilder extends QtiBuilderBase{
     	return false;
     }
 }
+
 
 
 

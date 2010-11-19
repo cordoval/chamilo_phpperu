@@ -3,19 +3,19 @@ namespace common\libraries;
 
 /**
  * XHTML tags and helper functions.
- * 
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ *
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
  */
 class Xhtml{
-	
+
 	private static $tags = null;
-	private static $attributes = null; 
-	
+	private static $attributes = null;
+
 	public static function get_tags(){
 		if(empty(self::$tags)){
 			$result['a'] = 'a';
@@ -25,13 +25,13 @@ class Xhtml{
 			$result['applet'] = 'applet';
 			$result['area'] = 'area';
 			$result['b'] = 'b';
-			$result['base'] = 'base'; 
-			$result['basefont'] = 'basefont'; 
+			$result['base'] = 'base';
+			$result['basefont'] = 'basefont';
 			$result['bdo'] = 'bdo';
 			$result['big'] = 'big';
 			$result['blockquote'] = 'blockquote';
 			$result['body'] = 'body';
-			$result['br'] = 'br'; 
+			$result['br'] = 'br';
 			$result['button'] = 'button';
 			$result['caption'] = 'caption';
 			$result['center'] = 'center';
@@ -62,12 +62,12 @@ class Xhtml{
 			$result['h8'] = 'h8';
 			$result['h9'] = 'h9';
 			$result['head'] = 'head';
-			$result['hr'] = 'hr'; 
+			$result['hr'] = 'hr';
 			$result['html'] = 'html';
 			$result['i'] = 'i';
 			$result['iframe'] = 'iframe';
 			$result['img'] = 'img';
-			$result['input'] = 'input'; 
+			$result['input'] = 'input';
 			$result['ins'] = 'ins';
 			$result['isindex'] = 'isindex';
 			$result['kbd'] = 'kbd';
@@ -77,7 +77,7 @@ class Xhtml{
 			$result['link'] = 'link';
 			$result['map'] = 'map';
 			$result['menu'] = 'menu';
-			$result['meta'] = 'meta'; 
+			$result['meta'] = 'meta';
 			$result['noframes'] = 'noframes';
 			$result['noscript'] = 'noscript';
 			$result['object'] = 'object';
@@ -85,7 +85,7 @@ class Xhtml{
 			$result['optgroup'] = 'optgroup';
 			$result['option'] = 'option';
 			$result['p'] = 'p';
-			$result['param'] = 'param'; 
+			$result['param'] = 'param';
 			$result['pre'] = 'pre';
 			$result['q'] = 'q';
 			$result['s'] = 's';
@@ -116,7 +116,7 @@ class Xhtml{
 		}
 		return self::$tags ;
 	}
-	
+
 	public static function get_attributes(){
 		if(empty($tags)){
 			$result = array();
@@ -243,17 +243,17 @@ class Xhtml{
 		}
 		return self::$attributes;
 	}
-	
+
 	public static function is($name){
 		$tags = self::get_tags();
 		return isset($tags[$name]);
 	}
-	
+
 	public static function is_attribute($attribute_name){
 		$attributes = self::get_attributes();
 		return isset($attributes[$attribute_name]);
 	}
-	
+
 }
 
 

@@ -1,6 +1,7 @@
 <?php
 namespace common\libraries;
 
+
 /**
  * Helper class. Contains constants, tags and helper functions.
  *

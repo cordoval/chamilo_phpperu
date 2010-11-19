@@ -1,6 +1,7 @@
 <?php
 namespace common\libraries;
 
+
 require_once dirname(__FILE__) . '/qti_resource_manager_base.class.php';
 
 /**

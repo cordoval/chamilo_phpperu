@@ -6,26 +6,26 @@ require_once  dirname(__FILE__) .'/xml_writer_base.class.php';
 /**
  * Utility class used to generate LOM IEEE 1484.12.1 XML schemas.
  * Basic implementation.
- * 
- * @copyright (c) 2010 University of Geneva 
+ *
+ * @copyright (c) 2010 University of Geneva
  * @license GNU General Public License - http://www.gnu.org/copyleft/gpl.html
  * @author laurent.opprecht@unige.ch
  *
  */
 class LomWriter extends XmlWriterBase{
-	
+
     function __construct($writer=null, $prefix = ''){
     	parent::__construct($writer, $prefix);
     }
-    
+
     public function get_format_name(){
     	return 'LOM';
-    } 
-    
+    }
+
     public function get_format_version(){
     	return 'IEEE 1484.12.1';
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -33,7 +33,7 @@ class LomWriter extends XmlWriterBase{
     	$result = $this->add_element('general');
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -42,7 +42,7 @@ class LomWriter extends XmlWriterBase{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -51,7 +51,7 @@ class LomWriter extends XmlWriterBase{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -60,7 +60,7 @@ class LomWriter extends XmlWriterBase{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -69,7 +69,7 @@ class LomWriter extends XmlWriterBase{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -78,7 +78,7 @@ class LomWriter extends XmlWriterBase{
     	$result->set_attribute('xml:lang', $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -88,7 +88,7 @@ class LomWriter extends XmlWriterBase{
     	$result->add_entry($entry, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -97,7 +97,7 @@ class LomWriter extends XmlWriterBase{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -106,7 +106,7 @@ class LomWriter extends XmlWriterBase{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -114,7 +114,7 @@ class LomWriter extends XmlWriterBase{
     	$result = $this->add_element('lifecycle');
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -123,7 +123,7 @@ class LomWriter extends XmlWriterBase{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -133,7 +133,7 @@ class LomWriter extends XmlWriterBase{
     	$result->add_value($value, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -142,7 +142,7 @@ class LomWriter extends XmlWriterBase{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -151,7 +151,7 @@ class LomWriter extends XmlWriterBase{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
 
 }
 

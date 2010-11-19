@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 if(! defined('E_DEPRECATED')){
 	define('E_DEPRECATED', 8192); //suppress notice messages for php < 5.3

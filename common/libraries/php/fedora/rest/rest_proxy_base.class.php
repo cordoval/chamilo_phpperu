@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/rest_client.class.php';
  *
  * @copyright (c) 2010 University of Geneva
  * @license GNU General Public License - http://www.gnu.org/copyleft/gpl.html
- * @author laurent.opprecht@unige.ch, Nicolas Rod
+ * @author Nicolas Rod, laurent.opprecht@unige.ch
  *
  */
 abstract class RestProxyBase  {
@@ -34,7 +34,7 @@ abstract class RestProxyBase  {
 		return $result;
 	}
 
-	public static function parse_date($text){
+	public static function parse_date($text, $add_time_zone_offset = true){
 		if(empty($text)){
 			return 0;
 		}
@@ -50,31 +50,12 @@ abstract class RestProxyBase  {
 		$minute = is_numeric($pieces[4]) ? $pieces[4] : 0;
 		$second = is_numeric($pieces[5]) ? $pieces[5] : 0;
 
-		$offset = self::timezone_offset();
-		$hour += $offset;
+		if($add_time_zone_offset){
+			$offset = self::timezone_offset();
+			$hour += $offset;
+		}
 		return mktime($hour, $minute, $second, $month, $day, $year);
 	}
-
-	/*
-	const GET_NEW_UID_NOT_IMPLEMENTED = 'GET_NEW_UID_NOT_IMPLEMENTED';
-	const SESSION_MISSING_FIELDS      = 'SESSION_MISSING_FIELDS';
-	const OBJECT_ID                = 'object_id';
-	const OBJECT_TITLE             = 'object_title';
-	const OBJECT_SYNC_STATE        = 'object_sync_state';
-	const OBJECT_OWNER_ID          = 'object_owner_id';
-	const OBJECT_CREATION_DATE     = 'object_creation_date';
-	const OBJECT_MODIFICATION_DATE = 'object_modification_date';
-	const OBJECT_DESCRIPTION       = 'object_description';
-
-	const EXTERNAL_OBJECT_KEY      = 'external_object';
-	const SYNC_INFO                = 'sync_info';
-
-	const SYNC_STATE               = 'sync_state';
-	const SYNC_NEVER_SYNCHRONIZED  = 'never_synchronized';
-	const SYNC_IDENTICAL           = 'sync_synchronized';
-	const SYNC_NEWER_IN_CHAMILO    = 'newer_in_chamilo';
-	const SYNC_OLDER_IN_CHAMILO    = 'older_in_chamilo';
-*/
 
 	/**
 	 * @var RestClient
@@ -178,7 +159,6 @@ abstract class RestProxyBase  {
 			$result =  $this->get_rest_response($url, $http_method, $data_to_send, $mime_type);
 			return $result;
 		}catch(Exception $e){
-			//debug(htmlentities($url));debug($e);die;
 			throw $e;
 		}
 	}

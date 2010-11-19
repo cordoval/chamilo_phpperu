@@ -11,9 +11,10 @@ namespace common\libraries;
  */
 class fedora_fs_mystuff extends fedora_fs_folder{
 
-	public function __construct($fsid = '', $owner){
+	public function __construct($fsid = '', $title, $owner){
 		parent::__construct($fsid);
 		$this->owner = $owner;
+		$this->title = $title;
 	}
 
 	/**
@@ -28,7 +29,7 @@ class fedora_fs_mystuff extends fedora_fs_folder{
 	}
 
 	public function get_title(){
-		return $this->translate('mystuff');
+		return $this->get(__FUNCTION__, '');
 	}
 
 	public function query(FedoraProxy $fedora, $sort=false, $limit=false, $offset=false){
@@ -38,7 +39,8 @@ class fedora_fs_mystuff extends fedora_fs_folder{
 		if($limit){
 			$limit = min(self::$max_results, (int)$limit);
 		}
-		$objects = self::itql_find($fedora, null, null, $owner, $sort, $limit, $offset);
+		$state_text = $this->get_state_text();
+		$objects = self::itql_find($fedora, null, null, $owner, $state_text, $sort, $limit, $offset);
 		foreach($objects as $object){
 			$pid = $object['pid'];
 			$label = $object['label'];
@@ -56,4 +58,6 @@ class fedora_fs_mystuff extends fedora_fs_folder{
 		return $result;
 	}
 }
+
+
 

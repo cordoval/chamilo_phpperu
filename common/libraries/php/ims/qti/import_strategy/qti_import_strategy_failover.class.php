@@ -176,4 +176,3 @@ class QtiImportStrategyFailover extends QtiImportStrategyBase{
 
 
 
-?>

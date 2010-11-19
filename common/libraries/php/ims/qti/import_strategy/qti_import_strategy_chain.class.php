@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Chain of responsibility for import strategies.
@@ -219,7 +220,6 @@ class QtiImportStrategyChain extends QtiImportStrategyBase{
 	}
 
 }
-
 
 
 
