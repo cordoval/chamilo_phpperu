@@ -23,7 +23,7 @@ class HTML_QuickForm_Select_Language extends HTML_QuickForm_select
 
         while ($language = $languages->next_result())
         {
-            $this->addOption($language->get_english_name(), $language->get_folder());
+            $this->addOption($language->get_english_name(), $language->get_isocode());
         }
     }
 }

@@ -91,7 +91,7 @@ class LocalPackageBrowser
 
         while ($active_language = $active_languages->next_result())
         {
-            $installed_languages[] = $active_language->get_folder();
+            $installed_languages[] = $active_language->get_isocode();
         }
 
         $installable_languages = array_diff($available_languages, $installed_languages);

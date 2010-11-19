@@ -1,8 +1,11 @@
 <?php
 namespace install;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Filesystem;
+use common\libraries\Path;
+
 /**
  * $Id: language_install_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard
@@ -26,15 +29,17 @@ class LanguageInstallWizardPage extends InstallWizardPage
 
     function buildForm()
     {
-    	$this->_formBuilt = true;
+        $this->_formBuilt = true;
 
         $this->addElement('category', Translation :: get('Language'));
         $this->addElement('select', 'install_language', Translation :: get('InstallationLanguage'), $this->get_language_folder_list());
         $this->addElement('category');
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Start'), array('class' => 'normal next'));
-        $buttons[] = $this->createElement('style_submit_button', '_qf_page_preconfigured_jump', Translation :: get('UsePredefinedConfigurationFile'), array('class' => 'normal quickstart'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Start'), array(
+                'class' => 'normal next'));
+        $buttons[] = $this->createElement('style_submit_button', '_qf_page_preconfigured_jump', Translation :: get('UsePredefinedConfigurationFile'), array(
+                'class' => 'normal quickstart'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->setDefaultAction($this->getButtonName('next'));
         $this->set_form_defaults();
@@ -42,25 +47,30 @@ class LanguageInstallWizardPage extends InstallWizardPage
 
     function get_language_folder_list()
     {
-        $path = dirname(__FILE__) . '/../../../../../../../languages';
-        $list = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
+        $language_path = Path :: get_common_libraries_path() . 'resources/i18n/';
+        $language_files = Filesystem :: get_directory_content($language_path, Filesystem :: LIST_FILES, false);
+
         $language_list = array();
-        foreach ($list as $index => $language)
+        foreach ($language_files as $language_file)
         {
-            if ($language == '.' || $language == '..' || $language == '.svn')
+            $file_info = pathinfo($language_file);
+            $language_info_file = $language_path . $file_info['filename'] . '.info';
+
+            if (file_exists($language_info_file))
             {
-                continue;
+                $xml_data = Utilities :: extract_xml_file($language_info_file);
+                $language_list[$xml_data['isocode']] = $xml_data['english'];
             }
-            $language_list[$language] = Utilities :: underscores_to_camelcase_with_spaces($language);
         }
+
         return $language_list;
     }
 
     function set_form_defaults()
     {
         $defaults = array();
-        $defaults['install_language'] = 'english';
-        $defaults['platform_language'] = 'english';
+        $defaults['install_language'] = 'en';
+        $defaults['platform_language'] = 'en';
         $this->setDefaults($defaults);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 namespace install;
-use \HTML_QuickForm_Controller;
+use HTML_QuickForm_Controller;
 /**
  * $Id: install_wizard.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.install_manager.component.inc
@@ -34,8 +34,7 @@ class InstallWizard extends HTML_QuickForm_Controller
      */
     function __construct($parent)
     {
-    	global $language_interface;
-        //$language_interface = 'english';
+        global $language_interface;
         $this->parent = $parent;
         parent :: __construct('InstallWizard', true);
         $this->addPage(new LanguageInstallWizardPage('page_language', $this->parent));
@@ -46,12 +45,12 @@ class InstallWizard extends HTML_QuickForm_Controller
         $this->addPage(new SettingsInstallWizardPage('page_settings', $this->parent));
         $this->addPage(new OverviewInstallWizardPage('page_overview', $this->parent));
 
-		list($page, $action) = $this->getActionName();
+        list($page, $action) = $this->getActionName();
 
-		if($page == 'page_language' || $page == 'page_preconfigured')
-		{
-        	$this->addPage(new PreconfiguredInstallWizardPage('page_preconfigured', $this->parent));
-		}
+        if ($page == 'page_language' || $page == 'page_preconfigured')
+        {
+            $this->addPage(new PreconfiguredInstallWizardPage('page_preconfigured', $this->parent));
+        }
 
         $this->addAction('process', new InstallWizardProcess($this->parent));
         $this->addAction('display', new InstallWizardDisplay($this->parent));
