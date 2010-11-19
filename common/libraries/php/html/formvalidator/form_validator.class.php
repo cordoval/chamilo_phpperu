@@ -50,7 +50,7 @@ class FormValidator extends HTML_QuickForm
         }
         $attributes['onreset'] = 'resetElements()';
 
-        $this->HTML_QuickForm($form_name, $method, $action, $target, $attributes, $trackSubmit);
+        parent :: __construct($form_name, $method, $action, $target, $attributes, $trackSubmit);
         // Load some custom elements and rules
         $dir = dirname(__FILE__) . '/';
         $this->registerElementType('datepicker', $dir . 'Element/datepicker.php', 'HTML_QuickForm_datepicker');
