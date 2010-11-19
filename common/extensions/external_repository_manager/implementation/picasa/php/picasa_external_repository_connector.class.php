@@ -35,6 +35,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
     private $picasa;
 
     const PHOTOS_MINE = 'mine';
+    const PHOTOS_PUBLIC = 'public';
 
     /**
      * The id of the user on Picasa
@@ -231,13 +232,18 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $folder = Request :: get(ExternalRepositoryManager :: PARAM_FOLDER);
 
+        if(!$folder)
+        {
+            $folder = self :: PHOTOS_MINE;
+        }
+
         if ($folder == self :: PHOTOS_MINE)
         {
             $query = $this->picasa->newUserQuery();
             $query->setUser('default');
             $query->setKind('photo');
         }
-        else
+        elseif ($folder == self :: PHOTOS_PUBLIC)
         {
             $query = $this->picasa->newQuery("http://picasaweb.google.com/data/feed/api/all");
             $query->setParam("kind", "photo");

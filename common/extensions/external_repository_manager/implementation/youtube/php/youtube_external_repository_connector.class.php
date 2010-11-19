@@ -13,7 +13,6 @@ use common\libraries\Translation;
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
-
 use repository\ExternalRepositoryUserSetting;
 use repository\RepositoryDataManager;
 use repository\ExternalRepositorySetting;
@@ -86,7 +85,10 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
 
     static function get_sort_properties()
     {
-        return array(self :: RELEVANCE, self :: PUBLISHED, self :: VIEW_COUNT, self :: RATING);
+        return array(self :: RELEVANCE,
+                self :: PUBLISHED,
+                self :: VIEW_COUNT,
+                self :: RATING);
     }
 
     function is_editable($id)
@@ -196,7 +198,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
                 $new_query->setMaxResults($query->getMaxResults());
                 return @ $this->youtube->getVideoFeed($new_query->getQueryUrl(2));
             default :
-                return @ $this->youtube->getVideoFeed($query->getQueryUrl(2));
+                return $this->youtube->getUserUploads('default', $query->getQueryUrl(2));
         }
     }
 

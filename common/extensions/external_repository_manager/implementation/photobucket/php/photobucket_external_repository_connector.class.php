@@ -121,7 +121,11 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
         switch ($feed_type)
         {
             case PhotobucketExternalRepositoryManager :: FEED_TYPE_GENERAL :
-                $response = $this->consumer->search($condition, array('num' => $count, 'perpage' => $count, 'page' => $offset, 'secondaryperpage' => 1))->get()->getParsedResponse(true);
+                $response = $this->consumer->search($condition, array(
+                        'num' => $count,
+                        'perpage' => $count,
+                        'page' => $offset,
+                        'secondaryperpage' => 1))->get()->getParsedResponse(true);
                 if ($condition)
                 {
                     $response = $response['result']['primary'];
@@ -135,27 +139,47 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
             case PhotobucketExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS :
                 if ($condition)
                 {
-                    $response = $this->consumer->search($condition, array('num' => $count, 'perpage' => $count, 'page' => $offset, 'secondaryperpage' => 1))->get()->getParsedResponse(true);
+                    $response = $this->consumer->search($condition, array(
+                            'num' => $count,
+                            'perpage' => $count,
+                            'page' => $offset,
+                            'secondaryperpage' => 1))->get()->getParsedResponse(true);
                     $response = $response['result']['primary'];
                 }
                 else
                 {
-                    $response = $this->consumer->user($this->photobucket_session['photobucket_username'])->search($condition, array('perpage' => $count, 'page' => $offset, 'type' => 'image'))->get()->getParsedResponse(true);
+                    $response = $this->consumer->user($this->photobucket_session['photobucket_username'])->search($condition, array(
+                            'perpage' => $count,
+                            'page' => $offset,
+                            'type' => 'image'))->get()->getParsedResponse(true);
                     if ($response['_attribs']['totalresults'] == 1)
                     {
-                        $response['media'] = array($response['media']);
+                        $response['media'] = array(
+                                $response['media']);
                     }
                 }
                 break;
             default :
                 if ($condition)
                 {
-                    $response = $this->consumer->search($condition, array('num' => $count, 'perpage' => $count, 'page' => $offset, 'secondaryperpage' => 1))->get()->getParsedResponse(true);
+                    $response = $this->consumer->search($condition, array(
+                            'num' => $count,
+                            'perpage' => $count,
+                            'page' => $offset,
+                            'secondaryperpage' => 1))->get()->getParsedResponse(true);
                     $response = $response['result']['primary'];
                 }
                 else
                 {
-                    $response = $this->consumer->user($this->photobucket_session['photobucket_username'])->search($condition, array('perpage' => $count, 'page' => $offset, 'type' => 'image'))->get()->getParsedResponse(true);
+                    $response = $this->consumer->user($this->photobucket_session['photobucket_username'])->search($condition, array(
+                            'perpage' => $count,
+                            'page' => $offset,
+                            'type' => 'image'))->get()->getParsedResponse(true);
+                    if ($response['_attribs']['totalresults'] == 1)
+                    {
+                        $response['media'] = array(
+                                $response['media']);
+                    }
                 }
                 break;
         }
@@ -187,7 +211,8 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
         $tags = array();
         if (array_key_exists('_attribs', $data['tag']))
         {
-            $data['tag'] = array($data['tag']);
+            $data['tag'] = array(
+                    $data['tag']);
         }
 
         if (count($data['tag']) > 0)
@@ -197,10 +222,10 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
                 $tags[] = $tag['_attribs']['tag'];
             }
         }
-//        elseif (count($data['media']['tag']) == 1)
-//        {
-//            $tags[] = $data['tag']['_attribs']['tag'];
-//        }
+        //        elseif (count($data['media']['tag']) == 1)
+        //        {
+        //            $tags[] = $data['tag']['_attribs']['tag'];
+        //        }
         $object->set_tags($tags);
 
         return $object;
@@ -221,7 +246,11 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
 
                 if ($condition)
                 {
-                    $response = $this->consumer->search($condition, array('num' => 1, 'perpage' => 1, 'page' => 1, 'secondaryperpage' => 1))->get()->getParsedResponse(true);
+                    $response = $this->consumer->search($condition, array(
+                            'num' => 1,
+                            'perpage' => 1,
+                            'page' => 1,
+                            'secondaryperpage' => 1))->get()->getParsedResponse(true);
                     return $response['result']['_attribs']['totalresults'];
                 }
                 else
@@ -233,7 +262,11 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
             case PhotobucketExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS :
                 if ($condition)
                 {
-                    $response = $this->consumer->search($condition, array('num' => 1, 'perpage' => 1, 'page' => 1, 'secondaryperpage' => 1))->get()->getParsedResponse(true);
+                    $response = $this->consumer->search($condition, array(
+                            'num' => 1,
+                            'perpage' => 1,
+                            'page' => 1,
+                            'secondaryperpage' => 1))->get()->getParsedResponse(true);
                     return $response['result']['_attribs']['totalresults'];
                 }
                 else
@@ -246,7 +279,11 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
             default :
                 if ($condition)
                 {
-                    $response = $this->consumer->search($condition, array('num' => 1, 'perpage' => 1, 'page' => 1, 'secondaryperpage' => 1))->get()->getParsedResponse(true);
+                    $response = $this->consumer->search($condition, array(
+                            'num' => 1,
+                            'perpage' => 1,
+                            'page' => 1,
+                            'secondaryperpage' => 1))->get()->getParsedResponse(true);
                     return $response['result']['_attribs']['totalresults'];
                 }
                 else
@@ -282,7 +319,12 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
 
             foreach ($tags as $tag)
             {
-                $response = $this->consumer->media(urldecode($values[PhotobucketExternalRepositoryObject :: PROPERTY_ID]))->tag(array('tag' => $tag, 'topleftx' => 0, 'toplefty' => 0, 'bottomrightx' => 0, 'bottomrighty' => 0))->post()->getParsedResponse(true);
+                $response = $this->consumer->media(urldecode($values[PhotobucketExternalRepositoryObject :: PROPERTY_ID]))->tag(array(
+                        'tag' => $tag,
+                        'topleftx' => 0,
+                        'toplefty' => 0,
+                        'bottomrightx' => 0,
+                        'bottomrighty' => 0))->post()->getParsedResponse(true);
                 if (! $response)
                 {
                     return false;
@@ -318,11 +360,19 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
 
         $tags = explode(',', $values[PhotobucketExternalRepositoryObject :: PROPERTY_TAGS]);
         $response = $this->consumer->album(Session :: retrieve('username'))->upload(array(
-                'type' => 'base64', 'filename' => $file['name'], 'uploadfile' => $photo, 'title' => $values[PhotobucketExternalRepositoryObject :: PROPERTY_TITLE],
+                'type' => 'base64',
+                'filename' => $file['name'],
+                'uploadfile' => $photo,
+                'title' => $values[PhotobucketExternalRepositoryObject :: PROPERTY_TITLE],
                 'description' => $values[PhotobucketExternalRepositoryObject :: PROPERTY_DESCRIPTION]))->post()->getParsedResponse(true);
         foreach ($tags as $tag)
         {
-            $this->consumer->media(urlencode($response['url']))->tag(array('tag' => $tag, 'topleftx' => 0, 'toplefty' => 0, 'bottomrightx' => 0, 'bottomrighty' => 0))->post()->getParsedResponse(true);
+            $this->consumer->media(urlencode($response['url']))->tag(array(
+                    'tag' => $tag,
+                    'topleftx' => 0,
+                    'toplefty' => 0,
+                    'bottomrightx' => 0,
+                    'bottomrighty' => 0))->post()->getParsedResponse(true);
         }
         return urlencode($response['url']);
 
@@ -332,7 +382,12 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $photo = base64_encode(file_get_contents($object->get_full_path()));
 
-        $response = $this->consumer->album($this->photobucket_session['photobucket_username'])->upload(array('type' => 'base64', 'filename' => $object->get_filename(), 'uploadfile' => $photo, 'title' => $object->get_title(), 'description' => $object->get_description()))->post()->getParsedResponse(true);
+        $response = $this->consumer->album($this->photobucket_session['photobucket_username'])->upload(array(
+                'type' => 'base64',
+                'filename' => $object->get_filename(),
+                'uploadfile' => $photo,
+                'title' => $object->get_title(),
+                'description' => $object->get_description()))->post()->getParsedResponse(true);
 
         return urlencode($response['url']);
     }
