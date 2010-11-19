@@ -1,5 +1,7 @@
 <?php
 namespace repository;
+
+use common\libraries\ObjectTable;
 /**
  * $Id: doubles_browser_table.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser.doubles_browser
@@ -23,7 +25,7 @@ class DoublesBrowserTable extends RepositoryBrowserTable
         $model = new DoublesBrowserTableColumnModel($is_detail);
         $renderer = new DoublesBrowserTableCellRenderer($browser, $is_detail);
         $data_provider = new DoublesBrowserTableDataProvider($browser, $condition, $is_detail);
-        parent :: __construct($data_provider, DoublesBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        ObjectTable :: __construct($data_provider, DoublesBrowserTable :: DEFAULT_NAME, $model, $renderer);
         
         $actions = array();
         $this->set_form_actions($actions);
