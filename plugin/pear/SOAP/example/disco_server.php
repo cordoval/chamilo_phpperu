@@ -46,7 +46,7 @@ class MP3DB_Class
     var $__dispatch_map = array();
     var $__typedef = array();
 
-    function MP3DB_Class()
+    function __construct()
     {
         /* The only way to describe all methods in WSDL (messages,
          * PortType-operations and bindings) is to use __dispatch_map to

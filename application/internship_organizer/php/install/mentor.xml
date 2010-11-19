@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="mentor">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="mentor_title" type="text" />
+		<property name="mentor_firstname" type="text" notnull="1" />
+		<property name="mentor_lastname" type="text" notnull="1" />
+		<property name="mentor_email" type="text" />
+		<property name="mentor_telephone" type="text" />
+		<property name="mentor_organisation_id" type="integer"
+			unsigned="1" notnull="1" />
+	</properties>
+</object>

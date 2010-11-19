@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="webconference">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="user_id" type="integer" unsigned="1" notnull="1" />
+		<property name="confkey" type="text" length="100" fixed="true"
+			notnull="1" default="" />
+		<property name="confname" type="text" length="500" notnull="1"
+			default="" />
+		<property name="description" type="text" length="500"
+			notnull="1" default="" />
+		<property name="duration" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="from_date" type="integer" notnull="1" />
+		<property name="to_date" type="integer" notnull="1" />
+		<property name="hidden" type="boolean" default="0" />
+	</properties>
+	<index name="user_id">
+		<indexproperty name="user_id" />
+	</index>
+</object>

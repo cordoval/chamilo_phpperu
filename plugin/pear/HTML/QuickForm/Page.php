@@ -66,7 +66,7 @@ class HTML_QuickForm_Page extends HTML_QuickForm
     *
     * @access public
     */
-    function HTML_QuickForm_Page($formName, $method = 'post', $target = '', $attributes = null)
+    function __construct($formName, $method = 'post', $target = '', $attributes = null)
     {
         $this->HTML_QuickForm($formName, $method, '', $target, $attributes);
     }

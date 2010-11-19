@@ -1,4 +1,5 @@
 <?php
+use common\libraries\Path;
 require_once dirname(__FILE__) . '/rest_result.class.php';
 require_once Path :: get_plugin_path() . 'pear/HTTP/Request.php';
 
@@ -123,7 +124,7 @@ class RestClient
     
     /****************************************************************************************/
     
-    public function RestClient()
+    public function __construct()
     {
         $this->set_default_mode();
     }

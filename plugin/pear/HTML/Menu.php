@@ -127,7 +127,7 @@ class HTML_Menu
     * @param    string  env. variable used to determine current URL
     * @see      setMenuType(), setMenu(), setURLEnvVar()
     */
-    function HTML_Menu($menu = null, $type = 'tree', $urlEnvVar = 'PHP_SELF') 
+    function __construct($menu = null, $type = 'tree', $urlEnvVar = 'PHP_SELF') 
     {
         if (is_array($menu)) {
             $this->setMenu($menu);

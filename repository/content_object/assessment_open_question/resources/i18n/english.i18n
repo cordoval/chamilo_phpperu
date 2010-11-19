@@ -1,0 +1,7 @@
+TypeName = "Open question"
+OpenQuestion = "Open question"
+OpenQuestionWithDocument = "Open question with document"
+DocumentQuestion = "Document"
+Properties = "Properties"
+OpenQuestionQuestionType = "Type"
+Weight = "Weight"

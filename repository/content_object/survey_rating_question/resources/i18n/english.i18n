@@ -1,0 +1,7 @@
+TypeName = "Rating question"
+Visible = "Visible"
+Properties = "Properties"
+Percentage = "Percentage"
+Rating = "Rating"
+SurveyRatingType = "Type"
+ValueShouldBeNumeric = "The entered value should be numeric"

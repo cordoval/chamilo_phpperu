@@ -267,7 +267,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
      * for an X-axis (default, may be omitted) and IMAGE_GRAPH_AXIS_Y for Y-
      * axis)
      */
-    function Image_Graph_Axis($type = IMAGE_GRAPH_AXIS_X)
+    function __construct($type = IMAGE_GRAPH_AXIS_X)
     {
         parent::Image_Graph_Element();
         $this->_type = $type;

@@ -1,4 +1,8 @@
 <?php
+use repository\ComplexDisplay;
+use repository\ContentObject;
+use repository\content_object\wiki\WikiDisplay;
+
 /**
  * Split off some of the internal bits from Skin.php. These functions are used
  * for primarily page content: links, embedded images, table of contents. Links

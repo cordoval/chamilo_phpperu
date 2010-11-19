@@ -125,7 +125,7 @@ class Contact_Vcard_Build extends PEAR {
     *
     */
     
-    function Contact_Vcard_Build($version = '3.0')
+    function __construct($version = '3.0')
     {
         $this->PEAR();
         $this->setErrorHandling(PEAR_ERROR_PRINT);

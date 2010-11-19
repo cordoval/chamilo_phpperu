@@ -45,7 +45,7 @@ class IcalRecurrence
 
     private $debug = false;
 
-    function IcalRecurrence(vevent $event, $from_date, $to_date)
+    function __construct(vevent $event, $from_date, $to_date)
     {
     	//$from_date = ($from_date + $to_date) / 2;
         //$this_day = date('d', $from_date);
@@ -128,7 +128,7 @@ class IcalRecurrence
     	{
     		$html[] = ' ' . Translation :: get('Once');
     	}
-    	$date_format = Translation :: get('dateFormatShort');
+    	$date_format = Translation :: get('dateFormatShort', null, Utilities :: COMMON_LIBRARIES);
 
     	if ($this->get_until_unixtime())
     	{
@@ -138,7 +138,7 @@ class IcalRecurrence
 
     	if ($this->get_byday())
     	{
-    		$html[] = Translation :: get('On');
+    		$html[] = Translation :: get('ConfirmOn');
     		$days = array();
     		$DaysLong = array(Translation :: get("SundayLong"), Translation :: get("MondayLong"), Translation :: get("TuesdayLong"), Translation :: get("WednesdayLong"), Translation :: get("ThursdayLong"), Translation :: get("FridayLong"), Translation :: get("SaturdayLong"));
     		foreach($this->get_byday() as $byday)

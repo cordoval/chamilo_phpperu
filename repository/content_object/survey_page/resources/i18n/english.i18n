@@ -1,0 +1,8 @@
+TypeName = "Survey page"
+NoQuestionsSelected = "No questions were selected"
+QuestionsAdded = "The questions were added"
+QuestionsNotAdded = "The questions were not added"
+SurveyPagePreviewNotAvailable = "There is no preview available for the page"
+Properties = "Properties"
+SurveyPageHeaderText = "Header"
+SurveyPageFooterText = "Footer"

@@ -16,8 +16,7 @@ img {
 	border: none;
 }
 
-img.with_border
-{
+img.with_border {
 	border: 1px solid #c0c0c0;
 }
 
@@ -1208,8 +1207,7 @@ div.action_bar {
 		no-repeat;
 }
 
-.action_bar_text
-{
+.action_bar_text {
 	display: none;
 }
 
@@ -1228,26 +1226,22 @@ div.action_bar_text div.bevel {
 	padding: 5px 10px 5px 10px;
 }
 
-div.action_bar table
-{
+div.action_bar table {
 	border-spacing: 0px;
 	padding: 0px;
 	margin: 0px;
 	width: 100%;
 }
 
-div.action_bar .common_menu,
-div.action_bar .tool_menu,
-div.action_bar .search_menu
-{
+div.action_bar .common_menu,div.action_bar .tool_menu,div.action_bar .search_menu
+	{
 	padding: 5px 5px 5px 5px;
 	width: 33%;
 	vertical-align: top;
 }
 
-div.action_bar .tool_menu
-{
-	width: 34%;	
+div.action_bar .tool_menu {
+	width: 34%;
 }
 
 div.action_bar .search_menu div.search_form {
@@ -1367,8 +1361,8 @@ div.reporting_filter_text {
 	-moz-border-radius-bottomright: 15px;
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
-	background: #d4e0f1 url(../images/common/background_reporting_filter.png)
-		no-repeat;
+	background: #d4e0f1
+		url(../images/common/background_reporting_filter.png) no-repeat;
 }
 
 div.reporting_filter_text img {
@@ -1384,12 +1378,11 @@ div.reporting_filter {
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
 	/*height: 60px;*/
-	background: #d4e0f1 url(../images/common/background_reporting_filter.png)
-		no-repeat;
+	background: #d4e0f1
+		url(../images/common/background_reporting_filter.png) no-repeat;
 }
 
-.reporting_filter_text
-{
+.reporting_filter_text {
 	display: none;
 }
 
@@ -1408,26 +1401,22 @@ div.reporting_filter_text div.bevel {
 	padding: 5px 10px 5px 10px;
 }
 
-div.reporting_filter table
-{
+div.reporting_filter table {
 	border-spacing: 0px;
 	padding: 0px;
 	margin: 0px;
 	width: 100%;
 }
 
-div.reporting_filter .common_menu,
-div.reporting_filter .tool_menu,
-div.reporting_filter .search_menu
-{
+div.reporting_filter .common_menu,div.reporting_filter .tool_menu,div.reporting_filter .search_menu
+	{
 	padding: 5px 5px 5px 5px;
 	width: 33%;
 	vertical-align: top;
 }
 
-div.reporting_filter .tool_menu
-{
-	width: 34%;	
+div.reporting_filter .tool_menu {
+	width: 34%;
 }
 
 div.reporting_filter .search_menu div.search_form {
@@ -2073,227 +2062,6 @@ li.buddyDrop {
 	margin-top: -32px;
 }
 
-/*********************************************
- * GENERAL STYLES FOR DISPLAYING ASSESSMENTS *
- *********************************************/
-div.assessment {
-	margin-bottom: 15px;
-}
-
-div.assessment h2 {
-	margin: 0px 0px 10px 0px;
-	padding: 0px;
-}
-
-div.assessment div.description {
-	padding: 6px 10px 6px 10px;
-	border: 1px solid #b5cae7;
-	background-color: #eef5fa;
-}
-
-div.assessment div.description p {
-	margin: 0px;
-	padding: 0px;
-}
-
-div.assessment div.information {
-	padding: 6px 10px 6px 10px;
-	border: 1px solid #cecece;
-	background-color: #f4f4f4;
-	margin-left: 50px;
-}
-
-div.assessment div.information p {
-	margin: 0px;
-	padding: 0px;
-}
-
-div.question {
-	margin: 0px 0px 15px 0px;
-	/*
-	padding: 0px 0px 15px 0px;
-	border-bottom: 1px dotted #cccccc;
-	*/
-}
-
-div.question div.title {
-	color: #4171b5;
-	font-weight: bold;
-	font-size: 12px;
-	/*margin-bottom: 10px;*/
-}
-
-div.question div.title div.number,div.question div.title div.text {
-	border: 1px solid #b5cae7;
-	background: #4171b5 url(../images/common/background_table_header.png)
-		repeat-x;
-}
-
-div.question div.title div.number {
-	float: left;
-	text-align: center;
-	-moz-border-radius-topleft: 10px;
-	-moz-border-radius-bottomright: 10px;
-	-webkit-border-top-left-radius: 10px;
-	-webkit-border-bottom-right-radius: 10px;
-}
-
-div.question div.title div.text {
-	margin: 0px 0px 0px 50px;
-}
-
-div.question div.title div.text div.bevel,div.question div.title div.number div.bevel
-	{
-	padding: 6px 10px 6px 10px;
-	border-left: 1px solid white;
-	border-top: 1px solid white;
-}
-
-div.question div.title div.number div.bevel {
-	width: 24px;
-	padding: 6px 6px 6px 6px;
-	-moz-border-radius-topleft: 10px;
-	-moz-border-radius-bottomright: 10px;
-	-webkit-border-top-left-radius: 10px;
-	-webkit-border-bottom-right-radius: 10px;
-}
-
-div.question div.title div.text div.bevel {
-	background-repeat: no-repeat;
-	background-position: center 5px;
-}
-
-div.question div.title div.text img {
-	float: right;
-	vertical-align: middle;
-	margin-left: 10px;
-}
-
-div.question div.answer {
-	padding-left: 50px;
-}
-
-div.question div.answer div.description {
-	padding: 6px 10px 6px 10px;
-	border: 1px solid #B5CAE7;
-	border-top: 0px solid white;
-}
-
-div.question div.answer div.empty {
-	padding: 3px;
-}
-
-div.question div.answer div.with_borders {
-	padding: 10px;
-	border: 1px solid #B5CAE7;
-	border-top: 0px solid white;
-}
-
-div.question div.answer div.splitter {
-	border: 1px solid #b5cae7;
-	border-top: 0px solid white;
-	background: #EEF5FA;
-	color: #4171b5;
-	font-weight: bold;
-	font-size: 11px;
-	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	letter-spacing: 2px;
-	text-transform: uppercase;
-	padding: 3px 10px 3px 10px;
-}
-
-div.question div.answer div.slider {
-	float: left;
-	width: 300px;
-	margin-left: 0.6em;
-	margin-top: 0.2em;
-	margin-bottom: 0.6em;
-	background-color: #EEF5FA;
-}
-
-div.question div.answer div.slider .ui-slider-handle {
-	margin-top: 1px;
-}
-
-div.question div.answer div.caption {
-	float: left;
-	font-weight: bold;
-	color: #4171b5;
-	margin-left: 20px;
-}
-
-#hotspot_image,.hotspot_image {
-	position: relative;
-}
-
-.hotspot_image_display {
-	border: 1px solid #b5cae7;
-	margin-bottom: 10px;
-}
-
-.colour_box {
-	width: 15px;
-	height: 15px;
-	border: 1px solid black;
-}
-
-#hotspot_container,.hotspot_container {
-	float: left;
-	position: relative;
-	padding: 1px;
-	background-color: #b5cae7;
-}
-
-#hotspot_marking,.hotspot_marking {
-	margin-bottom: 10px;
-}
-
-#hotspot_marking .colour_box,#hotspot_marking .colour_box_label,.hotspot_marking .colour_box,.hotspot_marking .colour_box_label
-	{
-	float: left;
-	font-weight: bold;
-}
-
-#hotspot_marking .colour_box,.hotspot_marking .colour_box {
-	margin-left: 10px;
-	margin-right: 10px;
-}
-
-div.description_hotspot {
-	padding: 10px 10px 10px 10px;
-	border: 1px solid #B5CAE7;
-	border-top: 0px solid white;
-}
-
-div.description_hotspot #hotspot_marking,div.description_hotspot .hotspot_marking
-	{
-	margin-top: 10px;
-	margin-bottom: 0px;
-}
-
-img.set_hotspot {
-	cursor: pointer;
-}
-
-img.save_hotspot {
-	cursor: pointer;
-}
-
-div.time_left {
-	float: left;
-	padding: 6px 10px 6px 10px;
-	border: 1px solid #b5cae7;
-	background-color: #eef5fa;
-	border: 1px solid #ffd89b;
-	background-color: #fff8aa;
-	text-align: center;
-	margin-top: -10px;	
-}
-
-div.time {
-	display: inline;
-}
-
 /*
 Default style definitions for:
 
@@ -2400,6 +2168,7 @@ div.complex_browser_display {
 div.complex_browser_display div.content_object div.title {
 	color: #4271B5;
 }
+
 /*
 div.create_block {
 	background-repeat: no-repeat;	
@@ -2416,7 +2185,7 @@ div.create_block {
 }
 */
 div.create_category {
-	background-repeat: no-repeat;	
+	background-repeat: no-repeat;
 	background-position: 10px center;
 	background-color: #F6F6F6;
 	float: left;
@@ -2432,8 +2201,7 @@ div.create_category {
 	/*height: 200px;*/
 }
 
-div.create_category span.title
-{
+div.create_category span.title {
 	display: block;
 	border-bottom: dotted 1px grey;
 	clear: both;
@@ -2470,15 +2238,13 @@ div.create_block {
 	overflow: auto;
 }
 
-div.no_thumbnail, div.no_preview
-{
+div.no_thumbnail,div.no_preview {
 	border: 1px solid #cccccc;
 	background-color: white;
 	padding: 15px;
 	width: 300px;
 	text-align: center;
 	color: #797268;
-	
 	-webkit-border-top-left-radius: 10px;
 	-webkit-border-top-right-radius: 0px;
 	-webkit-border-bottom-right-radius: 5px;
@@ -2493,16 +2259,13 @@ div.no_thumbnail, div.no_preview
 	border-bottom-left-radius: 0px;
 }
 
-div.no_thumbnail
-{
+div.no_thumbnail {
 	width: 150px;
 	border-width: 0px;
 	padding: 0px;
 }
 
-div.no_thumbnail div.background,
-div.no_preview div.background
-{
+div.no_thumbnail div.background,div.no_preview div.background {
 	border: 1px solid #cccccc;
 	background-color: #efefef;
 	padding: 15px;
@@ -2512,20 +2275,17 @@ div.no_preview div.background
 	background-repeat: repeat-x;
 }
 
-div.no_thumbnail div.background
-{
+div.no_thumbnail div.background {
 	width: 118px;
 	padding: 15px;
 }
 
-div.no_thumbnail div.background h3
-{
+div.no_thumbnail div.background h3 {
 	color: #797268;
 	font-size: 95%;
 }
 
-iframe.preview
-{
+iframe.preview {
 	border: 1px solid #cccccc;
 	width: 100%;
 	height: 300px;

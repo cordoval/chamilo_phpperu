@@ -1,12 +1,20 @@
 <?php
+use common\libraries\Display;
+use common\libraries\Request;
+use common\libraries\CoreApplication;
+use common\libraries\Utilities;
+use common\libraries\Authentication;
+use common\libraries\Session;
+use common\libraries\Application;
+use user\UserDataManager;
+
 /**
  * This script will load the requested core application and launch it.
  */
-
-
+require_once dirname(__FILE__) . '/common/global.inc.php';
 try
 {
-    require_once dirname(__FILE__) . '/common/global.inc.php';
+
 
     $application_name = Request :: get('application');
     $this_section = $application_name;
@@ -40,7 +48,6 @@ try
             $user = Session :: get_user_id();
         }
     }
-
     // Load & run the application
     try
     {

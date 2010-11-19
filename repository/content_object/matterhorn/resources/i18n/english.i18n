@@ -1,0 +1,8 @@
+TypeName = "Matterhorn"
+Properties = "Properties"
+BrowseStreamingVideo = "Browse Matterhorn"
+MatterhornId = "Matterhorn ID"
+Width = "Width"
+Height = "Height"
+Thumbnail = "Thumbnail"
+URL = "URI"

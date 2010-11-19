@@ -33,7 +33,7 @@ class pfcContainer_File extends pfcContainerInterface
                       "timestamp" => array());
   var $_meta = array();
   
-  function pfcContainer_File()
+  function __construct()
   {
     pfcContainerInterface::pfcContainerInterface();
   }

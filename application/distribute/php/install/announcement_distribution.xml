@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="announcement_distribution">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="announcement_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="publisher_id" type="integer" notnull="1" />
+		<property name="published" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="status" type="integer" lenght="4" unsigned="1"
+			notnull="1" />
+	</properties>
+	<index name="publisher">
+		<indexproperty name="publisher_id" />
+	</index>
+	<index name="announcement_id">
+		<indexproperty name="announcement_id" />
+	</index>
+	<index name="status">
+		<indexproperty name="status" />
+	</index>
+</object>

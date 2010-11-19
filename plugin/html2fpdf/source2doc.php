@@ -17,7 +17,7 @@
  
  var $name; //! type
  
- function name()
+ function __construct()
  {
  //! @return void
  //! @desc Say something in one line, but dont use tags or ';' here

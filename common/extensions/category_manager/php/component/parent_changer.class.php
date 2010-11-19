@@ -1,0 +1,165 @@
+<?php
+namespace common\extensions\category_manager;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Theme;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\NotCondition;
+use common\libraries\FormValidator;
+use common\libraries\ObjectTableOrder;
+use common\libraries\Utilities;
+/**
+ * $Id: parent_changer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
+ * @package application.common.category_manager.component
+ */
+require_once dirname(__FILE__) . '/../category_manager_component.class.php';
+require_once dirname(__FILE__) . '/../platform_category.class.php';
+
+class CategoryManagerParentChangerComponent extends CategoryManagerComponent
+{
+
+    /**
+     * Runs this component and displays its output.
+     */
+    function run()
+    {
+        $user = $this->get_user();
+
+        $ids = Request :: get(CategoryManager :: PARAM_CATEGORY_ID);
+
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add_help('category_manager_parent_changer');
+        $trail->add(new Breadcrumb($this->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES)), Translation :: get('CategoryManagerBrowserComponent')));
+        $this->set_parameter(CategoryManager :: PARAM_CATEGORY_ID, Request :: get(CategoryManager :: PARAM_CATEGORY_ID));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CategoryManagerParentChangerComponent')));
+
+        if (! $user)
+        {
+            $this->display_header();
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
+            $this->display_footer();
+            exit();
+        }
+
+        if (! is_array($ids))
+        {
+            $ids = array($ids);
+        }
+
+        if (count($ids) != 0)
+        {
+            $bool = true;
+            $parent = $this->retrieve_categories(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $ids[0]))->next_result()->get_parent();
+
+            $form = $this->get_move_form($ids, $parent);
+
+            $success = true;
+
+            $categories = array();
+
+            foreach ($ids as $id)
+            {
+                $categories[] = $this->retrieve_categories(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $id))->next_result();
+            }
+
+            if ($form->validate())
+            {
+                $new_parent = $form->exportValue('category');
+                foreach ($categories as $category)
+                {
+                    $category->set_parent($new_parent);
+                    $category->set_display_order($this->get_next_category_display_order($new_parent));
+                    $success &= $category->update(true);
+                }
+
+                $this->clean_display_order_old_parent($parent);
+
+                $this->redirect(Translation :: get($success ? 'CategoryMoved' : 'CategoryNotMoved'), ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $parent));
+            }
+            else
+            {
+                $this->display_header();
+
+                echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'action_category.png);">';
+                echo '<div class="title">' . Translation :: get('ObjectSelected', array('OBJECT' => Translation :: get('Category')), Utilities :: COMMON_LIBRARIES);
+                echo '</div>';
+                echo '<div class="description">';
+                echo '<ul>';
+
+                foreach ($categories as $category)
+                {
+                    echo '<li>' . $category->get_name() . '</li>';
+                }
+
+                echo '</ul></div><div class="clear"></div></div>';
+
+                $form->display();
+                $this->display_footer();
+            }
+        }
+        else
+        {
+            $this->display_header($this->get_breadcrumb_trail());
+            Display :: error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
+            $this->display_footer();
+        }
+    }
+    private $tree;
+
+    function get_move_form($selected_categories, $current_parent)
+    {
+        if ($current_parent != 0)
+            $this->tree[0] = Translation :: get('Root');
+
+        $this->build_category_tree(0, $selected_categories, $current_parent);
+        $form = new FormValidator('select_category', 'post', $this->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_CHANGE_CATEGORY_PARENT, CategoryManager :: PARAM_CATEGORY_ID => Request :: get(CategoryManager :: PARAM_CATEGORY_ID))));
+        $form->addElement('select', 'category', Translation :: get('Category', null, Utilities :: COMMON_LIBRARIES), $this->tree);
+        $form->addElement('submit', 'submit', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
+        return $form;
+    }
+
+    private $level = 1;
+
+    function build_category_tree($parent_id, $selected_categories, $current_parent)
+    {
+        $conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent_id);
+        $conditions[] = new NotCondition(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $current_parent));
+
+        foreach ($selected_categories as $selected_category)
+            $conditions[] = new NotCondition(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $selected_category));
+
+        $condition = new AndCondition($conditions);
+
+        $categories = $this->retrieve_categories($condition);
+
+        $tree = array();
+        while ($cat = $categories->next_result())
+        {
+            $this->tree[$cat->get_id()] = str_repeat('--', $this->level) . ' ' . $cat->get_name();
+            $this->level ++;
+            $this->build_category_tree($cat->get_id(), $selected_categories, $current_parent);
+            $this->level --;
+        }
+    }
+
+    function clean_display_order_old_parent($parent)
+    {
+        $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent);
+
+        $categories = $this->retrieve_categories($condition, null, null, array(new ObjectTableOrder('display_order')));
+
+        $i = 1;
+
+        while ($cat = $categories->next_result())
+        {
+            $cat->set_display_order($i);
+            $cat->update();
+            $i ++;
+        }
+    }
+
+}
+?>

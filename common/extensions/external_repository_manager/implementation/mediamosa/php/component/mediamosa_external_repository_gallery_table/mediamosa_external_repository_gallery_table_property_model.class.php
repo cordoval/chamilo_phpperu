@@ -1,0 +1,9 @@
+<?php
+namespace common\extensions\external_repository_manager\implementation\mediamosa;
+
+use common\extensions\external_repository_manager\DefaultExternalRepositoryGalleryObjectTablePropertyModel;
+
+class MediamosaExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRepositoryGalleryObjectTablePropertyModel
+{
+}
+?>

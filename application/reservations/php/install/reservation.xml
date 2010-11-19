@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="reservation">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="item_id" type="integer" unsigned="1" notnull="1" />
+		<property name="type" type="integer" unsigned="1" notnull="1" />
+		<property name="start_date" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="stop_date" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="start_subscription" type="integer" unsigned="1" />
+		<property name="stop_subscription" type="integer" unsigned="1" />
+		<property name="max_users" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="notes" type="text" length="250" fixed="true"
+			default="" />
+		<property name="timepicker_min" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="timepicker_max" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="auto_accept" type="boolean" default="0" />
+		<property name="status" type="integer" unsigned="1" default="0" />
+	</properties>
+	<index name="item">
+		<indexproperty name="item_id" />
+	</index>
+	<index name="status">
+		<indexproperty name="status" />
+	</index>
+	<index name="start_date">
+		<indexproperty name="start_date" />
+	</index>
+	<index name="stop_date">
+		<indexproperty name="stop_date" />
+	</index>
+	<index name="type">
+		<indexproperty name="type" />
+	</index>
+</object>

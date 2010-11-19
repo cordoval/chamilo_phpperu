@@ -1099,7 +1099,7 @@ class Tree_Error extends PEAR_Error
      *                           $mode & PEAR_ERROR_TRIGGER
      * @param smixed  $debuginfo additional debug info, such as the last query
      */
-    function Tree_Error($code = TREE_ERROR, $mode = PEAR_ERROR_RETURN,
+    function __construct($code = TREE_ERROR, $mode = PEAR_ERROR_RETURN,
               $level = E_USER_NOTICE, $debuginfo = NULL)
     {
         if (is_int($code)) {

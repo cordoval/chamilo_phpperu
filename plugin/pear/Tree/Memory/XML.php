@@ -71,7 +71,7 @@ class Tree_Memory_XML extends XML_Parser
      * @author     Wolfram Kriesing <wolfram@kriesing.de>
      * @return     boolean     true on success
      */
-    function Tree_Memory_XML($config)
+    function __construct($config)
     {
         $handle = $config['storage']['dsn'];
 

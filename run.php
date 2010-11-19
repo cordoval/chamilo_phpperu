@@ -1,4 +1,12 @@
 <?php
+use common\libraries\Request;
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
+use common\libraries\Authentication;
+use common\libraries\Session;
+use common\libraries\Application;
+use common\libraries\Display;
+use user\UserDataManager;
 /**
  * This script will load the requested application and launch it.
  */
@@ -13,7 +21,7 @@ try
     // If application path doesn't exist, block the user
     if (! WebApplication :: is_active($application_name))
     {
-        Display :: not_allowed();
+    	Display :: not_allowed();
     }
 
     Utilities :: set_application($this_section);

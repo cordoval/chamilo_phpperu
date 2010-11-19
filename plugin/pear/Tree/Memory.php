@@ -158,7 +158,7 @@ class Tree_Memory extends Tree
      *                            either an object/string
      * @param array   additional options you can set
      */
-    function Tree_Memory($config)
+    function __construct($config)
     {
         $this->__construct($config);
     }

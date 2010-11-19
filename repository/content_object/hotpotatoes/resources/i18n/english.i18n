@@ -1,0 +1,5 @@
+TypeName = "Hotpotatoes"
+Properties = "Properties"
+MaximumAttempts = "Maximum number of attempts"
+UploadHotpotatoes = "Upload Hotpotatoes"
+ChangeHotpotatoes = "Change Hotpotatoes"

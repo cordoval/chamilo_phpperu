@@ -1,0 +1,6 @@
+TypeName = "Announcement"
+AnnouncementToolBrowserComponent = "Browse announcements"
+AnnouncementToolViewerComponent = "View announcement"
+AnnouncementToolPublisherComponent = "Publish announcement"
+AnnouncementToolUpdaterComponent = "Edit announcement"
+AnnouncementToolIntroductionPublisherComponent = "Publish introduction"

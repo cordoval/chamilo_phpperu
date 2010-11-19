@@ -1,0 +1,6 @@
+TypeName = "Rating question"
+Properties = "Properties"
+Percentage = "Percentage"
+Rating = "Rating"
+CorrectValue = "Correct value"
+Weight = "Weight"

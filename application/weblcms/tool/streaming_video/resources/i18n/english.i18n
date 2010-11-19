@@ -1,0 +1,6 @@
+TypeName = "Streaming video"
+StreamingVideoToolBrowserComponent = "Browse streaming videos"
+StreamingVideoToolViewerComponent = "View streaming video"
+StreamingVideoToolIntroductionPublisherComponent = "Browse an introduction"
+StreamingVideoToolPublisherComponent = "Publish streaming video"
+StreamingVideoToolUpdaterComponent = "Update streaming video"

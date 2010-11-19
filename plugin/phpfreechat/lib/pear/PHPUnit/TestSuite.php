@@ -105,7 +105,7 @@ class PHPUnit_TestSuite {
      * @param  mixed
      * @access public
      */
-    function PHPUnit_TestSuite($test = FALSE) {
+    function __construct($test = FALSE) {
         if ($test !== FALSE) {
             $this->setName($test);
             $this->addTestSuite($test);

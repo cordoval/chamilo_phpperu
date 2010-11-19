@@ -25,8 +25,7 @@ div.course_home_block div.title {
 	width: auto;
 }
 
-div.user_course_category {
-	/*background-color: #efefef;*/
+div.user_course_category { /*background-color: #efefef;*/
 	background-color: transparent;
 	border: 1px solid #666;
 	font-weight: bold;
@@ -54,6 +53,7 @@ div.user_category_block div.user_category_title {
 }
 
 div.user_category_block div.user_category_description {
+	
 }
 
 div.feedback_block {
@@ -451,105 +451,87 @@ div.student_view {
 	margin-bottom: 10px;
 }
 
-div.publication_actions div.toolbar
-{
+div.publication_actions div.toolbar {
 	display: inline;
 	clear: none;
 	float: right;
 }
 
-div.publication_actions div.toolbar ul.toolbar_horizontal,
-div.publication_actions div.toolbar ul.toolbar_vertical
-{
+div.publication_actions div.toolbar ul.toolbar_horizontal,div.publication_actions div.toolbar ul.toolbar_vertical
+	{
 	display: inline;
 	float: right;
 }
 
-div.slideshow
-{
+div.slideshow {
 	background-color: #f9f9f9;
 }
 
-div.slideshow div.description
-{
+div.slideshow div.description {
 	text-align: center;
 }
 
-div.slideshow img
-{
+div.slideshow img {
 	border: 1px solid #f0f0f0;
 }
 
-table.data_table#slideshow th.actions div.toolbar
-{
+table.data_table#slideshow th.actions div.toolbar {
 	float: left;
 }
 
-table.data_table#slideshow th.navigation div.toolbar
-{
+table.data_table#slideshow th.navigation div.toolbar {
 	float: right;
 }
 
-table.data_table#slideshow td.header
-{
+table.data_table#slideshow td.header {
 	text-align: center;
 }
 
 /***************
  * Blog layout *
  ***************/
-
-div.blog_item
-{
+div.blog_item {
 	border: 1px solid #cccccc;
-	-moz-border-radius-topleft:     10px;
+	-moz-border-radius-topleft: 10px;
 	-moz-border-radius-bottomright: 10px;
 }
 
-div.blog_item div.information_box
-{
+div.blog_item div.information_box {
 	float: left;
 	width: 150px;
 	text-align: center;
 	padding: 10px;
 }
 
-div.information_box img.user_image
-{
+div.information_box img.user_image {
 	max-width: 100px;
 }
 
-div.blog_item div.message_box
-{
+div.blog_item div.message_box {
 	min-height: 200px;
 	border-left: 1px solid #cccccc;
 	margin-left: 170px;
 }
 
-div.message_box div.title
-{
+div.message_box div.title {
 	border-bottom: 1px solid #cccccc;
 	padding: 5px 10px 5px 10px;
 }
 
-div.message_box div.description
-{
+div.message_box div.description {
 	padding: 10px 10px 0px 10px;
 }
 
-div.blog_item div.actions_box
-{
+div.blog_item div.actions_box {
 	border-top: 1px solid #cccccc;
 }
 
-div.actions_box div.actions
-{
+div.actions_box div.actions {
 	float: right;
 	padding: 7px 10px 5px 10px;
 }
 
-div.blog_item div.attachments
-{
+div.blog_item div.attachments {
 	margin: 0px;
 	border-bottom: 0px;
 	border-top: 1px solid #cccccc;

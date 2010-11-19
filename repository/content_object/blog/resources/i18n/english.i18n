@@ -1,0 +1,6 @@
+TypeName = "Blog"
+Properties = "Properties"
+BlogLayout = "Layout"
+AuthorUnknown = "Unknown author"
+Attachments = "Attachments"
+BlogLayoutNotExists = "The selected blog layout doesn't exist"

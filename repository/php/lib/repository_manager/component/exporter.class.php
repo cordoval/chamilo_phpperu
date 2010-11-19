@@ -1,0 +1,93 @@
+<?php
+namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
+use common\libraries\Path;
+use common\libraries\Filesystem;
+use common\libraries\Utilities;
+/**
+ * $Id: exporter.class.php 204 2009-11-13 12:51:30Z kariboe $
+ * @package repository.lib.repository_manager.component
+ */
+/**
+ * Repository manager component which provides functionality to delete a
+ * learning object from the users repository.
+ */
+class RepositoryManagerExporterComponent extends RepositoryManager
+{
+
+    /**
+     * Runs this component and displays its output.
+     */
+    function run()
+    {
+        $ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
+
+        if ($ids)
+        {
+            if (! is_array($ids))
+                $ids = array($ids);
+
+            if (count($ids) > 0)
+            {
+                if ($ids[0] == 'all')
+                {
+                    $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
+                    $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
+                    $condition = new AndCondition($conditions);
+                }
+                else
+                {
+                    $condition = new InCondition(ContentObject :: PROPERTY_ID, $ids, ContentObject :: get_table_name());
+                }
+
+                $los = $this->retrieve_content_objects($condition);
+                while ($lo = $los->next_result())
+                {
+                    $content_objects[] = $lo;
+                }
+
+                $exporter = ContentObjectExport :: factory('cpo', $content_objects);
+
+                if ($ids[0] == 'all')
+                	$path = $exporter->export_content_object(true);
+                else
+                	$path = $exporter->export_content_object(false);
+
+                /*Filesystem :: file_send_for_download($path, true, 'content_objects.cpo');
+				Filesystem :: remove($path);*/
+
+                Filesystem :: copy_file($path, Path :: get(SYS_TEMP_PATH) . $this->get_user_id() . '/content_objects.cpo', true);
+                $webpath = Path :: get(WEB_TEMP_PATH) . $this->get_user_id() . '/content_objects.cpo';
+
+                $this->display_header();
+                $this->display_message('<a href="' . $webpath . '">' . Translation :: get('Download', null, Utilities :: COMMON_LIBRARIES) . '</a>');
+                $this->display_footer();
+            }
+            else
+            {
+                $this->display_header();
+                $this->display_error_message(Translation :: get('NoObjectsSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
+                $this->display_footer();
+            }
+        }
+    }
+
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_exporter');
+    }
+
+    function get_additional_parameters()
+    {
+    	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
+    }
+}
+?>

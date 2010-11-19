@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="location">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="location_organisation_id" type="integer"
+			unsigned="1" notnull="1" />
+		<property name="location_name" type="text" notnull="1" />
+		<property name="location_address" type="text" notnull="1" />
+		<property name="location_region_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="location_telephone" type="text" />
+		<property name="location_fax" type="text" />
+		<property name="location_email" type="text" />
+		<property name="location_description" type="text" />
+		<property name="location_owner_id" type="integer" unsigned="1"
+			notnull="1" />
+	</properties>
+</object>

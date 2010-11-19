@@ -64,7 +64,7 @@
      * @param      string  $dsn    the path on the filesystem
      * @param      array   $options  additional options you can set
      */
-    function Tree_Memory_Filesystem($path, $options = array())
+    function __construct($path, $options = array())
     {
         $this->_path = $path;
         // not in use currently

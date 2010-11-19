@@ -141,7 +141,7 @@ var $usepre; //! bool
 var $usetableheader; //! bool
 var $shownoimg; //! bool
 
-function HTML2FPDF($orientation='P',$unit='mm',$format='A4')
+function __construct($orientation='P',$unit='mm',$format='A4')
 {
 //! @desc Constructor
 //! @return An object (a class instance)

@@ -64,7 +64,7 @@ class Tree_Dynamic_SQLnested extends Tree
      * @param      string  the DSN for the DB connection
      * @return     void
      */
-    function Tree_Dynamic_SQLnested($config)
+    function __construct($config)
     {
         $this->conf = Tree::arrayMergeClobber($this->conf, $config['options']);
         $this->init($config);

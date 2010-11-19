@@ -70,7 +70,7 @@ class RestResult
         
 	/****************************************************************************************/
     
-	function RestResult() 
+	function __construct() 
 	{
 		;
 	}

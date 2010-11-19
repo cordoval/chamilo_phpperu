@@ -43,7 +43,7 @@ class pfcProxyCommand extends pfcCommand
   /**
    * Constructor
    */
-  function pfcProxyCommand()
+  function __construct()
   {
     pfcCommand::pfcCommand();
   }

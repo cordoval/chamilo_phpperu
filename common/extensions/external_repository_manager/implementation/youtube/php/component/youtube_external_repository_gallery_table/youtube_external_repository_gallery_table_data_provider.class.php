@@ -1,0 +1,9 @@
+<?php
+namespace common\extensions\external_repository_manager\implementation\youtube;
+
+use common\extensions\external_repository_manager\DefaultExternalRepositoryGalleryObjectTableDataProvider;
+
+class YoutubeExternalRepositoryGalleryTableDataProvider extends DefaultExternalRepositoryGalleryObjectTableDataProvider
+{
+}
+?>

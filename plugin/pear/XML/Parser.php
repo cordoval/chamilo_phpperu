@@ -207,10 +207,10 @@ class XML_Parser extends PEAR
      *                       to have it call functions named after elements
      * @param string $tgtenc a valid target encoding
      */
-    function XML_Parser($srcenc = null, $mode = 'event', $tgtenc = null)
-    {
-        XML_Parser::__construct($srcenc, $mode, $tgtenc);
-    }
+//    function __construct($srcenc = null, $mode = 'event', $tgtenc = null)
+//    {
+//        XML_Parser::__construct($srcenc, $mode, $tgtenc);
+//    }
     // }}}
     // {{{ php5 constructor
 
@@ -752,7 +752,7 @@ class XML_Parser_Error extends PEAR_Error
     * @access   public
     * @todo PEAR CS - can't meet 85char line limit without arg refactoring
     */
-    function XML_Parser_Error($msgorparser = 'unknown error', $code = 0, $mode = PEAR_ERROR_RETURN, $level = E_USER_NOTICE)
+    function __construct($msgorparser = 'unknown error', $code = 0, $mode = PEAR_ERROR_RETURN, $level = E_USER_NOTICE)
     {
         if (is_resource($msgorparser)) {
             $code        = xml_get_error_code($msgorparser);

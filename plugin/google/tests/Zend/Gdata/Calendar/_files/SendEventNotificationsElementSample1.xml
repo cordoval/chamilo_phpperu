@@ -1,2 +1,3 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<sendEventNotifications xmlns="http://schemas.google.com/gCal/2005" value="false"/>
+<sendEventNotifications xmlns="http://schemas.google.com/gCal/2005"
+	value="false" />

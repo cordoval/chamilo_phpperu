@@ -40,7 +40,7 @@ class SOAP_Example_Server {
      * occur. */
     var $__dispatch_map = array();
 
-    function SOAP_Example_Server() {
+    function __construct() {
         /* When generating WSDL for a server, you have to define any special
          * complex types that you use (ie classes).  Using a namespace id
          * before the type will create an XML schema with the targetNamespace

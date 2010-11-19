@@ -1,0 +1,35 @@
+<?php
+namespace application\metadata;
+
+use common\libraries\Translation;
+use common\libraries\Utilities;
+
+/**
+ * Component to create a new content_object_property_metadata object
+ * @author Sven Vanpoucke
+ * @author Jens Vanderheyden
+ */
+class MetadataManagerContentObjectPropertyMetadataCreatorComponent extends MetadataManager
+{
+	/**
+	 * Runs this component and displays its output.
+	 */
+	function run()
+	{
+		$content_object_property_metadata = new ContentObjectPropertyMetadata();
+		$form = new ContentObjectPropertyMetadataForm(ContentObjectPropertyMetadataForm :: TYPE_CREATE, $content_object_property_metadata, $this->get_url(), $this->get_user(), $this);
+
+		if($form->validate())
+		{
+			$success = $form->create_content_object_property_metadata();
+			$this->redirect($success ? Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('ContentObjectpropertyMetadata')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('ContentObjectPropertyMetadata')), Utilities :: COMMON_LIBRARIES), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_CONTENT_OBJECT_PROPERTY_METADATAS));
+		}
+		else
+		{
+			$this->display_header();
+			$form->display();
+			$this->display_footer();
+		}
+	}
+}
+?>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<packages>
+	<package>
+		<name>Search Portal</name>
+		<code>search_portal</code>
+		<section>application</section>
+		<category>collaboration</category>
+		<author></author>
+		<version>1.0.0</version>
+		<filename>pool/main/applications/s/search_portal/search_portal-1.0.0.zip</filename>
+		<size></size>
+		<md5></md5>
+		<sha1></sha1>
+		<sha256></sha256>
+		<sha512></sha512>
+		<tagline></tagline>
+		<description>An application to search through the entire platform.</description>
+		<homepage></homepage>
+		<dependencies>
+			<server>
+				<dependency>
+					<id>php</id>
+					<version type="4">5.2.0</version>
+					<severity>1</severity>
+				</dependency>
+			</server>
+		</dependencies>
+	</package>
+</packages>

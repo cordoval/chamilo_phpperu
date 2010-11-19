@@ -96,7 +96,7 @@
 			 *	empty set of allowed HTML tags.
 			 *	@since PHP4 OOP 0.0.1
 			 */
-			function kses4()
+			function __construct()
 			{
 				/**
 				 *	You could add protocols such as ftp, new, gopher, mailto, irc, etc.
