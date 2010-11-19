@@ -75,7 +75,7 @@ class Tree_Memory_XML extends XML_Parser
     {
         $handle = $config['storage']['dsn'];
 
-        $this->XML_Parser();
+        parent :: __construct();
 
         if (@is_resource($handle)) {
             $this->setInput($handle);

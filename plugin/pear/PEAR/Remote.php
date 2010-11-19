@@ -62,7 +62,7 @@ class PEAR_Remote extends PEAR
 
     function __construct(&$config)
     {
-        $this->PEAR();
+        parent :: __construct();
         $this->config = &$config;
         $this->_registry = &$this->config->getRegistry();
     }

@@ -97,7 +97,7 @@ class SOAP_Base_Object extends PEAR
     function __construct($faultcode = 'Client')
     {
         $this->_myfaultcode = $faultcode;
-        parent::PEAR('SOAP_Fault');
+        parent :: __construct('SOAP_Fault');
     }
 
     /**
@@ -282,7 +282,7 @@ class SOAP_Base extends SOAP_Base_Object
      */
     function __construct($faultcode = 'Client')
     {
-        parent::SOAP_Base_Object($faultcode);
+        parent :: __construct($faultcode);
         $this->_resetNamespaces();
     }
 

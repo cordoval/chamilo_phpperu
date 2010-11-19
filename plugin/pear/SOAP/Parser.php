@@ -72,7 +72,7 @@ class SOAP_Parser extends SOAP_Base
     function __construct($xml, $encoding = SOAP_DEFAULT_ENCODING,
                          $attachments = null)
     {
-        parent::SOAP_Base('Parser');
+        parent :: __construct('Parser');
         $this->_setSchemaVersion(SOAP_XML_SCHEMA_VERSION);
 
         $this->attachments = $attachments;

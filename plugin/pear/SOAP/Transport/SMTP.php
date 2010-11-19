@@ -60,7 +60,7 @@ class SOAP_Transport_SMTP extends SOAP_Transport
      */
     function __construct($url, $encoding = 'US-ASCII')
     {
-        parent::SOAP_Base('SMTP');
+        parent :: __construct('SMTP');
         $this->encoding = $encoding;
         $this->urlparts = @parse_url($url);
         $this->url = $url;

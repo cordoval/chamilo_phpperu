@@ -66,7 +66,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
      */
     function __construct()
     {
-        parent::__construct();
+        parent :: __construct();
 
         $this->phptype = 'pgsql';
         $this->dbsyntax = 'pgsql';

@@ -93,7 +93,7 @@ class SOAP_Server extends SOAP_Base
     function __construct($options = null)
     {
         ini_set('track_errors', 1);
-        parent::SOAP_Base('Server');
+        parent :: __construct('Server');
 
         if (is_array($options)) {
             if (isset($options['use'])) {

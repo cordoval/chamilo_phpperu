@@ -48,7 +48,7 @@ class SOAP_Server_TCP extends SOAP_Server {
     function __construct($localaddr = '127.0.0.1', $port = 10000,
                              $listen = 5, $reuse = true)
     {
-        parent::SOAP_Server();
+        parent :: __construct;
         $this->localaddr = $localaddr;
         $this->port = $port;
         $this->listen = $listen;

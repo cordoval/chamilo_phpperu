@@ -205,7 +205,7 @@ class SOAP_Client extends SOAP_Client_Overload
     function __construct($endpoint, $wsdl = false, $portName = false,
                          $proxy_params = array(), $cache = false)
     {
-        parent::SOAP_Base('Client');
+        parent :: __construct('Client');
 
         $this->_endpoint = $endpoint;
         $this->_portName = $portName;
