@@ -17,7 +17,7 @@ class PhotoGalleryDataManager
     /**
      * Constructor.
      */
-    protected function __construct()
+    public function __construct()
     {
         $this->initialize();
     }

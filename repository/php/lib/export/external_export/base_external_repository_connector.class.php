@@ -47,7 +47,7 @@ abstract class BaseExternalRepositoryConnector
 
     /*************************************************************************/
 
-	protected function __construct($external_repository_id = DataClass :: NO_UID)
+	public function __construct($external_repository_id = DataClass :: NO_UID)
 	{
 	    if($external_repository_id != DataClass :: NO_UID)
 		{
