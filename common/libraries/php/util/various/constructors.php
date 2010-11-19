@@ -4,7 +4,7 @@ namespace common\libraries;
 
 require_once dirname(__FILE__) . '/../../../../global.inc.php';
 
-$root = Path :: get(SYS_PATH) . 'plugin';
+$root = Path :: get(SYS_PATH) . 'plugin/pear/';
 
 $files = Filesystem :: get_directory_content($root);
 
@@ -19,15 +19,20 @@ foreach ($files as $file)
     {
         $contents = file_get_contents($file);
         $regex = '/class [a-zA-Z0-9_-]*/';
-        preg_match($regex, $contents, $matches);
-	$class = substr($matches[0], 6);
-     
-        if($class && strpos($contents, 'function ' . $class . '(') !== false)
+        preg_match_all($regex, $contents, $matches);
+
+        foreach($matches[0] as $match)
         {
-            $new_contents = str_replace('function ' . $class . '(', 'function __construct(', $contents);
-            file_put_contents($file, $new_contents);
-            dump('Changed class ' . $class);
+            $class = substr($match, 6);
+
+            if($class && strpos($contents, 'function ' . $class . '(') !== false)
+            {
+                $contents = str_replace('function ' . $class . '(', 'function __construct(', $contents);
+                dump('Changed class ' . $class);
+            }
         }
+
+        file_put_contents($file, $contents);
     }
 }
 

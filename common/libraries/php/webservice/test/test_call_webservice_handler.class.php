@@ -26,7 +26,7 @@ class TestCallWebserviceHandler
 {
     private $webservice;
 
-    function TestCallWebserviceHandler2()
+    function __construct(2()
     {
         $this->webservice = Webservice :: factory($this);
     }

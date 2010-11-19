@@ -280,7 +280,7 @@ class SOAP_Base extends SOAP_Base_Object
      *
      * @param string $faultcode  Error code.
      */
-    function SOAP_Base($faultcode = 'Client')
+    function __construct($faultcode = 'Client')
     {
         parent::SOAP_Base_Object($faultcode);
         $this->_resetNamespaces();
@@ -1101,7 +1101,7 @@ class QName
     var $ns = '';
     var $namespace = '';
 
-    function QName($name, $namespace = '')
+    function __construct($name, $namespace = '')
     {
         if ($name && $name[0] == '{') {
             preg_match('/\{(.*?)\}(.*)/', $name, $m);

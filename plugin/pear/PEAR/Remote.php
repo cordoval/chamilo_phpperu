@@ -60,7 +60,7 @@ class PEAR_Remote extends PEAR
 
     // {{{ PEAR_Remote(config_object)
 
-    function PEAR_Remote(&$config)
+    function __construct(&$config)
     {
         $this->PEAR();
         $this->config = &$config;

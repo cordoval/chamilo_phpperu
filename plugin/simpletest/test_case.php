@@ -494,7 +494,7 @@ class TestSuite {
      *                            of the test.
      *    @access public
      */
-    function TestSuite($label = false) {
+    function __construct($label = false) {
         $this->_label = $label;
         $this->_test_cases = array();
     }
@@ -662,7 +662,7 @@ class BadTestSuite {
      *                            of the test.
      *    @access public
      */
-    function BadTestSuite($label, $error) {
+    function __construct($label, $error) {
         $this->_label = $label;
         $this->_error = $error;
     }

@@ -14,7 +14,7 @@ namespace common\libraries;
  */
 class fedora_fs_itql_query{
 
-	public static function format_datetime($timestamp){
+	public static function __construct(mat_datetime($timestamp){
 		if(empty($timestamp)){
 			return $timestamp;
 		}
@@ -37,7 +37,7 @@ class fedora_fs_itql_query{
 	public $offset = 0;
 	public $sort = '';
 
-	public function format(){
+	public function __construct(mat(){
 		$start_date = $this->start_date;
 		$end_date = $this->end_date;
 		$owner = $this->owner;

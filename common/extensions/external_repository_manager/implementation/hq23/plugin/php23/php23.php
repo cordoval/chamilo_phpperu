@@ -44,7 +44,7 @@ if ( !class_exists('php23') ) {
 		 */
 		var $max_cache_rows = 1000;
 
-		function php23 ($api_key, $secret = NULL, $die_on_error = false) {
+		function __construct( ($api_key, $secret = NULL, $die_on_error = false) {
 			//The API Key must be set before any calls can be made.  You can
 			//get your own at http://www.flickr.com/services/api/misc.api_keys.html
 			$this->api_key = $api_key;

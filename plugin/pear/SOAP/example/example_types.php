@@ -21,7 +21,7 @@ class SOAPStruct
     var $varInt;
     var $varFloat;
 
-    function SOAPStruct($s = null, $i = null, $f = null)
+    function __construct($s = null, $i = null, $f = null)
     {
         $this->varString = $s;
         $this->varInt = $i;

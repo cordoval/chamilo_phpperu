@@ -113,7 +113,7 @@ class PHPUnit_RepeatedTest extends PHPUnit_TestDecorator {
      * @param  integer
      * @access public
      */
-    function PHPUnit_RepeatedTest(&$test, $timesRepeat = 1) {
+    function __construct(&$test, $timesRepeat = 1) {
         $this->PHPUnit_TestDecorator($test);
         $this->_timesRepeat = $timesRepeat;
     }

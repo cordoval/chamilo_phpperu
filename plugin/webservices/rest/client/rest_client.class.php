@@ -124,7 +124,7 @@ class RestClient
     
     /****************************************************************************************/
     
-    public function RestClient()
+    public function __construct()
     {
         $this->set_default_mode();
     }

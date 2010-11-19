@@ -92,7 +92,7 @@ class HTML_QuickForm_Renderer_Object extends HTML_QuickForm_Renderer
      * @param bool    true: collect all hidden elements
      * @access public
      */
-    function HTML_QuickForm_Renderer_Object($collecthidden = false) 
+    function __construct($collecthidden = false) 
     {
         $this->HTML_QuickForm_Renderer();
         $this->_collectHidden = $collecthidden;

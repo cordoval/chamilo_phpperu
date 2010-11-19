@@ -247,7 +247,7 @@ class SimpleReporter extends SimpleScorer {
      *    Starts the display with no results in.
      *    @access public
      */
-    function SimpleReporter() {
+    function __construct() {
         $this->SimpleScorer();
         $this->_test_stack = array();
         $this->_size = null;
@@ -422,7 +422,7 @@ class SimpleReporterDecorator {
      *    Mediates between the reporter and the test case.
      *    @param SimpleScorer $reporter       Reporter to receive events.
      */
-    function SimpleReporterDecorator(&$reporter) {
+    function __construct(&$reporter) {
         $this->_reporter = &$reporter;
     }
 

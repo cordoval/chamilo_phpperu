@@ -13,7 +13,7 @@ namespace common\libraries;
  */
 class fedora_fs_sparql_query{
 
-	public static function format_datetime($timestamp){
+	public static function __construct(mat_datetime($timestamp){
 		if(empty($timestamp)){
 			return $timestamp;
 		}
@@ -37,7 +37,7 @@ class fedora_fs_sparql_query{
 	public $sort = '';
 	public $is_collection = false;
 
-	public function format(){
+	public function __construct(mat(){
 		$search = $this->search;
 		$searchLevel = $this->searchLevel;
 		$start_date = $this->start_date;

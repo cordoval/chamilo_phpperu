@@ -109,7 +109,7 @@ class php4DOMAttr extends php4DOMNode
 
 class php4DOMDocument extends php4DOMNode
 {
-	function php4DOMDocument($mode=DOMXML_LOAD_PARSING)
+	function __construct($mode=DOMXML_LOAD_PARSING)
 	{
 		$this->myDOMNode=new DOMDocument();
 		$this->myOwnerDocument=$this;
@@ -244,7 +244,7 @@ class php4DOMNode
 {
 	public $myDOMNode;
 	public $myOwnerDocument;
-	function php4DOMNode($aDomNode,$aOwnerDocument)
+	function __construct($aDomNode,$aOwnerDocument)
 	{
 		$this->myDOMNode=$aDomNode;
 		$this->myOwnerDocument=$aOwnerDocument;
@@ -415,7 +415,7 @@ class php4DOMNodelist
 	public $nodeset;
 	public $type=XPATH_UNDEFINED;
 	public $value;
-	function php4DOMNodelist($aDOMNodelist,$aOwnerDocument)
+	function __construct($aDOMNodelist,$aOwnerDocument)
 	{
 		if (!isset($aDOMNodelist)) return; 
 		elseif (is_object($aDOMNodelist)||is_array($aDOMNodelist))
@@ -451,7 +451,7 @@ class php4DOMXPath
 {
 	public $myDOMXPath;
 	private $myOwnerDocument;
-	function php4DOMXPath($dom_document)
+	function __construct($dom_document)
 	{
 		//TODO: If $dom_document is a DomElement, make that default $contextnode and modify XPath. Ex: '/test'
 		$this->myOwnerDocument=$dom_document->myOwnerDocument;
@@ -475,7 +475,7 @@ if (extension_loaded('xsl'))
 	class php4DomXsltStylesheet
 	{
 		private $myxsltProcessor;
-		function php4DomXsltStylesheet($dom_document)
+		function __construct($dom_document)
 		{
 			$this->myxsltProcessor=new xsltProcessor();
 			$this->myxsltProcessor->importStyleSheet($dom_document);

@@ -572,7 +572,7 @@ class CASClient
 	 *
 	 * @public
 	 */
-	function CASClient(
+	function __construct(
 					   $server_version,
 					   $proxy,
 					   $server_hostname,

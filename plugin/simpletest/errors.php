@@ -80,7 +80,7 @@ class SimpleErrorQueue {
     /**
      *    Starts with an empty queue.
      */
-    function SimpleErrorQueue() {
+    function __construct() {
         $this->clear();
     }
 

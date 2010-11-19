@@ -84,7 +84,7 @@ class HTML_QuickForm_autocomplete extends HTML_QuickForm_text
      * @access    public
      * @return    void
      */
-    function HTML_QuickForm_autocomplete($elementName = null, $elementLabel = null, $options = null, $attributes = null)
+    function __construct($elementName = null, $elementLabel = null, $options = null, $attributes = null)
     {
         $this->HTML_QuickForm_text($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;

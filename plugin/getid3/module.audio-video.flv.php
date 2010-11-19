@@ -265,7 +265,7 @@ class AMFStream {
 	var $bytes;
 	var $pos;
 
-	function AMFStream(&$bytes) {
+	function __construct(&$bytes) {
 		$this->bytes =& $bytes;
 		$this->pos = 0;
 	}
@@ -348,7 +348,7 @@ class AMFStream {
 class AMFReader {
 	var $stream;
 
-	function AMFReader(&$stream) {
+	function __construct(&$stream) {
 		$this->stream =& $stream;
 	}
 
