@@ -1,6 +1,7 @@
 <?php
 use repository\QuotaManager;
 use user\UserDataManager;
+use common\libraries\Session;
 
 require_once ('HTML/QuickForm/Rule.php');
 /**

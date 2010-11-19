@@ -21,3 +21,6 @@ Uncompress = "Uncompress"
 EditDocument = "Edit the document"
 UncompressNotAvailableForThisFile = "The selected file can not be uncompressed"
 NoFileCreated = "No document was created"
+
+Title = ""
+Description = ""
