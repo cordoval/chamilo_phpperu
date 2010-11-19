@@ -86,17 +86,18 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     function get_menu_items()
     {
         $menu_items = array();
-        $browser = array();
-        $browser['title'] = Translation :: get('YoutubeBrowse');
-        $browser['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_FEED_IDENTIFIER));
-        $browser['class'] = 'home';
-        $menu_items[] = $browser;
 
         $my_videos = array();
         $my_videos['title'] = Translation :: get('MyVideos');
         $my_videos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MYVIDEOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_FEED_IDENTIFIER));
         $my_videos['class'] = 'user';
         $menu_items[] = $my_videos;
+
+        $browser = array();
+        $browser['title'] = Translation :: get('Public');
+        $browser['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_FEED_IDENTIFIER));
+        $browser['class'] = 'home';
+        $menu_items[] = $browser;
 
         $standard_feeds = array();
         $standard_feeds['title'] = Translation :: get('StandardFeeds');

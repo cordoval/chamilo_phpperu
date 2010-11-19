@@ -24,7 +24,7 @@ use \Zend_Gdata_Media_Extension_MediaKeywords;
 use \Zend_Gdata_Media_Extension_MediaGroup;
 use \Zend_Gdata_Photos_PhotoEntry;
 
-
+require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/picasa_external_repository_object.class.php';
 
 class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
@@ -35,6 +35,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
     private $picasa;
 
     const PHOTOS_MINE = 'mine';
+    const PHOTOS_PUBLIC = 'public';
 
     /**
      * The id of the user on Picasa
@@ -231,13 +232,18 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $folder = Request :: get(ExternalRepositoryManager :: PARAM_FOLDER);
 
+        if(!$folder)
+        {
+            $folder = self :: PHOTOS_MINE;
+        }
+
         if ($folder == self :: PHOTOS_MINE)
         {
             $query = $this->picasa->newUserQuery();
             $query->setUser('default');
             $query->setKind('photo');
         }
-        else
+        elseif ($folder == self :: PHOTOS_PUBLIC)
         {
             $query = $this->picasa->newQuery("http://picasaweb.google.com/data/feed/api/all");
             $query->setParam("kind", "photo");

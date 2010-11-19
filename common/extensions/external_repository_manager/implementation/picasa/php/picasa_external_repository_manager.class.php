@@ -35,7 +35,7 @@ class PicasaExternalRepositoryManager extends ExternalRepositoryManager
     function __construct($external_repository, $application)
     {
         parent :: __construct($external_repository, $application);
-        $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
+        $this->set_parameter(self :: PARAM_FOLDER, Request :: get(self :: PARAM_FOLDER));
     }
 
     /* (non-PHPdoc)
@@ -82,17 +82,17 @@ class PicasaExternalRepositoryManager extends ExternalRepositoryManager
     {
         $menu_items = array();
 
-        $general = array();
-        $general['title'] = Translation :: get('Browse', null, Utilities :: COMMON_LIBRARIES);
-        $general['url'] = $this->get_url(array(self :: PARAM_FOLDER => null), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $general['class'] = 'home';
-        $menu_items[] = $general;
-
         $my_photos = array();
         $my_photos['title'] = Translation :: get('MyPhotos');
         $my_photos['url'] = $this->get_url(array(self :: PARAM_FOLDER => PicasaExternalRepositoryConnector :: PHOTOS_MINE), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $my_photos['class'] = 'user';
         $menu_items[] = $my_photos;
+
+        $general = array();
+        $general['title'] = Translation :: get('Public');
+        $general['url'] = $this->get_url(array(self :: PARAM_FOLDER => PicasaExternalRepositoryConnector :: PHOTOS_PUBLIC), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $general['class'] = 'home';
+        $menu_items[] = $general;
 
         return $menu_items;
     }
