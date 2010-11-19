@@ -608,10 +608,20 @@ class Utilities
         }
         //standard fall back
         $class_filename = self :: camelcase_to_underscores($unqualified_class_name) . '.class.php';
-        $class_path = dirname($autoloader_path) . '/' . $class_filename;
-        if (file_exists($class_path))
+        $class_path = implode('/', $classname_parts) . '/';
+        $first_fallback_path = $class_path . $class_filename;
+        $second_fallback_path = Path :: get(SYS_PATH) . $class_path . 'php/' . $class_filename;
+        if (file_exists($first_fallback_path))
         {
-            require_once $class_path;
+            require_once $first_fallback_path;
+            if (class_exists($classname))
+            {
+                return true;
+            }
+        }
+        if (file_exists($second_fallback_path))
+        {
+            require_once $second_fallback_path;
             if (class_exists($classname))
             {
                 return true;
