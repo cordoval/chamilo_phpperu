@@ -1,6 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
-
+use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Utilities;
 
 /**

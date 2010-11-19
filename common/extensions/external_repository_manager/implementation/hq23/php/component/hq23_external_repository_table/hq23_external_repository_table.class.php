@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
+use common\libraries\ObjectTable;
 /**
  * Table to display a set of hq23 external repository objects.
  */

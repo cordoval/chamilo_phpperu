@@ -5,6 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\Utilities;
+use common\libraries\FormValidator;
 /**
  * @package common.html.action_bar
  * $Id: external_repository_search_form.class.php 128 2009-11-09 13:13:20Z vanpouckesven $

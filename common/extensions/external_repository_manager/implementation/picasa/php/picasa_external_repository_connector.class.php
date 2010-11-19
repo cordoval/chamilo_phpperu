@@ -15,16 +15,16 @@ use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use repository\ExternalRepositoryUserSetting;
 use repository\RepositoryDataManager;
 
-use Zend_Loader;
-use Zend_Gdata_AuthSub;
-use Zend_Gdata_Photos;
-use Zend_Gdata_Photos_UserQuery;
-use Zend_Gdata_Photos_PhotoQuery;
-use Zend_Gdata_Media_Extension_MediaKeywords;
-use Zend_Gdata_Media_Extension_MediaGroup;
-use Zend_Gdata_Photos_PhotoEntry;
+use \Zend_Loader;
+use \Zend_Gdata_AuthSub;
+use \Zend_Gdata_Photos;
+use \Zend_Gdata_Photos_UserQuery;
+use \Zend_Gdata_Photos_PhotoQuery;
+use \Zend_Gdata_Media_Extension_MediaKeywords;
+use \Zend_Gdata_Media_Extension_MediaGroup;
+use \Zend_Gdata_Photos_PhotoEntry;
 
-require_once 'Zend/Loader.php';
+
 require_once dirname(__FILE__) . '/picasa_external_repository_object.class.php';
 
 class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector

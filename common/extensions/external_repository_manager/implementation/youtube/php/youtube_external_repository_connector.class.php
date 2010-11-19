@@ -18,15 +18,13 @@ use repository\ExternalRepositoryUserSetting;
 use repository\RepositoryDataManager;
 use repository\ExternalRepositorySetting;
 
-use Zend_Loader;
-use Zend_Gdata_AuthSub;
-use Zend_Gdata_YouTube;
-use Zend_Gdata_YouTube_VideoEntry;
+use \Zend_Loader;
+use \Zend_Gdata_AuthSub;
+use \Zend_Gdata_YouTube;
+use \Zend_Gdata_YouTube_VideoEntry;
 
-require_once 'Zend/Loader.php';
-require_once dirname(__FILE__) . '/youtube_external_repository_object.class.php';
+
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';
-require_once dirname(__FILE__) . '/youtube_external_repository_manager.class.php';
 
 //YoutubeKey : AI39si4OLUsiI2mK0_k8HxqOtv0ctON-PzekhP_56JDkdph6wZ9tW2XqzDD7iVYY0GXKdMKlPSJyYZotNQGleVfRPDZih41Tug
 class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector

@@ -75,7 +75,7 @@ class fedora_fs_folder extends fedora_fs_base{
 		return $this->get(__FUNCTION__, 'fedora_folder');
 	}
 
-	public function __construct(mat($path = array()){
+	public function format($path = array()){
 		$result = array();
 		$title = $this->get_title();
 		$source = $this->get_source();

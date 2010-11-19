@@ -97,7 +97,7 @@ class fedora_fs_base{
 		return false;
 	}
 
-	public function __construct(mat($path = array()){
+	public function format($path = array()){
 		$title = $this->get_title();
 		if($title){
 			$result = array(

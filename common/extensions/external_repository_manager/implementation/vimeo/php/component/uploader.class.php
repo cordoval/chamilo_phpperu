@@ -5,7 +5,6 @@ use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 use common\libraries\Redirect;
 use common\libraries\Path;
-require_once dirname(__FILE__) . '/../forms/flickr_external_repository_manager_form.class.php';
 
 class VimeoExternalRepositoryManagerUploaderComponent extends VimeoExternalRepositoryManager
 {

@@ -2,6 +2,7 @@
 namespace common\extensions\external_repository_manager\implementation\picasa;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\DefaultExternalRepositoryObjectTableCellRenderer;
 
 use common\libraries\Toolbar;
 use common\libraries\Utilities;
