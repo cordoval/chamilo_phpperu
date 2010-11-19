@@ -28,7 +28,7 @@ class SubscribeUserBrowserTable extends ObjectTable
         $model = new SubscribeUserBrowserTableColumnModel();
         $renderer = new SubscribeUserBrowserTableCellRenderer($browser);
         $data_provider = new SubscribeUserBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(__CLASS__, true), $model, $renderer);
         $this->set_additional_parameters($parameters);
 
         $actions = new ObjectTableFormActions(__NAMESPACE__);

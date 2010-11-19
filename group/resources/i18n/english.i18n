@@ -76,3 +76,7 @@ GroupManagerSubscriberComponent = "Subscriber"
 GroupManagerTruncaterComponent = "Truncater"
 GroupManagerUnsubscriberComponent = "Unsubscriber"
 GroupManagerUsageManagerComponent = "Usage manager"
+
+SelectedUserAddedToGroup = ""
+SelectedUsersAddedToGroup = ""
+SelectedGroupRelUsersDeleted = ""
