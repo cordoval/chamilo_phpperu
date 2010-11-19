@@ -36,7 +36,8 @@ class AdminInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation ::get('Languages')), Utilities :: COMMON_LIBRARIES));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array(
+                    'OBJECTS' => Translation :: get('Languages')), Utilities :: COMMON_LIBRARIES));
         }
 
         // Update the default settings to the database
@@ -46,7 +47,8 @@ class AdminInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation ::get('DefaultSettings')), Utilities :: COMMON_LIBRARIES));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array(
+                    'OBJECTS' => Translation :: get('DefaultSettings')), Utilities :: COMMON_LIBRARIES));
         }
 
         return true;
@@ -54,33 +56,36 @@ class AdminInstaller extends Installer
 
     function create_languages()
     {
-    	$root = dirname(__FILE__) . '/../../../languages/';
-    	$folders = Filesystem :: get_directory_content($root, Filesystem :: LIST_DIRECTORIES, false);
+        $language_path = Path :: get_common_libraries_path() . 'resources/i18n/';
+        $language_files = Filesystem :: get_directory_content($language_path, Filesystem :: LIST_FILES, false);
 
-    	foreach($folders as $folder)
-    	{
-    		//if(Text :: char_at($folder, 0) != '.')
-    		if(file_exists($root . $folder . '/language.xml'))
-    		{
-    			$language = new Language();
-    			$xml_data = Utilities :: extract_xml_file($root . $folder . '/language.xml');
+        foreach ($language_files as $language_file)
+        {
+            $file_info = pathinfo($language_file);
+            $language_info_file = $language_path . $file_info['filename'] . '.info';
 
-    			$language->set_original_name($xml_data['original']);
-    			$language->set_english_name($xml_data['english']);
-    			$language->set_folder($xml_data['folder']);
-    			$language->set_isocode($xml_data['isocode']);
-    			$language->set_available('1');
+            if (file_exists($language_info_file))
+            {
+                $language = new Language();
+                $xml_data = Utilities :: extract_xml_file($language_info_file);
 
-	    		if ($language->create())
-		        {
-		            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation ::get('Language')), Utilities :: COMMON_LIBRARIES) . ' ' . $xml_data['english']);
-		        }
-		        else
-		        {
-		        	return false;
-		        }
-    		}
-    	}
+                $language->set_original_name($xml_data['original']);
+                $language->set_english_name($xml_data['english']);
+                $language->set_folder($xml_data['folder']);
+                $language->set_isocode($xml_data['isocode']);
+                $language->set_available('1');
+
+                if ($language->create())
+                {
+                    $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array(
+                            'OBJECT' => Translation :: get('Language')), Utilities :: COMMON_LIBRARIES) . ' ' . $xml_data['english']);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
 
         return true;
     }
@@ -90,23 +95,47 @@ class AdminInstaller extends Installer
         $values = $this->get_form_values();
 
         $settings = array();
-        $settings[] = array('admin', 'site_name', $values['platform_name']);
-        $settings[] = array('admin', 'server_type', 'production');
-        $settings[] = array('admin', 'platform_language', $values['platform_language']);
-        $settings[] = array('admin', 'version', '2.0');
-        $settings[] = array('admin', 'theme', 'aqua');
+        $settings[] = array('admin', 'site_name',
+                $values['platform_name']);
+        $settings[] = array('admin',
+                'server_type',
+                'production');
+        $settings[] = array('admin',
+                'platform_language',
+                $values['platform_language']);
+        $settings[] = array('admin', 'version',
+                '2.0');
+        $settings[] = array('admin', 'theme',
+                'aqua');
 
-        $settings[] = array('admin', 'institution', $values['organization_name']);
-        $settings[] = array('admin', 'institution_url', $values['organization_url']);
+        $settings[] = array('admin',
+                'institution',
+                $values['organization_name']);
+        $settings[] = array('admin',
+                'institution_url',
+                $values['organization_url']);
 
-        $settings[] = array('admin', 'show_administrator_data', 'true');
-        $settings[] = array('admin', 'administrator_firstname', $values['admin_firstname']);
-        $settings[] = array('admin', 'administrator_surname', $values['admin_surname']);
-        $settings[] = array('admin', 'administrator_email', $values['admin_email']);
-        $settings[] = array('admin', 'administrator_telephone', $values['admin_phone']);
+        $settings[] = array('admin',
+                'show_administrator_data',
+                'true');
+        $settings[] = array('admin',
+                'administrator_firstname',
+                $values['admin_firstname']);
+        $settings[] = array('admin',
+                'administrator_surname',
+                $values['admin_surname']);
+        $settings[] = array('admin',
+                'administrator_email',
+                $values['admin_email']);
+        $settings[] = array('admin',
+                'administrator_telephone',
+                $values['admin_phone']);
 
         //$settings[] = array('user', 'allow_password_retrieval', $values['encrypt_password']);
-        $settings[] = array('user', 'allow_registration', $values['self_reg']);
+        $settings[] = array(
+                'user',
+                'allow_registration',
+                $values['self_reg']);
 
         foreach ($settings as $setting)
         {
