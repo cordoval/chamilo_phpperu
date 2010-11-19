@@ -29,7 +29,7 @@ class MenuToolListRenderer extends ToolListRenderer
      */
     function __construct($parent, $visible_tools)
     {
-        parent :: ToolListRenderer($parent, $visible_tools);
+        parent :: __construct($parent, $visible_tools);
         $this->is_course_admin = $this->get_parent()->is_allowed(WeblcmsRights :: EDIT_RIGHT);
         $this->menu_properties = $this->load_menu_properties();
     }

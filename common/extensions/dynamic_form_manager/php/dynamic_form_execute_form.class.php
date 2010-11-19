@@ -13,7 +13,7 @@ class DynamicFormExecuteForm extends FormValidator
 	
 	function __construct($form, $action, $user, $title)
 	{
-		parent :: FormValidator('dynamic_form_values', 'post', $action);
+		parent :: __construct('dynamic_form_values', 'post', $action);
 		$this->user = $user;
 		$this->form = $form;
 		$this->title = $title;

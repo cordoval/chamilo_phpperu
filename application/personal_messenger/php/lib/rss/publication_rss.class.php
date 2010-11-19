@@ -17,7 +17,7 @@ class PersonalMessengerPublicationRSS extends PublicationRSS
 {
 	function __construct()
 	{
-		parent :: PublicationRSS('Chamilo Personal Messenger', htmlspecialchars(Path :: get(WEB_PATH)), 'Personal messenger publications', htmlspecialchars(Path :: get(WEB_PATH)));
+		parent :: __construct('Chamilo Personal Messenger', htmlspecialchars(Path :: get(WEB_PATH)), 'Personal messenger publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')

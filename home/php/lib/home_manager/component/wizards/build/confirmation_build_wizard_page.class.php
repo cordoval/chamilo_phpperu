@@ -27,7 +27,7 @@ class ConfirmationBuildWizardPage extends BuildWizardPage
      */
     public function __construct($name, $parent, $message, $values)
     {
-        parent :: BuildWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
         $this->message = $message;
         $this->values = $values;
     }

@@ -25,7 +25,7 @@ class IntroductionBuildWizardPage extends BuildWizardPage
      */
     public function __construct($name, $parent, $message)
     {
-        parent :: BuildWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
         $this->message = $message;
     }
 

@@ -47,7 +47,7 @@ class ContentObjectPublicationFeedback extends ContentObjectPublication
     function ContentObjectPublicationFeedback($id, $learningObject, $course, $tool, $parent_id, $repo_viewer, $publicationDate, $modifiedDate, $hidden, $emailSent)
     {
 
-        parent :: ContentObjectPublication($id, $learningObject, $course, $tool, 0, array(), array(), 0, 0, $repo_viewer, $publicationDate, $modifiedDate, $hidden, 0, $emailSent);
+        parent :: __construct($id, $learningObject, $course, $tool, 0, array(), array(), 0, 0, $repo_viewer, $publicationDate, $modifiedDate, $hidden, 0, $emailSent);
         $this->set_parent_id($parent_id);
         $this->set_modified_date(time());
         $this->set_email_sent();
