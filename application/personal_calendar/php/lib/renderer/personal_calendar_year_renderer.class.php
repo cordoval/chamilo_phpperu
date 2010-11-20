@@ -1,8 +1,6 @@
 <?php
 namespace application\personal_calendar;
 
-use HTML_Table;
-
 use common\libraries\YearCalendar;
 use common\libraries\Theme;
 use common\libraries\Translation;
@@ -44,7 +42,7 @@ class PersonalCalendarYearRenderer extends PersonalCalendarRenderer
                 {
                     if (! $calendar->contains_events_for_time($table_date))
                     {
-                        $marker = '<br /><div class="event_marker" style="width: 14px; height: 15px;"><img src="' . Theme :: get_common_image_path() . 'action_posticon.png"/></div>';
+                        $marker = '<br /><div class="event_marker" style="width: 14px; height: 15px;"><img src="' . Theme :: get_common_image_path() . 'action_marker.png"/></div>';
                         $calendar->add_event($table_date, $marker);
                     }
 
