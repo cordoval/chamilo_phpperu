@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Installer;
 use common\libraries\Filesystem;
 use common\libraries\Path;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 /**
  * $Id: admin_installer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.install
@@ -53,6 +54,16 @@ class AdminInstaller extends Installer
                     'OBJECTS' => Translation :: get('DefaultSettings')), Utilities :: COMMON_LIBRARIES));
         }
 
+        if (! $this->register_external_repository_managers())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array(
+                    'OBJECTS' => Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
+        }
+
         return true;
     }
 
@@ -73,7 +84,6 @@ class AdminInstaller extends Installer
 
                 $language->set_original_name($xml_data['original']);
                 $language->set_english_name($xml_data['english']);
-                $language->set_folder($xml_data['folder']);
                 $language->set_isocode($xml_data['isocode']);
                 $language->set_available('1');
 
@@ -148,7 +158,27 @@ class AdminInstaller extends Installer
 
             if (! $setting_object->update())
             {
-                print_r($setting);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function register_external_repository_managers()
+    {
+        $external_repository_manager_path = Path :: get_common_extensions_path() . 'external_repository_manager/implementation/';
+        $folders = Filesystem :: get_directory_content($external_repository_manager_path, Filesystem :: LIST_DIRECTORIES, false);
+
+        foreach ($folders as $folder)
+        {
+            $registration = new Registration();
+            $registration->set_name($folder);
+            $registration->set_type(Registration :: TYPE_EXTERNAL_REPOSITORY_MANAGER);
+            $registration->set_version('1.0.0');
+            $registration->set_status(Registration :: STATUS_ACTIVE);
+            if (!$registration->create())
+            {
                 return false;
             }
         }

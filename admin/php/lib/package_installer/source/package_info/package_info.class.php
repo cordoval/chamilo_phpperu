@@ -16,6 +16,11 @@ class PackageInfo
 
     }
 
+    /**
+     * @param string $type
+     * @param string $package_name
+     * @return PackageInfo
+     */
     static function factory($type, $package_name)
     {
         $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'PackageInfo';

@@ -83,6 +83,12 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         return $this->retrieve_object(Language :: get_table_name(), $condition, array(), Language :: CLASS_NAME);
     }
 
+    function retrieve_language_from_isocode($isocode)
+    {
+        $condition = new EqualityCondition(Language :: PROPERTY_ISOCODE, $isocode);
+        return $this->retrieve_object(Language :: get_table_name(), $condition, array(), Language :: CLASS_NAME);
+    }
+
     function retrieve_language($id)
     {
         $condition = new EqualityCondition(Language :: PROPERTY_ID, $id);

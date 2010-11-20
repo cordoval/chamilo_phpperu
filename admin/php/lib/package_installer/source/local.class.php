@@ -25,9 +25,9 @@ class PackageInstallerLocalSource extends PackageInstallerSource
         $package_section = Request :: get(PackageManager :: PARAM_SECTION);
         $package_code = Request :: get(PackageManager :: PARAM_PACKAGE);
         $package_name = Utilities :: underscores_to_camelcase_with_spaces($package_code);
-          
-        $package_info = PackageInfo::factory($package_section, $package_code);
-       
+
+        $package_info = PackageInfo :: factory($package_section, $package_code);
+
         $this->set_attributes($package_info->get_package());
         $this->get_parent()->add_message(Translation :: get('LocalPackageProcessed'));
         return true;

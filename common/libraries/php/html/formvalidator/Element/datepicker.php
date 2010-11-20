@@ -3,7 +3,6 @@ use common\libraries\Theme;
 use common\libraries\Translation;
 use common\libraries\Path;
 
-use admin\AdminDataManager;
 /**
  * @package common.html.formvalidator.Element
  */
@@ -38,8 +37,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
             $popup_link = str_replace($char, "\\" . $char, $popup_link);
             $hour_minute_devider = str_replace($char, "\\" . $char, $hour_minute_devider);
         }
-        $adm = AdminDataManager :: get_instance();
-        $editor_lang = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();
+        $editor_lang = Translation :: get_language();
         if (empty($editor_lang))
         {
             //if there was no valid iso-code, use the english one

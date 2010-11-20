@@ -1,8 +1,9 @@
 <?php
 namespace repository;
 
-use common\extensions\external_repository_manager;
+use admin;
 
+use admin\PackageInfo;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -85,41 +86,20 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
 
     function get_external_repository_types()
     {
-        $path = Path :: get_common_extensions_path() . 'external_repository_manager/implementation/';
-        $folders = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
+        $active_managers = ExternalRepositoryManager :: get_registered_types();
 
         $types = array();
         $sections = array();
 
-        foreach ($folders as $folder)
+        while ($active_manager = $active_managers->next_result())
         {
-            $properties_file = Path :: get_common_extensions_path() . 'external_repository_manager/implementation/' . $folder . '/properties.xml';
-            if (! file_exists($properties_file))
-            {
-                continue;
-            }
+            $package_info = PackageInfo :: factory($active_manager->get_type(), $active_manager->get_name());
+            $package_info = $package_info->get_package_info();
 
-            $doc = new DOMDocument();
-            $doc->load($properties_file);
-            $xml_properties = $doc->getElementsByTagname('property');
-            $properties = array();
+            $section = isset($package_info['package']['category']) ? $package_info['package']['category'] : 'various';
+            $multiple = isset($package_info['package']['extra']['multiple']) ? $package_info['package']['extra']['multiple'] : 'various';
 
-            $section = 'various';
-            $multiple = false;
-
-            foreach ($xml_properties as $index => $property)
-            {
-                if ($property->getAttribute('name') == 'section')
-                {
-                    $section = $property->getAttribute('value');
-                }
-                elseif ($property->getAttribute('name') == 'multiple')
-                {
-                    $multiple = $property->getAttribute('value');
-                }
-            }
-
-            $condition = new EqualityCondition(ExternalRepository :: PROPERTY_TYPE, $folder);
+            $condition = new EqualityCondition(ExternalRepository :: PROPERTY_TYPE, $active_manager->get_name());
             $count = $this->count_external_repositories($condition);
             if (! $multiple && $count > 0)
             {
@@ -136,9 +116,10 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
                 $types[$section] = array();
             }
 
-            $types[$section][$folder] = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($folder));
+            $types[$section][$active_manager->get_name()] = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($active_manager->get_name()));
             asort($types[$section]);
         }
+
         asort($sections);
         return array('sections' => $sections,
                 'types' => $types);

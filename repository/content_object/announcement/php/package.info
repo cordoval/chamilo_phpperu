@@ -5,7 +5,7 @@
 		<code>announcement</code>
 		<section>content_object</section>
 		<category>news</category>
-		<author></author>
+		<authors></authors>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/a/announcement/announcement-2.1.0.zip</filename>
 		<size></size>

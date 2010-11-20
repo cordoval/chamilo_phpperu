@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager;
 
+use admin;
+
 use common\libraries\SubManager;
 use common\libraries\Path;
 use common\libraries\Utilities;
@@ -12,9 +14,14 @@ use common\libraries\DynamicVisualTab;
 use common\libraries\Theme;
 use common\libraries\LauncherApplication;
 use common\libraries\ToolbarItem;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 use repository\ExternalRepositorySync;
 use repository\RepositoryManager;
+
+use admin\Registration;
+use admin\AdminDataManager;
 
 abstract class ExternalRepositoryManager extends SubManager
 {
@@ -55,7 +62,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function __construct($application)
     {
-    	parent :: __construct($application);
+        parent :: __construct($application);
         $this->external_repository = $application->get_external_repository();
         $external_repository_manager_action = Request :: get(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
         if ($external_repository_manager_action)
@@ -118,14 +125,17 @@ abstract class ExternalRepositoryManager extends SubManager
         $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_external_repository_manager.class.php';
         if (! file_exists($file))
         {
-            throw new Exception(Translation :: get('ExternalRepositoryManagerTypeDoesNotExist', array('type' => $type)));
+            throw new Exception(Translation :: get('ExternalRepositoryManagerTypeDoesNotExist', array(
+                    'type' => $type)));
         }
 
         require_once $file;
 
         $class = self :: NAMESPACE_NAME . '\implementation\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryManager';
 
-        $settings_validated = call_user_func(array($class, 'validate_settings'));
+        $settings_validated = call_user_func(array(
+                $class,
+                'validate_settings'));
 
         if (! $settings_validated)
         {
@@ -352,43 +362,63 @@ abstract class ExternalRepositoryManager extends SubManager
 
         if ($object->is_editable())
         {
-            $toolbar_items[self :: ACTION_EDIT_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_EDIT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            $toolbar_items[self :: ACTION_EDIT_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(
+                    self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_EDIT_EXTERNAL_REPOSITORY,
+                    self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
         }
 
         if ($object->is_deletable())
         {
-            $toolbar_items[self :: ACTION_DELETE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_DELETE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            $toolbar_items[self :: ACTION_DELETE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(
+                    self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_DELETE_EXTERNAL_REPOSITORY,
+                    self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
         }
         if ($object->is_usable())
         {
             if ($this->is_stand_alone())
             {
-                $toolbar_items[] = new ToolbarItem(Translation :: get('Select', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SELECT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                $toolbar_items[] = new ToolbarItem(Translation :: get('Select', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(
+                        self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SELECT_EXTERNAL_REPOSITORY,
+                        self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
             }
             else
             {
                 if ($object->is_importable())
                 {
-                    $toolbar_items[self :: ACTION_IMPORT_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                    $toolbar_items[self :: ACTION_IMPORT_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(
+                            self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY,
+                            self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                 }
                 else
                 {
                     switch ($object->get_synchronization_status())
                     {
                         case ExternalRepositorySync :: SYNC_STATUS_INTERNAL :
-                            $toolbar_items[self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                            $toolbar_items[self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array(
+                                    'OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(
+                                    self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY,
+                                    self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                             break;
                         case ExternalRepositorySync :: SYNC_STATUS_EXTERNAL :
                             if ($object->is_editable())
                             {
-                                $toolbar_items[self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'external_repository/' . $object->get_object_type() . '/logo/16.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                                $toolbar_items[self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array(
+                                        'OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'external_repository/' . $object->get_object_type() . '/logo/16.png', $this->get_url(array(
+                                        self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY,
+                                        self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                             }
                             break;
                         case ExternalRepositorySync :: SYNC_STATUS_CONFLICT :
-                            $toolbar_items[self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                            $toolbar_items[self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array(
+                                    'OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(
+                                    self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY,
+                                    self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                             if ($object->is_editable())
                             {
-                                $toolbar_items[self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'external_repository/' . $object->get_object_type() . '/logo/16.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                                $toolbar_items[self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array(
+                                        'OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'external_repository/' . $object->get_object_type() . '/logo/16.png', $this->get_url(array(
+                                        self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY,
+                                        self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                             }
                             break;
                     }
@@ -421,7 +451,8 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function get_available_renderers()
     {
-        return array(ExternalRepositoryObjectRenderer :: TYPE_TABLE);
+        return array(
+                ExternalRepositoryObjectRenderer :: TYPE_TABLE);
     }
 
     /**
@@ -500,6 +531,15 @@ abstract class ExternalRepositoryManager extends SubManager
         {
             return __NAMESPACE__;
         }
+    }
+
+    static function get_registered_types($status = Registration :: STATUS_ACTIVE)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_EXTERNAL_REPOSITORY_MANAGER);
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_STATUS, $status);
+
+        return AdminDataManager :: get_instance()->retrieve_registrations(new AndCondition($conditions));
     }
 }
 ?>

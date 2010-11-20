@@ -21,20 +21,19 @@ class PackageInstallerLanguageType extends PackageInstallerType
 
             if (! $this->add_registration())
             {
-                $this->get_parent()->add_message(Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get('LanguageRegistration')), Utilities :: COMMON_LIBRARIES), PackageInstaller :: TYPE_WARNING);
+                $this->get_parent()->add_message(Translation :: get('ObjectNotAdded', array(
+                        'OBJECT' => Translation :: get('LanguageRegistration')), Utilities :: COMMON_LIBRARIES), PackageInstaller :: TYPE_WARNING);
             }
             else
             {
-                $this->get_parent()->add_message(Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('LanguageRegistration')), Utilities :: COMMON_LIBRARIES));
+                $this->get_parent()->add_message(Translation :: get('ObjectAdded', array(
+                        'OBJECT' => Translation :: get('LanguageRegistration')), Utilities :: COMMON_LIBRARIES));
             }
         }
         else
         {
             return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
         }
-
-        //$this->cleanup();
-
 
         $this->get_source()->cleanup();
 
@@ -43,7 +42,7 @@ class PackageInstallerLanguageType extends PackageInstallerType
 
     static function get_path($language_name)
     {
-    	return Path :: get_language_path() . $language_name . '/';
+        return Path :: get_language_path() . $language_name . '/';
     }
 
     function add_registration()

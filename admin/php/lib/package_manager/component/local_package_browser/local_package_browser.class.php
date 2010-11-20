@@ -200,19 +200,29 @@ class LocalPackageBrowser
         $external_repository_manager_path = Path :: get_common_extensions_path() . 'external_repository_manager/implementation/';
         $folders = Filesystem :: get_directory_content($external_repository_manager_path, Filesystem :: LIST_DIRECTORIES, false);
 
-        sort($folders, SORT_STRING);
+        $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_EXTERNAL_REPOSITORY_MANAGER);
+        $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition);
+        $installed = array();
 
-        foreach ($folders as $folder)
+        while ($registration = $registrations->next_result())
+        {
+            $installed[] = $registration->get_name();
+        }
+
+        $installables = array_diff($folders, $installed);
+        sort($installables, SORT_STRING);
+
+        foreach ($installables as $installable)
         {
             $data = array();
-            $data[] = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($folder));
+            $data[] = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($installable));
 
             $toolbar = new Toolbar();
-//            $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'action_install.png', $this->manager->get_url(array(
-//                    PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE,
-//                    PackageManager :: PARAM_SECTION => 'language',
-//                    PackageManager :: PARAM_PACKAGE => $installable_language,
-//                    PackageManager :: PARAM_INSTALL_TYPE => 'local')), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'action_install.png', $this->manager->get_url(array(
+                    PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE,
+                    PackageManager :: PARAM_SECTION => 'external_repository_manager',
+                    PackageManager :: PARAM_PACKAGE => $installable,
+                    PackageManager :: PARAM_INSTALL_TYPE => 'local')), ToolbarItem :: DISPLAY_ICON));
             $data[] = $toolbar->as_html();
 
             $external_repository_managers[] = $data;
