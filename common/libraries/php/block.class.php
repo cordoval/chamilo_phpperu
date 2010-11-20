@@ -135,7 +135,7 @@ class Block
 
     function get_block_visibility_link($home_block)
     {
-        return $this->get_link(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
+        return $this->get_link(HomeManager :: APPLICATION_NAME, array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
     }
 
     function get_block_deleting_link($home_block)
@@ -145,12 +145,12 @@ class Block
 
     function get_block_editing_link($home_block)
     {
-        return $this->get_link(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
+        return $this->get_link(HomeManager :: APPLICATION_NAME, array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
     }
 
     function get_block_configuring_link($home_block)
     {
-        return $this->get_link(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_CONFIGURE_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
+        return $this->get_link(HomeManager :: APPLICATION_NAME, array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_CONFIGURE_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
     }
 
     public function get_link($application, $parameters = array (), $encode = false)

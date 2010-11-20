@@ -9,6 +9,7 @@ use common\libraries\Redirect;
 use common\libraries\Session;
 use common\libraries\PlatformSetting;
 use common\libraries\Authentication;
+use common\libraries\Application;
 
 use user\UserDataManager;
 
@@ -119,7 +120,7 @@ abstract class HomeRenderer
         // Use this untill PHP 5.3 is available
         // Then use get_class($this) :: APPLICATION_NAME
         // and remove the get_application_name function();
-        return Redirect :: get_link(null, $parameters, $filter, $encode_entities, $application_type);
+        return Redirect :: get_link($parameters[Application :: PARAM_APPLICATION], $parameters, $filter, $encode_entities, $application_type);
     }
 
     function get_home_tab_viewing_url($home_tab)

@@ -1,11 +1,13 @@
 <?php
-
 namespace application\personal_calendar;
+
+use common\libraries;
 
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
 use common\libraries\Application;
+use common\libraries\Redirect;
 
 abstract class PersonalCalendarEventParser
 {
@@ -102,7 +104,7 @@ abstract class PersonalCalendarEventParser
         $parameters[PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
         $parameters[Application :: PARAM_APPLICATION] = PersonalCalendarManager :: APPLICATION_NAME;
 
-        return $this->get_parent()->get_link($parameters);
+        return $this->get_parent()->get_link($parameters, array(), false, Redirect :: TYPE_APPLICATION);
     }
 }
 ?>

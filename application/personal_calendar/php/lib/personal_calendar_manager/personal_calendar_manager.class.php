@@ -226,11 +226,11 @@ class PersonalCalendarManager extends WebApplication
 
     function get_publication_viewing_url($publication)
     {
-        $parameters = array();
-        $parameters[self :: PARAM_ACTION] = self :: ACTION_VIEW_PUBLICATION;
-        $parameters[self :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
-        $parameters[Application :: PARAM_APPLICATION] = self :: APPLICATION_NAME;
-
+//        $parameters = array();
+//        $parameters[self :: PARAM_ACTION] = self :: ACTION_VIEW_PUBLICATION;
+//        $parameters[self :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
+//        $parameters[Application :: PARAM_APPLICATION] = self :: APPLICATION_NAME;
+//
         return $this->get_link($parameters);
     }
 
@@ -270,13 +270,13 @@ class PersonalCalendarManager extends WebApplication
     {
         return self :: DEFAULT_ACTION;
     }
-    
+
     static public function __autoload($classname)
     {
         $list = array(
-        'personal_calendar_event' => 'personal_calendar_event.class.php', 
-        'personal_calendar_data_manager' =>'personal_calendar_data_manager.class.php', 
-        'personal_calendar_event_parser' => 'personal_calendar_event_parser.class.php', 
+        'personal_calendar_event' => 'personal_calendar_event.class.php',
+        'personal_calendar_data_manager' =>'personal_calendar_data_manager.class.php',
+        'personal_calendar_event_parser' => 'personal_calendar_event_parser.class.php',
         'personal_calendar_connector' => 'personal_calendar_connector.class.php',
         '/connector/personal_calendar_connector' => 'personal_calendar_weblcms_connector.class.php',
         'personal_calendar_data_manager' => 'personal_calendar_data_manager.class.php',
@@ -287,16 +287,16 @@ class PersonalCalendarManager extends WebApplication
         'personal_calendar_publication_form' => 'personal_calendar_publication_form.class.php',
         'personal_calendar_renderer' => 'personal_calendar_renderer.class.php',
         'personal_calendar_manager/personal_calendar_manager' => 'personal_calendar_manager.class.php');
-        
+
         $lower_case = Utilities :: camelcase_to_underscores($classname);
-        
+
         if (key_exists($lower_case, $list))
         {
             $url = $list[$lower_case];
             require_once WebApplication :: get_application_class_lib_path('personal_calendar') . $url;
             return true;
         }
-        
+
         return false;
     }
 }
