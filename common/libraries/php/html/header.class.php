@@ -64,6 +64,7 @@ class Header
         $this->add_css_file_header(Theme :: get_css_path());
         $this->add_css_file_header(Theme :: get_css_path(RepositoryManager :: APPLICATION_NAME));
         $this->add_css_file_header(Path :: get_repository_path(true) . 'css_content_object.inc.php');
+        $this->add_css_file_header(Path :: get_common_extensions_path(true) . 'external_repository_manager/php/css_external_repository_manager.inc.php');
         //$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.min.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.dimensions.min.js');

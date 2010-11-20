@@ -224,9 +224,9 @@ class Path
         return self :: get_common_libraries_class_path();
     }
 
-    public static function get_common_extensions_path()
+    public static function get_common_extensions_path($web = false)
     {
-        return self :: get(SYS_LIB_PATH) . 'extensions/';
+        return ($web ? self :: get(WEB_LIB_PATH) : self :: get(SYS_LIB_PATH)) . 'extensions/';
     }
 
     public static function get_common_libraries_class_path()
@@ -296,7 +296,7 @@ class Path
 
     public static function get_plugin_path($context = null)
     {
-        if (!$context)
+        if (! $context)
         {
             return self :: get(SYS_PLUGIN_PATH);
         }
