@@ -1,39 +1,34 @@
 <?php
-
 namespace application\personal_calendar;
 
 use common\libraries\MiniMonthCalendar;
 use common\libraries\Theme;
 
+
 /**
- * $Id: personal_calendar_mini_month_renderer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.renderer
- */
-/**
- * This personal calendar renderer provides a tabular month view to navigate in
- * the calendar
+ *
+ * A tabular mini month view to navigate in the calendar
  */
 class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 {
 
-    /**
-     * @see PersonalCalendarRenderer::render()
-     */
     public function render()
     {
         $calendar = new MiniMonthCalendar($this->get_time());
-        $from_date = strtotime(date('Y-m-1', $this->get_time()));
-        $to_date = strtotime('-1 Second', strtotime('Next Month', $from_date));
-        $events = $this->get_events($from_date, $to_date);
+
         $html = array();
 
         $start_time = $calendar->get_start_time();
         $end_time = $calendar->get_end_time();
+
+        $events = $this->get_events($start_time, $end_time);
+
         $table_date = $start_time;
 
         while ($table_date <= $end_time)
         {
-            $next_table_date = strtotime('+24 Hours', $table_date);
+            $next_table_date = strtotime('+1 Day', $table_date);
 
             foreach ($events as $index => $event)
             {

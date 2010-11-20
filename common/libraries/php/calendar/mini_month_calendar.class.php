@@ -61,20 +61,6 @@ class MiniMonthCalendar extends MonthCalendar
 
     }
 
-    public function get_start_time()
-    {
-        $first_day = mktime(0, 0, 0, date('m', $this->get_display_time()), 1, date('Y', $this->get_display_time()));
-
-        $setting = PlatformSetting :: get('first_day_of_week');
-
-        if ($setting == 'sunday')
-        {
-            return strtotime('Next Sunday', strtotime('-1 Week', $first_day));
-        }
-
-        return strtotime('Next Monday', strtotime('-1 Week', $first_day));
-    }
-
     public function mark_period($period)
     {
         switch ($period)

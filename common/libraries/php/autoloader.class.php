@@ -68,7 +68,8 @@ class Autoloader
                 'mini_month_calendar',
                 'mini_week_calendar',
                 'month_calendar',
-                'week_calendar');
+                'week_calendar',
+                'year_calendar');
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (in_array($lower_case, $list))
