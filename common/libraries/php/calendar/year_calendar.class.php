@@ -140,6 +140,7 @@ class YearCalendar extends CalendarTable
                     'style' => 'vertical-align: top; padding: 0px ' . $padding_right . ' ' . $padding_bottom . ' 0px;'));
             $this->setCellContents($row, $column, $this->month_tables[$month]->render());
         }
+
         $html[] = parent :: toHtml();
         return implode("\n", $html);
     }
@@ -158,7 +159,14 @@ class YearCalendar extends CalendarTable
     public function add_event($time, $content)
     {
         $month = date('n', $time);
-        $this->month_tables[$month]->add_event($time, $content);
+        //$this->month_tables[$month]->add_event($time, $content);
+        foreach ($this->month_tables as $month_table)
+        {
+            if ($time >= $month_table->get_start_time() && $time <= $month_table->get_end_time())
+            {
+                $month_table->add_event($time, $content);
+            }
+        }
     }
 }
 ?>

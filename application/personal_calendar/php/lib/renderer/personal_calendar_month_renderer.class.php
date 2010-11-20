@@ -65,7 +65,7 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
         $from_date = strtotime(date('Y-m-1', $this->get_time()));
         $to_date = strtotime('-1 Second', strtotime('Next Month', $from_date));
 
-        $html[] = '<div class="event' . (($start_date < $from_date || $start_date > $to_date) ? ' event_fade' : '') . '" style="border-left: 5px solid ' . $this->get_color(Translation :: get(Application :: application_to_class($event->get_source())), (($start_date < $from_date || $start_date > $to_date) ? true : false)) . ';">';
+        $html[] = '<div class="event' . (($start_date < $from_date || $start_date > $to_date) ? ' event_fade' : '') . '" style="border-left: 5px solid ' . $this->get_color($event->get_source(), (($start_date < $from_date || $start_date > $to_date) ? true : false)) . ';">';
 
         if ($start_date > $table_date && $start_date <= strtotime('+1 Day', $table_date))
         {

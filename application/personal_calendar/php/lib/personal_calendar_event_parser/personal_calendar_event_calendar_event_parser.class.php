@@ -1,6 +1,7 @@
 <?php
 namespace application\personal_calendar;
 
+use common\libraries\Translation;
 use common\libraries\Utilities;
 
 class PersonalCalendarEventCalendarEventParser extends PersonalCalendarEventParser
@@ -45,7 +46,7 @@ class PersonalCalendarEventCalendarEventParser extends PersonalCalendarEventPars
                 }
 
                 $event->set_content($repeat->get_description());
-                $event->set_source(Utilities :: get_classname_from_object($object));
+                $event->set_source(Translation :: get('TypeName', null, Utilities :: get_namespace_from_object($object)));
                 $event->set_id($publication->get_id());
                 $events[] = $event;
             }
@@ -68,7 +69,7 @@ class PersonalCalendarEventCalendarEventParser extends PersonalCalendarEventPars
             }
 
             $event->set_content($object->get_description());
-            $event->set_source(Utilities :: get_classname_from_object($object));
+            $event->set_source(Translation :: get('TypeName', null, Utilities :: get_namespace_from_object($object)));
             $event->set_id($publication->get_id());
             $events[] = $event;
         }
