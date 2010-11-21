@@ -66,7 +66,7 @@ class LocalPackageBrowser
             $params[PackageManager :: PARAM_SECTION] = $section;
             $link = $this->manager->get_url($params);
 
-            $tabs->add_tab(new DynamicVisualTab($action, $label, Theme :: get_image_path() . 'place_mini_' . $section . '.png', $link, $selected));
+            $tabs->add_tab(new DynamicVisualTab($section, $label, Theme :: get_image_path() . 'place_mini_' . $section . '.png', $link, $selected));
 
         }
 
