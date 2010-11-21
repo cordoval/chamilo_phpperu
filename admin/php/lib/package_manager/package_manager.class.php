@@ -1,14 +1,15 @@
 <?php
 namespace admin;
+
 use common\libraries\Path;
 use common\libraries\SubManager;
 use common\libraries\Request;
+
 /**
  * $Id: package_manager.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_manager
  * @author Hans De Bisschop
  */
-require_once dirname(__FILE__) . '/component/registration_browser/registration_browser_table.class.php';
 
 class PackageManager extends SubManager
 {
@@ -52,8 +53,6 @@ class PackageManager extends SubManager
         {
             $this->set_action($package_action);
         }
-
-        $this->parse_input_from_table();
     }
 
     function set_action($action)
@@ -64,35 +63,6 @@ class PackageManager extends SubManager
     function get_action()
     {
         return $this->get_parameter(self :: PARAM_PACKAGE_ACTION);
-    }
-
-    function parse_input_from_table()
-    {
-        if (isset($_POST['action']))
-        {
-            $selected_ids = Request :: post(RegistrationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
-
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_ACTIVATE_SELECTED :
-                    $this->set_action(self :: ACTION_ACTIVATE_PACKAGE);
-                    Request :: set_get(self :: PARAM_REGISTRATION, $selected_ids);
-                    break;
-                case self :: ACTION_DEACTIVATE_PACKAGE :
-                    $this->set_action(self :: ACTION_DEACTIVATE_PACKAGE);
-                    Request :: set_get(self :: PARAM_REGISTRATION, $selected_ids);
-                    break;
-            }
-
-        }
     }
 
     function get_application_component_path()
