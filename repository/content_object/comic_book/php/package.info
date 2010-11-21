@@ -5,9 +5,15 @@
 		<code>comic_book</code>
 		<section>content_object</section>
 		<category>general</category>
-		<authors>Hans De Bisschop</authors>
+		<authors>
+			<author>
+				<name>Hans De Bisschop</name>
+				<email>hans.de.bisschop@ehb.be</email>
+				<company>Erasmushogeschool Brussel</company>
+			</author>
+		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/c/comic_book/comic_book-1.0.0.zip</filename>
+		<filename>pool/main/content_object/c/comic_book/comic_book-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
