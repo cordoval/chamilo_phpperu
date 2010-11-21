@@ -5,9 +5,15 @@
 		<code>distribute</code>
 		<section>application</section>
 		<category>communication</category>
-		<authors></authors>
+		<authors>
+			<author>
+				<name>Hans De Bisschop</name>
+				<email>hans.de.bisschop@ehb.be</email>
+				<company>Erasmushogeschool Brussel</company>
+			</author>
+		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/applications/d/distribute/distribute-1.0.0.zip</filename>
+		<filename>pool/main/application/d/distribute/distribute-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

@@ -5,9 +5,15 @@
 		<code>cas_user</code>
 		<section>application</section>
 		<category>education</category>
-		<authors></authors>
+		<authors>
+			<author>
+				<name>Hans De Bisschop</name>
+				<email>hans.de.bisschop@ehb.be</email>
+				<company>Erasmushogeschool Brussel</company>
+			</author>
+		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/applications/c/cas_user/cas_user-1.0.0.zip</filename>
+		<filename>pool/main/application/c/cas_user/cas_user-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

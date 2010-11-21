@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>PhotoGallery</name>
-		<code>photo_gallery</code>
-		<section>application</section>
-		<category>research</category>
+		<name>Invitation manager</name>
+		<code>invitation_manager</code>
+		<section>extension</section>
+		<category>core</category>
 		<authors>
 			<author>
-				<name>Magali Gillard</name>
-				<email>magali.gillard@ehb.be</email>
+				<name>Hans De Bisschop</name>
+				<email>hans.de.bisschop@ehb.be</email>
 				<company>Erasmushogeschool Brussel</company>
 			</author>
 		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/application/p/photo_gallery/photo_gallery-1.0.0.zip</filename>
+		<filename>pool/main/extension/i/invitation_manager/invitation_manager-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
 		<sha256></sha256>
 		<sha512></sha512>
 		<tagline></tagline>
-		<description>An online photo gallery to share images.</description>
+		<description>Allow invitation of new users as a means of authentication, either via registration or anonymous.</description>
 		<homepage></homepage>
 		<dependencies>
 			<server>
 				<dependency>
 					<id>php</id>
-					<version type="4">5.2.0</version>
+					<version type="4">5.3.0</version>
 					<severity>1</severity>
 				</dependency>
 			</server>

@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Metadata</name>
-		<code>metadata</code>
-		<section>application</section>
-		<category>research</category>
+		<name>Feedback manager</name>
+		<code>feedback_manager</code>
+		<section>extension</section>
+		<category>core</category>
 		<authors>
 			<author>
-				<name>Jens Vanderheyden</name>
-				<email>jens.vanderheyden@vub.ac.be</email>
-				<company>Vrije Universiteit Brussel</company>
+				<name></name>
+				<email></email>
+				<company></company>
 			</author>
 		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/application/m/metadata/metadata-1.0.0.zip</filename>
+		<filename>pool/main/extension/f/feedback_manager/feedback_manager-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
 		<sha256></sha256>
 		<sha512></sha512>
 		<tagline></tagline>
-		<description>Add metadata to content objects</description>
+		<description></description>
 		<homepage></homepage>
 		<dependencies>
 			<server>
 				<dependency>
 					<id>php</id>
-					<version type="4">5.2.0</version>
+					<version type="4">5.3.0</version>
 					<severity>1</severity>
 				</dependency>
 			</server>

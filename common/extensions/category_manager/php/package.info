@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Reservations</name>
-		<code>reservations</code>
-		<section>application</section>
-		<category>social</category>
+		<name>Category manager</name>
+		<code>category_manager</code>
+		<section>extension</section>
+		<category>core</category>
 		<authors>
 			<author>
 				<name>Sven Vanpoucke</name>
@@ -13,20 +13,20 @@
 			</author>
 		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/application/r/reservations/reservations-1.0.0.zip</filename>
+		<filename>pool/main/extension/c/category_manager/category_manager-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
 		<sha256></sha256>
 		<sha512></sha512>
 		<tagline></tagline>
-		<description>An application to make reservations for several items (like rooms, computers, beamers...).</description>
+		<description>Implements the management of categories in a generalized way, using localized persistent storage.</description>
 		<homepage></homepage>
 		<dependencies>
 			<server>
 				<dependency>
 					<id>php</id>
-					<version type="4">5.2.0</version>
+					<version type="4">5.3.0</version>
 					<severity>1</severity>
 				</dependency>
 			</server>

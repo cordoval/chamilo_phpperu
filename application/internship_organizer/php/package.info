@@ -5,9 +5,15 @@
 		<code>internship_organizer</code>
 		<section>application</section>
 		<category>education</category>
-		<authors></authors>
+		<authors>
+			<author>
+				<name>Eduard Vossen</name>
+				<email>eduard.vossen@ehb.be</email>
+				<company>Erasmushogeschool Brussel</company>
+			</author>
+		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/applications/i/internship_organizer/internship_organizer-1.0.0.zip</filename>
+		<filename>pool/main/application/i/internship_organizer/internship_organizer-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

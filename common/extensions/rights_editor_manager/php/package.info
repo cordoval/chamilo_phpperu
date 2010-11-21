@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Chamilo Translation Application</name>
-		<code>cda</code>
-		<section>application</section>
-		<category>collaboration</category>
+		<name>Rights editor manager</name>
+		<code>rights_editor_manager</code>
+		<section>extension</section>
+		<category>core</category>
 		<authors>
 			<author>
 				<name>Hans De Bisschop</name>
@@ -16,22 +16,27 @@
 				<email>sven.vanpoucke@hogent.be</email>
 				<company>Hogeschool Gent</company>
 			</author>
+			<author>
+				<name>Pieterjan Broeckaert</name>
+				<email>pieterjan.broekaert@hogent.be</email>
+				<company>Hogeschool Gent</company>
+			</author>
 		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/application/c/cda/cda-1.0.0.zip</filename>
+		<filename>pool/main/extension/r/rights_editor_manager/rights_editor_manager-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
 		<sha256></sha256>
 		<sha512></sha512>
 		<tagline></tagline>
-		<description>An application to translate variables into several languages. These variables can be grouped into language packs (modules) and there is a possibility to use multiple branches.</description>
+		<description>An interface to the rights management system, which allows users to configure permissions for users, groups and templates for any given location.</description>
 		<homepage></homepage>
 		<dependencies>
 			<server>
 				<dependency>
 					<id>php</id>
-					<version type="4">5.2.0</version>
+					<version type="4">5.3.0</version>
 					<severity>1</severity>
 				</dependency>
 			</server>
