@@ -97,7 +97,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
             $package_info = $package_info->get_package_info();
 
             $section = isset($package_info['package']['category']) ? $package_info['package']['category'] : 'various';
-            $multiple = isset($package_info['package']['extra']['multiple']) ? $package_info['package']['extra']['multiple'] : 'various';
+            $multiple = isset($package_info['package']['extra']['multiple']) ? $package_info['package']['extra']['multiple'] : false;
 
             $condition = new EqualityCondition(ExternalRepository :: PROPERTY_TYPE, $active_manager->get_name());
             $count = $this->count_external_repositories($condition);

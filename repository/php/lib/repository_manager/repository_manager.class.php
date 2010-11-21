@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\extensions\external_repository_manager;
+
 use common\libraries\ComplexDisplayPreviewLauncher;
 use common\libraries\CoreApplication;
 use common\libraries\DynamicAction;
@@ -1435,7 +1437,7 @@ class RepositoryManager extends CoreApplication
 
     function get_external_repository_instance_manager_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION));
     }
 
     /**

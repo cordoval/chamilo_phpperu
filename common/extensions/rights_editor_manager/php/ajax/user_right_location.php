@@ -1,20 +1,23 @@
 <?php
-
-namespace common\extensions;
+namespace common\extensions\rights_editor_manager;
 
 use common\libraries\Utilities;
+use common\libraries\Authentication;
 use common\libraries\Request;
-use user\UserDataManager;
 use common\libraries\Session;
+
+use user\UserDataManager;
+
 use rights\RightsDataManager;
 use rights\RightsUtilities;
+
 /**
- * $Id: group_right_location.php 214 2009-11-13 13:57:37Z vanpouckesven $
+ * $Id: user_right_location.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.ajax
  */
 $this_section = 'rights';
 
-require_once dirname(__FILE__) . '/../../../../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../../global.inc.php';
 
 Utilities :: set_application($this_section);
 
@@ -24,7 +27,7 @@ if (! Authentication :: is_valid())
 }
 
 $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
-// TODO: User real right_groups'n'rights here
+// TODO: User real right_users'n'rights here
 if (! $user->is_platform_admin())
 {
     echo 0;
@@ -35,21 +38,21 @@ $locations = Request :: post('locations');
 $locations = str_replace('\\"', '"', $locations);
 $locations = json_decode($locations);
 
-$rights = $_POST['rights'];
+$rights = Request :: post('rights');
 $rights = explode('_', $rights);
 
 $right = $rights['1'];
-$right_group = $rights['2'];
+$right_user = $rights['2'];
 
-if (isset($right_group) && isset($right) && isset($locations) && count($locations) > 0)
+if (isset($right_user) && isset($right) && isset($locations) && count($locations) > 0)
 {
-	$success = true;
+    $success = true;
 
-	$rdm = RightsDataManager :: get_instance();
+    $rdm = RightsDataManager :: get_instance();
 
-    foreach($locations as $location_id)
+    foreach ($locations as $location_id)
     {
-    	$success &= RightsUtilities :: invert_group_right_location($right, $right_group, $location_id);
+        $success &= RightsUtilities :: invert_user_right_location($right, $right_user, $location_id);
     }
 
     if (! $success)

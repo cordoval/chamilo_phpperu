@@ -1,11 +1,23 @@
 <?php
+namespace common\extensions\rights_editor_manager;
+
+use common\libraries\Utilities;
+use common\libraries\Authentication;
+use common\libraries\Request;
+use common\libraries\Session;
+
+use user\UserDataManager;
+
+use rights\RightsDataManager;
+use rights\RightsUtilities;
+
 /**
  * $Id: template_right_location.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.ajax
  */
 $this_section = 'rights';
 
-require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../../global.inc.php';
 
 Utilities :: set_application($this_section);
 
@@ -26,7 +38,7 @@ $locations = Request :: post('locations');
 $locations = str_replace('\\"', '"', $locations);
 $locations = json_decode($locations);
 
-$rights = $_POST['rights'];
+$rights = Request :: post('rights');
 $rights = explode('_', $rights);
 
 $right = $rights['1'];
