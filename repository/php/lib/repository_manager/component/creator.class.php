@@ -24,7 +24,6 @@ use repository\content_object\scorm_item\ScormItem;
 
 use admin\AdminDataManager;
 use admin\Registration;
-use admin\PackageInfo;
 
 /**
  * $Id: creator.class.php 204 2009-11-13 12:51:30Z kariboe $
