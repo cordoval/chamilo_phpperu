@@ -134,6 +134,8 @@ $(function()
         tip.fadeIn('fast');
         tip.css('margin-left', -tip.outerWidth() / 2);
         tip.css('margin-top', -tip.outerHeight() - 7);
+        
+        //alert($(window).height());
     }
 
     function hideColorTip(e, ui)
