@@ -20,7 +20,8 @@ class PackageManager extends SubManager
     const PARAM_PACKAGE = 'package';
     const PARAM_INSTALL_TYPE = 'type';
     const PARAM_SECTION = 'section';
-    
+    const PARAM_REGISTRATION_TYPE = 'type';
+
     const ACTION_BROWSE_PACKAGES = 'browser';
     const ACTION_ACTIVATE_PACKAGE = 'activator';
     const ACTION_DEACTIVATE_PACKAGE = 'deactivator';
@@ -30,14 +31,14 @@ class PackageManager extends SubManager
     const ACTION_INSTALL_PACKAGE = 'installer';
     const ACTION_UPDATE_PACKAGE = 'updater';
     const ACTION_REMOVE_PACKAGE = 'remover';
-    
+
     const ACTION_VIEW_REGISTRATION = 'viewer';
-    
+
     const ACTION_ARCHIVE_PACKAGE = 'archive';
     const ACTION_UPDATE_PACKAGE_ARCHIVE= 'update_archive';
-    
+
     const DEFAULT_ACTION = self :: ACTION_BROWSE_PACKAGES;
-    
+
     const INSTALL_REMOTE = 'remote';
     const INSTALL_ARCHIVE = 'archive';
     const INSTALL_LOCAL = 'local';
@@ -45,13 +46,13 @@ class PackageManager extends SubManager
     function __construct($admin_manager)
     {
         parent :: __construct($admin_manager);
-        
+
         $package_action = Request :: get(self :: PARAM_PACKAGE_ACTION);
         if ($package_action)
         {
             $this->set_action($package_action);
         }
-        
+
         $this->parse_input_from_table();
     }
 
@@ -70,7 +71,7 @@ class PackageManager extends SubManager
         if (isset($_POST['action']))
         {
             $selected_ids = Request :: post(RegistrationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
-            
+
             if (empty($selected_ids))
             {
                 $selected_ids = array();
@@ -90,7 +91,7 @@ class PackageManager extends SubManager
                     Request :: set_get(self :: PARAM_REGISTRATION, $selected_ids);
                     break;
             }
-        
+
         }
     }
 

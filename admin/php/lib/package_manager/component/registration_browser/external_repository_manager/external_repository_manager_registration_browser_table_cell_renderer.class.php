@@ -7,16 +7,17 @@ use common\libraries\Path;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
+use common\libraries\PlatformSetting;
 /**
- * $Id: registration_browser_table_cell_renderer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
+ * $Id: external_repository_manager_registration_browser_table_cell_renderer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.package_manager.component.registration_browser
  */
-require_once Path :: get_admin_path() . 'lib/package_manager/component/registration_browser/registration_browser_table_column_model.class.php';
+require_once Path :: get_admin_path() . 'lib/package_manager/component/registration_browser/external_repository_manager/external_repository_manager_registration_browser_table_column_model.class.php';
 require_once Path :: get_admin_path() . 'lib/tables/registration_table/default_registration_table_cell_renderer.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
-class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellRenderer
+class ExternalRepositoryManagerRegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellRenderer
 {
     /**
      * The repository browser component
@@ -36,7 +37,7 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
     // Inherited
     function render_cell($column, $registration)
     {
-        if ($column === RegistrationBrowserTableColumnModel :: get_modification_column())
+        if ($column === ExternalRepositoryManagerRegistrationBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($registration);
         }
@@ -73,11 +74,6 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
 					'', ToolbarItem :: DISPLAY_ICON));
         }
 
-        if ($registration->get_type() == Registration :: TYPE_LANGUAGE && Utilities :: camelcase_to_underscores($registration->get_name()) == PlatformSetting :: get('platform_language'))
-        {
-            return;
-        }
-
         if ($registration->is_active())
         {
         	$toolbar->add_item(new ToolbarItem(Translation :: get('Deactivate', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_deactivate.png',
@@ -89,9 +85,9 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
 					$this->browser->get_registration_activation_url($registration), ToolbarItem :: DISPLAY_ICON));
 
         }
-		$toolbar->add_item(new ToolbarItem(Translation :: get('Deinstall', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_deinstall.png',
-					$this->browser->get_registration_removal_url($registration), ToolbarItem :: DISPLAY_ICON,true));
 
+//		$toolbar->add_item(new ToolbarItem(Translation :: get('Deinstall', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_deinstall.png',
+//					$this->browser->get_registration_removal_url($registration), ToolbarItem :: DISPLAY_ICON,true));
 
         return $toolbar->as_html();
     }

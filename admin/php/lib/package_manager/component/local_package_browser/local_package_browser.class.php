@@ -61,7 +61,7 @@ class LocalPackageBrowser
         {
             $selected = ($section == $current_section ? true : false);
 
-            $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($section) . 'Title'));
+            $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($section) . 'Packages'));
             $params = $this->manager->get_parameters();
             $params[PackageManager :: PARAM_SECTION] = $section;
             $link = $this->manager->get_url($params);
