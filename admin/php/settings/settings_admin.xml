@@ -68,7 +68,7 @@
 			</setting>
 		</category>
 		<category name="internationalization">
-			<setting name="hide_dcda_markup" field="checkbox" default="0">
+			<setting name="hide_dcda_markup" field="checkbox" default="1">
 				<options type="static">
 					<option name="hide_dcda_markup" value="1" />
 				</options>

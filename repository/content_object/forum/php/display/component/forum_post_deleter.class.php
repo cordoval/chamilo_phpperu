@@ -2,6 +2,7 @@
 namespace repository\content_object\forum;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use repository\RepositoryDataManager;
 use repository\ComplexDisplay;

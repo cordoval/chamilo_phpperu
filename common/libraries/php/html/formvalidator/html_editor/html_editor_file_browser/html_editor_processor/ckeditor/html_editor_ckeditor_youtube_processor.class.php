@@ -2,6 +2,7 @@
 namespace common\libraries;
 
 use repository\RepositoryDataManager;
+use repository\RepositoryManager;
 
 class HtmlEditorCkeditorYoutubeProcessor extends HtmlEditorProcessor
 {
@@ -24,14 +25,14 @@ class HtmlEditorCkeditorYoutubeProcessor extends HtmlEditorProcessor
         $html[] = '        element = dialog.getContentElement( \'info\', \'width\' );';
         $html[] = '        if ( element )';
         $html[] = '        {';
-        $html[] = '            element.setValue( ' . $object->get_width() . ' );';
+        $html[] = '            element.setValue( 425 );';
         $html[] = '        }';
 
         // Set the height of the movie
         $html[] = '        element = dialog.getContentElement( \'info\', \'height\' );';
         $html[] = '        if ( element )';
         $html[] = '        {';
-        $html[] = '            element.setValue( ' . $object->get_height() . ' );';
+        $html[] = '            element.setValue( 344 );';
         $html[] = '        }';
 
         $html[] = '    }';

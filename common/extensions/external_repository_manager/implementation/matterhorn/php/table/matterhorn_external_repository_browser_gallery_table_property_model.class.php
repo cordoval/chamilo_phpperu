@@ -4,7 +4,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryBrowserGalle
 
 require_once dirname(__FILE__) . '/../matterhorn_external_repository_connector.class.php';
 
-class MatterhornexternalRepositoryBrowserGalleryPropertyModel extends ExternalRepositoryBrowserGalleryPropertyModel
+class MatterhornExternalRepositoryBrowserGalleryPropertyModel extends ExternalRepositoryBrowserGalleryPropertyModel
 {
 
     function MatterhornExternalRepositoryBrowserGalleryPropertyModel()

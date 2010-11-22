@@ -8,7 +8,7 @@ class MatterhornExternalRepositoryManagerBrowserComponent extends MatterhornExte
 
     function run()
     {
-   		ExternalRepositoryComponent :: launch($this);
+        ExternalRepositoryComponent :: launch($this);
     }
 }
 ?>

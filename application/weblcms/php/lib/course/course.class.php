@@ -45,8 +45,8 @@ class Course extends DataClass
     const PROPERTY_VISUAL = 'visual_code';
     const PROPERTY_NAME = 'title';
     const PROPERTY_TITULAR = 'titular_id';
-    const PROPERTY_EXTLINK_URL = 'department_url';
-    const PROPERTY_EXTLINK_NAME = 'department_name';
+    const PROPERTY_EXTERNAL_URL = 'external_url';
+    const PROPERTY_EXTERNAL_NAME = 'external_name';
     const PROPERTY_CATEGORY = 'category_id';
 
     // Remnants from the old Chamilo system
@@ -74,8 +74,8 @@ class Course extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_COURSE_TYPE_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_TITULAR, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_EXPIRATION_DATE,
-                self :: PROPERTY_LAST_EDIT, self :: PROPERTY_LAST_VISIT));
+                self :: PROPERTY_COURSE_TYPE_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_TITULAR, self :: PROPERTY_EXTERNAL_URL, self :: PROPERTY_EXTERNAL_NAME,
+                self :: PROPERTY_CREATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_LAST_EDIT, self :: PROPERTY_LAST_VISIT));
     }
 
     /**
@@ -154,18 +154,18 @@ class Course extends DataClass
      * Returns the ext url of this course object
      * @return String The URL
      */
-    function get_extlink_url()
+    function get_external_url()
     {
-        return $this->get_default_property(self :: PROPERTY_EXTLINK_URL);
+        return $this->get_default_property(self :: PROPERTY_EXTERNAL_URL);
     }
 
     /**
      * Returns the ext link name of this course object
      * @return String The Name
      */
-    function get_extlink_name()
+    function get_external_name()
     {
-        return $this->get_default_property(self :: PROPERTY_EXTLINK_NAME);
+        return $this->get_default_property(self :: PROPERTY_EXTERNAL_NAME);
     }
 
     function get_creation_date()
@@ -326,18 +326,18 @@ class Course extends DataClass
      * Sets the extlink URL of this course object
      * @param String $url The URL if the extlink
      */
-    function set_extlink_url($url)
+    function set_external_url($url)
     {
-        $this->set_default_property(self :: PROPERTY_EXTLINK_URL, $url);
+        $this->set_default_property(self :: PROPERTY_EXTERNAL_URL, $url);
     }
 
     /**
      * Sets the extlink Name of this course object
      * @param String $name The name of the exlink
      */
-    function set_extlink_name($name)
+    function set_external_name($name)
     {
-        $this->set_default_property(self :: PROPERTY_EXTLINK_NAME, $name);
+        $this->set_default_property(self :: PROPERTY_EXTERNAL_NAME, $name);
     }
 
     function set_creation_date($creation_date)

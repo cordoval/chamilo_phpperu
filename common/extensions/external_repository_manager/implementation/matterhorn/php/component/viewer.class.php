@@ -8,7 +8,7 @@ class MatterhornExternalRepositoryManagerViewerComponent extends MatterhornExter
 
     function run()
     {
-         ExternalRepositoryComponent :: launch($this);
+        ExternalRepositoryComponent :: launch($this);
     }
 }
 ?>
