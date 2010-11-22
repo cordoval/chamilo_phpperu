@@ -77,7 +77,7 @@ class ContentObjectPublicationCategory extends PlatformCategory
         {
             if ($this->get_parent())
             {
-                $new_parent_id = WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_parent(), $this->get_course());
+                $new_parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_parent(), $this->get_course());
             }
             else
             {
