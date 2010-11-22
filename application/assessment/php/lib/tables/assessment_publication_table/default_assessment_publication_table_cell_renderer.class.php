@@ -42,7 +42,7 @@ class DefaultAssessmentPublicationTableCellRenderer extends ObjectTableCellRende
      */
     function render_cell($column, $assessment_publication)
     {
-        if (!self :: $publication_object_cache)
+        if (!self :: $publication_object_cache || self :: $publication_object_cache->get_id() != $assessment_publication->get_content_object())
         {
             $content_object = $assessment_publication->get_publication_object();
             self :: $publication_object_cache = $content_object;
