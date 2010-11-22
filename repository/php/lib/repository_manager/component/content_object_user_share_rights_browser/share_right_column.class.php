@@ -1,4 +1,7 @@
 <?php
+namespace repository;
+
+use common\libraries\StaticTableColumn;
 
 /*
  * To change this template, choose Tools | Templates

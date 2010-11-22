@@ -15,6 +15,7 @@ use application\weblcms\Tool;
  */
 class LinkTool extends Tool implements Categorizable
 {
+    const TOOL_NAME = 'link';
 
     static function get_allowed_types()
     {

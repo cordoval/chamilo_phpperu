@@ -1,6 +1,14 @@
 <?php
 namespace repository;
 
+use common\libraries\Request;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ResourceManager;
+use common\libraries\Path;
+use common\libraries\Theme;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+
 use user\UserManager;
 use group\GroupManager;
 
@@ -27,7 +35,6 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
     {
 
         $content_object_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
-
 
         //set rights for users or groups?
         $this->type = Request :: get(ContentObjectShare :: PARAM_TYPE);
@@ -76,11 +83,11 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
         $html[] = '<div class="application_selecter">';
 
-        $html[] = '<a href="' . $this->get_url(array(ContentObjectShare :: PARAM_TYPE => ContentObjectUserShare::TYPE_USER_SHARE)) . '">';
+        $html[] = '<a href="' . $this->get_url(array(ContentObjectShare :: PARAM_TYPE => ContentObjectUserShare :: TYPE_USER_SHARE)) . '">';
         $html[] = '<div class="application" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_user.png);">' . Translation :: get('Users', null, UserManager :: APPLICATION_NAME) . '</div>';
         $html[] = '</a>';
 
-        $html[] = '<a href="' . $this->get_url(array(ContentObjectShare :: PARAM_TYPE => ContentObjectGroupShare::TYPE_GROUP_SHARE)) . '">';
+        $html[] = '<a href="' . $this->get_url(array(ContentObjectShare :: PARAM_TYPE => ContentObjectGroupShare :: TYPE_GROUP_SHARE)) . '">';
         $html[] = '<div class="application" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_group.png);">' . Translation :: get('Groups', null, GroupManager :: APPLICATION_NAME) . '</div>';
         $html[] = '</a>';
 
@@ -95,16 +102,17 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
      */
     private function get_users_browser_html()
     {
-//        $dm = RepositoryDataManager :: get_instance();
-//        $user_shares_result_set = $dm->retrieve_content_object_user_shares();
-//
-//        $user_share = $user_shares_result_set->next_result();
-//        while ($user_share != null)
-//        {
-//            $conditions[] = new EqualityCondition(User :: PROPERTY_ID, $user_share->get_user_id());
-//            $user_to_right[$user_share->get_user_id()] = $user_share->get_right_id();
-//            $user_share = $user_shares_result_set->next_result();
-//        }
+        //        $dm = RepositoryDataManager :: get_instance();
+        //        $user_shares_result_set = $dm->retrieve_content_object_user_shares();
+        //
+        //        $user_share = $user_shares_result_set->next_result();
+        //        while ($user_share != null)
+        //        {
+        //            $conditions[] = new EqualityCondition(User :: PROPERTY_ID, $user_share->get_user_id());
+        //            $user_to_right[$user_share->get_user_id()] = $user_share->get_right_id();
+        //            $user_share = $user_shares_result_set->next_result();
+        //        }
+
 
         $condition = new EqualityCondition(ContentObjectShare :: PROPERTY_CONTENT_OBJECT_ID, Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID));
         $browser_table = new ContentObjectUserShareRightsBrowserTable($this, $this->get_parameters(), $condition);
@@ -116,18 +124,18 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
      */
     private function get_groups_browser_html()
     {
-//        $html = array();
-//
-//        $dm = RepositoryDataManager :: get_instance();
-//        $groups_result_set = $dm->retrieve_content_object_group_shares();
-//
-//        $group = $groups_result_set->next_result();
-//        while ($group != null)
-//        {
-//            $conditions[] = new EqualityCondition(Group :: PROPERTY_ID, $group->get_group_id());
-//            $group = $groups_result_set->next_result();
-//        }
-//        $condition = new OrCondition($conditions);
+        //        $html = array();
+        //
+        //        $dm = RepositoryDataManager :: get_instance();
+        //        $groups_result_set = $dm->retrieve_content_object_group_shares();
+        //
+        //        $group = $groups_result_set->next_result();
+        //        while ($group != null)
+        //        {
+        //            $conditions[] = new EqualityCondition(Group :: PROPERTY_ID, $group->get_group_id());
+        //            $group = $groups_result_set->next_result();
+        //        }
+        //        $condition = new OrCondition($conditions);
         $condition = new EqualityCondition(ContentObjectShare :: PROPERTY_CONTENT_OBJECT_ID, Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID));
 
         $browser_table = new ContentObjectGroupShareRightsBrowserTable($this, $this->get_parameters(), $condition);
