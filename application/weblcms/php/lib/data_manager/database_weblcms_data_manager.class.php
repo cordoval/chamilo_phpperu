@@ -23,6 +23,7 @@ use common\libraries\Database;
 use common\libraries\Translation;
 use repository\ContentObject;
 use repository\content_object\introduction\Introduction;
+use repository\ContentObjectPublicationAttributes;
 
 /**
  * $Id: database_weblcms_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $

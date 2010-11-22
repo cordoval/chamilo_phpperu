@@ -9,6 +9,7 @@ use repository\ContentObject;
 use common\libraries\ConditionTranslator;
 use common\libraries\InCondition;
 use repository\ContentObjectPublicationAttributes;
+use common\libraries\Session;
 /**
  * $Id: database_assessment_data_manager.class.php 237 2009-11-16 13:04:53Z vanpouckesven $
  * @package application.lib.assessment.data_manager

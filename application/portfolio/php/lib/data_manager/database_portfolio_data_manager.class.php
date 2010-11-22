@@ -7,6 +7,10 @@ use repository\ComplexContentObjectItem;
 use repository\RepositoryDataManager;
 use repository\RepositoryManager;
 use common\libraries\InCondition;
+use repository\ContentObject;
+use common\libraries\Session;
+use common\libraries\ConditionTranslator;
+use repository\ContentObjectPublicationAttributes;
 
 require_once dirname(__FILE__). '/../portfolio_data_manager.interface.class.php';
 

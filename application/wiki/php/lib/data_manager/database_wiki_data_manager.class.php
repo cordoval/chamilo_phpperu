@@ -8,6 +8,7 @@ use common\libraries\ConditionTranslator;
 use repository\RepositoryDataManager;
 use repository\ContentObjectPublicationAttributes;
 use repository\ContentObject;
+use common\libraries\Session;
 
 /**
  * $Id: database_wiki_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $

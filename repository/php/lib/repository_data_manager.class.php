@@ -144,7 +144,7 @@ class RepositoryDataManager
         $result = false;
         foreach ($applications as $index => $application_name)
         {
-            $result = call_user_func(array(WebApplication :: get_application_class_name($application_name), 'content_object_is_published'), $id);
+            $result = call_user_func(array(Webapplication :: determine_namespace($application_name) . '\\' . WebApplication :: get_application_class_name($application_name), 'content_object_is_published'), $id);
             if ($result)
             {
                 return true;
@@ -166,7 +166,7 @@ class RepositoryDataManager
         $result = false;
         foreach ($applications as $index => $application_name)
         {
-            $result = call_user_func(array('application\\'. $application_name .'\\' . WebApplication :: get_application_class_name($application_name), 'any_content_object_is_published'), $ids);
+            $result = call_user_func(array(Webapplication :: determine_namespace($application_name) . '\\' . WebApplication :: get_application_class_name($application_name), 'any_content_object_is_published'), $ids);
             if ($result)
             {
                 return true;
@@ -193,7 +193,7 @@ class RepositoryDataManager
         $info = array();
         foreach ($applications as $application_name)
         {
-            $attributes = call_user_func(array(WebApplication :: get_application_class_name($application_name), 'get_content_object_publication_attributes'), $id, $type, $offset, $count, $order_property);
+            $attributes = call_user_func(array(Webapplication :: determine_namespace($application_name) . '\\' . WebApplication :: get_application_class_name($application_name), 'get_content_object_publication_attributes'), $id, $type, $offset, $count, $order_property);
             if (! is_null($attributes) && count($attributes) > 0)
             {
                 $info = array_merge($info, $attributes);
@@ -217,7 +217,7 @@ class RepositoryDataManager
      */
     public static function get_content_object_publication_attribute($id, $application, $user)
     {
-        return call_user_func(array(WebApplication :: get_application_class_name($application), 'get_content_object_publication_attribute'), $id);
+        return call_user_func(array(Webapplication :: determine_namespace($application) . '\\' . WebApplication :: get_application_class_name($application), 'get_content_object_publication_attribute'), $id);
     }
 
     /**
@@ -372,7 +372,7 @@ class RepositoryDataManager
         $info = 0;
         foreach ($applications as $index => $application_name)
         {
-            $info += call_user_func(array(WebApplication :: get_application_class_name($application_name), 'count_publication_attributes'), $user, $object_id, $condition);
+            $info += call_user_func(array(Webapplication :: determine_namespace($application_name) . '\\' . WebApplication :: get_application_class_name($application_name), 'count_publication_attributes'), $user, $object_id, $condition);
         }
 
         $info += AdminManager :: count_publication_attributes($user, $object_id, $condition);
@@ -387,7 +387,7 @@ class RepositoryDataManager
      */
     public static function update_content_object_publication_id($publication_attr)
     {
-        return call_user_func(array(WebApplication :: get_application_class_name($publication_attr->get_application()), 'update_content_object_publication_id'), $publication_attr);
+        return call_user_func(array(Webapplication :: determine_namespace($publication_attr->get_application()) . '\\' . WebApplication :: get_application_class_name($publication_attr->get_application()), 'update_content_object_publication_id'), $publication_attr);
     }
 
     /**
@@ -418,7 +418,7 @@ class RepositoryDataManager
         $applications = self :: get_registered_applications();
         foreach ($applications as $index => $application_name)
         {
-            call_user_func(array(WebApplication :: get_application_class_name($application_name), 'delete_content_object_publications'), $object->get_id());
+            call_user_func(array(Webapplication :: determine_namespace($application_name) . '\\' . WebApplication :: get_application_class_name($application_name), 'delete_content_object_publications'), $object->get_id());
         }
 
         $admin = AdminDataManager :: get_instance()->delete_content_object_publications($object->get_id());
@@ -428,7 +428,7 @@ class RepositoryDataManager
 
     public static function delete_content_object_publication($application, $publication_id)
     {
-        return call_user_func(array(WebApplication :: get_application_class_name($application), 'delete_content_object_publication'), $publication_id);
+        return call_user_func(array(Webapplication :: determine_namespace($application) . '\\' . WebApplication :: get_application_class_name($application), 'delete_content_object_publication'), $publication_id);
     }
 
     /**
