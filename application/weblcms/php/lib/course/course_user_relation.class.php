@@ -38,6 +38,9 @@ class CourseUserRelation extends DataClass
     const PROPERTY_USER = 'user_id';
     const PROPERTY_STATUS = 'status';
 
+    const STATUS_TEACHER = 1;
+    const STATUS_STUDENT = 5;
+
     /**
      * Get the default properties of all course user relations.
      * @return array The property names.
