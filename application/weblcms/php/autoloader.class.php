@@ -45,6 +45,7 @@ class Autoloader
             'weblcms_assessment_attempts_tracker' => 'trackers/weblcms_assessment_attempts_tracker.class.php',
             'course_category' => 'category_manager/course_category.class.php',
             'course' => 'course/course.class.php',
+            'course_group_relation' => 'course/course_group_relation.class.php',
             'courses_rights_editor_manager' => 'courses_rights_editor/courses_rights_editor_manager.class.php',
             'database_weblcms_data_manager' => 'data_manager/database_weblcms_data_manager.class.php',
             'course_user_relation' => 'course/course_user_relation.class.php',
