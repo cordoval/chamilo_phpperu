@@ -20,6 +20,7 @@ class ExternalRepositoryInstanceManagerRightsEditorComponent extends ExternalRep
     function run()
     {
         $identifiers = Request :: get(self :: PARAM_INSTANCE);
+        $this->set_parameter(self :: PARAM_INSTANCE, $identifiers);
 
         $locations = array();
 

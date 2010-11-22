@@ -27,6 +27,7 @@ class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicat
     const CALENDAR_MONTH_VIEW = 'month';
     const CALENDAR_WEEK_VIEW = 'week';
     const CALENDAR_DAY_VIEW = 'day';
+    const CALENDAR_YEAR_VIEW = 'year';
 
     const PARAM_CALENDAR_VIEW = 'view';
 
@@ -118,6 +119,9 @@ class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicat
             case self :: CALENDAR_MONTH_VIEW :
                 $calendar = ContentObjectPublicationListRenderer :: factory(ContentObjectPublicationListRenderer :: TYPE_MONTH, $this->get_tool_browser());
                 break;
+            case self :: CALENDAR_YEAR_VIEW :
+                $calendar = ContentObjectPublicationListRenderer :: factory(ContentObjectPublicationListRenderer :: TYPE_YEAR, $this->get_tool_browser());
+                break;
             default :
                 $calendar = ContentObjectPublicationListRenderer :: factory(ContentObjectPublicationListRenderer :: TYPE_MONTH, $this->get_tool_browser());
                 break;
@@ -179,8 +183,9 @@ class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicat
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_VERTICAL);
         $toolbar->add_item(new ToolbarItem(Translation :: get('MonthView', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_month.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_MONTH_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Weekview', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_week.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_WEEK_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('WeekView', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_week.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_WEEK_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $toolbar->add_item(new ToolbarItem(Translation :: get('DayView', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_day.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_DAY_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('YearView', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_year.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_YEAR_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $toolbar->add_item(new ToolbarItem(Translation :: get('Today', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => $this->get_view(), 'time' => time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         $html = array();

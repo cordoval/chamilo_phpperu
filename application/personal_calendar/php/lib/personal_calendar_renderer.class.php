@@ -95,20 +95,20 @@ abstract class PersonalCalendarRenderer
         }
         if (! isset($this->legend[$key]))
         {
-            $color_number = substr(ereg_replace('[0a-zA-Z]', '', md5(serialize($key))), 0, 9);
+            $color_number = substr(preg_replace('[0a-zA-Z]', '', sha1(serialize($key))), 0, 9);
             $rgb = array();
             $rgb['r'] = substr($color_number, 0, 3) % 255;
             $rgb['g'] = substr($color_number, 2, 3) % 255;
             $rgb['b'] = substr($color_number, 4, 3) % 255;
-            
+
             $rgb['fr'] = round(($rgb['r'] + 234) / 2);
             $rgb['fg'] = round(($rgb['g'] + 234) / 2);
             $rgb['fb'] = round(($rgb['b'] + 234) / 2);
-            
+
             $this->legend[$key]['full'] = 'rgb(' . $rgb['r'] . ',' . $rgb['g'] . ',' . $rgb['b'] . ')';
             $this->legend[$key]['fade'] = 'rgb(' . $rgb['fr'] . ',' . $rgb['fg'] . ',' . $rgb['fb'] . ')';
         }
-        
+
         if ($fade)
         {
             return $this->legend[$key]['fade'];

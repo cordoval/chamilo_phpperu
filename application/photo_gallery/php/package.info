@@ -5,9 +5,15 @@
 		<code>photo_gallery</code>
 		<section>application</section>
 		<category>research</category>
-		<authors></authors>
+		<authors>
+			<author>
+				<name>Magali Gillard</name>
+				<email>magali.gillard@ehb.be</email>
+				<company>Erasmushogeschool Brussel</company>
+			</author>
+		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/applications/l/photo_gallery/photo_gallery-1.0.0.zip</filename>
+		<filename>pool/main/application/p/photo_gallery/photo_gallery-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

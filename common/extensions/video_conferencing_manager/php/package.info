@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<packages>
+	<package>
+		<name>Video conferencing manager</name>
+		<code>video_conferencing_manager</code>
+		<section>extension</section>
+		<category>core</category>
+		<authors>
+			<author>
+				<name>Magali Gillard</name>
+				<email>magali.gillard@ehb.be</email>
+				<company>Erasmushogeschool Brussel</company>
+			</author>
+		</authors>
+		<version>1.0.0</version>
+		<filename>pool/main/extension/v/video_conferencing_manager/video_conferencing_manager-1.0.0.zip</filename>
+		<size></size>
+		<md5></md5>
+		<sha1></sha1>
+		<sha256></sha256>
+		<sha512></sha512>
+		<tagline></tagline>
+		<description>Abstraction layer and general components for integrated video conferencing</description>
+		<homepage></homepage>
+		<dependencies>
+			<server>
+				<dependency>
+					<id>php</id>
+					<version type="4">5.3.0</version>
+					<severity>1</severity>
+				</dependency>
+			</server>
+		</dependencies>
+	</package>
+</packages>

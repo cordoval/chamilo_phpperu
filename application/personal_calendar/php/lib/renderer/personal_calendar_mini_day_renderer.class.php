@@ -79,7 +79,7 @@ class PersonalCalendarMiniDayRenderer extends PersonalCalendarRenderer
         $start_date = $event->get_start_date();
         $end_date = $event->get_end_date();
 
-        $html[] = '<div class="event" style="border-left: 5px solid ' . $this->get_color(Translation :: get(Application :: application_to_class($event->get_source()))) . ';">';
+        $html[] = '<div class="event" style="border-left: 5px solid ' . $this->get_color($event->get_source()) . ';">';
 
         if ($start_date >= $table_start_date && $start_date < $table_end_date)
         {

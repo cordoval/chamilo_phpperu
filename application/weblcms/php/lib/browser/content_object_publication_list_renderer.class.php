@@ -42,6 +42,7 @@ abstract class ContentObjectPublicationListRenderer
     const TYPE_MONTH = 'month_calendar';
     const TYPE_MINI_MONTH = 'mini_month_calendar';
     const TYPE_WEEK = 'week_calendar';
+    const TYPE_YEAR = 'year_calendar';
     const TYPE_DAY = 'day_calendar';
 
     protected $tool_browser;

@@ -13,7 +13,7 @@
 		
 		image.attr("class", "loadingMini");
 
-		$.post("./common/extensions/rights_editor_manager/resources/javascript/ajax/template_right_location.php", {
+		$.post("./common/extensions/rights_editor_manager/php/ajax/template_right_location.php", {
 			rights : id,
 			locations: locations
 			}, function(result)
@@ -22,7 +22,7 @@
 				{
 					var newClass = $.ajax({
 						type: "POST",
-						url: "./common/extensions/rights_editor_manager/resources/javascript/ajax/template_right_location_class.php",
+						url: "./common/extensions/rights_editor_manager/php/ajax/template_right_location_class.php",
 						data: { rights : id },
 						async: false
 					}).responseText;

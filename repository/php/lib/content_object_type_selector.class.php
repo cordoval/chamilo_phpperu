@@ -165,8 +165,8 @@ class ContentObjectTypeSelector
                 continue;
             }
 
-            $setting = PlatformSetting::get('allow_'. $type .'_creation', 'repository');
-            if (!$setting)
+            $setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
+            if (! $setting)
             {
                 continue;
             }
@@ -200,10 +200,15 @@ class ContentObjectTypeSelector
         asort($this->categories);
 
         $this->form = new FormValidator('select_content_object_type', 'post', $this->parent->get_url());
-        $this->form->addElement('select', self :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('CreateANew'), $this->as_tree(), array(
-                'class' => 'learning-object-creation-type postback'));
-        $this->form->addElement('style_submit_button', 'submit', Translation :: get('Select'), array(
-                'class' => 'normal select'));
+        $select = $this->form->addElement('select', self :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('CreateANew'), array(), array('class' => 'learning-object-creation-type postback'));
+
+        foreach ($this->as_tree() as $key => $type)
+        {
+            $attributes = (is_integer($key) && $key != 0) ? array('disabled') : array();
+            $select->addOption($type, $key, $attributes);
+        }
+
+        $this->form->addElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'normal select'));
     }
 
     function render_most_used()

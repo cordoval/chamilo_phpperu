@@ -1,10 +1,11 @@
 <?php
 namespace common\extensions\rights_editor_manager;
+
 use common\libraries\SubManager;
 use common\libraries\Session;
 use common\libraries\Request;
-use common\libraries\Path
-;use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Utilities;
 
 /**
  * $Id: rights_editor_manager.class.php 191 2009-11-13 11:50:28Z chellee $
@@ -12,7 +13,7 @@ use common\libraries\Path
  */
 class RightsEditorManager extends SubManager
 {
-    const PARAM_RIGHTS_EDITOR_ACTION = 'action';
+    const PARAM_RIGHTS_EDITOR_ACTION = 'rights_action';
 
     const ACTION_BROWSE_RIGHTS = 'browse';
     const ACTION_SET_USER_RIGHTS = 'set_user_rights';
@@ -32,7 +33,7 @@ class RightsEditorManager extends SubManager
     private $limited_groups;
     private $limited_users;
     private $limited_templates;
-    
+
     private $types;
 
     /**
@@ -44,14 +45,17 @@ class RightsEditorManager extends SubManager
         parent :: __construct($parent);
 
         $this->locations = $locations;
-        $this->excluded_users = array(Session :: get_user_id());
+        $this->excluded_users = array(
+                Session :: get_user_id());
         $this->excluded_groups = array();
 
         $this->included_users = array();
         $this->included_groups = array();
 
-        $this->types = array(self :: TYPE_USER, self :: TYPE_GROUP, self :: TYPE_TEMPLATE);
-        
+        $this->types = array(self :: TYPE_USER,
+                self :: TYPE_GROUP,
+                self :: TYPE_TEMPLATE);
+
         $rights_editor_action = Request :: get(self :: PARAM_RIGHTS_EDITOR_ACTION);
         if ($rights_editor_action)
         {
@@ -61,7 +65,7 @@ class RightsEditorManager extends SubManager
 
     function factory($content_object, $parent, $locations)
     {
-    	if ($content_object)
+        if ($content_object)
         {
             $type = $content_object->get_type_name();
             $file = Path :: get_repository_path() . 'content_object/' . $type . '/php/rights/' . $type . '_rights_editor_manager.class.php';
@@ -92,10 +96,10 @@ class RightsEditorManager extends SubManager
             case self :: ACTION_SET_GROUP_RIGHTS :
                 $component = $this->create_component('GroupRightsSetter');
                 break;
-            case self :: ACTION_SET_TEMPLATE_RIGHTS:
+            case self :: ACTION_SET_TEMPLATE_RIGHTS :
                 $component = $this->create_component('TemplateRightsSetter');
                 break;
-            case self :: ACTION_CHANGE_INHERIT:
+            case self :: ACTION_CHANGE_INHERIT :
                 $component = $this->create_component('InheritChanger');
                 break;
             default :
@@ -112,7 +116,7 @@ class RightsEditorManager extends SubManager
 
     function get_locations()
     {
-	   	return $this->locations;
+        return $this->locations;
     }
 
     function set_locations($locations)
@@ -134,7 +138,7 @@ class RightsEditorManager extends SubManager
     {
         $this->excluded_groups = $groups;
     }
-            
+
     function exclude_templates($templates)
     {
         $this->excluded_templates = $templates;
@@ -162,7 +166,7 @@ class RightsEditorManager extends SubManager
     {
         $this->limited_users = $users;
     }
-    
+
     /**
      * @param Array $templates An array of template ids
      */
@@ -183,7 +187,7 @@ class RightsEditorManager extends SubManager
     {
         return $this->limited_users;
     }
-    	
+
     function get_limited_templates()
     {
         return $this->limited_templates;

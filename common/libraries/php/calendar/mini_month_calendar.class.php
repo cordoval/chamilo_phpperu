@@ -20,22 +20,22 @@ class MiniMonthCalendar extends MonthCalendar
     public function __construct($display_time)
     {
         parent :: __construct($display_time);
-        
+
         $setting = PlatformSetting :: get('first_day_of_week');
-        
+
         if ($setting == 'sunday')
             $daynames[] = Translation :: get('SundayShort');
-        
+
         $daynames[] = Translation :: get('MondayShort');
         $daynames[] = Translation :: get('TuesdayShort');
         $daynames[] = Translation :: get('WednesdayShort');
         $daynames[] = Translation :: get('ThursdayShort');
         $daynames[] = Translation :: get('FridayShort');
         $daynames[] = Translation :: get('SaturdayShort');
-        
+
         if ($setting == 'monday')
             $daynames[] = Translation :: get('SundayShort');
-        
+
         $this->set_daynames($daynames);
         $this->updateAttributes('class="calendar_table mini_calendar"');
         //$this->setRowType(0, 'th');
@@ -58,49 +58,35 @@ class MiniMonthCalendar extends MonthCalendar
             }
             $row ++;
         }
-    
-    }
 
-    public function get_start_time()
-    {
-        $first_day = mktime(0, 0, 0, date('m', $this->get_display_time()), 1, date('Y', $this->get_display_time()));
-        
-        $setting = PlatformSetting :: get('first_day_of_week');
-        
-        if ($setting == 'sunday')
-        {
-            return strtotime('Next Sunday', strtotime('-1 Week', $first_day));
-        }
-        
-        return strtotime('Next Monday', strtotime('-1 Week', $first_day));
     }
 
     public function mark_period($period)
     {
         switch ($period)
         {
-            //			case self :: PERIOD_MONTH :
-            //				$rows = $this->getRowCount();
-            //				$top_row = 'style="border-left: 2px solid black;border-right: 2px solid black;border-top: 2px solid black;"';
-            //				$middle_row = 'style="border-left: 2px solid black;border-right: 2px solid black;"';
-            //				$bottom_row = 'style="border-left: 2px solid black;border-right: 2px solid black;border-bottom: 2px solid black;"';
-            //				for($row = 1; $row < $rows; $row++)
-            //				{
-            //					switch($row)
-            //					{
-            //						case 1:
-            //							$style = $top_row;
-            //							break;
-            //						case $rows-1:
-            //							$style = $bottom_row;
-            //							break;
-            //						default:
-            //							$style = $middle_row;
-            //							break;
-            //					}
-            //					$this->updateRowAttributes($row,$style,true);
-            //				}
+            //case self :: PERIOD_MONTH :
+            //	$rows = $this->getRowCount();
+            //	$top_row = 'style="border-left: 2px solid black;border-right: 2px solid black;border-top: 2px solid black;"';
+            //	$middle_row = 'style="border-left: 2px solid black;border-right: 2px solid black;"';
+            //	$bottom_row = 'style="border-left: 2px solid black;border-right: 2px solid black;border-bottom: 2px solid black;"';
+            //	for($row = 1; $row < $rows; $row++)
+            //	{
+            //		switch($row)
+            //		{
+            //			case 1:
+            //				$style = $top_row;
             //				break;
+            //			case $rows-1:
+            //				$style = $bottom_row;
+            //				break;
+            //			default:
+            //				$style = $middle_row;
+            //				break;
+            //		}
+            //		$this->updateRowAttributes($row,$style,true);
+            //	}
+            //	break;
             case self :: PERIOD_WEEK :
                 $monday = strtotime(date('Y-m-d 00:00:00', $this->get_start_time()));
                 $this_week = strtotime(date('Y-m-d 00:00:00', strtotime('+1 Week', $this->get_display_time())));
@@ -109,13 +95,13 @@ class MiniMonthCalendar extends MonthCalendar
                 $this->updateRowAttributes($row, 'style="background-color: #ffdfb9;"', false);
                 //$this->updateCellAttributes($row, date('N', $this->get_display_time()) - 1, 'style=""');
                 break;
-            //			case self :: PERIOD_DAY :
-        //				$day = strtotime(date('Y-m-d 00:00:00', $this->get_start_time()));
-        //				$today = $this->get_display_time();
-        //				$date_diff = floor(($today - $day) / (60 * 60 * 24));
-        //				$cell = $date_diff;
-        //				$this->updateCellAttributes(floor($cell / 7), $cell % 7, 'style="border: 2px solid black;"');
-        //				break;
+            //case self :: PERIOD_DAY :
+            //	$day = strtotime(date('Y-m-d 00:00:00', $this->get_start_time()));
+            //	$today = $this->get_display_time();
+            //	$date_diff = floor(($today - $day) / (60 * 60 * 24));
+            //	$cell = $date_diff;
+            //	$this->updateCellAttributes(floor($cell / 7), $cell % 7, 'style="border: 2px solid black;"');
+            //	break;
         }
     }
 

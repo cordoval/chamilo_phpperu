@@ -20,7 +20,7 @@ class PersonalCalendarJumpForm extends FormValidator
     const JUMP_DAY = 'day';
     const JUMP_MONTH = 'month';
     const JUMP_YEAR = 'year';
-    
+
     /**
      * Creates a new search form
      * @param RepositoryManager $manager The repository manager in which this
@@ -48,7 +48,7 @@ class PersonalCalendarJumpForm extends FormValidator
         $this->renderer->setFormTemplate('<form {attributes}><div class="jump_form">{content}</div><div class="clear">&nbsp;</div></form>');
         $this->renderer->setElementTemplate('<div class="row"><div class="formw">{element}</div></div>');
 
-        $this->addElement('static', null, null, Translation :: get('JumpTo', PersonalCalendarManager :: APPLICATION_NAME));
+        $this->addElement('static', null, null, Translation :: get('JumpTo', null, Utilities :: COMMON_LIBRARIES));
         $this->addElement('select', self :: JUMP_DAY, null, $this->get_days(), array('class' => 'postback'));
         $this->addElement('select', self :: JUMP_MONTH, null, $this->get_months(), array('class' => 'postback'));
         $this->addElement('select', self :: JUMP_YEAR, null, $this->get_years(), array('class' => 'postback'));
@@ -69,11 +69,11 @@ class PersonalCalendarJumpForm extends FormValidator
         $html[] = '</div>';
         return implode('', $html);
     }
-    
+
     function get_time()
     {
     	$values = $this->exportValues();
-    	return mktime(0, 0, 0, $values[self :: JUMP_MONTH], $values[self :: JUMP_DAY], $values[self :: JUMP_YEAR]); 
+    	return mktime(0, 0, 0, $values[self :: JUMP_MONTH], $values[self :: JUMP_DAY], $values[self :: JUMP_YEAR]);
     }
 
     function get_days()
@@ -87,18 +87,18 @@ class PersonalCalendarJumpForm extends FormValidator
     	}
     	return $days;
     }
-    
+
     function get_months()
     {
     	$MonthsLong = array(Translation :: get("JanuaryLong" , null , Utilities :: COMMON_LIBRARIES), Translation :: get("FebruaryLong" , null , Utilities :: COMMON_LIBRARIES), Translation :: get("MarchLong" , null , Utilities :: COMMON_LIBRARIES), Translation :: get("AprilLong" , null , Utilities :: COMMON_LIBRARIES), Translation :: get("MayLong" , null , Utilities :: COMMON_LIBRARIES), Translation :: get("JuneLong" , null , Utilities :: COMMON_LIBRARIES), Translation :: get("JulyLong" , null , Utilities :: COMMON_LIBRARIES), Translation :: get("AugustLong" , null , Utilities :: COMMON_LIBRARIES), Translation :: get("SeptemberLong" , null , Utilities :: COMMON_LIBRARIES), Translation :: get("OctoberLong" , null , Utilities :: COMMON_LIBRARIES), Translation :: get("NovemberLong" , null , Utilities :: COMMON_LIBRARIES), Translation :: get("DecemberLong" , null , Utilities :: COMMON_LIBRARIES));
 		$months = array();
     	foreach($MonthsLong as $key => $month)
 		{
-			$months[$key+1] = $month; 
-		}    	
+			$months[$key+1] = $month;
+		}
     	return $months;
     }
-    
+
     function get_years()
     {
     	$time = Request :: get(PersonalCalendarManager::PARAM_TIME) ? intval(Request :: get(PersonalCalendarManager::PARAM_TIME)) : time();

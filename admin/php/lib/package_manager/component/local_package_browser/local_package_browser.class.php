@@ -61,12 +61,12 @@ class LocalPackageBrowser
         {
             $selected = ($section == $current_section ? true : false);
 
-            $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($section) . 'Title'));
+            $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($section) . 'Packages'));
             $params = $this->manager->get_parameters();
             $params[PackageManager :: PARAM_SECTION] = $section;
             $link = $this->manager->get_url($params);
 
-            $tabs->add_tab(new DynamicVisualTab($action, $label, Theme :: get_image_path() . 'place_mini_' . $section . '.png', $link, $selected));
+            $tabs->add_tab(new DynamicVisualTab($section, $label, Theme :: get_image_path() . 'place_mini_' . $section . '.png', $link, $selected));
 
         }
 

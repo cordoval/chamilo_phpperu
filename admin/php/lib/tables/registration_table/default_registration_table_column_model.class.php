@@ -29,7 +29,7 @@ class DefaultRegistrationTableColumnModel extends ObjectTableColumnModel
     {
         $columns = array();
         $columns[] = new ObjectTableColumn(Registration :: PROPERTY_NAME);
-        $columns[] = new ObjectTableColumn(Registration :: PROPERTY_TYPE);
+//        $columns[] = new ObjectTableColumn(Registration :: PROPERTY_TYPE);
         $columns[] = new ObjectTableColumn(Registration :: PROPERTY_VERSION);
         //$columns[] = new ObjectTableColumn(Registration :: PROPERTY_STATUS);
         return $columns;
