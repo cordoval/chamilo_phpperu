@@ -28,7 +28,7 @@ MessageDate = ""
 MessageSubject = ""
 Message = ""
 PersonalMessage = ""
-
+SendRight = "Send right"
 PersonalMessenger = ""
 MostRecent = ""
 New = ""
