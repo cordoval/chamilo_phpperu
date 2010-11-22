@@ -103,11 +103,12 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     }
 
     function get_rights()
-    {   $user_id = $this->get_user_id();
+    {
+        $user_id = $this->get_user_id();
         $this->handbook_publication_id = Request :: get(HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID);
         $location_id = HandbookRights::get_location_id_by_identifier_from_handbooks_subtree($this->handbook_publication_id);
-        $this->view_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::EDIT_RIGHT, $location_id, $user_id);
-        $this->edit_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::VIEW_RIGHT, $location_id, $user_id);
+        $this->view_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::EDIT_RIGHT, $this->handbook_publication_id, $user_id);
+        $this->edit_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::VIEW_RIGHT, $this->handbook_publication_id, $user_id);
         
     }
 
@@ -148,7 +149,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                 $html[] = '</div>';
 
                 $html[] = '<div>';
-                    $menu = new HandbookMenu( 'run.php?application='.self::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'='.$this->handbook_id, $this->handbook_id, $this->handbook_publication_id);
+                $hpid = $this->handbook_publication_id;
+                $menu = new HandbookMenu( 'run.php?application='.self::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'='.$this->handbook_id,  $this->handbook_id, null, $hpid);
                     $html[] = $menu->render_as_tree();
                 $html[] = '</div>';
             $html[] = '</div>';
@@ -205,10 +207,12 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         //add handbook/item
 
         //set handbook rights
-        $actions[] = new ToolbarItem(Translation :: get('EditPublicationRights'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
+        if($this->edit_right)
+        {
+            $actions[] = new ToolbarItem(Translation :: get('EditPublicationRights'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
+        }
 
-
-        if($this->selected_object)
+        if($this->selected_object && $this->edit_right)
         {
             //create alternative context version
             $actions[] = new ToolbarItem(Translation :: get('CreateContextLink'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->selected_object->get_id())));
