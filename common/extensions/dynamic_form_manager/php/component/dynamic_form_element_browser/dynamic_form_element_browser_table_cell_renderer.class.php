@@ -5,6 +5,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 /**
  * $Id: dynamic_form_element_browser_table_cell_renderer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package application.common.dynamic_form_manager.component.dynamic_form_element_browser
@@ -39,7 +40,7 @@ class DynamicFormElementBrowserTableCellRenderer extends DefaultDynamicFormEleme
         {
             return $this->get_modification_links($dynamic_form_element);
         }
-        
+
         return parent :: render_cell($column, $dynamic_form_element);
     }
 
@@ -53,7 +54,7 @@ class DynamicFormElementBrowserTableCellRenderer extends DefaultDynamicFormEleme
     {
         $update_url = $this->browser->get_update_element_url($dynamic_form_element);
         $delete_url = $this->browser->get_delete_element_url($dynamic_form_element);
-        
+
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
         $toolbar->add_item(new ToolbarItem(
@@ -62,7 +63,7 @@ class DynamicFormElementBrowserTableCellRenderer extends DefaultDynamicFormEleme
         		$update_url,
         		ToolbarItem :: DISPLAY_ICON
         ));
-        
+
         $toolbar->add_item(new ToolbarItem(
         		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_delete.png',
@@ -70,7 +71,7 @@ class DynamicFormElementBrowserTableCellRenderer extends DefaultDynamicFormEleme
         		ToolbarItem :: DISPLAY_ICON,
         		true
         ));
-        
+
         return $toolbar->as_html();
     }
 }
