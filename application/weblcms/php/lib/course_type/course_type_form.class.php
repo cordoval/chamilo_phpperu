@@ -550,8 +550,8 @@ class CourseTypeForm extends CommonForm
         $tools_array = array();
         foreach ($tools as $tool)
         {
-            $element_name = $tool . "element";
-            $element_default = $tool . "elementdefault";
+            $element_name = $tool . "_element";
+            $element_default = $tool . "_elementdefault";
 
             if ($this->parse_checkbox_value($this->getSubmitValue($element_name)))
             {
