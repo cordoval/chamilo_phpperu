@@ -9,7 +9,7 @@ use user\User;
 class DefaultInternshipOrganizerMentorRelUserTableCellRenderer extends ObjectTableCellRenderer
 {
 
-    function DefaultInternshipOrganizerMentorRelUserTableCellRenderer()
+    function __construct()
     {
     }
 

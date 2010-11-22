@@ -1,14 +1,13 @@
 <?php
-use common\libraries\Path;
 /**
- * Photobucket API 
+ * Photobucket API
  * Fluent interface for PHP5
  * Base methods
- * 
+ *
  * @author Photobucket
  * @package PBAPI
  * @subpackage Methods
- * 
+ *
  * @copyright Copyright Copyright (c) 2008, Photobucket, Inc.
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
@@ -16,7 +15,7 @@ use common\libraries\Path;
 /**
  * Load Methods parent
  */
-require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Methods.php';
+require_once dirname(__FILE__) . '/../Methods.php';
 
 /**
  * Base API methods
@@ -25,7 +24,7 @@ require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Methods.
  * @subpackage Methods
  */
 class PBAPI_Methods_base extends PBAPI_Methods {
-    
+
     /**
      * Ping
      *
@@ -35,7 +34,7 @@ class PBAPI_Methods_base extends PBAPI_Methods {
         if (!empty($params)) $this->core->_setParamList($params);
         $this->core->_setUri('/ping');
     }
-    
+
     /**
      * Search
      *
@@ -50,7 +49,7 @@ class PBAPI_Methods_base extends PBAPI_Methods {
         $this->core->_setUri('/search/%s', $term);
         if (count($params)) $this->core->_setParamList($params);
     }
-    
+
     /**
      * Featured Media
      *
@@ -58,7 +57,7 @@ class PBAPI_Methods_base extends PBAPI_Methods {
     public function featured() {
         $this->core->_setUri('/featured');
     }
-    
+
     /**
      * User
      *
@@ -72,10 +71,10 @@ class PBAPI_Methods_base extends PBAPI_Methods {
         }
         $this->core->_setUri('/user/%s', $username);
         $this->core->_setParamList($params);
-        
+
         $this->_load('user');
     }
-    
+
     /**
      * Album
      *
@@ -84,13 +83,13 @@ class PBAPI_Methods_base extends PBAPI_Methods {
      */
     public function album($albumpath, $params = null) {
         if (!$albumpath) throw new PBAPI_Exception('albumpath required', $this->core);
-        
+
         $this->core->_setUri('/album/%s', $albumpath);
         $this->core->_setParamList($params);
-        
+
         $this->_load('album');
     }
-    
+
     /**
      * GroupAlbum
      *
@@ -99,13 +98,13 @@ class PBAPI_Methods_base extends PBAPI_Methods {
      */
     public function group($grouppath, $params = null) {
         if (!$grouppath) throw new PBAPI_Exception('grouppath required', $this->core);
-        
+
         $this->core->_setUri('/group/%s', $grouppath);
         $this->core->_setParamList($params);
-        
+
         $this->_load('group');
     }
-    
+
     /**
      * Media
      *
@@ -114,13 +113,13 @@ class PBAPI_Methods_base extends PBAPI_Methods {
      */
     public function media($mediaurl, $params = null) {
         if (!$mediaurl) throw new PBAPI_Exception('mediaurl required', $this->core);
-        
+
         $this->core->_setUri('/media/%s', $mediaurl);
         $this->core->_setParamList($params);
-        
+
         $this->_load('media');
     }
-    
+
     /**
      * Login
      *
@@ -135,13 +134,13 @@ class PBAPI_Methods_base extends PBAPI_Methods {
     }
 
     /**
-     * get accessor tokens 
-     * 
+     * get accessor tokens
+     *
      * @param array $params array(...)
      */
     public function accessor($params = null) {
         $this->core->_setUri('/accessor');
         $this->core->_setParamList($params);
     }
-    
+
 }

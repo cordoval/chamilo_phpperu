@@ -14,7 +14,7 @@ class CriteriaOption
     private $description;
 	private $score;
     
-    function CriteriaOption($description, $score)
+    function __construct($description, $score)
     {
 		$this->description = $description;
     	$this->score = $score;

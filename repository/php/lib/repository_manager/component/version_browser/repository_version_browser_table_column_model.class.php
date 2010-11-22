@@ -23,7 +23,7 @@ class RepositoryVersionBrowserTableColumnModel extends DefaultContentObjectTable
     /**
      * Constructor
      */
-    function RepositoryVersionBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(4);

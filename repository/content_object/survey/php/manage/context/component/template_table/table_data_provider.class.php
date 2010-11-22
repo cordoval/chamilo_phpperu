@@ -8,7 +8,7 @@ class SurveyTemplateTableDataProvider extends ObjectTableDataProvider
 
 	private $template_type;
 
-	function SurveyTemplateTableDataProvider($component, $condition, $template_type)
+	function __construct($component, $condition, $template_type)
     {
         $this->template_type = $template_type;
     	parent :: __construct($component, $condition);

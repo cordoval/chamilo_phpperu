@@ -13,7 +13,7 @@ class DefaultInternshipOrganizerOrganisationTableColumnModel extends ObjectTable
 	/**
 	 * Constructor
 	 */
-	function DefaultInternshipOrganizerOrganisationTableColumnModel() {
+	function __construct() {
 		parent::__construct ( self::get_default_columns (), 0 );
 	}
 	

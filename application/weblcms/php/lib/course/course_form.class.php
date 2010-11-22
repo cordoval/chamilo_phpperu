@@ -35,7 +35,7 @@ class CourseForm extends CommonForm
     private $user;
     private $course_type_id;
 
-    function CourseForm($form_type, $course, $user, $action, $parent)
+    function __construct($form_type, $course, $user, $action, $parent)
     {
         $this->course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
         $this->allow_no_course_type = $user->is_platform_admin() || PlatformSetting :: get('allow_course_creation_without_coursetype', 'weblcms');
@@ -267,7 +267,7 @@ class CourseForm extends CommonForm
         $language_disabled = $this->object->get_language_fixed();
         if ($language_disabled)
         {
-            $lang = $adm->retrieve_language_from_english_name($this->object->get_course_type()->get_settings()->get_language())->get_original_name();
+            $lang = $adm->retrieve_language_from_isocode($this->object->get_course_type()->get_settings()->get_language())->get_original_name();
             $this->addElement('static', 'static_language', Translation :: get('CourseTypeLanguage'), $lang);
             $this->addElement('hidden', CourseSettings :: PROPERTY_LANGUAGE, $lang);
         }

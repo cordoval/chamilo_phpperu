@@ -25,7 +25,7 @@ class LoginWebservice
 {
     private $webservice;
 
-    function LoginWebservice()
+    function __construct()
     {
         $this->webservice = Webservice :: factory($this);
     }

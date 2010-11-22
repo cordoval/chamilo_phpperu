@@ -12,7 +12,7 @@ namespace application\wiki;
 class ReportingWeblcms
 {
 
-    function ReportingWeblcms()
+    function __construct()
     {
     	
     }

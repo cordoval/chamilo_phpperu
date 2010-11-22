@@ -38,7 +38,7 @@ class SurveyBuilder extends ComplexBuilder implements ComplexMenuSupport
     //    const PARAM_TEMPLATE_REL_PAGE_ID = 'template_rel_page_id';
     const PARAM_COMPLEX_QUESTION_ITEM_ID = 'complex_question_item_id';
 
-    function SurveyBuilder($parent)
+    function __construct($parent)
     {
 		parent :: __construct($parent);
     }

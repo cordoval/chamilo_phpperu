@@ -23,7 +23,7 @@ class DoublesBrowserTableDataProvider extends ObjectTableDataProvider
      * @param DoublesManagerComponent $browser
      * @param Condition $condition
      */
-    function DoublesBrowserTableDataProvider($browser, $condition, $is_detail)
+    function __construct($browser, $condition, $is_detail)
     {
         parent :: __construct($browser, $condition);
         $this->is_detail = $is_detail;

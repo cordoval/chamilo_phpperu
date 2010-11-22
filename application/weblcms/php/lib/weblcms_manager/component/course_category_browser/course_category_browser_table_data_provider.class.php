@@ -21,7 +21,7 @@ class CourseCategoryBrowserTableDataProvider extends ObjectTableDataProvider
      * @param WeblcmsManagerComponent $browser
      * @param Condition $condition
      */
-    function CourseCategoryBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

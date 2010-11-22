@@ -8,8 +8,6 @@ use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\OptionsMenuRenderer;
 
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template.class.php';
 
 class SurveyContextTemplateMenu extends HTML_Menu
@@ -47,7 +45,7 @@ class SurveyContextTemplateMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function SurveyContextTemplateMenu($current_template, $root_co, $url_format = '?go=complex_builder&application=repository&builder_action=context_browser&object=%s&template_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_template = false)
+    function __construct($current_template, $root_co, $url_format = '?go=complex_builder&application=repository&builder_action=context_browser&object=%s&template_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_template = false)
     {
 
         //		dump($current_template);
@@ -208,6 +206,6 @@ class SurveyContextTemplateMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

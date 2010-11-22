@@ -26,7 +26,7 @@ class WikiDiscussBrowser extends ContentObjectPubFeedbackBrowser
 {
     private $feedbacks;
 
-    function WikiDiscussBrowser($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent, 'wiki');
 

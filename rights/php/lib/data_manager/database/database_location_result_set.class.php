@@ -28,7 +28,7 @@ class DatabaseLocationResultSet extends ResultSet
      * @param DB_result $handle The handle to retrieve records from a database
      * resultset
      */
-    function DatabaseLocationResultSet($data_manager, $handle)
+    function __construct($data_manager, $handle)
     {
         $this->data_manager = $data_manager;
         $this->handle = $handle;

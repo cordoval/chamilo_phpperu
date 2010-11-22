@@ -296,6 +296,10 @@ div.event_fade a {
 	height: 10px;
 }
 
+.year_calendar_table {
+	width: 100%;
+}
+
 /*****************************************************
  * EXTRA STYLES FOR ASSESSMENTS AND QUESTION OPTIONS *
  *****************************************************/

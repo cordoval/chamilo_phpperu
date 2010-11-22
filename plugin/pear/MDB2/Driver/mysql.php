@@ -81,7 +81,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
      */
     function __construct()
     {
-        parent::__construct();
+        parent :: __construct();
 
         $this->phptype = 'mysql';
         $this->dbsyntax = 'mysql';

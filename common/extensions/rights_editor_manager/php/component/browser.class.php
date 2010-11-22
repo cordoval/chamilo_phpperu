@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\rights_editor_manager;
 
+use common\libraries;
+
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
@@ -17,6 +19,9 @@ use common\libraries\AndCondition;
 use common\libraries\Utilities;
 use common\libraries\DynamicTabsRenderer;
 use common\libraries\DynamicContentTab;
+use common\libraries\DynamicVisualTabsRenderer;
+use common\libraries\DynamicVisualTab;
+
 use group\Group;
 use group\GroupMenu;
 use group\GroupDataManager;
@@ -52,15 +57,15 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $this->set_parameter(RightsEditorManager :: PARAM_GROUP, Request :: get(RightsEditorManager :: PARAM_GROUP));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('RightsEditorManagerBrowserComponent')));
 
-    	$this->type = Request :: get(self :: PARAM_TYPE);
-        if (!$this->type)
+        $this->type = Request :: get(self :: PARAM_TYPE);
+        if (! $this->type)
         {
             $allowed_types = $this->get_types();
             $this->type = $allowed_types[0];
         }
         else
         {
-            if(!in_array($this->type, $this->get_types()))
+            if (! in_array($this->type, $this->get_types()))
             {
                 $this->not_allowed();
             }
@@ -76,9 +81,8 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
 
     function get_display_html()
     {
-    	$html = array();
+        $html = array();
 
-        $html[] = $this->display_type_selector();
         $html[] = $this->action_bar->as_html() . '<br />';
         $html[] = $this->display_locations();
 
@@ -86,7 +90,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         {
             $html[] = $this->display_location_user_browser();
         }
-        elseif($this->type == self :: TYPE_GROUP)
+        elseif ($this->type == self :: TYPE_GROUP)
         {
             $html[] = $this->display_location_group_browser();
         }
@@ -98,14 +102,26 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $html[] = '<div class="clear"></div><br />';
         $html[] = RightsUtilities :: get_rights_legend();
 
-        return implode("\n", $html);
+        $tabs = new DynamicVisualTabsRenderer(Utilities :: get_classname_from_object($this, true) . '_type', implode("\n", $html));
+        foreach ($this->get_types() as $type)
+        {
+            $selected = ($type == $this->type ? true : false);
+
+            $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($type) . 'Rights'));
+            $link = $this->get_url(array(self :: PARAM_TYPE => $type));
+
+            $tabs->add_tab(new DynamicVisualTab($type, $label, Theme :: get_image_path() . 'place_' . $type . '.png', $link, $selected));
+
+        }
+
+        return $tabs->render();
     }
 
     function display_locations()
     {
-    	$html = array();
+        $html = array();
 
-    	$locations = array();
+        $locations = array();
 
         foreach ($this->get_locations() as $location)
         {
@@ -123,41 +139,41 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
 
     function display_location_user_browser()
     {
-    	$html = array();
+        $html = array();
 
-    	$parameters = $this->get_parameters();
+        $parameters = $this->get_parameters();
         $parameters[self :: PARAM_TYPE] = self :: TYPE_USER;
         $parameters['query'] = $this->action_bar->get_query();
         $table = new LocationUserBrowserTable($this, $parameters, $this->get_user_conditions());
         $html[] = '<div style="overflow: auto;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
-        //$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/extensions/rights_editor_manager/resources/javascript/configure_user.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/extensions/rights_editor_manager/resources/javascript/configure_user.js');
 
         return implode("\n", $html);
     }
 
     function display_location_template_browser()
     {
-    	$html = array();
+        $html = array();
 
-    	$parameters = $this->get_parameters();
+        $parameters = $this->get_parameters();
         $parameters[self :: PARAM_TYPE] = self :: TYPE_TEMPLATE;
         $parameters['query'] = $this->action_bar->get_query();
         $table = new LocationTemplateBrowserTable($this, $parameters, $this->get_template_conditions());
         $html[] = '<div style="overflow: auto;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
-        //$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/extensions/rights_editor_manager/resources/javascript/configure_template.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/extensions/rights_editor_manager/resources/javascript/configure_template.js');
 
         return implode("\n", $html);
     }
 
     function display_location_group_browser()
     {
-    	$html = array();
+        $html = array();
 
-    	$renderer_name = Utilities :: get_classname_from_object($this, true);
+        $renderer_name = Utilities :: get_classname_from_object($this, true) . '_groups';
         $tabs = new DynamicTabsRenderer($renderer_name);
 
         $html[] = '<div style="float: left; width: 18%; overflow: auto;">';
@@ -171,6 +187,9 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $html[] = '</div>';
         $html[] = '<div style="float: right; width: 80%; overflow:auto;">';
 
+        $table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_group_conditions(false));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights', null, 'rights'), Theme :: get_image_path('rights') . 'logo/16.png', $table->as_html()));
+
         $group_object = GroupDataManager :: get_instance()->retrieve_group($group);
         if ($group_object->has_children())
         {
@@ -178,23 +197,18 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
             $parameters[self :: PARAM_TYPE] = 'group';
             $parameters['query'] = $this->action_bar->get_query();
             $table = new LocationGroupBrowserTable($this, $parameters, $this->get_group_conditions());
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups', null, 'group'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups', null, 'group'), Theme :: get_image_path('group') . 'logo/16.png', $table->as_html()));
         }
-
-        $table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_group_conditions(false));
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights', null, 'rights'), Theme :: get_image_path('admin') . 'place_mini_rights.png', $table->as_html()));
 
         $html[] = $tabs->render();
         $html[] = '</div>';
-        //$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/extensions/rights_editor_manager/resources/javascript/configure_group.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/extensions/rights_editor_manager/resources/javascript/configure_group.js');
 
         return implode("\n", $html);
     }
 
     function display_type_selector()
     {
-        $types = $this->get_types();
-
         $html = array();
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/application.js');
         $html[] = '<div class="application_selecter">';
@@ -203,7 +217,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         {
             $current = $this->type == self :: TYPE_USER ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_USER)) . '">';
-            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_user.png);">' . Translation :: get('Users', null, 'user') . '</div>';
+            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('user') . 'logo/' . Theme :: ICON_BIG . '.png);">' . Translation :: get('Users', null, 'user') . '</div>';
             $html[] = '</a>';
         }
 
@@ -211,7 +225,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         {
             $current = $this->type == self :: TYPE_GROUP ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_GROUP)) . '">';
-            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_group.png);">' . Translation :: get('Groups', null, 'group') . '</div>';
+            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('group') . 'logo/' . Theme :: ICON_BIG . '.png);">' . Translation :: get('Groups', null, 'group') . '</div>';
             $html[] = '</a>';
         }
 
@@ -219,7 +233,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         {
             $current = $this->type == self :: TYPE_TEMPLATE ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_TEMPLATE)) . '">';
-            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_template.png);">' . Translation :: get('Templates', null, 'right') . '</div>';
+            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('rights') . 'place_template.png);">' . Translation :: get('Templates', null, 'rights') . '</div>';
             $html[] = '</a>';
         }
 
@@ -294,7 +308,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
             $conditions[] = new AndCondition($excluded_template_conditions);
         }
 
-        if(count($conditions) > 0)
+        if (count($conditions) > 0)
         {
             return new AndCondition($conditions);
         }
@@ -346,26 +360,27 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_TYPE => $this->type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $locations = $this->get_locations();
-        if(count($locations) == 1)
+        if (count($locations) == 1)
         {
                  $location = $locations[0];
         	if(location != null & $location->get_parent())
-        	{
-	        	$url = $this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_CHANGE_INHERIT));
-	        	if($location->inherits())
-	        	{
-	        		$action_bar->add_common_action(new ToolbarItem(Translation :: get('NoInherit'), Theme :: get_common_image_path() . 'action_setting_false_inherit.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-	        	}
-	        	else
-	        	{
-	        		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Inherit'), Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-	        	}
-        	}
+            {
+                $url = $this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_CHANGE_INHERIT));
+                if ($location->inherits())
+                {
+                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('NoInherit'), Theme :: get_common_image_path() . 'action_setting_false_inherit.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                }
+                else
+                {
+                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Inherit'), Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                }
+            }
         }
 
         return $action_bar;
     }
-    function  get_additional_parameters()
+
+    function get_additional_parameters()
     {
         return array();
     }

@@ -26,7 +26,7 @@ class ContentObjectPublisher
 {
     private $parent;
 
-    function ContentObjectPublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

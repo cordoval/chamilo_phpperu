@@ -11,7 +11,7 @@ class InternshipOrganizerLocationBrowserTableDataProvider extends ObjectTableDat
      * @param ApplicationComponent $browser
      * @param Condition $condition
      */
-    function InternshipOrganizerLocationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

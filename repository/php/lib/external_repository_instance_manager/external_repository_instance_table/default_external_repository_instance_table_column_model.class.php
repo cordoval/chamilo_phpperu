@@ -13,7 +13,7 @@ class DefaultExternalRepositoryInstanceTableColumnModel extends ObjectTableColum
     /**
      * Constructor
      */
-    function DefaultExternalRepositoryInstanceTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

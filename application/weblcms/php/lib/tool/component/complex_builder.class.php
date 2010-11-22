@@ -15,14 +15,18 @@ class ToolComponentComplexBuilderComponent extends ToolComponent
 
     function run()
     {
-        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+        $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT,$pid))
         {
-            $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($pid);
             $this->content_object = $publication->get_content_object();
             $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
 
             ComplexBuilder :: launch($this->content_object->get_type(), $this);
+        }
+        else
+        {
+            $this->redirect(Translation :: get("NotAllowed"), '', array(Tool :: PARAM_PUBLICATION_ID => null, 'tool_action' => null));
         }
     }
 

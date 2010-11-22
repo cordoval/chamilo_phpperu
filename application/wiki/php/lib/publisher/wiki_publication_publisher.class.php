@@ -13,7 +13,7 @@ class WikiPublicationPublisher
 {
     private $parent;
 
-    function WikiPublicationPublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

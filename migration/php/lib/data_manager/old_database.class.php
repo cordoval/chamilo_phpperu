@@ -8,7 +8,6 @@ use common\libraries\EqualityCondition;
  * @package migration.lib.data_manager
  */
 require_once dirname(__FILE__) . '/../migration_data_manager.class.php';
-require_once 'MDB2.php';
 
 /**
 ==============================================================================

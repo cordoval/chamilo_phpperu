@@ -17,7 +17,7 @@ abstract class ExternalRepositoryObjectDisplay
     /**
      * @param ExternalRepositoryObject $object
      */
-    function ExternalRepositoryObjectDisplay($object)
+    function __construct($object)
     {
         $this->object = $object;
     }

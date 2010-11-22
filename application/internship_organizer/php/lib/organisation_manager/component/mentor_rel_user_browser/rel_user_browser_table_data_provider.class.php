@@ -8,7 +8,7 @@ class InternshipOrganizerMentorRelUserBrowserTableDataProvider extends ObjectTab
     
     private $browser;
 
-    function InternshipOrganizerMentorRelUserBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     

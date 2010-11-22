@@ -18,7 +18,7 @@ class DefaultPublicationTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultPublicationTableCellRenderer()
+    function __construct()
     {
     }
 

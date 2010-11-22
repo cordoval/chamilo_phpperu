@@ -17,7 +17,7 @@ class GroupMetadataPropertyValueBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function GroupMetadataPropertyValueBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new GroupMetadataPropertyValueBrowserTableColumnModel();
         $renderer = new GroupMetadataPropertyValueBrowserTableCellRenderer($browser);

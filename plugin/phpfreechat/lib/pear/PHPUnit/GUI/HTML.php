@@ -73,7 +73,7 @@ class PHPUnit_GUI_HTML
     *                 be using the SetupDecorator, which detects them automatically
     *                 when calling getSuitesFromDir()
     */
-    function PHPUnit_GUI_HTML($suites = array())
+    function __construct($suites = array())
     {
         if (!is_array($suites)) {
             $this->_suites = array($suites);

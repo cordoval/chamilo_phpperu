@@ -14,7 +14,7 @@ class DefaultAnnouncementDistributionTableCellRenderer extends ObjectTableCellRe
     /**
      * Constructor
      */
-    function DefaultAnnouncementDistributionTableCellRenderer()
+    function __construct()
     {
     }
 

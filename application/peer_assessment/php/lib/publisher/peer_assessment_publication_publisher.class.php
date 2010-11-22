@@ -19,7 +19,7 @@ class PeerAssessmentPublicationPublisher
 
     private $parent;
 
-    function PeerAssessmentPublicationPublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

@@ -11,7 +11,7 @@ class VimeoExternalRepositoryGalleryTable extends GalleryObjectTable
 {
     const DEFAULT_NAME = 'vimeo_external_repository_gallery_table';
 
-    function VimeoExternalRepositoryGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $data_provider = new VimeoExternalRepositoryGalleryTableDataProvider($browser, $condition);
         $renderer = new VimeoExternalRepositoryGalleryTableCellRenderer($browser);

@@ -23,7 +23,7 @@ require_once dirname(__FILE__) . '/../blocks/user_no_of_users_reporting_block.cl
 class UserReportingTemplate extends ReportingTemplate
 {
 
-    function UserReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
 

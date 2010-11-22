@@ -35,7 +35,7 @@ class Dokeos185TrackEUploads extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackEUploads object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackEUploads($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

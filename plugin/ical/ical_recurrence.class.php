@@ -45,7 +45,7 @@ class IcalRecurrence
 
     private $debug = false;
 
-    function IcalRecurrence(vevent $event, $from_date, $to_date)
+    function __construct(vevent $event, $from_date, $to_date)
     {
     	//$from_date = ($from_date + $to_date) / 2;
         //$this_day = date('d', $from_date);

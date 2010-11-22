@@ -29,7 +29,7 @@ class EvaluationManager extends SubManager
     private $publication_id;
     private $trail;
 
-    function EvaluationManager($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
     }

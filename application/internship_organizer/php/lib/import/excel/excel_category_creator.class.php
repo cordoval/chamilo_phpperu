@@ -7,7 +7,7 @@ class ExcelCategoryCreator
     
     private $parent_category_id;
 
-    function ExcelCategoryCreator($parent_category_id)
+    function __construct($parent_category_id)
     {
         $this->parent_category_id = $parent_category_id;
     }

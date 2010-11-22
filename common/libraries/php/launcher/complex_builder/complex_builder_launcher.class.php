@@ -9,7 +9,7 @@ class ComplexBuilderLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'complex_builder';
 
-    function ComplexBuilderLauncher($user)
+    function __construct($user)
     {
         parent :: __construct($user);
     }

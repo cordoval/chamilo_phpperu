@@ -21,7 +21,7 @@ class InternshipOrganizerLocationRelMomentForm extends FormValidator
     private $location_rel_moment;
     private $user;
 
-    function InternshipOrganizerLocationRelMomentForm($form_type, $location_rel_moment, $action, $user)
+    function __construct($form_type, $location_rel_moment, $action, $user)
     {
         parent :: __construct('location_rel_moment_settings', 'post', $action);
         

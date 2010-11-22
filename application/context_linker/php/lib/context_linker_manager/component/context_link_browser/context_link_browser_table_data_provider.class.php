@@ -15,7 +15,7 @@ class ContextLinkBrowserTableDataProvider extends ObjectTableDataProvider
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function ContextLinkBrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
         parent :: __construct($browser, $condition);
   }

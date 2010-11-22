@@ -8,7 +8,7 @@ use group\Group;
 class DefaultInternshipOrganizerPeriodRelGroupTableCellRenderer extends ObjectTableCellRenderer
 {
 
-    function DefaultInternshipOrganizerPeriodRelGroupTableCellRenderer()
+    function __construct()
     {
     }
 

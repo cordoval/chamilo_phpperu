@@ -19,7 +19,7 @@ class WhoisOnlineTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function WhoisOnlineTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new WhoisOnlineTableColumnModel();
         $renderer = new WhoisOnlineTableCellRenderer($browser);

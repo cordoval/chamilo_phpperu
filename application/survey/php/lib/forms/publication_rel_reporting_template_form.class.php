@@ -20,7 +20,7 @@ class SurveyPublicationRelReportingTemplateRegistrationForm extends FormValidato
     private $user;
     private $parent;
 
-    function SurveyPublicationRelReportingTemplateRegistrationForm($parent, $form_type, $publication_rel_reporting_template_registration, $action, $user)
+    function __construct($parent, $form_type, $publication_rel_reporting_template_registration, $action, $user)
     {
         parent :: __construct('create_publication_rel_reporting_template_registration', 'post', $action);
         

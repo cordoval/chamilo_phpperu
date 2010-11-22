@@ -68,7 +68,7 @@ class MichelangeloPublicationTable
 	 *                                                       Omit to use the
 	 *                                                       default renderer.
 	 */
-	function MichelangeloPublicationTable($data_provider, $table_name = null, $cell_renderer = null, $properties = array())
+	function __construct($data_provider, $table_name = null, $cell_renderer = null, $properties = array())
 	{
 		$this->set_data_provider($data_provider);
 		$this->set_name(isset($table_name) ? $table_name : self :: DEFAULT_NAME);

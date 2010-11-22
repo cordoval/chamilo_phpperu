@@ -29,7 +29,7 @@ class BuddyListCategoryForm extends FormValidator
     /**
      * Creates a new LanguageForm
      */
-    function BuddyListCategoryForm($form_type, $action, $category, $user, $manager)
+    function __construct($form_type, $action, $category, $user, $manager)
     {
         parent :: __construct('category_form', 'post', $action);
 

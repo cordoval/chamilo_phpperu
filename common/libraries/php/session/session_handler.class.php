@@ -50,7 +50,7 @@ class session_handler
     
     var $sessionName;
 
-    function session_handler()
+    function __construct()
     {
         
         $this->lifetime = 60; // 60 minutes

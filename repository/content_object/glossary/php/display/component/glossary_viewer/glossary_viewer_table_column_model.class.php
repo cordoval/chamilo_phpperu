@@ -27,7 +27,7 @@ class GlossaryViewerTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor.
      */
-    function GlossaryViewerTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_columns(), 1, SORT_ASC);
     }

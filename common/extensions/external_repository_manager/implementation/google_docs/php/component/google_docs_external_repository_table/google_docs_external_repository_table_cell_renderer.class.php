@@ -26,7 +26,7 @@ class GoogleDocsExternalRepositoryTableCellRenderer extends DefaultExternalRepos
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function GoogleDocsExternalRepositoryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

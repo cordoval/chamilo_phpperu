@@ -14,7 +14,7 @@ class SurveyPageQuestionBrowserTable extends ObjectTable
     const DEFAULT_NAME = 'survey_page_question_browser_table';
 
 
-    function SurveyPageQuestionBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
 
 

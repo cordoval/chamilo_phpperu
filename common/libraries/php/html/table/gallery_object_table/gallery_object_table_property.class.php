@@ -35,7 +35,7 @@ class GalleryObjectTableProperty
      *                                                   object property, false
      *                                                   otherwise.
      */
-    function GalleryObjectTableProperty($property, $storage_unit_alias = null)
+    function __construct($property, $storage_unit_alias = null)
     {
         $this->property = $property;
         $this->title = Translation :: get(Utilities :: underscores_to_camelcase($this->property));

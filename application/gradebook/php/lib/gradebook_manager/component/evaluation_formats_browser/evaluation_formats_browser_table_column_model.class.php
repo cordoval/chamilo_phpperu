@@ -19,7 +19,7 @@ class EvaluationFormatsBrowserTableColumnModel extends DefaultEvaluationFormatsT
     /**
      * Constructor
      */
-    function EvaluationFormatsBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->set_default_order_column(1);

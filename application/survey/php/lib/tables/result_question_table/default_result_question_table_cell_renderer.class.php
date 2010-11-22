@@ -22,7 +22,7 @@ class DefaultResultQuestionTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultResultQuestionTableCellRenderer()
+    function __construct()
     {
     }
 

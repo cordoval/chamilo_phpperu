@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../blocks/user_no_of_logins_reporting_block.c
 class UserLoginsReportingTemplate extends ReportingTemplate
 {
 
-    function UserLoginsReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         $user_id = Request :: get(UserManager::PARAM_USER_USER_ID);

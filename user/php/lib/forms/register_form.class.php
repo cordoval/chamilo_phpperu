@@ -38,7 +38,7 @@ class RegisterForm extends FormValidator
      * Creates a new RegisterForm
      * Used for a guest to register him/herself
      */
-    function RegisterForm($user, $action)
+    function __construct($user, $action)
     {
         parent :: __construct('user_settings', 'post', $action);
 

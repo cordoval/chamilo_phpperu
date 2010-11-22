@@ -19,7 +19,7 @@ class VariableBrowserTableDataProvider extends ObjectTableDataProvider
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function VariableBrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }

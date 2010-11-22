@@ -26,7 +26,7 @@ class DefaultPhrasesPublicationTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultPhrasesPublicationTableCellRenderer()
+    function __construct()
     {
     }
 

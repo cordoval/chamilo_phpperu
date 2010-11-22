@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../authentication.class.php';
 class PlatformAuthentication extends Authentication implements ChangeablePassword, ChangeableUsername
 {
 
-    function PlatformAuthentication()
+    function __construct()
     {
     }
 

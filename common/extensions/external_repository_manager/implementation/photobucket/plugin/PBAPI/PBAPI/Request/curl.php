@@ -1,14 +1,13 @@
 <?php
-use common\libraries\Path;
 /**
- * Photobucket API 
+ * Photobucket API
  * Fluent interface for PHP5
  * CURL request interface
- * 
+ *
  * @author Photobucket
  * @package PBAPI
  * @subpackage Request
- * 
+ *
  * @copyright Copyright Copyright (c) 2008, Photobucket, Inc.
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
@@ -16,17 +15,17 @@ use common\libraries\Path;
 /**
  * Load Request parent
  */
-require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Request.php';
+require_once dirname(__FILE__) . '/../Request.php';
 
 /**
  * CURL request strategy
  * Requires CURL to be available and loaded
- * 
+ *
  * @package PBAPI
  * @subpackage Request
  */
 class PBAPI_Request_curl extends PBAPI_Request {
-    
+
     /**
      * Do actual request
      *
@@ -37,12 +36,12 @@ class PBAPI_Request_curl extends PBAPI_Request {
      */
     protected function request($method, $uri, $params = array()) {
         $url = $this->preRequest($method, $uri, $params);
-        
+
         $curl_opts = $this->request_params;
-        
+
         //overridable
         if (empty($curl_opts[CURLOPT_USERAGENT])) $curl_opts[CURLOPT_USERAGENT] = __CLASS__;
-        
+
         //static
         $curl_opts[CURLOPT_HEADER] = 0;
         $curl_opts[CURLOPT_FOLLOWLOCATION] = 1;
@@ -55,14 +54,14 @@ class PBAPI_Request_curl extends PBAPI_Request {
         $ch = curl_init($url);
         curl_setopt_array($ch, $curl_opts);
         $data = curl_exec($ch);
-        
+
         if ($cerror = curl_errno($ch)) {
             throw new PBAPI_Exception('CURL: '.curl_error($ch), $cerror);
         }
-        
+
         curl_close($ch);
-        
+
         return $data;
     }
-    
+
 }

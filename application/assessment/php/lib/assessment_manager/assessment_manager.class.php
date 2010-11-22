@@ -52,7 +52,7 @@ class AssessmentManager extends WebApplication
      * Constructor
      * @param User $user The current user
      */
-    function AssessmentManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
     }

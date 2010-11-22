@@ -24,7 +24,7 @@ class VariableTranslationBrowserTable extends ObjectTable
 	/**
 	 * Constructor
 	 */
-	function VariableTranslationBrowserTable($browser, $parameters, $condition)
+	function __construct($browser, $parameters, $condition)
 	{
 		$model = new VariableTranslationBrowserTableColumnModel();	
 		$renderer = new VariableTranslationBrowserTableCellRenderer($browser);

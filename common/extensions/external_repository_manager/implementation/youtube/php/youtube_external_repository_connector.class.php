@@ -13,17 +13,16 @@ use common\libraries\Translation;
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
-
 use repository\ExternalRepositoryUserSetting;
 use repository\RepositoryDataManager;
 use repository\ExternalRepositorySetting;
 
-use Zend_Loader;
-use Zend_Gdata_AuthSub;
-use Zend_Gdata_YouTube;
-use Zend_Gdata_YouTube_VideoEntry;
+use \Zend_Loader;
+use \Zend_Gdata_AuthSub;
+use \Zend_Gdata_YouTube;
+use \Zend_Gdata_YouTube_VideoEntry;
 
-require_once 'Zend/Loader.php';
+
 require_once dirname(__FILE__) . '/youtube_external_repository_object.class.php';
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';
 require_once dirname(__FILE__) . '/youtube_external_repository_manager.class.php';
@@ -38,7 +37,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
     const VIEW_COUNT = 'viewCount';
     const RATING = 'rating';
 
-    function YoutubeExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
 
@@ -86,7 +85,10 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
 
     static function get_sort_properties()
     {
-        return array(self :: RELEVANCE, self :: PUBLISHED, self :: VIEW_COUNT, self :: RATING);
+        return array(self :: RELEVANCE,
+                self :: PUBLISHED,
+                self :: VIEW_COUNT,
+                self :: RATING);
     }
 
     function is_editable($id)
@@ -196,7 +198,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
                 $new_query->setMaxResults($query->getMaxResults());
                 return @ $this->youtube->getVideoFeed($new_query->getQueryUrl(2));
             default :
-                return @ $this->youtube->getVideoFeed($query->getQueryUrl(2));
+                return $this->youtube->getUserUploads('default', $query->getQueryUrl(2));
         }
     }
 

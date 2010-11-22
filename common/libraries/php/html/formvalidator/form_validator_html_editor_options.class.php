@@ -180,9 +180,7 @@ abstract class FormValidatorHtmlEditorOptions
     					$this->set_option($available_option, Theme :: get_theme());
     					break;
     				case self :: OPTION_LANGUAGE :
-//    					global $language_interface;
-//    					Translation :: get_language();
-				        $editor_lang = AdminDataManager :: get_instance()->retrieve_language_from_english_name(Translation :: get_language())->get_isocode();
+				        $editor_lang = Translation :: get_language();
     					$this->set_option($available_option, $editor_lang);
     					break;
 

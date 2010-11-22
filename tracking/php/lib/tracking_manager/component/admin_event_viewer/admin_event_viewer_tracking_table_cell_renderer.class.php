@@ -27,7 +27,7 @@ class AdminEventViewerTrackingTableCellRenderer
      * Constructor
      * @param AdminTrackingBrowser $browser The browser where this renderer belongs to
      */
-    function AdminEventViewerTrackingTableCellRenderer($eventviewer, $event)
+    function __construct($eventviewer, $event)
     {
         $this->eventviewer = $eventviewer;
         $this->event = $event;

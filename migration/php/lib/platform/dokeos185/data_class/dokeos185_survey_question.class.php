@@ -47,7 +47,7 @@ class Dokeos185SurveyQuestion extends Dokeos185CourseDataMigrationDataClass
      * Creates a new Dokeos185SurveyQuestion object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185SurveyQuestion($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

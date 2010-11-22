@@ -19,7 +19,7 @@ class ForumPostBrowserTableColumnModel extends ComplexBrowserTableColumnModel
     /**
      * Constructor
      */
-    function ForumPostBrowserTableColumnModel($show_subitems_column)
+    function __construct($show_subitems_column)
     {
         $columns[] = new StaticTableColumn(Translation :: get('AddDate'));
         parent :: __construct($show_subitems_column, $columns);

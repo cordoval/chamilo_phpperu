@@ -20,7 +20,7 @@ class EmailManager extends SubManager
 
 	private $target_users;
 
-    function EmailManager($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
 

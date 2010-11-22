@@ -28,7 +28,7 @@ abstract class Application
 
     const PLACEHOLDER_APPLICATION = '__APPLICATION__';
 
-    function Application($user)
+    function __construct($user)
     {
         $this->user = $user;
         $this->parameters = array();
@@ -643,10 +643,13 @@ abstract class Application
         $table_name = Request :: post('table_name');
         if (isset($table_name))
         {
+            $namespace = Request :: post($table_name . '_namespace');
             $class = Utilities :: underscores_to_camelcase($table_name);
-            if (class_exists($class))
+            $classname = $namespace . '\\' . $class;
+
+            if (class_exists($classname))
             {
-                call_user_func(array($class, 'handle_table_action'));
+                call_user_func(array($classname, 'handle_table_action'));
 
                 $table_action_name = Request :: post($table_name . '_action_name');
                 $table_action_value = Request :: post($table_name . '_action_value');

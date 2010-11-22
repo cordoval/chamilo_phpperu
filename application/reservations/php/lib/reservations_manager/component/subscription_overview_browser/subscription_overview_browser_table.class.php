@@ -23,7 +23,7 @@ class SubscriptionOverviewBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function SubscriptionOverviewBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new SubscriptionOverviewBrowserTableColumnModel($browser);
         $renderer = new SubscriptionOverviewBrowserTableCellRenderer($browser);

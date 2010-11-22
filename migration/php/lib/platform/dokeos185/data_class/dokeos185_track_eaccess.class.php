@@ -39,7 +39,7 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackEAccess object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackEAccess($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

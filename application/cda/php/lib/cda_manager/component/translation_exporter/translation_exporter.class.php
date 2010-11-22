@@ -26,7 +26,7 @@ abstract class TranslationExporter
      * @param Array languages - ids
      * @param Array language_packs - ids
      */
-    public function TranslationExporter($user, $languages, $language_packs)
+    public function __construct($user, $languages, $language_packs)
     {
     	$this->set_user($user);
     	$this->set_languages($languages);

@@ -15,7 +15,7 @@ class DefaultGroupTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultGroupTableCellRenderer()
+    function __construct()
     {
     }
 

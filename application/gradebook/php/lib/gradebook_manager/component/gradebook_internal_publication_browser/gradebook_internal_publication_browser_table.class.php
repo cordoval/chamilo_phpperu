@@ -16,7 +16,7 @@ class GradebookInternalPublicationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function GradebookInternalPublicationBrowserTable($browser, $parameters)
+    function __construct($browser, $parameters)
     {
         $model = new GradebookInternalPublicationBrowserTableColumnModel($browser);
         $renderer = new GradebookInternalPublicationBrowserTableCellRenderer($browser);

@@ -19,7 +19,7 @@ require_once dirname(__FILE__) . '/../../../../trackers/assessment_assessment_at
 class AssessmentResultsExportForm extends FormValidator
 {
 
-    function AssessmentResultsExportForm($url)
+    function __construct($url)
     {
         parent :: __construct('assessment', 'post', $url);
         $this->initialize();

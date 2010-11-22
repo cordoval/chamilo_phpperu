@@ -24,35 +24,36 @@ class CategoryBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function CategoryBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new CategoryBrowserTableColumnModel($browser);
         $renderer = new CategoryBrowserTableCellRenderer($browser);
         $data_provider = new CategoryBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
-        
+
         if ($browser->get_user() && $browser->get_user()->is_platform_admin())
         {
-            $actions = new ObjectTableFormActions(CategoryManager :: PARAM_ACTION);
-            
+            $actions = new ObjectTableFormActions(__NAMESPACE__, CategoryManager :: PARAM_ACTION);
+
             $actions->add_form_action(new ObjectTableFormAction(CategoryManager :: ACTION_DELETE_CATEGORY, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));
-            
+
             if($browser->get_subcategories_allowed())
             {
             	$actions->add_form_action(new ObjectTableFormAction(CategoryManager :: ACTION_CHANGE_CATEGORY_PARENT, Translation :: get('MoveSelected', null, Utilities :: COMMON_LIBRARIES), false));
             }
-            
+
             $this->set_form_actions($actions);
         }
-        
+
         $this->set_default_row_count(20);
     }
-    
+
     function handle_table_action()
     {
-    	$ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
-    	Request :: set_get(CategoryManager :: PARAM_CATEGORY_ID, $ids);	
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+    	$ids = self :: get_selected_ids($class);
+    	Request :: set_get(CategoryManager :: PARAM_CATEGORY_ID, $ids);
     }
 }
 ?>

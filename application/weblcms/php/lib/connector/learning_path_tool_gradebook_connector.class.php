@@ -3,11 +3,10 @@ namespace application\weblcms;
 
 use common\libraries\EqualityCondition;
 
-require_once dirname(__FILE__) . '/../trackers/weblcms_lp_attempt_tracker.class.php';
 class LearningPathToolGradebookConnector
 {
 
-    function LearningPathToolGradebookConnector()
+    function __construct()
     {
 
     }

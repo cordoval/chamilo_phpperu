@@ -5,12 +5,16 @@ use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use common\libraries\Utilities;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
 
 use repository\ExternalRepositorySetting;
+use repository\content_object\document\Document;
 
 require_once dirname(__FILE__) . '/hq23_external_repository_connector.class.php';
 
@@ -31,7 +35,7 @@ class Hq23ExternalRepositoryManager extends ExternalRepositoryManager
     /**
      * @param Application $application
      */
-    function Hq23ExternalRepositoryManager($external_repository, $application)
+    function __construct($external_repository, $application)
     {
         parent :: __construct($external_repository, $application);
         $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
@@ -93,7 +97,7 @@ class Hq23ExternalRepositoryManager extends ExternalRepositoryManager
         $my_photos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_PHOTOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $my_photos['class'] = 'user';
         $menu_items[] = $my_photos;
-        
+
         $general = array();
         $general['title'] = Translation :: get('Public');
         $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));

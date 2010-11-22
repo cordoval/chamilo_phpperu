@@ -11,7 +11,7 @@ class Objectives
     private $objectives;
     private $primary_objective;
 
-    function Objectives()
+    function __construct()
     {
         $this->objectives = array();
     }

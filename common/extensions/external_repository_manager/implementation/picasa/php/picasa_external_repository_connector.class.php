@@ -15,16 +15,16 @@ use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use repository\ExternalRepositoryUserSetting;
 use repository\RepositoryDataManager;
 
-use Zend_Loader;
-use Zend_Gdata_AuthSub;
-use Zend_Gdata_Photos;
-use Zend_Gdata_Photos_UserQuery;
-use Zend_Gdata_Photos_PhotoQuery;
-use Zend_Gdata_Media_Extension_MediaKeywords;
-use Zend_Gdata_Media_Extension_MediaGroup;
-use Zend_Gdata_Photos_PhotoEntry;
+use \Zend_Loader;
+use \Zend_Gdata_AuthSub;
+use \Zend_Gdata_Photos;
+use \Zend_Gdata_Photos_UserQuery;
+use \Zend_Gdata_Photos_PhotoQuery;
+use \Zend_Gdata_Media_Extension_MediaKeywords;
+use \Zend_Gdata_Media_Extension_MediaGroup;
+use \Zend_Gdata_Photos_PhotoEntry;
 
-require_once 'Zend/Loader.php';
+
 require_once dirname(__FILE__) . '/picasa_external_repository_object.class.php';
 
 class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
@@ -35,6 +35,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
     private $picasa;
 
     const PHOTOS_MINE = 'mine';
+    const PHOTOS_PUBLIC = 'public';
 
     /**
      * The id of the user on Picasa
@@ -45,7 +46,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
     /**
      * @param ExternalRepository $external_repository_instance
      */
-    function PicasaExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
 
@@ -231,13 +232,18 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $folder = Request :: get(ExternalRepositoryManager :: PARAM_FOLDER);
 
+        if(!$folder)
+        {
+            $folder = self :: PHOTOS_MINE;
+        }
+
         if ($folder == self :: PHOTOS_MINE)
         {
             $query = $this->picasa->newUserQuery();
             $query->setUser('default');
             $query->setKind('photo');
         }
-        else
+        elseif ($folder == self :: PHOTOS_PUBLIC)
         {
             $query = $this->picasa->newQuery("http://picasaweb.google.com/data/feed/api/all");
             $query->setParam("kind", "photo");

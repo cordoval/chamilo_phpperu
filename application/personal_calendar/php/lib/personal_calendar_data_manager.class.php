@@ -32,7 +32,7 @@ class PersonalCalendarDataManager
     /**
      * Constructor. Initializes the data manager.
      */
-    protected function PersonalCalendarDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

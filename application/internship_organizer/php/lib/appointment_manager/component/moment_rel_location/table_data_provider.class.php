@@ -6,7 +6,7 @@ use common\libraries\ObjectTableDataProvider;
 class InternshipOrganizerMomentRelLocationBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
-    function InternshipOrganizerMomentRelLocationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

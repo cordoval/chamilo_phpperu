@@ -18,7 +18,7 @@ class BuddyListItemForm extends FormValidator
     private $parent;
     private $user;
 
-    function BuddyListItemForm($user, $action)
+    function __construct($user, $action)
     {
         parent :: __construct('buddy_list_item_form', 'post', $action);
 

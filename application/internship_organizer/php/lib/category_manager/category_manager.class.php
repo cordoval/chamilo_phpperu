@@ -43,7 +43,7 @@ class InternshipOrganizerCategoryManager extends SubManager
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_CATEGORIES;
 
-    function InternshipOrganizerCategoryManager($internship_manager)
+    function __construct($internship_manager)
     {
         parent :: __construct($internship_manager);
         $action = Request :: get(self :: PARAM_ACTION);

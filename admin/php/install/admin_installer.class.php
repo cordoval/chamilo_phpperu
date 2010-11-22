@@ -1,9 +1,12 @@
 <?php
 namespace admin;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Installer;
 use common\libraries\Filesystem;
+use common\libraries\Path;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 /**
  * $Id: admin_installer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.install
@@ -18,7 +21,7 @@ class AdminInstaller extends Installer
     /**
      * Constructor
      */
-    function AdminInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, AdminDataManager :: get_instance());
     }
@@ -36,7 +39,7 @@ class AdminInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation ::get('Languages')), Utilities :: COMMON_LIBRARIES));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('Languages')), Utilities :: COMMON_LIBRARIES));
         }
 
         // Update the default settings to the database
@@ -46,7 +49,27 @@ class AdminInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation ::get('DefaultSettings')), Utilities :: COMMON_LIBRARIES));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('DefaultSettings')), Utilities :: COMMON_LIBRARIES));
+        }
+
+        // Register the common extensions
+        if (! $this->register_common_extensions())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('Extensions', null, ExternalRepositoryManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
+        }
+
+        // Register the external repository manager implementations
+        if (! $this->register_external_repository_managers())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
         }
 
         return true;
@@ -54,33 +77,34 @@ class AdminInstaller extends Installer
 
     function create_languages()
     {
-    	$root = dirname(__FILE__) . '/../../../languages/';
-    	$folders = Filesystem :: get_directory_content($root, Filesystem :: LIST_DIRECTORIES, false);
+        $language_path = Path :: get_common_libraries_path() . 'resources/i18n/';
+        $language_files = Filesystem :: get_directory_content($language_path, Filesystem :: LIST_FILES, false);
 
-    	foreach($folders as $folder)
-    	{
-    		//if(Text :: char_at($folder, 0) != '.')
-    		if(file_exists($root . $folder . '/language.xml'))
-    		{
-    			$language = new Language();
-    			$xml_data = Utilities :: extract_xml_file($root . $folder . '/language.xml');
+        foreach ($language_files as $language_file)
+        {
+            $file_info = pathinfo($language_file);
+            $language_info_file = $language_path . $file_info['filename'] . '.info';
 
-    			$language->set_original_name($xml_data['original']);
-    			$language->set_english_name($xml_data['english']);
-    			$language->set_folder($xml_data['folder']);
-    			$language->set_isocode($xml_data['isocode']);
-    			$language->set_available('1');
+            if (file_exists($language_info_file) && $file_info['extension'] == 'info')
+            {
+                $language = new Language();
+                $xml_data = Utilities :: extract_xml_file($language_info_file);
 
-	    		if ($language->create())
-		        {
-		            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation ::get('Language')), Utilities :: COMMON_LIBRARIES) . ' ' . $xml_data['english']);
-		        }
-		        else
-		        {
-		        	return false;
-		        }
-    		}
-    	}
+                $language->set_original_name($xml_data['original']);
+                $language->set_english_name($xml_data['english']);
+                $language->set_isocode($xml_data['isocode']);
+                $language->set_available('1');
+
+                if ($language->create())
+                {
+                    $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('Language')), Utilities :: COMMON_LIBRARIES) . ' ' . $xml_data['english']);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
 
         return true;
     }
@@ -117,7 +141,6 @@ class AdminInstaller extends Installer
 
             if (! $setting_object->update())
             {
-                print_r($setting);
                 return false;
             }
         }
@@ -125,6 +148,54 @@ class AdminInstaller extends Installer
         return true;
     }
 
+    function register_common_extensions()
+    {
+        $common_extensions_path = Path :: get_common_extensions_path();
+        $folders = Filesystem :: get_directory_content($common_extensions_path, Filesystem :: LIST_DIRECTORIES, false);
+
+        foreach ($folders as $folder)
+        {
+            $registration = new Registration();
+            $registration->set_name($folder);
+            $registration->set_type(Registration :: TYPE_EXTENSION);
+            $registration->set_version('1.0.0');
+            $registration->set_status(Registration :: STATUS_ACTIVE);
+            if (! $registration->create())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @return boolean
+     */
+    function register_external_repository_managers()
+    {
+        $external_repository_manager_path = Path :: get_common_extensions_path() . 'external_repository_manager/implementation/';
+        $folders = Filesystem :: get_directory_content($external_repository_manager_path, Filesystem :: LIST_DIRECTORIES, false);
+
+        foreach ($folders as $folder)
+        {
+            $registration = new Registration();
+            $registration->set_name($folder);
+            $registration->set_type(Registration :: TYPE_EXTERNAL_REPOSITORY_MANAGER);
+            $registration->set_version('1.0.0');
+            $registration->set_status(Registration :: STATUS_ACTIVE);
+            if (! $registration->create())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @return string
+     */
     function get_path()
     {
         return dirname(__FILE__);

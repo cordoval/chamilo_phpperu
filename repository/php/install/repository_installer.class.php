@@ -25,7 +25,7 @@ class RepositoryInstaller extends Installer
     /**
      * Constructor
      */
-    function RepositoryInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, RepositoryDataManager :: get_instance());
     }

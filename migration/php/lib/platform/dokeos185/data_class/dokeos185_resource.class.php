@@ -39,7 +39,7 @@ class Dokeos185CalendarEvent extends Dokeos185MigrationDataClass
      * Creates a new dokeos185 Calender Event object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185CalendarEvent($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

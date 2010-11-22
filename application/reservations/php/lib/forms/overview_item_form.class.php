@@ -15,7 +15,7 @@ class OverviewItemForm extends FormValidator
 {
     private $user;
 
-    function OverviewItemForm($action, $user)
+    function __construct($action, $user)
     {
         parent :: __construct('overview_item', 'post', $action);
         $this->user = $user;

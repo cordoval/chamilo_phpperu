@@ -26,7 +26,7 @@ class ReportingViewer extends SubManager
 	private $export;
 	private $show_all_blocks;
 
-	function ReportingViewer($parent)
+	function __construct($parent)
 	{
 		parent :: __construct($parent);
 

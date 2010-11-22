@@ -12,7 +12,7 @@ class DynamicVisualTab extends DynamicTab
      * @param string $link
      * @param boolean $selected
      */
-    public function DynamicVisualTab($id, $name, $image, $link, $selected = false)
+    public function __construct($id, $name, $image, $link, $selected = false)
     {
         parent :: __construct($id, $name, $image);
         $this->link = $link;

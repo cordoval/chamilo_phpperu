@@ -30,7 +30,7 @@ abstract class MetadataMapper
      *
      * @param mixed ContentObject id or a ContentObject instance
      */
-    function MetadataMapper($content_object)
+    function __construct($content_object)
     {
         $this->errors = array();
 

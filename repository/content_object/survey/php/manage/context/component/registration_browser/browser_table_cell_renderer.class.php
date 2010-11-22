@@ -1,7 +1,13 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Translation;
+use common\libraries\Path;
 
 require_once dirname(__FILE__) . '/browser_table_column_model.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/survey_context_registration_table/default_survey_context_registration_table_cell_renderer.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/tables/survey_context_registration_table/default_survey_context_registration_table_cell_renderer.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
@@ -16,7 +22,7 @@ class SurveyContextRegistrationBrowserTableCellRenderer extends DefaultSurveyCon
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function SurveyContextRegistrationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

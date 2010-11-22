@@ -23,7 +23,7 @@ class CourseGroupSubscribedUserBrowserTableColumnModel extends DefaultUserTableC
     /**
      * Constructor
      */
-    function CourseGroupSubscribedUserBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->add_column(new ObjectTableColumn(User :: PROPERTY_USERNAME));

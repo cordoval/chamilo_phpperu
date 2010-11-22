@@ -1,18 +1,17 @@
 <?php
 namespace menu;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
-use \HTML_Menu;
+use HTML_Menu;
 use common\libraries\ObjectTableOrder;
 use common\libraries\OptionsMenuRenderer;
-use \HTML_Menu_ArrayRenderer;
+use HTML_Menu_ArrayRenderer;
 use common\libraries\TreeMenuRenderer;
 /**
  * $Id: navigation_item_menu.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of encyclopedias.
@@ -23,7 +22,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class NavigationItemMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -39,12 +38,12 @@ class NavigationItemMenu extends HTML_Menu
      * this menu.
      * @param int $current_category The ID of the current category in the menu.
      * @param string $url_format The format to use for the URL of a category.
-     *                           Passed to sprintf(). Defaults to the string
-     *                           "?category=%s".
+     * Passed to sprintf(). Defaults to the string
+     * "?category=%s".
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      */
-    function NavigationItemMenu($current_category, $url_format = '?item=%s', $extra_items_before = array(), $extra_items_after = array(), $condition = null)
+    function __construct($current_category, $url_format = '?item=%s', $extra_items_before = array(), $extra_items_after = array(), $condition = null)
     {
         $this->urlFmt = $url_format;
         $menu = $this->get_navigation_items($extra_items_before, $extra_items_after, $condition);
@@ -56,10 +55,10 @@ class NavigationItemMenu extends HTML_Menu
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_navigation_items($extra_items_before, $extra_items_after, $condition)
     {
@@ -70,19 +69,19 @@ class NavigationItemMenu extends HTML_Menu
         {
             $categories[$category->get_category()][] = $category;
         }
-        
+
         $home['title'] = Translation :: get('Home');
         $home['url'] = $this->get_category_url(0);
         $home['class'] = 'home';
         $home['sub'] = $this->get_sub_navigation_items($categories, 0);
         $home[OptionsMenuRenderer :: KEY_ID] = 0;
         $menu[0] = $home;
-        
+
         if (count($extra_items_after))
         {
             $menu = array_merge($menu, $extra_items_after);
         }
-        
+
         return $menu;
     }
 
@@ -101,7 +100,7 @@ class NavigationItemMenu extends HTML_Menu
                 $navigation_item['class'] = 'category';
                 $navigation_item[OptionsMenuRenderer :: KEY_ID] = $category->get_id();
                 $sub_tree[] = $navigation_item;
-            
+
             }
         }
         return $sub_tree;
@@ -138,23 +137,24 @@ class NavigationItemMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-	function render_as_tree()
+    function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 
     function render_as_list()
     {
         $renderer = new OptionsMenuRenderer();
         $this->render($renderer, 'sitemap');
-        $list = array('0' => Translation :: get('RootCategory')) + $renderer->toArray();
+        $list = array(
+                '0' => Translation :: get('RootCategory')) + $renderer->toArray();
         return $list;
     }
 }

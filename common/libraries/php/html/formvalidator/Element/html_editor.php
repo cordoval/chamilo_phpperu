@@ -2,8 +2,6 @@
 /**
  * @package common.html.formvalidator.Element
  */
-// $Id: html_editor.php 168 2009-11-12 11:53:23Z vanpouckesven $
-require_once ('HTML/QuickForm/textarea.php');
 /**
  * A html editor field to use with QuickForm
  */
@@ -17,7 +15,7 @@ abstract class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
      * @param   string  HTML editor  label
      * @param   string  Attributes for the textarea
      */
-    function HTML_QuickForm_html_editor($elementName = null, $elementLabel = null, $attributes = null, $options = array())
+    function __construct($elementName = null, $elementLabel = null, $attributes = null, $options = array())
     {
         $this->options['width'] = (isset($options['width']) ? $options['width'] : '650');
         $this->options['height'] = (isset($options['height']) ? $options['height'] : '150');
@@ -25,11 +23,11 @@ abstract class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
         $this->options['show_tags'] = (isset($options['show_tags']) ? $options['show_tags'] : true);
         $this->options['full_page'] = (isset($options['full_page']) ? $options['full_page'] : false);
         $this->options['toolbar_set'] = (isset($options['toolbar_set']) ? $options['toolbar_set'] : 'Basic');
-        
+
         $this->_persistantFreeze = true;
         $this->set_type();
-        
-        HTML_QuickForm_element :: HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+
+        HTML_QuickForm_element :: __construct($elementName, $elementLabel, $attributes);
     }
 
     function get_options()
@@ -96,19 +94,19 @@ abstract class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
     function render_textarea()
     {
         $html = parent :: toHTML();
-        
+
         $width = $this->options['width'];
         if (strpos($width, '%') === false)
         {
             $width .= 'px';
         }
-        
+
         $height = $this->options['height'];
         if (strpos($height, '%') === false)
         {
             $height .= 'px';
         }
-        
+
         $string = '<textarea style="width: ' . $width . '; height: ' . $height . ';"';
         $html = str_replace('<textarea', $string, $html);
         return $html;

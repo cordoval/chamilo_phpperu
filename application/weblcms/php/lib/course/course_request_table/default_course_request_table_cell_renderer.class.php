@@ -29,7 +29,7 @@ class DefaultCourseRequestTableCellRenderer extends ObjectTableCellRenderer
      * Constructor
      */
 
-    function DefaultCourseRequestTableCellRenderer($browser)
+    function __construct($browser)
     {
         $this->browser = $browser;
     }

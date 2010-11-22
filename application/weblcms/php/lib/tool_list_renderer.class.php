@@ -32,7 +32,7 @@ abstract class ToolListRenderer
      * Constructor
      * @param WebLcms $parent The parent application
      */
-    function ToolListRenderer($parent, $visible_tools)
+    function __construct($parent, $visible_tools)
     {
         $this->parent = $parent;
         $this->visible_tools = $visible_tools;

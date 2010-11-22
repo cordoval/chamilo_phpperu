@@ -31,7 +31,7 @@ class AssessmentResultsTableOverviewAdmin extends ObjectTable
      * the selected learning object.
      * @see ResultsCandidateTableCellRenderer::ResultsCandidateTableCellRenderer()
      */
-    function AssessmentResultsTableOverviewAdmin($parent, $owner, $pid = null)
+    function __construct($parent, $owner, $pid = null)
     {
         $data_provider = new AssessmentResultsTableOverviewAdminDataProvider($parent, $owner, $pid);
         $column_model = new AssessmentResultsTableOverviewAdminColumnModel();

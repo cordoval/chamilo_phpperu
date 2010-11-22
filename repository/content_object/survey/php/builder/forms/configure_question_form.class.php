@@ -24,7 +24,7 @@ class ConfigureQuestionForm extends FormValidator {
 
 	private $survey_page;
 
-	function ConfigureQuestionForm($form_type, $complex_item, $action, $page_id) {
+	function __construct($form_type, $complex_item, $action, $page_id) {
 		parent::__construct ( 'create_context_template', 'post', $action );
 		Request::set_get( SurveyBuilder::PARAM_SURVEY_PAGE_ID, $page_id );
 

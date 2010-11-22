@@ -24,7 +24,7 @@ class RightsTemplateLocationBrowserTableColumnModel extends DefaultLocationTable
     /**
      * Constructor
      */
-    function RightsTemplateLocationBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

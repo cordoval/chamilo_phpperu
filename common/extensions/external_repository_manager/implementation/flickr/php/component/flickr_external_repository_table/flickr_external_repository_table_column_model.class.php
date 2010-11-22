@@ -22,7 +22,7 @@ class FlickrExternalRepositoryTableColumnModel extends DefaultExternalRepository
     /**
      * Constructor
      */
-    function FlickrExternalRepositoryTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

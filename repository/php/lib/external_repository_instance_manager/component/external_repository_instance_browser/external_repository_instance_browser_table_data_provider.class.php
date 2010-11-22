@@ -11,7 +11,7 @@ class ExternalRepositoryInstanceBrowserTableDataProvider extends ObjectTableData
      * @param ExternalRepositoryInstanceManager $browser
      * @param Condition $condition
      */
-    function ExternalRepositoryInstanceBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

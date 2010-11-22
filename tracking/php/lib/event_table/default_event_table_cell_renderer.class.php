@@ -17,7 +17,7 @@ class DefaultEventTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultEventTableCellRenderer()
+    function __construct()
     {
     }
 

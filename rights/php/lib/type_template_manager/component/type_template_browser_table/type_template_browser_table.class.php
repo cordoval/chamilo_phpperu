@@ -21,7 +21,7 @@ class TypeTemplateBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function TypeTemplateBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new TypeTemplateBrowserTableColumnModel();
         $renderer = new TypeTemplateBrowserTableCellRenderer($browser);

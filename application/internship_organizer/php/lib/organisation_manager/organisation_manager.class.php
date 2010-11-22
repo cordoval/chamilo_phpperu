@@ -61,7 +61,7 @@ class InternshipOrganizerOrganisationManager extends SubManager
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_ORGANISATION;
 
-    function InternshipOrganizerOrganisationManager($internship_manager)
+    function __construct($internship_manager)
     {
         parent :: __construct($internship_manager);
     }

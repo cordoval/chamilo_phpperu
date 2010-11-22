@@ -127,7 +127,9 @@ class ConfigurationForm extends FormValidator
                         {
                             $options_source = $setting['options']['source'];
                             $class = Application :: determine_namespace($application) . '\Settings' . Application :: application_to_class($application) . 'Connector';
-                            $options = call_user_func(array($class, $options_source));
+                            $options = call_user_func(array(
+                                    $class,
+                                    $options_source));
                         }
                         else
                         {
@@ -165,8 +167,10 @@ class ConfigurationForm extends FormValidator
             }
 
             $buttons = array();
-            $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', array(), Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
-            $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', array(), Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
+            $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', array(), Utilities :: COMMON_LIBRARIES), array(
+                    'class' => 'positive'));
+            $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', array(), Utilities :: COMMON_LIBRARIES), array(
+                    'class' => 'normal empty'));
             $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         }
         else
@@ -201,7 +205,11 @@ class ConfigurationForm extends FormValidator
 
                 // Get settings in category
                 $properties = $category->getElementsByTagname('setting');
-                $attributes = array('field', 'default', 'locked', 'user_setting');
+                $attributes = array(
+                        'field',
+                        'default',
+                        'locked',
+                        'user_setting');
 
                 foreach ($properties as $index => $property)
                 {
@@ -221,7 +229,9 @@ class ConfigurationForm extends FormValidator
 
                         if ($property_options)
                         {
-                            $property_options_attributes = array('type', 'source');
+                            $property_options_attributes = array(
+                                    'type',
+                                    'source');
 
                             foreach ($property_options_attributes as $index => $options_attribute)
                             {
@@ -253,7 +263,10 @@ class ConfigurationForm extends FormValidator
                                 $validation_info = array();
                                 foreach ($validations as $validation)
                                 {
-                                    $validation_info[] = array('rule' => $validation->getAttribute('rule'), 'message' => $validation->getAttribute('message'), 'format' => $validation->getAttribute('format'));
+                                    $validation_info[] = array(
+                                            'rule' => $validation->getAttribute('rule'),
+                                            'message' => $validation->getAttribute('message'),
+                                            'format' => $validation->getAttribute('format'));
                                 }
                                 $property_info['validations'] = $validation_info;
                             }
@@ -328,18 +341,43 @@ class ConfigurationForm extends FormValidator
                 if ($setting['locked'] != 'true')
                 {
                     $adm = AdminDataManager :: get_instance();
-                    $setting = $adm->retrieve_setting_from_variable_name($name, $application);
-                    if (isset($values[$name]))
+                    $platform_setting = $adm->retrieve_setting_from_variable_name($name, $application);
+
+                    if (! $platform_setting)
                     {
-                        $setting->set_value($values[$name]);
+                        $platform_setting = new Setting();
+                        $platform_setting->set_application($application);
+                        $platform_setting->set_variable($name);
+                        $platform_setting->set_user_setting($setting['locked'] ? 1 : 0);
+
+                        if (isset($values[$name]))
+                        {
+                            $platform_setting->set_value($values[$name]);
+                        }
+                        else
+                        {
+                            $platform_setting->set_value(0);
+                        }
+                        if (! $platform_setting->create())
+                        {
+                            $problems ++;
+                        }
                     }
                     else
                     {
-                        $setting->set_value(0);
-                    }
-                    if (! $setting->update())
-                    {
-                        $problems ++;
+
+                        if (isset($values[$name]))
+                        {
+                            $platform_setting->set_value($values[$name]);
+                        }
+                        else
+                        {
+                            $platform_setting->set_value(0);
+                        }
+                        if (! $platform_setting->update())
+                        {
+                            $problems ++;
+                        }
                     }
                 }
             }
@@ -414,7 +452,12 @@ class ConfigurationForm extends FormValidator
 
     private function is_valid_validation_method($validation_method)
     {
-        $available_validation_methods = array('regex', 'email', 'lettersonly', 'alphanumeric', 'numeric');
+        $available_validation_methods = array(
+                'regex',
+                'email',
+                'lettersonly',
+                'alphanumeric',
+                'numeric');
         return in_array($validation_method, $available_validation_methods);
     }
 }

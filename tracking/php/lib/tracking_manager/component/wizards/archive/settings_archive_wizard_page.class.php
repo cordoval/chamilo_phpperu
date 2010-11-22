@@ -95,7 +95,7 @@ class ValidateSettings extends HTML_QuickForm_Rule
      * Constructor
      * @param int $start_date The start date used for validation of end_date
      */
-    function ValidateSettings($start_date)
+    function __construct($start_date)
     {
         $this->start_date = $start_date;
     }

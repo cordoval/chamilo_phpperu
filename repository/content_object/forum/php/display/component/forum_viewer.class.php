@@ -26,8 +26,6 @@ use repository\content_object\forum_topic\ForumTopic;
  */
 require_once dirname(__FILE__) . '/../forum_display.class.php';
 
-require_once 'HTML/Table.php';
-
 class ForumDisplayForumViewerComponent extends ForumDisplay
 {
     private $action_bar;

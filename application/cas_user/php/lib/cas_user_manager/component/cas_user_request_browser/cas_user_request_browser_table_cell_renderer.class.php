@@ -31,7 +31,7 @@ class CasUserRequestBrowserTableCellRenderer extends DefaultCasUserRequestTableC
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function CasUserRequestBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

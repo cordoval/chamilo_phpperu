@@ -1690,7 +1690,7 @@ class calendarComponent {
  * @author Kjell-Inge Gustafsson <ical@kigkonsult.se>
  * @since 2.4.19 - 2008-10-23
  */
-  function calendarComponent() {
+  function __construct() {
     $this->objName         = ( isset( $this->timezonetype )) ?
                           strtolower( $this->timezonetype )  :  get_class ( $this );
     $this->uid             = array();
@@ -6910,7 +6910,7 @@ class vevent extends calendarComponent {
  * @since 2.5.1 - 2008-10-31
  * @return void
  */
-  function vevent() {
+  function __construct() {
     $this->calendarComponent();
 
     $this->attach          = '';
@@ -7048,7 +7048,7 @@ class vtodo extends calendarComponent {
  * @since 2.5.1 - 2008-10-31
  * @return void
  */
-  function vtodo() {
+  function __construct() {
     $this->calendarComponent();
 
     $this->attach          = '';
@@ -7177,7 +7177,7 @@ class vjournal extends calendarComponent {
  * @since 2.5.1 - 2008-10-31
  * @return void
  */
-  function vjournal() {
+  function __construct() {
     $this->calendarComponent();
 
     $this->attach          = '';
@@ -7277,7 +7277,7 @@ class vfreebusy extends calendarComponent {
  * @since 2.5.1 - 2008-10-31
  * @return void
  */
-  function vfreebusy() {
+  function __construct() {
     $this->calendarComponent();
 
     $this->attendee        = '';
@@ -7349,7 +7349,7 @@ class valarm extends calendarComponent {
  * @since 2.5.1 - 2008-10-31
  * @return void
  */
-  function valarm() {
+  function __construct() {
     $this->calendarComponent();
 
     $this->action          = '';
@@ -7418,7 +7418,7 @@ class vtimezone extends calendarComponent {
  * @param string $timezonetype optional, default FALSE ( STANDARD / DAYLIGHT )
  * @return void
  */
-  function vtimezone( $timezonetype=FALSE ) {
+  function __construct( $timezonetype=FALSE ) {
     if( !$timezonetype )
       $this->timezonetype = 'VTIMEZONE';
     else

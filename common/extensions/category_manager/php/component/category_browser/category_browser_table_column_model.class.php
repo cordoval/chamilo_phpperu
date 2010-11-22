@@ -22,7 +22,7 @@ class CategoryBrowserTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function CategoryBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct(self :: get_default_columns($browser), 1);
         $this->set_default_order_column(1);

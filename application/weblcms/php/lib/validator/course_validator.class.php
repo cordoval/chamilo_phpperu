@@ -4,18 +4,13 @@ namespace application\weblcms;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use user\DatabaseUserDataManager;
+use common\libraries\Validator;
 
 /**
  * $Id: course_validator.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.validator
  */
-require_once Path :: get_application_path() . '/lib/weblcms/data_manager/database.class.php';
-require_once Path :: get_user_path() . 'lib/data_manager/database.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/data_manager/database.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/course/course.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/category_manager/course_category.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/course/course_user_relation.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/course_group/course_group.class.php';
 
 /**
  * Description of course_validatorclass
@@ -35,7 +30,7 @@ class CourseValidator extends Validator
     private $udm;
     private $wdm;
 
-    function CourseValidator()
+    function __construct()
     {
         $this->udm = DatabaseUserDataManager :: get_instance();
         $this->wdm = DatabaseWeblcmsDataManager :: get_instance();

@@ -43,11 +43,11 @@ class AdminDataManager
         $languages = self :: get_instance()->retrieve_languages();
         while ($language = $languages->next_result())
         {
-    		if(self :: is_language_active($language->get_english_name()))
+    		if(self :: is_language_active($language->get_isocode()))
     		{
     		    if ($use_folder_name_as_key)
     		    {
-    		        $key = $language->get_folder();
+    		        $key = $language->get_isocode();
     		    }
     		    else
     		    {
@@ -86,7 +86,7 @@ class AdminDataManager
 
     	return (self :: get_instance()->count_registrations($condition) > 0);
     }
-    
+
 	static function get_registration($name, $type = Registration :: TYPE_APPLICATION)
     {
     	$conditions = array();

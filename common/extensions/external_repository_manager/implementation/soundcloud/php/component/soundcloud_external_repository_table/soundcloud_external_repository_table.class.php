@@ -17,7 +17,7 @@ class SoundcloudExternalRepositoryTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function SoundcloudExternalRepositoryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new SoundcloudExternalRepositoryTableColumnModel();
         $renderer = new SoundcloudExternalRepositoryTableCellRenderer($browser);

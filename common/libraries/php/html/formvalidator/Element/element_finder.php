@@ -8,11 +8,6 @@ use common\libraries\Utilities;
  * $Id: element_finder.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.formvalidator.Element
  */
-require_once 'HTML/QuickForm/text.php';
-require_once 'HTML/QuickForm/select.php';
-require_once 'HTML/QuickForm/button.php';
-require_once 'HTML/QuickForm/hidden.php';
-require_once 'HTML/QuickForm/group.php';
 
 /**
  * AJAX-based tree search and multiselect element. Use at your own risk.
@@ -38,7 +33,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
     private $defaults;
 
-    function HTML_QuickForm_element_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array (), $options = array())
+    function __construct($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array (), $options = array())
     {
         parent :: __construct($elementName, $elementLabel);
         $this->_type = 'element_finder';

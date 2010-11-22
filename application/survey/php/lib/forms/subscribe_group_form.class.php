@@ -5,6 +5,8 @@ use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
+use group\GroupDataManager;
+
 
 use rights\RightsUtilities;
 use rights\RightsDataManager;
@@ -21,7 +23,7 @@ class SurveySubscribeGroupForm extends FormValidator
     private $publication;
     private $user;
 
-    function SurveySubscribeGroupForm($publication, $action, $user)
+    function __construct($publication, $action, $user)
     {
         parent :: __construct('subscribe_group', 'post', $action);
         
@@ -36,7 +38,7 @@ class SurveySubscribeGroupForm extends FormValidator
         $publication = $this->publication;
         
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/php/xml_feeds/xml_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('ShareWith');
         $locale['Searching'] = Translation :: get('Searching');

@@ -11,7 +11,7 @@ class GradebookExternalPublicationBrowserTableDataProvider extends ObjectTableDa
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function GradebookExternalPublicationBrowserTableDataProvider($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
     }

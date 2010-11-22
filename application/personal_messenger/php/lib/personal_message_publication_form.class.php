@@ -49,7 +49,7 @@ class PersonalMessagePublicationForm extends FormValidator
      * object by email to the receivers
      */
     //function PersonalMessengerPublicationForm($content_object, $publication = null, $form_user, $action)
-    function PersonalMessagePublicationForm($content_object, $form_user, $action)
+    function __construct($content_object, $form_user, $action)
     {
         parent :: __construct('publish', 'post', $action);
         $this->content_object = $content_object;

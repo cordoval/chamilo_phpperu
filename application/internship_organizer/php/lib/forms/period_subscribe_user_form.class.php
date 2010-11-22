@@ -23,7 +23,7 @@ class InternshipOrganizerPeriodSubscribeUserForm extends FormValidator
     private $period;
     private $user;
 
-    function InternshipOrganizerPeriodSubscribeUserForm($period, $action, $user)
+    function __construct($period, $action, $user)
     {
         parent :: __construct('create_period', 'post', $action);
         

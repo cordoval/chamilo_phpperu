@@ -24,7 +24,7 @@ class ProfilePublisher
 {
     private $parent;
 
-    function ProfilePublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

@@ -40,7 +40,7 @@ class RepoViewerBrowserComponent extends RepoViewer
      */
     private $browser_actions;
 
-    function RepoViewerBrowserComponent($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         $this->set_browser_actions($this->get_default_browser_actions());

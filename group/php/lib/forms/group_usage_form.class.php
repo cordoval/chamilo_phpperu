@@ -34,7 +34,7 @@ class GroupUsageForm extends FormValidator
      * @param User $user
      * @param string|null $application
      */
-    function GroupUsageForm($action, Group $group, User $user, $application = null)
+    function __construct($action, Group $group, User $user, $application = null)
     {
         parent :: __construct('group_usage_settings', 'post', $action);
 

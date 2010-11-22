@@ -22,7 +22,7 @@ class AudioContentObjectTableDataProvider extends ContentObjectTableDataProvider
      * selected.
      * @param string $query The search query.
      */
-    function AudioContentObjectTableDataProvider($owner, $types, $query = null, $parent)
+    function __construct($owner, $types, $query = null, $parent)
     {
         parent :: __construct($owner, $types, $query, $parent);
     }

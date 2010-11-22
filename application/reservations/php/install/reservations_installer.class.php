@@ -24,7 +24,7 @@ class ReservationsInstaller extends Installer
     /**
      * Constructor
      */
-    function ReservationsInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, ReservationsDataManager :: get_instance());
     }

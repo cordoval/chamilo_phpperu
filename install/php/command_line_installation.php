@@ -50,8 +50,6 @@ function __autoload($classname)
 Filesystem :: remove(dirname(__FILE__) . '/../common/configuration/configuration.php');
 
 require_once dirname(__FILE__) . '/lib/install_manager/install_manager.class.php';
-require_once 'MDB2.php';
-
 require_once dirname(__FILE__) . '/command_line_configuration.inc.php';
 
 Request :: set_get('install_running', 1);

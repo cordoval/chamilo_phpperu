@@ -2,10 +2,6 @@
 /**
  * @package common.html.formvalidator.Element
  */
-// $Id: receivers.php 128 2009-11-09 13:13:20Z vanpouckesven $
-require_once 'HTML/QuickForm/group.php';
-require_once 'HTML/QuickForm/radio.php';
-require_once 'HTML/QuickForm/advmultiselect.php';
 /**
  * Form element to select receivers
  * This element contains 1 radio-buttons. One with label 'everybody' and one
@@ -31,13 +27,13 @@ class HTML_QuickForm_receivers extends HTML_QuickForm_group
      * @param array $attributes This should contain the keys 'receivers' and
      * 'receivers_selected'
      */
-    function HTML_QuickForm_receivers($elementName = null, $elementLabel = null, $attributes = null)
+    function __construct($elementName = null, $elementLabel = null, $attributes = null)
     {
         $this->receivers = $attributes['receivers'];
         $this->receivers_selected = $attributes['receivers_selected'];
         unset($attributes['receivers']);
         unset($attributes['receivers_selected']);
-        $this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_element :: __construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_appendName = true;
         $this->_type = 'receivers';
@@ -54,7 +50,7 @@ class HTML_QuickForm_receivers extends HTML_QuickForm_group
         $this->_elements[] = new HTML_QuickForm_advmultiselect('to', '', $this->receivers);
         if ($this->receivers_selected)
             $this->_elements[2]->setSelected($this->receivers_selected);
-    
+
     }
 
     /**
@@ -79,7 +75,7 @@ class HTML_QuickForm_receivers extends HTML_QuickForm_group
     function getElementJS()
     {
         $value = $this->getValue();
-        
+
         $js = "<script type=\"text/javascript\">
 					/* <![CDATA[ */";
         if ($value['receivers'] != '1')

@@ -31,7 +31,7 @@ class CourseTypeForm extends CommonForm
     const CREATION_ON_REQUEST_ELEMENTS = 'creationrequest_groups_elements';
     const CREATION_ON_REQUEST_OPTION = 'creationrequest_groups_option';
 
-    function CourseTypeForm($form_type, $course_type, $action, $parent)
+    function __construct($form_type, $course_type, $action, $parent)
     {
         parent :: __construct($form_type, $course_type, $action, $parent, 'course_type_settings', 'post');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_APP_PATH) . 'weblcms/resources/javascript/course_type_form.js'));
@@ -82,13 +82,13 @@ class CourseTypeForm extends CommonForm
                 }
             }
 
-            $tool_image_src = Theme :: get_image_path() . 'tool_mini_' . $tool . '.png';
-            $tool_image = $tool . "_image";
-            $title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool) . 'Title'));
-            $element_name = $tool . "element";
-            $element_default = $tool . "elementdefault";
+            $namespace = Tool :: get_tool_type_namespace($tool);
+            $tool_image_src = Theme :: get_image_path($namespace) . 'logo/' . Theme :: ICON_MINI . '.png';
+            $title = htmlspecialchars(Translation :: get('TypeName', null, $namespace));
+            $element_name = $tool . "_element";
+            $element_default = $tool . "_elementdefault";
 
-            $tool_data[] = '<img class="' . $tool_image . '" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/>';
+            $tool_data[] = '<img class="' . $tool . '" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/>';
             $tool_data[] = $title;
             $tool_data[] = '<div  style="margin: 0 auto; width: 50px;">' . $this->createElement('checkbox', $element_name, $title, '', $element_name_arr)->toHtml() . '</div>';
             $tool_data[] = '<div class="' . $element_default . '"/>' . $this->createElement('checkbox', $element_default, Translation :: get('IsVisible', null, Utilities :: COMMON_LIBRARIES ), '', $element_default_arr)->toHtml() . '</div>';
@@ -214,7 +214,7 @@ class CourseTypeForm extends CommonForm
     function build_rights_form()
     {
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/php/xml_feeds/xml_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
         $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
@@ -266,7 +266,7 @@ class CourseTypeForm extends CommonForm
     function build_creation_rights_form()
     {
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/php/xml_feeds/xml_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
         $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);

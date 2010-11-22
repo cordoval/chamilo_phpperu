@@ -27,7 +27,7 @@ class AssessmentPublisher
 {
     private $parent;
 
-    function AssessmentPublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

@@ -31,7 +31,7 @@ class UserMetadataPropertyValueBrowserTableCellRenderer extends DefaultUserTable
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function UserMetadataPropertyValueBrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

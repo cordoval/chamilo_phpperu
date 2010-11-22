@@ -7,7 +7,7 @@ class CsvCategoryCreator
 	
 	private $parent_category_id;
 	
-	function CsvCategoryCreator($parent_category_id){
+	function __construct($parent_category_id){
 		$this->parent_category_id = $parent_category_id;
 	}
 	

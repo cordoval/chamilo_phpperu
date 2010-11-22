@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/../blocks/weblcms_tool_publications_reporting
 class ToolPublicationsDetailReportingTemplate extends ReportingTemplate
 {
 
-    function ToolPublicationsDetailReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         $this->add_reporting_block($this->get_tool_publications());

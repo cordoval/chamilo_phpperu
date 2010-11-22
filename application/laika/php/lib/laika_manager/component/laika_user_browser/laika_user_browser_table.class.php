@@ -21,7 +21,7 @@ class LaikaUserBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function LaikaUserBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new LaikaUserBrowserTableColumnModel();
         $renderer = new LaikaUserBrowserTableCellRenderer($browser);

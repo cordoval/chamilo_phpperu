@@ -17,7 +17,6 @@ use common\libraries\Utilities;
  * $Id: user_detail.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
  */
-require_once 'HTML/Table.php';
 
 class UserManagerUserDetailComponent extends UserManager implements AdministrationComponent
 {

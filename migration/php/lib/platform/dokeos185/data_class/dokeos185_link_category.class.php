@@ -34,7 +34,7 @@ class Dokeos185LinkCategory extends Dokeos185CourseDataMigrationDataClass
      * @param array $defaultProperties The default properties of the link category
      *                                 object. Associative array.
      */
-    function Dokeos185LinkCategory($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

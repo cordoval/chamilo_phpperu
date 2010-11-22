@@ -10,7 +10,7 @@ class DefaultHandbookPublicationTableCellRenderer extends ObjectTableCellRendere
 {
 
     
-    function DefaultHandbookPublicationTableCellRenderer($browser)
+    function __construct($browser)
     {
     
     }

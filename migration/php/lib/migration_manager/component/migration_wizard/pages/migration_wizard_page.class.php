@@ -23,7 +23,7 @@ abstract class MigrationWizardPage extends FormValidatorPage
      * @param MigrationManagerComponent $parent The MigrationManager component
      * in which the wizard runs.
      */
-    public function MigrationWizardPage($parent, $name)
+    public function __construct($parent, $name)
     {
         parent :: __construct($name, 'post');
         $this->updateAttributes(array('action' => $parent->get_parent()->get_url()));

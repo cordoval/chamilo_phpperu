@@ -26,7 +26,7 @@ class ComplexContentObjectItem extends DataClass
 
     private $additionalProperties;
 
-    function ComplexContentObjectItem($defaultProperties = array (), $additionalProperties = array())
+    function __construct($defaultProperties = array (), $additionalProperties = array())
     {
         parent :: __construct($defaultProperties);
         $this->additionalProperties = $additionalProperties;

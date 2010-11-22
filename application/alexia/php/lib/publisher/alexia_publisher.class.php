@@ -22,7 +22,7 @@ class AlexiaPublisher
 {
     private $parent;
 
-    function AlexiaPublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

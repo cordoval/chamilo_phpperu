@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager;
+use common\libraries\GalleryObjectTableDataProvider;
 class ExternalRepositoryBrowserGalleryTableDataProvider extends GalleryObjectTableDataProvider
 {
     /**

@@ -30,7 +30,7 @@ class LaikaManager extends WebApplication
 
     const DEFAULT_ACTION = self :: ACTION_VIEW_HOME;
 
-    public function LaikaManager($user)
+    public function __construct($user)
     {
         parent :: __construct($user);
         $this->parse_input_from_table();

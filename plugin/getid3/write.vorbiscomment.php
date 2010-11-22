@@ -22,7 +22,7 @@ class getid3_write_vorbiscomment
 	var $warnings = array(); // any non-critical errors will be stored here
 	var $errors   = array(); // any critical errors will be stored here
 
-	function getid3_write_vorbiscomment() {
+	function __construct() {
 		return true;
 	}
 

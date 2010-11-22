@@ -9,7 +9,7 @@
 
 (function ($) 
 {	
-	common_image_path = getPath('WEB_LAYOUT_PATH') + getTheme() + "/images/common/";
+	common_image_path = getPath('WEB_PATH')  + 'common/libraries/resources/images/' + getTheme() + '/';
 	
 	$.fn.setViewableStyle = function()
 	{

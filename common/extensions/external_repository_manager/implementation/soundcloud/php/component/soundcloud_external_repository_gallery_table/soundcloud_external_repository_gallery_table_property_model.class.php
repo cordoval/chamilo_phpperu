@@ -6,7 +6,7 @@ use common\extensions\external_repository_manager\DefaultExternalRepositoryGalle
 
 class SoundcloudExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRepositoryGalleryObjectTablePropertyModel
 {
-    function SoundcloudExternalRepositoryGalleryTablePropertyModel()
+    function __construct()
     {
         parent :: __construct();
 

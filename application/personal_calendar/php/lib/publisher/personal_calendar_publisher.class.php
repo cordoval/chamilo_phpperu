@@ -22,7 +22,7 @@ class PersonalCalendarPublisher
 {
     private $parent;
 
-    function PersonalCalendarPublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

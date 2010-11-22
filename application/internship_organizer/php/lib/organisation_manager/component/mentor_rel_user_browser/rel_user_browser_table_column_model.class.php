@@ -15,7 +15,7 @@ class InternshipOrganizerMentorRelUserBrowserTableColumnModel extends DefaultInt
     /**
      * Constructor
      */
-    function InternshipOrganizerMentorRelUserBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->add_column(self :: get_modification_column());

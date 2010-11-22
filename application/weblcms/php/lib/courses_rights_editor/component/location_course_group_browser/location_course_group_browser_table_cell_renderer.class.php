@@ -26,7 +26,7 @@ class LocationCourseGroupBrowserTableCellRenderer extends ObjectTableCellRendere
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function LocationCourseGroupBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         $this->browser = $browser;
     }

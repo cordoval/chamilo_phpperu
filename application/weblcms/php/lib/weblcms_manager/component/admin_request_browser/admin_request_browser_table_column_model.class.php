@@ -25,7 +25,7 @@ class AdminRequestBrowserTableColumnModel extends DefaultCourseRequestTableColum
     /**
      * Constructor
      */
-    function AdminRequestBrowserTableColumnModel($request_type)
+    function __construct($request_type)
     {
         parent :: __construct($request_type);
         $this->add_column(new ObjectTableColumn(CourseRequest :: PROPERTY_MOTIVATION));

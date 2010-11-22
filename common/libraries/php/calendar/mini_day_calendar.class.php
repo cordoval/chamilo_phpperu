@@ -12,26 +12,39 @@ require_once ('day_calendar.class.php');
  */
 class MiniDayCalendar extends DayCalendar
 {
-    private $start_hour;
 
-    private $end_hour;
-
-    function MiniDayCalendar($display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24')
+    function __construct($display_time, $hour_step = '1')
     {
-        parent :: DayCalendar($display_time, $hour_step);
-        $this->start_hour = $start_hour;
-        $this->end_hour = $end_hour;
+        parent :: __construct($display_time, $hour_step);
         $this->updateAttributes('class="calendar_table mini_calendar"');
     }
 
     function get_start_hour()
     {
-        return $this->start_hour;
+        $working_start = LocalSetting :: get('working_hours_start');
+        $hide = LocalSetting :: get('hide_none_working_hours');
+        $start_hour = 0;
+
+        if ($hide)
+        {
+            $start_hour = $working_start;
+        }
+
+        return $start_hour;
     }
 
     function get_end_hour()
     {
-        return $this->end_hour;
+        $working_end = LocalSetting :: get('working_hours_end');
+        $hide = LocalSetting :: get('hide_none_working_hours');
+        $end_hour = 24;
+
+        if ($hide)
+        {
+            $end_hour = $working_end;
+        }
+
+        return $end_hour;
     }
 
     /**
@@ -54,6 +67,14 @@ class MiniDayCalendar extends DayCalendar
 
     protected function build_table()
     {
+        $year_day = date('z', $this->get_display_time()) + 1;
+        $year_week = date('W', $this->get_display_time());
+
+        $header = $this->getHeader();
+        $header->addRow(array(
+                Translation :: get('Day') . ' ' . $year_day . ', ' . Translation :: get('Week') . ' ' . $year_week));
+        $header->setRowType(0, 'th');
+
         $start_hour = $this->get_start_hour();
         $end_hour = $this->get_end_hour();
 

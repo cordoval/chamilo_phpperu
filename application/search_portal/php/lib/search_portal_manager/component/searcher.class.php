@@ -23,9 +23,6 @@ use user\UserDataManager;
  * @package application.search_portal.search_portal_manager.component
  */
 
-require_once 'Pager/Pager.php';
-
-
 class SearchPortalManagerSearcherComponent extends SearchPortalManager
 {
     const PARAM_QUERY = 'query';

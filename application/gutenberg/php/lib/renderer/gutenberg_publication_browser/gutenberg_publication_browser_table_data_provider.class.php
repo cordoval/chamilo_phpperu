@@ -22,7 +22,7 @@ class GutenbergPublicationBrowserTableDataProvider extends ObjectTableDataProvid
      * @param GutenbergManagerComponent $browser
      * @param Condition $condition
      */
-    function GutenbergPublicationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

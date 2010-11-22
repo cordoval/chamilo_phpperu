@@ -35,7 +35,7 @@ class PhrasesMasteryLevelBrowserTableCellRenderer extends DefaultPhrasesMasteryL
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function PhrasesMasteryLevelBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

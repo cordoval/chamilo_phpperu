@@ -1,4 +1,5 @@
 <?php
+
 namespace application\weblcms;
 
 use reporting\ReportingManager;
@@ -24,13 +25,12 @@ use rights\RightsUtilities;
  * $Id: tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool
  */
-
 /**
-==============================================================================
+  ==============================================================================
  * This is the base class for all tools used in applications.
  *
  * @author Tim De Pauw
-==============================================================================
+  ==============================================================================
  */
 require_once dirname(__file__) . '/../browser/content_object_publication_list_renderer.class.php';
 require_once dirname(__file__) . '/../browser/object_publication_table/object_publication_table.class.php';
@@ -75,13 +75,11 @@ abstract class Tool extends SubManager
      * The action of the tool
      */
     private $action;
-
     /**
      * The application that the tool is associated with.
      * @var WeblcmsManager
      */
     private $parent;
-
     /**
      * The rights of the current user in this tool
      */
@@ -92,7 +90,7 @@ abstract class Tool extends SubManager
      * @param Application $parent The application that the tool is associated
      * with.
      */
-    function Tool($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         $this->properties = $parent->get_tool_properties($this->get_tool_id());
@@ -107,6 +105,8 @@ abstract class Tool extends SubManager
 
     function set_optional_parameters()
     {
+        $this->set_parameter(WeblcmsManager :: PARAM_CATEGORY, Request :: get(WeblcmsManager :: PARAM_CATEGORY));
+
         $this->set_parameter(Tool :: PARAM_BROWSER_TYPE, $this->get_browser_type());
     }
 
@@ -122,7 +122,7 @@ abstract class Tool extends SubManager
                 if (empty($ids))
                     $ids = array();
             }
-            elseif (! is_array($ids))
+            elseif (!is_array($ids))
             {
                 $ids = array($ids);
             }
@@ -211,7 +211,7 @@ abstract class Tool extends SubManager
 
     function display_header($visible_tools = null, $show_introduction_text = false)
     {
-        if (! $visible_tools)
+        if (!$visible_tools)
         {
             $visible_tools = $this->get_visible_tools();
         }
@@ -252,7 +252,7 @@ abstract class Tool extends SubManager
         {
             $renderer = ToolListRenderer :: factory(ToolListRenderer :: TYPE_MENU, $this, $tools);
             echo $renderer->display();
-            echo '<div id="tool_browser_' . ($renderer->display_menu_icons() && ! $renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() . '">';
+            echo '<div id="tool_browser_' . ($renderer->display_menu_icons() && !$renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() . '">';
         }
         else
         {
@@ -261,7 +261,7 @@ abstract class Tool extends SubManager
 
         $tool_shortcut = $this->get_course()->get_tool_shortcut();
 
-        if (($this->get_tool_id() == 'home' && $this->get_course()->get_intro_text() && ! $this->get_introduction_text()) || ($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0))
+        if (($this->get_tool_id() == 'home' && $this->get_course()->get_intro_text() && !$this->get_introduction_text()) || ($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0))
         {
             echo '<div style="border-bottom: 1px dotted #D3D3D3; margin-bottom: 1em; padding-bottom: 2em;">';
             $shortcuts_visible = true;
@@ -270,7 +270,7 @@ abstract class Tool extends SubManager
         if ($show_introduction_text)
         {
             $introduction_text = $this->get_introduction_text();
-            if (! $introduction_text)
+            if (!$introduction_text)
             {
                 if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
                 {
@@ -385,7 +385,7 @@ abstract class Tool extends SubManager
      */
     static function type_to_class($tool)
     {
-        return __NAMESPACE__ . '\tool\\'. $tool .'\\' . Utilities :: underscores_to_camelcase($tool) . 'Tool';
+        return __NAMESPACE__ . '\tool\\' . $tool . '\\' . Utilities :: underscores_to_camelcase($tool) . 'Tool';
     }
 
     /**
@@ -411,17 +411,16 @@ abstract class Tool extends SubManager
     //        return $this->get_parent()->get_path($path_type);
     //    }
 
-
-    /** Dummy functions so we can use the same component class for both tool and repositorytool **/
+    /** Dummy functions so we can use the same component class for both tool and repositorytool * */
     function perform_requested_action()
     {
+
     }
 
     //	function get_categories($list = false)
     //	{
     //		return $this->get_parent()->get_categories($list);
     //	}
-
 
     /**
      * @see Application :: get_category()
@@ -435,10 +434,10 @@ abstract class Tool extends SubManager
     {
         $form = new FormValidator($action, 'get', $this->get_url());
         $categories = $this->get_categories(true);
-        $form->addElement('select', ContentObjectPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category', null ,Utilities:: COMMON_LIBRARIES), $categories);
+        $form->addElement('select', ContentObjectPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category', null, Utilities:: COMMON_LIBRARIES), $categories);
         //$form->addElement('submit', 'submit', Translation :: get('Ok', null ,Utilities:: COMMON_LIBRARIES));
-        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'positive move'));
-        $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move', null, Utilities:: COMMON_LIBRARIES), array('class' => 'positive move'));
+        $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities:: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $parameters = $this->get_parameters();
@@ -461,8 +460,8 @@ abstract class Tool extends SubManager
             {
                 $toolbar = new Toolbar();
 
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON));
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON, true));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON, true));
             }
 
             $html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/introduction.png);">';
@@ -543,7 +542,7 @@ abstract class Tool extends SubManager
     static function factory($tool_name, $parent)
     {
         $file = dirname(__FILE__) . '/' . $tool_name . '/' . $tool_name . '_tool.class.php';
-        if (! file_exists($file))
+        if (!file_exists($file))
         {
             throw new Exception(Translation :: get('ToolDoesNotExist', array('toolname' => $tool_name)));
         }
@@ -562,7 +561,7 @@ abstract class Tool extends SubManager
     static function launch($type, $application)
     {
         $file = dirname(__FILE__) . '/../../../tool/' . $type . '/php/' . $type . '_tool.class.php';
-        if (! file_exists($file))
+        if (!file_exists($file))
         {
             throw new Exception(Translation :: get('ToolTypeDoesNotExist', array('type' => $type)));
         }
@@ -583,9 +582,12 @@ abstract class Tool extends SubManager
     {
         return $this->get_parent()->tool_has_new_publications($tool_name, $course);
     }
+
     static function get_tool_type_namespace($type)
     {
         return 'application\\weblcms\\tool\\' . $type;
     }
+
 }
+
 ?>

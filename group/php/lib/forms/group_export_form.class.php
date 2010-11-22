@@ -25,7 +25,7 @@ class GroupExportForm extends FormValidator
      * Creates a new GroupImportForm
      * Used to export groups to a file
      */
-    function GroupExportForm($form_type, $action)
+    function __construct($form_type, $action)
     {
         parent :: __construct('group_export', 'post', $action, '_blank');
         

@@ -92,9 +92,28 @@ class User extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE,
-                self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE,
-                self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_SECURITY_TOKEN, self :: PROPERTY_APPROVED));
+                self :: PROPERTY_LASTNAME,
+                self :: PROPERTY_FIRSTNAME,
+                self :: PROPERTY_USERNAME,
+                self :: PROPERTY_PASSWORD,
+                self :: PROPERTY_AUTH_SOURCE,
+                self :: PROPERTY_EXTERNAL_UID,
+                self :: PROPERTY_EMAIL,
+                self :: PROPERTY_STATUS,
+                self :: PROPERTY_PLATFORMADMIN,
+                self :: PROPERTY_PHONE,
+                self :: PROPERTY_OFFICIAL_CODE,
+                self :: PROPERTY_PICTURE_URI,
+                self :: PROPERTY_CREATOR_ID,
+                self :: PROPERTY_DISK_QUOTA,
+                self :: PROPERTY_DATABASE_QUOTA,
+                self :: PROPERTY_VERSION_QUOTA,
+                self :: PROPERTY_ACTIVATION_DATE,
+                self :: PROPERTY_EXPIRATION_DATE,
+                self :: PROPERTY_REGISTRATION_DATE,
+                self :: PROPERTY_ACTIVE,
+                self :: PROPERTY_SECURITY_TOKEN,
+                self :: PROPERTY_APPROVED));
     }
 
     /**
@@ -602,17 +621,17 @@ class User extends DataClass
         $succes = $udm->create_user($this);
 
         //$version_quota = $this->get_version_quota() ? $this->get_version_quota() : 20;
+        //$types = RepositoryDataManager :: get_registered_types(false);
+        //
+        //foreach ($types as $type)
+        //{
+        //    $userquota = new UserQuota();
+        //    $userquota->set_content_object_type($type);
+        //    $userquota->set_user_quota($version_quota);
+        //    $userquota->set_user_id($this->get_id());
+        //    $userquota->create();
+        //}
 
-//        $types = RepositoryDataManager :: get_registered_types(false);
-//
-  //      foreach ($types as $type)
-//        {
-//            $userquota = new UserQuota();
-//            $userquota->set_content_object_type($type);
-//            $userquota->set_user_quota($version_quota);
-//            $userquota->set_user_id($this->get_id());
-//            $userquota->create();
-//        }
 
         if (! UserRights :: create_location_in_users_subtree($this->get_fullname(), $this->get_id(), UserRights :: get_users_subtree_root_id()))
         {

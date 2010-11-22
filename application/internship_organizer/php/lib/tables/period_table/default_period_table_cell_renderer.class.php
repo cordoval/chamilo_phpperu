@@ -15,7 +15,7 @@ class DefaultInternshipOrganizerPeriodTableCellRenderer extends ObjectTableCellR
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerPeriodTableCellRenderer()
+    function __construct()
     {
     }
 

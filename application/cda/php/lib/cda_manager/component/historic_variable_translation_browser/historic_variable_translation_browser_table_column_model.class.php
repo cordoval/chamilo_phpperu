@@ -27,7 +27,7 @@ class HistoricVariableTranslationBrowserTableColumnModel extends DefaultHistoric
 	/**
 	 * Constructor
 	 */
-	function HistoricVariableTranslationBrowserTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(2);

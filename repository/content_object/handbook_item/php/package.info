@@ -5,9 +5,15 @@
 		<code>handbook_item</code>
 		<section>content_object</section>
 		<category>handbook</category>
-		<author></author>
+		<authors>
+			<author>
+				<name>Nathalie Blocry</name>
+				<email>nathalie.bocry@vub.ac.be</email>
+				<company>Vrije Universiteit Brussel</company>
+			</author>
+		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/p/handbook_item/handbook_item-1.0.0.zip</filename>
+		<filename>pool/main/content_object/p/handbook_item/handbook_item-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

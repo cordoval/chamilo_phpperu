@@ -23,7 +23,7 @@ class ContentObjectTableCellRenderer extends DefaultContentObjectTableCellRender
      * @param string $edit_and_publish_url_format URL for editing and publishing
      * the selected learning object.
      */
-    function ContentObjectTableCellRenderer($table_actions)
+    function __construct($table_actions)
     {
         $this->set_table_actions($table_actions);
     }

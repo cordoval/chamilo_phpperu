@@ -6,7 +6,7 @@ use common\extensions\external_repository_manager\DefaultExternalRepositoryGalle
 
 class FlickrExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRepositoryGalleryObjectTablePropertyModel
 {
-    function FlickrExternalRepositoryGalleryTablePropertyModel()
+    function __construct()
     {
         parent :: __construct();
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<packages>
+	<package>
+		<name>Rights editor manager</name>
+		<code>rights_editor_manager</code>
+		<section>extension</section>
+		<category>core</category>
+		<authors>
+			<author>
+				<name>Hans De Bisschop</name>
+				<email>hans.de.bisschop@ehb.be</email>
+				<company>Erasmushogeschool Brussel</company>
+			</author>
+			<author>
+				<name>Sven Vanpoucke</name>
+				<email>sven.vanpoucke@hogent.be</email>
+				<company>Hogeschool Gent</company>
+			</author>
+			<author>
+				<name>Pieterjan Broeckaert</name>
+				<email>pieterjan.broekaert@hogent.be</email>
+				<company>Hogeschool Gent</company>
+			</author>
+		</authors>
+		<version>1.0.0</version>
+		<filename>pool/main/extension/r/rights_editor_manager/rights_editor_manager-1.0.0.zip</filename>
+		<size></size>
+		<md5></md5>
+		<sha1></sha1>
+		<sha256></sha256>
+		<sha512></sha512>
+		<tagline></tagline>
+		<description>An interface to the rights management system, which allows users to configure permissions for users, groups and templates for any given location.</description>
+		<homepage></homepage>
+		<dependencies>
+			<server>
+				<dependency>
+					<id>php</id>
+					<version type="4">5.3.0</version>
+					<severity>1</severity>
+				</dependency>
+			</server>
+		</dependencies>
+	</package>
+</packages>

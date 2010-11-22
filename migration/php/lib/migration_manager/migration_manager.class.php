@@ -33,7 +33,7 @@ class MigrationManager extends CoreApplication
      * Constructor
      * @param int $user_id The user id of current user
      */
-    function MigrationManager($user)
+    function __construct($user)
     {
         parent :: __construct($user);
     }

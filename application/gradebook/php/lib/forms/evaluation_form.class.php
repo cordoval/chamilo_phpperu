@@ -1,5 +1,4 @@
 <?php
-
 namespace application\gradebook;
 
 use common\libraries\FormValidator;
@@ -8,7 +7,6 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\PlatformSetting;
 
-require_once Path :: get_plugin_path() . 'pear/HTML/QuickForm/Rule.php';
 require_once dirname(__FILE__) . '/rules/validate_score_boundaries_rule.class.php';
 require_once dirname(__FILE__) . '/rules/validate_score_step_rule.class.php';
 
@@ -16,10 +14,10 @@ class EvaluationForm extends FormValidator
 {
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
-    
+
     const PARAM_SCORE = 'score';
     const PARAM_COMMENT = 'comment';
-    
+
     private $publication_id;
     private $user;
     private $grade_evaluation;
@@ -27,10 +25,10 @@ class EvaluationForm extends FormValidator
     private $form_type;
     private $publisher_id;
     private $evaluation_format;
-    
+
     private $allow_creation = false;
 
-    function EvaluationForm($form_type, $evaluation, $grade_evaluation, $publication_id, $publisher_id, $action, $user)
+    function __construct($form_type, $evaluation, $grade_evaluation, $publication_id, $publisher_id, $action, $user)
     {
         parent :: __construct('evaluation_publication_settings', 'post', $action);
         $this->evaluation = $evaluation;
@@ -119,7 +117,7 @@ class EvaluationForm extends FormValidator
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/change_evaluation_format.js'));
             $this->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array('class' => 'normal filter'));
         }
-    
+
     }
 
     function build_basic_creation_form()
@@ -137,20 +135,20 @@ class EvaluationForm extends FormValidator
     function build_editing_form()
     {
         $this->build_basic_form();
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     function build_creation_form()
     {
         $this->build_basic_form();
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -161,18 +159,18 @@ class EvaluationForm extends FormValidator
         $evaluation_succes = false;
         $internal_item_instancr_succes = false;
         $grade_evaluation_succes = false;
-        
+
         $evaluation = $this->evaluation;
         $evaluation->set_evaluator_id($this->user->get_id());
         $evaluation->set_user_id($this->publisher_id);
         $evaluation->set_evaluation_date(time());
         $evaluation->set_format_id($export_values['format_id']);
-        
+
         if ($evaluation->create())
         {
             $evaluation_succes = true;
         }
-        
+
         $internal_item_instance = new InternalItemInstance();
         $internal_item_instance->set_internal_item_id(GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication(Request :: get('application'), $this->publication_id)->get_id());
         $internal_item_instance->set_evaluation_id($evaluation->get_id());
@@ -180,7 +178,7 @@ class EvaluationForm extends FormValidator
         {
             $internal_item_instancr_succes = true;
         }
-        
+
         $grade_evaluation = $this->grade_evaluation;
         $grade_evaluation->set_score($submit_values[$this->evaluation_format->get_evaluation_field_name()]);
         $grade_evaluation->set_comment($submit_values['comment']);
@@ -212,7 +210,7 @@ class EvaluationForm extends FormValidator
         {
             return false;
         }
-        
+
         $internal_item_instance = new InternalItemInstance();
         $internal_item_instance->set_internal_item_id(GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication(Request :: get('application'), $this->publication_id)->get_id());
         $internal_item_instance->set_evaluation_id($evaluation_id);
@@ -220,7 +218,7 @@ class EvaluationForm extends FormValidator
         {
             return false;
         }
-        
+
         $grade_evaluation = $this->grade_evaluation;
         $grade_evaluation->set_score($values[$this->evaluation_format->get_evaluation_field_name()]);
         $grade_evaluation->set_comment($values['comment']);
@@ -229,12 +227,12 @@ class EvaluationForm extends FormValidator
         {
             return false;
         }
-        
+
         return true;
     }
 
     // Default values (setter)
-    
+
 
     function setEvaluationDefaults($defaults = array ())
     {
@@ -245,14 +243,14 @@ class EvaluationForm extends FormValidator
             $defaults[$this->evaluation_format->get_evaluation_field_name()] = $grade_evaluation->get_score();
             $defaults[GradeEvaluation :: PROPERTY_COMMENT] = $grade_evaluation->get_comment();
             $defaults[GradeEvaluation :: PROPERTY_ID] = $grade_evaluation->get_id();
-            
+
             $defaults[Evaluation :: PROPERTY_FORMAT_ID] = $evaluation->get_format_id();
             $defaults[Evaluation :: PROPERTY_EVALUATION_DATE] = $evaluation->get_evaluation_date();
             $defaults[Evaluation :: PROPERTY_USER_ID] = $evaluation->get_user_id();
             $defaults[Evaluation :: PROPERTY_EVALUATOR_ID] = $evaluation->get_evaluator_id();
             parent :: setDefaults($defaults);
         }
-    
+
     }
 
     function validate()

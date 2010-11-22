@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>YouTube Video</name>
+		<name>Soundcloud Audio</name>
 		<code>soundcloud</code>
 		<section>content_object</section>
 		<category>media</category>
-		<author></author>
+		<authors>
+			<author>
+				<name>Hans De Bisschop</name>
+				<email>hans.de.bisschop@ehb.be</email>
+				<company>Erasmushogeschool Brussel</company>
+			</author>
+		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/y/soundcloud/soundcloud-1.0.0.zip</filename>
+		<filename>pool/main/content_object/s/soundcloud/soundcloud-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

@@ -23,7 +23,7 @@ class HomeBlockConfigForm extends FormValidator
     private $homeblock_config;
     private $base_path;
 
-    function HomeBlockConfigForm($homeblock, $action)
+    function __construct($homeblock, $action)
     {
         parent :: __construct('home_block', 'post', $action);
 

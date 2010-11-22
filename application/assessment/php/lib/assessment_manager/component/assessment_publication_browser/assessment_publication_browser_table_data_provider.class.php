@@ -21,7 +21,7 @@ class AssessmentPublicationBrowserTableDataProvider extends ObjectTableDataProvi
      * @param ApplicationComponent $browser
      * @param Condition $condition
      */
-    function AssessmentPublicationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

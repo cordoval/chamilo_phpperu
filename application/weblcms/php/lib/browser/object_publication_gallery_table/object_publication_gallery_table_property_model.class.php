@@ -18,7 +18,7 @@ class ObjectPublicationGalleryTablePropertyModel extends GalleryObjectTablePrope
     /**
      * Constructor.
      */
-    function ObjectPublicationGalleryTablePropertyModel($properties)
+    function __construct($properties)
     {
         parent :: __construct(self :: get_properties(), 0, SORT_ASC);
     }

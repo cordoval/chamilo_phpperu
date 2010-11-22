@@ -11,9 +11,9 @@ require_once Path :: get_common_libraries_class_path().'rss/publication_rss.clas
 
 class AlexiaPublicationRSS extends PublicationRSS
 {
-	function AlexiaPublicationRSS()
+	function __construct()
 	{
-		parent :: PublicationRSS('Chamilo Alexia', htmlspecialchars(Path :: get(WEB_PATH)), 'Alexia publications', htmlspecialchars(Path :: get(WEB_PATH)));
+		parent :: __construct('Chamilo Alexia', htmlspecialchars(Path :: get(WEB_PATH)), 'Alexia publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')

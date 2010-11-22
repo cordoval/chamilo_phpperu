@@ -36,7 +36,7 @@ class Dokeos185UserinfoContent
      * Creates a new Dokeos185UserinfoContent object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185UserinfoContent($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

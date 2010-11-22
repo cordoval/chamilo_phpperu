@@ -22,7 +22,7 @@ class HomeBlockForm extends FormValidator
     private $homeblock;
     private $form_type;
 
-    function HomeBlockForm($form_type, $homeblock, $action)
+    function __construct($form_type, $homeblock, $action)
     {
         parent :: __construct('home_block', 'post', $action);
         

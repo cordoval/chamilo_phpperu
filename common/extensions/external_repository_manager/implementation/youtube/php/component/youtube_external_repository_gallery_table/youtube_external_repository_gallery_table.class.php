@@ -11,7 +11,7 @@ class YoutubeExternalRepositoryGalleryTable extends GalleryObjectTable
 {
     const DEFAULT_NAME = 'youtube_external_repository_gallery_table';
 
-    function YoutubeExternalRepositoryGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $data_provider = new YoutubeExternalRepositoryGalleryTableDataProvider($browser, $condition);
         $renderer = new YoutubeExternalRepositoryGalleryTableCellRenderer($browser);

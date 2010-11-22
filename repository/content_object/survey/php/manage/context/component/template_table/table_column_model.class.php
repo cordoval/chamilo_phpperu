@@ -17,7 +17,7 @@ class SurveyTemplateTableColumnModel extends DefaultSurveyTemplateTableColumnMod
     /**
      * Constructor
      */
-    function SurveyTemplateTableColumnModel($survey_template)
+    function __construct($survey_template)
     {
         parent :: __construct($survey_template);
         $this->set_default_order_column(0);

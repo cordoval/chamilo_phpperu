@@ -23,7 +23,7 @@ class InternshipOrganizerLocationForm extends FormValidator
     private $user;
     private $region_id;
 
-    function InternshipOrganizerLocationForm($form_type, $location, $action, $user)
+    function __construct($form_type, $location, $action, $user)
     {
         parent :: __construct('location_settings', 'post', $action);
         

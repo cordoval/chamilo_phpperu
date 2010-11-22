@@ -17,7 +17,7 @@ class InternshipOrganizerPeriodSubscribeCategoryForm extends FormValidator
     private $period;
     private $user;
 
-    function InternshipOrganizerPeriodSubscribeCategoryForm($period, $action, $user)
+    function __construct($period, $action, $user)
     {
         parent :: __construct('period_subscribe_categories', 'post', $action);
         

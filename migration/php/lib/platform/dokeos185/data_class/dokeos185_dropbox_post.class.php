@@ -35,7 +35,7 @@ class Dokeos185DropboxPost extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185DropboxPost object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185DropboxPost($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

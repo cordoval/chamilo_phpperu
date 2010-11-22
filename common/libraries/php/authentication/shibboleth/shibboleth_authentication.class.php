@@ -54,7 +54,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
     /*
      * Constructor
      */
-    function ShibbolethAuthentication()
+    function __construct()
     {
         $this->initialize();
     }

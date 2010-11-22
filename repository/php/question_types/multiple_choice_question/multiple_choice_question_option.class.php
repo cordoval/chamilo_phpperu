@@ -13,7 +13,7 @@ class MultipleChoiceQuestionOption
     
     private $value;
     
-    function MultipleChoiceQuestionOption($value)
+    function __construct($value)
     {
 		$this->value = $value;
 	}

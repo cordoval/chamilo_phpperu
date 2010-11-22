@@ -64,7 +64,7 @@ class InequalityCondition implements Condition
      * @param int $operator (LESS_THAN, LESS_THAN_OR_EQUAL, GREATER_THAN,
      * GREATER_THAN_OR_EQUAL)
      */
-    function InequalityCondition($name, $operator, $value, $storage_unit = null, $is_alias = false)
+    function __construct($name, $operator, $value, $storage_unit = null, $is_alias = false)
     {
         $this->name = $name;
         $this->operator = $operator;

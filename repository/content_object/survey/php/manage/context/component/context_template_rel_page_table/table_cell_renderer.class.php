@@ -14,7 +14,7 @@ class SurveyContextTemplateRelPageTableCellRenderer extends DefaultSurveyContext
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function SurveyContextTemplateRelPageTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

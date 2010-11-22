@@ -48,7 +48,7 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
      * selected.
      * @param string $query The search query.
      */
-    function ContentObjectTableDataProvider($owner, $types, $query = null, $parent)
+    function __construct($owner, $types, $query = null, $parent)
     {
         $this->set_types($types);
         $this->set_owner($owner);

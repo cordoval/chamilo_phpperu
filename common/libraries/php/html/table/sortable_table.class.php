@@ -3,9 +3,6 @@ namespace common\libraries;
 use HTML_Table;
 use Pager;
 
-require_once "HTML/Table.php";
-require_once "Pager/Pager.php";
-require_once "Pager/Sliding.php";
 require_once 'table_sort.class.php';
 /**
  * This class allows you to display a sortable data-table. It is possible to
@@ -109,9 +106,9 @@ class SortableTable extends HTML_Table
      * @param int $default_order_direction The default order direction; either
      * the constant SORT_ASC or SORT_DESC
      */
-    function SortableTable($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $default_column = 1, $default_items_per_page = 20, $default_order_direction = SORT_ASC, $ajax_enabled = false)
+    function __construct($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $default_column = 1, $default_items_per_page = 20, $default_order_direction = SORT_ASC, $ajax_enabled = false)
     {
-        parent :: HTML_Table(array('class' => 'data_table'), 0, true);
+        parent :: __construct(array('class' => 'data_table'), 0, true);
         $this->table_name = $table_name;
         $this->additional_parameters = array();
         $this->param_prefix = $table_name . '_';
@@ -142,7 +139,7 @@ class SortableTable extends HTML_Table
 
         $this->ajax_enabled = $ajax_enabled;
         $this->column_filters = array();
-        $this->form_actions = new ObjectTableFormActions();
+        $this->form_actions = new ObjectTableFormActions(__NAMESPACE__);
         $this->checkbox_name = null;
         $this->td_attributes = array();
         $this->th_attributes = array();
@@ -297,6 +294,7 @@ class SortableTable extends HTML_Table
                 $html[] = '</select>';
 
                 $html[] = '<input type="hidden" name="' . $this->table_name . '_action_name" value="' . $this->form_actions->get_action() . '"/>';
+                $html[] = '<input type="hidden" name="' . $this->table_name . '_namespace" value="' . $this->form_actions->get_namespace() . '"/>';
                 $html[] = '<input type="hidden" name="table_name" value="' . $this->table_name . '"/>';
                 //                $html[] = '<button class="normal start" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
                 $html[] = ' <input type="submit" value="' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES) . '"/>';
@@ -763,10 +761,10 @@ class SortableTableFromArray extends SortableTable
      * @param int $default_column
      * @param int $default_items_per_page
      */
-    function SortableTableFromArray($table_data, $default_column = 1, $default_items_per_page = 20, $tablename = 'tablename')
+    function __construct($table_data, $default_column = 1, $default_items_per_page = 20, $tablename = 'tablename')
     {
         $this->table_data = $table_data;
-        parent :: SortableTable($tablename, array($this, 'get_total_number_of_items'), array($this, 'get_table_data'), $default_column, $default_items_per_page);
+        parent :: __construct($tablename, array($this, 'get_total_number_of_items'), array($this, 'get_table_data'), $default_column, $default_items_per_page);
     }
 
     /**

@@ -21,10 +21,10 @@ abstract class AssessmentViewerWizardPage extends FormValidatorPage
      * @param Tool $parent The parent in which the wizard
      * runs.
      */
-    public function AssessmentViewerWizardPage($name, $parent)
+    public function __construct($name, $parent)
     {
         $this->parent = $parent;
-        parent :: FormValidatorPage($name, 'post');
+        parent :: __construct($name, 'post');
         $this->updateAttributes(array('action' => $parent->get_parent()->get_url()));
     }
 

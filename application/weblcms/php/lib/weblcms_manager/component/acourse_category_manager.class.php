@@ -1,4 +1,5 @@
 <?php
+//TODO IS this file still used ? 
 namespace application\weblcms;
 
 use common\libraries\Toolbar;
@@ -26,7 +27,7 @@ require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
 /**
  * Weblcms component allows the user to manage course categories
  */
-class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
+class WeblcmsManagerACourseCategoryManagerComponent extends WeblcmsManager
 {
     private $category;
 

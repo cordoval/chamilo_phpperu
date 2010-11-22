@@ -15,8 +15,6 @@ use common\libraries\EqualityCondition;
  * $Id: survey_tool_menu.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package survey.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of courses.
@@ -54,7 +52,7 @@ class SurveyToolMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function SurveyToolMenu($current_participant, $url_format = '?application=weblcms&go=courseviewer&course=%s&tool=survey&publication=%s&survey_participant=%s&tool_action=take', $include_root = true, $show_complete_tree = false, $hide_current_participant = false)
+    function __construct($current_participant, $url_format = '?application=weblcms&go=courseviewer&course=%s&tool=survey&publication=%s&survey_participant=%s&tool_action=take', $include_root = true, $show_complete_tree = false, $hide_current_participant = false)
     {
         $this->include_root = $include_root;
         $this->show_complete_tree = $show_complete_tree;
@@ -231,6 +229,6 @@ class SurveyToolMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

@@ -13,7 +13,7 @@ class HelpItemForm extends FormValidator
 {
     private $help_item;
 
-    function HelpItemForm($help_item, $action)
+    function __construct($help_item, $action)
     {
         parent :: __construct('help_item', 'post', $action);
         

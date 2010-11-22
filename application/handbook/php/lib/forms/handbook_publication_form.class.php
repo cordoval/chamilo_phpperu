@@ -19,7 +19,7 @@ class HandbookPublicationForm extends FormValidator
 	private $handbook_publication;
 	private $user;
 
-    function HandbookPublicationForm($form_type, $handbook_publication, $action, $user)
+    function __construct($form_type, $handbook_publication, $action, $user)
     {
     	parent :: __construct('handbook_publication_settings', 'post', $action);
 

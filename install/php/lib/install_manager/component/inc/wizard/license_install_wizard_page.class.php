@@ -29,7 +29,7 @@ class LicenseInstallWizardPage extends InstallWizardPage
         $this->set_lang($this->controller->exportValue('page_language', 'install_language'));
         $this->_formBuilt = true;
         $this->addElement('category', Translation :: get('License'));
-        $this->addElement('textarea', 'license', null, array('cols' => 80, 'rows' => 30, 'style' => 'background-color: white; line-height: 12px;'));
+        $this->addElement('textarea', 'license', null, array('cols' => 80, 'rows' => 30, 'style' => 'background-color: white;'));
         $this->addElement('checkbox', 'license_accept', '', Translation :: get('IAccept'));
         $this->addRule('license_accept', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         $this->addElement('category');

@@ -5,7 +5,7 @@ use common\libraries\ObjectTableColumn;
 
 class DefaultMetadataNamespaceTableColumnModel extends ObjectTableColumnModel
 {
-    function DefaultMetadataNamespaceTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

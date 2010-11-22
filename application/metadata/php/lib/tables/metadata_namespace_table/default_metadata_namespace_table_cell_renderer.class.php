@@ -4,7 +4,7 @@ use common\libraries\ObjectTableCellRenderer;
 
 class DefaultMetadataNamespaceTableCellRenderer extends ObjectTableCellRenderer
 {
-    function DefaultMetadataNamespaceTableCellRenderer($browser)
+    function __construct($browser)
     {
     
     }

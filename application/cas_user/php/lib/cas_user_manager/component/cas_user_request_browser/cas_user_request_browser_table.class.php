@@ -20,7 +20,7 @@ class CasUserRequestBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function CasUserRequestBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new CasUserRequestBrowserTableColumnModel();
         $renderer = new CasUserRequestBrowserTableCellRenderer($browser);

@@ -22,7 +22,7 @@ class ContextLinkForm extends MetadataForm
     private $user;
     private $metadata_property_values;
         
-    function ContextLinkForm($name, $form_type, $context_link, $metadata_property_values = array(), $action)
+    function __construct($name, $form_type, $context_link, $metadata_property_values = array(), $action)
     {
     	$this->set_parent_type(self :: TYPE);
 

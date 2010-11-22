@@ -21,7 +21,7 @@ require_once Path :: get_admin_path() . 'lib/package_manager/component/registrat
  */
 class ContentObjectRegistrationBrowserTable extends RegistrationBrowserTable
 {
-	function ContentObjectRegistrationBrowserTable($browser, $parameters, $condition)
+	function __construct($browser, $parameters, $condition)
     {
         $model = new ContentObjectRegistrationBrowserTableColumnModel();
         $renderer = new ContentObjectRegistrationBrowserTableCellRenderer($browser);

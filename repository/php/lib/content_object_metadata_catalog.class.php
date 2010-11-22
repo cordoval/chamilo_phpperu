@@ -26,7 +26,7 @@ class ContentObjectMetadataCatalog extends RepositoryDataClass
     const CATALOG_MIN = 'min';
     const CATALOG_SEC = 'sec';
 
-    function ContentObjectMetadataCatalog($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         parent :: __construct($defaultProperties);
     }

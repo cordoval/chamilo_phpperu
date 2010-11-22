@@ -18,7 +18,7 @@ class DefaultInternshipOrganizerCategoryRelLocationTableColumnModel extends Obje
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerCategoryRelLocationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns());
     }

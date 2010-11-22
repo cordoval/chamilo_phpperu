@@ -30,7 +30,7 @@ class PeerAssessmentPublicationBrowserTableCellRenderer extends DefaultPeerAsses
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function PeerAssessmentPublicationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -2,16 +2,13 @@
 namespace common\libraries;
 use \HTML_Menu;
 use \HTML_Menu_ArrayRenderer;
- 
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 
 class TreeMenu extends HTML_Menu
 {
 	private $name;
 	private $data_provider;
 
-	function TreeMenu($name, TreeMenuDataProvider $data_provider)
+	function __construct($name, TreeMenuDataProvider $data_provider)
 	{
 		$this->name = $name;
 		$this->data_provider = $data_provider;

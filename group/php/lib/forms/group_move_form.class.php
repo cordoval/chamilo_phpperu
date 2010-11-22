@@ -18,7 +18,7 @@ class GroupMoveForm extends FormValidator
     private $level = 1;
     private $gdm;
 
-    function GroupMoveForm($group, $action, $user)
+    function __construct($group, $action, $user)
     {
         parent :: __construct('group_move', 'post', $action);
         $this->group = $group;

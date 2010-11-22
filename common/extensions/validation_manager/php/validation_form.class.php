@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\validation_manager;
+use common\libraries\FormValidator;
 /**
  * $Id: validation_form.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.validation_manager
@@ -17,7 +18,7 @@ class ValidationForm extends FormValidator
     
     private $adm;
 
-    function ValidationForm($action)
+    function __construct($action)
     {
         parent :: __construct('validation_form', 'post', $action);
         $this->build_form();

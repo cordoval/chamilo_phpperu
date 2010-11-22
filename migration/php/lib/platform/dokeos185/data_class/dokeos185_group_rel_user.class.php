@@ -36,7 +36,7 @@ class Dokeos185GroupRelUser extends Dokeos185CourseDataMigrationDataClass
      * @param array $defaultProperties The default properties of the group tutor relation
      *                                 object. Associative array.
      */
-    function Dokeos185GroupRelUser($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

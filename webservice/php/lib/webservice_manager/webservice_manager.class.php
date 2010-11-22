@@ -43,7 +43,7 @@ class WebserviceManager extends CoreApplication
     private $breadcrumbs;
     private $instance;
 
-    public function WebserviceManager($user = null)
+    public function __construct($user = null)
     {
         parent :: __construct($user);
     }

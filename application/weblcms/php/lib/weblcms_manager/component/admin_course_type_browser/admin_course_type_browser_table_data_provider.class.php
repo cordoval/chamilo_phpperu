@@ -21,7 +21,7 @@ class AdminCourseTypeBrowserTableDataProvider extends ObjectTableDataProvider
      * @param WeblcmsManagerComponent $browser
      * @param Condition $condition
      */
-    function AdminCourseTypeBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

@@ -7,7 +7,7 @@ class CsvRegionCreator
 	
 	private $parent_region_id;
 	
-	function CsvRegionCreator($parent_region_id){
+	function __construct($parent_region_id){
 		$this->parent_region_id = $parent_region_id;
 	}
 	

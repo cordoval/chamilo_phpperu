@@ -23,7 +23,7 @@ class OrderingQuestionOption
      * @param string $value The value of the option
      * @param int $rank The rank of this answer in the question
      */
-    function OrderingQuestionOption($value, $order)
+    function __construct($value, $order)
     {
         $this->value = $value;
         $this->order = $order;

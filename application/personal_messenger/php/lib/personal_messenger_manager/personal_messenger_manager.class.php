@@ -48,7 +48,7 @@ class PersonalMessengerManager extends WebApplication
      * Constructor
      * @param User $user The current user
      */
-    function PersonalMessengerManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
 

@@ -1,14 +1,13 @@
 <?php
-use common\libraries\Path;
 /**
- * Photobucket API 
+ * Photobucket API
  * Fluent interface for PHP5
  * User methods
- * 
+ *
  * @author Photobucket
  * @package PBAPI
  * @subpackage Methods
- * 
+ *
  * @copyright Copyright Copyright (c) 2008, Photobucket, Inc.
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
@@ -16,7 +15,7 @@ use common\libraries\Path;
 /**
  * Load Methods parent
  */
-require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Methods.php';
+require_once dirname(__FILE__) . '/../Methods.php';
 
 /**
  * User Methods
@@ -25,7 +24,7 @@ require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Methods.
  * @subpackage Methods
  */
 class PBAPI_Methods_user extends PBAPI_Methods {
-    
+
     /**
      * search
      *
@@ -37,13 +36,13 @@ class PBAPI_Methods_user extends PBAPI_Methods {
         {
         	$this->core->_appendUri('/search/' . $term);
         }
-        else 
+        else
         {
         	$this->core->_appendUri('/search');
         }
-        
+
     }
-    
+
     /**
      * URLs
      *
@@ -52,7 +51,7 @@ class PBAPI_Methods_user extends PBAPI_Methods {
     public function url($params = null) {
         $this->core->_appendUri('/url');
     }
-    
+
     /**
      * Contacts
      *
@@ -61,7 +60,7 @@ class PBAPI_Methods_user extends PBAPI_Methods {
     public function contact($params = null) {
         $this->core->_appendUri('/contact');
     }
-    
+
     /**
      * upload options
      *
@@ -71,7 +70,7 @@ class PBAPI_Methods_user extends PBAPI_Methods {
         $this->core->_setParamList($params);
         $this->core->_appendUri('/uploadoption');
     }
-    
+
     /**
      * get Tags for a user
      *
@@ -86,7 +85,7 @@ class PBAPI_Methods_user extends PBAPI_Methods {
         $this->core->_appendUri('/tag/%s', $tagname);
         $this->core->_setParamList($params);
     }
-    
+
     /**
      * get Favorites for a user
      *
@@ -101,5 +100,5 @@ class PBAPI_Methods_user extends PBAPI_Methods {
         $this->core->_appendUri('/favorite/%s', $favid);
         $this->core->_setParamList($params);
     }
-    
+
 }

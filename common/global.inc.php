@@ -59,8 +59,6 @@ ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear') . PATH_SEPA
 
 spl_autoload_register('common\libraries\Utilities::autoload');
 
-require_once 'MDB2.php';
-
 // Start session
 Session :: start($already_installed);
 

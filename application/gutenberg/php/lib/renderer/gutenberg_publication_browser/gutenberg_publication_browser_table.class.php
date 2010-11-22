@@ -23,7 +23,7 @@ class GutenbergPublicationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function GutenbergPublicationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new GutenbergPublicationBrowserTableColumnModel();
         $renderer = new GutenbergPublicationBrowserTableCellRenderer($browser);

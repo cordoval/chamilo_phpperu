@@ -16,7 +16,7 @@ class UserMetadataPropertyValueBrowserTableDataProvider extends ObjectTableDataP
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function UserMetadataPropertyValueBrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
     parent :: __construct($browser, $condition);
   }

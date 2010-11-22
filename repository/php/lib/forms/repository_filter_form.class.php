@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -11,6 +12,9 @@ use common\libraries\InCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
+
+use admin\AdminDataManager;
+use admin\Registration;
 /**
  * $Id: repository_filter_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.forms
@@ -30,7 +34,7 @@ class RepositoryFilterForm extends FormValidator
      * @param string $url The location to which the search request should be
      * posted.
      */
-    function RepositoryFilterForm($manager, $url)
+    function __construct($manager, $url)
     {
         parent :: __construct('repository_filter_form', 'post', $url);
 
@@ -50,42 +54,64 @@ class RepositoryFilterForm extends FormValidator
         $this->renderer->setFormTemplate('<form {attributes}><div class="filter_form">{content}</div><div class="clear">&nbsp;</div></form>');
         $this->renderer->setElementTemplate('<div class="row"><div class="formw">{label}&nbsp;{element}</div></div>');
 
+        $select = $this->addElement('select', self :: FILTER_TYPE, null, array(), array(
+                'class' => 'postback'));
+
         $rdm = RepositoryDataManager :: get_instance();
         $registrations = RepositoryDataManager :: get_registered_types();
 
-        $filters = array();
+        $disabled_counter = 0;
 
-        $filters[0] = Translation :: get('AllContentObjects');
+        $select->addOption(Translation :: get('AllContentObjects'), 'disabled_' . $disabled_counter);
+        $disabled_counter ++;
 
         $condition = new EqualityCondition(UserView :: PROPERTY_USER_ID, $this->manager->get_user_id());
         $userviews = $rdm->retrieve_user_views($condition);
 
         if ($userviews->size() > 0)
         {
-            $filters['c_0'] = '--------------------------';
+            $select->addOption('--------------------------', 'disabled_' . $disabled_counter, array(
+                    'disabled'));
+            $disabled_counter ++;
 
             while ($userview = $userviews->next_result())
             {
-                $filters[$userview->get_id()] = Translation :: get('View', null, Utilities :: COMMON_LIBRARIES) . ': ' . $userview->get_name();
+                $select->addOption(Translation :: get('View', null, Utilities :: COMMON_LIBRARIES) . ': ' . $userview->get_name(), $userview->get_id());
             }
         }
 
-        $filters['c_1'] = '--------------------------';
+        $select->addOption('--------------------------', 'disabled_' . $disabled_counter, array(
+                'disabled'));
+        $disabled_counter ++;
 
-        $hidden_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
+        $type_selector = new ContentObjectTypeSelector($this->manager, $this->get_allowed_content_object_types());
+        $types = $type_selector->as_tree();
 
-        for($i = 0; $i < count($registrations); $i ++)
+        unset($types[0]);
+
+        foreach ($types as $key => $type)
         {
-            if (in_array($registrations[$i], $hidden_types))
-                continue;
-            $filters[$registrations[$i]] = Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($registrations[$i]));
+            if (is_integer($key))
+            {
+                $select->addOption($type, 'disabled_' . $disabled_counter, array(
+                        'disabled'));
+                $key = 'disabled_' . $disabled_counter;
+                $disabled_counter ++;
+            }
+            else
+            {
+
+                $select->addOption($type, $key);
+            }
         }
 
-        $this->addElement('select', self :: FILTER_TYPE, null, $filters, array('class' => 'postback'));
-        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal filter'));
+        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal filter'));
 
         $session_filter = Session :: retrieve('filter');
-        $this->setDefaults(array(self :: FILTER_TYPE => $session_filter, 'published' => 1));
+        $this->setDefaults(array(
+                self :: FILTER_TYPE => $session_filter,
+                'published' => 1));
 
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_web_common_libraries_path() . 'resources/javascript/postback.js'));
     }
@@ -97,7 +123,7 @@ class RepositoryFilterForm extends FormValidator
         {
             $values = $this->exportValues();
             $filter = $values[self :: FILTER_TYPE];
-            if ($filter == 'c_0' || $filter == 'c_1')
+            if (substr($filter, 0, 9) == 'disabled_')
                 $filter = 0;
 
             if ($this->validate())
@@ -146,6 +172,21 @@ class RepositoryFilterForm extends FormValidator
         $html[] = $this->renderer->toHTML();
         $html[] = '</div>';
         return implode('', $html);
+    }
+
+    function get_allowed_content_object_types()
+    {
+        $types = RepositoryDataManager :: get_registered_types(true);
+        foreach ($types as $index => $type)
+        {
+            $registration = AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT);
+            if (! $registration || ! $registration->is_active())
+            {
+                unset($types[$index]);
+            }
+        }
+
+        return $types;
     }
 }
 ?>

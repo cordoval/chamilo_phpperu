@@ -29,7 +29,7 @@ class QuotaBrowserTableCellRenderer extends DefaultQuotaTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function QuotaBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

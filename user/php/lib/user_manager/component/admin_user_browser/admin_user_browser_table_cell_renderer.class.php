@@ -32,7 +32,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function AdminUserBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

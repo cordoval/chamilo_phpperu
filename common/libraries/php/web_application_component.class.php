@@ -9,7 +9,7 @@ class WebApplicationComponent extends ApplicationComponent
      * The WebApplicationComponent constructor
      * @see ApplicationComponent :: __construct()
      */
-    function WebApplicationComponent($manager)
+    function __construct($manager)
     {
         parent :: __construct($manager);
     }

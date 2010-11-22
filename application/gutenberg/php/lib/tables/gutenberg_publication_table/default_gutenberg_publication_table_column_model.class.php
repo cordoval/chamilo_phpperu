@@ -19,7 +19,7 @@ class DefaultGutenbergPublicationTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultGutenbergPublicationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

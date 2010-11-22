@@ -7,7 +7,7 @@ class ExcelRegionCreator
 	
 	private $parent_region_id;
 	
-	function ExcelRegionCreator($parent_region_id){
+	function __construct($parent_region_id){
 		$this->parent_region_id = $parent_region_id;
 	}
 	

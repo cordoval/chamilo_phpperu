@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\invitation_manager;
+use common\libraries\SubManager;
 /**
  * @author Hans De Bisschop
  */
@@ -13,7 +14,7 @@ class InvitationManager extends SubManager
 
     const ACTION_CREATE_INVITATIONS = 'create';
 
-    function InvitationManager($application)
+    function __construct($application)
     {
         parent :: __construct($application);
     }

@@ -13,9 +13,6 @@ use common\libraries\Translation;
  * @package group.lib
  */
 
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
-
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of courses.
@@ -55,7 +52,7 @@ class CourseGroupUserMenu extends HTML_Menu
      * Passed to sprintf(). Defaults to the string
      * "?category=%s".
      */
-    function CourseGroupUserMenu($course, $current_group, $url_format = '?application=weblcms&go=course_viewer&tool=user&course=%s&group=%s')
+    function __construct($course, $current_group, $url_format = '?application=weblcms&go=course_viewer&tool=user&course=%s&group=%s')
     {
         if ($current_group == '0' || is_null($current_group))
         {
@@ -170,6 +167,6 @@ class CourseGroupUserMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

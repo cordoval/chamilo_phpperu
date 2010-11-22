@@ -10,7 +10,7 @@ class DefaultSurveyPageTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultSurveyPageTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 0);
     }

@@ -8,7 +8,7 @@ class SurveyContextTemplateRelPageTableDataProvider extends ObjectTableDataProvi
      * @param RepositoryManagerComponent $browser
      * @param Condition $condition
      */
-    function SurveyContextTemplateRelPageTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
 //   dump($this->get_condition());

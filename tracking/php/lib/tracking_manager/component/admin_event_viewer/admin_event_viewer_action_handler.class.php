@@ -24,7 +24,7 @@ class AdminEventViewerActionHandler
      * @param EventViewer $eventviewer the eventviewer where this action handler belongs to
      * @param Event $event the active event
      */
-    function AdminEventViewerActionHandler($eventviewer, $event)
+    function __construct($eventviewer, $event)
     {
         $this->eventviewer = $eventviewer;
         $this->event = $event;

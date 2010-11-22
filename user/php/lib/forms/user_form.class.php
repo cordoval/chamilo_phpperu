@@ -41,7 +41,7 @@ class UserForm extends FormValidator
      * Creates a new UserForm
      * Used by the admin to create/update a user
      */
-    function UserForm($form_type, $user, $form_user, $action)
+    function __construct($form_type, $user, $form_user, $action)
     {
         parent :: __construct('user_settings', 'post', $action);
 

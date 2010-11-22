@@ -34,7 +34,7 @@ class OrComposite
      * @param string|null $minimum_version
      * @param string|null $maximum_version
      */
-    function OrComposite($type = null, $name = null, $minimum_version, $maximum_version)
+    function __construct($type = null, $name = null, $minimum_version, $maximum_version)
     {
         $this->type = $type;
         $this->name = $name;

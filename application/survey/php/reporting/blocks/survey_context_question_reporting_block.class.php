@@ -15,7 +15,7 @@ class SurveyContextQuestionReportingBlock extends SurveyReportingBlock
     private $question_id;
     private $question;
 
-    function SurveyContextQuestionReportingBlock($parent, $complex_question_id)
+    function __construct($parent, $complex_question_id)
     {
         parent :: __construct($parent);
         $complex_question = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_question_id);

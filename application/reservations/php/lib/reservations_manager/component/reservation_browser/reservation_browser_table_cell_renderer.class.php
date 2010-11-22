@@ -32,7 +32,7 @@ class ReservationBrowserTableCellRenderer extends DefaultReservationTableCellRen
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function ReservationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

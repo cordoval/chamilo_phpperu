@@ -6,7 +6,7 @@ use common\libraries\GalleryObjectTableCellRenderer;
 abstract class DefaultGutenbergPublicationGalleryTableCellRenderer implements GalleryObjectTableCellRenderer
 {
 
-    function DefaultGutenbergPublicationGalleryTableCellRenderer()
+    function __construct()
     {
     }
 

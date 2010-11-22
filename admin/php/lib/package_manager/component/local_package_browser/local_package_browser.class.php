@@ -1,6 +1,5 @@
 <?php
 namespace admin;
-use common\libraries;
 
 use common\libraries\Utilities;
 use common\libraries\Path;
@@ -12,6 +11,10 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\SimpleTable;
+use common\libraries\DynamicVisualTabsRenderer;
+use common\libraries\DynamicVisualTab;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
 /**
  * $Id: local_package_browser.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_manager.component.local_package_browser
@@ -33,75 +36,82 @@ class LocalPackageBrowser
     const STATUS_ERROR = 3;
     const STATUS_INFORMATION = 4;
 
-    function LocalPackageBrowser($manager)
+    function __construct($manager)
     {
         $this->manager = $manager;
     }
 
     function to_html()
     {
-        $sections = array('application', 'content_object', 'language');
+        $sections = array('application',
+                'content_object',
+                'language',
+                'external_repository_manager');
 
         $current_section = Request :: get(PackageManager :: PARAM_SECTION);
         $current_section = $current_section ? $current_section : 'application';
-        $html[] = '<br /><div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
 
+        $data = call_user_func(array($this,
+                'get_' . $current_section . '_data'));
+
+        $table = new SimpleTable($data, new LocalPackageBrowserCellRenderer(), null, 'local_package_browser_table');
+
+        $tabs = new DynamicVisualTabsRenderer('local_package_browser_tabs', $table->toHtml());
         foreach ($sections as $section)
         {
-            $html[] = '<li><a';
-            if ($current_section == $section)
-            {
-                $html[] = ' class="current"';
-            }
+            $selected = ($section == $current_section ? true : false);
+
+            $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($section) . 'Packages'));
             $params = $this->manager->get_parameters();
             $params[PackageManager :: PARAM_SECTION] = $section;
-            $html[] = ' href="' . $this->manager->get_url($params) . '">' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($section) . 'Title')) . '</a></li>';
+            $link = $this->manager->get_url($params);
+
+            $tabs->add_tab(new DynamicVisualTab($section, $label, Theme :: get_image_path() . 'place_mini_' . $section . '.png', $link, $selected));
+
         }
 
-        $html[] = '</ul><div class="tabbed-pane-content">';
-
-        $data = call_user_func(array($this, 'get_' . $current_section . '_data'));
-
-        $table = new SimpleTable($data, new LocalPackageBrowserCellRenderer(), null, 'diagnoser');
-        $html[] = $table->toHTML();
-
-        $html[] = '</div></div>';
-
-        return implode("\n", $html);
+        return $tabs->render();
     }
 
     function get_language_data()
     {
         $languages = array();
 
-        $language_path = Path :: get_language_path();
-        $language_folders = Filesystem :: get_directory_content($language_path, Filesystem :: LIST_DIRECTORIES, false);
+        $language_path = Path :: get_common_libraries_path() . 'resources/i18n/';
+        $language_files = Filesystem :: get_directory_content($language_path, Filesystem :: LIST_FILES, false);
+
+        $available_languages = array();
+        foreach ($language_files as $language_file)
+        {
+            $file_info = pathinfo($language_file);
+            $available_languages[] = $file_info['filename'];
+        }
 
         $active_languages = AdminDataManager :: get_instance()->retrieve_languages();
         $installed_languages = array();
 
         while ($active_language = $active_languages->next_result())
         {
-            $installed_languages[] = $active_language->get_folder();
+            $installed_languages[] = $active_language->get_isocode();
         }
 
-        $installable_languages = array_diff($language_folders, $installed_languages);
+        $installable_languages = array_diff($available_languages, $installed_languages);
         sort($installable_languages, SORT_STRING);
 
         foreach ($installable_languages as $installable_language)
         {
-            if ($installable_language !== '.svn')
-            {
-                $data = array();
-                $data[] = Utilities :: underscores_to_camelcase_with_spaces($installable_language);
+            $data = array();
+            $data[] = Utilities :: underscores_to_camelcase_with_spaces($installable_language);
 
-                $toolbar = new Toolbar();
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_image_path(). 'action_install.png',
-					$this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_SECTION => 'language', PackageManager :: PARAM_PACKAGE => $installable_language, PackageManager :: PARAM_INSTALL_TYPE => 'local')), ToolbarItem :: DISPLAY_ICON));
-                $data[] = $toolbar->as_html();
+            $toolbar = new Toolbar();
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'action_install.png', $this->manager->get_url(array(
+                    PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE,
+                    PackageManager :: PARAM_SECTION => 'language',
+                    PackageManager :: PARAM_PACKAGE => $installable_language,
+                    PackageManager :: PARAM_INSTALL_TYPE => 'local')), ToolbarItem :: DISPLAY_ICON));
+            $data[] = $toolbar->as_html();
 
-                $languages[] = $data;
-            }
+            $languages[] = $data;
         }
 
         return $languages;
@@ -128,19 +138,18 @@ class LocalPackageBrowser
 
         foreach ($installable_objects as $installable_object)
         {
-            if ($installable_object !== '.svn')
-            {
-                $data = array();
-                $data[] = Utilities :: underscores_to_camelcase_with_spaces($installable_object);
+            $data = array();
+            $data[] = Utilities :: underscores_to_camelcase_with_spaces($installable_object);
 
-                $toolbar = new Toolbar();
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_image_path(). 'action_install.png',
-					$this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_INSTALL_TYPE => PackageManager :: INSTALL_LOCAL, PackageManager :: PARAM_SECTION => 'content_object', PackageManager :: PARAM_PACKAGE => $installable_object)), ToolbarItem :: DISPLAY_ICON));
-                $data[] = $toolbar->as_html();
+            $toolbar = new Toolbar();
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'action_install.png', $this->manager->get_url(array(
+                    PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE,
+                    PackageManager :: PARAM_INSTALL_TYPE => PackageManager :: INSTALL_LOCAL,
+                    PackageManager :: PARAM_SECTION => 'content_object',
+                    PackageManager :: PARAM_PACKAGE => $installable_object)), ToolbarItem :: DISPLAY_ICON));
+            $data[] = $toolbar->as_html();
 
-
-                $objects[] = $data;
-            }
+            $objects[] = $data;
         }
 
         return $objects;
@@ -167,21 +176,59 @@ class LocalPackageBrowser
 
         foreach ($installable_applications as $installable_application)
         {
-            if ($installable_application !== '.svn')
-            {
-                $data = array();
-                $data[] = Utilities :: underscores_to_camelcase_with_spaces($installable_application);
+            $data = array();
+            $data[] = Utilities :: underscores_to_camelcase_with_spaces($installable_application);
 
-                $toolbar = new Toolbar();
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_image_path(). 'action_install.png',
-					$this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_INSTALL_TYPE => PackageManager :: INSTALL_LOCAL, PackageManager :: PARAM_SECTION => 'application', PackageManager :: PARAM_PACKAGE => $installable_application)), ToolbarItem :: DISPLAY_ICON));
-                $data[] = $toolbar->as_html();
+            $toolbar = new Toolbar();
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'action_install.png', $this->manager->get_url(array(
+                    PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE,
+                    PackageManager :: PARAM_INSTALL_TYPE => PackageManager :: INSTALL_LOCAL,
+                    PackageManager :: PARAM_SECTION => 'application',
+                    PackageManager :: PARAM_PACKAGE => $installable_application)), ToolbarItem :: DISPLAY_ICON));
+            $data[] = $toolbar->as_html();
 
-                $applications[] = $data;
-            }
+            $applications[] = $data;
         }
 
         return $applications;
+    }
+
+    function get_external_repository_manager_data()
+    {
+        $external_repository_managers = array();
+
+        $external_repository_manager_path = Path :: get_common_extensions_path() . 'external_repository_manager/implementation/';
+        $folders = Filesystem :: get_directory_content($external_repository_manager_path, Filesystem :: LIST_DIRECTORIES, false);
+
+        $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_EXTERNAL_REPOSITORY_MANAGER);
+        $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition);
+        $installed = array();
+
+        while ($registration = $registrations->next_result())
+        {
+            $installed[] = $registration->get_name();
+        }
+
+        $installables = array_diff($folders, $installed);
+        sort($installables, SORT_STRING);
+
+        foreach ($installables as $installable)
+        {
+            $data = array();
+            $data[] = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($installable));
+
+            $toolbar = new Toolbar();
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'action_install.png', $this->manager->get_url(array(
+                    PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE,
+                    PackageManager :: PARAM_SECTION => 'external_repository_manager',
+                    PackageManager :: PARAM_PACKAGE => $installable,
+                    PackageManager :: PARAM_INSTALL_TYPE => 'local')), ToolbarItem :: DISPLAY_ICON));
+            $data[] = $toolbar->as_html();
+
+            $external_repository_managers[] = $data;
+        }
+
+        return $external_repository_managers;
     }
 }
 ?>

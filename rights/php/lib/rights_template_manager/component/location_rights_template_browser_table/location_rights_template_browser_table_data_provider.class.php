@@ -21,7 +21,7 @@ class LocationRightsTemplateBrowserTableDataProvider extends ObjectTableDataProv
      * @param RepositoryManagerComponent $browser
      * @param Condition $condition
      */
-    function LocationRightsTemplateBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

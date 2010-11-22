@@ -19,7 +19,7 @@ class HomeInstaller extends Installer
     /**
      * Constructor
      */
-    function HomeInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, HomeDataManager :: get_instance());
     }

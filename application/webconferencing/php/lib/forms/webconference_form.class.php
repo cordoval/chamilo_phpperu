@@ -34,7 +34,7 @@ class WebconferenceForm extends FormValidator
     private $webconference;
     private $user;
 
-    function WebconferenceForm($form_type, $webconference, $action, $user)
+    function __construct($form_type, $webconference, $action, $user)
     {
         parent :: __construct('webconference_settings', 'post', $action);
         

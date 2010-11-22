@@ -24,24 +24,25 @@ class NavigationItemBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function NavigationItemBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new NavigationItemBrowserTableColumnModel($browser);
         $renderer = new NavigationItemBrowserTableCellRenderer($browser);
         $data_provider = new NavigationItemBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, NavigationItemBrowserTable :: DEFAULT_NAME, $model, $renderer);
-        $actions = new ObjectTableFormActions();
-        
+        $actions = new ObjectTableFormActions(__NAMESPACE__);
+
         $actions->add_form_action(new ObjectTableFormAction(MenuManager :: ACTION_DELETE, Translation :: get('RemoveSelected', null , Utilities :: COMMON_LIBRARIES)));
-        
+
         $user = $browser->get_user();
         $this->set_form_actions($actions);
         $this->set_default_row_count(10);
     }
-    
+
 	static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(MenuManager :: PARAM_ITEM, $ids);
     }
 }

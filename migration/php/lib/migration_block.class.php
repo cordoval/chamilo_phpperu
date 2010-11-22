@@ -33,7 +33,7 @@ abstract class MigrationBlock
 	 */
 	private $migration_block_registration;
 	
-	function MigrationBlock()
+	function __construct()
 	{
 		$this->message_logger = MessageLogger :: get_instance(__CLASS__);
 		$this->timer = new Timer();

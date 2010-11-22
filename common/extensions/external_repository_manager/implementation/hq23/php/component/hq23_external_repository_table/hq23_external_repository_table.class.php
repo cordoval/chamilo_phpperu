@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
+use common\libraries\ObjectTable;
 /**
  * Table to display a set of hq23 external repository objects.
  */
@@ -15,7 +16,7 @@ class Hq23ExternalRepositoryTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function Hq23ExternalRepositoryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new Hq23ExternalRepositoryTableColumnModel();
         $renderer = new Hq23ExternalRepositoryTableCellRenderer($browser);

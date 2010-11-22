@@ -11,7 +11,7 @@ class DefaultInternshipOrganizerAppointmentTableColumnModel extends ObjectTableC
 	/**
 	 * Constructor
 	 */
-	function DefaultInternshipOrganizerAppointmentTableColumnModel() {
+	function __construct() {
 		parent::__construct ( self::get_default_columns (), 0 );
 	}
 	

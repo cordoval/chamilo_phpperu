@@ -22,15 +22,14 @@ use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\extensions\repo_viewer\RepoViewer;
+use application\weblcms\ContentObjectRepoViewer;
+use application\weblcms\WeblcmsSurveyParticipantTracker;
 
 /**
  * $Id: content_object_publication_form.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
  */
-require_once dirname(__FILE__) . '/../../content_object_publication.class.php';
-require_once dirname(__FILE__) . '/../../content_object_repo_viewer.class.php';
 require_once Path :: get_plugin_path() . 'html2text/class.html2text.inc';
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_participant_tracker.class.php';
 
 /**
  * This class represents a form to allow a user to publish a learning object.
@@ -92,7 +91,7 @@ class SurveyContentObjectPublicationForm extends FormValidator
      * @param boolean $email_option Add option in form to send the learning
      * object by email to the receivers
      */
-    function SurveyContentObjectPublicationForm($form_type, $content_object, $repo_viewer, $email_option = false, $course, $in_repo_viewer = true, $extra_parameters = array())
+    function __construct($form_type, $content_object, $repo_viewer, $email_option = false, $course, $in_repo_viewer = true, $extra_parameters = array())
     {
         if ($repo_viewer)
         {

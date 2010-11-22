@@ -33,7 +33,7 @@ $mProperties = array(); # Name/value pairs to be cached in the DB
      */
     private $displayTitle = false;
 
-    function MediawikiParserOutput($text = '', $languageLinks = array(), $categoryLinks = array(), $containsOldMagic = false, $titletext = '')
+    function __construct($text = '', $languageLinks = array(), $categoryLinks = array(), $containsOldMagic = false, $titletext = '')
     {
         $this->mText = $text;
         $this->mLanguageLinks = $languageLinks;

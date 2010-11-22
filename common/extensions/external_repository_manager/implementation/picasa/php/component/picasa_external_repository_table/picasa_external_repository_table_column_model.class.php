@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\picasa;
+use common\extensions\external_repository_manager\DefaultExternalRepositoryObjectTableColumnModel;
 /**
  * $Id: repository_browser_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
@@ -17,7 +18,7 @@ class PicasaExternalRepositoryTableColumnModel extends DefaultExternalRepository
     /**
      * Constructor
      */
-    function PicasaExternalRepositoryTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

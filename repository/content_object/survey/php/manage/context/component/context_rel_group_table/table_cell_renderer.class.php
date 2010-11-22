@@ -8,7 +8,7 @@ class SurveyContextRelGroupTableCellRenderer extends DefaultSurveyContextRelGrou
     
     private $browser;
 
-    function SurveyContextRelGroupTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

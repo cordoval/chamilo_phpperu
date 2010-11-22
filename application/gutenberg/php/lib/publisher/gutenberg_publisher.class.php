@@ -23,7 +23,7 @@ class GutenbergPublisher
 {
     private $parent;
 
-    function GutenbergPublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

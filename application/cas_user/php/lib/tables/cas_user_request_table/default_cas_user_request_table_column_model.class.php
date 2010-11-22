@@ -15,7 +15,7 @@ class DefaultCasUserRequestTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultCasUserRequestTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

@@ -15,7 +15,7 @@ class GoogleDocsExternalRepositoryObjectAcl
     
     private $entries;
 
-    public function GoogleDocsExternalRepositoryObjectAcl()
+    public function __construct()
     {
         $this->entries = array();
         $this->entries[self :: ACL_WRITER] = array();

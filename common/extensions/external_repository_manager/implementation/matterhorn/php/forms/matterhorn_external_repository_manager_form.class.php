@@ -1,12 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
 
+use common\libraries\Utilities;
 use common\libraries\StringUtilities;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
 /**
- * 
- * $Id: matterhorn_external_repository_manager_form.class.php 
+ *
+ * $Id: matterhorn_external_repository_manager_form.class.php
  * @package
  */
 
@@ -15,7 +16,7 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
 
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
-    
+
 //    const RESULT_SUCCESS = 'GroupUpdated';
 //    const RESULT_ERROR = 'GroupUpdateFailed';
 
@@ -27,7 +28,7 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
     private $form_type;
     private $external_repository_object;
 
-    function MatterhornExternalRepositoryManagerForm($form_type, $action, $application)
+    function __construct($form_type, $action, $application)
     {
         parent :: __construct('matterhorn_upload', 'post', $action);
 
@@ -50,7 +51,7 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
     public function set_external_repository_object($object)
     {
         $this->external_repository_object = $object;
-    
+
         $this->addElement('hidden', MatterhornExternalRepositoryObject :: PROPERTY_ID);
         $defaults[MatterhornExternalRepositoryObject :: PROPERTY_TITLE] = $object->get_title();
         $defaults[MatterhornExternalRepositoryObject :: PROPERTY_DESCRIPTION] = $object->get_description();
@@ -85,7 +86,7 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
         $this->addElement('text', MatterhornExternalRepositoryObject :: PROPERTY_TYPE, Translation :: get('Type'), array("size" => "50"));
         $this->addElement('text', MatterhornExternalRepositoryObject :: PROPERTY_LICENSE, Translation :: get('License'), array("size" => "50"));
         $this->addElement('text', MatterhornExternalRepositoryObject :: PROPERTY_SUBJECTS, Translation :: get('Subjects'), array("size" => "50"));
-        
+
     }
 
     function build_editing_form()
@@ -118,7 +119,7 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
         return $matterhorn->update_matterhorn_video($values);
 
     }
-    
+
 	function upload_video()
     {
         if (StringUtilities :: has_value(($_FILES['track']['name'])))

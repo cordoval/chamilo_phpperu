@@ -1,17 +1,18 @@
 <?php
 namespace common\extensions\validation_manager;
+use common\libraries\ObjectTableColumnModel;
 /**
  * $Id: default_validation_table_column_model.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.validation_manager.component.validation_table
  */
 
-class DefaultValidationTableColumnMod extends ObjectTableColumnModel
+class DefaultValidationTableColumnModel extends ObjectTableColumnModel
 {
 
     /**
      * Constructor
      */
-    function DefaultValidationTableColumnMod()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

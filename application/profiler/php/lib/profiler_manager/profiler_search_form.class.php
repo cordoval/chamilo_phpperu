@@ -65,7 +65,7 @@ class ProfilerSearchForm extends FormValidator
      * @param string $url The location to which the search request should be
      * posted.
      */
-    function ProfilerSearchForm($manager, $url)
+    function __construct($manager, $url)
     {
         parent :: __construct(self :: FORM_NAME, 'post', $url);
         $this->renderer = clone $this->defaultRenderer();

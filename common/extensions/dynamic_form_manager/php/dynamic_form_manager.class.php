@@ -39,7 +39,7 @@ class DynamicFormManager extends SubManager
     private $type;
     private $target_user_id;
     
-    function DynamicFormManager($parent, $application, $name, $type)
+    function __construct($parent, $application, $name, $type)
     {
         parent :: __construct($parent);
         

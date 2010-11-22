@@ -29,7 +29,7 @@ class DoublesBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function DoublesBrowserTableCellRenderer($browser, $is_detail)
+    function __construct($browser, $is_detail)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -19,7 +19,7 @@ abstract class PhotoGalleryPublicationRenderer
     
     protected $browser;
 
-    function PhotoGalleryPublicationRenderer($browser)
+    function __construct($browser)
     {
         $this->browser = $browser;
     }

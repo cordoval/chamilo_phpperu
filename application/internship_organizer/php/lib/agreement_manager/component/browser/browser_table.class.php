@@ -18,7 +18,7 @@ class InternshipOrganizerAgreementBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function InternshipOrganizerAgreementBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new InternshipOrganizerAgreementBrowserTableColumnModel();
         $renderer = new InternshipOrganizerAgreementBrowserTableCellRenderer($browser);

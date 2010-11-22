@@ -11,7 +11,7 @@ class InternshipOrganizerRegionBrowserTableDataProvider extends ObjectTableDataP
      * @param RepositoryManagerComponent $browser
      * @param Condition $condition
      */
-    function InternshipOrganizerRegionBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

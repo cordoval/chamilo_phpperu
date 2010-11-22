@@ -84,7 +84,7 @@ use common\libraries\Redirect;
      * Constructor
      * @param User $user The current user
 	 */
-    function MetadataManager($user = null)
+    function __construct($user = null)
     {
     	parent :: __construct($user);
     	//$this->parse_input_from_table();

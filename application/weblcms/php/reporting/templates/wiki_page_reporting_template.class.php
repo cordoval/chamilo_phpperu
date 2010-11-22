@@ -17,7 +17,7 @@ require_once dirname(__FILE__) . '/../blocks/weblcms_wiki_page_users_contributio
 class WikiPageReportingTemplate extends ReportingTemplate
 {
 
-    function WikiPageReportingTemplate($parent, $id, $params)
+    function __construct($parent, $id, $params)
     {
         $this->add_reporting_block(new WeblcmsWikiPageMostActiveUsersReportingBlock($this));
         $this->add_reporting_block(new WeblcmsWikiPageUsersContributionsReportingBlock($this));

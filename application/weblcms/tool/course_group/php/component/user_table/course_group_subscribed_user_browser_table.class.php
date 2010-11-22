@@ -22,7 +22,7 @@ class CourseGroupSubscribedUserBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function CourseGroupSubscribedUserBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new CourseGroupSubscribedUserBrowserTableColumnModel();
         $renderer = new CourseGroupSubscribedUserBrowserTableCellRenderer($browser);

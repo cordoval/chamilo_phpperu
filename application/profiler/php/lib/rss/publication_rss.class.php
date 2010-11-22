@@ -10,9 +10,9 @@ use common\libraries\PublicationRSS;
 
 class ProfilerPublicationRSS extends PublicationRSS
 {
-	function ProfilerPublicationRSS()
+	function __construct()
 	{
-		parent :: PublicationRSS('Chamilo Profiler', htmlspecialchars(Path :: get(WEB_PATH)), 'Profiler publications', htmlspecialchars(Path :: get(WEB_PATH)));
+		parent :: __construct('Chamilo Profiler', htmlspecialchars(Path :: get(WEB_PATH)), 'Profiler publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')

@@ -13,7 +13,7 @@ class InternshipOrganizerAgreementUserBrowserTableCellRenderer extends DefaultUs
     
     private $browser;
 
-    function InternshipOrganizerAgreementUserBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

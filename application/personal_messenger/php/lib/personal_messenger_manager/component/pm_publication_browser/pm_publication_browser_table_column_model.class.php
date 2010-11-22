@@ -21,7 +21,7 @@ class PmPublicationBrowserTableColumnModel extends DefaultPmPublicationTableColu
     /**
      * Constructor
      */
-    function PmPublicationBrowserTableColumnModel($folder)
+    function __construct($folder)
     {
         parent :: __construct($folder);
         $this->set_default_order_column(3);

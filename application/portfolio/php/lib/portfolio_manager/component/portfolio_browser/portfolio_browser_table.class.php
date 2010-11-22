@@ -20,7 +20,7 @@ class PortfolioBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function PortfolioBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new PortfolioBrowserTableColumnModel();
         $renderer = new PortfolioBrowserTableCellRenderer($browser);

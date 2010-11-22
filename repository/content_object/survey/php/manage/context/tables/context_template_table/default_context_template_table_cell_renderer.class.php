@@ -12,7 +12,7 @@ class DefaultSurveyContextTemplateTableCellRenderer extends ObjectTableCellRende
     /**
      * Constructor
      */
-    function DefaultSurveyContextTemplateTableCellRenderer()
+    function __construct()
     {
     }
 

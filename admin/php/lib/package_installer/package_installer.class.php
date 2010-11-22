@@ -23,7 +23,7 @@ class PackageInstaller
     private $message;
     private $html;
 
-    function PackageInstaller()
+    function __construct()
     {
         $this->source = Request :: get(PackageManager :: PARAM_INSTALL_TYPE);
         $this->message = array();

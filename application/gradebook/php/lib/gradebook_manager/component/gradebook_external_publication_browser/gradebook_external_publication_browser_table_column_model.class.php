@@ -19,7 +19,7 @@ class GradebookExternalPublicationBrowserTableColumnModel extends DefaultGradebo
     /**
      * Constructor
      */
-    function GradebookExternalPublicationBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->set_default_order_column(1);

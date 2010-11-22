@@ -1,6 +1,12 @@
 <?php 
 namespace application\survey;
 
+use common\libraries\Toolbar;
+use common\libraries\Toolbaritem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+
+
 require_once dirname(__FILE__) . '/user_browser_table_column_model.class.php';
 
 class SurveyUserBrowserTableCellRenderer extends DefaultSurveyUserTableCellRenderer
@@ -10,7 +16,7 @@ class SurveyUserBrowserTableCellRenderer extends DefaultSurveyUserTableCellRende
     private $publication_id;
     private $type;
 
-    function SurveyUserBrowserTableCellRenderer($browser, $publication_id, $type)
+    function __construct($browser, $publication_id, $type)
     {
         parent :: __construct($publication_id);
         $this->browser = $browser;

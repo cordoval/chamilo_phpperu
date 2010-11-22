@@ -41,7 +41,7 @@ require_once dirname(__FILE__) . '/php/lib/install_manager/install_manager.class
 Request :: set_get('install_running', 1);
 
 Translation :: set_application($this_section);
-Translation :: set_language('english');
+Translation :: set_language('en');
 
 Application :: launch('install', null);
 //}

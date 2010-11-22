@@ -24,7 +24,7 @@ class ReservationsDataManager
 {
     private static $instance;
 
-    protected function ReservationsDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

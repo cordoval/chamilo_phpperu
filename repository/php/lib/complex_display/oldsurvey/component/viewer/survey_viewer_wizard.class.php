@@ -4,10 +4,6 @@ namespace repository;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
-require_once 'HTML/QuickForm/Controller.php';
-require_once 'HTML/QuickForm/Rule.php';
-require_once 'HTML/QuickForm/Action/Display.php';
-
 require_once dirname(__FILE__) . '/wizard/survey_viewer_wizard_display.class.php';
 require_once dirname(__FILE__) . '/wizard/survey_viewer_wizard_process.class.php';
 require_once dirname(__FILE__) . '/wizard/survey_viewer_wizard_next.class.php';
@@ -26,9 +22,9 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     private $real_pages;
     private $question_visibility;
 
-    function SurveyViewerWizard($parent, $survey, $template_id)
+    function __construct($parent, $survey, $template_id)
     {
-        parent :: HTML_QuickForm_Controller('SurveyViewerWizard_' . $survey->get_id(), true);
+        parent :: __construct('SurveyViewerWizard_' . $survey->get_id(), true);
 
         $this->parent = $parent;
         $this->survey = $survey;

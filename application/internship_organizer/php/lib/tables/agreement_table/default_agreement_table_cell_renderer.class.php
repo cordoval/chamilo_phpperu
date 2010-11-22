@@ -14,7 +14,7 @@ class DefaultInternshipOrganizerAgreementTableCellRenderer extends ObjectTableCe
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerAgreementTableCellRenderer()
+    function __construct()
     {
     }
 

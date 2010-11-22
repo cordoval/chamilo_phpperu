@@ -22,7 +22,7 @@ class VideoContentObjectTableDataProvider extends ContentObjectTableDataProvider
      * selected.
      * @param string $query The search query.
      */
-    function VideoContentObjectTableDataProvider($owner, $types, $query = null, $parent)
+    function __construct($owner, $types, $query = null, $parent)
     {
         parent :: __construct($owner, $types, $query, $parent);
     }

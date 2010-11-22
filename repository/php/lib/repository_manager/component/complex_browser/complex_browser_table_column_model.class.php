@@ -25,7 +25,7 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function ComplexBrowserTableColumnModel($browser, $additional_columns = array())
+    function __construct($browser, $additional_columns = array())
     {
         parent :: __construct(self :: get_default_columns($browser, $additional_columns), 1);
         $this->set_default_order_column(0);

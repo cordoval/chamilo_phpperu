@@ -14,7 +14,7 @@ class SurveyPublicationRelReportingTemplateTableColumnModel extends DefaultSurve
     /**
      * Constructor
      */
-    function SurveyPublicationRelReportingTemplateTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

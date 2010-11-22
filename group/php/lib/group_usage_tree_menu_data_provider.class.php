@@ -22,7 +22,7 @@ class GroupUsageTreeMenuDataProvider extends TreeMenuDataProvider
      */
     private $user;
 
-    function GroupUsageTreeMenuDataProvider(User $user, $url, $selected_tree_menu_item)
+    function __construct(User $user, $url, $selected_tree_menu_item)
     {
         parent :: __construct($url, $selected_tree_menu_item);
         $this->user = $user;

@@ -10,7 +10,7 @@ use common\libraries\Translation;
  * $Id: assessment_results_table_overview_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_table_student
  */
-require_once Path :: get_repository_path() . 'lib/content_object/assessment/assessment.class.php';
+require_once Path :: get_repository_content_object_path() . 'assessment/php/assessment.class.php';
 /**
  * This class represents a column model for a publication candidate table
  */
@@ -24,7 +24,7 @@ class AssessmentResultsTableOverviewStudentColumnModel extends ObjectTableColumn
     /**
      * Constructor.
      */
-    function AssessmentResultsTableOverviewStudentColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_columns(), 1, SORT_ASC);
     }

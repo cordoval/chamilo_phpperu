@@ -5,9 +5,15 @@
 		<code>criteria</code>
 		<section>content_object</section>
 		<category>peer_assessment</category>
-		<author>Sven Vanpoucke</author>
+		<authors>
+			<author>
+				<name>Sven Vanpoucke</name>
+				<email>sven.vanpoucke@hogent.be</email>
+				<company>Hogeschool Gent</company>
+			</author>
+		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/c/criteria/criteria-1.0.0.zip</filename>
+		<filename>pool/main/content_object/c/criteria/criteria-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

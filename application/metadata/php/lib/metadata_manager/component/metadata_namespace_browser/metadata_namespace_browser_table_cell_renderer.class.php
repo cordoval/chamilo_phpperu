@@ -23,7 +23,7 @@ class MetadataNamespaceBrowserTableCellRenderer extends DefaultMetadataNamespace
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function MetadataNamespaceBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

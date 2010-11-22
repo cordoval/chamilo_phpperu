@@ -27,7 +27,7 @@ class ContentObjectDifferenceDisplay
      * @param ContentObjectDifference $difference The learning object
      * difference
      */
-    protected function ContentObjectDifferenceDisplay($difference)
+    public function __construct($difference)
     {
         $this->difference = $difference;
     }

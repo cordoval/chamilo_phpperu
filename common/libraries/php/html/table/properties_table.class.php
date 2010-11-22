@@ -3,8 +3,6 @@ namespace common\libraries;
 
 use HTML_Table;
 
-require_once 'HTML/Table.php';
-
 class PropertiesTable extends HTML_Table
 {
     private $properties;
@@ -13,9 +11,9 @@ class PropertiesTable extends HTML_Table
      * Constructor creates the table
      * @param array $properties
      */
-    function PropertiesTable(array $properties)
+    function __construct(array $properties)
     {
-        parent :: HTML_Table(array('class' => 'data_table data_table_no_header'));
+        parent :: __construct(array('class' => 'data_table data_table_no_header'));
         $this->properties = $properties;
 
         $this->build_table();

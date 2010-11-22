@@ -63,7 +63,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
     /**
      * @param ExternalRepository $external_repository_instance
      */
-    function FlickrExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
 
@@ -195,7 +195,8 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
                 $photos = $this->flickr->photos_search($search_parameters);
                 break;
             default :
-                $photos = ($condition ? $this->flickr->photos_search($search_parameters) : $this->flickr->photos_getRecent($attributes, $count, $offset));
+                $search_parameters['user_id'] = 'me';
+                $photos = $this->flickr->photos_search($search_parameters);
                 break;
         }
 

@@ -24,7 +24,7 @@ class getid3_gzip {
 	// public: Optional file list - disable for speed.
 	var $option_gzip_parse_contents = false; // decode gzipped files, if possible, and parse recursively (.tar.gz for example)
 
-	function getid3_gzip(&$fd, &$ThisFileInfo) {
+	function __construct(&$fd, &$ThisFileInfo) {
 		$ThisFileInfo['fileformat'] = 'gzip';
 
 		$start_length = 10;

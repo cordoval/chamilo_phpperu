@@ -23,7 +23,7 @@ class CdaDataManager
     /**
      * Constructor.
      */
-    protected function CdaDataManager()
+    public function __construct()
     {
             $this->initialize();
     }

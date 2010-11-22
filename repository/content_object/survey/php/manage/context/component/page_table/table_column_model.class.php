@@ -12,7 +12,7 @@ class SurveyPageTableColumnModel extends DefaultSurveyPageTableColumnModel
     /**
      * Constructor
      */
-    function SurveyPageTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(0);

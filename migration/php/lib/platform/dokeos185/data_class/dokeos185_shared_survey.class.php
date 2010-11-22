@@ -40,7 +40,7 @@ class Dokeos185SharedSurvey extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185SharedSurvey object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185SharedSurvey($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

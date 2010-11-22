@@ -45,7 +45,7 @@ class DefaultSharedContentObjectTableCellRenderer extends ObjectTableCellRendere
     /**
      * Constructor
      */
-    function DefaultSharedContentObjectTableCellRenderer()
+    function __construct()
     {
     }
 

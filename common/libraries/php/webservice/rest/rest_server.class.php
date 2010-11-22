@@ -21,7 +21,7 @@ class RestServer
     public $format;
     public $data;
 
-    function RestServer()
+    function __construct()
     {
     }
 

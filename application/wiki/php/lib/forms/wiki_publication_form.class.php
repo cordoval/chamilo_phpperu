@@ -37,7 +37,7 @@ class WikiPublicationForm extends FormValidator
     private $wiki_publication;
     private $user;
 
-    function WikiPublicationForm($form_type, $wiki_publication, $action, $user)
+    function __construct($form_type, $wiki_publication, $action, $user)
     {
         parent :: __construct('wiki_publication_settings', 'post', $action);
 

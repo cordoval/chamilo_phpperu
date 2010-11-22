@@ -6,12 +6,12 @@ use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use application\weblcms\ListContentObjectPublicationListRenderer;
 
 /**
  * $Id: calendar_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.calendar.component.calendar_viewer
  */
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/list_content_object_publication_list_renderer.class.php';
 /**
  * A renderer to display a list view of a calendar
  */

@@ -8,7 +8,7 @@ class SurveyTableCellRenderer extends DefaultSurveyTableCellRenderer
     
     private $component;
 
-    function SurveyTableCellRenderer($component)
+    function __construct($component)
     {
         parent :: __construct();
         $this->component = $component;

@@ -16,7 +16,7 @@ class GroupMetadataPropertyValueBrowserTableDataProvider extends ObjectTableData
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function GroupMetadataPropertyValueBrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
     parent :: __construct($browser, $condition);
   }

@@ -5,7 +5,7 @@ use common\libraries\ObjectTableDataProvider;
 
 class SurveyContextTemplateSubscribePageBrowserTableDataProvider extends ObjectTableDataProvider {
 
-	function SurveyContextTemplateSubscribePageBrowserTableDataProvider($browser, $condition) {
+	function __construct($browser, $condition) {
 		parent::__construct ( $browser, $condition );
 	}
 

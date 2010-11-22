@@ -9,7 +9,7 @@ class DefaultSurveyContextTemplateRelPageTableCellRenderer extends ObjectTableCe
     /**
      * Constructor
      */
-    function DefaultSurveyContextTemplateRelPageTableCellRenderer()
+    function __construct()
     {
     }
 

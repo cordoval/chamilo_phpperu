@@ -7,7 +7,7 @@
 
 /**
  * HTML class for a submit type element
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -32,7 +32,7 @@ require_once 'style_button.php';
 
 /**
  * HTML class for a submit type element
- * 
+ *
  * @category    HTML
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
@@ -43,11 +43,11 @@ class HTML_QuickForm_styleresetbutton extends HTML_QuickForm_stylebutton
 {
 
     // {{{ constructor
-    
+
 
     /**
      * Class constructor
-     * 
+     *
      * @param     string    Input field name attribute
      * @param     string    Input field value
      * @param     mixed     Either a typical HTML attribute string or an associative array
@@ -55,20 +55,20 @@ class HTML_QuickForm_styleresetbutton extends HTML_QuickForm_stylebutton
      * @access    public
      * @return    void
      */
-    function HTML_QuickForm_styleresetbutton($elementName = null, $elementLabel = null, $attributes = null, $value = null)
+    function __construct($elementName = null, $elementLabel = null, $attributes = null, $value = null)
     {
-        HTML_QuickForm_stylebutton :: HTML_QuickForm_stylebutton($elementName, $elementLabel, $attributes, $value);
+        parent :: __construct($elementName, $elementLabel, $attributes, $value);
         $this->setType('reset');
     } //end constructor
 
-    
+
     // }}}
     // {{{ freeze()
-    
+
 
     /**
      * Freeze the element so that only its value is returned
-     * 
+     *
      * @access    public
      * @return    void
      */
@@ -77,10 +77,10 @@ class HTML_QuickForm_styleresetbutton extends HTML_QuickForm_stylebutton
         return false;
     } //end func freeze
 
-    
+
     // }}}
     // {{{ exportValue()
-    
+
 
     /**
      * Only return the value if it is found within $submitValues (i.e. if
@@ -90,7 +90,7 @@ class HTML_QuickForm_styleresetbutton extends HTML_QuickForm_stylebutton
     {
         return $this->_prepareValue($this->_findValue($submitValues), $assoc);
     }
-    
+
 // }}}
 } //end class HTML_QuickForm_submit
 ?>

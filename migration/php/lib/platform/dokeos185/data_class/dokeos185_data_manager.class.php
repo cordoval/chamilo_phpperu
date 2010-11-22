@@ -6,7 +6,6 @@ namespace migration;
  * @package migration.platform.dokeos185
  */
 require_once (dirname(__FILE__) . '/../../lib/old_migration_data_manager.class.php');
-require_once 'MDB2.php';
 
 /**
  * Class that connects to the old dokeos185 system
@@ -24,7 +23,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
     private $_configuration;
     private static $move_file;
 
-    function Dokeos185DataManager($old_directory)
+    function __construct($old_directory)
     {
         $this->get_configuration($old_directory);
         $this->initialize();

@@ -5,7 +5,6 @@ use \HTML_Menu_ArrayRenderer;
  * $Id: options_menu_renderer.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.menu
  */
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * Renderer which can be used to create an array of options to use in a select
  * list. The options are displayed in a hierarchical way in the select list.
@@ -20,7 +19,7 @@ class OptionsMenuRenderer extends HTML_Menu_ArrayRenderer
      * value in the menu items). The whole submenu of which the elements of the
      * exclude array are the root elements will be excluded.
      */
-    function OptionsMenuRenderer($exclude = array())
+    function __construct($exclude = array())
     {
         $exclude = is_array($exclude) ? $exclude : array($exclude);
         $this->exclude = $exclude;

@@ -11,7 +11,7 @@ class Timer
 	private $start_time;
 	private $stop_time;
 
-	function Timer()
+	function __construct()
 	{
 		$this->reset();
 	}

@@ -32,7 +32,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function CdaLanguageBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

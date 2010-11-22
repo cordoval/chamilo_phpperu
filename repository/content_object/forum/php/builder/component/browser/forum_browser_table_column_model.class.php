@@ -19,7 +19,7 @@ class ForumBrowserTableColumnModel extends ComplexBrowserTableColumnModel
     /**
      * Constructor
      */
-    function ForumBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         $columns[] = new StaticTableColumn(Translation :: get('AddDate'));
         parent :: __construct($browser, $columns);

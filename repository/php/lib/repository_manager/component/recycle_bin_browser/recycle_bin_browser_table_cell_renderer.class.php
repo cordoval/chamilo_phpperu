@@ -33,7 +33,7 @@ class RecycleBinBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
      * Constructor
      * @param RepositoryManagerRecycleBinBrowserComponent $browser
      */
-    function RecycleBinBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

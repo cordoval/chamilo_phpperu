@@ -17,7 +17,7 @@ class ContentObjectMetadata extends RepositoryDataClass
     const PROPERTY_PROPERTY = 'property';
     const PROPERTY_VALUE = 'value';
 
-    function ContentObjectMetadata($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         parent :: __construct($defaultProperties);
     }

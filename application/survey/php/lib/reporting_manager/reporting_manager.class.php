@@ -27,7 +27,7 @@ class SurveyReportingManager extends SubManager
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
-    function SurveyReportingManager($survey_manager)
+    function __construct($survey_manager)
     {
         parent :: __construct($survey_manager);
     }

@@ -32,7 +32,7 @@ class LocalSetting
     /**
      * Constructor.
      */
-    private function LocalSetting()
+    private function __construct()
     {
         $this->params = $this->load_local_settings();
     }

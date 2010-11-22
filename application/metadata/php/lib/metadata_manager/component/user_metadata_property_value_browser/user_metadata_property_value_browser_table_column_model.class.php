@@ -26,7 +26,7 @@ class UserMetadataPropertyValueBrowserTableColumnModel extends DefaultUserTableC
 	/**
 	 * Constructor
 	 */
-	function UserMetadataPropertyValueBrowserTableColumnModel()
+	function __construct()
 	{
             $this->add_column(new ObjectTableColumn(UserMetadataPropertyValue :: PROPERTY_USER_ID));
             parent :: __construct();

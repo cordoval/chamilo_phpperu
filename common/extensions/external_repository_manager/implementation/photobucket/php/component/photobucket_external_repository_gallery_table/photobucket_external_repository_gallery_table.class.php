@@ -11,7 +11,7 @@ class PhotobucketExternalRepositoryGalleryTable extends GalleryObjectTable
 {
     const DEFAULT_NAME = 'photobucket_external_repository_gallery_table';
 
-    function PhotobucketExternalRepositoryGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $data_provider = new PhotobucketExternalRepositoryGalleryTableDataProvider($browser, $condition);
         $renderer = new PhotobucketExternalRepositoryGalleryTableCellRenderer($browser);

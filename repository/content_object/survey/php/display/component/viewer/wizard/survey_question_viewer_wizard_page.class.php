@@ -15,9 +15,9 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
      */
     private $survey;
 
-    function SurveyQuestionViewerWizardPage($name, $parent, $context_path, $survey)
+    function __construct($name, $parent, $context_path, $survey)
     {
-        parent :: SurveyViewerWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
         $this->context_path = $context_path;
         
         $this->survey = $survey;

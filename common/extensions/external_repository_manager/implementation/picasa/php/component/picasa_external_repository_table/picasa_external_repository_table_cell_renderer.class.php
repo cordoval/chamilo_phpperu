@@ -2,6 +2,7 @@
 namespace common\extensions\external_repository_manager\implementation\picasa;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\DefaultExternalRepositoryObjectTableCellRenderer;
 
 use common\libraries\Toolbar;
 use common\libraries\Utilities;
@@ -24,7 +25,7 @@ class PicasaExternalRepositoryTableCellRenderer extends DefaultExternalRepositor
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function PicasaExternalRepositoryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -25,7 +25,7 @@ class ExternalRepositoryInstanceBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function ExternalRepositoryInstanceBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new ExternalRepositoryInstanceBrowserTableColumnModel();
         $renderer = new ExternalRepositoryInstanceBrowserTableCellRenderer($browser);

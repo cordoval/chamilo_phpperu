@@ -19,7 +19,7 @@ class SubscriptionUserForm extends FormValidator
     private $reservation;
     private $item;
 
-    function SubscriptionUserForm($action, $subscription, $user, $reservation, $item)
+    function __construct($action, $subscription, $user, $reservation, $item)
     {
         parent :: __construct('subscription_user_form', 'post', $action);
         

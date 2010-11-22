@@ -22,7 +22,7 @@ class RepositorySharedContentObjectsBrowserTableColumnModel extends DefaultShare
     /**
      * Constructor
      */
-    function RepositorySharedContentObjectsBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(0);

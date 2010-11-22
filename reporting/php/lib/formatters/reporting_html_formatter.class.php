@@ -7,7 +7,7 @@ namespace reporting;
  */
 class ReportingHtmlFormatter extends ReportingFormatter
 {
-    function ReportingHtmlFormatter($block)
+    function __construct($block)
     {
         //$this->reporting_block = $reporting_block;
         parent :: __construct($block);

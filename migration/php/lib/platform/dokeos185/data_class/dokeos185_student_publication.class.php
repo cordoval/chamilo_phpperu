@@ -49,7 +49,7 @@ class Dokeos185StudentPublication extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185StudentPublication object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185StudentPublication($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

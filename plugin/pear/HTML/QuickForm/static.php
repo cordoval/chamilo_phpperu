@@ -3,7 +3,7 @@
 
 /**
  * HTML class for static data
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -23,12 +23,12 @@
 
 /**
  * Base class for form elements
- */ 
+ */
 require_once 'HTML/QuickForm/element.php';
 
 /**
  * HTML class for static data
- * 
+ *
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Wojciech Gdela <eltehaem@poczta.onet.pl>
@@ -36,7 +36,7 @@ require_once 'HTML/QuickForm/element.php';
  * @since       2.7
  */
 class HTML_QuickForm_static extends HTML_QuickForm_element {
-    
+
     // {{{ properties
 
     /**
@@ -48,29 +48,29 @@ class HTML_QuickForm_static extends HTML_QuickForm_element {
 
     // }}}
     // {{{ constructor
-    
+
     /**
      * Class constructor
-     * 
+     *
      * @param     string    $elementLabel   (optional)Label
      * @param     string    $text           (optional)Display text
      * @access    public
      * @return    void
      */
-    function HTML_QuickForm_static($elementName=null, $elementLabel=null, $text=null)
+    function __construct($elementName=null, $elementLabel=null, $text=null)
     {
-        HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel);
+        parent::__construct($elementName, $elementLabel);
         $this->_persistantFreeze = false;
         $this->_type = 'static';
         $this->_text = $text;
     } //end constructor
-    
+
     // }}}
     // {{{ setName()
 
     /**
      * Sets the element name
-     * 
+     *
      * @param     string    $name   Element name
      * @access    public
      * @return    void
@@ -79,13 +79,13 @@ class HTML_QuickForm_static extends HTML_QuickForm_element {
     {
         $this->updateAttributes(array('name'=>$name));
     } //end func setName
-    
+
     // }}}
     // {{{ getName()
 
     /**
      * Returns the element name
-     * 
+     *
      * @access    public
      * @return    string
      */
@@ -124,12 +124,12 @@ class HTML_QuickForm_static extends HTML_QuickForm_element {
         $this->setText($text);
     } // end func setValue
 
-    // }}}    
+    // }}}
     // {{{ toHtml()
 
     /**
      * Returns the static text element in HTML
-     * 
+     *
      * @access    public
      * @return    string
      */
@@ -137,13 +137,13 @@ class HTML_QuickForm_static extends HTML_QuickForm_element {
     {
         return $this->_getTabs() . $this->_text;
     } //end func toHtml
-    
+
     // }}}
     // {{{ getFrozenHtml()
 
     /**
      * Returns the value of field without HTML tags
-     * 
+     *
      * @access    public
      * @return    string
      */
@@ -164,7 +164,7 @@ class HTML_QuickForm_static extends HTML_QuickForm_element {
      * @since     1.0
      * @access    public
      * @return    void
-     * @throws    
+     * @throws
      */
     function onQuickFormEvent($event, $arg, &$caller)
     {
@@ -195,7 +195,7 @@ class HTML_QuickForm_static extends HTML_QuickForm_element {
     {
         return null;
     }
-    
+
     // }}}
 } //end class HTML_QuickForm_static
 ?>

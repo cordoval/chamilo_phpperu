@@ -22,7 +22,7 @@ class AdminRequestBrowserTableDataProvider extends ObjectTableDataProvider
      * @param WeblcmsManagerComponent $browser
      * @param Condition $condition
      */
-    function AdminRequestBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

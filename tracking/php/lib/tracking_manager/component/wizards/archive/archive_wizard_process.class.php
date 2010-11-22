@@ -34,7 +34,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
      * Constructor
      * @param TrackingManagerArchiveComponent $parent The component in which the wizard runs
      */
-    public function ArchiveWizardProcess($parent)
+    public function __construct($parent)
     {
         $this->parent = $parent;
         $this->tdm = TrackingDataManager :: get_instance();

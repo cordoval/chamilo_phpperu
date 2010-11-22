@@ -21,7 +21,7 @@ class DefaultInternshipOrganizerPublicationTableCellRenderer extends ObjectTable
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerPublicationTableCellRenderer()
+    function __construct()
     {
     }
 

@@ -15,7 +15,7 @@ abstract class ExporterWizardPage extends FormValidatorPage
 {
     private $parent;
 
-    public function ExporterWizardPage($name, $parent)
+    public function __construct($name, $parent)
     {
         $this->parent = $parent;
         parent :: __construct($name, 'post');

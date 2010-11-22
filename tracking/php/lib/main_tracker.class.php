@@ -31,7 +31,7 @@ abstract class MainTracker
      * Constructor
      * @param String $table the tablename the tracker should write to
      */
-    function MainTracker($table)
+    function __construct($table)
     {
         $this->table = $table;
     }

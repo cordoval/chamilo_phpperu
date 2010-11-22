@@ -131,7 +131,7 @@ class PGTStorageFile extends PGTStorage
    *
    * @public
    */
-  function PGTStorageFile($cas_parent,$format,$path)
+  function __construct($cas_parent,$format,$path)
     {
       phpCAS::traceBegin();
       // call the ancestor's constructor

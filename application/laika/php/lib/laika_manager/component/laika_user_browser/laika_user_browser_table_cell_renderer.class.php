@@ -29,7 +29,7 @@ class LaikaUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function LaikaUserBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

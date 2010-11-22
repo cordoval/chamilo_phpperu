@@ -30,7 +30,7 @@ class SurveyUserTable extends ObjectTable
      * the selected learning object.
      * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
      */
-    function SurveyUserTable($parent, $owner, $pid)
+    function __construct($parent, $owner, $pid)
     {
         $data_provider = new SurveyUserTableDataProvider($parent, $owner, $pid);
         $column_model = new SurveyUserTableColumnModel();

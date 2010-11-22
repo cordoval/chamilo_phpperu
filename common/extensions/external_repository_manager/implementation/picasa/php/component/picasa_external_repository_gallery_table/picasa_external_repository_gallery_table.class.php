@@ -11,7 +11,7 @@ class PicasaExternalRepositoryGalleryTable extends GalleryObjectTable
 {
     const DEFAULT_NAME = 'picasa_external_repository_gallery_table';
 
-    function PicasaExternalRepositoryGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $data_provider = new PicasaExternalRepositoryGalleryTableDataProvider($browser, $condition);
         $renderer = new PicasaExternalRepositoryGalleryTableCellRenderer($browser);

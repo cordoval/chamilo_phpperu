@@ -20,7 +20,7 @@ class CourseCodeForm extends FormValidator
     private $user;
     private $temp_code;
 
-    function CourseCodeForm($action, $course, $parent, $user)
+    function __construct($action, $course, $parent, $user)
     {
         parent :: __construct('course_code', 'post', $action);
         $this->parent = $parent;

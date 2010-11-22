@@ -32,7 +32,7 @@ class HelpManager extends CoreApplication
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_HELP_ITEMS;
 
-    function HelpManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
     }

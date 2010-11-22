@@ -33,7 +33,7 @@ class BuddyList
     // The parent object
     private $parent;
 
-    function BuddyList($user, $parent)
+    function __construct($user, $parent)
     {
         $this->user = $user;
         $this->parent = $parent;

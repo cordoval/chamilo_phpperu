@@ -11,7 +11,7 @@ abstract class DynamicTab
      * @param string $name
      * @param string $image
      */
-    public function DynamicTab($id, $name, $image)
+    public function __construct($id, $name, $image)
     {
         $this->id = $id;
         $this->name = $name;

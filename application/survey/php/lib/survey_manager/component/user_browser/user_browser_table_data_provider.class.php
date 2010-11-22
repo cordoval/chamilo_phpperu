@@ -2,13 +2,14 @@
 namespace application\survey;
 
 use common\libraries\ObjectTableDataProvider;
+use user\UserDataManager;
 
 class SurveyUserBrowserTableDataProvider extends ObjectTableDataProvider
 {
     
     private $browser;
 
-    function SurveyUserBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     

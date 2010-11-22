@@ -33,7 +33,7 @@ class PersonalCalendarPublicationUser
      * Creates a new ContentObjectPublicationUser object
      * @param array $defaultProperties The default properties
      */
-    function PersonalCalendarPublicationUser($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

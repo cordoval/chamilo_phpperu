@@ -17,7 +17,7 @@ class LearningPathAttemptProgressDetailsReportingTemplate extends ReportingTempl
 {
     private $object;
 
-    function LearningPathAttemptProgressDetailsReportingTemplate($parent /*$id, $params, $trail, $object*/)
+    function __construct($parent /*$id, $params, $trail, $object*/)
     {
         //$this->object = $object;
         parent :: __construct($parent);

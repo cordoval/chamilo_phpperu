@@ -35,7 +35,7 @@ class Dokeos185Templates extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185Templates object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185Templates($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

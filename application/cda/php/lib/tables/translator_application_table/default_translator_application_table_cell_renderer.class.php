@@ -18,7 +18,7 @@ class DefaultTranslatorApplicationTableCellRenderer extends ObjectTableCellRende
 	/**
 	 * Constructor
 	 */
-	function DefaultTranslatorApplicationTableCellRenderer()
+	function __construct()
 	{
 	}
 

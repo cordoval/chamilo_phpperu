@@ -39,7 +39,7 @@ class Dokeos185CourseSetting extends Dokeos185CourseDataMigrationDataClass
      * Creates a new Dokeos185CourseSetting object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185CourseSetting($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

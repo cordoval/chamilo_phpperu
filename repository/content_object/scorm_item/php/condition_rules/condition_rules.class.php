@@ -15,7 +15,7 @@ class ConditionRules
     /**
      * Constructor
      */
-    function ConditionRules()
+    function __construct()
     {
         $this->precondition_rules = array();
         $this->postcondition_rules = array();

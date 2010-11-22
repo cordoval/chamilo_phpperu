@@ -14,9 +14,9 @@ require_once dirname(__FILE__).'/../assessment_manager/assessment_manager.class.
 
 class AssessmentPublicationRSS extends PublicationRSS
 {
-	function AssessmentPublicationRSS()
+	function __construct()
 	{
-		parent :: PublicationRSS('Chamilo assessments', htmlspecialchars(Path :: get(WEB_PATH)), 'Assessment publications', htmlspecialchars(Path :: get(WEB_PATH)));
+		parent :: __construct('Chamilo assessments', htmlspecialchars(Path :: get(WEB_PATH)), 'Assessment publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')

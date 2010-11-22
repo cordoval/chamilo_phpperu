@@ -37,7 +37,7 @@ class Dokeos185Tool extends Dokeos185CourseDataMigrationDataClass
      * Creates a new dokeos185 Tool object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185Tool($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

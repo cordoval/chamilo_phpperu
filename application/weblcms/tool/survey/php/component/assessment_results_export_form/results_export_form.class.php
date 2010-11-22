@@ -14,12 +14,11 @@ use common\libraries\Translation;
  * $Id: results_export_form.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_export_form.results_exporters
  */
-require_once dirname(__FILE__) . '/../../../../trackers/weblcms_assessment_attempts_tracker.class.php';
 
 class AssessmentResultsExportForm extends FormValidator
 {
 
-    function AssessmentResultsExportForm($url)
+    function __construct($url)
     {
         parent :: __construct('assessment', 'post', $url);
         $this->initialize();

@@ -19,7 +19,7 @@ class DefaultCdaLanguageTableCellRenderer extends ObjectTableCellRenderer
 	/**
 	 * Constructor
 	 */
-	function DefaultCdaLanguageTableCellRenderer()
+	function __construct()
 	{
 	}
 

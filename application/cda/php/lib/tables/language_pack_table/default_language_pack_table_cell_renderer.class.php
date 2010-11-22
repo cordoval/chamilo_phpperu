@@ -19,7 +19,7 @@ class DefaultLanguagePackTableCellRenderer extends ObjectTableCellRenderer
 	/**
 	 * Constructor
 	 */
-	function DefaultLanguagePackTableCellRenderer()
+	function __construct()
 	{
 	}
 

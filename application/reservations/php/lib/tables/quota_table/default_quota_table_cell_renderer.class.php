@@ -17,7 +17,7 @@ class DefaultQuotaTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultQuotaTableCellRenderer($browser)
+    function __construct($browser)
     {
     
     }

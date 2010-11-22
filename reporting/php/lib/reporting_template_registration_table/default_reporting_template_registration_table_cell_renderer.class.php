@@ -19,7 +19,7 @@ class DefaultReportingTemplateRegistrationTableCellRenderer extends ObjectTableC
     /**
      * Constructor
      */
-    function DefaultReportingTemplateRegistrationTableCellRenderer()
+    function __construct()
     {
     }
 

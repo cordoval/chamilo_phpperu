@@ -22,7 +22,7 @@ class DynamicFormElementBrowserTableColumnModel extends DefaultDynamicFormElemen
     /**
      * Constructor
      */
-    function DynamicFormElementBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->add_column(self :: get_modification_column());

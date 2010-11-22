@@ -32,7 +32,7 @@ class Dokeos185GradebookScoreDisplay extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185GradebookScoreDisplay object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185GradebookScoreDisplay($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

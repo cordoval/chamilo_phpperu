@@ -10,7 +10,7 @@ use common\libraries\TreeMenu;
 use common\libraries\TreeMenuItem;
 use common\libraries\TreeMenuDataProvider;
 use repository\RepositoryDataManager;
-use application\GradebookTreeMenuDataProvider;
+use application\gradebook\GradebookTreeMenuDataProvider;
 
 class WikiGradebookTreeMenuDataProvider extends GradebookTreeMenuDataProvider
 {

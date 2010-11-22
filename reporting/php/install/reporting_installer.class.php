@@ -11,7 +11,7 @@ use common\libraries\Installer;
 class ReportingInstaller extends Installer
 {
 
-    function ReportingInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, ReportingDataManager :: get_instance());
     }

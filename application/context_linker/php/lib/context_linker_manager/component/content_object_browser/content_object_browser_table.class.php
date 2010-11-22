@@ -16,7 +16,7 @@ class ContentObjectBrowserTable extends ObjectTable
 	/**
 	 * Constructor
 	 */
-	function ContentObjectBrowserTable($browser, $parameters, $condition)
+	function __construct($browser, $parameters, $condition)
 	{
 		$model = new ContentObjectBrowserTableColumnModel();
 		$renderer = new ContentObjectBrowserTableCellRenderer($browser);

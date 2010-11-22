@@ -28,9 +28,9 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
     private $type;
     private $apps;
 
-    public function LocationSelectionPublisherWizardPage($name, $parent)
+    public function __construct($name, $parent)
     {
-        parent :: PublisherWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
         $ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 
         if (empty($ids))
@@ -195,7 +195,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         $this->apps[] = $application;
 
         $this->addElement('html', '<div class="block" id="block_introduction" style="background-image: url(' . Theme :: get_image_path('home') . 'block_' . $application_name . '.png);">');
-        $this->addElement('html', '<div class="title"><div style="float:left;">' . Translation :: get('ApplicationName', null, Application :: determine_namespace($application_name)));
+        $this->addElement('html', '<div class="title"><div style="float:left;">' . Translation :: get('TypeName', null, Application :: determine_namespace($application_name)));
         $this->addElement('html', '</div><div style="float:right;"><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png" /><img class="invisible" style="display: none;") src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a></div><div class="clear">&nbsp;</div></div>');
         $this->addElement('html', '<div class="description"><br />');
 

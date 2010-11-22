@@ -10,7 +10,7 @@ use common\libraries\EqualityCondition;
 abstract class Tracker extends DataClass
 {
 
-    function Tracker($defaultProperties = array (), $optionalProperties = array())
+    function __construct($defaultProperties = array (), $optionalProperties = array())
     {
         parent :: __construct($defaultProperties, $optionalProperties);
     }

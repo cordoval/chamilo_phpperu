@@ -5,6 +5,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 class Hq23ExternalRepositoryManagerDeleterComponent extends Hq23ExternalRepositoryManager
 {

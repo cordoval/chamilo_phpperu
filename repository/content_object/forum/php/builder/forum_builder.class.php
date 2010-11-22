@@ -13,7 +13,7 @@ class ForumBuilder extends ComplexBuilder
     const ACTION_STICKY_COMPLEX_CONTENT_OBJECT_ITEM = 'sticky';
     const ACTION_IMPORTANT_COMPLEX_CONTENT_OBJECT_ITEM = 'important';
 
-    function ForumBuilder($parent)
+    function __construct($parent)
     {
         $action = Request :: post('action');
         $_POST['action'] = null;

@@ -28,7 +28,7 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
      * @param string $edit_and_publish_url_format URL for editing and publishing
      * the selected learning object.
      */
-    function SurveyUserTableCellRenderer($browser)
+    function __construct($browser)
     {
         $this->table_actions = array();
         $this->browser = $browser;

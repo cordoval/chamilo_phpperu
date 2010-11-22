@@ -28,7 +28,7 @@ class CategoryQuotaBoxBrowserTableCellRenderer extends DefaultCategoryQuotaBoxTa
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function CategoryQuotaBoxBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

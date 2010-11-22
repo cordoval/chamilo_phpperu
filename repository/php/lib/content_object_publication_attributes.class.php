@@ -63,7 +63,7 @@ class ContentObjectPublicationAttributes
     /**
      * Constructor.
      */
-    function ContentObjectPublicationAttributes()
+    function __construct()
     {
     }
 

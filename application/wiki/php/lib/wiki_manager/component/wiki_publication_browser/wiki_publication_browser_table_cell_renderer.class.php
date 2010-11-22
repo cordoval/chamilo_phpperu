@@ -32,7 +32,7 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function WikiPublicationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

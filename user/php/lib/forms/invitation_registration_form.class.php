@@ -29,7 +29,7 @@ class InvitationRegistrationForm extends FormValidator
      * Creates a new RegisterForm
      * Used for a guest to register him/herself
      */
-    function InvitationRegistrationForm($action, $invitation)
+    function __construct($action, $invitation)
     {
         parent :: __construct('user_settings', 'post', $action);
 

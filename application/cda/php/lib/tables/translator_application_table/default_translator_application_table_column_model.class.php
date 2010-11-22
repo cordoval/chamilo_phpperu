@@ -21,7 +21,7 @@ class DefaultTranslatorApplicationTableColumnModel extends ObjectTableColumnMode
 	/**
 	 * Constructor
 	 */
-	function DefaultTranslatorApplicationTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct(self :: get_default_columns(), 1);
 	}

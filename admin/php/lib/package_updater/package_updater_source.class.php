@@ -10,7 +10,7 @@ abstract class PackageUpdaterSource
     private $package_folder;
     private $attributes;
 
-    function PackageUpdaterSource($parent)
+    function __construct($parent)
     {
         $this->set_parent($parent);
         $this->set_package_file(null);

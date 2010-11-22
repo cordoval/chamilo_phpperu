@@ -12,9 +12,9 @@ abstract class RepositoryDataClass extends DataClass
 
     /*************************************************************************/
     
-    public function RepositoryDataClass($defaultProperties = array ())
+    public function __construct($defaultProperties = array ())
     {
-        parent :: DataClass($defaultProperties);
+        parent :: __construct($defaultProperties);
     
     }
 

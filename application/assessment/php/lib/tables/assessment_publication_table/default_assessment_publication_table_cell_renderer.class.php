@@ -28,7 +28,7 @@ class DefaultAssessmentPublicationTableCellRenderer extends ObjectTableCellRende
     /**
      * Constructor
      */
-    function DefaultAssessmentPublicationTableCellRenderer()
+    function __construct()
     {
 
     }

@@ -17,7 +17,7 @@ class UserMetadataPropertyValueBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function UserMetadataPropertyValueBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new UserMetadataPropertyValueBrowserTableColumnModel();
         $renderer = new UserMetadataPropertyValueBrowserTableCellRenderer($browser);

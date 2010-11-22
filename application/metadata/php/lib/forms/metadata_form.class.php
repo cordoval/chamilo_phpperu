@@ -16,7 +16,7 @@ class MetadataForm extends FormValidator
     const PARENT_CONTENT_OBJECT = 'content_object';
     const PARENT_ID = 'parent_id';
 
-    function MetadataForm($name, $method, $action)
+    function __construct($name, $method, $action)
     {
         $this->retrieve_property_types();
 

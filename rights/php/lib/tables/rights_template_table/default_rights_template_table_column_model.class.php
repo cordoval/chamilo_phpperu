@@ -17,7 +17,7 @@ class DefaultRightsTemplateTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultRightsTemplateTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

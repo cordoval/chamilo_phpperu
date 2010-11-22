@@ -55,7 +55,7 @@ class InternshipOrganizerPeriodManager extends SubManager
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_PERIODS;
 
-    function InternshipOrganizerPeriodManager($internship_manager)
+    function __construct($internship_manager)
     {
         parent :: __construct($internship_manager);
     }

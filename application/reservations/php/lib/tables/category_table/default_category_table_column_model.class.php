@@ -19,7 +19,7 @@ class DefaultCategoryTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultCategoryTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

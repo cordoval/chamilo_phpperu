@@ -37,7 +37,7 @@ class Header
     /**
      * Constructor
      */
-    function Header($language_code = 'en')
+    function __construct($language_code = 'en')
     {
         $this->http_headers = array();
         $this->html_headers = array();
@@ -64,6 +64,7 @@ class Header
         $this->add_css_file_header(Theme :: get_css_path());
         $this->add_css_file_header(Theme :: get_css_path(RepositoryManager :: APPLICATION_NAME));
         $this->add_css_file_header(Path :: get_repository_path(true) . 'css_content_object.inc.php');
+        $this->add_css_file_header(Path :: get_common_extensions_path(true) . 'external_repository_manager/php/css_external_repository_manager.inc.php');
         //$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.min.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.dimensions.min.js');
@@ -85,6 +86,7 @@ class Header
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.jeditable.mini.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.query.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.replacetext.js');
+        $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.tipTip.js');
         $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/utilities.js');
         $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/notifications.js');
         $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/help.js');

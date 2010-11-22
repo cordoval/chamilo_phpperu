@@ -39,7 +39,7 @@ class RightsManager extends CoreApplication
     private $create_url;
     private $recycle_bin_url;
 
-    function RightsManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
         //$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_USER));

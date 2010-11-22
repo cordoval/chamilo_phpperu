@@ -6,7 +6,7 @@ class RSSStream
 {
 	private $channel;
 	
-	function RSSStream()
+	function __construct()
 	{
 		$this->channel = new CombinedChannel();
 	}

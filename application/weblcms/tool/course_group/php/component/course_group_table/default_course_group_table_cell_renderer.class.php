@@ -23,7 +23,7 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
     /**
      * Constructor
      */
-    function DefaultCourseGroupTableCellRenderer($course_group_tool)
+    function __construct($course_group_tool)
     {
         $this->course_group_tool = $course_group_tool;
     }

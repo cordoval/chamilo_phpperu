@@ -32,7 +32,7 @@ class Dokeos185RoleGroup extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185RoleGroup object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185RoleGroup($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

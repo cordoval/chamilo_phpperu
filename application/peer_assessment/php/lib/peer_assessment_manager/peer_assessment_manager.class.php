@@ -5,6 +5,7 @@ namespace application\peer_assessment;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use repository\content_object\peer_assessment\PeerAssessment;
 
 require_once dirname(__FILE__) . '/../peer_assessment_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/peer_assessment_publication_browser/peer_assessment_publication_browser_table.class.php';
@@ -42,7 +43,7 @@ class PeerAssessmentManager extends WebApplication
      * Constructor
      * @param User $user The current user
      */
-    function PeerAssessmentManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
         $this->parse_input_from_table();

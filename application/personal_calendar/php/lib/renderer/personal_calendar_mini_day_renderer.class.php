@@ -19,7 +19,7 @@ class PersonalCalendarMiniDayRenderer extends PersonalCalendarRenderer
     private $start_hour;
     private $end_hour;
 
-    public function PersonalCalendarMiniDayRenderer($personal_calendar, $display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24')
+    public function __construct($personal_calendar, $display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24')
     {
         $this->hour_step = $hour_step;
         $this->start_hour = $start_hour;
@@ -79,7 +79,7 @@ class PersonalCalendarMiniDayRenderer extends PersonalCalendarRenderer
         $start_date = $event->get_start_date();
         $end_date = $event->get_end_date();
 
-        $html[] = '<div class="event" style="border-left: 5px solid ' . $this->get_color(Translation :: get(Application :: application_to_class($event->get_source()))) . ';">';
+        $html[] = '<div class="event" style="border-left: 5px solid ' . $this->get_color($event->get_source()) . ';">';
 
         if ($start_date >= $table_start_date && $start_date < $table_end_date)
         {

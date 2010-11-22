@@ -11,7 +11,7 @@ class CasUserInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function CasUserInstaller($values)
+    function __construct($values)
     {
     	parent :: __construct($values, CasUserDataManager :: get_instance());
     }

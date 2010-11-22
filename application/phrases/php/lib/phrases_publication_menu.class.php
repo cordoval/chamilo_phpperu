@@ -6,8 +6,8 @@ use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
-use \HTML_Menu;
-use \HTML_Menu_ArrayRenderer;
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
 /**
  * $Id: content_object_category_menu.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -49,7 +49,7 @@ class PhrasesPublicationMenu extends HTML_Menu
      * root.
      * @param string[] $filter_count_on_types - Array to define the types on which the count on the categories should be filtered
      */
-    function PhrasesPublicationMenu($owner, $current_category, $url_format = '?level=%s&language=%s', $extra_items = array())
+    function __construct($owner, $current_category, $url_format = '?level=%s&language=%s', $extra_items = array())
     {
         $this->owner = $owner;
         $this->urlFmt = $url_format;
@@ -234,7 +234,7 @@ class PhrasesPublicationMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }
 ?>

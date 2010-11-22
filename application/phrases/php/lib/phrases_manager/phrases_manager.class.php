@@ -31,7 +31,7 @@ class PhrasesManager extends WebApplication
      * Constructor
      * @param int $user_id
      */
-    public function PhrasesManager($user)
+    public function __construct($user)
     {
         parent :: __construct($user);
     }

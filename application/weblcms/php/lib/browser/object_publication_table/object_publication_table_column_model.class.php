@@ -26,7 +26,7 @@ class ObjectPublicationTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor.
      */
-    function ObjectPublicationTableColumnModel($columns)
+    function __construct($columns)
     {
         if ($columns)
         {

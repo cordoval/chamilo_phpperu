@@ -20,7 +20,7 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
 {
 
     //
-    //    function ContentObjectPublicationDetailsRenderer($browser, $parameters = array (), $actions)
+    //    function __construct($browser, $parameters = array (), $actions)
     //    {
     //        parent :: ContentObjectPublicationListRenderer($browser, $parameters, $actions);
     //    }

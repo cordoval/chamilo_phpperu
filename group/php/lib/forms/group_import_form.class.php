@@ -20,7 +20,7 @@ class GroupImportForm extends FormValidator
      * Creates a new GroupImportForm 
      * Used to import groups from a file
      */
-    function GroupImportForm($action)
+    function __construct($action)
     {
         parent :: __construct('group_import', 'post', $action);
         

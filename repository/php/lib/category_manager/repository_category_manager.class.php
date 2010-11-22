@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/repository_category.class.php';
 class RepositoryCategoryManager extends CategoryManager
 {
 
-    function RepositoryCategoryManager($parent, $trail)
+    function __construct($parent, $trail)
     {
         parent :: __construct($parent, $trail);
     }

@@ -31,7 +31,7 @@ class ValidationManager
 
     private $application;
 
-    function ValidationManager($parent, $application)
+    function __construct($parent, $application)
     {
         $this->parent = $parent;
         $this->application = $application;

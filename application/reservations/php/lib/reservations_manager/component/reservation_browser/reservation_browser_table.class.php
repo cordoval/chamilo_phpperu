@@ -27,7 +27,7 @@ class ReservationBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function ReservationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new ReservationBrowserTableColumnModel();
         $renderer = new ReservationBrowserTableCellRenderer($browser);
@@ -37,7 +37,7 @@ class ReservationBrowserTable extends ObjectTable
 
         if ($browser instanceof ReservationsManagerAdminReservationBrowserComponent && $browser->get_user() && $browser->get_user()->is_platform_admin())
         {
-            $actions = new ObjectTableFormActions();
+            $actions = new ObjectTableFormActions(__NAMESPACE__);
 
             $actions->add_form_action(new ObjectTableFormAction(ReservationsManager :: ACTION_DELETE_RESERVATION, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));
 
@@ -49,7 +49,8 @@ class ReservationBrowserTable extends ObjectTable
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(ReservationsManager :: PARAM_RESERVATION_ID, $ids);
     }
 }

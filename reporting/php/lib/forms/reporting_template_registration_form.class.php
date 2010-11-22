@@ -25,7 +25,7 @@ class ReportingTemplateRegistrationForm extends FormValidator
      * Creates a new UserForm
      * Used by the admin to create/update a user
      */
-    function ReportingTemplateRegistrationForm($form_type, $reporting_template_registration, $action)
+    function __construct($form_type, $reporting_template_registration, $action)
     {
         parent :: __construct('reportingtemplateregistration_edit', 'post', $action);
 

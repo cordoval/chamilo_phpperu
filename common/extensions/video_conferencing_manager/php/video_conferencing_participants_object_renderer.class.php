@@ -8,7 +8,7 @@ abstract class VideoConferencingParticipantsObjectRenderer
 
     protected $video_conferencing_browser;
 
-    function VideoConferencingParticipantsObjectRenderer($video_conferencing_participants_browser)
+    function __construct($video_conferencing_participants_browser)
     {
         $this->video_conferencing_participants_browser = $video_conferencing_participants_browser;
     }

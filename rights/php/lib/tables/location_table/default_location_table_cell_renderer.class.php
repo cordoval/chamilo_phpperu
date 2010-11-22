@@ -16,7 +16,7 @@ class DefaultLocationTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultLocationTableCellRenderer()
+    function __construct()
     {
     }
 

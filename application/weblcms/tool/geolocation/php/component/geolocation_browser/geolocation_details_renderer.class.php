@@ -3,16 +3,16 @@ namespace application\weblcms\tool\geolocation;
 
 use common\libraries\ResourceManager;
 use common\libraries\Path;
+use application\weblcms\ContentObjectPublicationDetailsRenderer;
 
 /**
  * $Id: geolocation_details_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.geolocation.component.geolocation_browser
  */
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
 class GeolocationDetailsRenderer extends ContentObjectPublicationDetailsRenderer
 {
 
-    function GeolocationDetailsRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
     }

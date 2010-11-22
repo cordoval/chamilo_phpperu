@@ -39,7 +39,7 @@ class Translation
     /**
      * Constructor.
      */
-    private function Translation($language = null)
+    private function __construct($language = null)
     {
         if (is_null($language))
         {

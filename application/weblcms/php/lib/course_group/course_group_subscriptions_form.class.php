@@ -25,7 +25,7 @@ class CourseGroupSubscriptionsForm extends FormValidator
     private $course_group;
     private $form_type;
 
-    function CourseGroupSubscriptionsForm($course_group, $action, $parent)
+    function __construct($course_group, $action, $parent)
     {
         parent :: __construct('course_settings', 'post', $action);
         $this->course_group = $course_group;

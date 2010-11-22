@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 use repository\ContentObject;
 use repository\ExternalRepositorySync;
@@ -8,6 +9,8 @@ use common\libraries\Translation;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use repository\content_object\mediamosa\Mediamosa;
 use repository\RepositoryManager;
+use common\libraries\Utilities;
+
 /**
  * Description of importerclass
  *
@@ -25,12 +28,12 @@ class MediamosaExternalRepositoryManagerImporterComponent extends MediamosaExter
     {
         if ($object->is_importable())
         {
-           
+
             $streaming_video_clip = ContentObject :: factory(Mediamosa :: get_type_name());
             $streaming_video_clip->set_title($object->get_title());
             $streaming_video_clip->set_description($object->get_description());
             $streaming_video_clip->set_owner_id($this->get_user_id());
-            
+
             if ($streaming_video_clip->create())
             {
                 ExternalRepositorySync :: quicksave($streaming_video_clip, $object, $this->get_external_repository()->get_id());

@@ -5,7 +5,7 @@ class FileTemplateCache extends TemplateCache
 {
 	private $cache_path;
 	
-	function FileTemplateCache($theme)
+	function __construct($theme)
 	{
 		$this->cache_path = Path :: get(SYS_PATH) . 'files/cache/layout/' . $theme . '/';
 		

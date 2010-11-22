@@ -3,16 +3,14 @@ namespace application\wiki;
 
 use common\libraries\Translation;
 use common\libraries\Path;
-use common\libraries\PublicationRSS
+use common\libraries\PublicationRSS;
 
-require_once dirname(__FILE__).'/../../../../common/global.inc.php';
-require_once Path :: get_common_libraries_class_path().'/rss/publication_rss.class.php';
 
 class WikiPublicationRSS extends PublicationRSS
 {
-	function WikiPublicationRSS()
+	function __construct()
 	{
-		parent :: PublicationRSS('Chamilo wiki', htmlspecialchars(Path :: get(WEB_PATH)), 'Wiki publications', htmlspecialchars(Path :: get(WEB_PATH)));
+		parent :: __construct('Chamilo wiki', htmlspecialchars(Path :: get(WEB_PATH)), 'Wiki publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')

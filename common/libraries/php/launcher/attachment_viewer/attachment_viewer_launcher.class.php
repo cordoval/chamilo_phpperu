@@ -9,7 +9,7 @@ class AttachmentViewerLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'attachment_viewer';
 
-    function AttachmentViewerLauncher($user)
+    function __construct($user)
     {
         parent :: __construct($user);
     }

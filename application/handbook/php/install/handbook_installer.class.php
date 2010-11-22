@@ -19,7 +19,7 @@ class HandbookInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function HandbookInstaller($values)
+    function __construct($values)
     {
     	parent :: __construct($values, HandbookDataManager :: get_instance());
     }

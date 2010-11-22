@@ -13,9 +13,9 @@ class ColumnsConfigBuildWizardPage extends BuildWizardPage
 {
     private $values;
 
-    public function ColumnsConfigBuildWizardPage($name, $parent, $values)
+    public function __construct($name, $parent, $values)
     {
-        parent :: BuildWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
         $this->values = $values;
     }
 

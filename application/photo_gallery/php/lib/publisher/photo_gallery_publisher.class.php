@@ -32,7 +32,7 @@ class PhotoGalleryPublisher
 {
     private $parent;
 
-    function PhotoGalleryPublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

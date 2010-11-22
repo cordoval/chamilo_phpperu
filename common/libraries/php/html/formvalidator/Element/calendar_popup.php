@@ -1,8 +1,6 @@
 <?php
 use common\libraries\Theme;
 use common\libraries\Translation;
-
-use admin\AdminDataManager;
 /**
  * @package common.html.formvalidator.Element
  */
@@ -18,7 +16,7 @@ $DaysLong = array(Translation :: get("SundayLong"), Translation :: get("MondayLo
 // Defining the months of the year to allow translation of the months
 $MonthsLong = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
 
-$iso_lang = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface)->get_isocode();
+$iso_lang = Translation :: get_language();
 if (empty($document_language))
 {
     //if there was no valid iso-code, use the english one
