@@ -24,15 +24,15 @@ class HomeManagerEditorComponent extends HomeManager implements AdministrationCo
     function run()
     {
         Header :: set_section('admin');
-        
+
         $id = Request :: get(HomeManager :: PARAM_HOME_ID);
         $type = Request :: get(HomeManager :: PARAM_HOME_TYPE);
-        
+
         $user = $this->get_user();
         $user_home_allowed = $this->get_platform_setting('allow_user_home');
-        
+
         // TODO: Introduce an extra parameter to allow admins to adapt a user's homepage
-        
+
 
         if ($user_home_allowed && Authentication :: is_valid())
         {
@@ -47,10 +47,10 @@ class HomeManagerEditorComponent extends HomeManager implements AdministrationCo
                 $this->display_footer();
                 exit();
             }
-            
+
             $user_id = '0';
         }
-        
+
         if ($id && $type)
         {
             $url = $this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => $type, HomeManager :: PARAM_HOME_ID => $id));
@@ -73,13 +73,13 @@ class HomeManagerEditorComponent extends HomeManager implements AdministrationCo
                     $form = new HomeTabForm(HomeTabForm :: TYPE_EDIT, $object, $url);
                     break;
             }
-            
+
             if ($object->get_user() == $user_id || ($object->get_user() == '0' && $user->is_platform_admin()))
             {
                 if ($form->validate())
                 {
                     $success = $form->update_object();
-                    $this->redirect(Translation :: get($success ? 'HomeUpdated' : 'HomeNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => HomeManager :: ACTION_VIEW_HOME));
+                    $this->redirect(Translation :: get($success ? 'HomeUpdated' : 'HomeNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
                 }
                 else
                 {
@@ -98,13 +98,13 @@ class HomeManagerEditorComponent extends HomeManager implements AdministrationCo
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities::COMMON_LIBRARIES)));
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManagerManagerComponent')));
     	$breadcrumbtrail->add_help('home_editor');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(HomeManager :: PARAM_HOME_TYPE, HomeManager :: PARAM_HOME_ID);
