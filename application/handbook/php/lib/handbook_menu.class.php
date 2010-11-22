@@ -44,7 +44,7 @@ class HandbookMenu extends HTML_Menu
      *                           "?category=%s".
      *
      */
-    function HandbookMenu($url_format, $handbook_id, $handbook_selection_id, $handbook_publication_id)
+    function __construct($url_format, $handbook_id, $handbook_selection_id, $handbook_publication_id)
     {
         
       //        $this->urlFmt = $url_format;
