@@ -5,8 +5,6 @@ namespace migration;
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_dropbox_post.class.php';
-
 /**
  * This class presents a Dokeos185 dropbox_post
  *
@@ -144,9 +142,21 @@ class Dokeos185DropboxPost extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the validation
      * @return true if the dropbox post is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
     /**
@@ -154,7 +164,7 @@ class Dokeos185DropboxPost extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the conversion
      * @return the new dropbox post
      */
-    function convert_data
+    function convert_data()
     {
         $course = $array['course'];
     }

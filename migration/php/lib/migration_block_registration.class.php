@@ -1,5 +1,6 @@
 <?php
 namespace migration;
+use common\libraries\DataClass;
 /**
  * $Id: $
  * @package migration.lib

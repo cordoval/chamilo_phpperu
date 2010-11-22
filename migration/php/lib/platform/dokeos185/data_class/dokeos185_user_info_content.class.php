@@ -5,7 +5,6 @@ namespace migration;
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_user_info_content.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/content_object/userinfo_content/userinfo_content.class.php';
 require_once dirname(__FILE__) . '/../../../application/weblcms/php/content_object_publication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/content_object/category/category.class.php';
@@ -187,7 +186,7 @@ class Dokeos185UserinfoContent
      * @param Array $array
      * @return UserinfoContent
      */
-    function convert_data
+    function convert_data()
     
 {
     $course = $array['course'];
@@ -273,6 +272,22 @@ class Dokeos185UserinfoContent
 		*/
     return $lcms_userinfo_content;
 }
+function is_valid()
+    {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
 }
 
 ?>

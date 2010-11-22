@@ -5,8 +5,6 @@ namespace migration;
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_gradebook_link.class.php';
-
 /**
  * This class presents a Dokeos185 gradebook_link
  *
@@ -174,9 +172,21 @@ class Dokeos185GradebookLink extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the validation
      * @return true if the gradebook link is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-    
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
     /**
@@ -184,7 +194,7 @@ class Dokeos185GradebookLink extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the conversion
      * @return the new gradebook link
      */
-    function convert_data
+    function convert_data()
     {
     
     }

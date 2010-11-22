@@ -1,6 +1,6 @@
 <?php
 namespace migration;
-
+use \HTML_QuickForm_Controller;
 use common\libraries\PlatformSetting;
 
 /**

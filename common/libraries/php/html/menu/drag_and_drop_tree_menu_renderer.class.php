@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries;
+use \HTML_Menu_DirectTreeRenderer;
 /**
  * $Id: drag_and_drop_tree_menu_renderer.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.menu

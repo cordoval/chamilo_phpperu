@@ -613,10 +613,7 @@ class Utilities
         if (file_exists($class_path))
         {
             require_once $class_path;
-            if (class_exists($classname))
-            {
-                return true;
-            }
+            return class_exists($classname);
         }
     }
 
@@ -666,11 +663,16 @@ class Utilities
         if (array_key_exists($classname, $classes))
         {
             require_once $classes[$classname];
+            return class_exists($classname);
         }
-        else
-        {
-            return false;
+
+        //Fallback strategy => Pear naming convention : replace _ by /
+        $classfile = str_replace("_", "/", $classname) . ".php";
+        if(file_exists($classfile)){
+            require_once $classfile;
+            return class_exists($classname);
         }
+        return false;
     }
 
     /**

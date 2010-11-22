@@ -1,5 +1,6 @@
 <?php
 namespace migration;
+use common\libraries\DataClass;
 
 /**
  * $Id: dokeos185_item_property.class.php 221 2009-11-13 14:36:41Z vanpouckesven $

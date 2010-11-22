@@ -1,13 +1,13 @@
 <?php
 namespace migration;
-
+use common\libraries\Path;
 use admin\AdminDataManager;
+use application\weblcms\Course;
 /**
  * $Id: dokeos185_course.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
-require_once Path :: get(SYS_PATH) . 'application/weblcms/php/course/course.class.php';
 require_once dirname(__FILE__) . '/dokeos185_user.class.php';
 
 /**

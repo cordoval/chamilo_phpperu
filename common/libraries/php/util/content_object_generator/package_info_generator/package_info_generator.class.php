@@ -1,5 +1,5 @@
 <?php
-namespace common\libraries;
+namespace common\libraries\content_object_generator;
 
 /**
  * Package info generator used to generate package info files with given properties

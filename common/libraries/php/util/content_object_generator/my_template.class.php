@@ -1,5 +1,5 @@
 <?php
-namespace common\libraries;
+namespace common\libraries\content_object_generator;
 /***************************************************************************
  *                              template.php
  *                            -------------------

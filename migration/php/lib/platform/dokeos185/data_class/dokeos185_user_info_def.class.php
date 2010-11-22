@@ -4,7 +4,6 @@ namespace migration;
  * $Id: dokeos185_user_info_def.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-require_once dirname(__FILE__) . '/../../lib/import/import_user_info_def.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/content_object/userinfo_def/userinfo_def.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/content_object/category/category.class.php';
 
@@ -152,7 +151,7 @@ class Dokeos185UserinfoDef extends Dokeos185MigrationDataClass
      * @param Array $parameters
      * @return UserinfoDef
      */
-    function convert_data
+    function convert_data()
     {
         $course = $parameters['course'];
         $mgdm = MigrationDataManager :: get_instance();
@@ -222,6 +221,23 @@ class Dokeos185UserinfoDef extends Dokeos185MigrationDataClass
         $array['database'] = $parameters['course']->get_db_name();
         $array['table'] = 'userinfo_def';
         return $array;
+    }
+
+    function is_valid()
+    {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 }
 

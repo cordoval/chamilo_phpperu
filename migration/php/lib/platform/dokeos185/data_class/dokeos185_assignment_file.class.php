@@ -112,30 +112,7 @@ class Dokeos185AssignmentFile extends Dokeos185MigrationDataClass
         return $this->get_default_property(self :: PROPERTY_DOC_PATH);
     }
 
-    /**
-     * Check if the assignment file is valid
-     * @param array $array the parameters for the validation
-     * @return true if the assignment file is valid 
-     */
-    function is_valid($array)
-    {
-        $old_mgdm = $array['old_mgdm'];
-        
-        $course = $array['course'];
-        $filename = $this->get_doc_path();
-        $old_rel_path = 'courses/' . $course->get_directory() . '/assignment/assig_' . $this->get_assignment_id() . '/';
-        
-        $filename = iconv("UTF-8", "ISO-8859-1", $filename);
-        $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
-        
-        if (! $this->get_assignment_id() || ! $this->get_doc_path() || ! file_exists($old_mgdm->append_full_path(false, $old_rel_path . $filename)))
-        {
-            $mgdm = MigrationDataManager :: get_instance();
-            $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.assignment_file');
-            return false;
-        }
-        return true;
-    }
+ 
 
     /**
      * Convert to new assignment file
@@ -143,7 +120,7 @@ class Dokeos185AssignmentFile extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the conversion
      * @return the new assignment file
      */
-    function convert_data
+    function convert_data($array)
     
 {
     $course = $array['course'];
@@ -320,6 +297,38 @@ class Dokeos185AssignmentFile extends Dokeos185MigrationDataClass
     $array['table'] = 'assignment_file';
     return $array;
 }
+
+function is_valid()
+    {
+        $old_mgdm = $array['old_mgdm'];
+
+        $course = $array['course'];
+        $filename = $this->get_doc_path();
+        $old_rel_path = 'courses/' . $course->get_directory() . '/assignment/assig_' . $this->get_assignment_id() . '/';
+
+        $filename = iconv("UTF-8", "ISO-8859-1", $filename);
+        $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+
+        if (! $this->get_assignment_id() || ! $this->get_doc_path() || ! file_exists($old_mgdm->append_full_path(false, $old_rel_path . $filename)))
+        {
+            $mgdm = MigrationDataManager :: get_instance();
+            $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.assignment_file');
+            return false;
+        }
+        return true;
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
 }
 
 ?>

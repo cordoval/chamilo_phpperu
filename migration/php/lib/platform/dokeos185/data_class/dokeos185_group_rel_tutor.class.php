@@ -6,8 +6,6 @@ namespace migration;
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_group_rel_tutor.class.php';
-
 /**
  * This class represents an old Dokeos 1.8.5 Group Tutor Relation
  *
@@ -36,7 +34,7 @@ class Dokeos185GroupRelTutor extends Dokeos185MigrationDataClass
      * @param array $defaultProperties The default properties of the group tutor relation
      *                                 object. Associative array.
      */
-    function Dokeos185LinkCategory($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -129,7 +127,7 @@ class Dokeos185GroupRelTutor extends Dokeos185MigrationDataClass
      * @param Course $course the course
      * @return the new group tutor relation
      */
-    function convert_data
+    function convert_data()
     {
         $course = $array['course'];
     }
@@ -158,21 +156,22 @@ class Dokeos185GroupRelTutor extends Dokeos185MigrationDataClass
         return $array;
     }
     
-	/**
-	 * @param unknown_type $array
-	 */
-	function is_valid($array)
-	{
-		
-	}
+	function is_valid()
+    {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
 
-	/**
-	 * @param unknown_type $array
-	 */
-	function convert_data
-	{
-		
-	}
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
 
 }
 ?>
