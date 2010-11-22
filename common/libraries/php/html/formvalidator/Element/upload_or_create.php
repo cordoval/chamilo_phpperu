@@ -5,6 +5,8 @@ use common\libraries\LocalSetting;
 use common\libraries\FormValidatorHtmlEditorOptions;
 use common\libraries\Utilities;
 
+require_once 'HTML/Quickform/Radio.php';
+
 /**
  * @package common.html.formvalidator.Element
  */

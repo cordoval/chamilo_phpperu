@@ -312,6 +312,11 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
             // Try to retrieve the data of the parent element
             $new_parent = $this->retrieve_location($new_parent_id);
             // TODO: What if this is an invalid location ? Return error.
+
+            if(!$new_parent)
+            {
+                return false;
+            }
         }
 
         $number_of_elements = ($location->get_right_value() - $location->get_left_value() + 1) / 2;
