@@ -1,7 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use admin\AdminDataManager;
 use user\UserDataManager;
+
 use common\libraries\Theme;
 use common\libraries\DynamicContentTab;
 use common\libraries\DynamicTabsRenderer;
@@ -256,7 +258,8 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
 
                 if ($course->get_course_languages_visible())
                 {
-                    $text[] = Utilities :: underscores_to_camelcase_with_spaces($course->get_language());
+                    $course_language = AdminDataManager :: get_instance()->retrieve_language_from_isocode($course->get_language());
+                    $text[] = $course_language->get_original_name();
                 }
 
                 if (count($text) > 0)
