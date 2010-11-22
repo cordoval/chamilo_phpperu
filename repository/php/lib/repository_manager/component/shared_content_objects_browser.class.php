@@ -184,5 +184,10 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
     {
         return Request :: get(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME) == 1;
     }
+
+    function is_allowed_to_create($type)
+    {
+        return true;
+    }
 }
 ?>
