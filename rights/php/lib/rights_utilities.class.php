@@ -742,13 +742,13 @@ class RightsUtilities
     {
         $rdm = RightsDataManager :: get_instance();
 
-        //nathalie: changed this method slightly because the first 3 conditions were not taken into account
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $application);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $tree_type);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_IDENTIFIER, $identifier);
-        //nathalie: added this check so the type becomes optional (I need this method to work with variable types)
+        
         if ($type != null)
         {
             $conditions[] = new EqualityCondition(Location :: PROPERTY_TYPE, $type);
