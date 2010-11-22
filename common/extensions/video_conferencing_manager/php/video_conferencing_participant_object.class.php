@@ -1,6 +1,6 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
-abstract class VideoConferencingParticipantsObject
+abstract class VideoConferencingParticipantObject
 {
     /**
      * @var array
@@ -23,7 +23,7 @@ abstract class VideoConferencingParticipantsObject
     /**
      * @param array $default_properties
      */
-    function VideoConferencingParticipantsObject($default_properties = array ())
+    function VideoConferencingParticipantObject($default_properties = array ())
     {
         $this->default_properties = $default_properties;
     }
