@@ -18,6 +18,8 @@ use group\Group;
 use group\GroupDataManager;
 
 use application\internship_organizer\InternshipOrganizerDataManagerInterface;
+use common\libraries\Session;
+use common\libraries\ConditionTranslator;
 /**
  * @package internship_organizer.datamanager
  */

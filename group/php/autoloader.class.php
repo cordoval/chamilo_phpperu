@@ -14,7 +14,7 @@ class Autoloader
     static function load($classname)
     {
         self :: $class_name = $classname;
-       
+
 
         if (self :: check_for_general_files())
         {
@@ -41,7 +41,7 @@ class Autoloader
 
     static function check_for_general_files()
     {
-        $list = array('group_data_manager', 'group_menu', 'group_rel_user', 'group_rights_template', 'group');
+        $list = array('group_data_manager', 'group_menu', 'group_rel_user', 'group_rights_template', 'group', 'group_use_group');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
