@@ -368,7 +368,7 @@ class RightsUtilities
         {
             if (self :: $right_granted_by_parent_cache[$right] == -1) //the right wasnt granted in a previous run, this means that only the base location should be checked
             {
-                if (self :: get_group_right_location($right, $group, $location->get_id()))
+                if (static :: get_group_right_location($right, $group, $location->get_id()))
                 {
                     return true;
                 }

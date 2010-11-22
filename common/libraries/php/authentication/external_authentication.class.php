@@ -5,7 +5,7 @@ use user\User;
 /**
  * @package common.authentication
  */
-require_once dirname(__FILE__) . '/../global.inc.php';
+
 require_once Path :: get_rights_path() . 'lib/rights_manager/component/right_requester.class.php';
 
 /**
