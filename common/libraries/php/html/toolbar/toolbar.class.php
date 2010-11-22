@@ -143,5 +143,10 @@ class Toolbar
 
         return implode($html);
     }
+
+    function has_items()
+    {
+        return count($this->items) > 0;
+    }
 }
 ?>

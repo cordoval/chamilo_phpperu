@@ -354,3 +354,15 @@ table.data_table#slideshow th.navigation div.toolbar {
 table.data_table#slideshow td.header {
 	text-align: center;
 }
+
+div.home_actions
+{
+	display: block;
+	padding: 10px 10px 10px 10px;
+	background-repeat: no-repeat;
+	background-position: 14px 10px;
+	height: 16px;
+	line-height: 16px;
+	background-color: #F6F6F6;
+	margin-bottom: 10px;
+}

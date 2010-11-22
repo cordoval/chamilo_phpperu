@@ -323,8 +323,8 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
             }
 
             //departement_name & url
-            $chamilo_course->set_extlink_name($this->get_department_name());
-            $chamilo_course->set_extlink_url($this->get_department_url());
+            $chamilo_course->set_external_name($this->get_department_name());
+            $chamilo_course->set_external_url($this->get_department_url());
 
             //Course - Settings
             if (AdminDataManager :: is_language_active($this->get_course_language()))

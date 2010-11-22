@@ -2,6 +2,8 @@
 
 namespace application\weblcms;
 
+use common\libraries;
+
 use reporting\ReportingManager;
 use common\libraries\SubselectCondition;
 use Exception;
@@ -122,7 +124,7 @@ abstract class Tool extends SubManager
                 if (empty($ids))
                     $ids = array();
             }
-            elseif (!is_array($ids))
+            elseif (! is_array($ids))
             {
                 $ids = array($ids);
             }
@@ -211,12 +213,13 @@ abstract class Tool extends SubManager
 
     function display_header($visible_tools = null, $show_introduction_text = false)
     {
-        if (!$visible_tools)
+        if (! $visible_tools)
         {
             $visible_tools = $this->get_visible_tools();
         }
 
         parent :: display_header();
+
         $this->display_course_menus($visible_tools, $show_introduction_text);
     }
 
@@ -252,7 +255,7 @@ abstract class Tool extends SubManager
         {
             $renderer = ToolListRenderer :: factory(ToolListRenderer :: TYPE_MENU, $this, $tools);
             echo $renderer->display();
-            echo '<div id="tool_browser_' . ($renderer->display_menu_icons() && !$renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() . '">';
+            echo '<div id="tool_browser_' . ($renderer->display_menu_icons() && ! $renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() . '">';
         }
         else
         {
@@ -261,26 +264,44 @@ abstract class Tool extends SubManager
 
         $tool_shortcut = $this->get_course()->get_tool_shortcut();
 
-        if (($this->get_tool_id() == 'home' && $this->get_course()->get_intro_text() && !$this->get_introduction_text()) || ($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0))
+        if (($this->get_tool_id() == 'home' && $this->get_course()->get_intro_text() && ! $this->get_introduction_text()) || ($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0))
         {
-            echo '<div style="border-bottom: 1px dotted #D3D3D3; margin-bottom: 1em; padding-bottom: 2em;">';
+            echo '<div style="margin-bottom: 10px;">';
             $shortcuts_visible = true;
+        }
+
+        $toolbar = new Toolbar();
+
+        if ($this->get_course()->get_external_url() && $show_introduction_text)
+        {
+            $link_name = $this->get_course()->get_external_name();
+            if (! $link_name)
+            {
+                $link_name = $this->get_course()->get_external_url();
+            }
+
+            $toolbar->add_item(new ToolbarItem($link_name, Theme :: get_common_image_path() . 'action_home.png', $this->get_course()->get_external_url()));
         }
 
         if ($show_introduction_text)
         {
             $introduction_text = $this->get_introduction_text();
-            if (!$introduction_text)
+            if (! $introduction_text)
             {
                 if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
                 {
-                    $toolbar = new Toolbar();
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('PublishIntroductionText', null, Utilities :: COMMON_LIBRARIES), null, $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_LABEL));
-                    echo '<div style="float: left;">';
-                    echo $toolbar->as_html();
-                    echo '</div>';
+                    $toolbar->add_item(new ToolbarItem(
+
+                    Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION))));
                 }
             }
+        }
+
+        if ($toolbar->has_items())
+        {
+            echo '<div class="home_actions">';
+            echo $toolbar->as_html();
+            echo '</div>';
         }
 
         if ($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0)
@@ -411,6 +432,7 @@ abstract class Tool extends SubManager
     //        return $this->get_parent()->get_path($path_type);
     //    }
 
+
     /** Dummy functions so we can use the same component class for both tool and repositorytool * */
     function perform_requested_action()
     {
@@ -421,6 +443,7 @@ abstract class Tool extends SubManager
     //	{
     //		return $this->get_parent()->get_categories($list);
     //	}
+
 
     /**
      * @see Application :: get_category()
@@ -434,10 +457,10 @@ abstract class Tool extends SubManager
     {
         $form = new FormValidator($action, 'get', $this->get_url());
         $categories = $this->get_categories(true);
-        $form->addElement('select', ContentObjectPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category', null, Utilities:: COMMON_LIBRARIES), $categories);
+        $form->addElement('select', ContentObjectPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category', null, Utilities :: COMMON_LIBRARIES), $categories);
         //$form->addElement('submit', 'submit', Translation :: get('Ok', null ,Utilities:: COMMON_LIBRARIES));
-        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move', null, Utilities:: COMMON_LIBRARIES), array('class' => 'positive move'));
-        $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities:: COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive move'));
+        $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $parameters = $this->get_parameters();
@@ -460,8 +483,10 @@ abstract class Tool extends SubManager
             {
                 $toolbar = new Toolbar();
 
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON));
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON, true));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(
+                        Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(
+                        Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON, true));
             }
 
             $html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/introduction.png);">';
@@ -505,7 +530,9 @@ abstract class Tool extends SubManager
     {
         if (Request :: get(self :: PARAM_PUBLICATION_ID))
         {
-            $url = $this->get_parent()->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID), ReportingManager :: PARAM_TEMPLATE_NAME => 'publication_detail_reporting_template'));
+            $url = $this->get_parent()->get_url(array(
+                    Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID),
+                    ReportingManager :: PARAM_TEMPLATE_NAME => 'publication_detail_reporting_template'));
             return new ToolbarItem(Translation :: get('AccessDetails'), Theme :: get_common_image_path() . 'action_reporting.png', $url);
         }
         else
@@ -542,7 +569,7 @@ abstract class Tool extends SubManager
     static function factory($tool_name, $parent)
     {
         $file = dirname(__FILE__) . '/' . $tool_name . '/' . $tool_name . '_tool.class.php';
-        if (!file_exists($file))
+        if (! file_exists($file))
         {
             throw new Exception(Translation :: get('ToolDoesNotExist', array('toolname' => $tool_name)));
         }
@@ -561,7 +588,7 @@ abstract class Tool extends SubManager
     static function launch($type, $application)
     {
         $file = dirname(__FILE__) . '/../../../tool/' . $type . '/php/' . $type . '_tool.class.php';
-        if (!file_exists($file))
+        if (! file_exists($file))
         {
             throw new Exception(Translation :: get('ToolTypeDoesNotExist', array('type' => $type)));
         }
