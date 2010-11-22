@@ -3,7 +3,9 @@ namespace common\extensions\external_repository_manager\implementation\matterhor
 
 use common\libraries\Toolbar;
 use common\libraries\Utilities;
+
 use common\extensions\external_repository_manager\DefaultExternalRepositoryObjectTableCellRenderer;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 /**
  * $Id: repository_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $

@@ -19,6 +19,7 @@ class YoutubeExternalRepositoryTable extends ObjectTable
     function __construct($browser, $parameters, $condition)
     {
         $model = new YoutubeExternalRepositoryTableColumnModel();
+        dump($model);
         $renderer = new YoutubeExternalRepositoryTableCellRenderer($browser);
         $data_provider = new YoutubeExternalRepositoryTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);

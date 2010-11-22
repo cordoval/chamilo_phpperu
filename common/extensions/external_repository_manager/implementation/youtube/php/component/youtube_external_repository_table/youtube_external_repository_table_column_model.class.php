@@ -3,7 +3,6 @@ namespace common\extensions\external_repository_manager\implementation\youtube;
 
 use common\extensions\external_repository_manager\DefaultExternalRepositoryObjectTableColumnModel;
 use common\libraries\StaticTableColumn;
-use common\libraries\Translation;
 /**
  * $Id: repository_browser_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
