@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 
 use repository\ContentObject;
+use common\libraries\Utilities;
 
 /**
  * $Id: matrix_question_form.class.php
