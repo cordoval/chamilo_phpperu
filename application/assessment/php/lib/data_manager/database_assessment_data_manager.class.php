@@ -4,12 +4,14 @@ namespace application\assessment;
 
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
+use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use repository\ContentObject;
 use common\libraries\ConditionTranslator;
 use common\libraries\InCondition;
 use repository\ContentObjectPublicationAttributes;
 use common\libraries\Session;
+use repository\content_object\assessment\Assessment;
 /**
  * $Id: database_assessment_data_manager.class.php 237 2009-11-16 13:04:53Z vanpouckesven $
  * @package application.lib.assessment.data_manager
@@ -338,8 +340,8 @@ class DatabaseAssessmentDataManager extends Database implements AssessmentDataMa
             $info->set_publication_date($record[AssessmentPublication :: PROPERTY_PUBLISHED]);
             $info->set_application(AssessmentManager :: APPLICATION_NAME);
             //TODO: i8n location string
-            $info->set_location(Translation :: get('Assessment', null, 'repository\content_object\assessment'));
-            $info->set_url('run.php?application=assessment&go='.AssessmentManager::ACTION_VIEW_ASSESSMENT_PUBLICATION);
+            $info->set_location(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace(Assessment :: get_type_name())));
+            $info->set_url('run.php?application=assessment&go='.AssessmentManager::ACTION_VIEW_ASSESSMENT_PUBLICATION . '&' . AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION . '=' . $info->get_id());
             $info->set_publication_object_id($record[AssessmentPublication :: PROPERTY_CONTENT_OBJECT]);
 
             $publication_attr[] = $info;
@@ -365,8 +367,8 @@ class DatabaseAssessmentDataManager extends Database implements AssessmentDataMa
         $publication_attr->set_publication_date($record[AssessmentPublication :: PROPERTY_PUBLISHED]);
         $publication_attr->set_application(AssessmentManager :: APPLICATION_NAME);
         //TODO: i8n location string
-        $publication_attr->set_location(Translation :: get('Assessment', null, 'repository\content_object\assessment'));
-        $publication_attr->set_url('run.php?application=assessment&go=browse_assessments');
+        $publication_attr->set_location(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace(Assessment :: get_type_name())));
+        $publication_attr->set_url('run.php?application=assessment&go='.AssessmentManager::ACTION_VIEW_ASSESSMENT_PUBLICATION . '&' . AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION . '=' . $info->get_id());
         $publication_attr->set_publication_object_id($record[AssessmentPublication :: PROPERTY_CONTENT_OBJECT]);
 
         $res->free();
