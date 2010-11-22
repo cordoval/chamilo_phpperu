@@ -15,6 +15,7 @@ class CoursesRightsEditorManager extends RightsEditorManager
         parent :: __construct($parent, $locations);
 
         $users = array();
+        $users[] = $parent->get_user();
 
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
