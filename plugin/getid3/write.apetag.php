@@ -25,7 +25,7 @@ class getid3_write_apetag
 	var $warnings = array();                 // any non-critical errors will be stored here
 	var $errors   = array();                 // any critical errors will be stored here
 
-	function getid3_write_apetag() {
+	function __construct() {
 		return true;
 	}
 

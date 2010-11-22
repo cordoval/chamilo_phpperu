@@ -1,4 +1,5 @@
 <?php
+
 namespace application\weblcms;
 
 use common\libraries\WebApplication;
@@ -15,31 +16,40 @@ class ToolComponentDeleterComponent extends ToolComponent
 
     function run()
     {
-        if ($this->is_allowed(WeblcmsRights :: DELETE_RIGHT))
+
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
+            $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+        else
+            $publication_ids = $_POST[Tool :: PARAM_PUBLICATION_ID];
+
+        if (!is_array($publication_ids))
         {
-            if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
-                $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);
-            else
-                $publication_ids = $_POST[Tool :: PARAM_PUBLICATION_ID];
+            $publication_ids = array($publication_ids);
+        }
 
-            if (! is_array($publication_ids))
+        $datamanager = WeblcmsDataManager :: get_instance();
+        $failures = 0;
+
+        foreach ($publication_ids as $index => $pid)
+        {
+            $publication = $datamanager->retrieve_content_object_publication($pid);
+            if (WebApplication :: is_active('gradebook'))
             {
-                $publication_ids = array($publication_ids);
+                require_once dirname(__FILE__) . '/../../../../../gradebook/php/lib/gradebook_utilities.class.php';
+                if (!GradebookUtilities :: move_internal_item_to_external_item(WeblcmsManager :: APPLICATION_NAME, $publication->get_id()))
+                    $message = 'failed to move internal evaluation to external evaluation';
             }
-
-            $datamanager = WeblcmsDataManager :: get_instance();
-
-            foreach ($publication_ids as $index => $pid)
+            if ($this->is_allowed(WeblcmsRights :: DELETE_RIGHT, $pid))
             {
-                $publication = $datamanager->retrieve_content_object_publication($pid);
-                if (WebApplication :: is_active('gradebook'))
-                {
-                    require_once dirname(__FILE__) . '/../../../../../gradebook/php/lib/gradebook_utilities.class.php';
-                    if (! GradebookUtilities :: move_internal_item_to_external_item(WeblcmsManager :: APPLICATION_NAME, $publication->get_id()))
-                        $message = 'failed to move internal evaluation to external evaluation';
-                }
                 $publication->delete();
             }
+            else
+            {
+                $failures++;
+            }
+        }
+        if ($failures == 0)
+        {
             if (count($publication_ids) > 1)
             {
                 $message = htmlentities(Translation :: get('ContentObjectPublicationsDeleted'));
@@ -48,10 +58,15 @@ class ToolComponentDeleterComponent extends ToolComponent
             {
                 $message = htmlentities(Translation :: get('ContentObjectPublicationDeleted'));
             }
-
-            $this->redirect($message, '', array(Tool :: PARAM_PUBLICATION_ID => null, 'tool_action' => null));
         }
+        else
+        {
+            $message = htmlentities(Translation :: get('ContentObjectPublicationsNotDeleted'));
+        }
+
+        $this->redirect($message, '', array(Tool :: PARAM_PUBLICATION_ID => null, 'tool_action' => null));
     }
 
 }
+
 ?>

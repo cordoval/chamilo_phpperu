@@ -19,7 +19,7 @@ class HomeTab extends DataClass
 
     private $defaultProperties;
 
-    function HomeTab($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

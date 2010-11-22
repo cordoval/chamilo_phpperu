@@ -10,7 +10,7 @@ class ObjectTableFormAction
     private $title;
     private $confirm;
 
-    function ObjectTableFormAction($action, $title, $confirm = true)
+    function __construct($action, $title, $confirm = true)
     {
         $this->action = $action;
         $this->title = $title;

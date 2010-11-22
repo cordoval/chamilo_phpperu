@@ -27,7 +27,7 @@ class MetadataAssociationsForm extends FormValidator
     private $metadata_property_type;
     private $application;
 
-    function MetadataAssociationsForm($form_type, $metadata_property_type, $action, $user, $application)
+    function __construct($form_type, $metadata_property_type, $action, $user, $application)
     {
         parent :: __construct('metadata_attribute_nesting_settings', 'post', $action);
         

@@ -19,7 +19,7 @@ abstract class PublisherWizardPage extends FormValidatorPage
      */
     private $parent;
 
-    public function PublisherWizardPage($name, $parent)
+    public function __construct($name, $parent)
     {
         $this->parent = $parent;
         parent :: __construct($name, 'post');

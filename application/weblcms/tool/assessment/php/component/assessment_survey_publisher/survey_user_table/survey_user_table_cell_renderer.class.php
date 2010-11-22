@@ -5,6 +5,7 @@ use common\libraries\Toolbar;
 use user\UserDataManager;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\DefaultContentObjectTableCellRenderer;
 
 /**
  * $Id: survey_user_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -27,7 +28,7 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
      * @param string $edit_and_publish_url_format URL for editing and publishing
      * the selected learning object.
      */
-    function SurveyUserTableCellRenderer($browser)
+    function __construct($browser)
     {
         $this->table_actions = array();
         $this->browser = $browser;

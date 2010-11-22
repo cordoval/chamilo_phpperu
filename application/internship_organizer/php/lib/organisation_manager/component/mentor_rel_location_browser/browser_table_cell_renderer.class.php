@@ -16,7 +16,7 @@ class InternshipOrganizerMentorRelLocationBrowserTableCellRenderer extends Defau
     
     private $browser;
 
-    function InternshipOrganizerMentorRelLocationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

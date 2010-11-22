@@ -25,7 +25,7 @@ class GroupRelUserBrowserTableCellRenderer extends DefaultGroupRelUserTableCellR
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function GroupRelUserBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

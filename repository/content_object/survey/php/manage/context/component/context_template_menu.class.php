@@ -3,8 +3,6 @@ namespace repository\content_object\survey;
 
 use repository\RepositoryDataManager;
 
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template.class.php';
 
 class SurveyContextTemplateMenu extends HTML_Menu
@@ -34,7 +32,7 @@ class SurveyContextTemplateMenu extends HTML_Menu
     //	private $hide_current_template;
 
 
-    function SurveyContextTemplateMenu($current_template_id, $survey_id, $url_format = '?go=content_object_manager&application=repository&action=context_browser&manage=context&content_object_type=survey&survey_id=%s&context_template_id=%s')
+    function __construct($current_template_id, $survey_id, $url_format = '?go=content_object_manager&application=repository&action=context_browser&manage=context&content_object_type=survey&survey_id=%s&context_template_id=%s')
     {
 
         //		dump($current_template);
@@ -78,7 +76,7 @@ class SurveyContextTemplateMenu extends HTML_Menu
         //		} else {
         $menu = array();
 
-        $context_template = SurveyContextDataManager::get_instance()->retrieve_survey_context_template($context_template_id);
+        $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
 
         $menu_item = array();
         $menu_item['title'] = $context_template->get_context_type_name();
@@ -165,6 +163,6 @@ class SurveyContextTemplateMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

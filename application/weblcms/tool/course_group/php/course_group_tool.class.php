@@ -32,7 +32,7 @@ class CourseGroupTool extends Tool
 
     const PARAM_COURSE_GROUP = 'course_group';
 
-    function CourseGroupTool($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         $this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));

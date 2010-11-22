@@ -28,7 +28,7 @@ class VariableTranslationBrowserTableColumnModel extends DefaultVariableTranslat
 	/**
 	 * Constructor
 	 */
-	function VariableTranslationBrowserTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);		

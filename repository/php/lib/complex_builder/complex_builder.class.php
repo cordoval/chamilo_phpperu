@@ -63,7 +63,7 @@ abstract class ComplexBuilder extends SubManager
      */
     private $selected_complex_content_object_item;
 
-    function ComplexBuilder($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
 

@@ -16,7 +16,7 @@ class DefaultRegistrationTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultRegistrationTableCellRenderer()
+    function __construct()
     {
     }
 

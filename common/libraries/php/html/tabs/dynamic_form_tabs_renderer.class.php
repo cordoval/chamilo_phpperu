@@ -4,7 +4,7 @@ class DynamicFormTabsRenderer extends DynamicTabsRenderer
 {
     private $form;
 
-    public function DynamicFormTabsRenderer($name, $form)
+    public function __construct($name, $form)
     {
         parent :: __construct($name);
         $this->form = $form;

@@ -1,9 +1,14 @@
 <?php
 namespace group;
+
+
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
- 
+use common\libraries\PatternMatchCondition;
+use common\libraries\NotCondition;
+use common\libraries\Authentication;
+use common\libraries\ObjectTableOrder;
  
 /**
  * $Id: xml_group_feed.php 224 2009-11-13 14:40:30Z kariboe $
@@ -11,7 +16,7 @@ use common\libraries\AndCondition;
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../common/global.inc.php';
 
 if (Authentication :: is_valid())
 {

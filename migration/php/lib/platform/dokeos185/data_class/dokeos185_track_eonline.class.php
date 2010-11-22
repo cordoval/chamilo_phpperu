@@ -35,7 +35,7 @@ class Dokeos185TrackEOnline extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackEOnline object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackEOnline($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

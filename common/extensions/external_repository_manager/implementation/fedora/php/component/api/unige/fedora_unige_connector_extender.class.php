@@ -2,6 +2,7 @@
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * Extender for FedoraExternalRepositoryConnector.
  * Provides method's specialization for the standard fedora connector.

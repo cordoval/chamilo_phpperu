@@ -21,7 +21,7 @@ class AnnouncementDistributionBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function AnnouncementDistributionBrowserTable($browser, $name, $parameters, $condition)
+    function __construct($browser, $name, $parameters, $condition)
     {
         $model = new AnnouncementDistributionBrowserTableColumnModel();
         $renderer = new AnnouncementDistributionBrowserTableCellRenderer($browser);

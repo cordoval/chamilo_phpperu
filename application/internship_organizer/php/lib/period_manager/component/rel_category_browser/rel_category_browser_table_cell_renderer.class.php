@@ -13,7 +13,7 @@ class InternshipOrganizerCategoryRelPeriodBrowserTableCellRenderer extends Defau
     
     private $browser;
 
-    function InternshipOrganizerCategoryRelPeriodBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

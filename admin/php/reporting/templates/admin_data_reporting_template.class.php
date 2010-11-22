@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../blocks/admin_most_used_core_applications_r
 class AdminDataReportingTemplate extends ReportingTemplate
 {
 
-    function AdminDataReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
     	$this->add_reporting_block(new AdminNoOfApplicationsReportingBlock($this));

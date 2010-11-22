@@ -15,6 +15,8 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use group\Group;
+use application\weblcms\CourseGroupRelation;
 
 /**
  * $Id: subscribe_group_browser_table_cell_renderer.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -36,7 +38,7 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function SubscribeGroupBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

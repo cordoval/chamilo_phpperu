@@ -14,7 +14,7 @@ class DefaultInternshipOrganizerMomentRelUserTableCellRenderer extends ObjectTab
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerMomentRelUserTableCellRenderer()
+    function __construct()
     {
     }
 

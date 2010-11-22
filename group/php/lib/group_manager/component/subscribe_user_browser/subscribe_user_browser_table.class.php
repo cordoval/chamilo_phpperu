@@ -23,26 +23,27 @@ class SubscribeUserBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function SubscribeUserBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new SubscribeUserBrowserTableColumnModel();
         $renderer = new SubscribeUserBrowserTableCellRenderer($browser);
         $data_provider = new SubscribeUserBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(__CLASS__, true), $model, $renderer);
         $this->set_additional_parameters($parameters);
-        
-        $actions = new ObjectTableFormActions();
-        
+
+        $actions = new ObjectTableFormActions(__NAMESPACE__);
+
         $actions->add_form_action(new ObjectTableFormAction(GroupManager :: ACTION_SUBSCRIBE_USER_TO_GROUP, Translation :: get('SubscribeSelected'), false));
 
         $this->set_form_actions($actions);
-        
+
         $this->set_default_row_count(20);
     }
-    
+
 	static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(GroupManager :: PARAM_USER_ID, $ids);
     }
 }

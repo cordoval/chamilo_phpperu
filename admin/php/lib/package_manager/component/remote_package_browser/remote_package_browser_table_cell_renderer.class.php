@@ -23,7 +23,7 @@ class RemotePackageBrowserTableCellRenderer extends DefaultRemotePackageTableCel
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function RemotePackageBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

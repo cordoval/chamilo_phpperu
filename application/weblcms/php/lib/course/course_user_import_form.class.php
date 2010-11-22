@@ -24,7 +24,7 @@ class CourseUserImportForm extends FormValidator
 
     private $failedcsv;
 
-    function CourseUserImportForm($form_type, $action)
+    function __construct($form_type, $action)
     {
         parent :: __construct('course_user_import', 'post', $action);
 

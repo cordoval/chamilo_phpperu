@@ -24,7 +24,7 @@ class DefaultAssessmentPublicationTableColumnModel extends ObjectTableColumnMode
     /**
      * Constructor
      */
-    function DefaultAssessmentPublicationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

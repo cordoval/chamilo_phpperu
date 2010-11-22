@@ -14,7 +14,6 @@ use repository\RepositoryRights;
  * $Id: database_user_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package user.lib.data_manager
  */
-require_once 'MDB2.php';
 require_once dirname(__FILE__) . '/../user_data_manager_interface.class.php';
 
 /**

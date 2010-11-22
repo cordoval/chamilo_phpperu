@@ -11,7 +11,7 @@ class CoreApplicationComponent extends ApplicationComponent
      * The CoreApplicationComponent constructor
      * @see ApplicationComponent :: __construct()
      */
-    function CoreApplicationComponent($manager)
+    function __construct($manager)
     {
         parent :: __construct($manager);
     }

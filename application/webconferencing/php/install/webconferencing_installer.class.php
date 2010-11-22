@@ -21,7 +21,7 @@ class WebconferencingInstaller extends Installer
     /**
      * Constructor
      */
-    function WebconferencingInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, WebconferencingDataManager :: get_instance());
     }

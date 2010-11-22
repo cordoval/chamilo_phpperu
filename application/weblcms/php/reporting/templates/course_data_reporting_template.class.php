@@ -22,7 +22,7 @@ require_once dirname(__FILE__) . '/../blocks/weblcms_no_of_users_subscribed_cour
 class CourseDataReportingTemplate extends ReportingTemplate
 {
 
-    function CourseDataReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         $this->add_reporting_block($this->get_no_of_courses());

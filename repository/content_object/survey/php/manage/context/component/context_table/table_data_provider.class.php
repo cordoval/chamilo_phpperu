@@ -8,7 +8,7 @@ class SurveyContextTableDataProvider extends ObjectTableDataProvider
 
 	private $context_type;
 
-	function SurveyContextTableDataProvider($component, $condition, $context_type)
+	function __construct($component, $condition, $context_type)
     {
         $this->context_type = $context_type;
     	parent :: __construct($component, $condition);

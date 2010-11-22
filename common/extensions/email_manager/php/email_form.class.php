@@ -20,7 +20,7 @@ class EmailForm extends FormValidator
     /**
      * Creates a new LanguageForm
      */
-    function EmailForm($action, $user, $target_users)
+    function __construct($action, $user, $target_users)
     {
         parent :: __construct('email_form', 'post', $action);
 

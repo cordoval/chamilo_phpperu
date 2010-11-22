@@ -32,7 +32,7 @@ class Dokeos185OnlineLink extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185OnlineLink object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185OnlineLink($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

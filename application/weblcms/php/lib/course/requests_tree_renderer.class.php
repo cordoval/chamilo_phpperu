@@ -11,8 +11,6 @@ use common\libraries\Translation;
 /**
  * $Id: request_tree_renderer.class.php 204 2009-11-13 12:51:30Z tristan $
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 
 class RequestsTreeRenderer extends HTML_Menu
 {
@@ -21,7 +19,7 @@ class RequestsTreeRenderer extends HTML_Menu
     private $parent;
     private $current_item = 1;
 
-    function RequestsTreeRenderer($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
         $menu = $this->get_menu_items();
@@ -109,7 +107,9 @@ class RequestsTreeRenderer extends HTML_Menu
             $menu_item['class'] = 'type type_request';
             $menu_item['title'] = Translation :: get($translation) . ' (' . $count . ')';
             $menu_item['description'] = Translation :: get($translation);
-            $menu_item['url'] = $this->parent->get_url(Array(WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type, WeblcmsManager :: PARAM_REQUEST_VIEW => $request_view));
+            $menu_item['url'] = $this->parent->get_url(Array(
+                    WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type,
+                    WeblcmsManager :: PARAM_REQUEST_VIEW => $request_view));
             $this->check_selected_item($menu_item, $request_type, $request_view);
             $sub_menu[] = $menu_item;
         }
@@ -131,6 +131,6 @@ class RequestsTreeRenderer extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

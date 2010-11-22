@@ -13,7 +13,6 @@ require_once Path :: get_library_path() . 'utilities.class.php';
 
 class ComplexForumForm extends ComplexContentObjectItemForm
 {
-    const TOTAL_PROPERTIES = 0;
 
     // Inherited
     protected function build_creation_form()
@@ -43,11 +42,6 @@ class ComplexForumForm extends ComplexContentObjectItemForm
     {
         $cloi = $this->get_complex_content_object_item();
         return parent :: create_complex_content_object_item();
-    }
-
-    function set_csv_values($valuearray)
-    {
-        parent :: set_values($defaults);
     }
 
     // Inherited

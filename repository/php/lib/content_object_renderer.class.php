@@ -22,7 +22,7 @@ abstract class ContentObjectRenderer
 
     protected $repository_browser;
 
-    function ContentObjectRenderer($repository_browser)
+    function __construct($repository_browser)
     {
         $this->repository_browser = $repository_browser;
     }

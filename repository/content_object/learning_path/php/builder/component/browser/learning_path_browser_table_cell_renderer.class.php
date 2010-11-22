@@ -39,7 +39,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function LearningPathBrowserTableCellRenderer($browser, $condition)
+    function __construct($browser, $condition)
     {
         if($condition)
         {

@@ -16,7 +16,7 @@ class SurveyParticipantBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function SurveyParticipantBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new SurveyParticipantBrowserTableColumnModel();
         $renderer = new SurveyParticipantBrowserTableCellRenderer($browser);

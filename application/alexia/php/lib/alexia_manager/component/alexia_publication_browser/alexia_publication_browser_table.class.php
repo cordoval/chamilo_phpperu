@@ -24,7 +24,7 @@ class AlexiaPublicationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function AlexiaPublicationBrowserTable($browser, $name, $parameters, $condition)
+    function __construct($browser, $name, $parameters, $condition)
     {
         $model = new AlexiaPublicationBrowserTableColumnModel();
         $renderer = new AlexiaPublicationBrowserTableCellRenderer($browser);

@@ -54,7 +54,7 @@ class QuotaManager
      * Create a new QuotaManager
      * @param User $owner The user of which the quota should be calculated
      */
-    public function QuotaManager($owner)
+    public function __construct($owner)
     {
         $this->owner = $owner;
         $this->used_disk_space = null;

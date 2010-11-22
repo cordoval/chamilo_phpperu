@@ -20,7 +20,7 @@ class CasAccountBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function CasAccountBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new CasAccountBrowserTableColumnModel();
         $renderer = new CasAccountBrowserTableCellRenderer($browser);

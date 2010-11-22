@@ -14,7 +14,7 @@ class HtmlEditorFileLauncher extends LauncherApplication
     //private $content_object_types;
 
 
-    function HtmlEditorFileLauncher($user)
+    function __construct($user)
     {
         parent :: __construct($user);
         $this->set_parameter('CKEditor', Request :: get('CKEditor'));

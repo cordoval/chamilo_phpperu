@@ -18,7 +18,7 @@ abstract class MetadataDataManager
 	/**
 	 * Constructor.
 	 */
-	protected function MetadataDataManager()
+	public function __construct()
 	{
 		$this->initialize();
 	}

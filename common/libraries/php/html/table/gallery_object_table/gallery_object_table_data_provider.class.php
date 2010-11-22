@@ -23,7 +23,7 @@ abstract class GalleryObjectTableDataProvider
      * @param ApplicationManagerComponent $browser
      * @param Condition $condition
      */
-    function GalleryObjectTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         $this->browser = $browser;
         $this->condition = $condition;

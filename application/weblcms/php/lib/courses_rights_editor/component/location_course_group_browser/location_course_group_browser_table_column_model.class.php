@@ -29,7 +29,7 @@ class LocationCourseGroupBrowserTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function LocationCourseGroupBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         $this->browser = $browser;
         parent :: __construct($this->get_columns());

@@ -17,7 +17,7 @@ class DefaultInternshipOrganizerAgreementRelLocationTableCellRenderer extends Ob
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerAgreementRelLocationTableCellRenderer()
+    function __construct()
     {
     }
 

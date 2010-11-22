@@ -27,7 +27,7 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
      * Constructor
      * @param WeblcmsBrowserComponent $browser
      */
-    function UnsubscribeBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

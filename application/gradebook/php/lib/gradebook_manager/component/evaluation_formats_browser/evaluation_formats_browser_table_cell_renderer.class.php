@@ -21,7 +21,7 @@ class EvaluationFormatsBrowserTableCellRenderer extends DefaultEvaluationFormats
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function EvaluationFormatsBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

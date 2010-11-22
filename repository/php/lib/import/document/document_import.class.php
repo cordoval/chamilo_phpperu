@@ -15,7 +15,7 @@ class DocumentImport extends ContentObjectImport
 {
     private $rdm;
 
-    function DocumentImport($content_object_file, $user, $category)
+    function __construct($content_object_file, $user, $category)
     {
         parent :: __construct($content_object_file, $user, $category);
     	$this->rdm = RepositoryDataManager :: get_instance();

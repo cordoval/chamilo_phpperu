@@ -44,7 +44,7 @@ class pfcContainer extends pfcContainerInterface
     return $i;    
   }
   
-  function pfcContainer($type = 'File', $usememorycache = true)
+  function __construct($type = 'File', $usememorycache = true)
   {
     pfcContainerInterface::pfcContainerInterface();
 

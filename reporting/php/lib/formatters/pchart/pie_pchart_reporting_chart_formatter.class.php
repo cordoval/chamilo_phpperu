@@ -14,7 +14,7 @@ use pChart;
 class PiePchartReportingChartFormatter extends PchartReportingChartFormatter
 {
 
-    public function PiePchartReportingChartFormatter(& $reporting_block)
+    public function __construct(& $reporting_block)
     {
         parent :: __construct($reporting_block);
     }

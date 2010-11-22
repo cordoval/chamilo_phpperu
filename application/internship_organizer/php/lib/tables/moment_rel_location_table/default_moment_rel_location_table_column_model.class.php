@@ -15,7 +15,7 @@ class DefaultInternshipOrganizerMomentRelLocationTableColumnModel extends Object
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerMomentRelLocationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 0);
     }

@@ -21,7 +21,7 @@ class SurveyInvitation
 
     private $default_properties;
 
-    function SurveyInvitation($id = null, $default_properties = array())
+    function __construct($id = null, $default_properties = array())
     {
         $this->set_id($id);
         $this->default_properties = $default_properties;

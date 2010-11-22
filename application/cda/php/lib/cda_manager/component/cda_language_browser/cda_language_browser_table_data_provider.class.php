@@ -19,7 +19,7 @@ class CdaLanguageBrowserTableDataProvider extends ObjectTableDataProvider
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function CdaLanguageBrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }

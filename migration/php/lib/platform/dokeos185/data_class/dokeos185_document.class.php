@@ -43,7 +43,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
      * @param array $defaultProperties The default properties of the document
      *                                 object. Associative array.
      */
-    function Dokeos185Document($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

@@ -14,7 +14,7 @@ class ForumPublicationPublisher
 {
     private $parent;
 
-    function ForumPublicationPublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

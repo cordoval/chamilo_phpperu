@@ -10,7 +10,7 @@ class DynamicTabsRenderer
     private $name;
     private $tabs;
 
-    public function DynamicTabsRenderer($name)
+    public function __construct($name)
     {
         $this->name = $name;
         $this->tabs = array();

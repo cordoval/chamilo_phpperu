@@ -10,7 +10,6 @@ use common\libraries\Database;
  * @package webservices.lib.data_manager
  */
 
-require_once 'MDB2.php';
 require_once dirname(__FILE__) . '/../webservice_data_manager_interface.class.php';
 
 /**

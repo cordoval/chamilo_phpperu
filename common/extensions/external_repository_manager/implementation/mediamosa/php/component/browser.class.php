@@ -8,7 +8,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryComponent;
  * @author jevdheyd
  */
 
-class MediamosaExternalRepositoryManagerBrowserComponent extends MediaMosaExternalRepositoryManager
+class MediamosaExternalRepositoryManagerBrowserComponent extends MediamosaExternalRepositoryManager
 {
 
     function run()

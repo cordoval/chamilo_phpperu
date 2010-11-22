@@ -19,7 +19,7 @@ class DefaultPeerAssessmentPublicationTableCellRenderer extends ObjectTableCellR
     /**
      * Constructor
      */
-    function DefaultPeerAssessmentPublicationTableCellRenderer()
+    function __construct()
     {
 
     }

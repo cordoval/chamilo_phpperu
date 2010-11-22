@@ -32,7 +32,7 @@ class Dokeos185ForumMailcue extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185ForumMailcue object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185ForumMailcue($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

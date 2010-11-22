@@ -19,7 +19,7 @@ class HomeColumnForm extends FormValidator
     private $homecolumn;
     private $form_type;
 
-    function HomeColumnForm($form_type, $homecolumn, $action)
+    function __construct($form_type, $homecolumn, $action)
     {
         parent :: __construct('home_column', 'post', $action);
         

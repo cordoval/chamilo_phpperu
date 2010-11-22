@@ -16,8 +16,7 @@ use common\libraries\Path;
 /**
  * Load Response parent
  */
-require_once dirname() . '/../Response.php';
-/**
+require_once dirname(__FILE__) . '/../Response.php';/**
  * Response XML parser using SimpleXML
  *
  * @package PBAPI

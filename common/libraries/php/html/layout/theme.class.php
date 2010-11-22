@@ -46,7 +46,7 @@ class Theme
      */
     private $path;
 
-    function Theme()
+    function __construct()
     {
         $this->theme = PlatformSetting :: get('theme');
         $this->template = new Phpbb2TemplateWrapper($this->theme);

@@ -11,7 +11,7 @@ class MatterhornExternalRepositoryGalleryTable extends GalleryObjectTable
 {
     const DEFAULT_NAME = 'matterhorn_external_repository_gallery_table';
 
-    function MatterhornExternalRepositoryGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $data_provider = new MatterhornExternalRepositoryGalleryTableDataProvider($browser, $condition);
         $renderer = new MatterhornExternalRepositoryGalleryTableCellRenderer($browser);

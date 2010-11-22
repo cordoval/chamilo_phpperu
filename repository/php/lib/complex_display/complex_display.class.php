@@ -50,7 +50,7 @@ abstract class ComplexDisplay extends SubManager
      */
     private $selected_complex_content_object_item;
 
-    function ComplexDisplay($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
 

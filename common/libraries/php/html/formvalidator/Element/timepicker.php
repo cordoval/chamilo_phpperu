@@ -1,10 +1,9 @@
 <?php
-use admin\AdminDataManager;
+use common\libraries\Translation;
+
 /**
  * @package common.html.formvalidator.Element
  */
-// $Id: timepicker.php 128 2009-11-09 13:13:20Z vanpouckesven $
-require_once ('HTML/QuickForm/date.php');
 /**
  * Form element to select a date and hour (with popup datepicker)
  */
@@ -15,7 +14,7 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
     /**
      * Constructor
      */
-    function HTML_QuickForm_timepicker($elementName = null, $elementLabel = null, $attributes = null, $include_minutes_picker = true)
+    function __construct($elementName = null, $elementLabel = null, $attributes = null, $include_minutes_picker = true)
     {
         global $language_interface;
         if (! isset($attributes['form_name']))
@@ -25,7 +24,7 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
 
         $js_form_name = $attributes['form_name'];
         //unset($attributes['form_name']);
-        HTML_QuickForm_element :: HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_element :: __construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_appendName = true;
         $this->_type = 'timepicker';
@@ -36,8 +35,7 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
             $popup_link = str_replace($char, "\\" . $char, $popup_link);
             $hour_minute_devider = str_replace($char, "\\" . $char, $hour_minute_devider);
         }
-        $adm = AdminDataManager :: get_instance();
-        $editor_lang = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();
+        $editor_lang = Translation :: get_language();
         if (empty($editor_lang))
         {
             //if there was no valid iso-code, use the english one
@@ -86,7 +84,7 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
             $js .= 'tbl_change.js" type="text/javascript"></script>';
             $js .= "\n";
         }*/
-        return ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/tbl_change.js');
+        return ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'libraries/php/html/formvalidator/Element/tbl_change.js');
     }
 
     /**

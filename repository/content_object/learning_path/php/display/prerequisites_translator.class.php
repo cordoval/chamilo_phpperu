@@ -11,7 +11,7 @@ class PrerequisitesTranslator
     private $items;
     private $version;
 
-    function PrerequisitesTranslator($learning_path_item_attempt_data, $content_objects, $version)
+    function __construct($learning_path_item_attempt_data, $content_objects, $version)
     {
         $this->learning_path_item_attempt_data = $learning_path_item_attempt_data;
         $this->content_objects = $content_objects;

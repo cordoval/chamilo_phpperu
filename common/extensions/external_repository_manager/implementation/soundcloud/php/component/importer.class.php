@@ -24,7 +24,6 @@ class SoundcloudExternalRepositoryManagerImporterComponent extends SoundcloudExt
         $soundcloud = ContentObject :: factory(Soundcloud :: get_type_name());
         $soundcloud->set_title($object->get_title());
         $soundcloud->set_description(nl2br($object->get_description()));
-        $soundcloud->set_track_id($object->get_id());
         $soundcloud->set_owner_id($this->get_user_id());
 
         if ($soundcloud->create())
@@ -33,8 +32,7 @@ class SoundcloudExternalRepositoryManagerImporterComponent extends SoundcloudExt
             $parameters = $this->get_parameters();
             $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
             $this->redirect(Translation :: get('ObjectImported', null, Utilities :: COMMON_LIBRARIES), false, $parameters, array(
-                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY,
-                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
+                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
         }
         else
         {

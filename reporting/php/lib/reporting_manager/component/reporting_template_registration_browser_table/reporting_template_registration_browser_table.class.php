@@ -22,7 +22,7 @@ class ReportingTemplateRegistrationBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function ReportingTemplateRegistrationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new ReportingTemplateRegistrationBrowserTableColumnModel();
         $renderer = new ReportingTemplateRegistrationBrowserTableCellRenderer($browser);

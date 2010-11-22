@@ -29,7 +29,7 @@ class PlatformSetting
     /**
      * Constructor.
      */
-    private function PlatformSetting()
+    private function __construct()
     {
         $this->params = array();
         $this->load_platform_settings();

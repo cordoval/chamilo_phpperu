@@ -1,12 +1,12 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\youtube;
 
-use common\libraries\Translation;
+use common\extensions\external_repository_manager\DefaultExternalRepositoryObjectTableColumnModel;
+use common\libraries\StaticTableColumn;
 /**
  * $Id: repository_browser_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
  */
-require_once dirname(__FILE__) . '/../../../../table/default_external_repository_object_table_column_model.class.php';
 /**
  * Table column model for the repository browser table
  */
@@ -20,7 +20,7 @@ class YoutubeExternalRepositoryTableColumnModel extends DefaultExternalRepositor
     /**
      * Constructor
      */
-    function YoutubeExternalRepositoryTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

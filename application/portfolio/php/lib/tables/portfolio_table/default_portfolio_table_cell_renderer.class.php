@@ -10,7 +10,7 @@ class DefaultPortfolioTableCellRenderer extends ObjectTableCellRenderer
 {
 
     
-    function DefaultPortfolioTableCellRenderer($browser)
+    function __construct($browser)
     {
     
     }

@@ -14,7 +14,7 @@ class FileLogger
 	 * @param String $file - The full path to the file
 	 * @param Bool $append - create a new file, or append to existing one
 	 */
-	function FileLogger($file, $append = false)
+	function __construct($file, $append = false)
 	{
 		$mode = $append ? 'a+' : 'w+';
 		$this->open_file($file, $mode);

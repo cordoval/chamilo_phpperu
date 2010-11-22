@@ -51,7 +51,7 @@ abstract class InternshipOrganizerImport
      * Constructor
      * @param string $filename
      */
-    public function InternshipOrganizerImport($internship_organizer_file, $user, $object_type)
+    public function __construct($internship_organizer_file, $user, $object_type)
     {
         $this->internship_organizer_file = $internship_organizer_file;
         $this->user = $user;

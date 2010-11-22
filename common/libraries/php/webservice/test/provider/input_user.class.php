@@ -9,7 +9,7 @@ class InputUser
     
     private $defaultProperties;
 
-    function InputUser($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

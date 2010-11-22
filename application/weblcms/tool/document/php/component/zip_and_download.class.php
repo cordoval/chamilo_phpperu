@@ -19,6 +19,9 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\SubselectCondition;
 use repository\content_object\document\Document;
+use application\weblcms\ContentObjectPublicationUser;
+use application\weblcms\ContentObjectPublicationCourseGroup;
+use common\libraries\Filecompression;
 
 /**
  * $Id: document_zip_and_download.class.php 216 2009-11-13 14:08:06Z kariboe $

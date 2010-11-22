@@ -12,7 +12,7 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 {
     private $parent;
 
-    public function SurveyViewerWizardProcess($parent)
+    public function __construct($parent)
     {
         //        dump($parent);
         //        exit;

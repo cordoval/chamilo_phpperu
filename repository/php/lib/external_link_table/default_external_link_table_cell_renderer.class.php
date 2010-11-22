@@ -24,7 +24,7 @@ class DefaultExternalLinkTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultExternalLinkTableCellRenderer($browser)
+    function __construct($browser)
     {
         $this->browser = $browser;
     }

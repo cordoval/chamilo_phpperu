@@ -50,7 +50,7 @@ abstract class ContentObjectImport
      * Constructor
      * @param string $filename
      */
-    public function ContentObjectImport($content_object_file, $user, $category)
+    public function __construct($content_object_file, $user, $category)
     {
         $this->content_object_file = $content_object_file;
         $this->user = $user;
@@ -167,7 +167,7 @@ abstract class ContentObjectImport
     }
 
     /**
-     * Factory function to create an instance of an export class
+     * Factory function __construct( create an instance of an export class
      * @param string $type One of the supported file types returned by the
      * get_supported_filetypes function.
      * @param string $filename The desired filename for the export file

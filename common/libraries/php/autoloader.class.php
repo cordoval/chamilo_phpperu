@@ -68,7 +68,8 @@ class Autoloader
                 'mini_month_calendar',
                 'mini_week_calendar',
                 'month_calendar',
-                'week_calendar');
+                'week_calendar',
+                'year_calendar');
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (in_array($lower_case, $list))
@@ -194,7 +195,8 @@ class Autoloader
                 'form_validator_html_editor_templates' => 'formvalidator/form_validator_html_editor_templates.class.php',
                 'form_validator_html_editor_options' => 'formvalidator/form_validator_html_editor_options.class.php',
                 'html_editor_processor' => 'formvalidator/html_editor/html_editor_file_browser/html_editor_processor/html_editor_processor.class.php',
-                'action_bar_renderer' => 'action_bar/action_bar_renderer.class.php');
+                'action_bar_renderer' => 'action_bar/action_bar_renderer.class.php',
+                'image_content_object_table' => "formvalidator/html_editor/html_editor_file_browser/html_editor_repo_viewer/image/component/image_content_object_table/image_content_object_table.class.php");
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

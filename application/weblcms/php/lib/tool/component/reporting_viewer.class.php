@@ -27,6 +27,12 @@ class ToolComponentReportingViewerComponent extends ToolComponent
      */
     function run()
     {
+        //TODO :: what users are allowed to view reports?
+//        $course = $this->get_tool_browser()->get_course();
+//        if(!$this->get_user()->is_platform_admin() && $course->is_course_admin($this->get_user()))
+//        {
+//
+//        }
         $classname = Request :: get(ReportingManager :: PARAM_TEMPLATE_NAME);
         $this->set_parameter(ReportingManager :: PARAM_TEMPLATE_NAME, $classname);
 

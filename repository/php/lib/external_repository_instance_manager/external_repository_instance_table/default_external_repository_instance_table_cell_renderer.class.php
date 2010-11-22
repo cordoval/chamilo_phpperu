@@ -11,7 +11,7 @@ use common\libraries\DatetimeUtilities;
 class DefaultExternalRepositoryInstanceTableCellRenderer extends ObjectTableCellRenderer
 {
 
-    function DefaultExternalRepositoryInstanceTableCellRenderer()
+    function __construct()
     {
     }
 

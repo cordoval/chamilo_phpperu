@@ -15,7 +15,7 @@ class ApplicationsPackageDependency extends PackageDependency
 
     private $version;
 
-    function ApplicationsPackageDependency($dependency)
+    function __construct($dependency)
     {
         parent :: __construct($dependency);
         $this->set_version($dependency['version']);

@@ -16,7 +16,7 @@ abstract class ScoreCalculator
     private $answer;
     private $question;
 
-    function ScoreCalculator($question, $answer, $weight)
+    function __construct($question, $answer, $weight)
     {
         $this->answer = $answer;
         $this->question = $question;

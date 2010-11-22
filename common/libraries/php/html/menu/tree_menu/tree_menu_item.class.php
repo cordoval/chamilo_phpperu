@@ -9,7 +9,7 @@ class TreeMenuItem
     private $children = array();
     private $collapsed;
 
-    public function TreeMenuItem($title = null, $url = null, $id = null, $class = 'category', $collapsed = false)
+    public function __construct($title = null, $url = null, $id = null, $class = 'category', $collapsed = false)
     {
         $this->set_title($title);
         $this->set_url($url);

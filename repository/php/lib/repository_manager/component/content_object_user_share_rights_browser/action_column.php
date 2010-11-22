@@ -7,7 +7,7 @@
  */
 class ActionColumn extends StaticTableColumn
 {
-    function ActionColumn()
+    function __construct()
     {
         parent::StaticTableColumn('');
 

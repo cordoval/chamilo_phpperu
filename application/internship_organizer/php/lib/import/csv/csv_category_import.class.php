@@ -9,7 +9,7 @@ require_once WebApplication :: get_application_class_lib_path('internship_organi
 class CsvCategoryImport extends InternshipOrganizerImport
 {
 
-    function CsvCategoryImport($internship_organizer_file, $user, $object_type)
+    function __construct($internship_organizer_file, $user, $object_type)
     {
         parent :: __construct($internship_organizer_file, $user, $object_type);
     }

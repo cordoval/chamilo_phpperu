@@ -18,7 +18,7 @@ class Dokeos185TextFieldParser
 	 */
 	private $included_objects;
 	
-	function Dokeos185TextFieldParser()
+	function __construct()
 	{
 		$this->included_objects = array();	
 	}

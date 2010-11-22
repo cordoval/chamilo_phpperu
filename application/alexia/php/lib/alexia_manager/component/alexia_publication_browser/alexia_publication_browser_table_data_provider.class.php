@@ -20,7 +20,7 @@ class AlexiaPublicationBrowserTableDataProvider extends ObjectTableDataProvider
      * @param AlexiaManagerComponent $browser
      * @param Condition $condition
      */
-    function AlexiaPublicationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

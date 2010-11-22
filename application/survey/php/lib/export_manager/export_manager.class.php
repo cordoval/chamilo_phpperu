@@ -30,7 +30,7 @@ class SurveyExportManager extends SubManager
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
-    function SurveyExportManager($survey_manager)
+    function __construct($survey_manager)
     {
         parent :: __construct($survey_manager);
     }

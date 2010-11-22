@@ -3,7 +3,7 @@
 
 /**
  * Hidden select pseudo-element
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -44,10 +44,10 @@ require_once 'HTML/QuickForm/select.php';
 class HTML_QuickForm_hiddenselect extends HTML_QuickForm_select
 {
     // {{{ constructor
-        
+
     /**
      * Class constructor
-     * 
+     *
      * @param     string    Select name attribute
      * @param     mixed     Label(s) for the select (not used)
      * @param     mixed     Data to be used to populate options
@@ -56,16 +56,16 @@ class HTML_QuickForm_hiddenselect extends HTML_QuickForm_select
      * @access    public
      * @return    void
      */
-    function HTML_QuickForm_hiddenselect($elementName=null, $elementLabel=null, $options=null, $attributes=null)
+    function __construct($elementName=null, $elementLabel=null, $options=null, $attributes=null)
     {
-        HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_element::__construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_type = 'hiddenselect';
         if (isset($options)) {
             $this->load($options);
         }
     } //end constructor
-    
+
     // }}}
     // {{{ toHtml()
 
@@ -75,7 +75,7 @@ class HTML_QuickForm_hiddenselect extends HTML_QuickForm_select
      * @since     1.0
      * @access    public
      * @return    string
-     * @throws    
+     * @throws
      */
     function toHtml()
     {
@@ -101,12 +101,12 @@ class HTML_QuickForm_hiddenselect extends HTML_QuickForm_select
 
         return $strHtml;
     } //end func toHtml
-    
+
     // }}}
     // {{{ accept()
 
    /**
-    * This is essentially a hidden element and should be rendered as one  
+    * This is essentially a hidden element and should be rendered as one
     */
     function accept(&$renderer)
     {

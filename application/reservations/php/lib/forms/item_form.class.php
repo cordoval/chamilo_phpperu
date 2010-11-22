@@ -26,7 +26,7 @@ class ItemForm extends FormValidator
     /**
      * Creates a new LanguageForm
      */
-    function ItemForm($form_type, $action, $item, $user)
+    function __construct($form_type, $action, $item, $user)
     {
         parent :: __construct('item_form', 'post', $action);
 

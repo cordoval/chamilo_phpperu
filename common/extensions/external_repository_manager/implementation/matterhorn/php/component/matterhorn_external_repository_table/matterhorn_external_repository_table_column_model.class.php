@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
+
+use common\extensions\external_repository_manager\DefaultExternalRepositoryObjectTableColumnModel;
+use common\libraries\StaticTableColumn;
 /**
  * $Id: repository_browser_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
@@ -17,7 +20,7 @@ class MatterhornExternalRepositoryTableColumnModel extends DefaultExternalReposi
     /**
      * Constructor
      */
-    function MatterhornExternalRepositoryTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

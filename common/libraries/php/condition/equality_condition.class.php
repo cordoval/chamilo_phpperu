@@ -39,7 +39,7 @@ class EqualityCondition implements Condition
      * @param string $name
      * @param string $value
      */
-    function EqualityCondition($name, $value, $storage_unit = null, $is_alias = false)
+    function __construct($name, $value, $storage_unit = null, $is_alias = false)
     {
         $this->name = $name;
         $this->value = $value;

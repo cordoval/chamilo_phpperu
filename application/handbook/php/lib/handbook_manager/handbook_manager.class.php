@@ -48,6 +48,7 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
 	const ACTION_CREATE_HANDBOOK_PUBLICATION = 'handbook_publication_creator';
 	const ACTION_BROWSE_HANDBOOK_PUBLICATIONS = 'handbook_publications_browser';
         const ACTION_VIEW_HANDBOOK = 'handbook_viewer';
+        const ACTION_EDIT_RIGHTS = 'rights_editor';
         const ACTION_VIEW_HANDBOOK_PUBLICATION = 'handbook_publications_browser';
         const PARAM_HANDBOOK_OWNER_ID = 'handbook_owner';
 
@@ -64,7 +65,7 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
 	 * Constructor
 	 * @param User $user The current user
 	 */
-    function HandbookManager($user = null)
+    function __construct($user = null)
     {
     	parent :: __construct($user);
     	
@@ -150,9 +151,16 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
 	}
 
-        function get_view_handbook_publication_url($handbook_publication_id)
+        function get_view_handbook_publication_url($handbook_id)
         {
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_HANDBOOK_PUBLICATION, self::PARAM_HANDBOOK_PUBLICATION_ID => $handbook_id));
+            $hdm = HandbookDataManager::get_instance();
+            $condition = new EqualityCondition(HandbookPublication::PROPERTY_CONTENT_OBJECT_ID, $handbook_id);
+            $publications = $hdm->retrieve_handbook_publications($condition);
+            if(count($publications == 1))
+            {
+                $handbook_publication_id = $publications->next_result()->get_id();
+            }
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_HANDBOOK, self::PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION_ID => $handbook_publication_id));
 	}
         function get_view_handbook_url($handbook_id)
         {
@@ -337,7 +345,7 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
 
                  //determine wich preferences are more important:
                  //TODO this array could/should be a parameter
-                 $preference_importance = array();
+                 $preference_importance = self::get_publication_preferences_importance($publication_id);
                  $preference_importance[1] = array('user'=> self::PARAM_LANGUAGE);
                  $preference_importance[2] = array('handbook'=> self::PARAM_LANGUAGE);
                  $preference_importance[3] = array('user'=> self::PARAM_PUBLISHER);
@@ -516,6 +524,15 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
         $preferences['handbook'] = $handbook_preferences;
 
         return $preferences;
+    }
+
+    function get_publication_preferences_importance($publication_id)
+    {
+         $preference_importance = array();
+         $preference_importance[1] = array('user'=> self::PARAM_LANGUAGE);
+         $preference_importance[2] = array('handbook'=> self::PARAM_LANGUAGE);
+         $preference_importance[3] = array('user'=> self::PARAM_PUBLISHER);
+         $preference_importance[4] = array('handbook'=> self::PARAM_PUBLISHER);
     }
 
 

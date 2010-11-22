@@ -21,7 +21,7 @@ class ContextLinkBrowserTableColumnModel extends DefaultContextLinkTableColumnMo
 	/**
 	 * Constructor
 	 */
-	function ContextLinkBrowserTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);

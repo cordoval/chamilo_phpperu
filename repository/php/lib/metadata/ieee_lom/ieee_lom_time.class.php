@@ -36,7 +36,7 @@ abstract class IeeeLomTime
      * @param timestamp $datetime
      * @param LangString $description
      */
-    public function IeeeLomTime($timestamp = null, $description = null)
+    public function __construct($timestamp = null, $description = null)
     {
         $this->set_timestamp($timestamp);
         $this->set_description($description);

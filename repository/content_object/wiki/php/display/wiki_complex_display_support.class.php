@@ -28,6 +28,7 @@ interface WikiComplexDisplaySupport extends ComplexDisplaySupport
 
     /**
      * Retrieve the publication context for this complex display
+     * Essential for the feedback functionality
      */
     function get_publication();
 }

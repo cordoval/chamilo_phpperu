@@ -19,7 +19,7 @@ class HandbookDataManager
 	/**
 	 * Constructor.
 	 */
-	protected function HandbookDataManager()
+	public function __construct()
 	{
 		$this->initialize();
 	}

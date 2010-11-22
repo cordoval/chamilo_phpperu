@@ -18,7 +18,7 @@ class ReportingSurvey
     const PARAM_SURVEY_ID_URL = 'url';
     const PARAM_PARTICIPANT_ID = 'participant';
 
-    function ReportingSurvey()
+    function __construct()
     {
     
     }

@@ -21,7 +21,7 @@ class MetadataDefaultValueForm extends FormValidator
     private $metadata_property_type;
     private $metadata_property_attribute_types;
 
-    function MetadataDefaultValueForm($form_type, MetadataDefaultValue $metadata_default_value, MetadataPropertyType $metadata_property_type, array $metadata_property_attribute_types, $action)
+    function __construct($form_type, MetadataDefaultValue $metadata_default_value, MetadataPropertyType $metadata_property_type, array $metadata_property_attribute_types, $action)
     {
     	parent :: __construct('metadata_default_value_settings', 'post', $action);
 

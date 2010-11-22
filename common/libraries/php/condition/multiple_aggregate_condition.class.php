@@ -24,7 +24,7 @@ abstract class MultipleAggregateCondition extends AggregateCondition
      * @param mixed $conditions The aggregated conditions, as either a list
      *                          or an array of Condition objects.
      */
-    function MultipleAggregateCondition($conditions)
+    function __construct($conditions)
     {
         $this->conditions = (is_array($conditions) ? $conditions : func_get_args());
     }

@@ -3,8 +3,6 @@
 	<settings>
 		<category name="time">
 			<setting name="hour_step" field="text" default="1" />
-			<setting name="time_start" field="text" default="9" />
-			<setting name="time_end" field="text" default="17" />
 		</category>
 	</settings>
 </block>

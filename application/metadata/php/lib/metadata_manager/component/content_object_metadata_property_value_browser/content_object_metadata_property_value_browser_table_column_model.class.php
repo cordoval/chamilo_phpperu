@@ -22,7 +22,7 @@ class ContentObjectMetadataPropertyValueBrowserTableColumnModel extends DefaultC
     /**
      * Constructor
      */
-    function ContentObjectMetadataPropertyValueBrowserTableColumnModel()
+    function __construct()
     {
         $this->add_column(new ObjectTableColumn(ContentObjectMetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID));
         parent :: __construct();

@@ -32,7 +32,7 @@ class Dokeos185SessionRelCourseRelUser extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185SessionRelCourseRelUser object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185SessionRelCourseRelUser($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

@@ -26,9 +26,9 @@ class IntroductionLaikaWizardPage extends LaikaWizardPage
      * MaintenanceWizardPage is used
      * @param string $message The message which has to be confirmed by the user
      */
-    public function IntroductionLaikaWizardPage($name, $parent, $message)
+    public function __construct($name, $parent, $message)
     {
-        parent :: LaikaWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
         $this->message = $message;
     }
 

@@ -19,7 +19,7 @@ class VimeoExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRep
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function VimeoExternalRepositoryGalleryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

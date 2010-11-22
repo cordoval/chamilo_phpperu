@@ -27,7 +27,7 @@ class UserExportForm extends FormValidator
      * Creates a new UserImportForm
      * Used to export users to a file
      */
-    function UserExportForm($form_type, $action)
+    function __construct($form_type, $action)
     {
         parent :: __construct('user_export', 'post', $action, '_blank');
 

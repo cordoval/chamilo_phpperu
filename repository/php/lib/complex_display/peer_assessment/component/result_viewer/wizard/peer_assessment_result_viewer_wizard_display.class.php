@@ -14,7 +14,7 @@ class PeerAssessmentResultViewerWizardDisplay extends HTML_QuickForm_Action_Disp
 {
     private $parent;
 
-    public function PeerAssessmentResultViewerWizardDisplay($parent)
+    public function __construct($parent)
     {
         // Publication id
         $publication_id = Request :: get('peer_assessment_publication');

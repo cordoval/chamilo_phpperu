@@ -65,7 +65,7 @@ class WebServicesGroup
     private $functions;
     private $validator;
 
-    function WebServicesGroup()
+    function __construct()
     {
         $this->webservice = Webservice :: factory($this);
         $this->validator = Validator :: get_validator('group');

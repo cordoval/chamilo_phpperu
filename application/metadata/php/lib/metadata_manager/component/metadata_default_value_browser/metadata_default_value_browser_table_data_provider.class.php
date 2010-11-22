@@ -14,7 +14,7 @@ class MetadataDefaultValueBrowserTableDataProvider extends ObjectTableDataProvid
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function MetadataDefaultValueBrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }

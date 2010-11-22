@@ -19,7 +19,7 @@ class HistoricVariableTranslationBrowserTableDataProvider extends ObjectTableDat
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function HistoricVariableTranslationBrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }

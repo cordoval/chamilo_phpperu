@@ -11,7 +11,6 @@ use tracking\Event;
  */
 require_once dirname(__FILE__) . '/../authentication.class.php';
 require_once dirname(__FILE__) . '/cas_password/cas_password.class.php';
-require_once ('CAS.php');
 
 /*
  * Extension enabling the CAS-authentication system.

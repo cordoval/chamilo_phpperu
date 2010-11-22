@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<packages>
+	<package>
+		<name>Fedora Commons</name>
+		<code>fedora</code>
+		<section>external_repository_manager</section>
+		<category>document</category>
+		<authors>
+			<author>
+				<name>Nicolas Rod</name>
+				<email>nicolas.rod@unige.ch</email>
+				<company>Université de Genève</company>
+			</author>
+			<author>
+				<name>Laurent Opprecht</name>
+				<email>laurent.opprecht@unige.ch</email>
+				<company>Université de Genève</company>
+			</author>
+		</authors>
+		<version>1.0.0</version>
+		<filename>pool/main/external_repository_managers/f/fedora/fedora-1.0.0.zip</filename>
+		<size></size>
+		<md5></md5>
+		<sha1></sha1>
+		<sha256></sha256>
+		<sha512></sha512>
+		<tagline></tagline>
+		<description>Allow users to browse, manage and use Fedora Commons objects in Chamilo 2</description>
+		<homepage></homepage>
+		<dependencies>
+			<server>
+				<dependency>
+					<id>php</id>
+					<version type="4">5.3.0</version>
+					<severity>1</severity>
+				</dependency>
+			</server>
+			<content_objects>
+				<dependency>
+		  			<id>document</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</content_objects>
+		</dependencies>
+		<extra>
+			<multiple>1</multiple>
+		</extra>
+	</package>
+</packages>

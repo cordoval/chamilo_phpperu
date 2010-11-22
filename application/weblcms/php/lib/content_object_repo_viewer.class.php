@@ -24,7 +24,7 @@ class ContentObjectRepoViewer extends RepoViewer
      * The default learning objects, which are used for form defaults.
      */
 
-    function ContentObjectRepoViewer($parent, $types, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $action = TOOL :: ACTION_PUBLISH)
+    function __construct($parent, $types, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $action = TOOL :: ACTION_PUBLISH)
     {
         parent :: __construct($parent, $types, $maximum_select, array(), false);
         if (is_array($action))

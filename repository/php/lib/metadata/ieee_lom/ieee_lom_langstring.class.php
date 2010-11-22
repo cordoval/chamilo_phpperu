@@ -24,7 +24,7 @@ class IeeeLomLangString
      * @param string|null $string The text
      * @param string|null $language The language of the $string parameters
      */
-    public function IeeeLomLangString($string = null, $language = self :: NO_LANGUAGE, $strip_tag = true)
+    public function __construct($string = null, $language = self :: NO_LANGUAGE, $strip_tag = true)
     {
         $this->strings = array();
         

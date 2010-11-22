@@ -16,7 +16,7 @@ class PersonalMessengerDataManager
 
     private static $instance;
 
-    protected function PersonalMessengerDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

@@ -6,12 +6,12 @@ use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use application\weblcms\ListContentObjectPublicationListRenderer;
 
 /**
  * $Id: calendar_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.calendar.component.calendar_viewer
  */
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/list_content_object_publication_list_renderer.class.php';
 /**
  * A renderer to display a list view of a calendar
  */
@@ -90,7 +90,7 @@ class CalendarListRenderer extends ListContentObjectPublicationListRenderer
 
             $html[] = '<div style="text-align: right;">';
             $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll', null , Utilities :: COMMON_LIBRARIES) . '</a>';
-            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll', null , Utilities :: COMMON_LIBRARIES) . '</a><br />';
+            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnselectAll', null , Utilities :: COMMON_LIBRARIES) . '</a><br />';
             $html[] = '<select name="tool_action">';
             foreach ($this->get_actions() as $action => $label)
             {

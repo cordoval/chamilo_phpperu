@@ -22,7 +22,7 @@ class AlexiaPublicationBrowserTableColumnModel extends DefaultAlexiaPublicationT
     /**
      * Constructor
      */
-    function AlexiaPublicationBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

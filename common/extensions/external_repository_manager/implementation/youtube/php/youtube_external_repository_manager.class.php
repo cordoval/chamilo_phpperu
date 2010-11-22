@@ -5,12 +5,15 @@ use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
 
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
 
 use repository\ExternalRepositorySetting;
+use repository\content_object\document\Document;
 
 require_once dirname(__FILE__) . '/youtube_external_repository_connector.class.php';
 
@@ -28,7 +31,7 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     /**
      * @param Application $application
      */
-    function YoutubeExternalRepositoryManager($external_repository, $application)
+    function __construct($external_repository, $application)
     {
         parent :: __construct($external_repository, $application);
         $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
@@ -83,17 +86,18 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     function get_menu_items()
     {
         $menu_items = array();
-        $browser = array();
-        $browser['title'] = Translation :: get('YoutubeBrowse');
-        $browser['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_FEED_IDENTIFIER));
-        $browser['class'] = 'home';
-        $menu_items[] = $browser;
 
         $my_videos = array();
         $my_videos['title'] = Translation :: get('MyVideos');
         $my_videos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MYVIDEOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_FEED_IDENTIFIER));
         $my_videos['class'] = 'user';
         $menu_items[] = $my_videos;
+
+        $browser = array();
+        $browser['title'] = Translation :: get('Public');
+        $browser['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_FEED_IDENTIFIER));
+        $browser['class'] = 'home';
+        $menu_items[] = $browser;
 
         $standard_feeds = array();
         $standard_feeds['title'] = Translation :: get('StandardFeeds');

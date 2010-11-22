@@ -24,7 +24,7 @@ class SurveyContextTemplateForm extends FormValidator
     /**
      * Creates a new LanguageForm
      */
-    function SurveyContextTemplateForm($form_type, $action, $context_template, $user, $manager)
+    function __construct($form_type, $action, $context_template, $user, $manager)
     {
         parent :: __construct('context_template_form', 'post', $action);
 

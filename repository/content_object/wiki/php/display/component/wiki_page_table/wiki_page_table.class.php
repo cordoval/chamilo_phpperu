@@ -35,7 +35,7 @@ class WikiPageTable extends ObjectTable
      * the selected learning object.
      * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
      */
-    function WikiPageTable($parent, $owner)
+    function __construct($parent, $owner)
     {
 
         $model = new WikiPageTableColumnModel();
@@ -43,7 +43,7 @@ class WikiPageTable extends ObjectTable
         $data_provider = new WikiPageTableDataProvider($parent, $owner);
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
 
-        $actions = new ObjectTableFormActions(ComplexDisplay :: PARAM_DISPLAY_ACTION);
+        $actions = new ObjectTableFormActions(__NAMESPACE__, ComplexDisplay :: PARAM_DISPLAY_ACTION);
 
         $actions->add_form_action(new ObjectTableFormAction(ComplexDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, Translation :: get('RemoveSelected', null , Utilities :: COMMON_LIBRARIES)));
         $this->set_form_actions($actions);
@@ -78,7 +78,8 @@ class WikiPageTable extends ObjectTable
 
     function handle_table_action()
     {
-    	$ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+    	$ids = self :: get_selected_ids($class);
     	Request :: set_get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $ids);
     }
 }

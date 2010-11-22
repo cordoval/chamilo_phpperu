@@ -10,7 +10,7 @@ class ForumTableCellRenderer extends DefaultContentObjectTableCellRenderer
 {
     private $url_fmt;
 
-    function ForumTableCellRenderer($url_fmt)
+    function __construct($url_fmt)
     {
         parent :: __construct();
         $this->url_fmt = $url_fmt;

@@ -17,7 +17,7 @@ class VimeoExternalRepositoryTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function VimeoExternalRepositoryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new VimeoExternalRepositoryTableColumnModel();
         $renderer = new VimeoExternalRepositoryTableCellRenderer($browser);

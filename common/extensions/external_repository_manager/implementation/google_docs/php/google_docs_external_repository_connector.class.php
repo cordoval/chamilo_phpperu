@@ -14,13 +14,13 @@ use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use repository\ExternalRepositoryUserSetting;
 use repository\RepositoryDataManager;
 
-use Zend_Loader;
-use Zend_Gdata_AuthSub;
-use Zend_Gdata_Docs;
-use Zend_Gdata_Docs_Query;
-use Zend_Gdata_App_Extension_Link;
+use \Zend_Loader;
+use \Zend_Gdata_AuthSub;
+use \Zend_Gdata_Docs;
+use \Zend_Gdata_Docs_Query;
+use \Zend_Gdata_App_Extension_Link;
 
-require_once 'Zend/Loader.php';
+
 require_once dirname(__FILE__) . '/google_docs_external_repository_object.class.php';
 require_once dirname(__FILE__) . '/google_docs_external_repository_object_acl.class.php';
 
@@ -54,7 +54,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
     /**
      * @param ExternalRepository $external_repository_instance
      */
-    function GoogleDocsExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
 

@@ -8,7 +8,7 @@ use user\User;
 class DefaultInternshipOrganizerPeriodRelUserTableCellRenderer extends ObjectTableCellRenderer
 {
 
-    function DefaultInternshipOrganizerPeriodRelUserTableCellRenderer()
+    function __construct()
     {
     }
 

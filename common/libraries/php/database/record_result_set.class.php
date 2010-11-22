@@ -31,7 +31,7 @@ class RecordResultSet extends ResultSet
      * Create a new resultset for handling a set of records
      * @param MDB2DB_result $handle The handle to retrieve records from a database resultset
      */
-    function RecordResultSet($handle)
+    function __construct($handle)
     {
         $this->handle = $handle;
     }

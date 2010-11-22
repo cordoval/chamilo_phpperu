@@ -29,7 +29,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function GroupBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

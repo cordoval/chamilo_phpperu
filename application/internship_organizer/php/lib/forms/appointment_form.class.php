@@ -16,7 +16,7 @@ class InternshipOrganizerAppointmentForm extends FormValidator
     private $appointment;
     private $user;
 
-    function InternshipOrganizerAppointmentForm($form_type, $appointment, $action, $user)
+    function __construct($form_type, $appointment, $action, $user)
     {
         parent :: __construct('appointment_settings', 'post', $action);
         

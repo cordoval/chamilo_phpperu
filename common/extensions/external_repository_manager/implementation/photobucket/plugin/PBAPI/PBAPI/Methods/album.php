@@ -1,5 +1,4 @@
 <?php
-use common\libraries\Path;
 /**
  * Photobucket API 
  * Fluent interface for PHP5
@@ -16,7 +15,7 @@ use common\libraries\Path;
 /**
  * Load Methods parent
  */
-require_once dirname() . '/../Methods.php';
+require_once dirname(__FILE__) . '/../Methods.php';
 
 /**
  * Album submethods

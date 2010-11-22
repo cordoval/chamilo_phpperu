@@ -20,7 +20,7 @@ class InternshipOrganizerPublicationTableDataProvider extends ObjectTableDataPro
      * @param ApplicationComponent $browser
      * @param Condition $condition
      */
-    function InternshipOrganizerPublicationTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

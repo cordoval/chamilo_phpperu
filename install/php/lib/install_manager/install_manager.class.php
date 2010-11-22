@@ -1,8 +1,10 @@
 <?php
 namespace install;
+
 use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\Installer;
+use common\libraries\Utilities;
 /**
  * $Id: install_manager.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager
@@ -34,7 +36,7 @@ class InstallManager extends CoreApplication
      * Constructor
      * @param int $user_id The user id of current user
      */
-    function InstallManager()
+    function __construct()
     {
         parent :: __construct(null);
     }
@@ -114,7 +116,7 @@ class InstallManager extends CoreApplication
 
         $output[] = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
         $output[] = '</head>';
-        $output[] = '<body dir="' . Translation :: get('text_dir') . '">';
+        $output[] = '<body dir="' . Translation :: get('TextDirection', null, Utilities :: COMMON_LIBRARIES) . '">';
 
         $output[] = '<!-- #outerframe container to control some general layout of all pages -->';
         $output[] = '<div id="outerframe">';

@@ -23,7 +23,7 @@ class IeeeLomDefaultMetadataGenerator
     private $content_object;
     private $additional_metadata;
 
-    public function IeeeLomDefaultMetadataGenerator()
+    public function __construct()
     {
         $this->ieeeLom = new IeeeLom();
         $this->user_data_manager = UserDataManager :: get_instance();

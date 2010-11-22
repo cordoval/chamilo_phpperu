@@ -26,7 +26,7 @@ class DefaultSurveyPublicationTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultSurveyPublicationTableCellRenderer()
+    function __construct()
     {
     }
 

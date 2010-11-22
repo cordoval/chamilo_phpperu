@@ -28,7 +28,7 @@ class ExternalRepositoryInstanceManager extends SubManager
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_INSTANCES;
 
-    function ExternalRepositoryInstanceManager($repository_manager)
+    function __construct($repository_manager)
     {
         parent :: __construct($repository_manager);
 

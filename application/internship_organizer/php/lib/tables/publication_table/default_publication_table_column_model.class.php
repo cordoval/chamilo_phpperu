@@ -21,7 +21,7 @@ class DefaultInternshipOrganizerPublicationTableColumnModel extends ObjectTableC
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerPublicationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 0);
     }

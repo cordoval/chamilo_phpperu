@@ -17,7 +17,7 @@ class TranslationImportForm extends FormValidator
      * Creates a new UserForm
      * Used by the admin to create/update a user
      */
-    function TranslationImportForm($parent, $action)
+    function __construct($parent, $action)
     {
         parent :: __construct('translation_import_form', 'post', $action);
         

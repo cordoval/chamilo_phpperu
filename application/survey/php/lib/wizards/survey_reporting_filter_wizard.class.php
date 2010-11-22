@@ -39,7 +39,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
     const TYPE_CONTEXT_TEMPLATES = 5;
     const TYPE_ANALYSE_TYPE = 6;
 
-    function SurveyReportingFilterWizard($types, $publication_id, $actions, $user)
+    function __construct($types, $publication_id, $actions, $user)
     {
         parent :: __construct('survey_reporting_filter', 'post', $actions);
         $this->publication_id = $publication_id;

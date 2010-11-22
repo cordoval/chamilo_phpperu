@@ -32,7 +32,7 @@ class CasAccountForm extends FormValidator
      */
     private $user;
 
-    function CasAccountForm($form_type, $cas_account, $action, $user)
+    function __construct($form_type, $cas_account, $action, $user)
     {
         parent :: __construct('cas_account', 'post', $action);
 

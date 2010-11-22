@@ -15,7 +15,7 @@ abstract class Filecompression
     /**
      * Constructor
      */
-    function Filecompression()
+    function __construct()
     {
     }
 

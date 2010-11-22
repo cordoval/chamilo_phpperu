@@ -11,6 +11,8 @@ use repository\ContentObjectPublicationAttributes;
 use common\libraries\Translation;
 use common\libraries\AndCondition;
 use repository\content_object\criteria\Criteria;
+use repository\ContentObject;
+use common\libraries\Session;
 
 require_once dirname(__FILE__) . '/../peer_assessment_publication.class.php';
 require_once dirname(__FILE__) . '/../peer_assessment_publication_group.class.php';

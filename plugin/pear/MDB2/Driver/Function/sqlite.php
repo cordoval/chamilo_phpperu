@@ -63,7 +63,7 @@ class MDB2_Driver_Function_sqlite extends MDB2_Driver_Function_Common
      */
     function __construct($db_index)
     {
-        parent::__construct($db_index);
+        parent :: __construct($db_index);
         // create all sorts of UDFs
     }
 

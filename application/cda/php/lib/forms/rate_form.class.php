@@ -21,7 +21,7 @@ class RateForm extends FormValidator
 	/**
 	 * Creates a new RateForm
 	 */
-    function RateForm($translation, $variable, $action) 
+    function __construct($translation, $variable, $action) 
     {
     	parent :: __construct('rate_form', 'post', $action);
 

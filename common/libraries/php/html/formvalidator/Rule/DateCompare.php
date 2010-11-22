@@ -2,8 +2,6 @@
 /**
  * @package common.html.formvalidator.Rule
  */
-// $Id: DateCompare.php 128 2009-11-09 13:13:20Z vanpouckesven $
-require_once 'HTML/QuickForm/Rule/Compare.php';
 /**
  * QuickForm rule to compare 2 dates
  */

@@ -24,7 +24,7 @@ class HandbookBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function HandbookBrowserTableCellRenderer($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

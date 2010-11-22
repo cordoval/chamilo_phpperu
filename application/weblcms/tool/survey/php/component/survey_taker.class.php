@@ -16,14 +16,10 @@ use common\libraries\Translation;
  * @package application.lib.weblcms.tool.assessment.component
  */
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey.class.php';
-//require_once dirname(__FILE__) . '/../survey_invitation.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_participant_tracker.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_question_answer_tracker.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/tool/survey/survey_tool_menu.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/context_data_manager.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/survey.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/context_data_manager.class.php';
 
-class SurveyToolTakerComponent extends SurveyToolComponent
+class SurveyToolTakerComponent extends SurveyTool
 {
 
     private $datamanager;

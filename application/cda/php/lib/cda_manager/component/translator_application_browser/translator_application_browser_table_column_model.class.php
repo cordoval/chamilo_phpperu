@@ -27,7 +27,7 @@ class TranslatorApplicationBrowserTableColumnModel extends DefaultTranslatorAppl
 	/**
 	 * Constructor
 	 */
-	function TranslatorApplicationBrowserTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);

@@ -20,7 +20,7 @@ class DefaultLaikaCalculatedResultTableColumnModel extends ObjectTableColumnMode
     /**
      * Constructor
      */
-    function DefaultLaikaCalculatedResultTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 0);
     }

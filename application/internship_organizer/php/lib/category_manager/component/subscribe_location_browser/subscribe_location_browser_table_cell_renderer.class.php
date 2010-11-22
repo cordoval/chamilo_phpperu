@@ -15,7 +15,7 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
     private $browser;
     private $category;
 
-    function SubscribeLocationBrowserTableCellRenderer($browser, $category)
+    function __construct($browser, $category)
     {
         parent :: __construct();
         $this->browser = $browser;

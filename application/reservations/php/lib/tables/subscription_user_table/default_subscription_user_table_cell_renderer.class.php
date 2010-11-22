@@ -17,7 +17,7 @@ class DefaultSubscriptionUserTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultSubscriptionUserTableCellRenderer($browser)
+    function __construct($browser)
     {
     
     }

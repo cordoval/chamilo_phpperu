@@ -18,7 +18,7 @@ class DefaultPublicationTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultPublicationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 3);
     }
@@ -30,10 +30,10 @@ class DefaultPublicationTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $columns = array();
-        $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE);
-        $columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_APPLICATION);
-        $columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_LOCATION);
-        $columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE);
+        $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE, false);
+        $columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_APPLICATION, false);
+        $columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_LOCATION, false);
+        $columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE, false);
         return $columns;
     }
 }

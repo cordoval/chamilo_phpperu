@@ -17,7 +17,7 @@ class DefaultInternshipOrganizerCategoryRelPeriodTableColumnModel extends Object
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerCategoryRelPeriodTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns());
     }

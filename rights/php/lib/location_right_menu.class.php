@@ -8,8 +8,6 @@ use common\libraries\EqualityCondition;
  * @package rights.lib
  * @author Hans de Bisschop
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of courses.
@@ -46,7 +44,7 @@ class LocationRightMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function LocationRightMenu($root_category, $current_category, $url_format = '?application=rights&go=browse&id=%s', $include_root = true, $exclude_children = false)
+    function __construct($root_category, $current_category, $url_format = '?application=rights&go=browse&id=%s', $include_root = true, $exclude_children = false)
     {
         $this->include_root = $include_root;
         $this->exclude_children = $exclude_children;
@@ -198,6 +196,6 @@ class LocationRightMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+    	return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

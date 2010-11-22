@@ -9,7 +9,7 @@ class MetadataPropertyTypeBrowserTableDataProvider extends ObjectTableDataProvid
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function MetadataPropertyTypeBrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }

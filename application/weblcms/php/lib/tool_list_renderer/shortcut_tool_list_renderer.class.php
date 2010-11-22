@@ -11,7 +11,6 @@ use common\libraries\Translation;
  * @package application.lib.weblcms.tool_list_renderer
  */
 require_once (dirname(__FILE__) . '/../tool_list_renderer.class.php');
-require_once ('HTML/Table.php');
 /**
  * Tool list renderer to display a navigation menu.
  */

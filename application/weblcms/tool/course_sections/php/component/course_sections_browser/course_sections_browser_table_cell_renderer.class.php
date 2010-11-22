@@ -31,7 +31,7 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
      * Constructor
      * @param WeblcmsBrowserComponent $browser
      */
-    function CourseSectionsBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

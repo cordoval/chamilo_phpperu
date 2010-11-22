@@ -9,7 +9,7 @@ class RepoViewerLauncher extends LauncherApplication
     const APPLICATION_NAME = 'repo_viewer';
     const PARAM_ELEMENT_NAME = 'element_name';
 
-    function RepoViewerLauncher($user)
+    function __construct($user)
     {
         parent :: __construct($user);
     }

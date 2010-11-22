@@ -11,7 +11,7 @@ class SubManagerComponent extends ApplicationComponent
      * The SubManagerComponent constructor
      * @see ApplicationComponent :: __construct()
      */
-    function SubManagerComponent($manager)
+    function __construct($manager)
     {
         parent :: __construct($manager);
     }

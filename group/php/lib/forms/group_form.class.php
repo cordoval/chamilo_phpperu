@@ -32,7 +32,7 @@ class GroupForm extends FormValidator
     private $unencryptedpass;
     private $user;
 
-    function GroupForm($form_type, $group, $action, $user)
+    function __construct($form_type, $group, $action, $user)
     {
         parent :: __construct('groups_settings', 'post', $action);
 

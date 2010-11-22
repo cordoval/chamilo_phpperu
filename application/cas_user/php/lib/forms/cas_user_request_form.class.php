@@ -23,7 +23,7 @@ class CasUserRequestForm extends FormValidator
      */
     private $user;
 
-    function CasUserRequestForm($form_type, $cas_user_request, $action, $user)
+    function __construct($form_type, $cas_user_request, $action, $user)
     {
         parent :: __construct('cas_user_request', 'post', $action);
 

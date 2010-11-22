@@ -23,7 +23,7 @@ abstract class ContentObjectExport
      * Constructor
      * @param string $content_object
      */
-    public function ContentObjectExport($content_object)
+    public function __construct($content_object)
     {
         $this->content_object = $content_object;
     }
@@ -57,7 +57,7 @@ abstract class ContentObjectExport
     }
 
     /**
-     * Factory function to create an instance of an export class
+     * Factory function __construct( create an instance of an export class
      * @param string $type One of the supported file types returned by the
      * get_supported_filetypes function.
      * @param string $filename The desired filename for the export file

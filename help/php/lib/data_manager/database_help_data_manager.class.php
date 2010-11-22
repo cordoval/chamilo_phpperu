@@ -7,7 +7,6 @@ use common\libraries\Database;
  * $Id: database_help_data_manager.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib.data_manager
  */
-require_once 'MDB2.php';
 require_once dirname(__FILE__) . '/../help_data_manager_interface.class.php';
 
 /**

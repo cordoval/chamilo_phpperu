@@ -16,8 +16,7 @@ use common\libraries\Path;
 /**
  * Load Request parent
  */
-require_once dirname() . '/../Request.php';
-
+require_once dirname(__FILE__) . '/../Request.php';
 /**
  * FOPEN_URL request strategy
  * requires fopen url wrappers

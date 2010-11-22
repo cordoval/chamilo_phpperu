@@ -18,7 +18,6 @@ use common\extensions\dynamic_form_manager\DynamicFormElementOption;
  * $Id: database_admin_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package admin.lib.data_manager
  */
-require_once 'MDB2.php';
 require_once dirname(__FILE__) . '/../admin_data_manager_interface.class.php';
 
 class DatabaseAdminDataManager extends Database implements AdminDataManagerInterface
@@ -81,6 +80,12 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
     function retrieve_language_from_english_name($english_name)
     {
         $condition = new EqualityCondition(Language :: PROPERTY_ENGLISH_NAME, $english_name);
+        return $this->retrieve_object(Language :: get_table_name(), $condition, array(), Language :: CLASS_NAME);
+    }
+
+    function retrieve_language_from_isocode($isocode)
+    {
+        $condition = new EqualityCondition(Language :: PROPERTY_ISOCODE, $isocode);
         return $this->retrieve_object(Language :: get_table_name(), $condition, array(), Language :: CLASS_NAME);
     }
 

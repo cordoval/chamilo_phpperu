@@ -20,7 +20,7 @@ abstract class MenuRenderer
     /**
      * @param User|null $user
      */
-    function MenuRenderer($user = null)
+    function __construct($user = null)
     {
         $this->user = $user;
     }

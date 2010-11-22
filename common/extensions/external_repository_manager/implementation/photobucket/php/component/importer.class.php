@@ -5,6 +5,7 @@ use common\libraries\StringUtilities;
 use common\libraries\Translation;
 use common\libraries\PlatformSetting;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 use repository\ContentObject;
 use repository\RepositoryManager;
@@ -28,7 +29,7 @@ class PhotobucketExternalRepositoryManagerImporterComponent extends PhotobucketE
         {
             $image = ContentObject :: factory(Document :: get_type_name());
             $image->set_title($external_object->get_title());
-            
+
             if (PlatformSetting :: get('description_required', 'repository') && StringUtilities :: is_null_or_empty($external_object->get_description()))
             {
                 $image->set_description('-');
@@ -41,16 +42,16 @@ class PhotobucketExternalRepositoryManagerImporterComponent extends PhotobucketE
             $image->set_owner_id($this->get_user_id());
             $id = explode('/', urldecode($external_object->get_id()));
             $id = $id[(count($id) - 1)];
-            
+
             $image->set_filename($id);
-            
+
 //            $sizes = $external_object->get_available_sizes();
             $image->set_in_memory_file(file_get_contents($external_object->get_url()));
-            
+
             if ($image->create())
             {
                 ExternalRepositorySync :: quicksave($image, $external_object, $this->get_external_repository()->get_id());
-                
+
                 $parameters = $this->get_parameters();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                 $this->redirect(Translation :: get('ObjectImported', null, Utilities :: COMMON_LIBRARIES), false, $parameters, array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
@@ -70,7 +71,7 @@ class PhotobucketExternalRepositoryManagerImporterComponent extends PhotobucketE
             $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
             $this->redirect(null, false, $parameters);
         }
-    
+
     }
 }
 ?>

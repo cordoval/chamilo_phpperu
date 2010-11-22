@@ -18,7 +18,7 @@ class GroupRightsTemplateManagerForm extends FormValidator
      * Creates a new UserForm
      * Used by the admin to create/update a group
      */
-    function GroupRightsTemplateManagerForm($group, $form_group, $action)
+    function __construct($group, $form_group, $action)
     {
         parent :: __construct('group_rights_template_manager_form', 'post', $action);
         

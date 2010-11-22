@@ -22,7 +22,7 @@ class DefaultResultQuestionTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultResultQuestionTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

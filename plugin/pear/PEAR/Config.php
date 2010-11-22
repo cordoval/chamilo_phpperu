@@ -589,7 +589,7 @@ class PEAR_Config extends PEAR
      *
      * @see PEAR_Config::singleton
      */
-    function PEAR_Config($user_file = '', $system_file = '', $ftp_file = false,
+    function __construct($user_file = '', $system_file = '', $ftp_file = false,
                          $strict = true)
     {
         $this->PEAR();

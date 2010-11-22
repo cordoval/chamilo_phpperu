@@ -14,7 +14,7 @@ class DefaultInternshipOrganizerLocationTableCellRenderer extends ObjectTableCel
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerLocationTableCellRenderer()
+    function __construct()
     {
     }
 

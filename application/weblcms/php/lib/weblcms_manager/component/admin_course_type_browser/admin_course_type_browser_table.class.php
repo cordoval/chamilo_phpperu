@@ -23,7 +23,7 @@ class AdminCourseTypeBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function AdminCourseTypeBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new AdminCourseTypeBrowserTableColumnModel();
         $renderer = new AdminCourseTypeBrowserTableCellRenderer($browser);

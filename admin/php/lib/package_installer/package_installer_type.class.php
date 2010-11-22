@@ -14,7 +14,7 @@ abstract class PackageInstallerType
     private $parent;
     private $source;
 
-    function PackageInstallerType($parent, $source)
+    function __construct($parent, $source)
     {
         $this->set_parent($parent);
         $this->source = $source;

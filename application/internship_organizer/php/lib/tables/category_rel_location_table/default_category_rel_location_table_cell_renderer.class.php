@@ -16,7 +16,7 @@ class DefaultInternshipOrganizerCategoryRelLocationTableCellRenderer extends Obj
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerCategoryRelLocationTableCellRenderer()
+    function __construct()
     {
     }
 

@@ -17,7 +17,7 @@ class ZipImport extends ContentObjectImport
     private $rdm;
     private $created_categories;
 
-    function ZipImport($content_object_file, $user, $category)
+    function __construct($content_object_file, $user, $category)
     {
         parent :: __construct($content_object_file, $user, $category);
     	$this->rdm = RepositoryDataManager :: get_instance();

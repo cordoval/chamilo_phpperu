@@ -32,7 +32,7 @@ use common\libraries\Translation;
 class ReportingWeblcms
 {
 
-    function ReportingWeblcms()
+    function __construct()
     {
     }
 

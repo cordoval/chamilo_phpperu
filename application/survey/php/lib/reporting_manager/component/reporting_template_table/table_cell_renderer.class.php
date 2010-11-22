@@ -13,7 +13,7 @@ class SurveyReportingTemplateTableCellRenderer extends DefaultSurveyReportingTem
      * Constructor
      * @param RepositoryManagerComponent $browser
      */
-    function SurveyReportingTemplateTableCellRenderer($component)
+    function __construct($component)
     {
         parent :: __construct();
         $this->component = $component;

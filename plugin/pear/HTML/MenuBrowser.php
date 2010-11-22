@@ -123,7 +123,7 @@ class HTML_MenuBrowser
     * @param    string  Suffix for files containing the additional data
     * @see      $dir
     */
-    function HTML_MenuBrowser($dir = '', $index = '', $file_suffix = '')
+    function __construct($dir = '', $index = '', $file_suffix = '')
     {
         if ($dir) {
             $this->dir = $dir;
@@ -261,7 +261,7 @@ class HTML_MenuBrowser
     *
     * @param    string  filename
     */
-    function exploreFile($file) 
+    function __construct($file) 
     {
         $xml = join('', @file($file));
         if (!$xml) {

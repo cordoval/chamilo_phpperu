@@ -24,7 +24,7 @@ class TranslatorApplicationBrowserTable extends ObjectTable
 	/**
 	 * Constructor
 	 */
-	function TranslatorApplicationBrowserTable($browser, $parameters, $condition)
+	function __construct($browser, $parameters, $condition)
 	{
 		$model = new TranslatorApplicationBrowserTableColumnModel();
 		$renderer = new TranslatorApplicationBrowserTableCellRenderer($browser);

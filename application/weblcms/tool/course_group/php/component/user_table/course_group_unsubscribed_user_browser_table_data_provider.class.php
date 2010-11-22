@@ -17,7 +17,7 @@ class CourseGroupUnsubscribedUserBrowserTableDataprovider extends ObjectTableDat
      * @param WeblcmsManagerComponent $browser
      * @param Condition $condition
      */
-    function CourseGroupUnsubscribedUserBrowserTableDataprovider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
         $this->wdm = WeblcmsDataManager :: get_instance();

@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\dynamic_form_manager;
+use common\libraries\FormValidator;
 
 require_once (dirname(__FILE__) . '/dynamic_form_element.class.php');
 require_once (dirname(__FILE__) . '/dynamic_form_element_option.class.php');
@@ -11,9 +12,9 @@ class DynamicFormExecuteForm extends FormValidator
 	private $form;
 	private $title;
 	
-	function DynamicFormExecuteForm($form, $action, $user, $title)
+	function __construct($form, $action, $user, $title)
 	{
-		parent :: FormValidator('dynamic_form_values', 'post', $action);
+		parent :: __construct('dynamic_form_values', 'post', $action);
 		$this->user = $user;
 		$this->form = $form;
 		$this->title = $title;

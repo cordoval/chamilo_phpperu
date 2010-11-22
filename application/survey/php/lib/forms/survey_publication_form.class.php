@@ -5,6 +5,7 @@ use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
+use rights\RightsUtilities;
 
 require_once dirname(__FILE__) . '/../survey_publication.class.php';
 
@@ -26,7 +27,7 @@ class SurveyPublicationForm extends FormValidator
     private $content_object;
     private $user;
 
-    function SurveyPublicationForm($form_type, $content_object, $user, $action, $publication)
+    function __construct($form_type, $content_object, $user, $action, $publication)
     {
         parent :: __construct('survey_publication_settings', 'post', $action);
         

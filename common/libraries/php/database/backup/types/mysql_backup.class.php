@@ -2,7 +2,7 @@
 namespace common\libraries;
 class MysqlBackup extends DatabaseBackup
 {
-	function MysqlBackup(array $storage_units, $data_manager)
+	function __construct(array $storage_units, $data_manager)
 	{
 		parent :: __construct($storage_units, $data_manager);
 	}

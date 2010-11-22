@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/../../../../../php/lib/browser/object_publica
 class AssessmentColumnModel extends ObjectPublicationTableColumnModel
 {
 
-    function AssessmentColumnModel()
+    function __construct()
     {
         parent :: __construct($this->get_columns());
     }

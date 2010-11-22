@@ -29,7 +29,7 @@ class ExternalRepositoryBrowserForm extends FormValidator
      */
     private $content_object_id = DataClass :: NO_UID;
 
-    public function ExternalRepositoryBrowserForm($content_object, $action, $catalogs)
+    public function __construct($content_object, $action, $catalogs)
     {
         parent :: __construct('external_repository_browser', 'post', $action);
 

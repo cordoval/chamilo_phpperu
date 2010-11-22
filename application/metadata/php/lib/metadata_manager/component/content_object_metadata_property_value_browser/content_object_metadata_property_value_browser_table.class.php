@@ -17,7 +17,7 @@ class ContentObjectMetadataPropertyValueBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function ContentObjectMetadataPropertyValueBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new ContentObjectMetadataPropertyValueBrowserTableColumnModel();
         $renderer = new ContentObjectMetadataPropertyValueBrowserTableCellRenderer($browser);

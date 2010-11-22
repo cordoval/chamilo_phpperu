@@ -20,7 +20,6 @@ use repository\content_object\hotspot_question\HotspotQuestion;
  * $Id: cpo_export.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.export.cpo
  */
-require_once 'XML/Serializer.php';
 
 /**
  * Exports learning object to the chamilo learning object format (xml)
@@ -78,7 +77,7 @@ class CpoExport extends ContentObjectExport
      */
     private $export_categories;
 
-    function CpoExport($content_object)
+    function __construct($content_object)
     {
         $this->rdm = RepositoryDataManager :: get_instance();
         $this->exported_content_objects = array();

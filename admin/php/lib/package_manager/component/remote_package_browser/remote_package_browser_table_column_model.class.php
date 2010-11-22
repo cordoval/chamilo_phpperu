@@ -20,7 +20,7 @@ class RemotePackageBrowserTableColumnModel extends DefaultRemotePackageTableColu
     /**
      * Constructor
      */
-    function RemotePackageBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

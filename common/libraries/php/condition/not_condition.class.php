@@ -22,7 +22,7 @@ class NotCondition extends AggregateCondition
      * Constructor
      * @param Condition $condition
      */
-    function NotCondition($condition)
+    function __construct($condition)
     {
         $this->condition = $condition;
     }

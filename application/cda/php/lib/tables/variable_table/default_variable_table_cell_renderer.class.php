@@ -18,7 +18,7 @@ class DefaultVariableTableCellRenderer extends ObjectTableCellRenderer
 	/**
 	 * Constructor
 	 */
-	function DefaultVariableTableCellRenderer()
+	function __construct()
 	{
 	}
 

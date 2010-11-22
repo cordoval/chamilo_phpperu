@@ -20,8 +20,8 @@ use common\libraries\Path;
 /**
  * base class for SimpleXML
  */
-require_once dirname() . '/../Response.php';
-require_once dirname() . '/../Response/simplexml.php';
+require_once dirname(__FILE__) . '/../Response.php';
+require_once dirname(__FILE__) . '/../Response/simplexml.php';
 
 /**
  * Response XML parser using SimpleXML

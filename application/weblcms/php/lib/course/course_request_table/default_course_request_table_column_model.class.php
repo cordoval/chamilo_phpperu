@@ -20,7 +20,7 @@ class DefaultCourseRequestTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultCourseRequestTableColumnModel($request_type)
+    function __construct($request_type)
     {
         parent :: __construct(self :: get_default_columns($request_type), 1);
     }

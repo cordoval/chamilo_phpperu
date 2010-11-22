@@ -16,7 +16,7 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
      */
     private $survey;
 
-    public function SurveyViewerWizardDisplay($parent)
+    public function __construct($parent)
     {
         
         $this->parent = $parent;

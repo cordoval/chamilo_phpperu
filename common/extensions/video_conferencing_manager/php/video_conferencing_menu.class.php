@@ -1,7 +1,7 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
+use \HTML_Menu;
+use \HTML_Menu_ArrayRenderer;
 
 class VideoConferencingMenu extends HTML_Menu
 {
@@ -18,7 +18,7 @@ class VideoConferencingMenu extends HTML_Menu
     private $external_repository_manager;
     private $menu_items;
 
-    function VideoConferencingMenu($current_item, $video_conferencing_manager, $menu_items)
+    function __construct($current_item, $video_conferencing_manager, $menu_items)
     {
         $this->current_item = $current_item;
         $this->video_conferencing_manager = $video_conferencing_manager;
@@ -76,7 +76,7 @@ class VideoConferencingMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }
 ?>

@@ -15,7 +15,7 @@ class DefaultLaikaAttemptTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultLaikaAttemptTableCellRenderer()
+    function __construct()
     {
     }
 

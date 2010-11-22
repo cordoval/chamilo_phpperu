@@ -11,7 +11,7 @@ abstract class MigrationProperties
 	 */
 	private $message_logger;
 	
-	function MigrationProperties()
+	function __construct()
 	{
 		$this->message_logger = MessageLogger :: get_instance(__CLASS__);
 	}

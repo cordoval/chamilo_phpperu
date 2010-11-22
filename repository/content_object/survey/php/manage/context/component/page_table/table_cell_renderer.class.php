@@ -15,7 +15,7 @@ class SurveyPageTableCellRenderer extends DefaultSurveyPageTableCellRenderer
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function SurveyPageTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

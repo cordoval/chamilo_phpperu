@@ -12,12 +12,11 @@ use repository\RepositoryDataManager;
  */
 require_once dirname(__FILE__).'/../handbook_publication.class.php';
 require_once dirname(__FILE__).'/../handbook_data_manager.interface.class.php';
-require_once 'MDB2.php';
 
 /**
  *	This is a data manager that uses a database for storage. It was written
  *	for MySQL, but should be compatible with most SQL flavors.
- *  
+ *
  *      @author Nathalie Blocry
  */
 
@@ -29,7 +28,7 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
 		$this->set_prefix('handbook_');
 	}
 
-	
+
 
 
 
@@ -103,7 +102,7 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
             }
 		return $this->count_objects(HandbookPublication :: get_table_name(), $condition);
 	}
-        
+
 
 	function retrieve_handbook_publication($id)
 	{
@@ -115,7 +114,7 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
 	{
 		return $this->retrieve_objects(HandbookPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, HandbookPublication::CLASS_NAME);
 	}
-        
+
             public function any_content_object_is_published($object_ids) {
             }
             public function content_object_is_published($object_id) {

@@ -12,7 +12,7 @@ class DynamicFormTab extends DynamicTab
      * @param string $form
      * @param string $method
      */
-    public function DynamicFormTab($id, $name, $image, $method)
+    public function __construct($id, $name, $image, $method)
     {
         parent :: __construct($id, $name, $image);
         $this->method = $method;

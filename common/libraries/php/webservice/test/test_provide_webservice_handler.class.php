@@ -16,7 +16,7 @@ class TestProvideWebserviceHandler
     private $webservice;
     private $functions;
 
-    function TestProvideWebserviceHandler()
+    function __construct()
     {
         $this->webservice = Webservice :: factory($this);
     }

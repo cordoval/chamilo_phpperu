@@ -23,7 +23,7 @@ class AssessmentAttemptsTemplate extends ReportingTemplate
     private $assessment;
     private $pub;
 
-    function AssessmentAttemptsTemplate($parent = null, $id, $params, $trail/*, $pid*/)
+    function __construct($parent = null, $id, $params, $trail/*, $pid*/)
     {
         $this->pub = AssessmentDataManager :: get_instance()->retrieve_assessment_publication(/*$pid, */$params['assessment_publication']);
         $this->assessment = $this->pub->get_publication_object();

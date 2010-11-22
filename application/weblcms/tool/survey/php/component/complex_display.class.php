@@ -11,13 +11,11 @@ use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
 
-require_once Path :: get_application_path() . 'lib/survey/survey_menu.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/context_data_manager.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/display/component/survey_menu.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/context_data_manager.class.php';
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/survey.class.php';
 require_once dirname(__FILE__) . '/../survey_invitation.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_participant_tracker.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_question_answer_tracker.class.php';
 
 class SurveyToolComplexDisplayComponent extends SurveyTool
 {

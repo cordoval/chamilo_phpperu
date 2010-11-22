@@ -9,7 +9,7 @@ class pfcInfo
   var $c = null;
   var $errors = array();
   
-  function pfcInfo( $serverid, $data_private_path = "" )
+  function __construct( $serverid, $data_private_path = "" )
   {
     // check if the cache already exists
     // if it doesn't exists, just stop the process

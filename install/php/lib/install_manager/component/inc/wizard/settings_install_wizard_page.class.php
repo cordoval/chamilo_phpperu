@@ -117,17 +117,22 @@ class SettingsInstallWizardPage extends InstallWizardPage
 
     function get_language_folder_list()
     {
-        $path = dirname(__FILE__) . '/../../../../../../../languages';
-        $list = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
+        $language_path = Path :: get_common_libraries_path() . 'resources/i18n/';
+        $language_files = Filesystem :: get_directory_content($language_path, Filesystem :: LIST_FILES, false);
+
         $language_list = array();
-        foreach ($list as $index => $language)
+        foreach ($language_files as $language_file)
         {
-            if ($language == '.' || $language == '..' || $language == '.svn')
+            $file_info = pathinfo($language_file);
+            $language_info_file = $language_path . $file_info['filename'] . '.info';
+
+            if (file_exists($language_info_file))
             {
-                continue;
+                $xml_data = Utilities :: extract_xml_file($language_info_file);
+                $language_list[$xml_data['isocode']] = $xml_data['english'];
             }
-            $language_list[$language] = Utilities :: underscores_to_camelcase_with_spaces($language);
         }
+
         return $language_list;
     }
 }

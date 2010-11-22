@@ -17,7 +17,7 @@ class InternshipOrganizerRegionForm extends FormValidator
     private $region;
     private $user;
 
-    function InternshipOrganizerRegionForm($form_type, $region, $action, $user)
+    function __construct($form_type, $region, $action, $user)
     {
         parent :: __construct('create_region', 'post', $action);
         

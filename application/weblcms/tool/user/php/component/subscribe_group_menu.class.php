@@ -11,13 +11,12 @@ use HTML_Menu;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableOrder;
 use common\libraries\EqualityCondition;
+use group\Group;
 
 /**
  * $Id: group_menu.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of courses.
@@ -57,7 +56,7 @@ class SubscribeGroupMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function SubscribeGroupMenu($course, $cur_category, $url_format = '?application=group&go=browse&group=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
+    function __construct($course, $cur_category, $url_format = '?application=group&go=browse&group=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
     {
         $this->course = $course;
         $this->include_root = $include_root;
@@ -213,6 +212,6 @@ class SubscribeGroupMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

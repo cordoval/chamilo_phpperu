@@ -9,7 +9,7 @@ class UserQuotaCellRenderer
 {
     private $browser;
 
-    function UserQuotaCellRenderer($browser)
+    function __construct($browser)
     {
         $this->browser = $browser;
     }

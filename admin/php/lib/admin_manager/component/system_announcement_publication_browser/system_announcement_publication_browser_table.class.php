@@ -20,7 +20,7 @@ class SystemAnnouncementPublicationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function SystemAnnouncementPublicationBrowserTable($browser, $name, $parameters, $condition)
+    function __construct($browser, $name, $parameters, $condition)
     {
         $model = new SystemAnnouncementPublicationBrowserTableColumnModel();
         $renderer = new SystemAnnouncementPublicationBrowserTableCellRenderer($browser);

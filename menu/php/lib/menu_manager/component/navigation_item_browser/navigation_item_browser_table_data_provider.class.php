@@ -20,7 +20,7 @@ class NavigationItemBrowserTableDataProvider extends ObjectTableDataProvider
      * @param MenuManagerManagerComponent $browser
      * @param Condition $condition
      */
-    function NavigationItemBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

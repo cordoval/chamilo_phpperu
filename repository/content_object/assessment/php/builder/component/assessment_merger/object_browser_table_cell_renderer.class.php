@@ -31,7 +31,7 @@ class ObjectBrowserTableCellRenderer extends DefaultContentObjectTableCellRender
      * Constructor
      * @param ObjectManagerBrowserComponent $browser
      */
-    function ObjectBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

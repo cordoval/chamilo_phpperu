@@ -2,6 +2,9 @@
 namespace common\extensions\external_repository_manager\implementation\youtube;
 
 use common\libraries\Utilities;
+use common\libraries\Toolbar;
+use common\extensions\external_repository_manager\DefaultExternalRepositoryObjectTableCellRenderer;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 /**
  * $Id: repository_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -22,7 +25,7 @@ class YoutubeExternalRepositoryTableCellRenderer extends DefaultExternalReposito
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function YoutubeExternalRepositoryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

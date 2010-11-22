@@ -20,7 +20,7 @@ class CourseBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function CourseBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new CourseBrowserTableColumnModel();
         $renderer = new CourseBrowserTableCellRenderer($browser);

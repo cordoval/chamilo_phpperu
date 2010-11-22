@@ -15,9 +15,6 @@ use common\libraries\EqualityCondition;
  * @package group.lib
  */
 
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
-
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of courses.
@@ -57,7 +54,7 @@ class CourseGroupMenu extends HTML_Menu
      * Passed to sprintf(). Defaults to the string
      * "?category=%s".
      */
-    function CourseGroupMenu($course, $current_group, $url_format = '?application=weblcms&go=course_viewer&tool=course_group&course=%s&course_group=%s')
+    function __construct($course, $current_group, $url_format = '?application=weblcms&go=course_viewer&tool=course_group&course=%s&course_group=%s')
     {
         if ($current_group == '0' || is_null($current_group))
         {
@@ -177,6 +174,6 @@ class CourseGroupMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

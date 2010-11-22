@@ -18,7 +18,7 @@ class MetadataNamespaceForm extends FormValidator
 	private $metadata_namespace;
 	private $user;
 
-    function MetadataNamespaceForm($form_type, $metadata_namespace, $action, $user)
+    function __construct($form_type, $metadata_namespace, $action, $user)
     {
     	parent :: __construct('metadata_namespace_settings', 'post', $action);
 

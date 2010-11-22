@@ -12,7 +12,7 @@ class ConditionRule
     private $action;
     private $conditions_operator;
 
-    function ConditionRule()
+    function __construct()
     {
         $this->conditions = array();
         $this->action = null;

@@ -20,7 +20,7 @@ class Banner
     /**
      * Constructor
      */
-    function Banner($breadcrumbtrail)
+    function __construct($breadcrumbtrail)
     {
         $this->breadcrumbtrail = $breadcrumbtrail;
     }

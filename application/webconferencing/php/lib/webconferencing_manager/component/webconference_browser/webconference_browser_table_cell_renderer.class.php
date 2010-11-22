@@ -33,7 +33,7 @@ class WebconferenceBrowserTableCellRenderer extends DefaultWebconferenceTableCel
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function WebconferenceBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

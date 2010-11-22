@@ -2,8 +2,6 @@
 /**
  * @package common.html.formvalidator.Rule
  */
-// $Id: Filetype.php 128 2009-11-09 13:13:20Z vanpouckesven $
-require_once ('HTML/QuickForm/Rule.php');
 /**
  * QuickForm rule to check if a filetype
  */

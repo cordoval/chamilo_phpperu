@@ -13,7 +13,7 @@ class AdditionalClassGenerator
     /**
      * Constructor
      */
-    function AdditionalClassGenerator()
+    function __construct()
     {
     }
 

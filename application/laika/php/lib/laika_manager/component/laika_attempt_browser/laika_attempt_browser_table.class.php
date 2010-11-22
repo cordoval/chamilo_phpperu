@@ -22,7 +22,7 @@ class LaikaAttemptBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function LaikaAttemptBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new LaikaAttemptBrowserTableColumnModel();
         $renderer = new LaikaAttemptBrowserTableCellRenderer($browser);

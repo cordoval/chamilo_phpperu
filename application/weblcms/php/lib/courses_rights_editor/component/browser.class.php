@@ -1,4 +1,5 @@
 <?php
+
 namespace application\weblcms;
 
 use application\weblcms\tool\course_group\CourseGroupMenu;
@@ -15,12 +16,14 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\extensions\rights_editor_manager\RightsEditorManagerBrowserComponent;
 use rights\RightsUtilities;
+use common\libraries\DynamicVisualTabsRenderer;
+use common\libraries\DynamicVisualTab;
+use common\libraries\InequalityCondition;
 
 /**
  * $Id: browser.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager.component
  */
-
 require_once Path :: get_common_extensions_path() . 'rights_editor_manager/php/component/browser.class.php';
 require_once dirname(__FILE__) . '/location_course_group_browser/location_course_group_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../../../tool/course_group/php/course_group_menu.class.php';
@@ -53,7 +56,18 @@ class CoursesRightsEditorManagerBrowserComponent extends RightsEditorManagerBrow
         $html[] = '<div class="clear"></div><br />';
         $html[] = RightsUtilities :: get_rights_legend();
 
-        return implode("\n", $html);
+        $tabs = new DynamicVisualTabsRenderer(Utilities :: get_classname_from_object($this, true) . '_type', implode("\n", $html));
+        foreach ($this->get_types() as $type)
+        {
+            $selected = ($type == $this->type ? true : false);
+
+            $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($type) . 'Rights'));
+            $link = $this->get_url(array(self :: PARAM_TYPE => $type));
+
+            $tabs->add_tab(new DynamicVisualTab($type, $label, Theme :: get_image_path('common\extensions\rights_editor_manager') . 'place_' . $type . '.png', $link, $selected));
+        }
+
+        return $tabs->render();
     }
 
     function display_location_course_group_browser()
@@ -78,11 +92,11 @@ class CoursesRightsEditorManagerBrowserComponent extends RightsEditorManagerBrow
         if ($course_group_object->has_children())
         {
             $table = new LocationCourseGroupBrowserTable($this, $this->get_parameters(), $this->get_course_group_conditions());
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('SubGroups', null ,'groups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('SubGroups', null, 'groups'), Theme :: get_image_path('group') . 'logo/' . Theme :: ICON_MINI . '.png', $table->as_html()));
         }
 
         $table = new LocationCourseGroupBrowserTable($this, $this->get_parameters(), $this->get_course_group_conditions(false));
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights', null ,'rights'), Theme :: get_image_path('admin') . 'place_mini_rights.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights', null, 'rights'), Theme :: get_image_path('rights') . 'logo/' . Theme :: ICON_MINI . '.png', $table->as_html()));
 
         $html[] = $tabs->render();
         $html[] = '</div>';
@@ -101,17 +115,21 @@ class CoursesRightsEditorManagerBrowserComponent extends RightsEditorManagerBrow
             $conditions[] = new PatternMatchCondition(CourseGroup :: PROPERTY_NAME, '*' . $query . '*');
         }
 
-        $course_group = Request :: get(CoursesRightsEditorManager :: PARAM_COURSE_GROUP) ? Request :: get(CoursesRightsEditorManager :: PARAM_COURSE_GROUP) : 1;
+        $course_group = Request :: get(CoursesRightsEditorManager :: PARAM_COURSE_GROUP) ? Request :: get(CoursesRightsEditorManager :: PARAM_COURSE_GROUP) : 0;
         if ($get_children)
         {
-            $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_PARENT_ID, $course_group);
+            $conditions[] = new InequalityCondition(CourseGroup :: PROPERTY_PARENT_ID, InequalityCondition::GREATER_THAN, $course_group);
+            $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, request :: get(WeblcmsManager :: PARAM_COURSE));
         }
         else
         {
-            $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_ID, $course_group);
+            $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_PARENT_ID, $course_group);
+            $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, request :: get(WeblcmsManager :: PARAM_COURSE));
         }
 
         return new AndCondition($conditions);
     }
+
 }
+
 ?>

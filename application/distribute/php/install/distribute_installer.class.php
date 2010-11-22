@@ -22,7 +22,7 @@ class DistributeInstaller extends Installer
     /**
      * Constructor
      */
-    function DistributeInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, DistributeDataManager :: get_instance());
     }

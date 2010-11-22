@@ -10,7 +10,7 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
     private $objects_list;
     private $export;
 
-    public function ExternalRepositoryObjectBrowserForm($objects_list, $export)
+    public function __construct($objects_list, $export)
     {
         parent :: __construct('external_repository_objects_browser');
 

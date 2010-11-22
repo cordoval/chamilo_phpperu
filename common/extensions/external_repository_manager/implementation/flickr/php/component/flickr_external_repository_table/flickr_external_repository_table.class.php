@@ -17,7 +17,7 @@ class FlickrExternalRepositoryTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function FlickrExternalRepositoryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new FlickrExternalRepositoryTableColumnModel();
         $renderer = new FlickrExternalRepositoryTableCellRenderer($browser);

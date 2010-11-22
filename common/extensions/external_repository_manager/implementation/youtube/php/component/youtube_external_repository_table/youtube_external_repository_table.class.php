@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\youtube;
+use common\libraries\ObjectTable;
 /**
  * Table to display a set of youtube external repository objects.
  */
@@ -15,7 +16,7 @@ class YoutubeExternalRepositoryTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function YoutubeExternalRepositoryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new YoutubeExternalRepositoryTableColumnModel();
         $renderer = new YoutubeExternalRepositoryTableCellRenderer($browser);

@@ -15,7 +15,7 @@ class MetadataPropertyAttributeTypeBrowserTableDataProvider extends ObjectTableD
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function MetadataPropertyAttributeTypeBrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }

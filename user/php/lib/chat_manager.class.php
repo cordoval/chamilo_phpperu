@@ -51,7 +51,7 @@ class ChatManager
 	 */
 	private $last_message_date;
 
-	function ChatManager($local_user, $remote_user, $parent)
+	function __construct($local_user, $remote_user, $parent)
 	{
 		$this->local_user = $local_user;
 		$this->remote_user = $remote_user;

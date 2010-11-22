@@ -14,7 +14,7 @@ use repository\ContentObject;
 class IcalImport extends ContentObjectImport
 {
 
-    function IcalImport($content_object_file, $user, $category)
+    function __construct($content_object_file, $user, $category)
     {
         parent :: __construct($content_object_file, $user, $category);
     }

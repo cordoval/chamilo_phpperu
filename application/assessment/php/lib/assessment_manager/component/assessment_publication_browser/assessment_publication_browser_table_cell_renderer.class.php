@@ -37,7 +37,7 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function AssessmentPublicationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

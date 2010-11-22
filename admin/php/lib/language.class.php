@@ -17,7 +17,6 @@ class Language extends DataClass
     const PROPERTY_ORIGINAL_NAME = 'original_name';
     const PROPERTY_ENGLISH_NAME = 'english_name';
     const PROPERTY_ISOCODE = 'isocode';
-    const PROPERTY_FOLDER = 'folder';
     const PROPERTY_AVAILABLE = 'available';
 
     /**
@@ -26,7 +25,11 @@ class Language extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_ORIGINAL_NAME, self :: PROPERTY_ENGLISH_NAME, self :: PROPERTY_ISOCODE, self :: PROPERTY_FOLDER, self :: PROPERTY_AVAILABLE));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_ORIGINAL_NAME,
+                self :: PROPERTY_ENGLISH_NAME,
+                self :: PROPERTY_ISOCODE,
+                self :: PROPERTY_AVAILABLE));
     }
 
     /**
@@ -62,15 +65,6 @@ class Language extends DataClass
     function get_isocode()
     {
         return $this->get_default_property(self :: PROPERTY_ISOCODE);
-    }
-
-    /**
-     * Returns the sender of this PMP object
-     * @return int the sender
-     */
-    function get_folder()
-    {
-        return $this->get_default_property(self :: PROPERTY_FOLDER);
     }
 
     /**
@@ -110,15 +104,6 @@ class Language extends DataClass
     }
 
     /**
-     * Sets the sender of this PMP.
-     * @param int $sender the Sender.
-     */
-    function set_folder($folder)
-    {
-        $this->set_default_property(self :: PROPERTY_FOLDER, $folder);
-    }
-
-    /**
      * Sets the recipient of this PMP.
      * @param int $recipient the user_id of the recipient.
      */
@@ -145,7 +130,7 @@ class Language extends DataClass
         }
 
         $registration = new Registration();
-        $registration->set_name($this->get_english_name());
+        $registration->set_name($this->get_isocode());
         $registration->set_type(Registration :: TYPE_LANGUAGE);
         $registration->set_version('1.0.0');
         $registration->set_status(Registration :: STATUS_ACTIVE);

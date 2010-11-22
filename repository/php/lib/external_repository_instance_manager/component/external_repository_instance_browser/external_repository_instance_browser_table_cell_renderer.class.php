@@ -25,7 +25,7 @@ class ExternalRepositoryInstanceBrowserTableCellRenderer extends DefaultExternal
      * Constructor
      * @param ExternalRepositoryInstanceManager $browser
      */
-    function ExternalRepositoryInstanceBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

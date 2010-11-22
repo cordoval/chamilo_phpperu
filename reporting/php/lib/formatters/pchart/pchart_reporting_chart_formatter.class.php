@@ -55,7 +55,7 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
         return $data;
     }
 
-    public function PchartReportingChartFormatter(&$reporting_block)
+    public function __construct(&$reporting_block)
     {
         parent :: __construct($reporting_block);
         $this->font = Path :: get_plugin_path() . 'pChart/Fonts/tahoma.ttf';

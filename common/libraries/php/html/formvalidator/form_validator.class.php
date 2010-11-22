@@ -1,14 +1,11 @@
 <?php
 namespace common\libraries;
 
-use \HTML_Quickform;
+use HTML_QuickForm;
 
 /**
  * @package common.html.formvalidator
  */
-// $Id: FormValidator.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
-require_once ('HTML/QuickForm.php');
-require_once ('HTML/QuickForm/advmultiselect.php');
 /**
  * Filter
  */
@@ -25,7 +22,7 @@ class FormValidator extends HTML_QuickForm
     const PARAM_SUBMIT = 'submit';
     const PARAM_RESET = 'reset';
 
-	private $no_errors;
+    private $no_errors;
 
     /**
      * The HTML-editors in this form
@@ -42,7 +39,7 @@ class FormValidator extends HTML_QuickForm
      * @param bool $trackSubmit (optional)Whether to track if the form was
      * submitted by adding a special hidden field (default = true)
      */
-    function FormValidator($form_name, $method = 'post', $action = '', $target = '', $attributes = null, $trackSubmit = true)
+    function __construct($form_name, $method = 'post', $action = '', $target = '', $attributes = null, $trackSubmit = true)
     {
         if (is_null($attributes))
         {
@@ -50,7 +47,7 @@ class FormValidator extends HTML_QuickForm
         }
         $attributes['onreset'] = 'resetElements()';
 
-        $this->HTML_QuickForm($form_name, $method, $action, $target, $attributes, $trackSubmit);
+        parent :: __construct($form_name, $method, $action, $target, $attributes, $trackSubmit);
         // Load some custom elements and rules
         $dir = dirname(__FILE__) . '/';
         $this->registerElementType('datepicker', $dir . 'Element/datepicker.php', 'HTML_QuickForm_datepicker');
@@ -77,7 +74,7 @@ class FormValidator extends HTML_QuickForm
         $this->registerRule('disk_quota', null, 'HTML_QuickForm_Rule_DiskQuota', $dir . 'Rule/DiskQuota.php');
         $this->registerRule('max_value', null, 'HTML_QuickForm_Rule_MaxValue', $dir . 'Rule/MaxValue.php');
 
-        $this->addElement('html', '<script type="text/javascript" src="' . Path :: get_web_common_libraries_path(). 'resources/javascript/reset.js"></script>');
+        $this->addElement('html', '<script type="text/javascript" src="' . Path :: get_web_common_libraries_path() . 'resources/javascript/reset.js"></script>');
 
         // Modify the default templates
         $renderer = $this->defaultRenderer();
@@ -169,41 +166,41 @@ EOT;
         return $element;
     }
 
-	/**
-	 * Add a password field to the form.
-	 *
-	 * @param $name
-	 * @param $label
-	 * @param $required
-	 * @param $attributes
-	 */
-	function add_password($name, $label, $required = true, $attributes = array())
-	{
-		$element = $this->create_password($name, $label, $attributes);
-		$this->addElement($element);
-		if ($required)
-		{
-			$this->addRule($name, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-		}
-		return $element;
-	}
+    /**
+     * Add a password field to the form.
+     *
+     * @param $name
+     * @param $label
+     * @param $required
+     * @param $attributes
+     */
+    function add_password($name, $label, $required = true, $attributes = array())
+    {
+        $element = $this->create_password($name, $label, $attributes);
+        $this->addElement($element);
+        if ($required)
+        {
+            $this->addRule($name, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        }
+        return $element;
+    }
 
-	/**
-	 * Create a password field.
-	 *
-	 * @param $name
-	 * @param $label
-	 * @param $attributes
-	 */
-	function create_password($name, $label, $attributes = array()){
-		if (! array_key_exists('size', $attributes))
-		{
-			$attributes['size'] = 50;
-		}
-		$element = $this->createElement('password', $name, $label, $attributes);
-		return $element;
-	}
-
+    /**
+     * Create a password field.
+     *
+     * @param $name
+     * @param $label
+     * @param $attributes
+     */
+    function create_password($name, $label, $attributes = array())
+    {
+        if (! array_key_exists('size', $attributes))
+        {
+            $attributes['size'] = 50;
+        }
+        $element = $this->createElement('password', $name, $label, $attributes);
+        return $element;
+    }
 
     /**
      * Adds a select control to the form.
@@ -276,7 +273,9 @@ EOT;
         {
             //            $this->addElement('html', '<h2>' . $tab->get_title() . '</h2>');
             $this->addElement('html', '<div class="form_tab" id="form_tabs-' . $index . '">');
-            call_user_func(array($this, $tab->get_method()));
+            call_user_func(array(
+                    $this,
+                    $tab->get_method()));
             $this->addElement('html', '<div class="clear"></div>');
             $this->addElement('html', '</div>');
         }
@@ -286,7 +285,7 @@ EOT;
         $this->addElement('html', '  var tabnumber = ' . $selected_tab . ';');
         $this->addElement('html', '</script>');
 
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/form_tabs.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/libraries/resources/javascript/form_tabs.js'));
     }
 
     function create_html_editor($name, $label, $options = array(), $attributes = array())
@@ -331,7 +330,9 @@ EOT;
      */
     function add_datepicker($name, $label, $include_time_picker = true)
     {
-        $element = $this->addElement('datepicker', $name, $label, array('form_name' => $this->getAttribute('name'), 'class' => $name), $include_time_picker);
+        $element = $this->addElement('datepicker', $name, $label, array(
+                'form_name' => $this->getAttribute('name'),
+                'class' => $name), $include_time_picker);
         $this->addRule($name, Translation :: get('InvalidDate'), 'date');
         return $element;
     }
@@ -361,8 +362,12 @@ EOT;
         $fromName = $element_name_prefix . 'from_date';
         $toName = $element_name_prefix . 'to_date';
 
-        $choices[] = $this->createElement('radio', $elementName, '', Translation :: get('Forever'), 1, array('id' => 'forever', 'onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
-        $choices[] = $this->createElement('radio', $elementName, '', Translation :: get('LimitedPeriod'), 0, array('id' => 'limited', 'onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
+        $choices[] = $this->createElement('radio', $elementName, '', Translation :: get('Forever'), 1, array(
+                'id' => 'forever',
+                'onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
+        $choices[] = $this->createElement('radio', $elementName, '', Translation :: get('LimitedPeriod'), 0, array(
+                'id' => 'limited',
+                'onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
         $this->addGroup($choices, null, Translation :: get($element_label), '<br />', false);
         $this->addElement('html', '<div style="margin-left:25px;display:block;" id="forever_timewindow">');
         $this->add_timewindow($fromName, $toName, '', '');
@@ -391,11 +396,15 @@ EOT;
      */
     function add_forever_or_expiration_date_window($element_name, $element_label = 'ExpirationDate')
     {
-        $choices[] = $this->createElement('radio', 'forever', '', Translation :: get('Forever'), 1, array('onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')', 'id' => 'forever'));
-        $choices[] = $this->createElement('radio', 'forever', '', Translation :: get('LimitedPeriod'), 0, array('onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
+        $choices[] = $this->createElement('radio', 'forever', '', Translation :: get('Forever'), 1, array(
+                'onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')',
+                'id' => 'forever'));
+        $choices[] = $this->createElement('radio', 'forever', '', Translation :: get('LimitedPeriod'), 0, array(
+                'onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
         $this->addGroup($choices, null, Translation :: get($element_label), '<br />', false);
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="forever_timewindow">');
-        $this->addElement('datepicker', $element_name, '', array('form_name' => $this->getAttribute('name')), false);
+        $this->addElement('datepicker', $element_name, '', array(
+                'form_name' => $this->getAttribute('name')), false);
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
@@ -419,8 +428,11 @@ EOT;
     function add_receivers($elementName, $elementLabel, $attributes, $no_selection = 'Everybody', $legend = null)
     {
         $choices = array();
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($no_selection), '0', array('onclick' => 'javascript:receivers_hide(\'receivers_window_' . $elementName . '\')', 'id' => 'receiver_' . $elementName));
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'receivers_window_' . $elementName . '\')'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($no_selection), '0', array(
+                'onclick' => 'javascript:receivers_hide(\'receivers_window_' . $elementName . '\')',
+                'id' => 'receiver_' . $elementName));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array(
+                'onclick' => 'javascript:receivers_show(\'receivers_window_' . $elementName . '\')'));
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="receivers_window_' . $elementName . '">');
 
@@ -463,7 +475,7 @@ EOT;
 
     function add_element_finder_with_legend($elementName, $elementLabel, $attributes, $legend = null)
     {
-    	$element_finder = $this->createElement('user_group_finder', $elementName . '_elements', $elementLabel, $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
+        $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', $elementLabel, $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
         $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
 
@@ -480,11 +492,18 @@ EOT;
         //maybe an option "only me" should also be added?
         $choices = array();
 
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SystemDefaultSettings'), '0', array('onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'receiver_1'));
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('AnonymousUsers'), '0', array('onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'receiver_2'));
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('PortalUsers'), '0', array('onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'receiver_3'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SystemDefaultSettings'), '0', array(
+                'onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')',
+                'id' => $elementName . 'receiver_1'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('AnonymousUsers'), '0', array(
+                'onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')',
+                'id' => $elementName . 'receiver_2'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('PortalUsers'), '0', array(
+                'onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')',
+                'id' => $elementName . 'receiver_3'));
 
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'' . $elementName . 'receivers_window\')'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array(
+                'onclick' => 'javascript:receivers_show(\'' . $elementName . 'receivers_window\')'));
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . $elementName . 'receivers_window">');
 
@@ -534,14 +553,19 @@ EOT;
         $choices = array();
         if (! is_array($radioArray))
         {
-            $radioArray = array($radioArray);
+            $radioArray = array(
+                    $radioArray);
         }
         foreach ($radioArray as $radioType)
         {
-            $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($radioType), $radioType, array('onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'receiver'));
+            $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($radioType), $radioType, array(
+                    'onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')',
+                    'id' => $elementName . 'receiver'));
 
         }
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'group'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array(
+                'onclick' => 'javascript:receivers_show(\'' . $elementName . 'receivers_window\')',
+                'id' => $elementName . 'group'));
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
         $idGroup = $elementName . 'group';
         $nameWindow = $elementName . 'receivers_window';
@@ -642,7 +666,6 @@ EOT;
 
     function validate_csv($value)
     {
-        include_once ('HTML/QuickForm/RuleRegistry.php');
         $registry = & HTML_QuickForm_RuleRegistry :: singleton();
         $rulenr = '-1';
         foreach ($this->_rules as $target => $rules)

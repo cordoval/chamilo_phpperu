@@ -11,7 +11,7 @@ class SoundcloudExternalRepositoryGalleryTable extends GalleryObjectTable
 {
     const DEFAULT_NAME = 'soundcloud_external_repository_gallery_table';
 
-    function SoundcloudExternalRepositoryGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $data_provider = new SoundcloudExternalRepositoryGalleryTableDataProvider($browser, $condition);
         $renderer = new SoundcloudExternalRepositoryGalleryTableCellRenderer($browser);

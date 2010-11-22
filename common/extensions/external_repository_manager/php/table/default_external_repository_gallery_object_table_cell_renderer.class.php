@@ -11,7 +11,7 @@ abstract class DefaultExternalRepositoryGalleryObjectTableCellRenderer implement
     /**
      * Constructor
      */
-    function DefaultExternalRepositoryGalleryObjectTableCellRenderer()
+    function __construct()
     {
     }
 

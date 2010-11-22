@@ -6,16 +6,19 @@ use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 
 use repository\content_object\portfolio_item\PortfolioItem;
+use repository\ComplexBuilderComponent;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItemForm;
+use repository\ContentObjectForm;
+use common\libraries\Utilities;
 
 /**
  * $Id: updater.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.portfolio.component
  */
-require_once dirname(__FILE__) . '/../../../../complex_builder/complex_repo_viewer.class.php';
 
 class PortfolioBuilderUpdaterComponent extends PortfolioBuilder
 {
-
     private $complex_builder_updater_component;
 
     function run()

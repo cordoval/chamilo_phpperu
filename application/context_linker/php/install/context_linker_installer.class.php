@@ -14,7 +14,7 @@ class ContextLinkerInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function ContextLinkerInstaller($values)
+    function __construct($values)
     {
     	parent :: __construct($values, ContextLinkerDataManager :: get_instance());
     }

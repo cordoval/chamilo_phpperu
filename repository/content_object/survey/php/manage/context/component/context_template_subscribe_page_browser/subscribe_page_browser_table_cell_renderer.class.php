@@ -8,7 +8,7 @@ class SurveyContextTemplateSubscribePageBrowserTableCellRenderer extends Default
     
     private $browser;
    
-    function SurveyContextTemplateSubscribePageBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

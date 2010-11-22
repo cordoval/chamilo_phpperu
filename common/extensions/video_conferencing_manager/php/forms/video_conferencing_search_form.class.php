@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
+use common\libraries\FormValidator;
 
 class VideoConferencingSearchForm extends FormValidator
 {
@@ -27,7 +28,7 @@ class VideoConferencingSearchForm extends FormValidator
      * @param string $url The location to which the search request should be
      * posted.
      */
-    function VideoConferencingSearchForm($url)
+    function __construct($url)
     {
         parent :: __construct(self :: FORM_NAME, 'post', $url);
         $this->renderer = clone $this->defaultRenderer();

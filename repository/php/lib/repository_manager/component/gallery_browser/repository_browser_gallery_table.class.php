@@ -26,7 +26,7 @@ class RepositoryBrowserGalleryTable extends GalleryObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function RepositoryBrowserGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $property_model = new RepositoryBrowserGalleryTablePropertyModel();
         $cell_renderer = new RepositoryBrowserGalleryTableCellRenderer($browser);
@@ -41,7 +41,8 @@ class RepositoryBrowserGalleryTable extends GalleryObjectTable
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $ids);
     }
 }

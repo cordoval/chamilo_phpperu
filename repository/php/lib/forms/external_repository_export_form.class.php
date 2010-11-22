@@ -24,7 +24,7 @@ class ExternalRepositoryExportForm extends FormValidator
      */
     protected $export;
 
-    protected function ExternalRepositoryExportForm($content_object, $export, $action, $catalogs)
+    public function __construct($content_object, $export, $action, $catalogs)
     {
         parent :: __construct('external_repository_browser', 'post', $action);
 

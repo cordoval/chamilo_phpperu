@@ -1,4 +1,6 @@
 <?php
+
+
 namespace application\handbook;
 use common\libraries\Request;
 use repository\RepositoryDataManager;
@@ -16,11 +18,13 @@ use application\metadata\MetadataManager;
 use repository\ContentObjectDisplay;
 use repository\content_object\document\Document;
 use repository\RepositoryManager;
+use rights\RightsUtilities;
 
 
 
 require_once dirname(__FILE__).'/../handbook_manager.class.php';
 require_once dirname(__FILE__).'/../../handbook_menu.class.php';
+require_once dirname(__FILE__).'/../../handbook_rights.class.php';
 
 //require_once dirname(__FILE__).'/../../../context_linker/php/context_link.class.php';
 //require_once dirname(__FILE__).'/../../../context_linker/php/context_linker_data_manager.class.php';
@@ -32,23 +36,19 @@ require_once dirname(__FILE__).'/../../handbook_menu.class.php';
  */
 class HandbookManagerHandbookViewerComponent extends HandbookManager
 {
-
     const PARAMETER_SHOW_ALTERNATIVES = 'sa';
     const ALL_ALTERNATIVES = 'aa';
     const RELEVANT_ALTERNATIVES_ONLY = 'ro';
 
-
-
-
-
+    private $handbook_publication_id;
     private $handbook_id;
     private $handbook_selection_id;
     private $selected_object;
-
-
-
     private $user_preferences = array();
     private $handbook_preferences = array();
+
+    private $edit_right;
+    private $view_right;
 
 
 
@@ -58,33 +58,58 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     function run()
     {
         //GET CONTENT OBJECTS TO DISPLAY
-        $this->get_content_objects();
-        $this->get_preferences();
+        $this->get_rights();
+        if($this->view_right)
+        {
+            $this->get_content_objects();
+            $this->get_preferences();
 
-        parent::display_header();
+            parent::display_header();
 
-        //ACTIONBAR
-        $this->action_bar = $this->get_action_bar();
-        $html[] = $this->action_bar->as_html();
+            //ACTIONBAR
+            $this->action_bar = $this->get_action_bar();
+            $html[] = $this->action_bar->as_html();
 
-        //MENU
-        $html[] = $this->get_menu();
+            //MENU
+            $html[] = $this->get_menu();
 
-        //CONTENT
-        $html[] = '<div>';
-        $html[] = $this->display_content();
-        $html[] = '</div>';
+            //CONTENT
+            $html[] = '<div>';
+            $html[] = $this->display_content();
+            $html[] = '</div>';
 
-        $html[] = '</div>';
-        $html[] = '</div>';
+            $html[] = '</div>';
+            $html[] = '</div>';
 
-        echo implode ("\n", $html);
-        parent::display_footer();
+            echo implode ("\n", $html);
+            parent::display_footer();
+        }
+        else
+        {
+            parent::display_header();
+            $html[] = '<div>';
+            $html[] = $this->display_not_allowed();
+            $html[] = '</div>';
+            echo implode ("\n", $html);
+            parent::display_footer();
+
+        }
+
     }
 
     function get_allowed_content_object_types()
     {
         return array(Handbook :: get_type_name());
+    }
+
+    function get_rights()
+    {
+        $user_id = $this->get_user_id();
+        $this->handbook_publication_id = Request :: get(HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID);
+        $location_id = HandbookRights::get_location_id_by_identifier_from_handbooks_subtree($this->handbook_publication_id);
+        $this->view_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::EDIT_RIGHT, $this->handbook_publication_id, $user_id);
+        $this->edit_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::VIEW_RIGHT, $this->handbook_publication_id, $user_id);
+        
     }
 
     function get_content_objects()
@@ -124,7 +149,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                 $html[] = '</div>';
 
                 $html[] = '<div>';
-                    $menu = new HandbookMenu( 'run.php?application='.self::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'='.$this->handbook_id, $this->handbook_id);
+                $hpid = $this->handbook_publication_id;
+                $menu = new HandbookMenu( 'run.php?application='.self::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'='.$this->handbook_id,  $this->handbook_id, null, $hpid);
                     $html[] = $menu->render_as_tree();
                 $html[] = '</div>';
             $html[] = '</div>';
@@ -132,6 +158,12 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $html[] = '<div class="clear"></div>';
 
             return implode ("\n", $html);
+    }
+
+    function display_not_allowed()
+    {
+        $html[] = 'You are not allowed to view this handbook';
+        return implode ("\n", $html);
     }
 
     function display_content()
@@ -175,11 +207,15 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         //add handbook/item
 
         //set handbook rights
+        if($this->edit_right)
+        {
+            $actions[] = new ToolbarItem(Translation :: get('EditPublicationRights'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
+        }
 
-        if($this->selected_object)
+        if($this->selected_object && $this->edit_right)
         {
             //create alternative context version
-            $actions[] = new ToolbarItem(Translation :: get('CreateObject' , array('OBJECT' => Translation::get('ContextLink')), 'application\\context_linker\\'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->selected_object->get_id())));
+            $actions[] = new ToolbarItem(Translation :: get('CreateContextLink'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->selected_object->get_id())));
         }
         //view glossary
 
@@ -274,7 +310,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                          }
                          $html[] = '</div>';
                     }
-//                    $html[] = '</div>';
+                    $html[] = '</div>';
                 }
 
 

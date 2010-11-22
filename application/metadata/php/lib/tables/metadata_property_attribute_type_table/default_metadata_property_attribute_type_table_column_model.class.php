@@ -17,7 +17,7 @@ class DefaultMetadataPropertyAttributeTypeTableColumnModel extends ObjectTableCo
 	/**
 	 * Constructor
 	 */
-	function DefaultMetadataPropertyAttributeTypeTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct(self :: get_default_columns(), 1);
 	}

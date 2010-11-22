@@ -3,7 +3,7 @@
 
 /**
  * Class representing a page of a multipage form.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -66,9 +66,9 @@ class HTML_QuickForm_Page extends HTML_QuickForm
     *
     * @access public
     */
-    function HTML_QuickForm_Page($formName, $method = 'post', $target = '', $attributes = null)
+    function __construct($formName, $method = 'post', $target = '', $attributes = null)
     {
-        $this->HTML_QuickForm($formName, $method, '', $target, $attributes);
+        parent :: __construct($formName, $method, '', $target, $attributes);
     }
 
 

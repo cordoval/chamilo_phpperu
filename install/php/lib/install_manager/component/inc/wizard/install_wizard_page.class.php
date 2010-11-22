@@ -1,6 +1,7 @@
 <?php
 namespace install;
-use \HTML_QuickForm_Page;
+use HTML_QuickForm_Page;
+use common\libraries\Translation;
 /**
  * $Id: install_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard
@@ -21,12 +22,12 @@ abstract class InstallWizardPage extends HTML_QuickForm_Page
      * @param Tool $parent The repository tool in which the wizard
      * runs.
      */
-    public function InstallWizardPage($name, $parent)
+    public function __construct($name, $parent)
     {
         $this->parent = $parent;
-        parent :: HTML_QuickForm_Page($name, 'post');
+        parent :: __construct($name, 'post');
         //$this->updateAttributes(array('action'=>$parent->get_url()));
-        
+
 
         $this->registerElementType('style_submit_button', dirname(__FILE__) . '/../../../../../../../common/libraries/php/html/formvalidator/Element/style_submit_button.php', 'HTML_QuickForm_stylesubmitbutton');
         $this->registerElementType('style_reset_button', dirname(__FILE__) . '/../../../../../../../common/libraries/php/html/formvalidator/Element/style_reset_button.php', 'HTML_QuickForm_styleresetbutton');
@@ -44,8 +45,10 @@ abstract class InstallWizardPage extends HTML_QuickForm_Page
 
     function set_lang($lang)
     {
-        global $language_interface;
-        $language_interface = $lang;
+        Translation :: set_language($lang);
+        //        dump($lang);
+    //        global $language_interface;
+    //        $language_interface = $lang;
     }
 }
 ?>

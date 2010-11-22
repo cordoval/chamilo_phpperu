@@ -31,7 +31,7 @@ class SurveyUserTableDataProvider extends ObjectTableDataProvider
      * selected.
      * @param string $query The search query.
      */
-    function SurveyUserTableDataProvider($parent, $owner, $pid)
+    function __construct($parent, $owner, $pid)
     {
         $this->owner = $owner;
         $this->pid = $pid;

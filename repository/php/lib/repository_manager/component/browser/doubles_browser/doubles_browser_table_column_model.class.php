@@ -25,7 +25,7 @@ class DoublesBrowserTableColumnModel extends DefaultContentObjectTableColumnMode
     /**
      * Constructor
      */
-    function DoublesBrowserTableColumnModel($is_detail)
+    function __construct($is_detail)
     {
         parent :: __construct();
         $this->set_default_order_column(0);

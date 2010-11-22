@@ -26,7 +26,7 @@ class AssessmentResultsTableDetailColumnModel extends ObjectTableColumnModel
     /**
      * Constructor.
      */
-    function AssessmentResultsTableDetailColumnModel($user_assessment)
+    function __construct($user_assessment)
     {
         self :: $user_assessment = $user_assessment;
         parent :: __construct(self :: get_columns(), 1, SORT_ASC);

@@ -10,7 +10,7 @@ class Channel
 	
 	private $items;
 	
-	function Channel()
+	function __construct()
 	{
 		$items = array();
 	}

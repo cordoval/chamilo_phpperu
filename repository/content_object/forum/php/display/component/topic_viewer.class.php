@@ -28,7 +28,6 @@ use HTML_Table;
  * @package repository.lib.complex_display.forum.component
  */
 require_once dirname(__FILE__) . '/../forum_display.class.php';
-require_once 'HTML/Table.php';
 
 class ForumDisplayTopicViewerComponent extends ForumDisplay
 {

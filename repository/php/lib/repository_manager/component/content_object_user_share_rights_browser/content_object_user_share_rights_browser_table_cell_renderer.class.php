@@ -21,7 +21,7 @@ class ContentObjectUserShareRightsBrowserTableCellRenderer extends ObjectTableCe
 {
     private $browser;
 
-    function ContentObjectUserShareRightsBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         $this->browser = $browser;
     }

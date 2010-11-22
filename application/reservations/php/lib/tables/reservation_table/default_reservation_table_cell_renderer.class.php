@@ -19,7 +19,7 @@ class DefaultReservationTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultReservationTableCellRenderer($browser)
+    function __construct($browser)
     {
     }
 

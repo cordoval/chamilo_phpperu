@@ -21,7 +21,7 @@ class InternshipOrganizerOrganisationForm extends FormValidator
     private $organisation;
     private $user;
 
-    function InternshipOrganizerOrganisationForm($form_type, $organisation, $action, $user)
+    function __construct($form_type, $organisation, $action, $user)
     {
         parent :: __construct('organisation_settings', 'post', $action);
         

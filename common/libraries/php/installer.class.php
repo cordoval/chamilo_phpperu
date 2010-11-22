@@ -52,7 +52,7 @@ abstract class Installer
     /**
      * Constructor
      */
-    function Installer($form_values, $data_manager = null)
+    function __construct($form_values, $data_manager = null)
     {
         $this->form_values = $form_values;
         $this->data_manager = $data_manager;

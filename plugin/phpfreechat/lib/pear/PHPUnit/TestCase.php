@@ -70,7 +70,7 @@ require_once 'PHPUnit/TestResult.php';
  *     var $fValue1;
  *     var $fValue2;
  *
- *     function MathTest($name) {
+ *     function __construct($name) {
  *         $this->PHPUnit_TestCase($name);
  *     }
  *
@@ -132,7 +132,7 @@ class PHPUnit_TestCase extends PHPUnit_Assert {
      * @param  string
      * @access public
      */
-    function PHPUnit_TestCase($name = FALSE) {
+    function __construct($name = FALSE) {
         if ($name !== FALSE) {
             $this->setName($name);
         }

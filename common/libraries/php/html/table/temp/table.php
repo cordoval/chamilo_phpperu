@@ -61,7 +61,7 @@ class MichelangeloCategoryTable
 	 *                                                       Omit to use the
 	 *                                                       default renderer.
 	 */
-	function MichelangeloCategoryTable($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
+	function __construct($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
 	{
 		$this->set_data_provider($data_provider);
 		$this->set_name(isset($table_name) ? $table_name : self :: DEFAULT_NAME);

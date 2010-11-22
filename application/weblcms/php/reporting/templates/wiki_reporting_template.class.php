@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/../blocks/weblcms_wiki_most_edited_page_repor
 class WikiReportingTemplate extends ReportingTemplate
 {
 
-    function WikiReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         $this->set_template_parameters();

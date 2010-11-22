@@ -30,7 +30,7 @@ class WeblcmsDataManager implements DataManagerInterface
     /**
      * Constructor. Initializes the data manager.
      */
-    protected function WeblcmsDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

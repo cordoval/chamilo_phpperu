@@ -17,7 +17,7 @@ class InternshipOrganizerCategoryForm extends FormValidator
     private $category;
     private $user;
 
-    function InternshipOrganizerCategoryForm($form_type, $category, $action, $user)
+    function __construct($form_type, $category, $action, $user)
     {
         parent :: __construct('create_category', 'post', $action);
         

@@ -11,7 +11,7 @@ class SurveyContextRelUserBrowserTableColumnModel extends DefaultSurveyContextRe
     /**
      * Constructor
      */
-    function SurveyContextRelUserBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->add_column(self :: get_modification_column());

@@ -6,7 +6,7 @@ use common\libraries\ObjectTableCellRenderer;
 class DefaultInternshipOrganizerAgreementRelMentorTableCellRenderer extends ObjectTableCellRenderer
 {
 
-    function DefaultInternshipOrganizerAgreementRelMentorTableCellRenderer()
+    function __construct()
     {
     }
 

@@ -15,7 +15,7 @@ abstract class QuestionResultDisplay
     private $answers;
     private $score;
 
-    function QuestionResultDisplay($clo_question, $question_nr, $answers, $score)
+    function __construct($clo_question, $question_nr, $answers, $score)
     {
         $this->clo_question = $clo_question;
         $this->question_nr = $question_nr;

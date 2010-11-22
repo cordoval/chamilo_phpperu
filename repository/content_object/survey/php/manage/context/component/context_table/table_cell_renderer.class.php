@@ -15,7 +15,7 @@ class SurveyContextTableCellRenderer extends DefaultSurveyContextTableCellRender
      * Constructor
      * @param RepositoryManagerComponent $component
      */
-    function SurveyContextTableCellRenderer($component, $context_registration_id)
+    function __construct($component, $context_registration_id)
     {
         parent :: __construct();
         $this->component = $component;

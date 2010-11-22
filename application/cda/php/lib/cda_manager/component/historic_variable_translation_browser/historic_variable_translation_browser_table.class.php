@@ -24,7 +24,7 @@ class HistoricVariableTranslationBrowserTable extends ObjectTable
 	/**
 	 * Constructor
 	 */
-	function HistoricVariableTranslationBrowserTable($browser, $parameters, $condition)
+	function __construct($browser, $parameters, $condition)
 	{
 		$model = new HistoricVariableTranslationBrowserTableColumnModel();
 		$renderer = new HistoricVariableTranslationBrowserTableCellRenderer($browser);

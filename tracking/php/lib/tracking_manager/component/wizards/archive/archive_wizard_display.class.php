@@ -34,7 +34,7 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
      * Constructor
      * @param TrackingManagerArchiveComponent $parent The component in which the wizard runs
      */
-    public function ArchiveWizardDisplay($parent)
+    public function __construct($parent)
     {
         $this->parent = $parent;
     }

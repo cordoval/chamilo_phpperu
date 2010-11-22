@@ -26,7 +26,7 @@ class QuotaForm extends FormValidator
     /**
      * Creates a new LanguageForm
      */
-    function QuotaForm($form_type, $action, $quota, $user)
+    function __construct($form_type, $action, $quota, $user)
     {
         parent :: __construct('quota_form', 'post', $action);
 

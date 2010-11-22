@@ -6,6 +6,6 @@ namespace common\extensions\external_repository_manager\implementation\mediamosa
  * @author jevdheyd
  */
 
-class MediamosaExternalRepositoryConnector extends MediamosaExternalRepositoryConnector {
+class MediamosaExternalRepositoryConnector_1_7_4 extends MediamosaExternalRepositoryConnector {
 
 }

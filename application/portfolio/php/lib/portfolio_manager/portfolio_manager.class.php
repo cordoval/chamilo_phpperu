@@ -30,18 +30,18 @@ require_once dirname(__FILE__) . '/../portfolio_information.class.php';
  */
 class PortfolioManager extends WebApplication
 {
-    
+
     const APPLICATION_NAME = 'portfolio';
-    
+
     const PARAM_PORTFOLIO_PUBLICATION = 'portfolio_publication';
     const PARAM_PORTFOLIO_ITEM = 'portfolio_item';
     const PARAM_PORTFOLIO_OWNER_ID = 'poid';
     const PARAM_PARENT = 'parent';
     const PARAM_PARENT_PORTFOLIO = 'parent_portfolio';
-    
+
     const PROPERTY_PID = 'pid';
     const PROPERTY_CID = 'cid';
-    
+
     const ACTION_DELETE_PORTFOLIO_PUBLICATION = 'portfolio_publication_deleter';
     const ACTION_DELETE_PORTFOLIO_ITEM = 'portfolio_item_deleter';
     const ACTION_CREATE_PORTFOLIO_PUBLICATION = 'portfolio_publication_creator';
@@ -51,12 +51,12 @@ class PortfolioManager extends WebApplication
     const ACTION_BROWSE = 'browser';
     const ACTION_SET_PORTFOLIO_DEFAULTS = 'admin_default_settings_creator';
     const ACTION_SHOW_PORTFOLIO_RIGHTS_OVERVIEW = 'rights_overview';
-    
+
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
-    
+
     const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
     const ACTION_PUBLISHER = 'publisher';
-    
+
     const SYSTEM_SETTINGS_INFO_FILE_LOCATION = 'application/portfolio/php/rights/';
     const SYSTEM_SETTINGS_INFO_FILE_NAME = 'system_settings.html';
 
@@ -64,7 +64,7 @@ class PortfolioManager extends WebApplication
      * Constructor
      * @param User $user The current user
      */
-    function PortfolioManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
     }
@@ -83,7 +83,7 @@ class PortfolioManager extends WebApplication
         $links = array();
         $links[] = new DynamicAction(Translation :: get('SetPortfolioDefaults'), Translation :: get('SetPortfolioDefaultsDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 Application :: PARAM_ACTION => self :: ACTION_SET_PORTFOLIO_DEFAULTS)));
-        
+
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
         return $info;
@@ -221,14 +221,14 @@ class PortfolioManager extends WebApplication
     static function get_content_object_publication_locations($content_object)
     {
         $allowed_types = array(Portfolio :: get_type_name());
-        
+
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
             $locations = array(__CLASS__);
             return $locations;
         }
-        
+
         return array();
     }
 
@@ -245,12 +245,12 @@ class PortfolioManager extends WebApplication
         $publication = new PortfolioPublication();
         $publication->set_content_object($content_object->get_id());
         $publication->set_publisher(Session :: get_user_id());
-        
+
         if ($owner_id == null)
         {
             $owner_id = Session :: get_user_id();
         }
-        
+
         $publication->set_owner($owner_id);
         $publication->set_published(time());
         $success &= $publication->create();
@@ -270,10 +270,10 @@ class PortfolioManager extends WebApplication
         //        {
         //            $success &= false;
         //        }
-        
+
 
         $success &= self :: update_portfolio_info($publication->get_id(), PortfolioRights :: TYPE_PORTFOLIO_FOLDER, PortfolioInformation :: ACTION_PORTFOLIO_ADDED, $owner_id);
-        
+
         if ($success)
         {
             return Translation :: get('ObjectCreated', array('OBJECT' => Translation::get('PortfolioPublication')), Utilities::COMMON_LIBRARIES);
@@ -293,12 +293,12 @@ class PortfolioManager extends WebApplication
      */
     static function get_portfolio_children($content_object_id, $pid = true, $cid = false)
     {
-        
+
         if ($pid)
         {
             $object_id = self :: get_co_id_from_portfolio_publication_wrapper($content_object_id);
         }
-        else 
+        else
             if ($cid)
             {
                 $object_id = self :: get_co_id_from_complex_wrapper($content_object_id);
@@ -307,7 +307,7 @@ class PortfolioManager extends WebApplication
             {
                 $object_id = $content_object_id;
             }
-        
+
         if ($object_id)
         {
             $pdm = PortfolioDataManager :: get_instance();
@@ -318,7 +318,7 @@ class PortfolioManager extends WebApplication
         {
             return false;
         }
-    
+
     }
 
     /**
@@ -334,7 +334,7 @@ class PortfolioManager extends WebApplication
         {
             $portfolio_publication = $pdm->retrieve_portfolio_publication($pid);
         }
-        
+
         return $portfolio_publication->get_content_object();
     }
 
@@ -352,9 +352,9 @@ class PortfolioManager extends WebApplication
             $rdm = RepositoryDataManager :: get_instance();
             $complex_item_object = $rdm->retrieve_complex_content_object_item($cid);
         }
-        
+
         $portfolio_item = $rdm->retrieve_content_object($complex_item_object->get_ref());
-        
+
         if ($portfolio_item)
         {
             $type = $portfolio_item->get_type();
@@ -362,7 +362,7 @@ class PortfolioManager extends WebApplication
             {
                 $content_object_id = $portfolio_item->get_reference();
             }
-            else 
+            else
                 if ($type == Portfolio :: get_type_name())
                 {
                     $content_object_id = $portfolio_item->get_id();
@@ -371,7 +371,7 @@ class PortfolioManager extends WebApplication
                 {
                     $content_object_id = false;
                 }
-        
+
         }
         else
         {
@@ -405,13 +405,13 @@ class PortfolioManager extends WebApplication
     {
         $success = true;
         $info = self :: get_portfolio_info($user_id);
-        
+
         $info->set_last_updated_date(time());
         $info->set_last_updated_item_id($content_object_id);
         $info->set_last_updated_item_type($type);
         $info->set_last_action($action);
         $success &= $info->update();
-        
+
         return $success;
     }
 
@@ -447,12 +447,12 @@ class PortfolioManager extends WebApplication
         if (isset($_POST['action']))
         {
             $selected_publication_ids = $_POST(ContentObjectTable :: DEFAULT_NAME, ObjectTable :: CHECKBOX_NAME_SUFFIX);
-            
+
             if (! is_array($selected_publication_ids))
             {
                 $selected_publication_ids = array($selected_publication_ids);
             }
-            
+
             switch ($_POST['action'])
             {
                 case self :: PARAM_PUBLISH_SELECTED :
@@ -468,22 +468,22 @@ class PortfolioManager extends WebApplication
         //TODO: support for multiple languates
         //return Configuration :: get_instance()->get_parameter('general', 'root_web') . self :: SYSTEM_SETTINGS_INFO_FILE_LOCATION . Translation :: get_instance()->get_language() . '_' . self :: SYSTEM_SETTINGS_INFO_FILE_NAME;
         return Path :: get(WEB_PATH) . self :: SYSTEM_SETTINGS_INFO_FILE_LOCATION . Translation :: get_instance()->get_language() . '_' . self :: SYSTEM_SETTINGS_INFO_FILE_NAME;
-    
+
     }
 
     static function set_portfolio_system_settings_page($settings_text, $language)
     {
-        
+
         $settings_file = @fopen(self :: SYSTEM_SETTINGS_INFO_FILE_LOCATION . $language . '_' . self :: SYSTEM_SETTINGS_INFO_FILE_NAME, "w");
         fwrite($settings_file, $settings_text);
         fclose($settings_file);
-    
+
     }
 
     static function create_portfolio_system_settings_page($view, $edit, $view_feedback, $give_feedback)
     {
         $system_languages_list = AdminDataManager :: get_instance()->retrieve_languages();
-        
+
         while ($language = $system_languages_list->next_result())
         {
             if ($view == 1)
@@ -510,21 +510,21 @@ class PortfolioManager extends WebApplication
             $html_header[] = '</head>';
             $html_header[] = '<body>';
             $html_header[] = '<ul>';
-            
+
             $html_footer = array();
             $html_footer[] = '</ul>';
             $html_footer[] = '</body>';
             $html_footer[] = '</html>';
-            
+
             $trans = Translation :: get_instance();
-            $trans->set_language($language->get_folder());
-            
+            $trans->set_language($language->get_isocode());
+
             $html = array();
             $html[] = '<div id= "portfolioSystemSettings">';
             $html[] = "<H1>";
             $html[] = $trans->get('SystemsSettingsOverview');
             $html[] = "</H1>";
-            
+
             $html[] = "<li>";
             $html[] = $trans->get(view) . " = " . $trans->get($view);
             $html[] = "</li>";
@@ -538,10 +538,10 @@ class PortfolioManager extends WebApplication
             $html[] = $trans->get(giveFeedback) . " = " . $trans->get($give_feedback);
             $html[] = "</li>";
             $html[] = "</div>";
-            
-            self :: set_portfolio_system_settings_page(implode("\n", $html_header) . implode("\n", $html) . implode("\n", $html_footer), $language->get_folder());
+
+            self :: set_portfolio_system_settings_page(implode("\n", $html_header) . implode("\n", $html) . implode("\n", $html_footer), $language->get_isocode());
         }
-    
+
     }
 
     static function display_system_settings_link()
@@ -559,7 +559,7 @@ class PortfolioManager extends WebApplication
         $html[] = '</span>';
         $html[] = '</a>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 
@@ -568,11 +568,11 @@ class PortfolioManager extends WebApplication
         //show settings for all user's portfolio
         //$link = Configuration :: get_instance()->get_parameter('general', 'root_web') . 'run.php?' . Application :: PARAM_APPLICATION . '=' . PortfolioManager :: APPLICATION_NAME . '&' . Application :: PARAM_ACTION . '=' . self :: ACTION_SHOW_PORTFOLIO_RIGHTS_OVERVIEW;
         $link = Path :: get(WEB_PATH) . 'run.php?' . Application :: PARAM_APPLICATION . '=' . PortfolioManager :: APPLICATION_NAME . '&' . Application :: PARAM_ACTION . '=' . self :: ACTION_SHOW_PORTFOLIO_RIGHTS_OVERVIEW;
-        
+
         $html[] = '<div align="right">';
         $html[] = '<a class="help" target="about:blank" href="';
         $html[] = $link;
-        
+
         $html[] = '" title="';
         $html[] = Translation :: get('ViewAllMyPortfolioPermissions');
         $html[] = '   ">';
@@ -582,7 +582,7 @@ class PortfolioManager extends WebApplication
         $html[] = '</span>';
         $html[] = '</a>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 
@@ -608,7 +608,7 @@ class PortfolioManager extends WebApplication
             {
                 Request :: set_get(self :: PARAM_PORTFOLIO_OWNER_ID, Session :: get_user_id());
             }
-            
+
             return self :: ACTION_VIEW_PORTFOLIO;
         }
     }

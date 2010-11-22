@@ -69,7 +69,7 @@ class GalleryObjectTable
      * @param GalleryObjectTableCellRenderer $cell_renderer
      * @param GalleryObjectTablePropertyModel $property_model
      */
-    function GalleryObjectTable($data_provider, $table_name = null, $cell_renderer = null, $property_model = null)
+    function __construct($data_provider, $table_name = null, $cell_renderer = null, $property_model = null)
     {
         $this->set_data_provider($data_provider);
         $this->set_name($table_name);

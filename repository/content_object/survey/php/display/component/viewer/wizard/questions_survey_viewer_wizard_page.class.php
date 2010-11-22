@@ -14,9 +14,9 @@ class QuestionsSurveyViewerWizardPage extends SurveyViewerWizardPage
     private $page_number;
     private $questions;
 
-    function QuestionsSurveyViewerWizardPage($name, $parent, $number)
+    function __construct($name, $parent, $number)
     {
-        parent :: SurveyViewerWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
         $this->page_number = $number;
         //        $this->addAction('process', new SurveyViewerWizardProcess($this));
 

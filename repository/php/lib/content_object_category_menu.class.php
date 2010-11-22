@@ -13,15 +13,13 @@ use common\libraries\AndCondition;
 use common\libraries\OptionsMenuRenderer;
 use common\libraries\TreeMenuRenderer;
 
-use \HTML_Menu;
-use \HTML_Menu_ArrayRenderer;
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
 
 /**
  * $Id: content_object_category_menu.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__) . '/category_manager/repository_category.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
@@ -60,13 +58,13 @@ class ContentObjectCategoryMenu extends HTML_Menu
      * this menu.
      * @param int $current_category The ID of the current category in the menu.
      * @param string $url_format The format to use for the URL of a category.
-     *                           Passed to sprintf(). Defaults to the string
-     *                           "?category=%s".
+     * Passed to sprintf(). Defaults to the string
+     * "?category=%s".
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      * @param string[] $filter_count_on_types - Array to define the types on which the count on the categories should be filtered
      */
-    function ContentObjectCategoryMenu($owner, $current_category = null, $url_format = '?category=%s', $extra_items = array(), $filter_count_on_types = array())
+    function __construct($owner, $current_category = null, $url_format = '?category=%s', $extra_items = array(), $filter_count_on_types = array())
     {
         $this->owner = $owner;
         $this->urlFmt = $url_format;
@@ -83,10 +81,10 @@ class ContentObjectCategoryMenu extends HTML_Menu
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_menu_items($extra_items)
     {
@@ -96,11 +94,11 @@ class ContentObjectCategoryMenu extends HTML_Menu
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, 0);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
-		$conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_registered_types());
+        $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_registered_types());
 
-        if(count($this->filter_count_on_types))
+        if (count($this->filter_count_on_types))
         {
-        	$conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
+            $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
         }
 
         $condition = new AndCondition($conditions);
@@ -129,8 +127,8 @@ class ContentObjectCategoryMenu extends HTML_Menu
      * @param array $categories The categories to include in this menu.
      * @param int $parent The parent category ID.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_sub_menu_items($parent)
     {
@@ -149,10 +147,10 @@ class ContentObjectCategoryMenu extends HTML_Menu
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
             $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_registered_types());
 
-	        if(count($this->filter_count_on_types))
-	        {
-	        	$conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
-	        }
+            if (count($this->filter_count_on_types))
+            {
+                $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
+            }
 
             $condition = new AndCondition($conditions);
 
@@ -208,7 +206,7 @@ class ContentObjectCategoryMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-	function render_as_tree()
+    function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
@@ -217,7 +215,7 @@ class ContentObjectCategoryMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-    	return Utilities :: get_classname_from_namespace(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }
 ?>

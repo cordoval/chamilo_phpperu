@@ -13,7 +13,7 @@ class DefaultPhotoGalleryTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultPhotoGalleryTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

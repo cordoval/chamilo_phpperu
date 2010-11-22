@@ -67,7 +67,7 @@ class pfcContainer_Mysql extends pfcContainerInterface
   INDEX (`server`,`group`,`subgroup`,`timestamp`)
 ) ENGINE=%engine%;";
     
-  function pfcContainer_Mysql()
+  function __construct()
   {
     pfcContainerInterface::pfcContainerInterface();
   }

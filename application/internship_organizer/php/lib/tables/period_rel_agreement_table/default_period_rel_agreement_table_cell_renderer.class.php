@@ -14,7 +14,7 @@ class DefaultInternshipOrganizerPeriodRelAgreementTableCellRenderer extends Obje
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerPeriodRelAgreementTableCellRenderer()
+    function __construct()
     {
     }
 

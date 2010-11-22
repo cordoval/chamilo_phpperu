@@ -26,7 +26,7 @@ class CourseSectionForm extends FormValidator
     private $course_section;
     private $form_type;
 
-    function CourseSectionForm($form_type, $course_section, $action)
+    function __construct($form_type, $course_section, $action)
     {
         parent :: __construct('course_sections', 'post', $action);
 

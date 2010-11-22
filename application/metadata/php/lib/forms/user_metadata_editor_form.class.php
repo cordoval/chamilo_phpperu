@@ -19,7 +19,7 @@ class UserMetadataEditorForm extends MetadataForm
     private $user;
     private $application;
     
-    function UserMetadataEditorForm($user, $metadata_property_values, $action, $application)
+    function __construct($user, $metadata_property_values, $action, $application)
     {
     	$this->set_parent_type(self :: TYPE);
 

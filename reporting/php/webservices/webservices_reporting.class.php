@@ -27,7 +27,7 @@ class WebServicesReporting
     private $webservice;
     private $validator;
 
-    function WebServicesReporting()
+    function __construct()
     {
         $this->webservice = Webservice :: factory($this);
         $this->validator = Validator :: get_validator('reporting');

@@ -25,7 +25,7 @@ class TypeTemplateForm extends FormValidator
      * Creates a new UserForm
      * Used by the admin to create/update a user
      */
-    function TypeTemplateForm($form_type, $type_template, $action)
+    function __construct($form_type, $type_template, $action)
     {
         parent :: __construct('type_template_edit', 'post', $action);
 

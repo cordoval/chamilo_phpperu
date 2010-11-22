@@ -82,7 +82,7 @@ class ContentObjectCopier
      *
      * @param Int $target_repository
      */
-    function ContentObjectCopier($target_repository = 0)
+    function __construct($target_repository = 0)
     {
         $this->rdm = RepositoryDataManager :: get_instance();
         $this->target_repository = $target_repository;

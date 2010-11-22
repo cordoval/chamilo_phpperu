@@ -4,6 +4,7 @@ namespace application\wiki;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use repository\content_object\wiki\Wiki;
 
 /**
  * $Id: wiki_manager.class.php 210 2009-11-13 13:18:50Z kariboe $
@@ -34,7 +35,7 @@ class WikiManager extends WebApplication
      * Constructor
      * @param User $user The current user
      */
-    function WikiManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
         $this->parse_input_from_table();

@@ -18,7 +18,7 @@ class InternshipOrganizerCategoryRelLocationBrowserTableColumnModel extends Defa
     /**
      * Constructor
      */
-    function InternshipOrganizerCategoryRelLocationBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(0);

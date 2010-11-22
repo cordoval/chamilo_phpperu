@@ -25,7 +25,7 @@ class PhotoGalleryPublicationGalleryBrowserTableCellRenderer extends DefaultPhot
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function PhotoGalleryPublicationGalleryBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

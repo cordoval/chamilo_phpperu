@@ -16,7 +16,7 @@ class DefaultCourseTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultCourseTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

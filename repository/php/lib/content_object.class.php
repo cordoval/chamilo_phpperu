@@ -160,7 +160,7 @@ class ContentObject extends DataClass
      * object; in this case, they will be
      * retrieved when needed.
      */
-    function ContentObject($defaultProperties = array (), $additionalProperties = null)
+    function __construct($defaultProperties = array (), $additionalProperties = null)
     {
         parent :: __construct($defaultProperties);
         $this->additionalProperties = $additionalProperties;

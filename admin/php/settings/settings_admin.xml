@@ -68,7 +68,7 @@
 			</setting>
 		</category>
 		<category name="internationalization">
-			<setting name="hide_dcda_markup" field="checkbox" default="0">
+			<setting name="hide_dcda_markup" field="checkbox" default="1">
 				<options type="static">
 					<option name="hide_dcda_markup" value="1" />
 				</options>
@@ -79,7 +79,7 @@
 				</options>
 			</setting>
 			<setting name="cda_url" field="text" default="http://translate.chamilo.org/" />
-                        <setting name="write_new_variables_to_translation_file" field="checkbox" default="0">
+			<setting name="write_new_variables_to_translation_file" field="checkbox" default="0">
 				<options type="static">
 					<option name="write_new_variables_to_translation_file" value="1" />
 				</options>
@@ -108,7 +108,7 @@
 			<setting name="html_editor" field="radio" default="ckeditor" user_setting="1">
 				<options type="static">
 					<option name="CKEditor" value="ckeditor" />
-					<option name="TinyMCE" value="tinymce" />
+					<!--<option name="TinyMCE" value="tinymce" />-->
 				</options>
 			</setting>
 			<setting name="reload_templates" field="checkbox" default="0">
@@ -142,6 +142,7 @@
 					<option name="show_version_data" value="1" />
 				</options>
 			</setting>
+			<setting name="package_repository" field="text" default="http://packages.chamilo.org/" />
 		</category>
 		<category name="security">
 			<setting name="type_of_filtering" field="radio" default="blacklist">

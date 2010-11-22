@@ -22,7 +22,7 @@ class QuotaBoxBrowserTableColumnModel extends DefaultQuotaBoxTableColumnModel
     /**
      * Constructor
      */
-    function QuotaBoxBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

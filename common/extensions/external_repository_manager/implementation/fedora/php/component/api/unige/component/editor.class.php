@@ -18,11 +18,4 @@ class FedoraUnigeEditorComponent extends FedoraExternalRepositoryManagerEditorCo
 	}
 
 }
-
-
-
-
-
-
-
 ?>

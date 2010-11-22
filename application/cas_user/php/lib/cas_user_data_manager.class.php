@@ -18,7 +18,7 @@ class CasUserDataManager
     /**
      * Constructor.
      */
-    protected function CasUserDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

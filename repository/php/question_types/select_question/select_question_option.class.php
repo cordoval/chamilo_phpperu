@@ -19,7 +19,7 @@ class SelectQuestionOption
      * @param boolean $correct True if the value of this option is a correct
      * answer to the question
      */
-    function SelectQuestionOption($value)
+    function __construct($value)
     {
     	$this->value = $value;
     }

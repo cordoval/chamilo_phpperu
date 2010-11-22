@@ -54,7 +54,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
     /**
      * @param ExternalRepository $external_repository_instance
      */
-    function Hq23ExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
 
         parent :: __construct($external_repository_instance);
@@ -414,22 +414,16 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function update_external_repository_object($values)
     {
-        $success = $this->hq23->photos_setMeta($values[Hq23ExternalRepositoryObject :: PROPERTY_ID], $values[Hq23ExternalRepositoryObject :: PROPERTY_TITLE], $values[Hq23ExternalRepositoryObject :: PROPERTY_DESCRIPTION]);
+        $this->hq23->photos_setMeta($values[Hq23ExternalRepositoryObject :: PROPERTY_ID], '', $values[Hq23ExternalRepositoryObject :: PROPERTY_DESCRIPTION]);
+
+        $tags = explode(',', $values[Hq23ExternalRepositoryObject :: PROPERTY_TAGS]);
+        $tags = '"' . implode('" "', $tags) . '"';
+
+        $success = $this->hq23->photos_setTags($values[Hq23ExternalRepositoryObject :: PROPERTY_ID], $tags);
+
         if (! $success)
         {
             return false;
-        }
-        else
-        {
-            $tags = explode(',', $values[Hq23ExternalRepositoryObject :: PROPERTY_TAGS]);
-            $tags = '"' . implode('" "', $tags) . '"';
-
-            $success = $this->hq23->photos_setTags($values[Hq23ExternalRepositoryObject :: PROPERTY_ID], $tags);
-
-            if (! $success)
-            {
-                return false;
-            }
         }
 
         return true;
@@ -445,7 +439,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
         $tags = explode(',', $values[Hq23ExternalRepositoryObject :: PROPERTY_TAGS]);
         $tags = '"' . implode('" "', $tags) . '"';
 
-        return $this->hq23->sync_upload($photo_path, $values[Hq23ExternalRepositoryObject :: PROPERTY_TITLE], $values[Hq23ExternalRepositoryObject :: PROPERTY_DESCRIPTION], $tags);
+        return $this->hq23->sync_upload($photo_path, '', $values[Hq23ExternalRepositoryObject :: PROPERTY_DESCRIPTION], $tags);
     }
 
     /**

@@ -35,7 +35,7 @@ class Dokeos185BlogRating extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185BlogRating object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185BlogRating($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

@@ -20,6 +20,9 @@ class ToolComponentViewerComponent extends ToolComponent
 
     function run()
     {
+        //check if the content object has indeed been published for the user
+
+
         $trail = BreadcrumbTrail :: get_instance();
 
         $this->action_bar = $this->get_action_bar();

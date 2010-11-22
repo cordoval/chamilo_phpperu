@@ -6,17 +6,29 @@ namespace common\libraries;
  */
 class ObjectTableFormActions
 {
+    /**
+     * @var string
+     */
     private $action;
+    /**
+     * @var array
+     */
     private $form_actions;
+    /**
+     * @var string
+     */
+    private $namespace;
 
     /**
      * @param string $action
      * @param array $form_actions
+     * @param string $namespace
      */
-    function ObjectTableFormActions($action = Application :: PARAM_ACTION, $form_actions = array())
+    function __construct($namespace, $action = Application :: PARAM_ACTION, $form_actions = array())
     {
         $this->action = $action;
         $this->form_actions = $form_actions;
+        $this->namespace = $namespace;
     }
 
     /**
@@ -33,6 +45,22 @@ class ObjectTableFormActions
     public function set_action($action)
     {
         $this->action = $action;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_namespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * @param string $namespace
+     */
+    public function set_namespace($namespace)
+    {
+        $this->namespace = $namespace;
     }
 
     /**

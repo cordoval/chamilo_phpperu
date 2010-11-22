@@ -42,7 +42,7 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
     /**
      * @param ExternalRepository $external_repository_instance
      */
-    function VimeoExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
         

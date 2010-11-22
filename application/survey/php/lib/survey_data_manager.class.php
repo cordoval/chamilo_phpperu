@@ -17,7 +17,7 @@ class SurveyDataManager
     /**
      * Constructor.
      */
-    protected function SurveyDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

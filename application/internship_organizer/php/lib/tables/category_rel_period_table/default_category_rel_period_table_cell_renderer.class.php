@@ -16,7 +16,7 @@ class DefaultInternshipOrganizerCategoryRelPeriodTableCellRenderer extends Objec
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerCategoryRelPeriodTableCellRenderer()
+    function __construct()
     {
     }
 

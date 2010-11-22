@@ -13,9 +13,9 @@ class RowsConfigBuildWizardPage extends BuildWizardPage
 {
     private $values;
 
-    public function RowsConfigBuildWizardPage($name, $parent, $values)
+    public function __construct($name, $parent, $values)
     {
-        parent :: BuildWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
         $this->values = $values;
     }
 

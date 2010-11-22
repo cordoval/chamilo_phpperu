@@ -60,10 +60,10 @@ class GroupManagerUnsubscriberComponent extends GroupManager implements Administ
                     else
                     {
                     	require_once dirname(__FILE__) . '/../../../trackers/group_changes_tracker.class.php';
-                    	
+
                         Event :: trigger('unsubscribe_user', GroupManager :: APPLICATION_NAME, array(
-                                ChangesTracker :: PROPERTY_REFERENCE_ID => $groupreluser->get_group_id(),
-                                GroupChangesTracker :: PROPERTY_TARGET_USER_ID => $groupreluser->get_user_id(), ChangesTracker :: PROPERTY_USER_ID => $user->get_id()));
+                                GroupChangesTracker :: PROPERTY_REFERENCE_ID => $groupreluser->get_group_id(),
+                                GroupChangesTracker :: PROPERTY_TARGET_USER_ID => $groupreluser->get_user_id(), GroupChangesTracker :: PROPERTY_USER_ID => $user->get_id()));
                     }
                 }
                 else
@@ -102,14 +102,14 @@ class GroupManagerUnsubscriberComponent extends GroupManager implements Administ
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupManagerBrowserComponent')));
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), Translation :: get('GroupManagerViewerComponent')));
     	$breadcrumbtrail->add_help('group general');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(GroupManager :: PARAM_GROUP_ID);

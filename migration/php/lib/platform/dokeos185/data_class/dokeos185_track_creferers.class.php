@@ -37,7 +37,7 @@ class Dokeos185TrackCReferers extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackCReferers object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackCReferers($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

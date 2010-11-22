@@ -19,14 +19,14 @@ class InternshipOrganizerPeriodAgreementUserBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function InternshipOrganizerPeriodAgreementUserBrowserTable($browser, $parameters, $condition, $user_type)
+    function __construct($browser, $parameters, $condition, $user_type)
     {
-        
+
         $model = new InternshipOrganizerPeriodAgreementUserBrowserTableColumnModel($browser);
         $renderer = new InternshipOrganizerPeriodAgreementUserBrowserTableCellRenderer($browser, $user_type);
         $data_provider = new InternshipOrganizerPeriodAgreementUserBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, InternshipOrganizerPeriodAgreementUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
-        $actions = new ObjectTableFormActions(InternshipOrganizerPeriodManager :: PARAM_ACTION);
+        $actions = new ObjectTableFormActions(__NAMESPACE__, InternshipOrganizerPeriodManager :: PARAM_ACTION);
         if ($user_type != InternshipOrganizerUserType :: STUDENT)
         {
             if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_AGREEMENT_USER_RIGHT, $browser->get_period()->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
@@ -34,15 +34,16 @@ class InternshipOrganizerPeriodAgreementUserBrowserTable extends ObjectTable
                 $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerPeriodManager :: ACTION_UNSUBSCRIBE_AGREEMENT_REL_USER, Translation :: get('UnsubscribeInternshipOrganizerAgreementRelUser')));
             }
         }
-        
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
-    
+
     }
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(InternshipOrganizerPeriodManager :: PARAM_USER_ID, $ids);
     }
 }

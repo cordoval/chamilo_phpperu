@@ -13,7 +13,7 @@ class SettingsPackageDependency extends PackageDependency
 
     private $value;
 
-    function SettingsPackageDependency($dependency)
+    function __construct($dependency)
     {
         parent :: __construct($dependency);
         $this->set_value($dependency['value']);

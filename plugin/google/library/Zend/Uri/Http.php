@@ -113,7 +113,7 @@ class Zend_Uri_Http extends Zend_Uri
      * @param  string $schemeSpecific The scheme-specific part of the URI
      * @throws Zend_Uri_Exception When the URI is not valid
      */
-    protected function __construct($scheme, $schemeSpecific = '')
+    public function __construct($scheme, $schemeSpecific = '')
     {
         // Set the scheme
         $this->_scheme = $scheme;

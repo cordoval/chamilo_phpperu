@@ -10,7 +10,7 @@ class SurveyContextQuestionReportingTemplate extends ReportingTemplate implement
     private $filter_parameters;
     private $wizard;
 
-    function SurveyContextQuestionReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         

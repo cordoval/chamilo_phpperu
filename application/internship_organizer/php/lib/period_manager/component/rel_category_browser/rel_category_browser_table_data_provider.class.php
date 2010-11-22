@@ -8,7 +8,7 @@ class InternshipOrganizerCategoryRelPeriodBrowserTableDataProvider extends Objec
     
     private $browser;
 
-    function InternshipOrganizerCategoryRelPeriodBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     

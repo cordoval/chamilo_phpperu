@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
 
+use common\libraries\SubManager;
 use common\libraries\LauncherApplication;
 use common\libraries\Utilities;
 

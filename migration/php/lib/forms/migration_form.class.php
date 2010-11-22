@@ -23,7 +23,7 @@ class MigrationForm extends FormValidator
     const PARAM_MIGRATE = 'migrate';
     const PARAM_SELECT_BLOCKS = 'select_blocks';
 
-	function MigrationForm($action)
+	function __construct($action)
     {
         parent :: __construct('migration_settings', 'post', $action);
 

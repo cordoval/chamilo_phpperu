@@ -13,7 +13,7 @@ class SurveyPercentageQuestionReportingTemplate extends ReportingTemplate
     private $filter_parameters;
     private $wizard;
 
-    function SurveyPercentageQuestionReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         

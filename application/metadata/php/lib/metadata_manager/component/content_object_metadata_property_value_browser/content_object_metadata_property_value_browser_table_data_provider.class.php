@@ -16,7 +16,7 @@ class ContentObjectMetadataPropertyValueBrowserTableDataProvider extends ObjectT
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function ContentObjectMetadataPropertyValueBrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }

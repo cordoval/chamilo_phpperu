@@ -4,6 +4,8 @@ namespace common\extensions\external_repository_manager;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\FormValidator;
 /**
  * @package common.html.action_bar
  * $Id: external_repository_search_form.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
@@ -14,12 +16,12 @@ class ExternalRepositorySearchForm extends FormValidator
      * Search parameter
      */
     const PARAM_SIMPLE_SEARCH_QUERY = 'query';
-    
+
     /**
      * Name of the search form
      */
     const FORM_NAME = 'search';
-    
+
     /**
      * The renderer used to display the form
      */
@@ -34,19 +36,19 @@ class ExternalRepositorySearchForm extends FormValidator
      * @param string $url The location to which the search request should be
      * posted.
      */
-    function ExternalRepositorySearchForm($url)
+    function __construct($url)
     {
         parent :: __construct(self :: FORM_NAME, 'post', $url);
         $this->renderer = clone $this->defaultRenderer();
-        
+
         $query = $this->get_query();
         if ($query)
         {
             $this->setDefaults(array(self :: PARAM_SIMPLE_SEARCH_QUERY => $query));
         }
-        
+
         $this->build_simple_search_form();
-        
+
         $this->accept($this->renderer);
     }
 

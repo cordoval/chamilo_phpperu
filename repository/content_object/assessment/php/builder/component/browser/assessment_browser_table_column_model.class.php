@@ -19,7 +19,7 @@ class AssessmentBrowserTableColumnModel extends ComplexBrowserTableColumnModel
     /**
      * Constructor
      */
-    function AssessmentBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         $columns[] = new ObjectTableColumn('weight', false);
         parent :: __construct($browser, $columns);

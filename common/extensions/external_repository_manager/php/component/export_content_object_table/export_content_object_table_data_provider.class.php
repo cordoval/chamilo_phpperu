@@ -25,7 +25,7 @@ class ExportContentObjectTableDataProvider extends ContentObjectTableDataProvide
      * selected.
      * @param string $query The search query.
      */
-    function ExportContentObjectTableDataProvider($owner, $types, $query = null, $parent)
+    function __construct($owner, $types, $query = null, $parent)
     {
         parent :: __construct($owner, $types, $query, $parent);
     }

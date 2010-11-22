@@ -21,7 +21,7 @@ class PublicationBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function PublicationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new PublicationBrowserTableColumnModel();
         $renderer = new PublicationBrowserTableCellRenderer($browser);

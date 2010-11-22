@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/basic_rss.class.php';
 
 abstract class CombinedRSS extends BasicRSS
 {
-	function CombinedRSS($title, $link, $description, $source = '')
+	function __construct($title, $link, $description, $source = '')
 	{
 		$this->set_rss_stream(new RSSStream());
 		$this->set_channel_properties($title, $link, $description, $source);

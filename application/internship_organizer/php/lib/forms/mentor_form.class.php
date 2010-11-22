@@ -24,7 +24,7 @@ class InternshipOrganizerMentorForm extends FormValidator
     private $mentor;
     private $user;
 
-    function InternshipOrganizerMentorForm($form_type, $mentor, $action, $user)
+    function __construct($form_type, $mentor, $action, $user)
     {
         parent :: __construct('mentor_settings', 'post', $action);
         

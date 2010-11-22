@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Utilities;
+use tracking\ChangesTracker;
 
 /**
  * @package application.lib.weblcms.trackers

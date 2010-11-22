@@ -39,7 +39,7 @@ class Translation
     /**
      * Constructor.
      */
-    private function Translation($language = null)
+    private function __construct($language = null)
     {
         if (is_null($language))
         {
@@ -205,7 +205,7 @@ class Translation
     function add_context_internationalization($language, $context)
     {
         $called_class = explode('\\', $context);
-        $path = Path :: get(SYS_PATH) . implode('/', $called_class) . '/resources/i18n/' . $language . '.i18n';
+        $path = Path :: get(SYS_PATH) . implode('/', $called_class) . '/resources/i18n/' . substr($language, 0, 2) . '.i18n';
 
         $strings = parse_ini_file($path);
 

@@ -11,7 +11,7 @@ class XmlTreeMenuRenderer
     private $include_siblings;
     private $include_children;
 
-    function XmlTreeMenuRenderer($menu, $include_children = true, $include_parents = false, $include_siblings = false)
+    function __construct($menu, $include_children = true, $include_parents = false, $include_siblings = false)
     {
         $this->menu = $menu;
         $this->include_children = $include_children;

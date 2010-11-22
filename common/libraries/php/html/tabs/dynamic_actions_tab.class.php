@@ -9,7 +9,7 @@ class DynamicActionsTab extends DynamicTab
      * @param string $image
      * @param Array $actions
      */
-    public function DynamicActionsTab($id, $name, $image, $actions = array())
+    public function __construct($id, $name, $image, $actions = array())
     {
         parent :: __construct($id, $name, $image);
         $this->actions = $actions;

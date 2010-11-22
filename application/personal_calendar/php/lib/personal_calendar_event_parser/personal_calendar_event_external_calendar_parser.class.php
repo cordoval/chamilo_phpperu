@@ -6,7 +6,6 @@ use common\libraries\Application;
 use repository\content_object\external_calendar\ExternalCalendar;
 use IcalRecurrence;
 
-
 class PersonalCalendarEventExternalCalendarParser extends PersonalCalendarEventParser
 {
 
@@ -30,11 +29,12 @@ class PersonalCalendarEventExternalCalendarParser extends PersonalCalendarEventP
                 $event = new PersonalCalendarEvent();
                 $event->set_start_date($occurence[IcalRecurrence :: OCCURENCE_START]);
 
-//                $end_hour = date('Hi', $occurence[IcalRecurrence :: OCCURENCE_END]);
-//                if ($end_hour = '0000')
-//                {
-//                    $occurence[IcalRecurrence :: OCCURENCE_END]--;
-//                }
+                //                $end_hour = date('Hi', $occurence[IcalRecurrence :: OCCURENCE_END]);
+                //                if ($end_hour = '0000')
+                //                {
+                //                    $occurence[IcalRecurrence :: OCCURENCE_END]--;
+                //                }
+
 
                 $event->set_end_date($occurence[IcalRecurrence :: OCCURENCE_END]);
                 $event->set_title($calendar_event->summary['value']);
@@ -54,10 +54,9 @@ class PersonalCalendarEventExternalCalendarParser extends PersonalCalendarEventP
         $parameters = array();
         $parameters[PersonalCalendarManager :: PARAM_ACTION] = PersonalCalendarManager :: ACTION_VIEW_PUBLICATION;
         $parameters[PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
-        $parameters[Application :: PARAM_APPLICATION] = PersonalCalendarManager :: APPLICATION_NAME;
         $parameters[ExternalCalendar :: PARAM_EVENT_ID] = $event->uid['value'];
 
-        return $this->get_parent()->get_link($parameters);
+        return $this->get_parent()->get_link(PersonalCalendarManager :: APPLICATION_NAME, $parameters);
     }
 }
 ?>

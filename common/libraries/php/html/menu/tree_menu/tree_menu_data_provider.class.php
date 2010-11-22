@@ -5,7 +5,7 @@ abstract class TreeMenuDataProvider
     private $selected_tree_menu_item;
     private $url;
 
-    function TreeMenuDataProvider($url, $selected_tree_menu_item)
+    function __construct($url, $selected_tree_menu_item)
     {
         $this->set_url($url);
         $this->set_selected_tree_menu_item($selected_tree_menu_item);

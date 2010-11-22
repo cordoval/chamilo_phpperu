@@ -1,4 +1,16 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicContentTab;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
 
 require_once dirname(__FILE__) . '/registration_browser/browser_table.class.php';
 
@@ -11,10 +23,6 @@ class SurveyContextManagerRegistrationBrowserComponent extends SurveyContextMana
      */
     function run()
     {
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        
-//        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseContextRegistration')));
         $this->ab = $this->get_action_bar();
         
         $output = $this->get_browser_html();

@@ -79,7 +79,8 @@ class Utilities
     {
         if (! is_array($properties))
         {
-            $properties = array($properties);
+            $properties = array(
+                    $properties);
         }
         $queries = self :: split_query($query);
         if (is_null($queries))
@@ -141,12 +142,14 @@ class Utilities
      */
     static function order_content_objects_by_title($objects)
     {
-        usort($objects, array(get_class(), 'by_title'));
+        usort($objects, array(get_class(),
+                'by_title'));
     }
 
     static function order_content_objects_by_id_desc($objects)
     {
-        usort($objects, array(get_class(), 'by_id_desc'));
+        usort($objects, array(get_class(),
+                'by_id_desc'));
     }
 
     /**
@@ -217,7 +220,11 @@ class Utilities
     {
         if (! isset(self :: $camel_us_map[$string]))
         {
-            self :: $camel_us_map[$string] = preg_replace(array('/^([A-Z])/e', '/([A-Z])/e'), array('strtolower("\1")', '"_".strtolower("\1")'), $string);
+            self :: $camel_us_map[$string] = preg_replace(array(
+                    '/^([A-Z])/e',
+                    '/([A-Z])/e'), array(
+                    'strtolower("\1")',
+                    '"_".strtolower("\1")'), $string);
         }
         return self :: $camel_us_map[$string];
     }
@@ -464,7 +471,7 @@ class Utilities
             foreach ($extra_options as $op => $value)
                 $unserializer->setOption($op, $value);
 
-     // userialize the document
+            // userialize the document
             $status = $unserializer->unserialize($file, true);
             if (PEAR :: isError($status))
             {
@@ -482,12 +489,19 @@ class Utilities
         }
     }
 
+    /**
+     * @param string $application
+     */
     static function set_application($application)
     {
         Translation :: set_application($application);
         Theme :: set_application($application);
     }
 
+    /**
+     * @param mixed $value
+     * @return string
+     */
     static function display_true_false_icon($value)
     {
         if ($value)
@@ -501,11 +515,17 @@ class Utilities
         return '<img src="' . Theme :: get_common_image_path() . $icon . '">';
     }
 
+    /**
+     * @param string $string
+     */
     static function htmlentities($string)
     {
         return htmlentities($string, ENT_COMPAT, 'UTF-8');
     }
 
+    /**
+     * @return int
+     */
     static function get_usable_memory()
     {
         $val = trim(@ini_get('memory_limit'));
@@ -550,19 +570,28 @@ class Utilities
         return $memory_limit;
     }
 
+    /**
+     * @param string $mimetype
+     * @return string The image html
+     */
     static function mimetype_to_image($mimetype)
     {
         $mimetype_image = str_replace('/', '_', $mimetype);
         return Theme :: get_common_image('mimetype/' . $mimetype_image, 'png', $mimetype, '', ToolbarItem :: DISPLAY_ICON);
     }
 
+    /**
+     * @param string $classname
+     * @return boolean
+     */
     static function autoload($classname)
     {
         $classname_parts = explode('\\', $classname);
 
         if (count($classname_parts) == 1)
         {
-            return false;
+            // Non-namespaced class, should be a plugin
+            return self :: autoload_plugin($classname);
         }
 
         $unqualified_class_name = $classname_parts[count($classname_parts) - 1];
@@ -574,10 +603,80 @@ class Utilities
             require_once $autoloader_path;
             $autoloader_class = implode('\\', $classname_parts) . '\\Autoloader';
             if ($autoloader_class :: load($unqualified_class_name))
+            {
                 return true;
+            }
+        }
+        //standard fall back
+        $class_filename = self :: camelcase_to_underscores($unqualified_class_name) . '.class.php';
+        $class_path = dirname($autoloader_path) . '/' . $class_filename;
+        if (file_exists($class_path))
+        {
+            require_once $class_path;
+            if (class_exists($classname))
+            {
+                return true;
+            }
         }
     }
 
+    static function autoload_plugin($classname)
+    {
+        // PEAR or ZEND class?
+        $classes = array(
+                'Zend_Loader' => 'Zend/Loader.php',
+                'phpCAS' => 'CAS.php',
+                'MDB2' => 'MDB2.php',
+                'PEAR' => 'PEAR.php',
+                'Contact_Vcard_Build' => 'File/Contact_Vcard_Build.php',
+                'Contact_Vcard_Parse' => 'File/Contact_Vcard_Parse.php',
+                'HTTP_Request' => 'HTTP/Request.php',
+                'Net_LDAP2' => 'Net/LDAP2.php',
+                'Net_LDAP2_Filter' => 'Net/LDAP2/Filter.php',
+                'Pager' => 'Pager/Pager.php',
+                'Pager_Sliding' => 'Pager/Sliding.php',
+                'XML_Unserializer' => 'XML/Unserializer.php',
+                'XML_Serializer' => 'XML/Serializer.php',
+                'HTML_Table' => 'HTML/Table.php',
+                'HTML_QuickForm' => 'HTML/QuickForm.php',
+                'HTML_Menu' => 'HTML/Menu.php',
+                'HTML_Menu_ArrayRenderer' => 'HTML/Menu/ArrayRenderer.php',
+                'HTML_Menu_DirectTreeRenderer' => 'HTML/Menu/DirectTreeRenderer.php',
+                'HTML_QuickForm_Controller' => 'HTML/QuickForm/Controller.php',
+                'HTML_QuickForm_Rule' => 'HTML/QuickForm/Rule.php',
+                'HTML_QuickForm_Page' => 'HTML/QuickForm/Page.php',
+                'HTML_QuickForm_Action' => 'HTML/QuickForm/Action.php',
+                'HTML_QuickForm_RuleRegistry' => 'HTML/QuickForm/RuleRegistry.php',
+                'HTML_QuickForm_Action_Display' => 'HTML/QuickForm/Action/Display.php',
+                'HTML_QuickForm_Rule_Compare' => 'HTML/QuickForm/Rule/Compare.php',
+                'HTML_QuickForm_advmultiselect' => 'HTML/QuickForm/advmultiselect.php',
+                'HTML_QuickForm_button' => 'HTML/QuickForm/button.php',
+                'HTML_QuickForm_checkbox' => 'HTML/QuickForm/checkbox.php',
+                'HTML_QuickForm_date' => 'HTML/QuickForm/date.php',
+                'HTML_QuickForm_element' => 'HTML/QuickForm/element.php',
+                'HTML_QuickForm_file' => 'HTML/QuickForm/file.php',
+                'HTML_QuickForm_group' => 'HTML/QuickForm/group.php',
+                'HTML_QuickForm_hidden' => 'HTML/QuickForm/hidden.php',
+                'HTML_QuickForm_html' => 'HTML/QuickForm/html.php',
+                'HTML_QuickForm_radio' => 'HTML/QuickForm/radio.php',
+                'HTML_QuickForm_select' => 'HTML/QuickForm/select.php',
+                'HTML_QuickForm_text' => 'HTML/QuickForm/text.php',
+                'HTML_QuickForm_textarea' => 'HTML/QuickForm/textarea.php');
+
+        if (array_key_exists($classname, $classes))
+        {
+            require_once $classes[$classname];
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Render a complete backtrace for the currently executing script
+     * @return string The backtrace
+     */
     static function get_backtrace()
     {
         $html = array();
@@ -589,6 +688,14 @@ class Utilities
         return implode('<br/>', $html);
     }
 
+    /**
+     * Get the class name from a fully qualified namespaced class name
+     * if and only if it's in the given namespace
+     *
+     * @param string $namespace
+     * @param string $classname
+     * @return string|boolean The class name or false
+     */
     static function get_namespace_classname($namespace, $classname)
     {
         $classname_parts = explode('\\', $classname);
@@ -612,16 +719,30 @@ class Utilities
         }
     }
 
+    /**
+     * @param Object $object
+     * @param booleean $convert_to_underscores
+     * @return string The class name
+     */
     static function get_classname_from_object($object, $convert_to_underscores = false)
     {
         return self :: get_classname_from_namespace(get_class($object), $convert_to_underscores);
     }
 
+    /**
+     * @param Object $object
+     * @return string The namespace
+     */
     static function get_namespace_from_object($object)
     {
         return self :: get_namespace_from_classname(get_class($object));
     }
 
+    /**
+     * @param string $classname
+     * @param boolean $convert_to_underscores
+     * @return string The class name
+     */
     static function get_classname_from_namespace($classname, $convert_to_underscores = false)
     {
         $classname = array_pop(explode('\\', $classname));
@@ -634,11 +755,29 @@ class Utilities
         return $classname;
     }
 
+    /**
+     * @param string $namespace
+     * @return string The namespace
+     */
     static function get_namespace_from_classname($namespace)
     {
         $namespace_parts = explode('\\', $namespace);
         array_pop($namespace_parts);
         return implode('\\', $namespace_parts);
+    }
+
+    static function load_custom_class($path_hash, $class_name, $prefix_path)
+    {
+        $lower_case = self :: camelcase_to_underscores($class_name);
+
+        if (key_exists($lower_case, $path_hash))
+        {
+            $url = $path_hash[$lower_case];
+            require_once $prefix_path . $url;
+            return true;
+        }
+
+        return false;
     }
 
 }

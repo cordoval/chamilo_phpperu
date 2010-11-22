@@ -39,7 +39,7 @@ class PeerAssessmentPublicationForm extends FormValidator
     private $publication;
     private $user;
 
-    function PeerAssessmentPublicationForm($form_type, $content_object, $user, $action)
+    function __construct($form_type, $content_object, $user, $action)
     {
         parent :: __construct('peer_assessment_publication_settings', 'post', $action);
 

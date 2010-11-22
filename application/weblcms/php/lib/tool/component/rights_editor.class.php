@@ -1,8 +1,12 @@
 <?php
+
 namespace application\weblcms;
 
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Display;
 
 /**
  * $Id: reporting_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -23,19 +27,27 @@ class ToolComponentRightsEditorComponent extends ToolComponent
      */
     function run()
     {
+        $course = $this->get_course();
+        if (!$course->is_course_admin($this->get_user()) && !$this->get_user()->is_platform_admin())
+        {
+            $this->display_header();
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities:: COMMON_LIBRARIES));
+            $this->display_footer();
+            exit();
+        }
         $trail = BreadcrumbTrail :: get_instance();
         $locations = array();
 
         $course = $this->get_course_id();
         $course_module = $this->get_tool_id();
         $category_id = Request :: get(WeblcmsManager :: PARAM_CATEGORY);
-        $publications = Request :: get(WeblcmsManager :: PARAM_PUBLICATION);
+        $publications = Request :: get(WeblcmsManager :: PARAM_PUBLICATION); 
         $this->set_parameter(WeblcmsManager :: PARAM_PUBLICATION, $publications);
 
         if ($publications)
         {
             $type = WeblcmsRights :: TYPE_PUBLICATION;
-            if (! is_array($publications))
+            if (!is_array($publications))
             {
                 $publications = array($publications);
             }

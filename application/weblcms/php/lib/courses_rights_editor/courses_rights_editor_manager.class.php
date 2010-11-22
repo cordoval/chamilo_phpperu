@@ -3,6 +3,7 @@ namespace application\weblcms;
 
 use common\libraries\EqualityCondition;
 use common\extensions\rights_editor_manager\RightsEditorManager;
+use common\libraries\AndCondition;
 
 class CoursesRightsEditorManager extends RightsEditorManager
 {
@@ -14,8 +15,13 @@ class CoursesRightsEditorManager extends RightsEditorManager
         parent :: __construct($parent, $locations);
 
         $users = array();
+        $users[] = $parent->get_user();
 
-        $relations = WeblcmsDataManager :: get_instance()->retrieve_course_user_relations(new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_parent()->get_course_id()));
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_STATUS, CourseUserRelation :: STATUS_STUDENT);
+
+        $relations = WeblcmsDataManager :: get_instance()->retrieve_course_user_relations(new AndCondition($conditions));
         while ($relation = $relations->next_result())
         {
             $users[] = $relation->get_user();

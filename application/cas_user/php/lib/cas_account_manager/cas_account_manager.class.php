@@ -20,7 +20,7 @@ class CasAccountManager extends SubManager
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
-    function CasAccountManager($rights_manager)
+    function __construct($rights_manager)
     {
         parent :: __construct($rights_manager);
     }

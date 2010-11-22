@@ -34,7 +34,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function LanguagePackBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -29,7 +29,7 @@ class CategoryBrowserTableCellRenderer extends DefaultCategoryTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function CategoryBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

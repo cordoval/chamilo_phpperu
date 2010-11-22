@@ -25,7 +25,7 @@ class PmPublicationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function PmPublicationBrowserTable($browser, $name, $parameters, $condition)
+    function __construct($browser, $name, $parameters, $condition)
     {
         $folder = $browser->get_folder();
         $model = new PmPublicationBrowserTableColumnModel($folder);

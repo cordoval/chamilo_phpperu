@@ -18,7 +18,7 @@ abstract class GutenbergPublicationRenderer
     
     protected $browser;
 
-    function GutenbergPublicationRenderer($browser)
+    function __construct($browser)
     {
         $this->browser = $browser;
     }

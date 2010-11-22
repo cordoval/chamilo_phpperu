@@ -24,7 +24,7 @@ class ApplicationComponent
     /**
      * The ApplicationComponent constructor
      */
-    function ApplicationComponent($manager)
+    function __construct($manager)
     {
         $this->manager = $manager;
         $this->id = ++ self :: $component_count;

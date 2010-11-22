@@ -28,7 +28,7 @@ class CourseUserCategoryForm extends FormValidator
     private $user;
     private $parent;
 
-    function CourseUserCategoryForm($form_type, $courseusercategory, $user, $action, $parent)
+    function __construct($form_type, $courseusercategory, $user, $action, $parent)
     {
         parent :: __construct('course_settings', 'post', $action);
 

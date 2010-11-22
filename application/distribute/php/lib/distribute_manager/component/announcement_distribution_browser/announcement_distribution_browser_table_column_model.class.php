@@ -22,7 +22,7 @@ class AnnouncementDistributionBrowserTableColumnModel extends DefaultAnnouncemen
     /**
      * Constructor
      */
-    function AnnouncementDistributionBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(3);

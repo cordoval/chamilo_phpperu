@@ -12,7 +12,7 @@ class ConditionProperty
 	private $property;
 	private $storage_unit;
 	
-	function ConditionProperty($property, $storage_unit = null)
+	function __construct($property, $storage_unit = null)
 	{
 		$this->set_property($property);
 		$this->set_storage_unit($storage_unit);

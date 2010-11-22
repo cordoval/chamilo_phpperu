@@ -17,7 +17,7 @@ class GradebookInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function GradebookInstaller($values)
+    function __construct($values)
     {
 		parent :: __construct($values, GradebookDataManager :: get_instance());
     }

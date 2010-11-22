@@ -20,7 +20,7 @@ class DefaultPhrasesMasteryLevelTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultPhrasesMasteryLevelTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

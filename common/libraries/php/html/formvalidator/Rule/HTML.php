@@ -3,7 +3,6 @@
  * @package common.html.formvalidator.Rule
  */
 // $Id: HTML.php 128 2009-11-09 13:13:20Z vanpouckesven $
-require_once ('HTML/QuickForm/Rule.php');
 require_once (Path :: get_plugin_path() . 'kses-0.2.2/kses.php');
 /**
  * QuickForm rule to check a html

@@ -16,7 +16,7 @@ use common\libraries\Path;
 /**
  * Load Request parent
  */
-require_once dirname() . '/../Request.php';
+require_once dirname(__FILE__) . '/../Request.php';
 
 /**
  * CURL request strategy

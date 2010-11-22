@@ -9,7 +9,7 @@ class ExternalRepositoryLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'external_repository';
 
-    function ExternalRepositoryLauncher($user)
+    function __construct($user)
     {
         parent :: __construct($user);
     }

@@ -186,7 +186,7 @@ abstract class Zend_Uri
      * @param string $scheme         The scheme of the URI
      * @param string $schemeSpecific The scheme-specific part of the URI
      */
-    abstract protected function __construct($scheme, $schemeSpecific = '');
+    abstract public function __construct($scheme, $schemeSpecific = '');
 
     /**
      * Return a string representation of this URI.

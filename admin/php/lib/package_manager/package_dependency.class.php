@@ -40,7 +40,7 @@ abstract class PackageDependency
         return new $class($dependency);
     }
 
-    function PackageDependency($dependency)
+    function __construct($dependency)
     {
         $this->set_id($dependency['id']);
         $this->set_severity($dependency['severity']);

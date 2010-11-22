@@ -28,7 +28,7 @@ class VariableBrowserTable extends ObjectTable
 	/**
 	 * Constructor
 	 */
-	function VariableBrowserTable($browser, $parameters, $condition)
+	function __construct($browser, $parameters, $condition)
 	{
 		$model = new VariableBrowserTableColumnModel();
 		$renderer = new VariableBrowserTableCellRenderer($browser);

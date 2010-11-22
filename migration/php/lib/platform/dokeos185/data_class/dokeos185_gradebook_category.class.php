@@ -38,7 +38,7 @@ class Dokeos185GradebookCategory extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185GradebookCategory object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185GradebookCategory($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

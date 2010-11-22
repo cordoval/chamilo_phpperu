@@ -24,7 +24,7 @@ class PhotobucketExternalRepositoryTableCellRenderer extends DefaultExternalRepo
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function PhotobucketExternalRepositoryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

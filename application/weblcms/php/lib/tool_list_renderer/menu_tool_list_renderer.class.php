@@ -14,7 +14,6 @@ use common\libraries\Utilities;
  * @package application.lib.weblcms.tool_list_renderer
  */
 require_once (dirname(__FILE__) . '/../tool_list_renderer.class.php');
-require_once ('HTML/Table.php');
 /**
  * Tool list renderer to display a navigation menu.
  */
@@ -27,9 +26,9 @@ class MenuToolListRenderer extends ToolListRenderer
      * Constructor
      * @param  WebLcms $parent The parent application
      */
-    function MenuToolListRenderer($parent, $visible_tools)
+    function __construct($parent, $visible_tools)
     {
-        parent :: ToolListRenderer($parent, $visible_tools);
+        parent :: __construct($parent, $visible_tools);
         $this->is_course_admin = $this->get_parent()->is_allowed(WeblcmsRights :: EDIT_RIGHT);
         $this->menu_properties = $this->load_menu_properties();
     }
@@ -123,7 +122,7 @@ class MenuToolListRenderer extends ToolListRenderer
         }
 
         $html[] = '</div>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/tool_bar.js' . '"></script>';
 
         if ($_SESSION['toolbar_state'] == 'hide')
         {

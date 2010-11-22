@@ -1,0 +1,7 @@
+TypeName = "Linker"
+Name = ""
+Url = ""
+Links = ""
+CreateLink = ""
+
+LinkerManagerBrowserComponent = ""

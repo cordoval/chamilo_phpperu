@@ -15,7 +15,7 @@ class DefaultInternshipOrganizerRegionTableCellRenderer extends ObjectTableCellR
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerRegionTableCellRenderer()
+    function __construct()
     {
     }
 

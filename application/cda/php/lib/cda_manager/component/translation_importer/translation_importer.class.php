@@ -25,7 +25,7 @@ abstract class TranslationImporter
 	/**
      * Constructor
      */
-    public function TranslationImporter($branch, $user, $options = array())
+    public function __construct($branch, $user, $options = array())
     {
     	$this->set_branch($branch);
     	$this->set_user($user);

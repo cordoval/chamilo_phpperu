@@ -31,7 +31,7 @@ class pfcTemplate
   var $tpl_filename;
   var $vars;
   
-  function pfcTemplate($tpl_filename = "")
+  function __construct($tpl_filename = "")
   {
     $this->tpl_filename = $tpl_filename;
   }

@@ -24,7 +24,7 @@ class RepositorySharedContentObjectsBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function RepositorySharedContentObjectsBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new RepositorySharedContentObjectsBrowserTableColumnModel();
         $renderer = new RepositorySharedContentObjectsBrowserTableCellRenderer($browser);
@@ -45,7 +45,8 @@ class RepositorySharedContentObjectsBrowserTable extends ObjectTable
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $ids);
     }
 }

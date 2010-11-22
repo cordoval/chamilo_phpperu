@@ -74,7 +74,7 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
      */
     function __construct()
     {
-        parent::__construct();
+        parent :: __construct();
 
         $this->phptype  = 'ibase';
         $this->dbsyntax = 'ibase';

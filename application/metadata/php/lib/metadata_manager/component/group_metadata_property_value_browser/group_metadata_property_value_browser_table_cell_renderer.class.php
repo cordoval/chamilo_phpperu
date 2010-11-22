@@ -31,7 +31,7 @@ class GroupMetadataPropertyValueBrowserTableCellRenderer extends DefaultGroupTab
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function GroupMetadataPropertyValueBrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

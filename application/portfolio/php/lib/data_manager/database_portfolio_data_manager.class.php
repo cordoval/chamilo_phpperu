@@ -7,6 +7,12 @@ use repository\ComplexContentObjectItem;
 use repository\RepositoryDataManager;
 use repository\RepositoryManager;
 use common\libraries\InCondition;
+use repository\ContentObject;
+use common\libraries\Session;
+use common\libraries\ConditionTranslator;
+use repository\ContentObjectPublicationAttributes;
+use common\libraries\Translation;
+
 
 require_once dirname(__FILE__). '/../portfolio_data_manager.interface.class.php';
 
@@ -286,7 +292,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 			$info->set_application(PortfolioManager :: APPLICATION_NAME);
 			
 			$info->set_location(Translation :: get('MyPortfolio'));
-			$info->set_url('run.php?application=portfolio&go=view_portfolio&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);
+			$info->set_url('run.php?application=portfolio&go=viewer&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);
 			$info->set_publication_object_id($record[PortfolioPublication :: PROPERTY_CONTENT_OBJECT]);
 
 			$publication_attr[] = $info;
@@ -315,7 +321,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 		$publication_attr->set_application(PortfolioManager :: APPLICATION_NAME);
 		//TODO: i8n location string
 		$publication_attr->set_location(Translation :: get('MyPortfolio'));
-		$publication_attr->set_url('run.php?application=portfolio&go=view_portfolio&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);
+		$publication_attr->set_url('run.php?application=portfolio&go=viewer&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);
 		$publication_attr->set_publication_object_id($record[PortfolioPublication :: PROPERTY_CONTENT_OBJECT]);
 
 		return $publication_attr;

@@ -18,7 +18,7 @@ class DefaultLaikaCalculatedResultTableCellRenderer extends ObjectTableCellRende
     /**
      * Constructor
      */
-    function DefaultLaikaCalculatedResultTableCellRenderer()
+    function __construct()
     {
     }
 

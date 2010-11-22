@@ -13,7 +13,7 @@ class PoolForm extends FormValidator
 {
     private $user;
 
-    function PoolForm($action, $user)
+    function __construct($action, $user)
     {
         parent :: __construct('pool_form', 'post', $action);
         $this->user = $user;

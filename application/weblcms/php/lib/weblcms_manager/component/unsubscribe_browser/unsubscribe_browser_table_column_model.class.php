@@ -21,7 +21,7 @@ class UnsubscribeBrowserTableColumnModel extends DefaultCourseTableColumnModel
     /**
      * Constructor
      */
-    function UnsubscribeBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(0);

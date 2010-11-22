@@ -5,7 +5,7 @@ use common\libraries\Path;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context_registration.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context_registration.class.php';
 
 class DefaultSurveyContextRegistrationTableColumnModel extends ObjectTableColumnModel
 {
@@ -13,7 +13,7 @@ class DefaultSurveyContextRegistrationTableColumnModel extends ObjectTableColumn
     /**
      * Constructor
      */
-    function DefaultSurveyContextRegistrationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns());
     }

@@ -18,7 +18,6 @@ use HTML_Table;
  */
 require_once (dirname(__FILE__) . '/../tool_list_renderer.class.php');
 require_once (dirname(__FILE__) . '/../course/course_section.class.php');
-require_once ('HTML/Table.php');
 /**
  * Tool list renderer which displays all course tools on a fixed location.
  * Disabled tools will be shown in a disabled looking way.
@@ -33,9 +32,9 @@ class FixedLocationToolListRenderer extends ToolListRenderer
      * Constructor
      * @param  WebLcms $parent The parent application
      */
-    function FixedLocationToolListRenderer($parent, $visible_tools)
+    function __construct($parent, $visible_tools)
     {
-        parent :: ToolListRenderer($parent, $visible_tools);
+        parent :: __construct($parent, $visible_tools);
 
         $course = $parent->get_course();
         $this->course = $course;
@@ -185,14 +184,20 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 // Show visibility-icon
                 if ($parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
                 {
-                    $cell_contents[] = '<a href="' . $parent->get_url(array(Tool :: PARAM_ACTION => $lcms_action, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
-                    $cell_contents[] = '<a href="' . $parent->get_url(array(Tool :: PARAM_ACTION => HomeTool :: ACTION_DELETE_LINKS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
+                    $cell_contents[] = '<a href="' . $parent->get_url(array(
+                            Tool :: PARAM_ACTION => $lcms_action,
+                            Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
+                    $cell_contents[] = '<a href="' . $parent->get_url(array(
+                            Tool :: PARAM_ACTION => HomeTool :: ACTION_DELETE_LINKS,
+                            Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
                     $cell_contents[] = '&nbsp;&nbsp;&nbsp;';
                 }
 
                 // Show tool-icon + name
                 $cell_contents[] = '<a href="' . $parent->get_url(array(
-                        'tool_action' => null, WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $publication->get_tool(),
+                        'tool_action' => null,
+                        WeblcmsManager :: PARAM_COMPONENT_ACTION => null,
+                        WeblcmsManager :: PARAM_TOOL => $publication->get_tool(),
                         Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true) . '" ' . $link_class . '>';
                 $cell_contents[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
                 $cell_contents[] = '&nbsp;';
@@ -297,7 +302,9 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 // Show visibility-icon
                 if ($this->is_course_admin && $section->get_type() != CourseSection :: TYPE_ADMIN)
                 {
-                    $html[] = '<a href="' . $parent->get_url(array(HomeTool :: PARAM_ACTION => $lcms_action, HomeTool :: PARAM_TOOL => $tool->name)) . '"><img class="tool_visible" src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
+                    $html[] = '<a href="' . $parent->get_url(array(
+                            HomeTool :: PARAM_ACTION => $lcms_action,
+                            HomeTool :: PARAM_TOOL => $tool->name)) . '"><img class="tool_visible" src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
                     $html[] = '&nbsp;&nbsp;&nbsp;';
                 }
 
@@ -306,7 +313,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 
                 $html[] = '<img class="tool_image"' . $id . ' src="' . Theme :: get_image_path(Tool :: get_tool_type_namespace($tool->name)) . 'logo/' . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
                 $html[] = '&nbsp;';
-                $html[] = '<a id="tool_text" href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $tool->name, 'tool_action' => null, Tool :: PARAM_BROWSER_TYPE => null), array(), true) . '" ' . $link_class . '>';
+                $html[] = '<a id="tool_text" href="' . $parent->get_url(array(
+                        WeblcmsManager :: PARAM_COMPONENT_ACTION => null,
+                        WeblcmsManager :: PARAM_TOOL => $tool->name,
+                        'tool_action' => null,
+                        Tool :: PARAM_BROWSER_TYPE => null), array(), true) . '" ' . $link_class . '>';
                 $html[] = $title;
                 $html[] = '</a>';
 

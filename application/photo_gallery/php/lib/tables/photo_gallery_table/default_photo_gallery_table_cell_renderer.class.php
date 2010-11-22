@@ -12,7 +12,7 @@ class DefaultPhotoGalleryTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultPhotoGalleryTableCellRenderer()
+    function __construct()
     {
     }
 

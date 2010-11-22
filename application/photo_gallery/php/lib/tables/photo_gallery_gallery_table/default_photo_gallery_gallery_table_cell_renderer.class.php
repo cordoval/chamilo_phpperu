@@ -7,7 +7,7 @@ use application\photo_gallery\PhotoGalleryPublication;
 abstract class DefaultPhotoGalleryGalleryTableCellRenderer implements GalleryObjectTableCellRenderer
 {
 
-    function DefaultPhotoGalleryGalleryTableCellRenderer()
+    function __construct()
     {
     }
 

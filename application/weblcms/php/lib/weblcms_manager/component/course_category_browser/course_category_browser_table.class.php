@@ -21,7 +21,7 @@ class CourseCategoryBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function CourseCategoryBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new CourseCategoryBrowserTableColumnModel();
         $renderer = new CourseCategoryBrowserTableCellRenderer($browser);

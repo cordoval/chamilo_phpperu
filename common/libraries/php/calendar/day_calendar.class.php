@@ -27,11 +27,11 @@ class DayCalendar extends CalendarTable
      * @param int $hour_step The number of hours for one table cell. Defaults to
      * 1.
      */
-    function DayCalendar($display_time, $hour_step = 1)
+    function __construct($display_time, $hour_step = 1)
     {
         $this->navigation_html = '';
         $this->hour_step = $hour_step;
-        parent :: CalendarTable($display_time);
+        parent :: __construct($display_time);
         $cell_mapping = array();
         $this->build_table();
     }
@@ -61,13 +61,13 @@ class DayCalendar extends CalendarTable
     public function get_start_time()
     {
         $hide = LocalSetting :: get('hide_none_working_hours');
-        
-        if($hide)
+
+        if ($hide)
         {
-        	$working_start = LocalSetting :: get('working_hours_start');
-        	return strtotime(date('Y-m-d ' . $working_start . ':00:00', $this->get_display_time()));
+            $working_start = LocalSetting :: get('working_hours_start');
+            return strtotime(date('Y-m-d ' . $working_start . ':00:00', $this->get_display_time()));
         }
-    	return strtotime(date('Y-m-d 00:00:00', $this->get_display_time()));
+        return strtotime(date('Y-m-d 00:00:00', $this->get_display_time()));
     }
 
     /**
@@ -77,14 +77,14 @@ class DayCalendar extends CalendarTable
     public function get_end_time()
     {
         $hide = LocalSetting :: get('hide_none_working_hours');
-        
-        if($hide)
+
+        if ($hide)
         {
-        	$working_end = LocalSetting :: get('working_hours_end');
-        	return strtotime(date('Y-m-d ' . ($working_end - 1) . ':59:59', $this->get_display_time()));
+            $working_end = LocalSetting :: get('working_hours_end');
+            return strtotime(date('Y-m-d ' . ($working_end - 1) . ':59:59', $this->get_display_time()));
         }
-    	
-    	return strtotime('+24 Hours', $this->get_start_time());
+
+        return strtotime('+24 Hours', $this->get_start_time());
     }
 
     /**
@@ -96,7 +96,8 @@ class DayCalendar extends CalendarTable
         $year_week = date('W', $this->get_display_time());
 
         $header = $this->getHeader();
-        $header->addRow(array(Translation :: get('Day') . ' ' . $year_day . ', ' . Translation :: get('Week') . ' ' . $year_week));
+        $header->addRow(array(
+                Translation :: get('Day') . ' ' . $year_day . ', ' . Translation :: get('Week') . ' ' . $year_week));
         $header->setRowType(0, 'th');
 
         $working_start = LocalSetting :: get('working_hours_start');
@@ -104,13 +105,13 @@ class DayCalendar extends CalendarTable
         $hide = LocalSetting :: get('hide_none_working_hours');
         $start = 0;
         $end = 24;
-        
-        if($hide)
+
+        if ($hide)
         {
-        	$start = $working_start;
-        	$end = $working_end;
+            $start = $working_start;
+            $end = $working_end;
         }
-        
+
         for($hour = $start; $hour < $end; $hour += $this->get_hour_step())
         {
             $table_start_date = mktime($hour, 0, 0, date('m', $this->get_display_time()), date('d', $this->get_display_time()), date('Y', $this->get_display_time()));
@@ -142,21 +143,21 @@ class DayCalendar extends CalendarTable
      */
     private function add_events()
     {
-        
+
         $events = $this->get_events_to_show();
-        
-    	$working_start = LocalSetting :: get('working_hours_start');
+
+        $working_start = LocalSetting :: get('working_hours_start');
         $working_end = LocalSetting :: get('working_hours_end');
         $hide = LocalSetting :: get('hide_none_working_hours');
         $start = 0;
         $end = 24;
-        
-        if($hide)
+
+        if ($hide)
         {
-        	$start = $working_start;
-        	$end = $working_end;
+            $start = $working_start;
+            $end = $working_end;
         }
-        
+
         foreach ($events as $time => $items)
         {
             if ($time >= $this->get_end_time())

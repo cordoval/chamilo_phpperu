@@ -44,7 +44,7 @@ class HomeManager extends CoreApplication
     private $user;
     private $breadcrumbs;
 
-    function HomeManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
     }

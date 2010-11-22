@@ -3,17 +3,16 @@
  * $Id: option_orderer.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.formvalidator.Element
  */
-require_once 'HTML/QuickForm/hidden.php';
 
 class HTML_QuickForm_option_orderer extends HTML_QuickForm_hidden
 {
     private $options;
 
-    function HTML_QuickForm_option_orderer($name, $label, $options, $separator = '|', $attributes = array())
+    function __construct($name, $label, $options, $separator = '|', $attributes = array())
     {
         $this->separator = $separator;
         $value = (isset($_REQUEST[$name]) ? $_REQUEST[$name] : implode($this->separator, array_keys($options)));
-        HTML_QuickForm_hidden :: HTML_QuickForm_hidden($name, $value, $attributes);
+        parent :: __construct($name, $value, $attributes);
         $this->options = $options;
     }
 

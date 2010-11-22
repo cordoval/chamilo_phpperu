@@ -5,6 +5,7 @@ use common\libraries\FormValidator;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\StringUtilities;
+
 use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
 /**
  * $Id: flickr_external_repository_manager_form.class.php 224 2009-11-13 14:40:30Z kariboe $
@@ -24,7 +25,7 @@ class FlickrExternalRepositoryManagerForm extends FormValidator
     private $form_type;
     private $external_repository_object;
 
-    function FlickrExternalRepositoryManagerForm($form_type, $action, $application)
+    function __construct($form_type, $action, $application)
     {
         parent :: __construct(Utilities :: get_classname_from_object($this, true), 'post', $action);
 

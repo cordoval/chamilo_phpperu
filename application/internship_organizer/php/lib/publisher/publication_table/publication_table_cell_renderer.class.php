@@ -26,7 +26,7 @@ class InternshipOrganizerPublicationTableCellRenderer extends DefaultInternshipO
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function InternshipOrganizerPublicationTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

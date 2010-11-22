@@ -21,7 +21,7 @@ class PersonalCalendarEvent
     private $source;
     private $id;
 
-    function PersonalCalendarEvent()
+    function __construct()
     {
     }
 

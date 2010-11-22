@@ -1,0 +1,12 @@
+ContentObject = ""
+ExternalRepository = ""
+FlickrUploadProblem = ""
+MostRecent = ""
+MostInteresting = ""
+MyPhotos = ""
+AvailableSizes = ""
+Tags = ""
+License = ""
+FileName = ""
+
+TypeName = "Flickr"

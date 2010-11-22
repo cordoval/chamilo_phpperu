@@ -31,7 +31,7 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function RepositorySharedContentObjectsBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

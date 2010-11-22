@@ -26,7 +26,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function SurveyPublicationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

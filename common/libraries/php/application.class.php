@@ -28,7 +28,7 @@ abstract class Application
 
     const PLACEHOLDER_APPLICATION = '__APPLICATION__';
 
-    function Application($user)
+    function __construct($user)
     {
         $this->user = $user;
         $this->parameters = array();
@@ -236,7 +236,7 @@ abstract class Application
             $breadcrumbtrail = BreadcrumbTrail :: get_instance();
             if ($breadcrumbtrail->size() == 1)
             {
-                $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($this->get_application_name()))));
+                $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('TypeName', null, self :: determine_namespace($this->get_application_name()))));
             }
         }
 
@@ -418,7 +418,7 @@ abstract class Application
     public static function get_application_platform_admin_links($application = self :: PARAM_APPLICATION)
     {
         $info = array();
-        $info['application'] = array('name' => Translation :: get(self :: application_to_class($application), null, Application :: determine_namespace($application)), 'class' => $application);
+        $info['application'] = array('name' => Translation :: get('TypeName', null, Application :: determine_namespace($application)), 'class' => $application);
         $info['links'] = array();
         $info['search'] = null;
 
@@ -518,7 +518,7 @@ abstract class Application
             $application_name = Application :: application_to_class($this->get_application_name());
 
             $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
+            $trail->add(new Breadcrumb('#', Translation :: get('TypeName', null, self :: determine_namespace($this->get_application_name()))));
 
             Display :: header($trail);
             Display :: error_message(implode("\n", $message));
@@ -643,10 +643,13 @@ abstract class Application
         $table_name = Request :: post('table_name');
         if (isset($table_name))
         {
+            $namespace = Request :: post($table_name . '_namespace');
             $class = Utilities :: underscores_to_camelcase($table_name);
-            if (class_exists($class))
+            $classname = $namespace . '\\' . $class;
+
+            if (class_exists($classname))
             {
-                call_user_func(array($class, 'handle_table_action'));
+                call_user_func(array($classname, 'handle_table_action'));
 
                 $table_action_name = Request :: post($table_name . '_action_name');
                 $table_action_value = Request :: post($table_name . '_action_value');
@@ -765,7 +768,7 @@ abstract class Application
             }
             else
             {
-                $trail->add(new Breadcrumb($component->get_url(), Translation :: get(self :: application_to_class($application_name), null, $context)));
+                $trail->add(new Breadcrumb($component->get_url(), Translation :: get('TypeName', null, $context)));
             }
 
             $component->add_additional_breadcrumbs($trail);

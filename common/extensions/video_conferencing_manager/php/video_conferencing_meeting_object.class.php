@@ -30,7 +30,7 @@ abstract class VideoConferencingMeetingObject
     /**
      * @param array $default_properties
      */
-    function VideoConferencingMeetingObject($default_properties = array ())
+    function __construct($default_properties = array ())
     {
         $this->default_properties = $default_properties;
     }

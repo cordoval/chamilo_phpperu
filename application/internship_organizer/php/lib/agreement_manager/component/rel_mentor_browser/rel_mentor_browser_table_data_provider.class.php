@@ -8,7 +8,7 @@ class InternshipOrganizerAgreementRelMentorBrowserTableDataProvider extends Obje
     
     private $browser;
 
-    function InternshipOrganizerAgreementRelMentorBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     

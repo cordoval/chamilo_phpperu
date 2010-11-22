@@ -31,7 +31,7 @@ class Dokeos185BlogRelUser extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185BlogRelUser object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185BlogRelUser($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

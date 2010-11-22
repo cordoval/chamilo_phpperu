@@ -32,7 +32,7 @@ abstract class DataClass
      * @param array $defaultProperties The default properties of the data class
      * object. Associative array.
      */
-    function DataClass($defaultProperties = array (), $optionalProperties = array())
+    function __construct($defaultProperties = array (), $optionalProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
         $this->optionalProperties = $optionalProperties;

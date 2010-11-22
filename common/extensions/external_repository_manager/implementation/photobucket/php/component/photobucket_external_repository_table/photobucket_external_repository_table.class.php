@@ -17,7 +17,7 @@ class PhotobucketExternalRepositoryTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function PhotobucketExternalRepositoryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new PhotobucketExternalRepositoryTableColumnModel();
         $renderer = new PhotobucketExternalRepositoryTableCellRenderer($browser);

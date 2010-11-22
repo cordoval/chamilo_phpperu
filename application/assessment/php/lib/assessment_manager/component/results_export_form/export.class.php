@@ -23,7 +23,7 @@ abstract class ResultsExport
     protected $wdm;
     protected $rdm;
 
-    function ResultsExport()
+    function __construct()
     {
         $this->wdm = WeblcmsDataManager :: get_instance();
         $this->rdm = RepositoryDataManager :: get_instance();

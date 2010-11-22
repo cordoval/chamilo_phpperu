@@ -28,7 +28,6 @@ use common\libraries\Text;
  * $Id: search_searcher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.search.component
  */
-require_once 'Pager/Pager.php';
 /**
  * Tool to search in the course.
  * @todo: Link from search results to location in course

@@ -20,7 +20,7 @@ class MediamosaExternalRepositoryTableColumnModel extends DefaultExternalReposit
     /**
      * Constructor
      */
-    function MediamosaExternalRepositoryTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

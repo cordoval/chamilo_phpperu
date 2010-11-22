@@ -23,7 +23,7 @@ class CategoryQuotaBoxBrowserTableDataProvider extends ObjectTableDataProvider
      * @param Condition $condition
      */
     
-    function CategoryQuotaBoxBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

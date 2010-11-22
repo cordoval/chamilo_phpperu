@@ -65,7 +65,7 @@ class CourseGroupTable
      * @param CourseGroupTableCellRenderer $cell_renderer The cell renderer for the
      * table. Omit to use the default renderer.
      */
-    function CourseGroupTable($parent, $data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
+    function __construct($parent, $data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
     {
         $this->parent = $parent;
         $this->set_data_provider($data_provider);
@@ -75,7 +75,7 @@ class CourseGroupTable
         $this->set_default_row_count(10);
         $this->set_additional_parameters($this->determine_additional_parameters());
 
-        $actions = new ObjectTableFormActions(CourseGroupTool :: PARAM_ACTION);
+        $actions = new ObjectTableFormActions(__NAMESPACE__, CourseGroupTool :: PARAM_ACTION);
         if ($parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $actions->add_form_action(new ObjectTableFormAction(CourseGroupTool :: ACTION_DELETE_COURSE_GROUP, Translation :: get('RemoveSelected',null,Utilities:: COMMON_LIBRARIES )));
@@ -85,7 +85,8 @@ class CourseGroupTable
 
     function handle_table_action()
     {
-        $selected_ids = Request :: post(Utilities :: camelcase_to_underscores(self :: DEFAULT_NAME) . self :: CHECKBOX_NAME_SUFFIX);
+        $class = Utilities :: get_classname_from_namespace(self :: DEFAULT_NAME, true);
+        $selected_ids = Request :: post($class . self :: CHECKBOX_NAME_SUFFIX);
 
         if (empty($selected_ids))
         {

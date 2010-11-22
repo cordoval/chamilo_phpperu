@@ -22,20 +22,16 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use application\weblcms\ContentObjectPublicationBrowser;
+use application\weblcms\MiniMonthCalendarContentObjectPublicationListRenderer;
+use application\weblcms\MonthCalendarContentObjectPublicationListRenderer;
+use application\weblcms\DayCalendarContentObjectPublicationListRenderer;
+use application\weblcms\ContentObjectPublicationDetailsRenderer;
 
 /**
  * $Id: calendar_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.calendar.component.calendar_viewer
  */
-require_once dirname(__FILE__) . '/../../../../content_object_publication_browser.class.php';
-require_once dirname(__FILE__) . '/calendar_list_renderer.class.php';
-require_once dirname(__FILE__) . '/calendar_details_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/mini_month_calendar_content_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/month_calendar_content_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/week_calendar_content_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/day_calendar_content_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
-
 class CalendarBrowser extends ContentObjectPublicationBrowser
 {
     const CALENDAR_MONTH_VIEW = 'month';
@@ -45,7 +41,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
     private $publications;
     private $time;
 
-    function CalendarBrowser($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent, 'calendar');
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID))

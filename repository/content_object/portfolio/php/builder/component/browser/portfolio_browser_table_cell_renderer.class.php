@@ -22,7 +22,7 @@ class PortfolioBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function PortfolioBrowserTableCellRenderer($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

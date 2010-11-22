@@ -9,7 +9,7 @@ class Breadcrumb
     private $url;
     private $name;
 
-    function Breadcrumb($url, $name)
+    function __construct($url, $name)
     {
         $this->url = $url;
         $this->name = $name;

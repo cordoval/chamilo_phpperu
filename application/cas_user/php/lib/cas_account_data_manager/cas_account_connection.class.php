@@ -27,7 +27,7 @@ class CasAccountConnection extends Connection
     /**
      * Constructor.
      */
-    private function CasAccountConnection()
+    private function __construct()
     {
         $cas_dbms = PlatformSetting :: get('dbms', CasUserManager :: APPLICATION_NAME);
         $cas_user = PlatformSetting :: get('user', CasUserManager :: APPLICATION_NAME);

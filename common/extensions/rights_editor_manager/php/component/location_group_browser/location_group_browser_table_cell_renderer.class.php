@@ -27,7 +27,7 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function LocationGroupBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

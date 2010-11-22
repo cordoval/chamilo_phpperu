@@ -17,7 +17,7 @@ class DefaultTypeTemplateTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultTypeTemplateTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

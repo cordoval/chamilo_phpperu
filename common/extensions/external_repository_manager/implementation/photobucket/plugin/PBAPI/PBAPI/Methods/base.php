@@ -17,7 +17,7 @@ use common\libraries\Path;
 /**
  * Load Methods parent
  */
-require_once dirname() . '/../Methods.php';
+require_once dirname(__FILE__) . '/../Methods.php';
 
 /**
  * Base API methods

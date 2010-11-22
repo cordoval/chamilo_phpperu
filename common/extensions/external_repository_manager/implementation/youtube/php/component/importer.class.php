@@ -26,11 +26,8 @@ class YoutubeExternalRepositoryManagerImporterComponent extends YoutubeExternalR
         $youtube = ContentObject :: factory(Youtube :: get_type_name());
         $youtube->set_title($object->get_title());
         $youtube->set_description($object->get_description());
-        $youtube->set_url('http://www.youtube.com/watch?v=' . $object->get_id());
-        $youtube->set_height(344);
-        $youtube->set_width(425);
         $youtube->set_owner_id($this->get_user_id());
-        
+
         if ($youtube->create())
         {
             ExternalRepositorySync :: quicksave($youtube, $object, $this->get_external_repository()->get_id());
@@ -45,7 +42,7 @@ class YoutubeExternalRepositoryManagerImporterComponent extends YoutubeExternalR
             $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
             $this->redirect(Translation :: get('ObjectFailedImported', null, Utilities :: COMMON_LIBRARIES), true, $parameters);
         }
-    
+
     }
 }
 ?>

@@ -37,7 +37,7 @@ class LearningPathContentObjectDisplay
         }
     }
 
-    function LearningPathContentObjectDisplay($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

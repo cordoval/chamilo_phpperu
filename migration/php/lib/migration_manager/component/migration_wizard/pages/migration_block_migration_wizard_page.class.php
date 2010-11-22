@@ -16,7 +16,7 @@ class MigrationBlockMigrationWizardPage extends MigrationWizardPage
     
 	private $block;
 	
-	function MigrationBlockMigrationWizardPage($parent, $name, $block)
+	function __construct($parent, $name, $block)
 	{
 		parent :: __construct($parent, $name);
 		$this->block = $block;

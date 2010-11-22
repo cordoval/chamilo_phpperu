@@ -15,7 +15,7 @@ class DefaultAlexiaPublicationTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultAlexiaPublicationTableCellRenderer()
+    function __construct()
     {
     }
 

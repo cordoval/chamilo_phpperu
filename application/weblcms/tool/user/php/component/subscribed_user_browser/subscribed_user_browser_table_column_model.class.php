@@ -27,7 +27,7 @@ class SubscribedUserBrowserTableColumnModel extends DefaultUserTableColumnModel
     /**
      * Constructor
      */
-    function SubscribedUserBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->add_column(new ObjectTableColumn(User :: PROPERTY_USERNAME));

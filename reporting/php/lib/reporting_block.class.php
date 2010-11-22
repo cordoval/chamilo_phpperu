@@ -34,7 +34,7 @@ abstract class ReportingBlock
 
     private $id, $data, $params, $parent;
 
-    function ReportingBlock($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

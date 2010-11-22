@@ -31,7 +31,7 @@ class LearningPathContentObjectDisplay
             return new self($parent);
     }
 
-    function LearningPathContentObjectDisplay($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

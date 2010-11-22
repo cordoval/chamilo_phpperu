@@ -33,7 +33,7 @@ class ContentObjectImportForm extends FormValidator
      * @param string $method The method to use ('post' or 'get').
      * @param string $action The URL to which the form should be submitted.
      */
-    function ContentObjectImportForm($form_name, $method = 'post', $action = null, $category, $user, $import_type = null, $show_category = true)
+    function __construct($form_name, $method = 'post', $action = null, $category, $user, $import_type = null, $show_category = true)
     {
         parent :: __construct($form_name, $method, $action);
         $this->category = $category;

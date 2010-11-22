@@ -38,7 +38,7 @@ abstract class ImageManipulation
      * @param string $source_file Full path of the image file on which the
      * manipulations should be done
      */
-    function ImageManipulation($source_file)
+    function __construct($source_file)
     {
         $this->source_file = $source_file;
         $dimension = getimagesize($source_file);

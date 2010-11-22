@@ -25,7 +25,7 @@ class LocationRightsTemplateBrowserTableCellRenderer extends DefaultRightsTempla
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function LocationRightsTemplateBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -19,7 +19,7 @@ class DefaultWikiPublicationTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultWikiPublicationTableColumnModel($columns)
+    function __construct($columns)
     {
         parent :: __construct(empty($columns) ? self :: get_default_columns() : $columns, 1);
     }

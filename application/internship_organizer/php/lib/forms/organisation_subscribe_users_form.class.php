@@ -25,7 +25,7 @@ class InternshipOrganizerOrganisationSubscribeUsersForm extends FormValidator
     private $organisation;
     private $user;
 
-    function InternshipOrganizerOrganisationSubscribeUsersForm($organisation, $action, $user)
+    function __construct($organisation, $action, $user)
     {
         parent :: __construct('create_organisation', 'post', $action);
         

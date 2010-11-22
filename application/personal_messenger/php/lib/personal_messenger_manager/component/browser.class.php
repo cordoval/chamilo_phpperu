@@ -32,14 +32,6 @@ class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManager
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get(ucfirst($this->get_folder()))));
 
-        if(!PersonalMessengerRights :: is_allowed_in_personal_messenger_subtree(PersonalMessengerRights :: RIGHT_BROWSE, PersonalMessengerRights :: get_personal_messenger_subtree_root()))
-        {
-            $this->display_header();
-                Display :: error_message(Translation :: get("NotAllowed", null , Utilities :: COMMON_LIBRARIES));
-                $this->display_footer();
-                exit();
-        }
-
         $this->display_header($trail);
         echo $this->get_action_bar_html() . '';
         echo $this->get_publications_html();

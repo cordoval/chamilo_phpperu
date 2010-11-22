@@ -1,9 +1,11 @@
 <?php
 namespace admin;
+
 use common\libraries\Utilities;
 use common\libraries\DataClass;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+
 /**
  * $Id: registration.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib
@@ -22,6 +24,8 @@ class Registration extends DataClass
     const TYPE_CONTENT_OBJECT = 'content_object';
     const TYPE_APPLICATION = 'application';
     const TYPE_LANGUAGE = 'language';
+    const TYPE_EXTENSION = 'extension';
+    const TYPE_EXTERNAL_REPOSITORY_MANAGER = 'external_repository_manager';
 
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
@@ -187,6 +191,11 @@ class Registration extends DataClass
         }
 
         return parent :: delete();
+    }
+
+    static function get_types()
+    {
+        return array(self :: TYPE_APPLICATION, self :: TYPE_CONTENT_OBJECT, self :: TYPE_LANGUAGE, self :: TYPE_EXTERNAL_REPOSITORY_MANAGER, self :: TYPE_EXTENSION);
     }
 }
 ?>

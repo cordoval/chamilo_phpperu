@@ -22,7 +22,7 @@ class getid3_write_metaflac
 	var $warnings = array(); // any non-critical errors will be stored here
 	var $errors   = array(); // any critical errors will be stored here
 
-	function getid3_write_metaflac() {
+	function __construct() {
 		return true;
 	}
 

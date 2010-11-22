@@ -12,7 +12,7 @@ class DataClassGenerator
     /**
      * Constructor
      */
-    function DataClassGenerator()
+    function __construct()
     {
     }
 

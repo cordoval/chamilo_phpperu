@@ -19,9 +19,10 @@ class ToolComponentUpdaterComponent extends ToolComponent
 
     function run()
     {
-        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+        $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];
+
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT,$pid))
         {
-            $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];
 
             $datamanager = WeblcmsDataManager :: get_instance();
             $publication = $datamanager->retrieve_content_object_publication($pid);
@@ -109,6 +110,10 @@ class ToolComponentUpdaterComponent extends ToolComponent
                 $form->display();
                 $this->display_footer();
             }
+        }
+        else
+        {
+            $this->redirect(Translation :: get("NotAllowed"), '', array(Tool :: PARAM_PUBLICATION_ID => null, 'tool_action' => null));
         }
     }
 

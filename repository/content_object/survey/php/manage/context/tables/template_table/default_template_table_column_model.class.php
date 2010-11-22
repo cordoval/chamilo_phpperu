@@ -16,7 +16,7 @@ class DefaultSurveyTemplateTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultSurveyTemplateTableColumnModel($survey_template_type)
+    function __construct($survey_template_type)
     {
         $this->survey_template_type = $survey_template_type;
         parent :: __construct(self :: get_default_columns());

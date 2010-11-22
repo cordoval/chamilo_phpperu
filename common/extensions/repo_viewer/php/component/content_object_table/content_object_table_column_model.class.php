@@ -25,7 +25,7 @@ class ContentObjectTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor.
      */
-    function ContentObjectTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_columns(), 1, SORT_ASC);
     }

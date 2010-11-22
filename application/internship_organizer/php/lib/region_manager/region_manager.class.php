@@ -28,7 +28,7 @@ class InternshipOrganizerRegionManager extends SubManager
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_REGIONS;
 
-    function InternshipOrganizerRegionManager($internship_manager)
+    function __construct($internship_manager)
     {
         parent :: __construct($internship_manager);
     }

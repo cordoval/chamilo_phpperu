@@ -34,7 +34,7 @@ class SoundcloudExternalRepositoryManager extends ExternalRepositoryManager
     /**
      * @param Application $application
      */
-    function SoundcloudExternalRepositoryManager($external_repository, $application)
+    function __construct($external_repository, $application)
     {
         parent :: __construct($external_repository, $application);
         $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));

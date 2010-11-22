@@ -4,6 +4,7 @@ namespace group;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\FormValidator;
+use common\libraries\Path;
 
 /**
  * @author Hans De Bisschop
@@ -34,7 +35,7 @@ class GroupUsageForm extends FormValidator
      * @param User $user
      * @param string|null $application
      */
-    function GroupUsageForm($action, Group $group, User $user, $application = null)
+    function __construct($action, Group $group, User $user, $application = null)
     {
         parent :: __construct('group_usage_settings', 'post', $action);
 
@@ -62,7 +63,7 @@ class GroupUsageForm extends FormValidator
         //        }
 
 
-        $url = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
+        $url = Path :: get(WEB_PATH) . 'group/php/xml_feeds/xml_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectUsableGroup');
         $locale['Searching'] = Translation :: get('Searching', null , Utilities :: COMMON_LIBRARIES);

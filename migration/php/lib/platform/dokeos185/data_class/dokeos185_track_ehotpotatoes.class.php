@@ -37,7 +37,7 @@ class Dokeos185TrackEHotpotatoes extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackEHotpotatoes object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackEHotpotatoes($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

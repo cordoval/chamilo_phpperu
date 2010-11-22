@@ -33,7 +33,7 @@ class Dokeos185RolePermissions extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185RolePermissions object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185RolePermissions($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

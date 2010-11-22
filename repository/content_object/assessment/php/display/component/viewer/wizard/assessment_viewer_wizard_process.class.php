@@ -20,7 +20,7 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 {
     private $parent;
 
-    public function AssessmentViewerWizardProcess($parent)
+    public function __construct($parent)
     {
         $this->parent = $parent;
     }

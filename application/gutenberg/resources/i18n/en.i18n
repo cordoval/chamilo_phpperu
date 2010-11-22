@@ -1,0 +1,8 @@
+TypeName = "Gutenberg"
+Gutenberg = ""
+GutenbergPublicationRendererTypeDoesNotExist = ""
+NoGutenbergPublicationsAvailable = ""
+Stop = ""
+Play = ""
+
+GutenbergManagerBrowserComponent = ""

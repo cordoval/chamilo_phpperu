@@ -30,7 +30,7 @@ class DefaultCourseGroupTableColumnModel extends CourseGroupTableColumnModel
     /**
      * Constructor
      */
-    function DefaultCourseGroupTableColumnModel($course_group_tool)
+    function __construct($course_group_tool)
     {
         $this->course_group_tool = $course_group_tool;
         parent :: __construct($this->get_default_columns(), 1);

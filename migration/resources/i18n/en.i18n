@@ -1,0 +1,122 @@
+TypeName = "Migration"
+NoCommandLineMigrationSettingsFileFound = ""
+CouldNotFindPlatform = "Could not find platform"
+General = "General"
+CanNotFindMigrationBlock = "Can not find migration block"
+Settings = "Settings"
+Next = "Next"
+Confirm = "Confirm"
+PleaseStandBy = "Please stand by"
+SettingsCleaner = "Settings cleaner"
+CanNotFindMigrationProperties = "Can not find migration properties"
+MigrationManagerMigrationComponent = "Migrate"
+MigrationManagerSettingsCleanerComponent = "Settings cleaner"
+MigrateDescription = "Migrate the data from another platform to chamilo"
+SettingsCleanerDescription = "Clean the stored settings from the database"
+
+Migrate = "Migrate";
+MigrateUsers = "Migrate users";
+MigratePersonalAgendas = "Migrate personal agendas";
+MigrateSettings = "Migrate settings";
+MigrateClasses = "Migrate classes";
+MigrateCourses = "Migrate courses";
+MigrateCourseAnnouncements = "Migrate course announcements";
+MigrateCourseAssignments = "Migrate course assignments";
+MigrateCourseBlogs = "Migrate course blogs";
+MigrateCourseCalendarEvents = "Migrate course calendar events";
+MigrateCourseDocuments = "Migrate course documents";
+MigrateCourseDropboxes = "Migrate course dropboxes";
+MigrateCourseForums = "Migrate course forums";
+MigrateCourseGroups = "Migrate course groups";
+MigrateCourseLearningPaths = "Migrate course learning paths";
+MigrateCourseLinks = "Migrate course links";
+MigrateCourseMetadata = "Migrate course metadata";
+MigrateCourseQuizzes = "Migrate course quizzes";
+MigrateCourseScorms = "Migrate course scorms";
+MigrateCourseStudentPublications = "Migrate course student publications";
+MigrateCourseSurveys = "Migrate course surveys";
+MigrateTrackers = "Migrate trackers";
+
+ConfirmationMigrationPageInfo = "Confirm your settings before starting the migration process";
+Platform = "Platform";
+PlatformPath = "Platform path";
+MoveFiles = "Move files";
+MigrateDeletedFiles = "Migrate deleted files";
+MigrationBlocks = "Migration blocks";
+SelectedBlocksAlreadyMigrated = "Selected blocks already migrated";
+SelectedBlocksToMigrate = "Selected blocks to migrate";
+NotSelectedBlocks = "Not selected blocks";
+SettingsValidation = "Settings validation";
+SettingsValid = "Settings valid";
+SettingsNotValid = "Settings not valid";
+BlockPrerequisitesCheckFailed = "Prerequisites check failed for block: {BLOCK}";
+NoBlocksSelected = "No blocks selected";
+PlatformConfigurationCanNotBeFound = "Configuration file could not be found";
+CouldNotConnectToPlatformDatabase = "Could not connect to platform database";
+CleanMigrationSettings = "Clean migration settings";
+YouCanNotProceedWithInvalidSettings = "You can not proceed as long as your settings are invalid";
+
+CleaningMethod = "Cleaning method";
+CleanMigrationBlockStatus = "Clean migration block status";
+CleanAll = "Clean all";
+Clean = "Clean";
+SettingsCleaned = "Settings cleaned";
+SettingsNotCleaned = "Settings not cleaned";
+SelectBlocks = "Select blocks";
+
+StartMigrationForBlock = "Start migration for block {BLOCK}";
+StartMigrationForTable = "Start migration for table <b>{TABLE}</b>";
+StartMigrationCourse = "Start migration for course {COURSE}";
+FinishMigrationCourse = "Migration finished for course {COURSE}";
+CourseDataCanNotBeMigrated = "Course data can not be migrated because course {COURSE} has not been migrated.";
+ObjectsMigrated = "<b>{OBJECTCOUNT}</b> objects are migrated.";
+ObjectsNotMigrated = "<b>{OBJECTCOUNT}</b> objects are not migrated because they are invalid.";
+ObjectMigrated = "<b>1</b> object is migrated.";
+ObjectNotMigrated = "<b>1</b> object is not migrated because it is invalid.";
+GeneralInvalidMessage = "FAILED: {TYPE} is not valid ( ID: {ID} )";
+GeneralConvertedMessage ="SUCCES: new {TYPE} added ( OLD ID: {OLD_ID} - NEW ID: {NEW_ID} )";
+FinishedMigrationForTable = "Finished migration for table <b>{TABLE}</b>";
+MigrationComplete = "Migration complete in {TIME}";
+MigrationBlockAlreadyMigrated = "Migration block already migrated";
+MigrationResultsForTable = "Migration results for table <b>{TABLE}</b>";
+MigrationFinished = "Migration finished";
+
+UsersMigrationBlockInfoNext = "On the next page the users will be migrated";
+UsersMigrationBlockInfo = "On this page the users will be migrated";
+
+ClassesMigrationBlockInfoNext = "On the next page the classes will be migrated";
+ClassesMigrationBlockInfo = "On this page the classes will be migrated";
+ClassUserInvalidMessage = "FAILED: class user is not valid (CLASS: {CLASS_ID} - USER: {USER_ID})";
+ClassUserConvertedMessage = "SUCCES: new class user added (CLASS: {CLASS_ID} - USER: {USER_ID})";
+
+PersonalAgendasMigrationBlockInfoNext = "On the next page all the personal agenda calendar events will be migrated";
+PersonalAgendasMigrationBlockInfo = "On this page all the personal agenda calendar events will be migrated";
+
+SettingsMigrationBlockInfoNext = "On the next page all the settings and system announcements will be migrated";
+SettingsMigrationBlockInfo = "On this page all the settings and system announcements will be migrated";
+SettingConvertedMessage = "SUCCES: setting updated (SETTING: {SETTING} - VALUE: {VALUE})";
+
+CoursesMigrationBlockInfoNext = "On the next page all the courses, course categories, course user categories, course user registrations and course class registrations will be migrated";
+CoursesMigrationBlockInfo = "On this page all the courses, course categories, course user categories, course user registrations and course class registrations will be migrated";
+CourseRelClassInvalidMessage = "FAILED: course class is not valid (CLASS: {CLASS_ID} - COURSE: {COURSE_ID})";
+CourseRelClassConvertedMessage = "SUCCES: new course class added (CLASS: {CLASS_ID} - COURSE: {COURSE_ID})";
+CourseRelUserInvalidMessage = "FAILED: course user is not valid (USER: {USER_ID} - COURSE: {COURSE_ID})";
+CourseRelUserConvertedMessage = "SUCCES: new course user added (USER: {USER_ID} - COURSE: {COURSE_ID})";
+
+CourseGroupRelUserConvertedMessage = "SUCCES: new course group user added (OLD ID: {OLD_ID} - USER: {USER_ID} - COURSE GROUP: {COURSE_GROUP_ID})";
+
+CourseBlogsMigrationBlockInfoNext = "On the next page all the blogs, blog posts, blog comments and blog attachments from all the courses will be migrated";
+CourseBlogsMigrationBlockInfo = "On this page all the blogs, blog posts, blog comments and blog attachments from all the courses will be migrated";
+
+CourseForumsMigrationBlockInfoNext = "On the next page all the forum categories, forums, forum threads and forum posts from all the courses will be migrated";
+CourseForumsMigrationBlockInfo = "On this page all the forum categories, forums, forum threads and forum posts from all the courses will be migrated";
+
+CourseQuizzesMigrationBlockInfoNext = "On the next page all the quizzes, quiz questions and quiz answers from all the courses will be migrated";
+CourseQuizzesMigrationBlockInfo = "On this page all the quizzes, quiz questions and quiz answers from all the courses will be migrated";
+QuizRelQuestionInvalidMessage = "FAILED: quiz rel question is not valid (QUIZ: {QUIZ} - QUESTION: {QUESTION})";
+QuizRelQuestionConvertedMessage = "SUCCES: new quiz rel question added (QUIZ: {QUIZ} - QUESTION: {QUESTION}) - (COMPLEX CONTENT OBJECT ITEM: {NEW_ID})";
+
+CourseLearningPathsMigrationBlockInfoNext = "On the next page all the learning paths, learning path chapters, learning path items and learning path statistics from all the courses will be migrated";
+CourseLearningPathsMigrationBlockInfo = "On this page all the learning paths, learning path chapters, learning path items and learning path statistics from all the courses will be migrated";
+
+Migration = ""

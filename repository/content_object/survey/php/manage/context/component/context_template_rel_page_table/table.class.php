@@ -9,7 +9,7 @@ class SurveyContextTemplateRelPageTable extends ObjectTable
     const DEFAULT_NAME = 'survey_context_template_rel_page_browser_table';
 
    
-    function SurveyContextTemplateRelPageTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         
     

@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
@@ -23,6 +24,10 @@ use common\libraries\PatternMatchCondition;
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
 use repository\content_object\handbook_item\HandbookItem;
+
+use admin\AdminDataManager;
+use admin\Registration;
+
 /**
  * $Id: browser.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -156,6 +161,26 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add_help('repository_browser');
+    }
+
+    function is_allowed_to_create($type)
+    {
+        return true;
+    }
+
+    function get_allowed_content_object_types()
+    {
+        $types = $this->get_content_object_types(true, false);
+        foreach ($types as $index => $type)
+        {
+            $registration = AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT);
+            if (! $registration || ! $registration->is_active())
+            {
+                unset($types[$index]);
+            }
+        }
+
+        return $types;
     }
 
 }

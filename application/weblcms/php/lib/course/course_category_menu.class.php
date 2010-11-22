@@ -14,8 +14,6 @@ use common\libraries\Translation;
  * $Id: course_category_menu.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__) . '/../category_manager/course_category.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
@@ -46,7 +44,7 @@ class CourseCategoryMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function CourseCategoryMenu($current_category, $url_format = '?category=%s', $extra_items = array())
+    function __construct($current_category, $url_format = '?category=%s', $extra_items = array())
     {
         $this->urlFmt = $url_format;
         $menu = $this->get_menu_items($extra_items);
@@ -172,6 +170,6 @@ class CourseCategoryMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

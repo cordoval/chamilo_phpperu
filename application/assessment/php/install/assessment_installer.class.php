@@ -26,7 +26,7 @@ class AssessmentInstaller extends Installer
     /**
      * Constructor
      */
-    function AssessmentInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, AssessmentDataManager :: get_instance());
     }

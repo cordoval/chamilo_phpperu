@@ -19,7 +19,7 @@ require_once dirname(__FILE__) . '/content_object_publication_category.class.php
 class ContentObjectPublicationCategoryManager extends CategoryManager
 {
 
-    function ContentObjectPublicationCategoryManager($parent, $trail = null, $is_subcategories_allowed = true)
+    function __construct($parent, $trail = null, $is_subcategories_allowed = true)
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), Translation :: get('ManageCategories', null, Utilities::COMMON_LIBRARIES)));
@@ -105,7 +105,12 @@ class ContentObjectPublicationCategoryManager extends CategoryManager
         $category = $this->get_category();
         $category->set_parent($parent_id);
 
-        return $wdm->get_next_content_object_publication_category_display_order($category->get_course(), $category->get_tool(), $parent_id);
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $category->get_course());
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $category->get_tool());
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
+
+        return $wdm->retrieve_next_sort_value(ContentObjectPublicationCategory :: get_table_name(), ContentObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER, new AndCondition($conditions));
     }
 }
 ?>

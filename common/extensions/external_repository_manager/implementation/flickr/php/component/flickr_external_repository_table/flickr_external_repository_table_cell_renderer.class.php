@@ -25,7 +25,7 @@ class FlickrExternalRepositoryTableCellRenderer extends DefaultExternalRepositor
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function FlickrExternalRepositoryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

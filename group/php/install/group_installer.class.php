@@ -15,7 +15,7 @@ class GroupInstaller extends Installer
     /**
      * Constructor
      */
-    function GroupInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, GroupDataManager :: get_instance());
     }
