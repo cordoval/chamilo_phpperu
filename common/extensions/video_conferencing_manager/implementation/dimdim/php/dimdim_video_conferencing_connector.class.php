@@ -1,53 +1,31 @@
 <?php
-namespace common\extensions\external_repository_manager\implementation\vimeo;
+namespace common\extensions\video_conferencing_manager\implementation\dimdim;
 
-use common\libraries;
-
-use common\libraries\Path;
-use common\libraries\Request;
-use common\libraries\Redirect;
-use common\libraries\ActionBarSearchForm;
-use common\libraries\ArrayResultSet;
-use common\libraries\Session;
-
-use repository\ExternalRepositoryUserSetting;
-use repository\ExternalRepositorySetting;
-use repository\RepositoryDataManager;
-
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
-use common\extensions\external_repository_manager\ExternalRepositoryObject;
-
-use phpVimeo;
-
-require_once Path :: get_plugin_path(__NAMESPACE__) . 'phpvimeo/vimeo.php';
-require_once dirname(__FILE__) . '/vimeo_external_repository_object.class.php';
+use common\extensions\video_conferencing_manager\VideoConferencingConnector;
+use common\extensions\video_conferencing_manager\VideoConferencingObject;
 
 /**
  * Consumer Key: 69950a3f3ed038479b4b65ffde049f1d
  * Consumer Secret: a84782d0ca686c59
  */
 
-class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
-{
-    //    const SORT_DATE_POSTED = 'date-posted';
-    //    const SORT_DATE_TAKEN = 'date-taken';
-    //    const SORT_INTERESTINGNESS = 'interestingness';
-    //    const SORT_RELEVANCE = 'relevance';
-    //    
-    private $vimeo;
-    private $consumer_key;
-    private $consumer_secret;
-    private $token;
+class DimdimVideoConferencingConnector extends VideoConferencingConnector
+{  
+    private $dimdim;
+    private $account;
+    private $password;
+    
 
     /**
      * @param ExternalRepository $external_repository_instance
      */
-    function __construct($external_repository_instance)
+    function DimdimVideoConferencingConnector($video_conferencing_instance)
     {
-        parent :: __construct($external_repository_instance);
+        parent :: __construct($video_conferencing_instance);
         
-        $this->consumer_key = ExternalRepositorySetting :: get('consumer_key', $this->get_external_repository_instance_id());
-        $this->consumer_secret = ExternalRepositorySetting :: get('consumer_secret', $this->get_external_repository_instance_id());
+        $this->account = ExternalRepositorySetting :: get('account', $this->get_video_conferencing_instance_id());
+        $this->password = ExternalRepositorySetting :: get('password', $this->get_video_conferencing_instance_id());
+        
         
         $this->vimeo = new phpVimeo($this->consumer_key, $this->consumer_secret);
         $oauth_token = ExternalRepositoryUserSetting :: get('oauth_token', $this->get_external_repository_instance_id());

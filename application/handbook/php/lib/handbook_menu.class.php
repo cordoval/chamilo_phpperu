@@ -34,6 +34,7 @@ class HandbookMenu extends HTML_Menu
 
     private $handbook_id;
     private $handbook_selection_id;
+    private $handbook_publication_id;
 
 
     /**
@@ -43,31 +44,35 @@ class HandbookMenu extends HTML_Menu
      *                           "?category=%s".
      *
      */
-    function __construct($url_format, $handbook_id, $handbook_selection_id)
+    function __construct($url_format, $handbook_id, $handbook_selection_id, $handbook_publication_id)
     {
-//        $this->urlFmt = $url_format;
+        
+      //        $this->urlFmt = $url_format;
 //        $this->urlFmt = 'run.php?go='.HandbookManager::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'='.$handbook_id;
-        $this->urlFmt ='run.php?go='.HandbookManager::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'=%s&'.HandbookManager::PARAM_HANDBOOK_SELECTION_ID.'=%s';
+        $this->urlFmt ='run.php?go='.HandbookManager::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'=%s&'.HandbookManager::PARAM_HANDBOOK_SELECTION_ID.'=%s&'.HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID.'=%s';
 
         $this->handbook_id = $handbook_id;
         $this->handbook_selection_id = $handbook_selection_id;
-
-
+        $this->handbook_publication_id = $handbook_publication_id;
+        
+   
         $menu = $this->get_menu();
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
 
         if (! $handbook_id && ! $$handbook_selection_id)
         {
+         
             $this->forceCurrentUrl($this->get_root_url());
         }
         elseif (! $handbook_selection_id && $handbook_id)
         {
-            $this->forceCurrentUrl($this->get_publication_url($handbook_id));
+            
+            $this->forceCurrentUrl($this->get_publication_url($handbook_id, $handbook_publication_id));
         }
         else
         {
-            $this->forceCurrentUrl($this->get_sub_item_url($handbook_id, $handbook_selection_id));
+            $this->forceCurrentUrl($this->get_sub_item_url($handbook_id, $handbook_selection_id, $handbook_publication_id));
         }
 
     }
@@ -91,9 +96,9 @@ class HandbookMenu extends HTML_Menu
         $rdm = RepositoryDataManager :: get_instance();
         $handbook = $rdm->retrieve_content_object($this->handbook_id);
         $pub['title'] = $handbook->get_title();
-        $pub['url'] = $this->get_publication_url($this->handbook_id);
+        $pub['url'] = $this->get_publication_url($this->handbook_id, $this->handbook_publication_id);
         $pub['class'] = 'handbook';
-        $pub['sub'] = $this->get_handbook_items($this->handbook_id, $this->handbook_id);
+        $pub['sub'] = $this->get_handbook_items($this->handbook_id, $this->handbook_id, $this->handbook_publication_id);
         $menu[] = $pub;
 
 //        $udm = UserDataManager :: get_instance();
@@ -171,7 +176,7 @@ class HandbookMenu extends HTML_Menu
             }
 
 
-            $item['url'] = $this->get_sub_item_url($handbook_id, $child->get_ref());
+            $item['url'] = $this->get_sub_item_url($handbook_id, $child->get_ref(),$this->handbook_publication_id);
            $item['class'] = $lo->get_type();
 //            $item['class'] = 'test';
             $menu[] = $item;
@@ -180,22 +185,26 @@ class HandbookMenu extends HTML_Menu
         return $menu;
     }
 
-    private function get_publication_url($hid)
+    private function get_publication_url($hid, $hpid)
     {
         $fmt = str_replace('&'.HandbookManager::PARAM_HANDBOOK_SELECTION_ID.'=%s', '', $this->urlFmt);
-        return htmlentities(sprintf($fmt, $hid));
+        
+        return htmlentities(sprintf($fmt, $hid, $hpid));
     }
 
-    private function get_root_url()
+    private function get_root_url($hpid)
     {
+        
         $fmt = str_replace('&'.HandbookManager::PARAM_HANDBOOK_SELECTION_ID.'=%s', '', $this->urlFmt);
         $fmt = str_replace('&'.HandbookManager::PARAM_HANDBOOK_ID.'=%s', '', $fmt);
-        return $fmt;
+//        return $fmt;
+        return htmlentities(sprintf($fmt, $hpid));
     }
 
-    private function get_sub_item_url($handbook_id, $handbook_selection_id)
+    private function get_sub_item_url($handbook_id, $handbook_selection_id, $hpid)
     {
-        return htmlentities(sprintf($this->urlFmt, $handbook_id, $handbook_selection_id));
+       
+        return htmlentities(sprintf($this->urlFmt, $handbook_id, $handbook_selection_id, $hpid));
     }
 
     /**
