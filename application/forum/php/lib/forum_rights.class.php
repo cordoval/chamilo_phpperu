@@ -45,7 +45,7 @@ class ForumRights
     	return RightsUtilities :: get_location_by_identifier(ForumManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_FORUM);
     }
     
-	static function is_allowed_in_forums_subtree($right, $location, $type = self :: TYPE_CATEGORY)
+	static function is_allowed_in_forums_subtree($right, $location = 0, $type = 0)
     {
     	 return RightsUtilities :: is_allowed($right, $location, $type, ForumManager :: APPLICATION_NAME, null, 0, self :: TREE_TYPE_FORUM);
     }
