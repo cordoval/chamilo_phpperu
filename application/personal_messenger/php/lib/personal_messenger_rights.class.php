@@ -3,11 +3,12 @@
 namespace application\personal_messenger;
 
 use rights\RightsUtilities;
+use common\libraries\Translation;
 
 class PersonalMessengerRights extends RightsUtilities
 {
 
-    const RIGHT_BROWSE = '1';
+    const RIGHT_SEND = '1';
 
     const TREE_TYPE_PERSONAL_MESSENGER = 0;
     const TYPE_PERSONAL_MESSENGER = 0;
@@ -15,7 +16,7 @@ class PersonalMessengerRights extends RightsUtilities
 
     static function get_available_rights()
     {
-        return parent :: get_available_rights(PersonalMessengerManager:: APPLICATION_NAME);
+        return array(Translation :: get('BrowseRight') => PersonalMessengerRights :: RIGHT_SEND);
     }
 
     static function get_available_types()
