@@ -33,9 +33,9 @@ class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManage
             $output = $this->get_publications_html();
 
 
-
-            echo '<a href="' . $this->get_create_handbook_publication_url() . '">' . Translation :: get('CreateObject', array('OBJECT' => Translation::get('HandbookPublication')), Utilities::COMMON_LIBRARIES) . '</a>';
-            echo '<br /><br />';
+//
+//            echo '<a href="' . $this->get_create_handbook_publication_url() . '">' . Translation :: get('CreateObject', array('OBJECT' => Translation::get('HandbookPublication')), Utilities::COMMON_LIBRARIES) . '</a>';
+//            echo '<br /><br />';
 
             $this->display_header();
 

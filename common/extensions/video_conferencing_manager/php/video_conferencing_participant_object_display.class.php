@@ -1,10 +1,11 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
-abstract class VideoConferencingParticipantsObjectDisplay
+
+abstract class VideoConferencingParticipantObjectDisplay
 {
     private $object;
 
-    function __construct($object)
+    function VideoConferencingParticipantObjectDisplay($object)
     {
         $this->object = $object;
     }
@@ -12,8 +13,8 @@ abstract class VideoConferencingParticipantsObjectDisplay
     static function factory($object)
     {
         $type = $object->get_object_type();
-        $class = Utilities :: underscores_to_camelcase($type) . 'VideoConferencingParticipantsObjectDisplay';
-        require_once dirname(__FILE__) . '/type/' . $type . '/' . $type . '_video_conferencing_participants_object_display.class.php';
+        $class = Utilities :: underscores_to_camelcase($type) . 'VideoConferencingParticipantObjectDisplay';
+        require_once dirname(__FILE__) . '/type/' . $type . '/' . $type . '_video_conferencing_participant_object_display.class.php';
         return new $class($object);
     }
 

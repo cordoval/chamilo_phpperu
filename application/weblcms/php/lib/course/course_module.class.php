@@ -150,7 +150,7 @@ class CourseModule extends DataClass
                 $tool = $tool->get_name();
             }
 
-            $element_default = $tool . "elementdefault";
+            $element_default = $tool . "elementdefaulte";
             $course_module = new CourseModule();
             $course_module->set_course_code($course_code);
             $course_module->set_name($tool);

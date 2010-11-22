@@ -14,6 +14,7 @@ use common\extensions\dynamic_form_manager;
 use common\extensions\dynamic_form_manager\DynamicForm;
 use common\extensions\dynamic_form_manager\DynamicFormElement;
 use common\extensions\dynamic_form_manager\DynamicFormElementOption;
+use common\extensions\dynamic_form_manager\DynamicFormElementValue;
 /**
  * $Id: database_admin_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package admin.lib.data_manager

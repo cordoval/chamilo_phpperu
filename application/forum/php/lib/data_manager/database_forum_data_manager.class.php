@@ -11,6 +11,7 @@ use common\libraries\Session;
 use common\libraries\ConditionTranslator;
 use common\libraries\Translation;
 use repository\content_object\forum\Forum;
+use repository\ContentObjectPublicationAttributes;
 
 /**
  * $Id: database_forum_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $

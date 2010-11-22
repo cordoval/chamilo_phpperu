@@ -368,7 +368,7 @@ class RightsUtilities
         {
             if (self :: $right_granted_by_parent_cache[$right] == -1) //the right wasnt granted in a previous run, this means that only the base location should be checked
             {
-                if (self :: get_group_right_location($right, $group, $location->get_id()))
+                if (static :: get_group_right_location($right, $group, $location->get_id()))
                 {
                     return true;
                 }
@@ -740,13 +740,13 @@ class RightsUtilities
     {
         $rdm = RightsDataManager :: get_instance();
 
-        //nathalie: changed this method slightly because the first 3 conditions were not taken into account
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $application);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $tree_type);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_IDENTIFIER, $identifier);
-        //nathalie: added this check so the type becomes optional (I need this method to work with variable types)
+        
         if ($type != null)
         {
             $conditions[] = new EqualityCondition(Location :: PROPERTY_TYPE, $type);
