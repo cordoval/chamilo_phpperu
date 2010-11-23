@@ -127,6 +127,11 @@ abstract class SubManager
         return $this->get_parent()->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
     }
 
+    function get_general_result($failures, $count, $single_object, $multiple_object, $type = Application :: RESULT_TYPE_CREATED)
+    {
+        return $this->get_parent()->get_general_result($failures, $count, $single_object, $multiple_object, $type);
+    }
+
     function not_allowed()
     {
         $this->get_parent()->not_allowed();
