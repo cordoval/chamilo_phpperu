@@ -4,6 +4,7 @@ namespace common\extensions\external_repository_manager;
 use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 class ExternalRepositoryComponentImporterComponent extends ExternalRepositoryComponent
 {
