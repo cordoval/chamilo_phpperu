@@ -50,7 +50,17 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         // Add special features here
         switch ($column->get_name())
         {
-            // Exceptions that need post-processing go here ...
+            case Course :: PROPERTY_COURSE_TYPE_ID:
+                $id =  $course->get_course_type_id();
+                if(!$id)
+                {
+                    return Translation :: get('Typeless');
+                }
+                else
+                {
+                    $course_type = WeblcmsDataManager :: get_instance()->retrieve_course_type($id);
+                    return $course_type->get_name();
+                }
         }
         return parent :: render_cell($column, $course);
     }
