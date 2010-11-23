@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries;
+
 require_once Path :: get_plugin_path() . 'phpbb3/functions_template.php';
+use \template_compile;
 
 class ChamiloTemplateCompiler extends template_compile
 {

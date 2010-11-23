@@ -30,7 +30,7 @@ CKEDITOR.lang.en = {
 	undo : 'Undo',
 	redo : 'Redo',
 	common : {
-		browseServer : 'Browse Server',
+		browseServer : 'Browse / Upload',
 		url : 'URL',
 		protocol : 'Protocol',
 		upload : 'Upload',

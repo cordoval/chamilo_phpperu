@@ -1,12 +1,13 @@
 <?php
 
 namespace migration;
+use common\libraries\Path;
+use application\weblcms\CourseCategory;
 /**
  * $Id: dokeos185_course_category.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
-require_once Path :: get(SYS_PATH) . 'application/weblcms/php/category_manager/course_category.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course_category

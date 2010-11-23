@@ -3,7 +3,7 @@ namespace group;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Request;
- 
+use common\libraries\FormValidator;
  
 /**
  * $Id: group_user_search_form.class.php 224 2009-11-13 14:40:30Z kariboe $

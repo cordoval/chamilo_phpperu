@@ -5,7 +5,6 @@ namespace migration;
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_role_group.class.php';
 
 /**
  * This class presents a Dokeos185 role_group
@@ -114,9 +113,21 @@ class Dokeos185RoleGroup extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return Boolean
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
     /**
@@ -124,7 +135,7 @@ class Dokeos185RoleGroup extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return
      */
-    function convert_data
+    function convert_data()
     {
         $course = $array['course'];
     }

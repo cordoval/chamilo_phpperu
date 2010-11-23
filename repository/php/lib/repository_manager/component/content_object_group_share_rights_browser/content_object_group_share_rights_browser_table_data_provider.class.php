@@ -1,4 +1,9 @@
 <?php
+namespace repository;
+
+use common\libraries\ObjectTableDataProvider;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 
 /**
  * Data provider for a repository browser table.
@@ -8,6 +13,7 @@
  */
 class ContentObjectGroupShareRightsBrowserTableDataProvider extends ObjectTableDataProvider
 {
+
     /**
      * returns the groups that u share with
      * @param <type> $offset

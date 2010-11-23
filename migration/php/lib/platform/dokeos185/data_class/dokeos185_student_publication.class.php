@@ -5,7 +5,6 @@ namespace migration;
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_student_publication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/content_object/document/document.class.php';
 require_once dirname(__FILE__) . '/../../../application/weblcms/php/content_object_publication.class.php';
 require_once 'dokeos185_item_property.class.php';
@@ -209,7 +208,7 @@ class Dokeos185StudentPublication extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return Document
      */
-    function convert_data
+    function convert_data()
     
 {
     $mgdm = MigrationDataManager :: get_instance();
@@ -410,6 +409,22 @@ class Dokeos185StudentPublication extends Dokeos185MigrationDataClass
     $array['table'] = 'student_publication';
     return $array;
 }
+function is_valid()
+    {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
 }
 
 ?>

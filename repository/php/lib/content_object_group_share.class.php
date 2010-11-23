@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Utilities;
+use group\GroupDataManager;
 
 /**
  * @package repository.lib
@@ -21,6 +22,11 @@ class ContentObjectGroupShare extends ContentObjectShare
     function get_group_id()
     {
         return $this->get_default_property(self :: PROPERTY_GROUP_ID);
+    }
+
+    function get_group()
+    {
+        return GroupDataManager :: get_instance()->retrieve_group($this->get_group_id());
     }
 
     function set_group_id($group_id)

@@ -1,4 +1,6 @@
 <?php
+namespace common\libraries\content_object_generator;
+
 ini_set('include_path', realpath(dirname(__FILE__) . '/../../../plugin/pear'));
 require_once dirname(__FILE__) . '/../../global.inc.php';
 include (dirname(__FILE__) . '/settings.inc.php');
@@ -11,10 +13,10 @@ include (dirname(__FILE__) . '/form_generator/form_generator.class.php');
 
 $author = $content_object['author'];
 
-$data_class_generator = new DataClassGenerator();
+$data_class_generator = new DataClassGeneratorForContentObject();
 $additional_class_generator = new AdditionalClassGenerator();
 $package_info_generator = new PackageInfoGenerator();
-$form_generator = new FormGenerator();
+$form_generator = new FormGeneratorForContentObject();
 
 $xml_path = dirname(__FILE__) . '/xml_schemas/';
 $xml_files = Filesystem :: get_directory_content($xml_path, Filesystem :: LIST_FILES, false);

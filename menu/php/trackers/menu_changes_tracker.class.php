@@ -1,6 +1,7 @@
 <?php
 namespace menu;
 use common\libraries\Utilities;
+use tracking\ChangesTracker;
 /**
  * $Id: menu_changes_tracker.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.trackers

@@ -191,9 +191,9 @@ class RestServer
 }
 
 // TEST SCRIPT
-include_once ('../../global.inc.php');
-
-$rest_server = new RestServer();
-$rest_server->handle();
-dump($rest_server);
+//include_once ('../../global.inc.php');
+//
+//$rest_server = new RestServer();
+//$rest_server->handle();
+//dump($rest_server);
 ?>

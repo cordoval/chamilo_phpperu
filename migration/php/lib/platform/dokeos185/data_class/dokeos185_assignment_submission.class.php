@@ -263,7 +263,7 @@ class Dokeos185AssignmentSubmission extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the conversion
      * @return the new assignment submission
      */
-    function convert_data
+    function convert_data()
     
 {
     $course = $array['course'];

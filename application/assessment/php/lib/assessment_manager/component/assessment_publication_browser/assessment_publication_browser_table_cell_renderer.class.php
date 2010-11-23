@@ -66,12 +66,12 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
 
         $toolbar= new Toolbar();
         $toolbar->add_item(new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_assessment_publication_viewer_url($assessment_publication), ToolbarItem :: DISPLAY_ICON ));
-        
+
         if(AssessmentRights :: is_allowed_in_assessments_subtree(AssessmentRights :: VIEW_RESULTS_RIGHT, $assessment_publication->get_id(), AssessmentRights :: TYPE_PUBLICATION))
         {
         	$toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_assessment_results_viewer_url($assessment_publication), ToolbarItem :: DISPLAY_ICON));
         }
-        
+
         $user = $this->browser->get_user();
 
         if ($user->is_platform_admin() || $user->get_id() == $assessment_publication->get_publisher())
@@ -94,9 +94,9 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
 
             if ($assessment instanceof ComplexContentObjectSupport)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('BuildComplex', null, 'repository'), Theme :: get_common_image_path() . 'action_build.png', $this->browser->get_build_assessment_url($assessment_publication), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('BuildComplexObject', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_build.png', $this->browser->get_build_assessment_url($assessment_publication), ToolbarItem :: DISPLAY_ICON));
             }
-            
+
             $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_rights_editor_url(Request :: get('category'), $assessment_publication->get_id()), ToolbarItem :: DISPLAY_ICON));
         }
 

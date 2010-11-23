@@ -2,6 +2,7 @@
 namespace migration;
 
 use common\libraries\Theme;
+use \HTML_QuickForm_Action_Display;
 
 /**
  * $Id: migration_wizard_display.class.php 221 2009-11-13 14:36:41Z vanpouckesven $

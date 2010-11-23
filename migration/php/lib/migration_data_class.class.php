@@ -1,6 +1,6 @@
 <?php
 namespace migration;
-
+use common\libraries\DataClass;
 use common\libraries\PlatformSetting;
 
 /**
