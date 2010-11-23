@@ -2,6 +2,7 @@
 namespace rights;
 
 use common\libraries\Utilities;
+use common\libraries\DataClass;
 /**
  * @package rights.lib
  * @author Hans de Bisschop

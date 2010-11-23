@@ -1,6 +1,7 @@
 <?php
 namespace webservice;
 
+use common\libraries\DataClass;
 use common\libraries\Utilities;
 /**
  * $Id: webservice_credential.class.php 208 2009-11-13 13:14:39Z vanpouckesven $

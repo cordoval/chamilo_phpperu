@@ -92,7 +92,12 @@ class Autoloader
 
     static function check_for_special_files()
     {
-        $list = array('reporting_manager' => 'reporting_manager/reporting_manager.class.php', 'reporting_validator' => '../validator/reporting_validator.class.php', 'reporting_chart_formatter' => 'formatters/reporting_chart_formatter.class.php');
+        $list = array(
+            'reporting_manager' => 'reporting_manager/reporting_manager.class.php',
+            'reporting_validator' => '../validator/reporting_validator.class.php',
+            'reporting_chart_formatter' => 'formatters/reporting_chart_formatter.class.php',
+            'pchart_reporting_chart_formatter' => 'formatters/pchart/pchart_reporting_chart_formatter.class.php'
+            );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

@@ -16,13 +16,14 @@ use common\libraries\Utilities;
 class Initializer
 {
     /**
-     * Initialize the environment to use the Claroline application framework
+     * Initialize the environment 
      */
     public static function init()
     {
         self::_initDefaultTimezone();
         self::_initIncludePath();
         self::_initAutoload();
+        self::_initPHPSettings();
     }
 
 
@@ -53,13 +54,18 @@ class Initializer
 
     }
 
-    /**
-     * Initialize the Zend Autoloader and declare the required namespaces
-     */
+
     private static function _initAutoload()
     {
         spl_autoload_register('common\libraries\Utilities::autoload');
     }
+
+    private static function _initPHPSettings()
+    {
+//        ini_set('max_execution_time', - 1);
+//        ini_set('memory_limit', - 1);
+    }
+
 }
 
 Initializer::init();

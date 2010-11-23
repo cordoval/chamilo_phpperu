@@ -6,21 +6,16 @@ use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\InequalityCondition;
+use reporting\ContentObjectPublicationUser;
+use common\libraries\Webservice;
+use application\weblcms\CourseUserRelation;
+
 /**
  * $Id: webservices_reporting.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.webservices
  * @author Michael Kyndt
  */
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
-require_once dirname(__FILE__) . '/provider/content_object_publication_user.class.php';
-require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/course/course_user_relation.class.php';
 
-ini_set('max_execution_time', - 1);
-ini_set('memory_limit', - 1);
-
-$handler = new WebServicesReporting();
-$handler->run();
 
 class WebServicesReporting
 {

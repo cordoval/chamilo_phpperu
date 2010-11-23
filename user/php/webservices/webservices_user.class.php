@@ -2,6 +2,7 @@
 namespace user;
 
 use common\libraries\Translation;
+use common\libraries\Webservice;
 
 /*
  * $Id: webservices_user.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -50,15 +51,6 @@ use common\libraries\Translation;
  * Stefan Billiet & Nick De Feyter
  * University College of Ghent
  */
-
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
-require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
-
-ini_set('max_execution_time', - 1);
-ini_set('memory_limit', - 1);
-
-$handler = new WebServicesUser();
-$handler->run();
 
 class WebServicesUser
 {
