@@ -29,10 +29,10 @@ require_once dirname(__FILE__) . '/vimeo_external_repository_object.class.php';
 
 class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
 {
-    //    const SORT_DATE_POSTED = 'date-posted';
-    //    const SORT_DATE_TAKEN = 'date-taken';
-    //    const SORT_INTERESTINGNESS = 'interestingness';
-    //    const SORT_RELEVANCE = 'relevance';
+        const SORT_DATE_POSTED = 'date-posted';
+        const SORT_DATE_TAKEN = 'date-taken';
+        const SORT_INTERESTINGNESS = 'interestingness';
+        const SORT_RELEVANCE = 'relevance';
     //    
     private $vimeo;
     private $consumer_key;
@@ -82,7 +82,6 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
         else
         {
             $this->vimeo->setToken($oauth_token, $oauth_token_secret, 'access', true);
-        
         }
     }
 
