@@ -1,10 +1,10 @@
 <?php
+
 namespace repository\content_object\scorm_item;
 
 use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\Versionable;
-
 use repository\ContentObject;
 
 /**
@@ -30,12 +30,12 @@ class ScormItem extends ContentObject implements Versionable
     const PROPERTY_COMPLETION_SET_BY_CONTENT = 'completion_set_by_content';
     const PROPERTY_OBJECTIVE_SET_BY_CONTENT = 'objective_set_by_content';
     const PROPERTY_IDENTIFIER = 'identifier';
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name()
-	{
-		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
-	}
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+    }
 
     static function get_additional_property_names()
     {
@@ -152,7 +152,7 @@ class ScormItem extends ContentObject implements Versionable
 
     function set_control_mode($control_mode)
     {
-        if (! is_array($control_mode))
+        if (!is_array($control_mode))
             $control_mode = array($control_mode);
 
         $this->set_additional_property(self :: PROPERTY_CONTROL_MODE, serialize($control_mode));
@@ -171,7 +171,7 @@ class ScormItem extends ContentObject implements Versionable
     function add_objective($objective, $primary = false)
     {
         $objectives = $this->get_objectives();
-        if (! $objectives)
+        if (!$objectives)
             $objectives = new Objectives();
 
         $objectives->add_objective($objective, $primary);
@@ -191,7 +191,7 @@ class ScormItem extends ContentObject implements Versionable
     function add_condition_rule($condition_rule, $type = 'pre')
     {
         $condition_rules = $this->get_condition_rules();
-        if (! $condition_rules)
+        if (!$condition_rules)
             $condition_rules = new ConditionRules();
 
         $condition_rules->add_condition_rule($condition_rule, $type);
@@ -273,5 +273,7 @@ class ScormItem extends ContentObject implements Versionable
             return $url . '?' . $parameters;
         }
     }
+
 }
+
 ?>

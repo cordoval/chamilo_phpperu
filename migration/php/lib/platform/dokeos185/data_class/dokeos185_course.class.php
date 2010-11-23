@@ -371,6 +371,10 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
             //create course in database
             $chamilo_course->create();
 
+            //set all standard tools invisible
+            $condition = new EqualityCondition(CourseModule::PROPERTY_COURSE_CODE, $chamilo_course->get_code());
+            WeblcmsDataManager :: get_instance()->update_course_module_visibility($condition,false);
+
             //Add id references to temp table
             $this->create_id_reference($this->get_code(), $chamilo_course->get_id());
 

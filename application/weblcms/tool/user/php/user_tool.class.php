@@ -29,6 +29,7 @@ class UserTool extends Tool
     const ACTION_USER_DETAILS = 'details';
     const ACTION_EMAIL = 'emailer';
     const ACTION_REPORTING = 'reporting_viewer';
+    const ACTION_CHANGE_STATUS = 'status_changer';
 
     const DEFAULT_ACTION = self :: ACTION_UNSUBSCRIBE_USER_BROWSER;
 
@@ -69,6 +70,11 @@ class UserTool extends Tool
     static function get_action_parameter()
     {
         return self :: PARAM_ACTION;
+    }
+
+    function get_status_changer_url($user, $status)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_STATUS, self :: PARAM_USERS => $user, self :: PARAM_STATUS => $status));
     }
 }
 ?>

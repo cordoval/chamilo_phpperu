@@ -73,6 +73,15 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoriesSubtreeCreated'));
         }
+        
+   		if (! RepositoryRights :: create_videos_conferencing_subtree_root_location())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('VideosConferencingSubtreeCreated'));
+        }
 
         if (! $this->add_metadata_catalogs())
         {

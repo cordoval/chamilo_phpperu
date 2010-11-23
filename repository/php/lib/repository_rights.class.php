@@ -18,6 +18,7 @@ class RepositoryRights
     const TREE_TYPE_USER = 1;
     const TREE_TYPE_CONTENT_OBJECT = 2;
     const TREE_TYPE_EXTERNAL_REPOSITORY = 3;
+    const TREE_TYPE_VIDEO_CONFERENCING = 4;
     
     const TYPE_CONTENT_OBJECT = 1;
     const TYPE_USER_CATEGORY = 2;
@@ -180,6 +181,43 @@ class RepositoryRights
     static function create_external_repositories_subtree_root_location()
     {
     	return RightsUtilities :: create_location('ext_rep_tree', RepositoryManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_EXTERNAL_REPOSITORY);
+    }
+    
+    //Video conferencing subtreee
+    
+    static function create_location_in_videos_conferencing_subtree($name, $identifier, $parent)
+    {
+    	return RightsUtilities :: create_location($name, RepositoryManager :: APPLICATION_NAME, self :: TYPE_CONTENT_OBJECT, $identifier, 1, $parent, 0, 0, self :: TREE_TYPE_VIDEO_CONFERENCING);
+    }
+    
+    static function get_videos_conferencing_subtree_root()
+    {
+    	return RightsUtilities :: get_root(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_VIDEO_CONFERENCING, 0);
+    }
+    
+	static function get_videos_conferencing_subtree_root_id()
+    {
+    	return RightsUtilities :: get_root_id(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_VIDEO_CONFERENCING, 0);
+    }
+    
+    static function get_location_id_by_identifier_from_videos_conferencing_subtree($identifier)
+    {
+    	return RightsUtilities :: get_location_id_by_identifier(RepositoryManager :: APPLICATION_NAME, self :: TYPE_CONTENT_OBJECT, $identifier, 0, self :: TREE_TYPE_VIDEO_CONFERENCING);
+    }
+    
+	static function get_location_by_identifier_from_videos_conferencing_subtree($identifier)
+    {
+    	return RightsUtilities :: get_location_by_identifier(RepositoryManager :: APPLICATION_NAME, self :: TYPE_CONTENT_OBJECT, $identifier, 0, self :: TREE_TYPE_VIDEO_CONFERENCING);
+    }
+    
+	static function is_allowed_in_videos_conferencing_subtree($right, $location)
+    {
+    	 return RightsUtilities :: is_allowed($right, $location, self :: TYPE_CONTENT_OBJECT, RepositoryManager :: APPLICATION_NAME, null, 0, self :: TREE_TYPE_VIDEO_CONFERENCING);
+    }
+    
+    static function create_videos_conferencing_subtree_root_location()
+    {
+    	return RightsUtilities :: create_location('ext_rep_tree', RepositoryManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_VIDEO_CONFERENCING);
     }
 }
 ?>

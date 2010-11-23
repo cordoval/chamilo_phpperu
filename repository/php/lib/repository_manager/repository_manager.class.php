@@ -22,6 +22,8 @@ use common\libraries\Path;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 use user\UserDataManager;
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
 /**
  * @package repository.lib.repository_manager
  *
@@ -1082,7 +1084,7 @@ class RepositoryManager extends CoreApplication
             {
                 $search_url = null;
             }
-            $this->category_menu = new ContentObjectCategoryMenu($this->get_user_id(), $category, $url_format, $extra_items);
+            $this->category_menu = new ContentObjectCategoryMenu($this->get_user_id(), $category, $url_format, $extra_items, null, array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name()));
             if (isset($search_url))
             {
                 $this->category_menu->forceCurrentUrl($search_url, true);
