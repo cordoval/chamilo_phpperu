@@ -4,6 +4,7 @@
 		<property name="id" type="integer" unsigned="1" notnull="1" />
 		<property name="question_type" type="integer" unsigned="1"
 			notnull="1" default="1" />
+                <property name="feedback" type="text" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />

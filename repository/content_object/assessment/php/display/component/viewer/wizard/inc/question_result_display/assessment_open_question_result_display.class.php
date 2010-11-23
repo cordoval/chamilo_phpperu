@@ -40,7 +40,9 @@ class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
         $html[] = Translation :: get('Feedback');
         $html[] = '</div><br />';
         
-        $html[] = '<div class="warning-message">' . Translation :: get('NotYetRatedWarning') . '</div>';
+        //$html[] = '<div class="warning-message">' . Translation :: get('NotYetRatedWarning') . '</div>';
+
+        $html[] = $question->get_feedback();
         
         echo implode("\n", $html);
     }

@@ -58,7 +58,7 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
             {
                 $this->consumer->login('request')->post()->loadTokenFromResponse();
                 Session :: register('photobucket_request_token', serialize($this->consumer->getOauthToken()));
-                $this->consumer->goRedirect('login');
+                $this->consumer->goRedirect('login', Redirect :: current_url());
             }
             else
             {
