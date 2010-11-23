@@ -732,20 +732,20 @@ class ContentObject extends DataClass
         if ($this->get_owner_id() == 0)
             return true;
 
-        $parent = $this->get_parent_id();
-        if (! $parent)
-        {
-            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
-        }
-        else
-        {
-            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
-        }
-
-        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
-        {
-            return false;
-        }
+//        $parent = $this->get_parent_id();
+//        if (! $parent)
+//        {
+//            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
+//        }
+//        else
+//        {
+//            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
+//        }
+//
+//        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
+//        {
+//            return false;
+//        }
 
         return true;
     }
@@ -764,20 +764,20 @@ class ContentObject extends DataClass
         if ($this->get_owner_id() == 0)
             return true;
 
-        $parent = $this->get_parent_id();
-        if (! $parent)
-        {
-            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
-        }
-        else
-        {
-            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
-        }
-
-        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
-        {
-            return false;
-        }
+//        $parent = $this->get_parent_id();
+//        if (! $parent)
+//        {
+//            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
+//        }
+//        else
+//        {
+//            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
+//        }
+//
+//        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
+//        {
+//            return false;
+//        }
 
         return true;
     }
@@ -837,19 +837,19 @@ class ContentObject extends DataClass
         {
             return false;
         }
-
-        if ($new_parent_id == 0)
-        {
-            $new_parent = RepositoryRights :: get_user_root_id();
-        }
-        else
-        {
-            $new_parent = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $new_parent_id, $this->get_owner_id());
-        }
-
-        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
-
-        return $location->move($new_parent);
+        return true;
+//        if ($new_parent_id == 0)
+//        {
+//            $new_parent = RepositoryRights :: get_user_root_id();
+//        }
+//        else
+//        {
+//            $new_parent = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $new_parent_id, $this->get_owner_id());
+//        }
+//
+//        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
+//
+//        return $location->move($new_parent);
     }
 
     function version($trueUpdate = true)
@@ -903,14 +903,14 @@ class ContentObject extends DataClass
      */
     function delete()
     {
-        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
-        if ($location)
-        {
-            if (! $location->remove())
-            {
-                return false;
-            }
-        }
+//        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
+//        if ($location)
+//        {
+//            if (! $location->remove())
+//            {
+//                return false;
+//            }
+//        }
         return RepositoryDataManager :: get_instance()->delete_content_object($this);
     }
 
