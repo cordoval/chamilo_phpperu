@@ -14,20 +14,13 @@ class DropboxExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDis
         $properties[Translation :: get('Name')] = $object->get_name();
         $properties[Translation :: get('Size')] = $object->get_size();
         $properties[Translation :: get('Modified')] = $object->get_modified();
-
-        return $properties;
+		return $properties;
     }
 
     function get_preview($is_thumbnail = false)
     {
 		
-        $object = $this->get_object();
-        $size = ($is_thumbnail ? $object->get_thumbnail() : $object->get_url());
-        $class = ($is_thumbnail ? 'thumbnail' : 'with_border');
-    	
-    	$html = array();
-        $html[] = '<img class="' . $class . '" src="' . $size . '" />';
-        return implode("\n", $html);
+        
         
     }
 }

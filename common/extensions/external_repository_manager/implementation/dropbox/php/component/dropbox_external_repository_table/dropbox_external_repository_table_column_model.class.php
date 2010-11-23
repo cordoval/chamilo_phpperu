@@ -1,5 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\dropbox;
+
+use common\extensions\external_repository_manager\DefaultExternalRepositoryObjectTableColumnModel;
+
+use common\libraries\ObjectTableColumn;
+use common\libraries\StaticTableColumn;
 /**
  * $Id: repository_browser_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
@@ -21,7 +26,7 @@ class DropboxExternalRepositoryTableColumnModel extends DefaultExternalRepositor
     {
         parent :: __construct();
         $this->set_default_order_column(1);
-        $this->add_column(new ObjectTableColumn(DropboxExternalRepositoryObject :: PROPERTY_LICENSE));
+        //$this->add_column(new ObjectTableColumn(DropboxExternalRepositoryObject :: PROPERTY_LICENSE));
         $this->add_column(self :: get_modification_column());
     }
 

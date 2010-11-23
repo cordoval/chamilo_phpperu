@@ -5,7 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\ActionBarSearchForm;
-
+use repository\content_object\document\Document;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
@@ -20,8 +20,9 @@ class DropboxExternalRepositoryManager extends ExternalRepositoryManager
     const PARAM_FEED_TYPE = 'feed';
     const PARAM_FEED_IDENTIFIER = 'identifier';
 
-    const FEED_TYPE_GENERAL = 1;
-    const FEED_TYPE_MY_FILES = 2;
+   	const FEED_TYPE_GENERAL = 1;
+   	const FEED_TYPE_PHOTOS = 2;
+   	const FEED_TYPE_PUBLIC = 3;    
 
     /**
      * @param Application $application
@@ -83,18 +84,14 @@ class DropboxExternalRepositoryManager extends ExternalRepositoryManager
     {
         $menu_items = array();
 
-        $my_files = array();
-        $my_files['title'] = Translation :: get('MyFiles');
-        $my_files['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_PHOTOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $my_files['class'] = 'user';
-        $menu_items[] = $my_files;
-        
         $general = array();
-        $general['title'] = Translation :: get('Shared');
+        $general['title'] = Translation :: get('Dropbox');
         $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $general['class'] = 'home';
         $menu_items[] = $general;
 
+        $folders = $this->get_external_repository_connector()->retrieve_folders($this->get_url(array(self :: PARAM_FOLDER => '__PLACEHOLDER__')));
+        $menu_items = array_merge($menu_items, $folders);
         return $menu_items;
     }
 
@@ -111,7 +108,7 @@ class DropboxExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_external_repository_actions()
     {
-        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
+        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self ::ACTION_EXPORT_EXTERNAL_REPOSITORY);
 
         $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
 
@@ -128,7 +125,7 @@ class DropboxExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_available_renderers()
     {
-        return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
+        return array(ExternalRepositoryObjectRenderer :: TYPE_TABLE);
     }
 
     /* (non-PHPdoc)
@@ -136,13 +133,13 @@ class DropboxExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_content_object_type_conditions()
     {
-        $file_types = Document :: get_file_types();
+        /*$file_types = Document :: get_file_types();
         $image_conditions = array();
         foreach ($file_types as $image_type)
         {
             $file_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $file_type, Document :: get_type_name());
         }
-        return new OrCondition($image_conditions);
+        return new OrCondition($image_conditions);*/
     }
 
     /**
