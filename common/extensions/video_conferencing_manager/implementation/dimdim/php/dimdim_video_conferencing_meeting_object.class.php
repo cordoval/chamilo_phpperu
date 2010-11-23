@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\video_conferencing_manager\implementation\dimdim;
+use common\extensions\video_conferencing_manager\VideoConferencingMeetingObject;
 
 class DimdimVideoConferencingMeetingObject extends VideoConferencingMeetingObject
 {
