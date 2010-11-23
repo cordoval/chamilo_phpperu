@@ -171,10 +171,7 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
 //        else
 //            $url="/hg/run.php?go=courseviewer&course=$new_course_id&application=weblcms";
 //
-//        $visit_tracker->set_enter_date(strtotime($this->get_access_date()));
-//        $visit_tracker->set_leave_date(strtotime($this->get_access_date()));
-//        $visit_tracker->set_location($url);
-//        $visit_tracker->set_user_id($new_user_id);
+//require_once dirname(__FILE__) . '/../../../../../application/lib/weblcms/course/course_module_last_access.class.php';
 //
 //        $visit_tracker->create();
 

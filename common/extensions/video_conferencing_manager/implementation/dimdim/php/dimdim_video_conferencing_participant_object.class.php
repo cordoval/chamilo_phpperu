@@ -1,7 +1,8 @@
 <?php
 namespace common\extensions\video_conferencing_manager\implementation\dimdim;
+use common\extensions\video_conferencing_manager\VideoConferencingParticipantObject;
 
-class DimdimVideoConferencingObject extends VideoConferencingObject
+class DimdimVideoConferencingParticipantObject extends VideoConferencingParticipantObject
 {
     const OBJECT_TYPE = 'vimeo';
 

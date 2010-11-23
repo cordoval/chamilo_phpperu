@@ -1,8 +1,8 @@
 <?php
+
 namespace repository;
 
 use common\libraries;
-
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
@@ -12,15 +12,16 @@ use common\libraries\InCondition;
 use common\libraries\AndCondition;
 use common\libraries\OptionsMenuRenderer;
 use common\libraries\TreeMenuRenderer;
-
 use HTML_Menu;
 use HTML_Menu_ArrayRenderer;
+use common\libraries\NotCondition;
 
 /**
  * $Id: content_object_category_menu.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
  */
 require_once dirname(__FILE__) . '/category_manager/repository_category.class.php';
+
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * categories of learning objects.
@@ -42,15 +43,19 @@ class ContentObjectCategoryMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-
     private $data_manager;
-
     /**
      * Array to define the types on which the count on the categories should be filtered
      * Leave empty if you want to count everything
      * @var String[]
      */
     private $filter_count_on_types;
+    /**
+     * Array to define the types on which the count on the categories should be excluded
+     * Leave empty if you want to count everything
+     * @var String[]
+     */
+    private $exclude_types;
 
     /**
      * Creates a new category navigation menu.
@@ -64,13 +69,14 @@ class ContentObjectCategoryMenu extends HTML_Menu
      * root.
      * @param string[] $filter_count_on_types - Array to define the types on which the count on the categories should be filtered
      */
-    function __construct($owner, $current_category = null, $url_format = '?category=%s', $extra_items = array(), $filter_count_on_types = array())
+    function __construct($owner, $current_category = null, $url_format = '?category=%s', $extra_items = array(), $filter_count_on_types = array(), $exclude_types = array())
     {
         $this->owner = $owner;
         $this->urlFmt = $url_format;
         $this->data_manager = RepositoryDataManager :: get_instance();
 
         $this->filter_count_on_types = $filter_count_on_types;
+        $this->exclude_types = $exclude_types;
 
         $menu = $this->get_menu_items($extra_items);
         parent :: __construct($menu);
@@ -99,6 +105,11 @@ class ContentObjectCategoryMenu extends HTML_Menu
         if (count($this->filter_count_on_types))
         {
             $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
+        }
+
+        if (count($this->exclude_types))
+        {
+            $conditions[] = new NotCondition(new InCondition(ContentObject :: PROPERTY_TYPE, $this->exclude_types));
         }
 
         $condition = new AndCondition($conditions);
@@ -152,6 +163,11 @@ class ContentObjectCategoryMenu extends HTML_Menu
                 $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
             }
 
+            if (count($this->exclude_types))
+            {
+                $conditions[] = new NotCondition(new InCondition(ContentObject :: PROPERTY_TYPE, $this->exclude_types));
+            }
+
             $condition = new AndCondition($conditions);
 
             $count = $this->data_manager->count_content_objects($condition);
@@ -197,7 +213,6 @@ class ContentObjectCategoryMenu extends HTML_Menu
             if (substr($crumb['title'], 0, strlen($str)) == $str)
                 continue;
             $trail->add(new Breadcrumb($crumb['url'], substr($crumb['title'], 0, strpos($crumb['title'], '('))));
-
         }
         return $trail;
     }
@@ -217,5 +232,7 @@ class ContentObjectCategoryMenu extends HTML_Menu
     {
         return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
+
 }
+
 ?>

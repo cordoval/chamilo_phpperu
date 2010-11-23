@@ -29,7 +29,7 @@ class TemplateBrowserTable extends RepositoryBrowserTable
         $model = new TemplateBrowserTableColumnModel();
         $renderer = new TemplateBrowserTableCellRenderer($browser);
         $data_provider = new RepositoryBrowserTableDataProvider($browser, $condition);
-        ObjectTable :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
+        ObjectTable :: __construct($data_provider, Utilities :: get_classname_from_namespace(__CLASS__, true), $model, $renderer);
 
         $actions = new ObjectTableFormActions(__NAMESPACE__, RepositoryManager :: PARAM_ACTION);
         $actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_DELETE_TEMPLATE, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));

@@ -10,18 +10,12 @@ abstract class VideoConferencingyManager extends SubManager
     const PARAM_VIDEO_CONFERENCING_MANAGER_ACTION = 'conferencing_action';
 
     const ACTION_VIEW_EXTERNAL_REPOSITORY = 'viewer';
-    const ACTION_EXPORT_EXTERNAL_REPOSITORY = 'exporter';
-    const ACTION_IMPORT_EXTERNAL_REPOSITORY = 'importer';
+//    const ACTION_EXPORT_EXTERNAL_REPOSITORY = 'exporter';
+//    const ACTION_IMPORT_EXTERNAL_REPOSITORY = 'importer';
     const ACTION_BROWSE_VIDEO_CONFERENCING = 'browser';
-    //    const ACTION_DOWNLOAD_EXTERNAL_REPOSITORY = 'downloader';
-    //    const ACTION_UPLOAD_EXTERNAL_REPOSITORY = 'uploader';
-    //    const ACTION_SELECT_EXTERNAL_REPOSITORY = 'selecter';
     const ACTION_EDIT_VIDEO_CONFERENCING = 'editor';
     const ACTION_DELETE_VIDEO_CONFERENCING = 'deleter';
     const ACTION_CONFIGURE_VIDEO_CONFERENCING = 'configurer';
-    //    const ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY = 'external_syncer';
-    //    const ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY = 'internal_syncer';
-
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_VIDEO_CONFERENCING;
 
@@ -104,7 +98,7 @@ abstract class VideoConferencingyManager extends SubManager
     {
         $type = $application->get_video_conferencing()->get_type();
 
-        $file = dirname(__FILE__) . '/type/' . $type . '/' . $type . '_video_conferencing_manager.class.php';
+        $file = dirname(__FILE__) . '/implementation/' . $type . '/php/' . $type . '_video_conferencing_manager.class.php';
         if (! file_exists($file))
         {
             throw new Exception(Translation :: get('VideoConferencingManagerTypeDoesNotExist', array('type' => $type)));
