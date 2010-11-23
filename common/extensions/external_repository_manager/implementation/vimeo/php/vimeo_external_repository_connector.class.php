@@ -38,6 +38,7 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
     private $consumer_key;
     private $consumer_secret;
     private $token;
+    private $user;
 
     /**
      * @param ExternalRepository $external_repository_instance
@@ -81,7 +82,7 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
         }
         else
         {
-            $this->vimeo->setToken($oauth_token, $oauth_token_secret, 'access', true);
+            $this->vimeo->setToken($oauth_token, $oauth_token_secret, 'access');
         }
     }
 
@@ -134,34 +135,50 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
         switch ($feed_type)
         {
             case VimeoExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS :
-                $videos = $this->vimeo->call('vimeo.videos.getAll');
+                
+            	if ($condition)
+                {
+                	$search_parameters['query'] = $condition;
+                	$search_parameters['user_id'] = $this->get_user_info()->id;
+            	
+            		$videos = $this->vimeo->call('vimeo.videos.search', $search_parameters);
+                }
+                else
+                {
+            		$videos = $this->vimeo->call('vimeo.videos.getAll');
+                }
                 break;
+            case VimeoExternalRepositoryManager :: FEED_TYPE_GENERAL :   
+            	$search_parameters['query'] = $condition?$condition : 'chamilo';
+            	
+            	$videos = $this->vimeo->call('vimeo.videos.search', $search_parameters);
+            	break;               
             default :
-                $videos = $this->vimeo->call('vimeo.videos.getAll');
+                if ($condition)
+                {
+                	$search_parameters['query'] = $condition;
+                	$search_parameters['user_id'] = $this->get_user_info()->id;
+            	
+            		$videos = $this->vimeo->call('vimeo.videos.search', $search_parameters);
+                }
+                else
+                {
+            		$videos = $this->vimeo->call('vimeo.videos.getAll');
+                }
                 break;
         }
-        
-        //        switch ($feed_type)
-        //        {
-        //            case FlickrExternalRepositoryManager :: FEED_TYPE_GENERAL :
-        //                $photos = ($condition ? $this->vimeo->photos_search($search_parameters) : $this->flickr->photos_getRecent($attributes, $count, $offset));
-        //                break;
-        //            case FlickrExternalRepositoryManager :: FEED_TYPE_MOST_INTERESTING :
-        //                $photos = $this->flickr->interestingness_getList(null, $attributes, $count, $offset);
-        //                break;
-        //            case FlickrExternalRepositoryManager :: FEED_TYPE_MOST_RECENT :
-        //                $photos = $this->flickr->photos_getRecent($attributes, $count, $offset);
-        //                break;
-        //            case FlickrExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS :
-        //                $search_parameters['user_id'] = 'me';
-        //                $photos = $this->flickr->photos_search($search_parameters);
-        //                break;
-        //            default :
-        //                $photos = ($condition ? $this->flickr->photos_search($search_parameters) : $this->flickr->photos_getRecent($attributes, $count, $offset));
-        //                break;
-        //        }
-        //        
         return $videos;
+    }
+    
+    public function get_user_info()
+    {
+    	if (! isset($this->user))
+        {
+	    	$token = $this->vimeo->getToken();
+	    	$response = $this->vimeo->call('vimeo.people.getInfo' , array('user_id' => $token[0]));
+	    	$this->user = $response->person;
+        }
+    	return $this->user;
     }
 
     /**
@@ -177,15 +194,17 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
         $videos_id = array();
         foreach ($videos->videos->video as $video)
         {
-            $videos_id[] = $video->id;
+            if ($video->title && $video->upload_date)
+            {
+        		$videos_id[] = $video->id;
+            }            
         }
-        
         $videos_info = array();
         foreach ($videos_id as $video_id)
         {
             $videos_info[] = $this->vimeo->call('vimeo.videos.getInfo', array('video_id' => $video_id));
         }
-        
+
         $objects = array();
         foreach ($videos_info as $video_info)
         {
