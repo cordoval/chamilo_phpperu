@@ -113,12 +113,12 @@ class DropboxExternalRepositoryManagerForm extends FormValidator
     {
         if (StringUtilities :: has_value(($_FILES[self :: FILE]['name'])))
         {
-            //return $this->application->get_external_repository_connector()->create_external_repository_object($this->exportValues(), $_FILES[self :: FILE]);
-            return $this->application->get_external_repository_connector()->create_external_repository_object($_FILES[self :: FILE]['name'], $_FILES[self :: FILE]['tmp_name']);
+            if($this->application->get_external_repository_connector()->create_external_repository_object($_FILES[self :: FILE]['name'], $_FILES[self :: FILE]['tmp_name']))
+            	return $_FILES[self :: FILE]['name'];
         }
         else
         {
-            return false;
+            return null;
         }
     }
 

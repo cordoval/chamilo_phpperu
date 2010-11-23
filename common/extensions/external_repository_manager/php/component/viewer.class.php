@@ -7,7 +7,6 @@ use common\libraries\Translation;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
-use common\libraries\Utilities;
 
 use repository\ExternalRepositorySync;
 
