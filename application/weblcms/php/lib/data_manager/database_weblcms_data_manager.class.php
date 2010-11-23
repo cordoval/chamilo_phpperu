@@ -1389,6 +1389,18 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $this->update($course_module, $condition);
     }
 
+    /**
+     * Updates the visibility of the course modules
+     * @param Condition $condition define the to be updated modules and course
+     * @param bool $visibility visibility
+     */
+    function update_course_module_visibility($condition, $visibility)
+    {
+        //$and_condition = new AndConditon
+        $properties = array(CourseModule :: PROPERTY_VISIBLE => $visibility);
+        $this->update_objects(CourseModule::get_table_name(), $properties, $condition);
+    }
+
     function update_course_settings($course_settings)
     {
         $condition = new EqualityCondition(CourseSettings :: PROPERTY_COURSE_ID, $course_settings->get_course_id());
@@ -2909,6 +2921,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $query .= $this->escape_column_name(CourseTypeUserCategoryRelCourse :: PROPERTY_USER_ID, $course_type_user_category_rel_course_alias) . ' = ' . $user_id;
 
         $order_by[] = new ObjectTableOrder(CourseTypeUserCategoryRelCourse :: PROPERTY_SORT, SORT_ASC, $course_type_user_category_rel_course_alias);
+        $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME, SORT_ASC, $course_alias);
 
         return $this->retrieve_object_set($query, Course :: get_table_name(), $condition, null, null, $order_by, Course :: CLASS_NAME);
     }
