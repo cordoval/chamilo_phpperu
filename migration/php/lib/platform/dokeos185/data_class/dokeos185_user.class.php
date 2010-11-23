@@ -2,7 +2,8 @@
 namespace migration;
 
 use admin\AdminDataManager;
-
+use common\libraries\Path;
+use application\profiler\ProfilerPublication;
 /**
  * $Id: dokeos185_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
@@ -11,7 +12,6 @@ use admin\AdminDataManager;
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
 
-require_once Path :: get_application_path() . 'lib/profiler/profile_publication.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 user

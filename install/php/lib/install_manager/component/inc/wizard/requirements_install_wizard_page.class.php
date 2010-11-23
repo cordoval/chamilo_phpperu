@@ -35,7 +35,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
     {
         $info[] = Translation :: get("ChamiloNeedFollowingOnServer");
         $info[] = '<br />';
-        $info[] = Translation :: get('MoreDetails', array('URL' => '../../documentation/installation_guide.html'));
+        $info[] = Translation :: get('MoreDetails', array('URL' => '../documentation/install.txt'));
         $info[] = '<br /><br />';
         $info[] = '<b>' . Translation :: get("ReadThoroughly") . '</b>';
         $info[] = '<br />';

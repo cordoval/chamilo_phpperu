@@ -2,6 +2,10 @@
 namespace repository;
 
 use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTable;
 
 require_once dirname(__FILE__) . '/content_object_user_share_rights_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/content_object_user_share_rights_browser_table_cell_renderer.class.php';

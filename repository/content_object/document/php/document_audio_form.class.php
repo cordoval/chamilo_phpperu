@@ -31,6 +31,7 @@ class DocumentAudioForm extends ContentObjectForm
         parent :: build_creation_form();
         $post_max_size = ini_get('upload_max_filesize');
         $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
+        $this->addElement('static', null, Translation :: get('MaxSize'), $post_max_size);
         $this->addElement('file', 'upload', sprintf(Translation :: get('FileName', null, Utilities :: COMMON_LIBRARIES), $post_max_size));
         $this->addFormRule(array($this, 'check_document_form'));
         $this->addElement('category');
@@ -43,6 +44,7 @@ class DocumentAudioForm extends ContentObjectForm
 
         $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
         $object = $this->get_content_object();
+        $this->addElement('static', null, Translation :: get('MaxSize'), $post_max_size);
         $this->addElement('file', 'file', sprintf(Translation :: get('FileName', null, Utilities :: COMMON_LIBRARIES), $post_max_size));
         $this->addRule('file', Translation :: get('DiskQuotaExceeded', null, Utilities :: COMMON_LIBRARIES), 'disk_quota');
         $this->addElement('category');

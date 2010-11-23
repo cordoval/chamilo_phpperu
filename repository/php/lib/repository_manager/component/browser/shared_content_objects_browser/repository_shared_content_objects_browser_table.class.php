@@ -26,7 +26,7 @@ class RepositorySharedContentObjectsBrowserTable extends ObjectTable
      */
     function __construct($browser, $parameters, $condition)
     {
-        $model = new RepositorySharedContentObjectsBrowserTableColumnModel();
+        $model = new RepositorySharedContentObjectsBrowserTableColumnModel($browser);
         $renderer = new RepositorySharedContentObjectsBrowserTableCellRenderer($browser);
         $data_provider = new RepositorySharedContentObjectsBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);

@@ -1,6 +1,7 @@
 <?php
 namespace common\libraries;
 require_once Path :: get_plugin_path() . 'phpbb3/phpbb3_template.php';
+use \Phpbb3Template;
 require_once Path :: get_library_path() . 'html/layout/chamilo_template_compiler.class.php';
 
 define('WEB_TPL_PATH', 'WEB_TPL_PATH');

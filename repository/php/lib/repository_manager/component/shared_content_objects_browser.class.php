@@ -32,9 +32,6 @@ use common\libraries\ConditionProperty;
  */
 class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryManager
 {
-    const VIEW_OTHERS_OBJECTS = 0;
-    const VIEW_OWN_OBJECTS = 1;
-
     private $form;
     private $view;
 
@@ -43,23 +40,17 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
      */
     function run()
     {
-        $this->view = Request :: get(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME);
+        $this->view = Request :: get(self :: PARAM_SHARED_VIEW);
         if (is_null($this->view))
-            $this->view = self :: VIEW_OTHERS_OBJECTS;
+        {
+            $this->view = self :: SHARED_VIEW_OTHERS_OBJECTS;
+        }
 
         $trail = BreadcrumbTrail :: get_instance();
 
         $this->action_bar = $this->get_action_bar();
         $this->form = new RepositoryFilterForm($this, $this->get_url());
         $output = $this->get_content_objects_html();
-
-        //$query = $this->action_bar->get_query();
-        //if(isset($query) && $query != '')
-        //{
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search', null, Utilities :: COMMON_LIBRARIES)));
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor', null, Utilities :: COMMON_LIBRARIES).': '.$query));
-        //}
-
 
         $session_filter = Session :: retrieve('filter');
 
@@ -96,11 +87,17 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         $condition = null;
         switch ($this->view)
         {
-            case self :: VIEW_OWN_OBJECTS :
+            case self :: SHARED_VIEW_OWN_OBJECTS :
                 $condition = $this->get_view_own_objects_condition();
                 break;
-            case self :: VIEW_OTHERS_OBJECTS :
+            case self :: SHARED_VIEW_OTHERS_OBJECTS :
                 $condition = $this->get_view_other_objects_condition();
+                break;
+            case self :: SHARED_VIEW_ALL_OBJECTS :
+                $conditions = array();
+                $conditions[] = $this->get_view_other_objects_condition();
+                $conditions[] = $this->get_view_own_objects_condition();
+                $condition = new OrCondition($conditions);
                 break;
             default :
                 $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, - 1);
@@ -177,12 +174,22 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
 
     function get_additional_parameters()
     {
-        return array(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME);
+        return array(self :: PARAM_SHARED_VIEW);
     }
 
     function show_my_objects()
     {
-        return Request :: get(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME) == 1;
+        return Request :: get(self :: PARAM_SHARED_VIEW) == 1;
+    }
+
+    function get_view()
+    {
+        return $this->view;
+    }
+
+    function is_allowed_to_create($type)
+    {
+        return true;
     }
 }
 ?>

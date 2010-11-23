@@ -1,5 +1,5 @@
 <?php
-namespace common\libraries;
+namespace common\libraries\application_generator;
 /***************************************************************************
  *                              template.php
  *                            -------------------

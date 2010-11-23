@@ -29,8 +29,7 @@ class RepositoryManagerContentObjectManagerComponent extends RepositoryManager
         if (isset($object_type) && isset($manage_type))
         {
             require_once Path :: get_repository_content_object_path() . $object_type . '/php/manage/' . $manage_type . '/' . $object_type . '_' . $manage_type . '_manager.class.php';
-            $class = Utilities :: underscores_to_camelcase($object_type . '_' . $manage_type) . 'Manager';
-
+            $class = 'repository\\content_object\\'. $object_type.'\\'.Utilities :: underscores_to_camelcase($object_type . '_' . $manage_type) . 'Manager';
             call_user_func(array($class, 'launch'), $this);
         }
         else

@@ -7,6 +7,8 @@ use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
 use common\libraries\Path;
+use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Request;
 
 require_once dirname(__FILE__) . '/share_right_column.class.php';
 require_once dirname(__FILE__) . '/action_column.php';

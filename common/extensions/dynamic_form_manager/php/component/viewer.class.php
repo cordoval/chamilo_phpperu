@@ -1,5 +1,14 @@
 <?php
 namespace common\extensions\dynamic_form_manager;
+
+use HTML_Table;
+
+use admin\AdminDataManager;
+
+use common\libraries\EqualityCondition;
+use common\libraries\SubselectCondition;
+use common\libraries\AndCondition;
+
 /**
  * $Id: viewer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.dynamic_form_manager.component
@@ -49,7 +58,7 @@ class DynamicFormManagerViewerComponent extends DynamicFormManager
 
     function build_table_header()
     {
-		$table = $this->table = new Html_Table(array('class' => 'data_table'));
+		$table = $this->table = new HTML_Table(array('class' => 'data_table'));
 		$table->setHeaderContents(0, 0, $this->get_dynamic_form_title());
         $table->setCellAttributes(0, 0, array('colspan' => 2, 'style' => 'text-align: center;'));
         $table->altRowAttributes(0, array('class' => 'row_odd'), array('class' => 'row_even'), true);

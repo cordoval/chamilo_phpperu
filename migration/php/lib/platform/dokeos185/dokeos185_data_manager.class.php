@@ -44,7 +44,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
 	/**
 	 * Constructor
 	 */
-	final private function __construct()
+	final public function __construct()
 	{
 		$this->configuration = $this->get_configuration();
 

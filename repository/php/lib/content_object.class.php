@@ -1225,6 +1225,38 @@ class ContentObject extends DataClass
         return $this->synchronization_data;
     }
 
+    function get_shared_users()
+    {
+        $condition = new EqualityCondition(ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
+        $shared_users = $this->get_data_manager()->retrieve_content_object_user_shares($condition);
+
+        $users = array();
+
+        while ($shared_user = $shared_users->next_result())
+        {
+            $users[$shared_user->get_user_id()] = $shared_user->get_user()->get_fullname();
+        }
+
+        asort($users);
+        return $users;
+    }
+
+    function get_shared_groups()
+    {
+        $condition = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
+        $shared_groups = $this->get_data_manager()->retrieve_content_object_group_shares($condition);
+
+        $groups = array();
+
+        while ($shared_group = $shared_groups->next_result())
+        {
+            $groups[$shared_group->get_group_id()] = $shared_group->get_group()->get_name();
+        }
+
+        asort($groups);
+        return $groups;
+    }
+
     function is_external()
     {
         $is_external = $this->get_synchronization_data();

@@ -1,5 +1,4 @@
 <?php
-
 namespace common\libraries;
 
 use repository;
@@ -11,11 +10,8 @@ use PEAR;
 use Exception;
 
 /**
- * $Id: utilities.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common
- */
-
-/**
+ *
  * This class provides some common methods that are used throughout the
  * platform.
  *
@@ -79,8 +75,7 @@ class Utilities
     {
         if (! is_array($properties))
         {
-            $properties = array(
-                    $properties);
+            $properties = array($properties);
         }
         $queries = self :: split_query($query);
         if (is_null($queries))
@@ -142,14 +137,12 @@ class Utilities
      */
     static function order_content_objects_by_title($objects)
     {
-        usort($objects, array(get_class(),
-                'by_title'));
+        usort($objects, array(get_class(), 'by_title'));
     }
 
     static function order_content_objects_by_id_desc($objects)
     {
-        usort($objects, array(get_class(),
-                'by_id_desc'));
+        usort($objects, array(get_class(), 'by_id_desc'));
     }
 
     /**
@@ -220,11 +213,7 @@ class Utilities
     {
         if (! isset(self :: $camel_us_map[$string]))
         {
-            self :: $camel_us_map[$string] = preg_replace(array(
-                    '/^([A-Z])/e',
-                    '/([A-Z])/e'), array(
-                    'strtolower("\1")',
-                    '"_".strtolower("\1")'), $string);
+            self :: $camel_us_map[$string] = preg_replace(array('/^([A-Z])/e', '/([A-Z])/e'), array('strtolower("\1")', '"_".strtolower("\1")'), $string);
         }
         return self :: $camel_us_map[$string];
     }
@@ -613,64 +602,29 @@ class Utilities
         if (file_exists($class_path))
         {
             require_once $class_path;
-            if (class_exists($classname))
-            {
-                return true;
-            }
+            return class_exists($classname);
         }
     }
 
     static function autoload_plugin($classname)
     {
         // PEAR or ZEND class?
-        $classes = array(
-                'Zend_Loader' => 'Zend/Loader.php',
-                'phpCAS' => 'CAS.php',
-                'MDB2' => 'MDB2.php',
-                'PEAR' => 'PEAR.php',
-                'Contact_Vcard_Build' => 'File/Contact_Vcard_Build.php',
-                'Contact_Vcard_Parse' => 'File/Contact_Vcard_Parse.php',
-                'HTTP_Request' => 'HTTP/Request.php',
-                'Net_LDAP2' => 'Net/LDAP2.php',
-                'Net_LDAP2_Filter' => 'Net/LDAP2/Filter.php',
-                'Pager' => 'Pager/Pager.php',
-                'Pager_Sliding' => 'Pager/Sliding.php',
-                'XML_Unserializer' => 'XML/Unserializer.php',
-                'XML_Serializer' => 'XML/Serializer.php',
-                'HTML_Table' => 'HTML/Table.php',
-                'HTML_QuickForm' => 'HTML/QuickForm.php',
-                'HTML_Menu' => 'HTML/Menu.php',
-                'HTML_Menu_ArrayRenderer' => 'HTML/Menu/ArrayRenderer.php',
-                'HTML_Menu_DirectTreeRenderer' => 'HTML/Menu/DirectTreeRenderer.php',
-                'HTML_QuickForm_Controller' => 'HTML/QuickForm/Controller.php',
-                'HTML_QuickForm_Rule' => 'HTML/QuickForm/Rule.php',
-                'HTML_QuickForm_Page' => 'HTML/QuickForm/Page.php',
-                'HTML_QuickForm_Action' => 'HTML/QuickForm/Action.php',
-                'HTML_QuickForm_RuleRegistry' => 'HTML/QuickForm/RuleRegistry.php',
-                'HTML_QuickForm_Action_Display' => 'HTML/QuickForm/Action/Display.php',
-                'HTML_QuickForm_Rule_Compare' => 'HTML/QuickForm/Rule/Compare.php',
-                'HTML_QuickForm_advmultiselect' => 'HTML/QuickForm/advmultiselect.php',
-                'HTML_QuickForm_button' => 'HTML/QuickForm/button.php',
-                'HTML_QuickForm_checkbox' => 'HTML/QuickForm/checkbox.php',
-                'HTML_QuickForm_date' => 'HTML/QuickForm/date.php',
-                'HTML_QuickForm_element' => 'HTML/QuickForm/element.php',
-                'HTML_QuickForm_file' => 'HTML/QuickForm/file.php',
-                'HTML_QuickForm_group' => 'HTML/QuickForm/group.php',
-                'HTML_QuickForm_hidden' => 'HTML/QuickForm/hidden.php',
-                'HTML_QuickForm_html' => 'HTML/QuickForm/html.php',
-                'HTML_QuickForm_radio' => 'HTML/QuickForm/radio.php',
-                'HTML_QuickForm_select' => 'HTML/QuickForm/select.php',
-                'HTML_QuickForm_text' => 'HTML/QuickForm/text.php',
-                'HTML_QuickForm_textarea' => 'HTML/QuickForm/textarea.php');
+        $classes = array('Zend_Loader' => 'Zend/Loader.php', 'phpCAS' => 'CAS.php', 'MDB2' => 'MDB2.php', 'PEAR' => 'PEAR.php', 'Contact_Vcard_Build' => 'File/Contact_Vcard_Build.php', 'Contact_Vcard_Parse' => 'File/Contact_Vcard_Parse.php', 'HTTP_Request' => 'HTTP/Request.php', 'Net_LDAP2' => 'Net/LDAP2.php', 'Net_LDAP2_Filter' => 'Net/LDAP2/Filter.php', 'Pager' => 'Pager/Pager.php', 'Pager_Sliding' => 'Pager/Sliding.php', 'XML_Unserializer' => 'XML/Unserializer.php', 'XML_Serializer' => 'XML/Serializer.php', 'HTML_Table' => 'HTML/Table.php', 'HTML_QuickForm' => 'HTML/QuickForm.php', 'HTML_Menu' => 'HTML/Menu.php', 'HTML_Menu_ArrayRenderer' => 'HTML/Menu/ArrayRenderer.php', 'HTML_Menu_DirectTreeRenderer' => 'HTML/Menu/DirectTreeRenderer.php', 'HTML_QuickForm_Controller' => 'HTML/QuickForm/Controller.php', 'HTML_QuickForm_Rule' => 'HTML/QuickForm/Rule.php', 'HTML_QuickForm_Page' => 'HTML/QuickForm/Page.php', 'HTML_QuickForm_Action' => 'HTML/QuickForm/Action.php', 'HTML_QuickForm_RuleRegistry' => 'HTML/QuickForm/RuleRegistry.php', 'HTML_QuickForm_Action_Display' => 'HTML/QuickForm/Action/Display.php', 'HTML_QuickForm_Rule_Compare' => 'HTML/QuickForm/Rule/Compare.php', 'HTML_QuickForm_advmultiselect' => 'HTML/QuickForm/advmultiselect.php', 'HTML_QuickForm_button' => 'HTML/QuickForm/button.php', 'HTML_QuickForm_checkbox' => 'HTML/QuickForm/checkbox.php', 'HTML_QuickForm_date' => 'HTML/QuickForm/date.php', 'HTML_QuickForm_element' => 'HTML/QuickForm/element.php', 'HTML_QuickForm_file' => 'HTML/QuickForm/file.php', 'HTML_QuickForm_group' => 'HTML/QuickForm/group.php', 'HTML_QuickForm_hidden' => 'HTML/QuickForm/hidden.php', 'HTML_QuickForm_html' => 'HTML/QuickForm/html.php', 'HTML_QuickForm_radio' => 'HTML/QuickForm/radio.php', 'HTML_QuickForm_select' => 'HTML/QuickForm/select.php', 'HTML_QuickForm_text' => 'HTML/QuickForm/text.php', 'HTML_QuickForm_textarea' => 'HTML/QuickForm/textarea.php');
 
         if (array_key_exists($classname, $classes))
         {
             require_once $classes[$classname];
+            return class_exists($classname);
         }
-        else
+
+        //Fallback strategy => Pear naming convention : replace _ by /
+        $classfile = str_replace("_", "/", $classname) . ".php";
+        if (file_exists($classfile))
         {
-            return false;
+            require_once $classfile;
+            return class_exists($classname);
         }
+        return false;
     }
 
     /**
@@ -778,6 +732,53 @@ class Utilities
         }
 
         return false;
+    }
+
+    static function handle_exception($exception)
+    {
+//        Display :: error_message("Uncaught exception: " . $exception->getMessage() . "\n");
+
+        $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+        	<head>
+        		<title>Uncaught exception</title>
+        		<link rel="stylesheet" href="common/libraries/resources/css/aqua/aqua.css" type="text/css"/>
+        	</head>
+        	<body dir="ltr">
+        		<div id="outerframe">
+        			<div id="header">
+        				<div id="header1">
+        					<div class="banner"><span class="logo"></span><span class="text">Chamilo</span></div>
+        					<div class="clear">&nbsp;</div>
+        				</div>
+        				<div class="clear">&nbsp;</div>
+        			</div>
+
+                    <div id="trailbox">
+                        <ul id="breadcrumbtrail">
+                        	<li><a href="#">Uncaught exception</a></li>
+                        </ul>
+                    </div>
+
+        			<div id="main" style="min-height: 300px;">
+        				<div class="error-message">' . $exception->getMessage() . '</div><br /><br />
+        			</div>
+
+        			<div id="footer">
+        				<div id="copyright">
+        					<div class="logo">
+        					<a href="http://www.chamilo.org"><img src="common/libraries/resources/images/aqua/logo_footer.png" /></a>
+        					</div>
+        					<div class="links">
+        						<a href="http://www.chamilo.org">http://www.chamilo.org</a>&nbsp;|&nbsp;&copy;&nbsp;2009
+        					</div>
+        					<div class="clear"></div>
+        				</div>
+        			</div>
+        		</div>
+        	</body>
+        </html>';
+        echo $html;
     }
 
 }

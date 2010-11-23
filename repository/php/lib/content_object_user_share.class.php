@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Utilities;
+use user\UserDataManager;
 
 /**
  * @package repository.lib
@@ -26,6 +27,11 @@ class ContentObjectUserShare extends ContentObjectShare
     function set_user_id($user_id)
     {
         $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
+    }
+
+    function get_user()
+    {
+        return UserDataManager :: get_instance()->retrieve_user($this->get_user_id());
     }
 
     /**

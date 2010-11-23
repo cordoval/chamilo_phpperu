@@ -128,7 +128,7 @@ abstract class ContentObjectRenderer
 
         if ($content_object instanceof ComplexContentObjectSupport)
         {
-            $actions[] = new ToolbarItem(Translation :: get('BrowseComplex'), Theme :: get_common_image_path() . 'action_build.png', $this->get_repository_browser()->get_browse_complex_content_object_url($content_object), ToolbarItem :: DISPLAY_ICON);
+            $actions[] = new ToolbarItem(Translation :: get('BuildComplexObject', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_build.png', $this->get_repository_browser()->get_browse_complex_content_object_url($content_object), ToolbarItem :: DISPLAY_ICON);
 
             $preview_url = $this->get_repository_browser()->get_preview_complex_content_object_url($content_object);
             $onclick = '" onclick="javascript:openPopup(\'' . $preview_url . '\'); return false;';

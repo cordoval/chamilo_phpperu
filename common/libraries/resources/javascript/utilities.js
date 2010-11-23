@@ -5,9 +5,9 @@ function getPlatformSetting(variable, application)
 }
 
 // Get a translation
-function getTranslation(string, application)
+function getTranslation(string, parameters, context)
 {
-	return getUtilities('translation', { string: string, application: application }).translation;
+	return getUtilities('translation', { string: string, parameters: null, context: context }).translation;
 }
 
 // Get a platform path

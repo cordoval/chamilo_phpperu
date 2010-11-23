@@ -19,7 +19,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use phpVimeo;
 
-require_once Path :: get_plugin_path() . 'phpvimeo/vimeo.php';
+require_once Path :: get_plugin_path(__NAMESPACE__) . 'phpvimeo/vimeo.php';
 require_once dirname(__FILE__) . '/vimeo_external_repository_object.class.php';
 
 /**

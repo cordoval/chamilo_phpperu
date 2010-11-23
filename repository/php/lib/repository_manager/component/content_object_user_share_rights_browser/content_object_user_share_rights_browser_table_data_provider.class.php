@@ -1,4 +1,11 @@
 <?php
+namespace repository;
+
+use common\libraries\ObjectTableDataProvider;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
+//use common\libraries\ObjectTableDataProvider;
+//use common\libraries\ObjectTableDataProvider;
 
 /**
  * Data provider for a repository browser table.

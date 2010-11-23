@@ -17,6 +17,8 @@ use common\libraries\Request;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 
+use HTML_Table;
+
 /**
  * $Id: weblcms_manager.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager
@@ -1608,7 +1610,7 @@ class WeblcmsManager extends WebApplication
     {
         $html = array();
 
-        $table = new Html_Table(array('class' => 'data_table'));
+        $table = new HTML_Table(array('class' => 'data_table'));
 
         $table->setHeaderContents(0, 0, Translation :: get('Courses'));
         $table->setCellAttributes(0, 0, array('colspan' => 2, 'style' => 'text-align: center;'));

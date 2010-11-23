@@ -1,6 +1,5 @@
 <?php
 namespace common\libraries;
-require_once dirname(__FILE__).'/../../../../global.inc.php';
 
 class RssIconGenerator
 {

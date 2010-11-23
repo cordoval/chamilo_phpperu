@@ -2,6 +2,10 @@
 namespace repository;
 
 use common\libraries\Utilities;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTable;
+use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/content_object_group_share_rights_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/content_object_group_share_rights_browser_table_cell_renderer.class.php';
@@ -19,7 +23,7 @@ class ContentObjectGroupShareRightsBrowserTable extends ObjectTable
         $model = new ContentObjectGroupShareRightsBrowserTableColumnModel();
         $renderer = new ContentObjectGroupShareRightsBrowserTableCellRenderer($browser);
         $data_provider = new ContentObjectGroupShareRightsBrowserTableDataProvider($browser, $condition);
-        ObjectTable :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
 
         $table_form_actions = new ObjectTableFormActions(__NAMESPACE__);
         $table_form_actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_CONTENT_OBJECT_SHARE_DELETER, Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), true));

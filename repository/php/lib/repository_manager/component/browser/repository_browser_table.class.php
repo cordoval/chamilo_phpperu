@@ -39,6 +39,7 @@ class RepositoryBrowserTable extends ObjectTable
         $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_EXPORT_CP_SELECTED, Translation :: get('ExportCpSelected'), false);
 
         $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_RECYCLE_CONTENT_OBJECTS, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));
+        $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_UNLINK_CONTENT_OBJECTS, Translation :: get('UnlinkSelected', null, Utilities :: COMMON_LIBRARIES)));
         $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_MOVE_CONTENT_OBJECTS, Translation :: get('MoveSelected', null, Utilities :: COMMON_LIBRARIES), false));
         $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_PUBLISH_CONTENT_OBJECT, Translation :: get('PublishSelected', null, Utilities :: COMMON_LIBRARIES), false));
         $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_EXPORT_CONTENT_OBJECTS, Translation :: get('ExportSelected', null, Utilities :: COMMON_LIBRARIES), false));
