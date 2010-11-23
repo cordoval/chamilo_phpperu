@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use user;
 
 use common\libraries\Request;
@@ -13,6 +15,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Utilities;
 use common\libraries\DynamicVisualTabsRenderer;
 use common\libraries\DynamicVisualTab;
+use common\libraries\ToolbarItem;
 
 
 use user\UserManager;
@@ -30,6 +33,7 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
 {
 
     private $type;
+    private $content_object_ids;
 
     const TAB_DETAILS = 0;
     const TAB_SUBGROUPS = 1;
@@ -40,7 +44,7 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
     function run()
     {
 
-        $content_object_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
+        $this->content_object_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 
         //set rights for users or groups?
         $this->type = Request :: get(ContentObjectShare :: PARAM_TYPE);
@@ -53,6 +57,7 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
 
         //display the component
         $this->display_header();
+        echo $this->action_bar->as_html();
         $this->display_body();
         $this->display_footer();
     }
@@ -131,7 +136,7 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
         //        }
 
 
-        $condition = new EqualityCondition(ContentObjectShare :: PROPERTY_CONTENT_OBJECT_ID, Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID));
+        $condition = new EqualityCondition(ContentObjectShare :: PROPERTY_CONTENT_OBJECT_ID, $this->content_object_ids);
         $browser_table = new ContentObjectUserShareRightsBrowserTable($this, $this->get_parameters(), $condition);
         return $browser_table->as_html();
     }
@@ -153,7 +158,7 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
         //            $group = $groups_result_set->next_result();
         //        }
         //        $condition = new OrCondition($conditions);
-        $condition = new EqualityCondition(ContentObjectShare :: PROPERTY_CONTENT_OBJECT_ID, Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID));
+        $condition = new EqualityCondition(ContentObjectShare :: PROPERTY_CONTENT_OBJECT_ID, $this->content_object_ids);
 
         $browser_table = new ContentObjectGroupShareRightsBrowserTable($this, $this->get_parameters(), $condition);
 
@@ -166,7 +171,7 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShareWithOtherUsersGroups'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_content_object_share_create_url($this->content_object_ids)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         return $action_bar;
     }
 

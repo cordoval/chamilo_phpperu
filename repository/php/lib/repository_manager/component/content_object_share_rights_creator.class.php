@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use common\libraries\Utilities;
 use repository\RepositoryManager;
 use common\libraries\Breadcrumb;
@@ -69,7 +71,7 @@ class RepositoryManagerContentObjectShareRightsCreatorComponent extends Reposito
         foreach ($content_object_ids as $object_id)
         {
             $object = $this->retrieve_content_object($object_id);
-            $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_type() . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($object->get_type()))) . '"/> ' . $object->get_title() . '</li>';
+            $html[] = '<li><img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($object->get_type())) . 'logo/' . Theme :: ICON_MINI . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($object->get_type()))) . '"/> ' . $object->get_title() . '</li>';
         }
 
         $html[] = '</ul>';
