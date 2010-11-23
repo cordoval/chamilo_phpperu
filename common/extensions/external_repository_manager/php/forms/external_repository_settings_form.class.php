@@ -6,9 +6,10 @@ use common\libraries\FormValidator;
 use common\libraries\Path;
 use common\libraries\Translation;
 
-use \DOMDocument;
+use DOMDocument;
 
 use repository\RepositoryDataManager;
+
 use repository\ExternalRepositorySetting;
 
 /**
@@ -79,17 +80,17 @@ class ExternalRepositorySettingsForm extends FormValidator
                     if (! $has_settings && $categories > 1)
                     {
                         $this->addElement('html', '<div class="configuration_form">');
-                        $this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name), ExternalRepositoryManager::get_i18n_context($configuration['name'])) . '</span>');
+                        $this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name), null, ExternalRepositoryManager::get_namespace($configuration['name'])) . '</span>');
                         $has_settings = true;
                     }
 
                     if ($setting['locked'] == 'true')
                     {
-                        $this->addElement('static', $name, Translation :: get(Utilities :: underscores_to_camelcase($name)), ExternalRepositoryManager::get_i18n_context($configuration['name']));
+                        $this->addElement('static', $name, Translation :: get(Utilities :: underscores_to_camelcase($name)), null, ExternalRepositoryManager::get_namespace($configuration['name']));
                     }
                     elseif ($setting['field'] == 'text')
                     {
-                        $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name)/*, ExternalRepositoryManager::get_i18n_context($configuration['name'])*/), ($setting['required'] == 'true'));
+                        $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalRepositoryManager::get_namespace($configuration['name'])), ($setting['required'] == 'true'));
 
                         $validations = $setting['validations'];
                         if ($validations)
@@ -103,7 +104,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                                         $validation['format'] = NULL;
                                     }
 
-                                    $this->addRule($name, Translation :: get($validation['message']/*, ExternalRepositoryManager::get_i18n_context($configuration['name'])*/), $validation['rule'], $validation['format']);
+                                    $this->addRule($name, Translation :: get($validation['message'], null, ExternalRepositoryManager::get_namespace($configuration['name'])), $validation['rule'], $validation['format']);
                                 }
                             }
                         }
@@ -111,7 +112,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                     }
                     elseif ($setting['field'] == 'html_editor')
                     {
-                        $this->add_html_editor($name, Translation :: get(Utilities :: underscores_to_camelcase($name)/*, ExternalRepositoryManager::get_i18n_context($configuration['name'])*/), ($setting['required'] == 'true'));
+                        $this->add_html_editor($name, Translation :: get(Utilities :: underscores_to_camelcase($name), ExternalRepositoryManager::get_namespace($configuration['name'])), ($setting['required'] == 'true'));
                     }
                     else
                     {
@@ -141,11 +142,11 @@ class ExternalRepositorySettingsForm extends FormValidator
                                     $group[] = & $this->createElement($setting['field'], $name, null, Translation :: get(Utilities :: underscores_to_camelcase($option_name)), $option_value);
                                 }
                             }
-                            $this->addGroup($group, $name, Translation :: get(Utilities :: underscores_to_camelcase($name), ExternalRepositoryManager::get_i18n_context($configuration['name'])), '<br/>', false);
+                            $this->addGroup($group, $name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalRepositoryManager::get_namespace($configuration['name'])), '<br/>', false);
                         }
                         elseif ($setting['field'] == 'select')
                         {
-                            $this->addElement('select', $name, Translation :: get(Utilities :: underscores_to_camelcase($name), ExternalRepositoryManager::get_i18n_context($configuration['name'])), $options);
+                            $this->addElement('select', $name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalRepositoryManager::get_namespace($configuration['name'])), $options);
                         }
                     }
                 }
