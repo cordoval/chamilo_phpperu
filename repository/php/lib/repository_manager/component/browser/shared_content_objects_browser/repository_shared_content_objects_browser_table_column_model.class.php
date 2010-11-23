@@ -35,6 +35,8 @@ class RepositorySharedContentObjectsBrowserTableColumnModel extends DefaultShare
         parent :: __construct();
         $this->set_default_order_column(0);
 
+        $this->add_column(new StaticTableColumn(Translation :: get('SharedWith')));
+
         if ($browser->get_view() == RepositoryManager :: SHARED_VIEW_ALL_OBJECTS || $browser->get_view() == RepositoryManager :: SHARED_VIEW_OWN_OBJECTS)
         {
             $this->add_column(self :: get_rights_column());
