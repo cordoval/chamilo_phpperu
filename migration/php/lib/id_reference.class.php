@@ -1,18 +1,22 @@
 <?php
+
 namespace migration;
+
 use common\libraries\DataClass;
+use common\libraries\Utilities;
+
 /**
  * $Id: $
  * @package migration.lib
  */
-/**
- *	@author Sven Vanpoucke
- */
 
+/**
+ * 	@author Sven Vanpoucke
+ */
 class IdReference extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_REFERENCE_TABLE_NAME = 'reference_table_name';
     const PROPERTY_OLD_ID = 'old_id';
     const PROPERTY_NEW_ID = 'new_id';
@@ -36,8 +40,8 @@ class IdReference extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_OLD_ID, $old_id);
     }
-    
-	function get_new_id()
+
+    function get_new_id()
     {
         return $this->get_default_property(self :: PROPERTY_NEW_ID);
     }
@@ -53,7 +57,7 @@ class IdReference extends DataClass
      */
     static function get_default_property_names()
     {
-         return parent :: get_default_property_names(array(self :: PROPERTY_REFERENCE_TABLE_NAME, self :: PROPERTY_OLD_ID, self :: PROPERTY_NEW_ID));
+        return parent :: get_default_property_names(array(self :: PROPERTY_REFERENCE_TABLE_NAME, self :: PROPERTY_OLD_ID, self :: PROPERTY_NEW_ID));
     }
 
     /**
@@ -66,7 +70,9 @@ class IdReference extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(__CLASS__));
     }
+
 }
+
 ?>

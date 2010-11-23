@@ -31,9 +31,11 @@ class Autoloader
             'common_request' => 'course/common_request.class.php',
             'tool' => 'tool/tool.class.php',
             'tool_component' => 'tool/tool_component.class.php',
+            'course_module_last_access' => 'course/course_module_last_access.class.php',
             'content_object_publication_user' => 'content_object_publication_user.class.php',
             'content_object_publication_group' => 'content_object_publication_group.class.php',
             'content_object_publication_course_group' => 'content_object_publication_course_group.class.php',
+            'content_object_publication_category' => 'category_manager/content_object_publication_category.class.php',
             'content_object_publication_category_manager' => 'category_manager/content_object_publication_category_manager.class.php',
             'object_publication_table_cell_renderer.class' => 'browser/object_publication_table/object_publication_table_cell_renderer.class.php',
             'course_type_settings' => 'course_type/course_type_settings.class.php',
@@ -51,7 +53,6 @@ class Autoloader
             'course_user_relation' => 'course/course_user_relation.class.php',
             'course_validator' => 'validator/course_validator.class.php',
             'default_course_category_table_cell_renderer' => 'course/course_category_table/default_course_category_table_cell_renderer.class.php',
-            'course_category' => 'course/course_category.class.php',
             'mini_month_calendar_content_object_publication_list_renderer' => 'browser/list_renderer/mini_month_calendar_content_object_publication_list_renderer.class.php',
             'month_calendar_content_object_publication_list_renderer' => 'browser/list_renderer/month_calendar_content_object_publication_list_renderer.class.php',
             'week_calendar_content_object_publication_list_renderer' => 'browser/list_renderer/week_calendar_content_object_publication_list_renderer.class.php',
@@ -68,6 +69,7 @@ class Autoloader
             'weblcms_survey_participant_mail_tracker' => 'trackers/weblcms_survey_participant_mail_tracker.class.php',
             'weblcms_survey_participant_tracker' => 'trackers/weblcms_survey_participant_tracker.class.php',
             'weblcms_survey_question_answer_tracker' => 'trackers/weblcms_survey_question_answer_tracker.class.php',
+            'weblcms_rights' => 'weblcms_rights.class.php'
             );
 
         $lower_case = Utilities :: camelcase_to_underscores($classname);

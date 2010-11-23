@@ -5,6 +5,12 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;
 use common\libraries\PlatformSetting;
+use common\libraries\Translation;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\CourseUserRelation;
+use user\UserDataManager;
+use user\User;
+use common\libraries\ObjectResultSet;
 
 /**
  * Class that connects to the old dokeos185 system
@@ -181,7 +187,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     	$conditions[] = new EqualityCondition(Dokeos185ItemProperty :: PROPERTY_REF, $id);
 	    $condition = new AndCondition($conditions);
 
-    	return $this->retrieve_objects(Dokeos185ItemProperty :: get_table_name(), $condition, null, null, null, 'Dokeos185ItemProperty')->next_result();
+    	return $this->retrieve_objects(Dokeos185ItemProperty :: get_table_name(), $condition, null, null, null,  Dokeos185ItemProperty :: get_class())->next_result();
     }
 
     /**
@@ -249,7 +255,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
         $conditions[] = new AndCondition($conditions2);
 
         $condition = new OrCondition($conditions);
-        $object = $this->retrieve_object(Dokeos185User::TABLE_NAME, $condition);
+        $object = $this->retrieve_object(Dokeos185User:: get_table_name(), $condition, null, Dokeos185User :: get_class_name());
 
         return $object;
     }
@@ -264,7 +270,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     	$this->set_database($course->get_db_name());
 
     	$condition = new EqualityCondition(Dokeos185QuizRelQuestion :: PROPERTY_QUESTION_ID, $question_id);
-    	return $this->retrieve_objects(Dokeos185QuizRelQuestion :: get_table_name(), $condition, null, null, null, 'Dokeos185QuizRelQuestion');
+    	return $this->retrieve_objects(Dokeos185QuizRelQuestion :: get_table_name(), $condition, null, null, null, Dokeos185QuizRelQuestion :: get_class_name());
     }
      
 	/**

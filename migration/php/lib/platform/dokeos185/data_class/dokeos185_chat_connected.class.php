@@ -1,5 +1,7 @@
 <?php
 namespace migration;
+
+use Exception;
 /**
  * $Id: dokeos185_chat_connected.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185

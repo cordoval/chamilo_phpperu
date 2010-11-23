@@ -1,7 +1,14 @@
 <?php
 namespace migration;
 use common\libraries\DataClass;
+use common\libraries\Utilities;
+use common\libraries\Translation;
 use common\libraries\PlatformSetting;
+use common\libraries\Path;
+use common\libraries\Text;
+use common\libraries\Filesystem;
+use repository\content_object\document\Document;
+use repository\RepositoryDataManager;
 
 /**
  * $Id: import.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -239,7 +246,7 @@ abstract class MigrationDataClass extends DataClass
             echo ($filename);
             die('Failed to load ' . $filename);
         }
-        $class = Utilities :: underscores_to_camelcase($old_system . '_' . $type);
+        $class = __NAMESPACE__ . '\\' .Utilities :: underscores_to_camelcase($old_system . '_' . $type);
 
         require_once $filename;
         return new $class();
