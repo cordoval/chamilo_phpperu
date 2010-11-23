@@ -1,5 +1,8 @@
 <?php
 namespace migration;
+
+use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * $Id: system_migration_wizard_page.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.migration_manager.component.inc.wizard

@@ -1,7 +1,9 @@
 <?php
 namespace migration;
 
-require_once dirname(__FILE__) . '/../../../../../application/lib/weblcms/course/course_module_last_access.class.php';
+use application\weblcms\CourseModuleLastAccess;
+use common\libraries\Utilities;
+
 
 /**
  * $Id: dokeos185_track_eaccess.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -192,7 +194,7 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 
     static function get_class_name()

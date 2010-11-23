@@ -3,6 +3,9 @@ namespace migration;
 
 use admin\AdminDataManager;
 use common\libraries\InCondition;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
 
 /**
  * $Id: dokeos185_setting_current.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -211,7 +214,7 @@ class Dokeos185SettingCurrent extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 
     static function get_class_name()

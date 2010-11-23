@@ -1,8 +1,13 @@
 <?php
 
 namespace migration;
+
 use common\libraries\Path;
 use application\weblcms\CourseCategory;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
+
 /**
  * $Id: dokeos185_course_category.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
@@ -20,7 +25,7 @@ class Dokeos185CourseCategory extends Dokeos185MigrationDataClass
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'course_category';
     const DATABASE_NAME = 'main_database';
-    
+
     /**
      * course category properties
      */
@@ -41,7 +46,7 @@ class Dokeos185CourseCategory extends Dokeos185MigrationDataClass
     /**
      * CATEGORY GETTERS AND SETTERS
      */
-    
+
     /**
      * Returns the ID of this category.
      * @return int The ID.
@@ -93,13 +98,13 @@ class Dokeos185CourseCategory extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
-        if (! $this->get_name())
+        if (!$this->get_name())
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'course category', 'ID' => $this->get_id())));
             return false;
         }
-        
+
         return true;
     }
 
@@ -112,7 +117,7 @@ class Dokeos185CourseCategory extends Dokeos185MigrationDataClass
         //Course category parameters
         $chamilo_course_category = new CourseCategory();
         $chamilo_course_category->set_name($this->get_name());
-        
+
         if ($this->get_parent_id())
         {
             $parent_id = $this->get_id_reference($this->get_parent_id(), 'main_database.course_category');
@@ -125,10 +130,10 @@ class Dokeos185CourseCategory extends Dokeos185MigrationDataClass
         {
             $chamilo_course_category->set_parent(0);
         }
-        
+
         //create course_category in database
         $chamilo_course_category->create();
-        
+
         //Add id references to temp table
         $this->create_id_reference($this->get_code(), $chamilo_course_category->get_id());
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'course_category', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_course_category->get_id())));
@@ -136,7 +141,8 @@ class Dokeos185CourseCategory extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        
     }
 
     static function get_class_name()
@@ -150,4 +156,5 @@ class Dokeos185CourseCategory extends Dokeos185MigrationDataClass
     }
 
 }
+
 ?>

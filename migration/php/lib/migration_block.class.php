@@ -1,5 +1,13 @@
 <?php
 namespace migration;
+use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\MessageLogger;
+use common\libraries\Timer;
+use common\libraries\Path;
+use common\libraries\Filesystem;
+use common\libraries\FileLogger;
+
 /**
  * General migration class to start a migration for a block
  */
@@ -112,7 +120,7 @@ abstract class MigrationBlock
 		
 		require_once($file);
 		
-		$class = Utilities :: underscores_to_camelcase($block) . 'MigrationBlock';
+		$class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($block) . 'MigrationBlock';
 		
 		return new $class();
 	}

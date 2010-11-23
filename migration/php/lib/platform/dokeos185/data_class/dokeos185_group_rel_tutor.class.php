@@ -1,5 +1,8 @@
 <?php
 namespace migration;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
 
 /**
  * $Id: dokeos185_group_rel_tutor.class.php 221 2009-11-13 14:36:41Z vanpouckesven $

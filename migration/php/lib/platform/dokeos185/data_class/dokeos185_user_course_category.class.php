@@ -1,13 +1,16 @@
 <?php
 namespace migration;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
+use application\weblcms\CourseUserCategory;
+use application\weblcms\CourseTypeUserCategory;
 /**
  * $Id: dokeos185_user_course_category.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
 
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
-require_once Path :: get(SYS_PATH) . 'application/weblcms/php/course/course_user_category.class.php';
-require_once Path :: get(SYS_PATH) . 'application/weblcms/php/course_type/course_type_user_category.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 user course category
@@ -121,7 +124,7 @@ class Dokeos185UserCourseCategory extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 
     static function get_class_name()

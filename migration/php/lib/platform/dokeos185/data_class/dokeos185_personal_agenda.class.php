@@ -1,7 +1,10 @@
 <?php
 namespace migration;
-
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
 use admin\AdminDataManager;
+use repository\content_object\calendar_event\CalendarEvent;
 
 /**
  * $Id: dokeos185_personal_agenda.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -9,7 +12,6 @@ use admin\AdminDataManager;
  */
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
-require_once Path :: get(SYS_APP_PATH) . 'lib/personal_calendar/personal_calendar_publication.class.php';
 
 /**
  * Class that represents the personal agenda data from dokeos 1.8.5
@@ -180,7 +182,7 @@ class Dokeos185PersonalAgenda extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 
     static function get_class_name()
