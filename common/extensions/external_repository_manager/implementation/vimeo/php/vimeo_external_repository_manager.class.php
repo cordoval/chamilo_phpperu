@@ -25,7 +25,7 @@ class VimeoExternalRepositoryManager extends ExternalRepositoryManager
 
     const PARAM_FEED_TYPE = 'feed';
 
-    const FEED_TYPE_GENERAL = 1;
+//    const FEED_TYPE_GENERAL = 1;
     //    const FEED_TYPE_MOST_INTERESTING = 2;
     //    const FEED_TYPE_MOST_RECENT = 3;
     const FEED_TYPE_MY_PHOTOS = 2;
@@ -98,15 +98,15 @@ class VimeoExternalRepositoryManager extends ExternalRepositoryManager
         $my_photos['class'] = 'user';
         $menu_items[] = $my_photos;
 
-        $general = array();
-        $general['title'] = Translation :: get('Public');
-        $general['url'] = $this->get_url(array(
-                self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(
-                ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $general['class'] = 'home';
-        $menu_items[] = $general;
+//        $general = array();
+//        $general['title'] = Translation :: get('Public');
+//        $general['url'] = $this->get_url(array(
+//                self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(
+//                ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+//        $general['class'] = 'home';
+//        $menu_items[] = $general;
 
-        $most_recent = array();
+//        $most_recent = array();
         //        $most_recent['title'] = Translation :: get('MostRecent');
         //        $most_recent['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_RECENT), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         //        $most_recent['class'] = 'recent';
