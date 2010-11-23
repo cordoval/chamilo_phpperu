@@ -40,7 +40,7 @@ class DocumentForm extends ContentObjectForm
         parent :: build_creation_form();
         $post_max_size = ini_get('upload_max_filesize');
         $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
-        //$this->addElement('html', '<span style="margin-left: -38px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
+        $this->addElement('static', null, Translation :: get('MaxSize'), $post_max_size);
         $this->addElement('upload_or_create', 'upload_or_create', sprintf(Translation :: get('FileName'), $post_max_size));
         $this->register_html_editor(HTML_QuickForm_upload_or_create :: ELEMENT_EDITOR);
         //$this->addElement('checkbox','uncompress',Translation :: get('Uncompress'), '', array('id' => 'uncompress'));
@@ -54,7 +54,7 @@ class DocumentForm extends ContentObjectForm
         $post_max_size = ini_get('upload_max_filesize');
 
         $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
-        //$this->addElement('html', '<span style="margin-left: -40px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
+        $this->addElement('static', null, Translation :: get('MaxSize'), $post_max_size);
         $object = $this->get_content_object();
         if (Utilities :: is_html_document($object->get_filename()))
         {
