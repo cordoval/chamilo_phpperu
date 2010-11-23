@@ -840,5 +840,13 @@ interface WeblcmsDataManagerInterface
     function retrieve_all_courses_with_course_categories($condition, $user_id);
 
     function update_course_type_user_category_rel_course(CourseTypeUserCategoryRelCourse $course_type_user_category_rel_course);
+
+    /**
+     * Updates the visibility of the course modules
+     * @param Condition $condition define the to be updated modules and course
+     * @param bool $visibility visibility
+     */
+    function update_course_module_visibility($condition, $visibility);
+    
 }
 ?>
