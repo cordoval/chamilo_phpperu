@@ -1,7 +1,6 @@
 <?php
 namespace migration;
-
-require_once dirname(__FILE__) . "/../../../../../user/trackers/login_logout_tracker.class.php";
+use user\LoginLogoutTracker;
 
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
