@@ -25,13 +25,13 @@ class RepositoryManagerContentObjectManagerComponent extends RepositoryManager
     {
         $object_type = Request :: get(ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE);
         $manage_type = Request :: get(self :: PARAM_CONTENT_OBJECT_MANAGER_TYPE);
-		        
+
         if (isset($object_type) && isset($manage_type))
         {
             require_once Path :: get_repository_content_object_path() . $object_type . '/php/manage/' . $manage_type . '/' . $object_type . '_' . $manage_type . '_manager.class.php';
-            $class = 'repository\\content_object\\'. $object_type.'\\'.Utilities :: underscores_to_camelcase($object_type . '_' . $manage_type) . 'Manager';
+            $class = Utilities :: underscores_to_camelcase($object_type . '_' . $manage_type) . 'Manager';
+
             call_user_func(array($class, 'launch'), $this);
-            
         }
         else
         {
