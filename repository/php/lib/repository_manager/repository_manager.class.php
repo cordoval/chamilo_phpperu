@@ -83,10 +83,15 @@ class RepositoryManager extends CoreApplication
     const PARAM_LINK_TYPE = 'link_type';
     const PARAM_LINK_ID = 'link_id';
     const PARAM_CONTENT_OBJECT_MANAGER_TYPE = 'manage';
+    const PARAM_SHARED_VIEW = 'shared_view';
     const PARAM_SHOW_OBJECTS_SHARED_BY_ME = 'show_my_objects';
 
     const PARAM_TYPE = 'type';
     const PARAM_IDENTIFIER = 'identifier';
+
+    const SHARED_VIEW_OTHERS_OBJECTS = 0;
+    const SHARED_VIEW_OWN_OBJECTS = 1;
+    const SHARED_VIEW_ALL_OBJECTS = 2;
 
     /**
      * Constant defining an action of the repository manager.
@@ -894,18 +899,18 @@ class RepositoryManager extends CoreApplication
 
             $shared = array();
             $shared['title'] = Translation :: get('SharedContentObjects');
-            $shared['url'] = $this->get_shared_content_objects_url();
+            $shared['url'] = $this->get_shared_content_objects_url(self :: SHARED_VIEW_ALL_OBJECTS);
             $shared['class'] = 'category';
 
             $shared_own = array();
             $shared_own['title'] = Translation :: get('ContentObjectsSharedByMe');
-            $shared_own['url'] = $this->get_shared_content_objects_url(true);
+            $shared_own['url'] = $this->get_shared_content_objects_url(self :: SHARED_VIEW_OWN_OBJECTS);
             $shared_own['class'] = 'category';
             $shared['sub'][] = $shared_own;
 
             $shared_others = array();
             $shared_others['title'] = Translation :: get('ContentObjectsSharedWithMe');
-            $shared_others['url'] = $this->get_shared_content_objects_url();
+            $shared_others['url'] = $this->get_shared_content_objects_url(self :: SHARED_VIEW_OTHERS_OBJECTS);
             $shared_others['class'] = 'category';
             $shared['sub'][] = $shared_others;
 
@@ -1342,12 +1347,12 @@ class RepositoryManager extends CoreApplication
                 self :: PARAM_ACTION => self :: ACTION_BROWSE_USER_VIEWS));
     }
 
-    function get_shared_content_objects_url($show_objects_shared_by_me = null)
+    function get_shared_content_objects_url($view)
     {
         return $this->get_url(array(
                 self :: PARAM_ACTION => self :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS,
                 self :: PARAM_CATEGORY_ID => null,
-                self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME => $show_objects_shared_by_me));
+                self :: PARAM_SHARED_VIEW => $view));
     }
 
     function create_user_view_url()

@@ -1,11 +1,14 @@
 <?php
 namespace repository;
+use common\libraries;
+
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Filesystem;
 use common\libraries\Path;
 use common\libraries\OptionsMenuRenderer;
 use common\libraries\Utilities;
+use common\libraries\ResourceManager;
 /**
  * $Id: content_object_import_form.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -81,9 +84,11 @@ class ContentObjectImportForm extends FormValidator
 
         $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName', null, Utilities :: COMMON_LIBRARIES));
         //$this->addElement('submit', 'content_object_import', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive import'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive import', 'id' => 'import_button'));
         //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/resources/javascript/import.js'));
     }
 
     function get_types()

@@ -13,8 +13,13 @@ use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
+use common\libraries\ActionBarRenderer;
+use common\libraries\Application;
+use common\libraries\SortableTable;
 
 use repository\RepositoryDataManager;
+use repository\QuotaManager;
+use repository\ContentObject;
 
 /**
  * $Id: quota_viewer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

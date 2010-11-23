@@ -1,5 +1,5 @@
 <?php
-namespace common\libraries;
+namespace common\libraries\content_object_generator;
 
 /**
  * Dataclass generator used to generate a form for a content object

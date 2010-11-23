@@ -24,65 +24,91 @@ class RepositoryManagerUnlinkerComponent extends RepositoryManager
      */
     function run()
     {
-        $id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
-        if (! empty($id))
+        $ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
+        if (! empty($ids))
         {
+            if (! is_array($ids))
+            {
+                $ids = array($ids);
+            }
+
             $failures = 0;
-
-            $object = $this->retrieve_content_object($id);
-            // TODO: Roles & Rights.
-            if ($object->get_owner_id() == $this->get_user_id())
+            foreach ($ids as $object_id)
             {
-                $versions = $object->get_content_object_versions();
-
-                foreach ($versions as $version)
+                $object = $this->retrieve_content_object($object_id);
+                // TODO: Roles & Rights.
+                if ($object->get_owner_id() == $this->get_user_id())
                 {
-                    if (! $version->delete_links())
+                    $versions = $object->get_content_object_versions();
+
+                    foreach ($versions as $version)
                     {
-                        $failures ++;
+                        if (! $version->delete_links())
+                        {
+                            $failures ++;
+                        }
                     }
-                }
-            }
-            else
-            {
-                $failures ++;
-            }
 
-            // TODO: SCARA - Structurize + cleanup (possible) failures
-
-
-            if ($failures)
-            {
-                if ($failures >= 1)
-                {
-                    $message = Translation :: get('ObjectNotUnlinked', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsNotUnlinked', array('OBJECT' => Translation :: get('ContentObjectVersions')), Utilities :: COMMON_LIBRARIES);
+                    $failures ++;
+                }
+            }
+
+            if ($failures)
+            {
+                if (count($ids) == 1)
+                {
+                    $message = 'ObjectNotUnlinked';
+                    $parameter = array('OBJECT' => Translation :: get('ContentObject'));
+                }
+                else
+                {
+                    $message = 'ObjectsNotUnlinked';
+                    $parameter = array('OBJECTS' => Translation :: get('ContentObjects'));
                 }
             }
             else
             {
-                $message = Translation :: get('ObjectUnlinked', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
+                if (count($ids) == 1)
+                {
+                    $message = 'ObjectUnlinked';
+                    $parameter = array('OBJECT' => Translation :: get('ContentObject'));
+                }
+                else
+                {
+                    $message = 'ObjectsUnlinked';
+                    $parameter = array('OBJECTS' => Translation :: get('ContentObjects'));
+                }
             }
-            $this->redirect($message, ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id));
+
+            if (count($ids) == 1)
+            {
+                $parameters = array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $ids[0]);
+            }
+            else
+            {
+                $parameters = array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS);
+            }
+
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), $parameters);
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
-    	$breadcrumbtrail->add_help('repository_unlinker');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+        $breadcrumbtrail->add_help('repository_unlinker');
     }
 
     function get_additional_parameters()
     {
-    	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
+        return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
     }
 }
 ?>

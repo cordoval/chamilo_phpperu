@@ -1,13 +1,14 @@
 <?php
+use common\libraries\Path;
 /**
- * Photobucket API
+ * Photobucket API 
  * Fluent interface for PHP5
  * XML to array response parser
- *
+ * 
  * @author Photobucket
  * @package PBAPI
  * @subpackage Response
- *
+ * 
  * @copyright Copyright Copyright (c) 2008, Photobucket, Inc.
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
@@ -20,7 +21,7 @@
  * base class for SimpleXML
  */
 require_once dirname(__FILE__) . '/../Response.php';
-require_once dirname(__FILE__) . '/simplexml.php';
+require_once dirname(__FILE__) . '/../Response/simplexml.php';
 
 /**
  * Response XML parser using SimpleXML
@@ -29,7 +30,7 @@ require_once dirname(__FILE__) . '/simplexml.php';
  * @subpackage Response
  */
 class PBAPI_Response_simplexmlarray extends PBAPI_Response_simplexml {
-
+    
     /**
      * Do XML parse with simplexml
      *
@@ -40,10 +41,10 @@ class PBAPI_Response_simplexmlarray extends PBAPI_Response_simplexml {
     public function parse($string, $onlycontent = false) {
         $obj = parent::parse($string, $onlycontent);
         $result = self::xmlToArray($obj);
-
+        
         return $result;
     }
-
+    
     /**
      * Use SimpleXML Element to turn into an array
      *
@@ -60,12 +61,12 @@ class PBAPI_Response_simplexmlarray extends PBAPI_Response_simplexml {
                 $attribs[$attrName] = $attrValue;
             }
         }
-
+        
         $results = array();
         if ($children = $node->children()) {
             //node has children, do stuff.
             if ($attribs) $results['_attribs'] = $attribs;
-
+            
             //prescan children to determine count
             $childnums = array();
             foreach ($children as $elementName => $childnode) {
@@ -81,7 +82,7 @@ class PBAPI_Response_simplexmlarray extends PBAPI_Response_simplexml {
                     $results[$elementName] = self::xmlToArray($childnode);
                 }
             }
-
+            
         } else {
             //node doesnt have children (leaf)
             if ($attribs) {
@@ -91,8 +92,8 @@ class PBAPI_Response_simplexmlarray extends PBAPI_Response_simplexml {
                 $results = (string) $node;
             }
         }
-
-        return $results;
+        
+        return $results; 
     }
-
+    
 }

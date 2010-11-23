@@ -318,7 +318,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
                     //create publication in weblcms
                     $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', $parent_id, $new_to_user_id, $new_to_group_id);
                 }
-            }
+            
         }
     }
 

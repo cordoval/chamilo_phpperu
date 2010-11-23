@@ -718,7 +718,7 @@ abstract class ContentObjectPublicationListRenderer
 
             if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('BuildComplex'), Theme :: get_common_image_path() . 'action_bar.png', $this->get_complex_builder_url($publication->get_id()), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('BuildComplexObject', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_build.png', $this->get_complex_builder_url($publication->get_id()), ToolbarItem :: DISPLAY_ICON));
             }
 
             if ($show_move && $this->get_publication_count() > 1)

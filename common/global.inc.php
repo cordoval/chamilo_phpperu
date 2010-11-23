@@ -57,6 +57,7 @@ require_once dirname(__FILE__) . '/libraries/php/filesystem/path.class.php';
 require_once dirname(__FILE__) . '/libraries/php/utilities.class.php';
 ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear') . PATH_SEPARATOR . realpath(Path :: get_plugin_path() . 'google/library'));
 
+set_exception_handler('common\libraries\Utilities::handle_exception');
 spl_autoload_register('common\libraries\Utilities::autoload');
 
 // Start session
@@ -266,7 +267,7 @@ function __global_get_error_message()
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
 		<title>Chamilo isn\'t installed ?!</title>
-		<link rel="stylesheet" href="layout/aqua/css/common.css" type="text/css"/>
+		<link rel="stylesheet" href="common/libraries/resources/css/aqua/aqua.css" type="text/css"/>
 	</head>
 	<body dir="ltr">
 		<div id="outerframe">
@@ -300,7 +301,7 @@ function __global_get_error_message()
 			<div id="footer">
 				<div id="copyright">
 					<div class="logo">
-					<a href="http://www.chamilo.org"><img src="layout/aqua/images/common/logo_footer.png" /></a>
+					<a href="http://www.chamilo.org"><img src="common/libraries/resources/images/aqua/logo_footer.png" /></a>
 					</div>
 					<div class="links">
 						<a href="http://www.chamilo.org">http://www.chamilo.org</a>&nbsp;|&nbsp;&copy;&nbsp;2009

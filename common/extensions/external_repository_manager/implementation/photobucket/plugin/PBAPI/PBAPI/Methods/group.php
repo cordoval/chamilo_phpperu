@@ -1,13 +1,14 @@
 <?php
+use common\libraries\Path;
 /**
- * Photobucket API
+ * Photobucket API 
  * Fluent interface for PHP5
  * GroupAlbum methods
- *
+ * 
  * @author Photobucket
  * @package PBAPI
  * @subpackage Methods
- *
+ * 
  * @copyright Copyright Copyright (c) 2008, Photobucket, Inc.
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
@@ -24,7 +25,7 @@ require_once dirname(__FILE__) . '/../Methods.php';
  * @subpackage Methods
  */
 class PBAPI_Methods_group extends PBAPI_Methods {
-
+    
     /**
      * Upload File
      *
@@ -34,7 +35,7 @@ class PBAPI_Methods_group extends PBAPI_Methods {
         $this->core->_setParamList($params);
         $this->core->_appendUri('/upload');
     }
-
+    
     /**
      * Privacy
      *
@@ -44,7 +45,7 @@ class PBAPI_Methods_group extends PBAPI_Methods {
         $this->core->_setParamList($params);
         $this->core->_appendUri('/privacy');
     }
-
+    
     /**
      * Vanity
      *
@@ -56,9 +57,9 @@ class PBAPI_Methods_group extends PBAPI_Methods {
     }
 
     /**
-     * info
-     *
-     * @param array $params
+     * info 
+     * 
+     * @param array $params 
      */
     public function info($params = null) {
         $this->core->_setParamList($params);
@@ -66,10 +67,10 @@ class PBAPI_Methods_group extends PBAPI_Methods {
     }
 
     /**
-     * contributors
-     *
+     * contributors 
+     * 
      * @param string $username
-     * @param array $params
+     * @param array $params 
      */
     public function contributor($username = '', $params = null) {
        if (is_array($username) && $params == null) {

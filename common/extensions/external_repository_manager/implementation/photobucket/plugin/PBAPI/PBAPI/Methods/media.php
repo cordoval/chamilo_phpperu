@@ -1,13 +1,14 @@
 <?php
+use common\libraries\Path;
 /**
- * Photobucket API
+ * Photobucket API 
  * Fluent interface for PHP5
  * Media methods
- *
+ * 
  * @author Photobucket
  * @package PBAPI
  * @subpackage Methods
- *
+ * 
  * @copyright Copyright Copyright (c) 2008, Photobucket, Inc.
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
@@ -24,7 +25,7 @@ require_once dirname(__FILE__) . '/../Methods.php';
  * @subpackage Methods
  */
 class PBAPI_Methods_media extends PBAPI_Methods {
-
+    
     /**
      * description
      *
@@ -34,7 +35,7 @@ class PBAPI_Methods_media extends PBAPI_Methods {
         $this->core->_setParamList($params);
         $this->core->_appendUri('/description');
     }
-
+    
     /**
      * Title
      *
@@ -44,7 +45,7 @@ class PBAPI_Methods_media extends PBAPI_Methods {
         $this->core->_setParamList($params);
         $this->core->_appendUri('/title');
     }
-
+    
     /**
      * Tag
      *
@@ -59,7 +60,7 @@ class PBAPI_Methods_media extends PBAPI_Methods {
         $this->core->_appendUri('/tag/%s', $tagid);
         $this->core->_setParamList($params);
     }
-
+    
     /**
      * resize
      *
@@ -69,7 +70,7 @@ class PBAPI_Methods_media extends PBAPI_Methods {
         $this->core->_setParamList($params);
         $this->core->_appendUri('/resize');
     }
-
+    
     /**
      * Rotate
      *
@@ -79,7 +80,7 @@ class PBAPI_Methods_media extends PBAPI_Methods {
         $this->core->_setParamList($params);
         $this->core->_appendUri('/rotate');
     }
-
+    
     /**
      * Metadata
      *
@@ -88,7 +89,7 @@ class PBAPI_Methods_media extends PBAPI_Methods {
     public function meta($params = null) {
         $this->core->_appendUri('/meta');
     }
-
+    
     /**
      * Links
      *
@@ -97,7 +98,7 @@ class PBAPI_Methods_media extends PBAPI_Methods {
     public function links($params = null) {
         $this->core->_appendUri('/link');
     }
-
+    
     /**
      * related search
      *
@@ -107,7 +108,7 @@ class PBAPI_Methods_media extends PBAPI_Methods {
         $this->core->_setParamList($params);
         $this->core->_appendUri('/related');
     }
-
+    
     /**
      * Share
      *
@@ -117,5 +118,5 @@ class PBAPI_Methods_media extends PBAPI_Methods {
         $this->core->_setParamList($params);
         $this->core->_appendUri('/share');
     }
-
+    
 }

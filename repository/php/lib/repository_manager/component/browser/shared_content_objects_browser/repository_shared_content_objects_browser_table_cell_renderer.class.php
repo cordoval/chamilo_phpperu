@@ -40,9 +40,13 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
     // Inherited
     function render_cell($column, $content_object)
     {
-        if ($column === RepositorySharedContentObjectsBrowserTableColumnModel :: get_modification_column())
+        if ($column === RepositorySharedContentObjectsBrowserTableColumnModel :: get_sharing_column())
         {
-            return $this->get_modification_links($content_object);
+            return $this->get_sharing_links($content_object);
+        }
+        elseif($column === RepositorySharedContentObjectsBrowserTableColumnModel :: get_rights_column())
+        {
+            return $this->get_rights_links($content_object);
         }
 
         switch ($column->get_name())
@@ -70,12 +74,13 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
      * action links should be returned
      * @return string A HTML representation of the action links
      */
-    private function get_modification_links($content_object)
+    private function get_sharing_links($content_object)
     {
-        $toolbar = new Toolbar();
+        $user = $this->browser->get_user();
 
-        if(!$this->browser->show_my_objects())
+        if($user->get_id() != $content_object->get_owner_id())
         {
+            $toolbar = new Toolbar();
 	        $right = $content_object->get_optional_property('user_right');
 	        if(!$right)
 	        {
@@ -89,16 +94,16 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 	        			Theme :: get_common_image_path().'action_visible.png',
 						$this->browser->get_content_object_viewing_url($content_object),
 					 	ToolbarItem :: DISPLAY_ICON
-				));
+				    ));
 	       	}
 	        else
 	        {
 	            $toolbar->add_item(new ToolbarItem(
-	        			Translation :: get('View', null, Utilities :: COMMON_LIBRARIES),
+	        			Translation :: get('ViewNotAvailable', null, Utilities :: COMMON_LIBRARIES),
 	        			Theme :: get_common_image_path().'action_visible_na.png',
 						null,
 					 	ToolbarItem :: DISPLAY_ICON
-				));
+				    ));
 	        }
 
 	        if ($right >= ContentObjectShare :: USE_RIGHT)
@@ -108,7 +113,7 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 	        			Theme :: get_common_image_path().'action_publish.png',
 						$this->browser->get_publish_content_object_url($content_object),
 					 	ToolbarItem :: DISPLAY_ICON
-				));
+				    ));
 	        }
 	        else
 	        {
@@ -117,7 +122,7 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 	        			Theme :: get_common_image_path().'action_publish_na.png',
 						null,
 					 	ToolbarItem :: DISPLAY_ICON
-				));
+				    ));
 	        }
 
 	        if ($right >= ContentObjectShare :: REUSE_RIGHT)
@@ -127,7 +132,7 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 	        			Theme :: get_common_image_path().'action_reuse.png',
 						$this->browser->get_copy_content_object_url($content_object->get_id(), $this->browser->get_user_id()),
 					 	ToolbarItem :: DISPLAY_ICON
-				));
+				    ));
 	        }
 	        else
 	        {
@@ -136,36 +141,52 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 	        			Theme :: get_common_image_path().'action_reuse_na.png',
 						null,
 					 	ToolbarItem :: DISPLAY_ICON
-				));
+				    ));
 	        }
 
 	        if ($content_object instanceof ComplexContentObjectSupport)
 	        {
-	        	            $toolbar->add_item(new ToolbarItem(
-	        			Translation :: get('BrowseComplex'),
-	        			Theme :: get_common_image_path().'action_browser.png',
+	            $toolbar->add_item(new ToolbarItem(
+	        			Translation :: get('BuildComplexObject', null, Utilities :: COMMON_LIBRARIES),
+	        			Theme :: get_common_image_path().'action_build.png',
 						$this->browser->get_browse_complex_content_object_url($content_object),
 					 	ToolbarItem :: DISPLAY_ICON
-				));
+                    ));
 	        }
+
+	        return $toolbar->as_html();
         }
+        else
+        {
+            return null;
+        }
+    }
+
+    private function get_rights_links($content_object)
+    {
+        $user = $this->browser->get_user();
+
+        if($user->get_id() == $content_object->get_owner_id())
+		{
+		    $toolbar = new Toolbar();
+	        $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('EditShareRights'),
+        			Theme :: get_common_image_path() . 'action_rights.png',
+					$this->browser->get_content_object_share_browser_url($content_object->get_id()),
+				 	ToolbarItem :: DISPLAY_ICON
+                ));
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Unshare', null, Utilities :: COMMON_LIBRARIES),
+        			Theme :: get_common_image_path() . 'action_unshare.png',
+					$this->browser->get_content_object_share_deleter_url($content_object->get_id(), null),
+				 	ToolbarItem :: DISPLAY_ICON
+                ));
+            return $toolbar->as_html();
+		}
 		else
 		{
-	        $toolbar->add_item(new ToolbarItem(
-	        			Translation :: get('EditShareRights'),
-	        			Theme :: get_common_image_path() . 'edit_rights',
-						$this->browser->get_content_object_share_browser_url($content_object->get_id()),
-					 	ToolbarItem :: DISPLAY_ICON
-	                ));
-                $toolbar->add_item(new ToolbarItem(
-	        			Translation :: get('UnShare', null, Utilities :: COMMON_LIBRARIES),
-	        			Theme :: get_common_image_path() . 'delete_rights',
-						$this->browser->get_content_object_share_deleter_url($content_object->get_id(), null),
-					 	ToolbarItem :: DISPLAY_ICON
-	                ));
+		    return null;
 		}
-
-        return $toolbar->as_html();
     }
 }
 ?>

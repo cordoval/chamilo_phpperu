@@ -4,6 +4,7 @@ namespace application\wiki;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\Session;
 use repository\content_object\wiki\Wiki;
 
 /**

@@ -1,4 +1,6 @@
 <?php
+namespace common\libraries\application_generator;
+
 ini_set('include_path', realpath(dirname(__FILE__) . '/../../../plugin/pear'));
 require_once dirname(__FILE__) . '/../../global.inc.php';
 include (dirname(__FILE__) . '/settings.inc.php');
@@ -17,8 +19,8 @@ $location = $application['location'];
 $name = $application['name'];
 $author = $application['author'];
 
-$data_class_generator = new DataClassGenerator();
-$form_generator = new FormGenerator();
+$data_class_generator = new DataClassGeneratorForApplication();
+$form_generator = new FormGeneratorForApplication();
 $sortable_table_generator = new SortableTableGenerator();
 
 //Create Folders

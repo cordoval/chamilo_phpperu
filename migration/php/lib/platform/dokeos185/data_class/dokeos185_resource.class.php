@@ -1,13 +1,12 @@
 <?php
 namespace migration;
 
+
 /**
  * $Id: dokeos185_resource.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_resource.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/announcement/announcement.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Resource
@@ -139,9 +138,21 @@ class Dokeos185CalendarEvent extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return Boolean
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
     /**
@@ -150,7 +161,7 @@ class Dokeos185CalendarEvent extends Dokeos185MigrationDataClass
      * @return
      */
     
-    function convert_data
+    function convert_data()
     {
         $course = $array['course'];
     }
@@ -183,14 +194,6 @@ class Dokeos185CalendarEvent extends Dokeos185MigrationDataClass
 	 * @param unknown_type $course
 	 */
 	function is_valid_resource($course)
-	{
-		
-	}
-
-	/**
-	 * @param unknown_type $course
-	 */
-	function convert_data
 	{
 		
 	}

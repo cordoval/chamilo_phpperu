@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use application\weblcms\tool\link;
+
 use common\libraries\Theme;
 use common\libraries\DynamicContentTab;
 use common\libraries\DynamicTabsRenderer;
@@ -10,6 +12,7 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use application\weblcms\tool\home\HomeTool;
+use application\weblcms\tool\link\LinkTool;
 use HTML_Table;
 
 /**
@@ -164,14 +167,14 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             {
                 $lcms_action = HomeTool :: ACTION_HIDE_PUBLICATION;
                 $visible_image = 'action_visible.png';
-                $tool_image = 'tool_' . $publication->get_tool() . '.png';
+                $tool_image = '32.png';
                 $link_class = '';
             }
             else
             {
                 $lcms_action = HomeTool :: ACTION_SHOW_PUBLICATION;
                 $visible_image = 'action_invisible.png';
-                $tool_image = 'tool_' . $publication->get_tool() . '_na.png';
+                $tool_image = '32_na.png';
                 $link_class = ' class="invisible"';
             }
 
@@ -184,22 +187,27 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 // Show visibility-icon
                 if ($parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
                 {
-                    $cell_contents[] = '<a href="' . $parent->get_url(array(
-                            Tool :: PARAM_ACTION => $lcms_action,
-                            Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
-                    $cell_contents[] = '<a href="' . $parent->get_url(array(
-                            Tool :: PARAM_ACTION => HomeTool :: ACTION_DELETE_LINKS,
-                            Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
+                    $cell_contents[] = '<a href="' . $parent->get_url(array(Tool :: PARAM_ACTION => $lcms_action, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
+                    $cell_contents[] = '<a href="' . $parent->get_url(array(Tool :: PARAM_ACTION => HomeTool :: ACTION_DELETE_LINKS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
                     $cell_contents[] = '&nbsp;&nbsp;&nbsp;';
                 }
 
                 // Show tool-icon + name
-                $cell_contents[] = '<a href="' . $parent->get_url(array(
-                        'tool_action' => null,
-                        WeblcmsManager :: PARAM_COMPONENT_ACTION => null,
-                        WeblcmsManager :: PARAM_TOOL => $publication->get_tool(),
-                        Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true) . '" ' . $link_class . '>';
-                $cell_contents[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
+
+
+                if ($publication->get_tool() == LinkTool :: TOOL_NAME)
+                {
+                    $url = $publication->get_content_object()->get_url();
+                    $target = ' target="_blank"';
+                }
+                else
+                {
+                    $url = $parent->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $publication->get_tool(), Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
+                    $target = '';
+                }
+
+                $cell_contents[] = '<a href="' . $url . '"' . $target . $link_class . '>';
+                $cell_contents[] = '<img src="' . Theme :: get_image_path(Tool :: get_tool_type_namespace($publication->get_tool())) . 'logo/' . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
                 $cell_contents[] = '&nbsp;';
                 $cell_contents[] = $title;
                 $cell_contents[] = '</a>';
@@ -302,9 +310,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 // Show visibility-icon
                 if ($this->is_course_admin && $section->get_type() != CourseSection :: TYPE_ADMIN)
                 {
-                    $html[] = '<a href="' . $parent->get_url(array(
-                            HomeTool :: PARAM_ACTION => $lcms_action,
-                            HomeTool :: PARAM_TOOL => $tool->name)) . '"><img class="tool_visible" src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
+                    $html[] = '<a href="' . $parent->get_url(array(HomeTool :: PARAM_ACTION => $lcms_action, HomeTool :: PARAM_TOOL => $tool->name)) . '"><img class="tool_visible" src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
                     $html[] = '&nbsp;&nbsp;&nbsp;';
                 }
 
@@ -313,11 +319,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 
                 $html[] = '<img class="tool_image"' . $id . ' src="' . Theme :: get_image_path(Tool :: get_tool_type_namespace($tool->name)) . 'logo/' . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
                 $html[] = '&nbsp;';
-                $html[] = '<a id="tool_text" href="' . $parent->get_url(array(
-                        WeblcmsManager :: PARAM_COMPONENT_ACTION => null,
-                        WeblcmsManager :: PARAM_TOOL => $tool->name,
-                        'tool_action' => null,
-                        Tool :: PARAM_BROWSER_TYPE => null), array(), true) . '" ' . $link_class . '>';
+                $html[] = '<a id="tool_text" href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $tool->name, 'tool_action' => null, Tool :: PARAM_BROWSER_TYPE => null), array(), true) . '" ' . $link_class . '>';
                 $html[] = $title;
                 $html[] = '</a>';
 

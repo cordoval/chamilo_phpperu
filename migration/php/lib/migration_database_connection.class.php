@@ -1,12 +1,12 @@
 <?php
 namespace migration;
-
+use common\libraries\Connection;
 /**
  * Class that extends the general connection class so we can use this to connect to different databases then the one of chamilo 2.0
  * @author Sven Vanpoucke
  */
 
-class MigrationDatabaseConnection Extends Connection
+class MigrationDatabaseConnection extends Connection
 {
 	function __construct($connection_string)
     {

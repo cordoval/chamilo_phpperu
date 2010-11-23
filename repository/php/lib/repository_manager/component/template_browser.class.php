@@ -107,5 +107,10 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManager
     	$breadcrumbtrail->add_help('repository_template_browser');
     }
 
+    function is_allowed_to_create($type)
+    {
+        return true;
+    }
+
 }
 ?>

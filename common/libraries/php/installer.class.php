@@ -500,14 +500,14 @@ abstract class Installer
             }
             elseif (count($files) > 0)
             {
-                $warning_message = Translation :: get('UnlinkedTrackers', null, 'install') . ': <em>' . Translation :: get('CheckUnlinkedTrackers', null, TrackingManager :: APPLICATION_NAME) . ' ' . $path . '</em>';
-                $this->add_message(self :: TYPE_WARNING, $warning_message);
+                //$warning_message = Translation :: get('UnlinkedTrackers', null, 'install') . ': <em>' . Translation :: get('CheckUnlinkedTrackers', null, TrackingManager :: APPLICATION_NAME) . ' ' . $path . '</em>';
+                //$this->add_message(self :: TYPE_WARNING, $warning_message);
             }
         }
         elseif (count($files) > 0)
         {
-            $warning_message = Translation :: get('UnlinkedTrackers', null, 'install') . ': <em>' . Translation :: get('CheckUnlinkedTrackers', null, TrackingManager :: APPLICATION_NAME) . ' ' . $path . '</em>';
-            $this->add_message(self :: TYPE_WARNING, $warning_message);
+            //$warning_message = Translation :: get('UnlinkedTrackers', null, 'install') . ': <em>' . Translation :: get('CheckUnlinkedTrackers', null, TrackingManager :: APPLICATION_NAME) . ' ' . $path . '</em>';
+            //$this->add_message(self :: TYPE_WARNING, $warning_message);
         }
 
         return true;
