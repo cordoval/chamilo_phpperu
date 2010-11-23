@@ -55,7 +55,7 @@ class UserManagerUserDetailComponent extends UserManager implements Administrati
 			echo $this->display_groups($user);
 			echo '<br />';
 
-			$apps = WebApplication :: load_all_from_filesystem();
+			$apps = WebApplication :: load_all();
 			foreach($apps as $app_name)
 			{
 				$app = WebApplication :: factory($app_name, $this->get_user());

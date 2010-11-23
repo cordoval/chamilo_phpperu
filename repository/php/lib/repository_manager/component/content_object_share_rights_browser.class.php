@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use user;
+
 use common\libraries\Request;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ResourceManager;
@@ -8,6 +10,10 @@ use common\libraries\Path;
 use common\libraries\Theme;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use common\libraries\Utilities;
+use common\libraries\DynamicVisualTabsRenderer;
+use common\libraries\DynamicVisualTab;
+
 
 use user\UserManager;
 use group\GroupManager;
@@ -56,20 +62,31 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
      */
     private function display_body()
     {
-        $html = array();
-
-        $html[] = $this->get_type_selector_html();
-
-        if ($this->type == ContentObjectUserShare :: TYPE_USER_SHARE)
+        switch ($this->type)
         {
-            $html[] = $this->get_users_browser_html();
-        }
-        else
-        {
-            $html[] = $this->get_groups_browser_html();
+            case ContentObjectUserShare :: TYPE_USER_SHARE :
+                $table = $this->get_users_browser_html();
+                break;
+            case ContentObjectGroupShare :: TYPE_GROUP_SHARE :
+                $table = $this->get_groups_browser_html();
+                break;
+            default :
+                $table = '';
+                break;
         }
 
-        echo implode("\n", $html);
+        $renderer_name = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $tabs = new DynamicVisualTabsRenderer($renderer_name, $table);
+
+        $label = htmlentities(Translation :: get('Users', null, UserManager :: APPLICATION_NAME));
+        $link = $this->get_url(array(ContentObjectShare :: PARAM_TYPE => ContentObjectUserShare :: TYPE_USER_SHARE));
+        $tabs->add_tab(new DynamicVisualTab('users', $label, Theme :: get_image_path(UserManager :: APPLICATION_NAME) . 'logo/22.png', $link, ($this->type == ContentObjectUserShare :: TYPE_USER_SHARE)));
+
+        $label = htmlentities(Translation :: get('Groups', null, GroupManager :: APPLICATION_NAME));
+        $link = $this->get_url(array(ContentObjectShare :: PARAM_TYPE => ContentObjectGroupShare :: TYPE_GROUP_SHARE));
+        $tabs->add_tab(new DynamicVisualTab('users', $label, Theme :: get_image_path(GroupManager :: APPLICATION_NAME) . 'logo/22.png', $link, ($this->type == ContentObjectGroupShare :: TYPE_GROUP_SHARE)));
+
+        echo $tabs->render();
     }
 
     /**
