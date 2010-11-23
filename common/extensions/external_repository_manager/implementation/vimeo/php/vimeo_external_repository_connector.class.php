@@ -377,12 +377,37 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
      * @param string $photo_path
      * @return mixed
      */
-    function create_external_repository_object($values, $photo_path)
+    function create_external_repository_object($values, $video_path)
     {
-        $tags = explode(',', $values[VimeoExternalRepositoryObject :: PROPERTY_TAGS]);
-        $tags = '"' . implode('" "', $tags) . '"';
-        
-        return $this->vimeo->sync_upload($photo_path, $values[VimeoExternalRepositoryObject :: PROPERTY_TITLE], $values[VimeoExternalRepositoryObject :: PROPERTY_DESCRIPTION], $tags);
+    	$video_id = $this->vimeo->upload($video_path);
+    	
+    	$response = $this->vimeo->call('vimeo.videos.setDescription', array('description' => $values['description'], 'video_id' => $video_id));
+    	if (! $response->stat == 'ok')
+    	{
+    		return false;
+    	}
+    	else
+    	{    		
+    		$response = $this->vimeo->call('vimeo.videos.setTitle', array('title' => $values['title'], 'video_id' => $video_id));
+    		if (! $response->stat == 'ok')
+    		{
+    			return false;
+    		}
+    		else
+    		{
+    			$response = $this->vimeo->call('vimeo.videos.clearTags', array('video_id' => $video_id));
+    			if ($response->stat == 'ok')
+    			{
+    				$response = $this->vimeo->call('vimeo.videos.addTags', array('video_id' => $video_id, 'tags' => $values['tags']));
+    				if (! $response->stat == 'ok')
+    				{
+    					return false;
+    				}   				
+    			}
+    			
+    			return true;
+    		}
+    	}
     }
 
     /**
@@ -390,8 +415,24 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
      * @return mixed
      */
     function export_external_repository_object($content_object)
-    {
-        return $this->flickr->sync_upload($content_object->get_full_path(), $content_object->get_title(), $content_object->get_description());
+    {   
+	    $video_id = $this->vimeo->upload($content_object->get_full_path());
+    	
+    	$response = $this->vimeo->call('vimeo.videos.setDescription', array('description' => $content_object->get_description(), 'video_id' => $video_id));
+    	if (! $response->stat == 'ok')
+    	{
+    		return false;
+    	}
+    	else
+    	{    		
+    		$response = $this->vimeo->call('vimeo.videos.setTitle', array('title' => $content_object->get_title(), 'video_id' => $video_id));
+    		if (! $response->stat == 'ok')
+    		{
+    			return false;
+    		}
+    	}
+    	return true;
+        
     }
 
     /**

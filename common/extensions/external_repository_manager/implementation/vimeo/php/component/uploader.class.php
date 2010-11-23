@@ -3,8 +3,13 @@ namespace common\extensions\external_repository_manager\implementation\vimeo;
 
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
+use common\libraries\Request;
 use common\libraries\Redirect;
 use common\libraries\Path;
+use common\libraries\Application;
+use common\libraries\Translation;
+
+require_once dirname(__FILE__) . '/../forms/vimeo_external_repository_manager_form.class.php';
 
 class VimeoExternalRepositoryManagerUploaderComponent extends VimeoExternalRepositoryManager
 {
@@ -34,7 +39,7 @@ class VimeoExternalRepositoryManagerUploaderComponent extends VimeoExternalRepos
             }
             else
             {
-                Request :: set_get(Application :: PARAM_ERROR_MESSAGE, Translation :: get('FlickrUploadProblem'));
+                Request :: set_get(Application :: PARAM_ERROR_MESSAGE, Translation :: get('VimeoUploadProblem'));
                 $this->display_header();
                 $form->display();
                 $this->display_footer();
