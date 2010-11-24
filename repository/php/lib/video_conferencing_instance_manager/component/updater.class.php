@@ -5,9 +5,9 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
-require_once dirname(__FILE__) . '/../forms/external_repository_form.class.php';
+require_once dirname(__FILE__) . '/../forms/video_conferencing_form.class.php';
 
-class ExternalRepositoryInstanceManagerUpdaterComponent extends ExternalRepositoryInstanceManager
+class VideoConferencingInstanceManagerUpdaterComponent extends VideoConferencingInstanceManager
 {
 
     function run()
@@ -17,17 +17,17 @@ class ExternalRepositoryInstanceManagerUpdaterComponent extends ExternalReposito
             $this->not_allowed();
         }
 
-        $instance_id = Request :: get(ExternalRepositoryInstanceManager :: PARAM_INSTANCE);
+        $instance_id = Request :: get(VideoConferencingInstanceManager :: PARAM_INSTANCE);
 
         if(isset($instance_id))
         {
-            $external_repository = $this->retrieve_external_repository($instance_id);
-            $form = new ExternalRepositoryForm(ExternalRepositoryForm :: TYPE_EDIT, $external_repository, $this->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $instance_id)));
+            $video_conferencing = $this->retrieve_video_conferencing($instance_id);
+            $form = new VideoConferencingForm(VideoConferencingForm :: TYPE_EDIT, $video_conferencing, $this->get_url(array(VideoConferencingInstanceManager :: PARAM_INSTANCE => $instance_id)));
 
             if ($form->validate())
             {
-                $success = $form->update_external_repository();
-                $this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
+                $success = $form->update_video_conferencing();
+                $this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('VideoConferencing')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(VideoConferencingInstanceManager :: PARAM_INSTANCE_ACTION => VideoConferencingInstanceManager :: ACTION_BROWSE_INSTANCES));
             }
             else
             {
@@ -39,7 +39,7 @@ class ExternalRepositoryInstanceManagerUpdaterComponent extends ExternalReposito
         else
         {
                 $this->display_header();
-                $this->display_error_message(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES));
+                $this->display_error_message(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('VideoConferencing')), Utilities :: COMMON_LIBRARIES));
                 $this->display_footer();
         }
     }

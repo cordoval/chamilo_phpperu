@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="video_conferencing_user_quotum">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="user_id" type="integer" unsigned="1" notnull="1" />
+		<property name="video_conferencing_id" type="integer"
+			unsigned="1" notnull="1" />
+		<property name="quotum" type="integer" unsigned="1" notnull="1" />
+	</properties>
+</object>

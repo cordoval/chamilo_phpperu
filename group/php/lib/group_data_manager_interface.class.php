@@ -70,5 +70,7 @@ interface GroupDataManagerInterface
     function retrieve_group_use_groups($condition = null, $offset = null, $count = null, $order_property = null);
 
     function retrieve_group_use_group($id);
+
+    function unsubscribe_user_from_all_groups($user);
 }
 ?>

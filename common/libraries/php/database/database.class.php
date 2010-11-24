@@ -793,6 +793,7 @@ class Database
         }
 
         $res = $this->query($query);
+
         $distinct_elements = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {

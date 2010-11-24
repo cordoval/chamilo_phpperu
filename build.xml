@@ -10,6 +10,7 @@
     <property name="build-logs-dir" location="${build-dir}/logs" />
     <property name="build-coverage-dir" location="${build-dir}/coverage" />
     <property name="test-dir" location="./test" />
+    <property name="phpunit-coverage-config-file" location="${test-dir}/phpunit-coverage.xml" />
     <property name="phpunit-config-file" location="${test-dir}/phpunit.xml" />
 
     <!-- ============================================  -->
@@ -69,20 +70,40 @@
     </target>
 
     <!-- ============================================  -->
-    <!-- Target: phpunit                               -->
+    <!-- Target: phpunit (with reports)                -->
     <!-- ============================================  -->
-    <target name="phpunit" depends="phpunitOk, phpunitKo" />
-    <target name="phpunitOk" depends="setcommands, clean, prepare" if="phpunit-command-present">
+    <target name="phpunit-coverage" depends="phpunit-coverage-ok, phpunit-coverage-ko" />
+
+    <target name="phpunit-coverage-ok" depends="setcommands, clean, prepare" if="phpunit-command-present">
+        <echo message="Running all the tests and generating reports (this takes several minutes)..." />
+        <exec   dir="${test-dir}"
+                executable="${phpunitCmd}"
+                failonerror="true"
+         >
+            <arg line="--configuration ${phpunit-coverage-config-file}" />
+         </exec>
+    </target>
+
+    <target name="phpunit-coverage-ko" depends="" unless="phpunit-command-present">
+        <echo message="Cannot run the tests, please install phpunit" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: phpunit (no report, much faster)      -->
+    <!-- ============================================  -->
+    <target name="phpunit" depends="phpunit-ok, phpunit-ko" />
+    <target name="phpunit-ok" depends="setcommands" if="phpunit-command-present">
         <echo message="Running all the tests" />
         <exec   dir="${test-dir}"
                 executable="${phpunitCmd}"
                 failonerror="true"
          >
             <arg line="--configuration ${phpunit-config-file}" />
+            <arg line="--configuration ${phpunit-config-file}" />
          </exec>
     </target>
 
-    <target name="phpunitKo" depends="" unless="phpunit-command-present">
+    <target name="phpunit-ko" depends="" unless="phpunit-command-present">
         <echo message="Cannot run the tests, please install phpunit" />
     </target>
 

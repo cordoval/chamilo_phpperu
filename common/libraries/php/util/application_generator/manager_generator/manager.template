@@ -1,11 +1,12 @@
 <?php
+
+namespace {NAMESPACE};
+
 /**
  * @package application.lib.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}_manager
  */
-require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_data_manager.class.php';
-<!-- BEGIN OBJECTS -->
-require_once dirname(__FILE__).'/component/{OBJECTS.L_OBJECT_CLASS}_browser/{OBJECTS.L_OBJECT_CLASS}_browser_table.class.php';
-<!-- END OBJECTS -->
+
+use common\libraries\WebApplication;
 
 /**
  * A {L_APPLICATION_NAME} manager
@@ -19,7 +20,6 @@ require_once dirname(__FILE__).'/component/{OBJECTS.L_OBJECT_CLASS}_browser/{OBJ
 
 	<!-- BEGIN OBJECTS -->
 	const PARAM_{OBJECTS.U_OBJECT_CLASS} = '{OBJECTS.L_OBJECT_CLASS}';
-	const PARAM_DELETE_SELECTED_{OBJECTS.U_OBJECT_CLASSES} = 'delete_selected_{OBJECTS.L_OBJECT_CLASSES}';
 	
 	const ACTION_DELETE_{OBJECTS.U_OBJECT_CLASS} = 'delete_{OBJECTS.L_OBJECT_CLASS}';
 	const ACTION_EDIT_{OBJECTS.U_OBJECT_CLASS} = 'edit_{OBJECTS.L_OBJECT_CLASS}';
@@ -29,79 +29,17 @@ require_once dirname(__FILE__).'/component/{OBJECTS.L_OBJECT_CLASS}_browser/{OBJ
 	<!-- END OBJECTS -->
 
 	const ACTION_BROWSE = 'browse';
+        const DEFAULT_ACTION = self :: ACTION_BROWSE;
+
 
 	/**
 	 * Constructor
 	 * @param User $user The current user
 	 */
-    function {APPLICATION_NAME}Manager($user = null)
+    function __construct($user = null)
     {
     	parent :: __construct($user);
-    	$this->parse_input_from_table();
     }
-
-    /**
-	 * Run this {L_APPLICATION_NAME} manager
-	 */
-	function run()
-	{
-		$action = $this->get_action();
-		$component = null;
-		switch ($action)
-		{
-			<!-- BEGIN OBJECTS -->
-			case self :: ACTION_BROWSE_{OBJECTS.U_OBJECT_CLASSES} :
-				$component = $this->create_component('{OBJECTS.OBJECT_CLASSES}Browser');
-				break;
-			case self :: ACTION_DELETE_{OBJECTS.U_OBJECT_CLASS} :
-				$component = $this->create_component('{OBJECTS.OBJECT_CLASS}Deleter');
-				break;
-			case self :: ACTION_EDIT_{OBJECTS.U_OBJECT_CLASS} :
-				$component = $this->create_component('{OBJECTS.OBJECT_CLASS}Updater');
-				break;
-			case self :: ACTION_CREATE_{OBJECTS.U_OBJECT_CLASS} :
-				$component = $this->create_component('{OBJECTS.OBJECT_CLASS}Creator');
-				break;
-			<!-- END OBJECTS -->
-			case self :: ACTION_BROWSE:
-				$component = $this->create_component('Browser');
-				break;
-			default :
-				$this->set_action(self :: ACTION_BROWSE);
-				$component = $this->create_component('Browser');
-			
-		}
-		$component->run();
-	}
-	
-	private function parse_input_from_table()
-	{
-		if (isset ($_POST['action']))
-		{
-			switch ($_POST['action'])
-			{
-				<!-- BEGIN OBJECTS -->
-				case self :: PARAM_DELETE_SELECTED_{OBJECTS.U_OBJECT_CLASSES} :
-					
-					$selected_ids = $_POST[{OBJECTS.OBJECT_CLASS}BrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
-
-					if (empty ($selected_ids))
-					{
-						$selected_ids = array ();
-					}
-					elseif (!is_array($selected_ids))
-					{
-						$selected_ids = array ($selected_ids);
-					}
-					
-					$this->set_action(self :: ACTION_DELETE_{OBJECTS.U_OBJECT_CLASS});
-					$_GET[self :: PARAM_{OBJECTS.U_OBJECT_CLASS}] = $selected_ids;
-					break;
-				<!-- END OBJECTS -->
-			}
-
-		}
-	}
 	
 	function get_application_name()
 	{
@@ -153,9 +91,15 @@ require_once dirname(__FILE__).'/component/{OBJECTS.L_OBJECT_CLASS}_browser/{OBJ
 	}
 	
 	<!-- END OBJECTS -->
+
 	function get_browse_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
 	}
+
+        function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
 }
 ?>
