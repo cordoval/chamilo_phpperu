@@ -14,13 +14,14 @@ include (dirname(__FILE__) . '/manager_generator/manager_generator.class.php');
 include (dirname(__FILE__) . '/component_generator/component_generator.class.php');
 include (dirname(__FILE__) . '/rights_generator/rights_generator.class.php');
 include (dirname(__FILE__) . '/install_generator/install_generator.class.php');
+include (dirname(__FILE__) . '/autoloader_generator/autoloader_generator.class.php');
 
 $location = $application['location'];
 $name = $application['name'];
 $author = $application['author'];
 
-$data_class_generator = new DataClassGeneratorForApplication();
-$form_generator = new FormGeneratorForApplication();
+$data_class_generator = new DataclassGenerator();
+$form_generator = new FormGenerator();
 $sortable_table_generator = new SortableTableGenerator();
 
 //Create Folders
@@ -49,7 +50,7 @@ foreach ($files as $file)
     $description = 'This class describes a ' . $classname . ' data object';
     
     $data_class_generator->generate_data_class($location, $classname, $properties, $name, $description, $author, $name);
-    $form_generator->generate_form($location . 'forms/', $classname, $properties, $author);
+    $form_generator->generate_form($location . 'forms/', $classname, $properties, $author, $name);
     
     if ($application['options'][$lclass]['table'] == 1)
     {
@@ -84,6 +85,10 @@ log_message('Right files generated.');
 log_message('Generating install files...');
 generate_install_files($location, $name, $author);
 log_message('Install files generated.');
+
+log_message('Generate autoloader files...');
+generate_autoloader_files($location, $name, $classes, $author);
+log_message('Autoloader files generated.');
 
 /**
  * Create folders for the application
@@ -238,4 +243,19 @@ function log_message($message)
     $total_message = date('[H:m:s] ') . $message . '<br />';
     echo $total_message;
 }
+
+/**
+ * Generates the autoloaders for an application
+ *
+ * @param String $location - The application location
+ * @param String $name - The application name
+ * @param String $classes - The class names
+ * @param String $author - The Author
+ */
+function generate_autoloaders($location, $name, $classes, $author)
+{
+    $manager_generator = new AutoloaderGenerator();
+    $manager_generator->generate_managers($location, $name, $classes, $author);
+}
+
 ?>
