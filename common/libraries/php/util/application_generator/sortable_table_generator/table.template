@@ -1,5 +1,7 @@
 <?php
 
+namespace {NAMESPACE};
+
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Translation;

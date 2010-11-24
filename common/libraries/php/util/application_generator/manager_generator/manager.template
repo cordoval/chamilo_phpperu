@@ -1,12 +1,12 @@
 <?php
+
+namespace {NAMESPACE};
+
 /**
  * @package application.lib.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}_manager
  */
 
 use common\libraries\WebApplication;
-
-<!-- BEGIN OBJECTS -->
-<!-- END OBJECTS -->
 
 /**
  * A {L_APPLICATION_NAME} manager

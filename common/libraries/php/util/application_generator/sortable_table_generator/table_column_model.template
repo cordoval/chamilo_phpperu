@@ -1,4 +1,7 @@
 <?php
+
+namespace {NAMESPACE};
+
 /**
  * @package {L_APPLICATION_NAME}.tables.{L_OBJECT_CLASS}_table
  */

@@ -1,4 +1,7 @@
 <?php
+
+namespace {NAMESPACE};
+
 use common\libraries\ObjectTableDataProvider;
 /**
  * @package {L_APPLICATION_NAME}.tables.{L_OBJECT_CLASS}_table
