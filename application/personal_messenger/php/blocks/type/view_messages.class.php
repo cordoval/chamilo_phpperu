@@ -30,8 +30,6 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
         $nrOfNewMessages = 0;
         $html = array();
 
-        $personal_messenger = $this->get_parent();
-
         $html[] = $this->display_header();
 
         /*
@@ -51,8 +49,8 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
 		}
 		*/
 
-        $publications_new = $personal_messenger->retrieve_personal_message_publications($this->get_condition("new"), array(), array(), $nrOfMessages);
-        $publications_recent = $personal_messenger->retrieve_personal_message_publications($this->get_condition(), array(), array(), $nrOfMessages);
+        $publications_new = PersonalMessengerDataManager :: get_instance()->retrieve_personal_message_publications($this->get_condition("new"), array(), array(), $nrOfMessages);
+        $publications_recent = PersonalMessengerDataManager :: get_instance()->retrieve_personal_message_publications($this->get_condition(), array(), array(), $nrOfMessages);
 
         $arr_pub_new = array();
         while ($publication = $publications_new->next_result())
@@ -70,7 +68,7 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
         {
             foreach ($arr_pub_new as $publication)
             {
-                $this->show_publication($publication, $personal_messenger, $html, true);
+                $this->show_publication($publication, $html, true);
                 $nrOfNewMessages = $nrOfNewMessages + 1;
             }
         }
@@ -80,7 +78,7 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
             {
                 if (! $this->is_new($publication, $arr_pub_new))
                 {
-                    $this->show_publication($publication, $personal_messenger, $html, false);
+                    $this->show_publication($publication, $html, false);
                 }
             }
         }
@@ -96,12 +94,12 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
         return implode("\n", $html);
     }
 
-    function show_publication(&$publication, &$personal_messenger, &$html, $new)
+    function show_publication(&$publication, &$html, $new)
     {
         $separator = ' - ';
         $html[] = $new ? '<img width="15" height="15" src="' . Theme :: get_common_image_path() . 'content_object/personal_message_new.png" />' : '<img width="15" height="15" src="' . Theme :: get_common_image_path() . 'content_object/personal_message_na.png" />';
 
-        $html[] = '<a href="' . $personal_messenger->get_publication_viewing_link($publication) . '">';
+        $html[] = '<a href="' . $this->get_publication_viewing_link($publication) . '">';
         //$html[] = $this->str_trim($publication->get_publication_sender()->get_fullname()) . $separator;
         //$html[] = $this->str_trim($publication->get_publication_object()->get_title());
         $html[] = Utilities :: truncate_string($publication->get_publication_sender()->get_fullname(), 32) . $separator;

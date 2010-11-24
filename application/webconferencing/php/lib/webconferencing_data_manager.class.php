@@ -24,7 +24,7 @@ class WebconferencingDataManager
     /**
      * Constructor.
      */
-    protected function WebconferencingDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

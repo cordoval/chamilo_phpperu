@@ -5,9 +5,15 @@
 		<code>story</code>
 		<section>content_object</section>
 		<category>news</category>
-		<author>Hans De Bisschop</author>
+		<authors>
+			<author>
+				<name>Hans De Bisschop</name>
+				<email>hans.de.bisschop@ehb.be</email>
+				<company>Erasmushogeschool Brussel</company>
+			</author>
+		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/s/story/story-1.0.0.zip</filename>
+		<filename>pool/main/content_object/s/story/story-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

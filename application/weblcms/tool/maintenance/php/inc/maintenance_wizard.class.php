@@ -8,9 +8,6 @@ use HTML_QuickForm_Controller;
  * $Id: maintenance_wizard.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.maintenance.inc
  */
-require_once 'HTML/QuickForm/Controller.php';
-require_once 'HTML/QuickForm/Rule.php';
-require_once 'HTML/QuickForm/Action/Display.php';
 require_once dirname(__FILE__) . '/wizard/publication_selection_maintenance_wizard_page.class.php';
 require_once dirname(__FILE__) . '/wizard/action_selection_maintenance_wizard_page.class.php';
 require_once dirname(__FILE__) . '/wizard/cp_export_selection_maintenance_wizard_page.class.php';
@@ -35,10 +32,10 @@ class MaintenanceWizard extends HTML_QuickForm_Controller
      * @param Tool $parent The repository tool in which this wizard
      * runs.
      */
-    function MaintenanceWizard($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
-        parent :: HTML_QuickForm_Controller('MaintenanceWizard', true);
+        parent :: __construct('MaintenanceWizard', true);
         $this->addPage(new ActionSelectionMaintenanceWizardPage('action_selection', $this->parent));
         $this->addAction('process', new MaintenanceWizardProcess($this->parent));
         $this->addAction('display', new MaintenanceWizardDisplay($this->parent));

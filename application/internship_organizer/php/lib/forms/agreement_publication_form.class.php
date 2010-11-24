@@ -27,7 +27,7 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
     private $content_object;
     private $user;
 
-    function InternshipOrganizerAgreementPublicationForm($form_type, $content_object, $user, $action, $type)
+    function __construct($form_type, $content_object, $user, $action, $type)
     {
         parent :: __construct('agreement_publication_settings', 'post', $action);
         

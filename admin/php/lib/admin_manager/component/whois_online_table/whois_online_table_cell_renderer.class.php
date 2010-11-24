@@ -24,7 +24,7 @@ class WhoisOnlineTableCellRenderer extends DefaultUserTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function WhoisOnlineTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

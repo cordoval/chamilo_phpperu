@@ -10,15 +10,14 @@ use repository\RepositoryDataManager;
 use common\libraries\Application;
 use common\libraries\Redirect;
 
-require_once dirname(__FILE__).'/../../../../common/global.inc.php';
-require_once BasicApplication :: get_common_libraries() . 'rss/publication_rss.class.php';
-require_once WebApplication :: get_application_class_lib_path('personal_messenger') . 'data_manager/database.class.php';
+
+require_once WebApplication :: get_application_class_lib_path('personal_messenger') . 'data_manager/database_personal_messenger_data_manager.class.php';
 
 class PersonalMessengerPublicationRSS extends PublicationRSS
 {
-	function PersonalMessengerPublicationRSS()
+	function __construct()
 	{
-		parent :: PublicationRSS('Chamilo Personal Messenger', htmlspecialchars(Path :: get(WEB_PATH)), 'Personal messenger publications', htmlspecialchars(Path :: get(WEB_PATH)));
+		parent :: __construct('Chamilo Personal Messenger', htmlspecialchars(Path :: get(WEB_PATH)), 'Personal messenger publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')

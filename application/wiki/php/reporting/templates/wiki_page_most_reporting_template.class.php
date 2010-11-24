@@ -14,7 +14,7 @@ use reporting\ReportingTemplateRegistration;
 class WikiPageMostReportingTemplate extends ReportingTemplate
 {
 
-    function WikiPageMostReportingTemplate($parent, $id, $params)
+    function __construct($parent, $id, $params)
     {
         $this->add_reporting_block(new WikiPageMostActiveUsersReportingBlock($this));
         $this->add_reporting_block(new WikiPageUsersContributionsReportingBlock($this));

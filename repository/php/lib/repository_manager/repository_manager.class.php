@@ -20,7 +20,10 @@ use common\libraries\OrCondition;
 use common\libraries\OptionsMenuRenderer;
 use common\libraries\Path;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
 use user\UserDataManager;
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
 /**
  * @package repository.lib.repository_manager
  *
@@ -82,10 +85,15 @@ class RepositoryManager extends CoreApplication
     const PARAM_LINK_TYPE = 'link_type';
     const PARAM_LINK_ID = 'link_id';
     const PARAM_CONTENT_OBJECT_MANAGER_TYPE = 'manage';
+    const PARAM_SHARED_VIEW = 'shared_view';
     const PARAM_SHOW_OBJECTS_SHARED_BY_ME = 'show_my_objects';
 
     const PARAM_TYPE = 'type';
     const PARAM_IDENTIFIER = 'identifier';
+
+    const SHARED_VIEW_OTHERS_OBJECTS = 0;
+    const SHARED_VIEW_OWN_OBJECTS = 1;
+    const SHARED_VIEW_ALL_OBJECTS = 2;
 
     /**
      * Constant defining an action of the repository manager.
@@ -168,7 +176,7 @@ class RepositoryManager extends CoreApplication
      * Constructor
      * @param int $user_id The user id of current user
      */
-    function RepositoryManager($user)
+    function __construct($user)
     {
         parent :: __construct($user);
         $this->determine_search_settings();
@@ -299,7 +307,9 @@ class RepositoryManager extends CoreApplication
      */
     function get_quota_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA,
+                self :: PARAM_CATEGORY_ID => null));
     }
 
     /**
@@ -308,7 +318,8 @@ class RepositoryManager extends CoreApplication
      */
     function get_publication_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), array(), false);
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), array(), false);
     }
 
     /**
@@ -317,7 +328,8 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_creation_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTENT_OBJECTS));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CREATE_CONTENT_OBJECTS));
     }
 
     /**
@@ -326,7 +338,8 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_importing_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_CONTENT_OBJECTS));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_IMPORT_CONTENT_OBJECTS));
     }
 
     /**
@@ -335,7 +348,9 @@ class RepositoryManager extends CoreApplication
      */
     function get_recycle_bin_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => null));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS,
+                self :: PARAM_CATEGORY_ID => null));
     }
 
     /**
@@ -467,7 +482,10 @@ class RepositoryManager extends CoreApplication
 
     function get_publication_update_url($publication_attribute)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_CONTENT_OBJECT_PUBLICATION, self :: PARAM_PUBLICATION_APPLICATION => $publication_attribute->get_application(), self :: PARAM_PUBLICATION_ID => $publication_attribute->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UPDATE_CONTENT_OBJECT_PUBLICATION,
+                self :: PARAM_PUBLICATION_APPLICATION => $publication_attribute->get_application(),
+                self :: PARAM_PUBLICATION_ID => $publication_attribute->get_id()));
     }
 
     /**
@@ -479,18 +497,30 @@ class RepositoryManager extends CoreApplication
     {
         if ($content_object->get_state() == ContentObject :: STATE_RECYCLED)
         {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), self :: PARAM_CATEGORY_ID => null));
+            return $this->get_url(array(
+                    self :: PARAM_ACTION => self :: ACTION_VIEW_CONTENT_OBJECTS,
+                    self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(),
+                    self :: PARAM_CATEGORY_ID => null));
         }
         if ($content_object->get_type() == 'category')
         {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => $content_object->get_id()));
+            return $this->get_url(array(
+                    self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS,
+                    self :: PARAM_CATEGORY_ID => $content_object->get_id()));
         }
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), self :: PARAM_CATEGORY_ID => $content_object->get_parent_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_CONTENT_OBJECTS,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(),
+                self :: PARAM_CATEGORY_ID => $content_object->get_parent_id()));
     }
 
     function get_external_repository_object_viewing_url(ExternalRepositorySync $external_repository_sync)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_sync->get_external_repository_id(), ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $external_repository_sync->get_external_repository_object_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER,
+                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_sync->get_external_repository_id(),
+                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY,
+                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $external_repository_sync->get_external_repository_object_id()));
     }
 
     /**
@@ -504,7 +534,9 @@ class RepositoryManager extends CoreApplication
         {
             return null;
         }
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECTS,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     /**
@@ -514,12 +546,17 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_delete_publications_url($content_object)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS, self :: PARAM_PUBLICATION_ID => $content_object->get_id(), self :: PARAM_PUBLICATION_APPLICATION => $content_object->get_application()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS,
+                self :: PARAM_PUBLICATION_ID => $content_object->get_id(),
+                self :: PARAM_PUBLICATION_APPLICATION => $content_object->get_application()));
     }
 
     function get_content_object_unlinker_url($content_object)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNLINK_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UNLINK_CONTENT_OBJECTS,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     /**
@@ -534,7 +571,10 @@ class RepositoryManager extends CoreApplication
         {
             return null;
         }
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), self :: PARAM_DELETE_RECYCLED => 1));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECTS,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(),
+                self :: PARAM_DELETE_RECYCLED => 1));
     }
 
     /**
@@ -548,7 +588,9 @@ class RepositoryManager extends CoreApplication
         {
             return null;
         }
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_RESTORE_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_RESTORE_CONTENT_OBJECTS,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     /**
@@ -578,7 +620,10 @@ class RepositoryManager extends CoreApplication
                 $param = self :: PARAM_DELETE_RECYCLED;
             }
         }
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), $param => 1));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECTS,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(),
+                $param => 1));
     }
 
     /**
@@ -593,7 +638,9 @@ class RepositoryManager extends CoreApplication
             return null;
         }
 
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REVERT_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_REVERT_CONTENT_OBJECTS,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     /**
@@ -603,7 +650,9 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_moving_url($content_object)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_MOVE_CONTENT_OBJECTS,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     /**
@@ -613,7 +662,9 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_metadata_editing_url($content_object)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_METADATA, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_METADATA,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     /**
@@ -623,7 +674,10 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_rights_editing_url($content_object)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, self :: PARAM_IDENTIFIER => $content_object->get_id(), self :: PARAM_TYPE => RepositoryRights :: TYPE_USER_CONTENT_OBJECT));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS,
+                self :: PARAM_IDENTIFIER => $content_object->get_id(),
+                self :: PARAM_TYPE => RepositoryRights :: TYPE_USER_CONTENT_OBJECT));
     }
 
     /**
@@ -638,7 +692,10 @@ class RepositoryManager extends CoreApplication
             $id = $registration->get_id();
         }
 
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, self :: PARAM_IDENTIFIER => $id, self :: PARAM_TYPE => RepositoryRights :: TYPE_CONTENT_OBJECT));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS,
+                self :: PARAM_IDENTIFIER => $id,
+                self :: PARAM_TYPE => RepositoryRights :: TYPE_CONTENT_OBJECT));
     }
 
     /**
@@ -672,13 +729,17 @@ class RepositoryManager extends CoreApplication
     {
         $params = array();
         $params[self :: PARAM_ACTION] = self :: ACTION_BROWSE_CONTENT_OBJECTS;
-        $params[ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE] = array($type);
+        $params[ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE] = array(
+                $type);
         return $this->get_url($params);
     }
 
     function get_content_object_manager_url($content_object_type, $manager)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_TYPE => $content_object_type, self :: PARAM_CONTENT_OBJECT_MANAGER_TYPE => $manager));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT,
+                self :: PARAM_CONTENT_OBJECT_TYPE => $content_object_type,
+                self :: PARAM_CONTENT_OBJECT_MANAGER_TYPE => $manager));
     }
 
     /**
@@ -779,7 +840,9 @@ class RepositoryManager extends CoreApplication
         {
             // We need this because the percent sign in '%s' gets escaped.
             $temp_replacement = '__CATEGORY_ID__';
-            $url_format = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => $temp_replacement));
+            $url_format = $this->get_url(array(
+                    self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS,
+                    self :: PARAM_CATEGORY_ID => $temp_replacement));
             $url_format = str_replace($temp_replacement, '%s', $url_format);
             $category = $this->get_parameter(self :: PARAM_CATEGORY_ID);
             if (! isset($category))
@@ -795,7 +858,9 @@ class RepositoryManager extends CoreApplication
 
             $templates = array();
             $templates['title'] = Translation :: get('BrowseTemplates');
-            $templates['url'] = $this->get_url(array(self :: PARAM_CATEGORY_ID => null, self :: PARAM_ACTION => self :: ACTION_BROWSE_TEMPLATES));
+            $templates['url'] = $this->get_url(array(
+                    self :: PARAM_CATEGORY_ID => null,
+                    self :: PARAM_ACTION => self :: ACTION_BROWSE_TEMPLATES));
             $templates['class'] = 'template';
 
             $import = array();
@@ -836,18 +901,18 @@ class RepositoryManager extends CoreApplication
 
             $shared = array();
             $shared['title'] = Translation :: get('SharedContentObjects');
-            $shared['url'] = $this->get_shared_content_objects_url();
+            $shared['url'] = $this->get_shared_content_objects_url(self :: SHARED_VIEW_ALL_OBJECTS);
             $shared['class'] = 'category';
 
             $shared_own = array();
             $shared_own['title'] = Translation :: get('ContentObjectsSharedByMe');
-            $shared_own['url'] = $this->get_shared_content_objects_url(true);
+            $shared_own['url'] = $this->get_shared_content_objects_url(self :: SHARED_VIEW_OWN_OBJECTS);
             $shared_own['class'] = 'category';
             $shared['sub'][] = $shared_own;
 
             $shared_others = array();
             $shared_others['title'] = Translation :: get('ContentObjectsSharedWithMe');
-            $shared_others['url'] = $this->get_shared_content_objects_url();
+            $shared_others['url'] = $this->get_shared_content_objects_url(self :: SHARED_VIEW_OTHERS_OBJECTS);
             $shared_others['class'] = 'category';
             $shared['sub'][] = $shared_others;
 
@@ -860,7 +925,8 @@ class RepositoryManager extends CoreApplication
 
             foreach ($external_repository_manager_types as $key => $external_repository_manager_type)
             {
-                $external_repository_manager_types[Translation :: get(Utilities :: underscores_to_camelcase($external_repository_manager_type))] = $external_repository_manager_type;
+                $name = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($external_repository_manager_type));
+                $external_repository_manager_types[$name] = $external_repository_manager_type;
                 unset($external_repository_manager_types[$key]);
             }
 
@@ -908,7 +974,11 @@ class RepositoryManager extends CoreApplication
 
                             $external_repository_type_subitem = array();
                             $external_repository_type_subitem['title'] = $external_repository_manager->get_title();
-                            $external_repository_type_subitem['url'] = $this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_manager->get_id()), array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: PARAM_RENDERER));
+                            $external_repository_type_subitem['url'] = $this->get_url(array(
+                                    Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER,
+                                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_manager->get_id()), array(
+                                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION,
+                                    ExternalRepositoryManager :: PARAM_RENDERER));
                             $external_repository_type_subitem['class'] = $external_repository_manager->get_type();
                             $external_repository_type_subitems[] = $external_repository_type_subitem;
                         }
@@ -924,7 +994,11 @@ class RepositoryManager extends CoreApplication
 
                             $external_repository_sub_item = array();
                             $external_repository_sub_item['title'] = $external_repository_manager->get_title();
-                            $external_repository_sub_item['url'] = $this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_manager->get_id()), array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: PARAM_RENDERER));
+                            $external_repository_sub_item['url'] = $this->get_url(array(
+                                    Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER,
+                                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_manager->get_id()), array(
+                                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION,
+                                    ExternalRepositoryManager :: PARAM_RENDERER));
                             $external_repository_sub_item['class'] = $external_repository_manager->get_type();
                             $external_repository_sub_items[] = $external_repository_sub_item;
                         }
@@ -950,7 +1024,7 @@ class RepositoryManager extends CoreApplication
                     foreach ($managers as $manager)
                     {
                         $content_object_manage_sub_item = array();
-                        $content_object_manage_sub_item['title'] = Translation :: get(Utilities :: underscores_to_camelcase($content_object_type . '_' . $manager) . 'Manager');
+                        $content_object_manage_sub_item['title'] = Translation :: get(Utilities :: underscores_to_camelcase($content_object_type . '_' . $manager) . 'Manager', null, ContentObject :: get_content_object_type_namespace($content_object_type));
                         $content_object_manage_sub_item['url'] = $this->get_content_object_manager_url($content_object_type, $manager);
                         $content_object_manage_sub_item['class'] = 'type_' . $content_object_type;
                         $content_object_manage_sub_items[] = $content_object_manage_sub_item;
@@ -1010,7 +1084,7 @@ class RepositoryManager extends CoreApplication
             {
                 $search_url = null;
             }
-            $this->category_menu = new ContentObjectCategoryMenu($this->get_user_id(), $category, $url_format, $extra_items);
+            $this->category_menu = new ContentObjectCategoryMenu($this->get_user_id(), $category, $url_format, $extra_items, null, array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name()));
             if (isset($search_url))
             {
                 $this->category_menu->forceCurrentUrl($search_url, true);
@@ -1071,12 +1145,15 @@ class RepositoryManager extends CoreApplication
     {
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
 
-        $links[] = new DynamicAction(Translation :: get('ImportTemplate'), Translation :: get('ImportTemplateDescription'), Theme :: get_image_path() . 'admin/import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('ManageExternalRepositoryManagerInstances'), Translation :: get('ManageExternalRepositoryManagerInstancesDescription'), Theme :: get_image_path() . 'admin/repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ImportTemplate'), Translation :: get('ImportTemplateDescription'), Theme :: get_image_path() . 'admin/import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ManageExternalRepositoryManagerInstances'), Translation :: get('ManageExternalRepositoryManagerInstancesDescription'), Theme :: get_image_path() . 'admin/repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES), array(), false, Redirect :: TYPE_CORE));
         /*$links[] = new DynamicAction(Translation :: get('ManageContentObjectTypes'), Translation :: get('ManageContentObjectTypesDescription'), Theme :: get_image_path() . 'browse_repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS), array(), false, Redirect :: TYPE_CORE));*/
 
-        $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS), array(), false, Redirect :: TYPE_CORE);
+        $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS), array(), false, Redirect :: TYPE_CORE);
         $info['links'] = $links;
         return $info;
     }
@@ -1088,14 +1165,20 @@ class RepositoryManager extends CoreApplication
     public function get_application_platform_import_links()
     {
         $links = array();
-        $links[] = array('name' => Translation :: get('ImportTemplates'), 'description' => Translation :: get('ImportTemplatesDescription'), 'url' => $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE)));
+        $links[] = array(
+                'name' => Translation :: get('ImportTemplates'),
+                'description' => Translation :: get('ImportTemplatesDescription'),
+                'url' => $this->get_link(array(
+                        Application :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE)));
 
         return $links;
     }
 
     static function get_document_downloader_url($document_id)
     {
-        $parameters = array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENT, self :: PARAM_CONTENT_OBJECT_ID => $document_id);
+        $parameters = array(
+                self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENT,
+                self :: PARAM_CONTENT_OBJECT_ID => $document_id);
         return Redirect :: get_link(self :: APPLICATION_NAME, $parameters, null, null, Redirect :: TYPE_CORE);
     }
 
@@ -1119,47 +1202,75 @@ class RepositoryManager extends CoreApplication
 
     function get_complex_content_object_item_edit_url($complex_content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEMS,
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id,
+                'publish' => Request :: get('publish')));
     }
 
     function get_complex_content_object_item_delete_url($complex_content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEMS,
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id,
+                'publish' => Request :: get('publish')));
     }
 
     function get_complex_content_object_item_move_url($complex_content_object_item, $root_id, $direction)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, self :: PARAM_MOVE_DIRECTION => $direction, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEMS,
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id,
+                self :: PARAM_MOVE_DIRECTION => $direction,
+                'publish' => Request :: get('publish')));
     }
 
     function get_browse_complex_content_object_url($object)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT,
+                self :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));
     }
 
     function get_preview_complex_content_object_url($object)
     {
-        return Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ComplexDisplayPreviewLauncher::APPLICATION_NAME . '&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $object->get_id();
+        return Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ComplexDisplayPreviewLauncher :: APPLICATION_NAME . '&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $object->get_id();
     }
 
     function get_add_existing_content_object_url($root_id, $complex_content_object_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SELECT_CONTENT_OBJECTS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_SELECT_CONTENT_OBJECTS,
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id,
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id,
+                'publish' => Request :: get('publish')));
     }
 
     function get_add_content_object_url($content_object, $complex_content_object_item_id, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADD_CONTENT_OBJECT, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_REF => $content_object->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_ADD_CONTENT_OBJECT,
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_REF => $content_object->get_id(),
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id,
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id,
+                'publish' => Request :: get('publish')));
     }
 
     function get_content_object_exporting_url($content_object)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EXPORT_CONTENT_OBJECTS,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     function get_publish_content_object_url($content_object)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_PUBLISH_CONTENT_OBJECT,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     function count_categories($conditions = null)
@@ -1234,47 +1345,63 @@ class RepositoryManager extends CoreApplication
 
     function get_browse_user_views_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_USER_VIEWS));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_USER_VIEWS));
     }
 
-    function get_shared_content_objects_url($show_objects_shared_by_me = null)
+    function get_shared_content_objects_url($view)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => null, self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME => $show_objects_shared_by_me));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS,
+                self :: PARAM_CATEGORY_ID => null,
+                self :: PARAM_SHARED_VIEW => $view));
     }
 
     function create_user_view_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_USER_VIEW));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CREATE_USER_VIEW));
     }
 
     function update_user_view_url($user_view_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_USER_VIEW, self :: PARAM_USER_VIEW => $user_view_id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UPDATE_USER_VIEW,
+                self :: PARAM_USER_VIEW => $user_view_id));
     }
 
     function delete_user_view_url($user_view_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW, self :: PARAM_USER_VIEW => $user_view_id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW,
+                self :: PARAM_USER_VIEW => $user_view_id));
     }
 
     function get_copy_content_object_url($content_object_id, $to_user_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $content_object_id, self :: PARAM_TARGET_USER => $to_user_id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_COPY_CONTENT_OBJECT,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object_id,
+                self :: PARAM_TARGET_USER => $to_user_id));
     }
 
     function get_import_template_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE));
     }
 
     function get_delete_template_url($template_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE, self :: PARAM_CONTENT_OBJECT_ID => $template_id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE,
+                self :: PARAM_CONTENT_OBJECT_ID => $template_id));
     }
 
     function get_view_doubles_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_DOUBLES));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_DOUBLES));
     }
 
     function get_delete_link_url($type, $object_id, $link_id)
@@ -1337,7 +1464,10 @@ class RepositoryManager extends CoreApplication
             if (! in_array($user_right_location->get_location_id(), $location_ids))
                 $location_ids[] = $user_right_location->get_location_id();
 
-            $list[] = array('location_id' => $user_right_location->get_location_id(), 'user' => $user_right_location->get_user_id(), 'right' => $user_right_location->get_right_id());
+            $list[] = array(
+                    'location_id' => $user_right_location->get_location_id(),
+                    'user' => $user_right_location->get_user_id(),
+                    'right' => $user_right_location->get_right_id());
         }
 
         $shared_content_objects = $rdm->retrieve_shared_content_objects_for_groups($group_ids, $rights);
@@ -1347,7 +1477,10 @@ class RepositoryManager extends CoreApplication
             if (! in_array($group_right_location->get_location_id(), $location_ids))
                 $location_ids[] = $group_right_location->get_location_id();
 
-            $list[] = array('location_id' => $group_right_location->get_location_id(), 'group' => $group_right_location->get_group_id(), 'right' => $group_right_location->get_right_id());
+            $list[] = array(
+                    'location_id' => $group_right_location->get_location_id(),
+                    'group' => $group_right_location->get_group_id(),
+                    'right' => $group_right_location->get_right_id());
         }
 
         if (count($location_ids) > 0)
@@ -1379,37 +1512,54 @@ class RepositoryManager extends CoreApplication
 
     function get_create_user_view_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_USER_VIEW));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CREATE_USER_VIEW));
     }
 
     function get_update_user_view_url($user_view_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_USER_VIEW, self :: PARAM_USER_VIEW => $user_view_id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UPDATE_USER_VIEW,
+                self :: PARAM_USER_VIEW => $user_view_id));
     }
 
     function get_delete_user_view_url($user_view_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW, self :: PARAM_USER_VIEW => $user_view_id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW,
+                self :: PARAM_USER_VIEW => $user_view_id));
     }
 
     function get_content_object_share_browser_url($content_object_ids)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_BROWSER, self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_BROWSER,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids));
     }
 
     function get_content_object_share_create_url($content_object_ids)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_CREATOR, self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_CREATOR,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids));
     }
 
     function get_content_object_share_deleter_url($content_object_ids, $user_ids = null, $group_ids = null)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_DELETER, self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids, self :: PARAM_TARGET_USER => $user_ids, self :: PARAM_TARGET_GROUP => $group_ids));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_DELETER,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids,
+                self :: PARAM_TARGET_USER => $user_ids,
+                self :: PARAM_TARGET_GROUP => $group_ids));
     }
 
     function get_content_object_share_editor_url($content_object_ids, $user_ids = null, $group_ids = null)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_EDITOR, self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids, self :: PARAM_TARGET_USER => $user_ids, self :: PARAM_TARGET_GROUP => $group_ids));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_EDITOR,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids,
+                self :: PARAM_TARGET_USER => $user_ids,
+                self :: PARAM_TARGET_GROUP => $group_ids));
     }
 
     function get_renderer()
@@ -1429,12 +1579,17 @@ class RepositoryManager extends CoreApplication
 
     function get_available_renderers()
     {
-        return array(ContentObjectRenderer :: TYPE_TABLE, ContentObjectRenderer :: TYPE_GALLERY, ContentObjectRenderer :: TYPE_SLIDESHOW);
+        return array(
+                ContentObjectRenderer :: TYPE_TABLE,
+                ContentObjectRenderer :: TYPE_GALLERY,
+                ContentObjectRenderer :: TYPE_SLIDESHOW);
     }
 
     function get_external_repository_instance_manager_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES), array(
+                ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION));
     }
 
     /**

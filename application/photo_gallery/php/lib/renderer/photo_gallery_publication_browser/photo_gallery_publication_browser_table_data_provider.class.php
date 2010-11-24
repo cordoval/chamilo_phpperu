@@ -17,7 +17,7 @@ class PhotoGalleryPublicationBrowserTableDataProvider extends ObjectTableDataPro
      * @param PhotoGalleryManagerComponent $browser
      * @param Condition $condition
      */
-    function PhotoGalleryPublicationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

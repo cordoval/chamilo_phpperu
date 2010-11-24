@@ -16,7 +16,7 @@ class DefaultUserTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultUserTableCellRenderer()
+    function __construct()
     {
     }
 

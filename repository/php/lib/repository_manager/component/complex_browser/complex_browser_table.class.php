@@ -26,7 +26,7 @@ class ComplexBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function ComplexBrowserTable($browser, $parameters, $condition, $show_subitems_column = true, $model = null, $renderer = null, $name = null)
+    function __construct($browser, $parameters, $condition, $show_subitems_column = true, $model = null, $renderer = null, $name = null)
     {
         $name = (Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(__CLASS__)));
 
@@ -43,7 +43,7 @@ class ComplexBrowserTable extends ObjectTable
         $data_provider = new ComplexBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, $name, $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = new ObjectTableFormActions(ComplexBuilder :: PARAM_BUILDER_ACTION);
+        $actions = new ObjectTableFormActions(__NAMESPACE__, ComplexBuilder :: PARAM_BUILDER_ACTION);
 
         $action = ComplexBuilder :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM;
         //        if ($name != self :: DEFAULT_NAME)
@@ -68,7 +68,8 @@ class ComplexBrowserTable extends ObjectTable
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $ids);
     }
 }

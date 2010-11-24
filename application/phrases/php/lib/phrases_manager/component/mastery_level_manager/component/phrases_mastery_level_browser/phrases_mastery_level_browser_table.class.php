@@ -25,7 +25,7 @@ class PhrasesMasteryLevelBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function PhrasesMasteryLevelBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new PhrasesMasteryLevelBrowserTableColumnModel();
         $renderer = new PhrasesMasteryLevelBrowserTableCellRenderer($browser);

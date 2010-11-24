@@ -18,7 +18,7 @@ class LinkerInstaller extends Installer
     /**
      * Constructor
      */
-    function LinkerInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, LinkerDataManager :: get_instance());
     }

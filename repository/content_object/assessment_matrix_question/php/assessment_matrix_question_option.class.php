@@ -1,8 +1,8 @@
 <?php
+
 namespace repository\content_object\assessment_matrix_question;
 
 use common\libraries\Path;
-
 use repository\MatrixQuestionOption;
 
 /**
@@ -16,9 +16,9 @@ require_once Path :: get_repository_path() . '/question_types/matrix_question/ma
  */
 class AssessmentMatrixQuestionOption extends MatrixQuestionOption
 {
-	const PROPERTY_SCORE = 'score';
-	const PROPERTY_FEEDBACK = 'feedback';
-	const PROPERTY_MATCHES = 'matches';
+    const PROPERTY_SCORE = 'score';
+    const PROPERTY_FEEDBACK = 'feedback';
+    const PROPERTY_MATCHES = 'matches';
 
     private $score;
     private $feedback;
@@ -30,13 +30,14 @@ class AssessmentMatrixQuestionOption extends MatrixQuestionOption
      * @param int $match The index of the match corresponding to this option
      * @param int $score The score of this answer in the question
      */
-    function AssessmentMatrixQuestionOption($value = '', $matches = array(), $score = 1, $feedback = '')
+    function __construct($value = '', $matches = array(), $score = 1, $feedback = '')
     {
-		parent :: MatrixQuestionOption($value);
+        parent :: __construct($value);
         $this->score = $score;
         $this->feedback = $feedback;
         $this->matches = $matches;
     }
+
     /**
      * Gets the score of this answer
      */
@@ -58,5 +59,7 @@ class AssessmentMatrixQuestionOption extends MatrixQuestionOption
     {
         return unserialize($this->matches);
     }
+
 }
+
 ?>

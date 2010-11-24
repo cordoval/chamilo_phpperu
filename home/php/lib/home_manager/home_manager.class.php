@@ -44,7 +44,7 @@ class HomeManager extends CoreApplication
     private $user;
     private $breadcrumbs;
 
-    function HomeManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
     }
@@ -131,8 +131,8 @@ class HomeManager extends CoreApplication
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'admin/manage.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_MANAGE_HOME), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('Build'), Translation :: get('BuildDescription'), Theme :: get_image_path() . 'admin/build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_BUILD_HOME), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ManageDefault'), Translation :: get('ManageDefaultDescription'), Theme :: get_image_path() . 'admin/build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_MANAGE_HOME), array(), false, Redirect :: TYPE_CORE));
+        //$links[] = new DynamicAction(Translation :: get('Build'), Translation :: get('BuildDescription'), Theme :: get_image_path() . 'admin/build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_BUILD_HOME), array(), false, Redirect :: TYPE_CORE));
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
 

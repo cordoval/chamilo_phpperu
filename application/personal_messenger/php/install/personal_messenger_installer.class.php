@@ -17,7 +17,7 @@ class PersonalMessengerInstaller extends Installer
     /**
      * Constructor
      */
-    function PersonalMessengerInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, PersonalMessengerDataManager :: get_instance());
     }

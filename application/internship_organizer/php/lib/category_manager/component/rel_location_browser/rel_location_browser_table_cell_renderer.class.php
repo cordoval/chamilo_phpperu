@@ -20,7 +20,7 @@ class InternshipOrganizerCategoryRelLocationBrowserTableCellRenderer extends Def
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function InternshipOrganizerCategoryRelLocationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

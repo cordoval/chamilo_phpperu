@@ -19,7 +19,7 @@ abstract class QuestionResultDisplay
     private $form;
     private $can_change;
 
-    function QuestionResultDisplay(&$form, $complex_content_object_question, $question_nr, $answers, $score, $feedback, $can_change)
+    function __construct(&$form, $complex_content_object_question, $question_nr, $answers, $score, $feedback, $can_change)
     {
         $this->complex_content_object_question = $complex_content_object_question;
         $this->question_nr = $question_nr;

@@ -33,7 +33,7 @@ class LinkerManager extends WebApplication
      * Constructor
      * @param User $user The current user
      */
-    function LinkerManager($user = null)
+    function __construct($user = null)
     {
         $this->user = $user;
         $this->parameters = array();

@@ -20,7 +20,7 @@ class DefaultWebconferenceTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultWebconferenceTableCellRenderer()
+    function __construct()
     {
     }
 

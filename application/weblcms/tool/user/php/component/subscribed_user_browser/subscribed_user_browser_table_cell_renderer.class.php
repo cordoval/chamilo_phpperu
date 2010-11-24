@@ -13,6 +13,8 @@ use common\libraries\Theme;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use application\weblcms\CourseUserRelation;
+use common\libraries\WebApplication;
 
 /**
  * $Id: subscribed_user_browser_table_cell_renderer.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -29,12 +31,13 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
      * The weblcms browser component
      */
     private $browser;
+    private $course_user_relation;
 
     /**
      * Constructor
      * @param WeblcmsBrowserComponent $browser
      */
-    function SubscribedUserBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;
@@ -53,7 +56,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
         {
             // Exceptions that need post-processing go here ...
             case User :: PROPERTY_STATUS :
-                $course_user_relation = $this->browser->get_parent()->retrieve_course_user_relation($this->browser->get_course_id(), $user->get_id());
+                $this->course_user_relation = $course_user_relation = $this->browser->get_parent()->retrieve_course_user_relation($this->browser->get_course_id(), $user->get_id());
                 if ($course_user_relation && $course_user_relation->get_status() == 1)
                 {
                     return Translation :: get('CourseAdmin');
@@ -93,13 +96,13 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE;
             $subscribe_url = $this->browser->get_url($parameters);
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('SubscribeAsStudent'), Theme :: get_image_path($this->browser->get_application_name()) . 'action_subscribe_student.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('SubscribeAsStudent'), Theme :: get_image_path(WebApplication :: determine_namespace(WeblcmsManager :: APPLICATION_NAME)) . 'action_subscribe_student.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
 
             $parameters = array();
             $parameters[UserTool :: PARAM_USERS] = $user->get_id();
             $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE_AS_ADMIN;
             $subscribe_url = $this->browser->get_url($parameters);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('SubscribeAsTeacher'), Theme :: get_image_path($this->browser->get_application_name()) . 'action_subscribe_teacher.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('SubscribeAsTeacher'), Theme :: get_image_path(WebApplication :: determine_namespace(WeblcmsManager :: APPLICATION_NAME)) . 'action_subscribe_teacher.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
@@ -122,7 +125,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 
             $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
 
-            if ($user->get_id() != $this->browser->get_user()->get_id() && $this->browser->is_allowed(WeblcmsRights :: DELETE_RIGHT) && ! isset($group_id))
+            if (($this->browser->get_user()->is_platform_admin() || $this->browser->get_course()->is_course_admin($this->browser->get_user())) && $user->get_id() != $this->browser->get_user()->get_id() && ! isset($group_id))
             {
                 $parameters = array();
                 $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_UNSUBSCRIBE;
@@ -130,6 +133,17 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
                 $unsubscribe_url = $this->browser->get_url($parameters);
 
                 $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $unsubscribe_url, ToolbarItem :: DISPLAY_ICON));
+
+                if($this->course_user_relation->get_status() == CourseUserRelation :: STATUS_TEACHER)
+                {
+                    $status_change_url = $this->browser->get_status_changer_url($user->get_id(), CourseUserRelation :: STATUS_STUDENT);
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MakeStudent'), Theme :: get_image_path(WebApplication :: determine_namespace(WeblcmsManager :: APPLICATION_NAME)) . 'action_subscribe_student.png', $status_change_url, ToolbarItem :: DISPLAY_ICON));
+                }
+                else
+                {
+                    $status_change_url = $this->browser->get_status_changer_url($user->get_id(), CourseUserRelation :: STATUS_TEACHER);
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MakeTeacher'), Theme :: get_image_path(WebApplication :: determine_namespace(WeblcmsManager :: APPLICATION_NAME)) . 'action_subscribe_teacher.png', $status_change_url, ToolbarItem :: DISPLAY_ICON));
+                }
             }
             else
             {

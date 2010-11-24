@@ -17,7 +17,7 @@ class DefaultRemotePackageTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultRemotePackageTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

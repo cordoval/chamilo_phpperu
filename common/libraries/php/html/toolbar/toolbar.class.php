@@ -34,7 +34,7 @@ class Toolbar
      * @param array $class_names
      * @param string $css
      */
-    function Toolbar($type = self :: TYPE_HORIZONTAL, $class_names = array(), $css = null)
+    function __construct($type = self :: TYPE_HORIZONTAL, $class_names = array(), $css = null)
     {
         $this->type = $type;
         $this->class_names = $class_names;
@@ -142,6 +142,11 @@ class Toolbar
         $html[] = '</div>';
 
         return implode($html);
+    }
+
+    function has_items()
+    {
+        return count($this->items) > 0;
     }
 }
 ?>

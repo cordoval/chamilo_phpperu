@@ -1,8 +1,8 @@
 <?php
-/* php23 
+/* php23
  * based on php23
  *
- */ 
+ */
 if ( !class_exists('php23') ) {
 	if (session_id() == "") {
 		@session_start();
@@ -11,7 +11,7 @@ if ( !class_exists('php23') ) {
 	class php23 {
 		var $api_key;
 		var $secret;
-		
+
 		var $rest_endpoint = 'http://www.23hq.com/services/rest/';
 		var $upload_endpoint = 'http://www.23hq.com/services/upload/';
 		var $replace_endpoint = 'http://www.23hq.com/services/replace/';
@@ -44,7 +44,7 @@ if ( !class_exists('php23') ) {
 		 */
 		var $max_cache_rows = 1000;
 
-		function php23 ($api_key, $secret = NULL, $die_on_error = false) {
+		function __construct($api_key, $secret = NULL, $die_on_error = false) {
 			//The API Key must be set before any calls can be made.  You can
 			//get your own at http://www.flickr.com/services/api/misc.api_keys.html
 			$this->api_key = $api_key;
@@ -67,10 +67,10 @@ if ( !class_exists('php23') ) {
 			// when you include this.  They'll usually work, you'll just want to test them.
 			if ($type == 'db') {
 				if ( preg_match('|mysql://([^:]*):([^@]*)@([^/]*)/(.*)|', $connection, $matches) ) {
-					//Array ( [0] => mysql://user:password@server/database [1] => user [2] => password [3] => server [4] => database ) 
+					//Array ( [0] => mysql://user:password@server/database [1] => user [2] => password [3] => server [4] => database )
 					$db = mysql_connect($matches[3], $matches[1], $matches[2]);
 					mysql_select_db($matches[4], $db);
-					
+
 					/*
 					 * If high performance is crucial, you can easily comment
 					 * out this query once you've created your database table.
@@ -83,7 +83,7 @@ if ( !class_exists('php23') ) {
 							INDEX ( `request` )
 						) TYPE = MYISAM
 					", $db);
-					
+
 					$result = mysql_query("SELECT COUNT(*) FROM $table", $db);
 					$result = mysql_fetch_row($result);
 					if ( $result[0] > $this->max_cache_rows ) {
@@ -180,24 +180,24 @@ if ( !class_exists('php23') ) {
 			}
 			return false;
 		}
-		
+
 		function setCustomPost ( $function ) {
 			$this->custom_post = $function;
 		}
-		
+
 		function post ($data, $type = null) {
 			if ( is_null($type) ) {
 				$url = $this->rest_endpoint;
 			}
-			
+
 			if ( !is_null($this->custom_post) ) {
 				return call_user_func($this->custom_post, $url, $data);
 			}
-			
+
 			if ( !preg_match("|http://(.*?)(/.*)|", $url, $matches) ) {
 				die('There was some problem figuring out your endpoint');
 			}
-			
+
 			if ( function_exists('curl_init') ) {
 				// Has curl. Use it!
 				$curl = curl_init($this->rest_endpoint);
@@ -212,7 +212,7 @@ if ( !class_exists('php23') ) {
 					$data[$key] = $key . '=' . urlencode($value);
 				}
 				$data = implode('&', $data);
-			
+
 				$fp = @pfsockopen($matches[1], 80);
 				if (!$fp) {
 					die('Could not connect to the web service');
@@ -247,7 +247,7 @@ if ( !class_exists('php23') ) {
 			}
 			return $response;
 		}
-		
+
 		function request ($command, $args = array(), $nocache = false)
 		{
 			//Sends a request to Flickr's REST endpoint via POST.
@@ -280,7 +280,7 @@ if ( !class_exists('php23') ) {
 				$this->response = $this->post($args);
 				$this->cache($args, $this->response);
 			}
-			
+
 			/*
 			 * Uncomment this line (and comment out the next one) if you're doing large queries
 			 * and you're concerned about time.  This will, however, change the structure of
@@ -353,12 +353,12 @@ if ( !class_exists('php23') ) {
 				"large" => "_b",
 				"original" => "_o"
 			);
-			
+
 			$size = strtolower($size);
 			if (!array_key_exists($size, $sizes)) {
 				$size = "medium";
 			}
-			
+
 			if ($size == "original") {
 				$url = "http://farm" . $photo['farm'] . ".static.flickr.com/" . $photo['server'] . "/" . $photo['id'] . "_" . $photo['originalsecret'] . "_o" . "." . $photo['originalformat'];
 			} else {
@@ -403,7 +403,7 @@ if ( !class_exists('php23') ) {
 
 				$photo = realpath($photo);
 				$args['photo'] = '@' . $photo;
-				
+
 
 				$curl = curl_init($this->upload_endpoint);
 				curl_setopt($curl, CURLOPT_POST, true);
@@ -412,7 +412,7 @@ if ( !class_exists('php23') ) {
 				$response = curl_exec($curl);
 				$this->response = $response;
 				curl_close($curl);
-				
+
 				$rsp = explode("\n", $response);
 				foreach ($rsp as $line) {
 					if (ereg('<err code="([0-9]+)" msg="(.*)"', $line, $match)) {
@@ -465,7 +465,7 @@ if ( !class_exists('php23') ) {
 
 				$photo = realpath($photo);
 				$args['photo'] = '@' . $photo;
-				
+
 
 				$curl = curl_init($this->upload_endpoint);
 				curl_setopt($curl, CURLOPT_POST, true);
@@ -474,7 +474,7 @@ if ( !class_exists('php23') ) {
 				$response = curl_exec($curl);
 				$this->response = $response;
 				curl_close($curl);
-				
+
 				$rsp = explode("\n", $response);
 				foreach ($rsp as $line) {
 					if (ereg('<err code="([0-9]+)" msg="(.*)"', $line, $match)) {
@@ -526,7 +526,7 @@ if ( !class_exists('php23') ) {
 
 				$photo = realpath($photo);
 				$args['photo'] = '@' . $photo;
-				
+
 
 				$curl = curl_init($this->replace_endpoint);
 				curl_setopt($curl, CURLOPT_POST, true);
@@ -535,7 +535,7 @@ if ( !class_exists('php23') ) {
 				$response = curl_exec($curl);
 				$this->response = $response;
 				curl_close($curl);
-				
+
 				if ($async == 1)
 					$find = 'ticketid';
 				 else
@@ -595,7 +595,7 @@ if ( !class_exists('php23') ) {
 //			}
 //		}
 
-		
+
 		function auth ($frob, $remember_uri = true) {
 			// Redirects to Flickr's authentication piece if there is no valid token.
 			// If remember_uri is set to false, the callback script (included) will
@@ -681,7 +681,7 @@ if ( !class_exists('php23') ) {
 			$rsp = $this->call('flickr.blogs.getList', array('service' => $service));
 			return $rsp['blogs']['blog'];
 		}
-		
+
 		function blogs_getServices () {
 			/* http://www.flickr.com/services/api/flickr.blogs.getServices.html */
 			return $this->call('flickr.blogs.getServices', array());
@@ -702,13 +702,13 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.collections.getTree.html */
 			return $this->call('flickr.collections.getTree', array('collection_id' => $collection_id, 'user_id' => $user_id));
 		}
-		
+
 		/* Commons Methods */
 		function commons_getInstitutions () {
 			/* http://www.flickr.com/services/api/flickr.commons.getInstitutions.html */
 			return $this->call('flickr.commons.getInstitutions', array());
 		}
-		
+
 		/* Contacts Methods */
 		function contacts_getList ($filter = NULL, $page = NULL, $per_page = NULL) {
 			/* http://www.flickr.com/services/api/flickr.contacts.getList.html */
@@ -721,7 +721,7 @@ if ( !class_exists('php23') ) {
 			$this->request('flickr.contacts.getPublicList', array('user_id'=>$user_id, 'page'=>$page, 'per_page'=>$per_page));
 			return $this->parsed_response ? $this->parsed_response['contacts'] : false;
 		}
-		
+
 		function contacts_getListRecentlyUploaded ($date_lastupload = NULL, $filter = NULL) {
 			/* http://www.flickr.com/services/api/flickr.contacts.getListRecentlyUploaded.html */
 			return $this->call('flickr.contacts.getListRecentlyUploaded', array('date_lastupload' => $date_lastupload, 'filter' => $filter));
@@ -755,7 +755,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.galleries.addPhoto.html */
 			return $this->call('flickr.galleries.addPhoto', array('gallery_id' => $gallery_id, 'photo_id' => $photo_id, 'comment' => $comment));
 		}
-		
+
 		function galleries_create ($title, $description, $primary_photo_id = NULL) {
 			/* http://www.flickr.com/services/api/flickr.galleries.create.html */
 			return $this->call('flickr.galleries.create', array('title' => $title, 'description' => $description, 'primary_photo_id' => $primary_photo_id));
@@ -790,7 +790,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.galleries.getListForPhoto.html */
 			return $this->call('flickr.galleries.getListForPhoto', array('photo_id' => $photo_id, 'per_page' => $per_page, 'page' => $page));
 		}
-			
+
 		function galleries_getPhotos ($gallery_id, $extras = NULL, $per_page = NULL, $page = NULL) {
 			/* http://www.flickr.com/services/api/flickr.galleries.getPhotos.html */
 			return $this->call('flickr.galleries.getPhotos', array('gallery_id' => $gallery_id, 'extras' => $extras, 'per_page' => $per_page, 'page' => $page));
@@ -819,7 +819,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.groups.members.getList.html */
 			return $this->call('flickr.groups.members.getList', array('group_id' => $group_id, 'membertypes' => $membertypes, 'per_page' => $per_page, 'page' => $page));
 		}
-		
+
 		/* Groups Pools Methods */
 		function groups_pools_add ($photo_id, $group_id) {
 			/* http://www.flickr.com/services/api/flickr.groups.pools.add.html */
@@ -880,7 +880,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.machinetags.getPredicates.html */
 			return $this->call('flickr.machinetags.getPredicates', array('namespace' => $namespace, 'per_page' => $per_page, 'page' => $page));
 		}
-		
+
 		function machinetags_getRecentValues ($namespace = NULL, $predicate = NULL, $added_since = NULL) {
 			/* http://www.flickr.com/services/api/flickr.machinetags.getRecentValues.html */
 			return $this->call('flickr.machinetags.getRecentValues', array('namespace' => $namespace, 'predicate' => $predicate, 'added_since' => $added_since));
@@ -941,7 +941,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.people.getPhotosOf.html */
 			return $this->call('flickr.people.getPhotosOf', array('user_id' => $user_id, 'extras' => $extras, 'per_page' => $per_page, 'page' => $page));
 		}
-		
+
 		function people_getPublicGroups ($user_id) {
 			/* http://www.flickr.com/services/api/flickr.people.getPublicGroups.html */
 			$this->request("flickr.people.getPublicGroups", array("user_id"=>$user_id));
@@ -1009,7 +1009,7 @@ if ( !class_exists('php23') ) {
 			$this->request("flickr.photos.getExif", array("photo_id"=>$photo_id, "secret"=>$secret));
 			return $this->parsed_response ? $this->parsed_response['photo'] : false;
 		}
-		
+
 		function photos_getFavorites ($photo_id, $page = NULL, $per_page = NULL) {
 			/* http://www.flickr.com/services/api/flickr.photos.getFavorites.html */
 			$this->request("flickr.photos.getFavorites", array("photo_id"=>$photo_id, "page"=>$page, "per_page"=>$per_page));
@@ -1108,7 +1108,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.photos.setContentType.html */
 			return $this->call('flickr.photos.setContentType', array('photo_id' => $photo_id, 'content_type' => $content_type));
 		}
-		
+
 		function photos_setDates ($photo_id, $date_posted = NULL, $date_taken = NULL, $date_taken_granularity = NULL) {
 			/* http://www.flickr.com/services/api/flickr.photos.setDates.html */
 			$this->request("flickr.photos.setDates", array("photo_id"=>$photo_id, "date_posted"=>$date_posted, "date_taken"=>$date_taken, "date_taken_granularity"=>$date_taken_granularity), TRUE);
@@ -1131,7 +1131,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.photos.setSafetyLevel.html */
 			return $this->call('flickr.photos.setSafetyLevel', array('photo_id' => $photo_id, 'safety_level' => $safety_level, 'hidden' => $hidden));
 		}
-		
+
 		function photos_setTags ($photo_id, $tags) {
 			/* http://www.flickr.com/services/api/flickr.photos.setTags.html */
 			$this->request("flickr.photos.setTags", array("photo_id"=>$photo_id, "tags"=>$tags), TRUE);
@@ -1161,7 +1161,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.photos.comments.getList.html */
 			return $this->call('flickr.photos.comments.getList', array('photo_id' => $photo_id, 'min_comment_date' => $min_comment_date, 'max_comment_date' => $max_comment_date));
 		}
-		
+
 		function photos_comments_getRecentForContacts ($date_lastcomment = NULL, $contacts_filter = NULL, $extras = NULL, $per_page = NULL, $page = NULL) {
 			/* http://www.flickr.com/services/api/flickr.photos.comments.getRecentForContacts.html */
 			return $this->call('flickr.photos.comments.getRecentForContacts', array('date_lastcomment' => $date_lastcomment, 'contacts_filter' => $contacts_filter, 'extras' => $extras, 'per_page' => $per_page, 'page' => $page));
@@ -1189,7 +1189,7 @@ if ( !class_exists('php23') ) {
 			$this->request("flickr.photos.geo.getPerms", array("photo_id"=>$photo_id));
 			return $this->parsed_response ? $this->parsed_response['perms'] : false;
 		}
-		
+
 		function photos_geo_photosForLocation ($lat, $lon, $accuracy = NULL, $extras = NULL, $per_page = NULL, $page = NULL) {
 			/* http://www.flickr.com/services/api/flickr.photos.geo.photosForLocation.html */
 			return $this->call('flickr.photos.geo.photosForLocation', array('lat' => $lat, 'lon' => $lon, 'accuracy' => $accuracy, 'extras' => $extras, 'per_page' => $per_page, 'page' => $page));
@@ -1281,7 +1281,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.photos.people.getList.html */
 			return $this->call('flickr.photos.people.getList', array('photo_id' => $photo_id));
 		}
-		
+
 		/* Photos - Upload Methods */
 		function photos_upload_checkTickets ($tickets) {
 			/* http://www.flickr.com/services/api/flickr.photos.upload.checkTickets.html */
@@ -1385,7 +1385,7 @@ if ( !class_exists('php23') ) {
 			$this->request("flickr.photosets.comments.getList", array("photoset_id"=>$photoset_id));
 			return $this->parsed_response ? $this->parsed_response['comments'] : false;
 		}
-		
+
 		/* Places Methods */
 		function places_find ($query) {
 			/* http://www.flickr.com/services/api/flickr.places.find.html */
@@ -1411,12 +1411,12 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.places.getInfoByUrl.html */
 			return $this->call('flickr.places.getInfoByUrl', array('url' => $url));
 		}
-		
+
 		function places_getPlaceTypes () {
 			/* http://www.flickr.com/services/api/flickr.places.getPlaceTypes.html */
 			return $this->call('flickr.places.getPlaceTypes', array());
 		}
-		
+
 		function places_getShapeHistory ($place_id = NULL, $woe_id = NULL) {
 			/* http://www.flickr.com/services/api/flickr.places.getShapeHistory.html */
 			return $this->call('flickr.places.getShapeHistory', array('place_id' => $place_id, 'woe_id' => $woe_id));
@@ -1426,7 +1426,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.places.getTopPlacesList.html */
 			return $this->call('flickr.places.getTopPlacesList', array('place_type_id' => $place_type_id, 'date' => $date, 'woe_id' => $woe_id, 'place_id' => $place_id));
 		}
-		
+
 		function places_placesForBoundingBox ($bbox, $place_type = NULL, $place_type_id = NULL) {
 			/* http://www.flickr.com/services/api/flickr.places.placesForBoundingBox.html */
 			return $this->call('flickr.places.placesForBoundingBox', array('bbox' => $bbox, 'place_type' => $place_type, 'place_type_id' => $place_type_id));
@@ -1446,19 +1446,19 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.places.placesForUser.html */
 			return $this->call('flickr.places.placesForUser', array('place_type_id' => $place_type_id, 'place_type' => $place_type, 'woe_id' => $woe_id, 'place_id' => $place_id, 'threshold' => $threshold, 'min_upload_date' => $min_upload_date, 'max_upload_date' => $max_upload_date, 'min_taken_date' => $min_taken_date, 'max_taken_date' => $max_taken_date));
 		}
-		
+
 		function places_resolvePlaceId ($place_id) {
 			/* http://www.flickr.com/services/api/flickr.places.resolvePlaceId.html */
 			$rsp = $this->call('flickr.places.resolvePlaceId', array('place_id' => $place_id));
 			return $rsp ? $rsp['location'] : $rsp;
 		}
-		
+
 		function places_resolvePlaceURL ($url) {
 			/* http://www.flickr.com/services/api/flickr.places.resolvePlaceURL.html */
 			$rsp = $this->call('flickr.places.resolvePlaceURL', array('url' => $url));
 			return $rsp ? $rsp['location'] : $rsp;
 		}
-		
+
 		function places_tagsForPlace ($woe_id = NULL, $place_id = NULL, $min_upload_date = NULL, $max_upload_date = NULL, $min_taken_date = NULL, $max_taken_date = NULL) {
 			/* http://www.flickr.com/services/api/flickr.places.tagsForPlace.html */
 			return $this->call('flickr.places.tagsForPlace', array('woe_id' => $woe_id, 'place_id' => $place_id, 'min_upload_date' => $min_upload_date, 'max_upload_date' => $max_upload_date, 'min_taken_date' => $min_taken_date, 'max_taken_date' => $max_taken_date));
@@ -1470,24 +1470,24 @@ if ( !class_exists('php23') ) {
 			$rsp = $this->call('flickr.prefs.getContentType', array());
 			return $rsp ? $rsp['person'] : $rsp;
 		}
-		
+
 		function prefs_getGeoPerms () {
 			/* http://www.flickr.com/services/api/flickr.prefs.getGeoPerms.html */
 			return $this->call('flickr.prefs.getGeoPerms', array());
 		}
-		
+
 		function prefs_getHidden () {
 			/* http://www.flickr.com/services/api/flickr.prefs.getHidden.html */
 			$rsp = $this->call('flickr.prefs.getHidden', array());
 			return $rsp ? $rsp['person'] : $rsp;
 		}
-		
+
 		function prefs_getPrivacy () {
 			/* http://www.flickr.com/services/api/flickr.prefs.getPrivacy.html */
 			$rsp = $this->call('flickr.prefs.getPrivacy', array());
 			return $rsp ? $rsp['person'] : $rsp;
 		}
-		
+
 		function prefs_getSafetyLevel () {
 			/* http://www.flickr.com/services/api/flickr.prefs.getSafetyLevel.html */
 			$rsp = $this->call('flickr.prefs.getSafetyLevel', array());
@@ -1522,7 +1522,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.stats.getCollectionStats.html */
 			return $this->call('flickr.stats.getCollectionStats', array('date' => $date, 'collection_id' => $collection_id));
 		}
-		
+
 		function stats_getCSVFiles () {
 			/* http://www.flickr.com/services/api/flickr.stats.getCSVFiles.html */
 			return $this->call('flickr.stats.getCSVFiles', array());
@@ -1582,7 +1582,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.stats.getTotalViews.html */
 			return $this->call('flickr.stats.getTotalViews', array('date' => $date));
 		}
-		
+
 		/* Tags Methods */
 		function tags_getClusterPhotos ($tag, $cluster_id) {
 			/* http://www.flickr.com/services/api/flickr.tags.getClusterPhotos.html */
@@ -1622,7 +1622,7 @@ if ( !class_exists('php23') ) {
 			/* http://www.flickr.com/services/api/flickr.tags.getListUserRaw.html */
 			return $this->call('flickr.tags.getListUserRaw', array('tag' => $tag));
 		}
-		
+
 		function tags_getRelated ($tag) {
 			/* http://www.flickr.com/services/api/flickr.tags.getRelated.html */
 			$this->request("flickr.tags.getRelated", array("tag" => $tag));
@@ -1658,7 +1658,7 @@ if ( !class_exists('php23') ) {
 			$this->request("flickr.urls.getUserProfile", array("user_id"=>$user_id));
 			return $this->parsed_response ? $this->parsed_response['user']['url'] : false;
 		}
-		
+
 		function urls_lookupGallery ($url) {
 			/* http://www.flickr.com/services/api/flickr.urls.lookupGallery.html */
 			return $this->call('flickr.urls.lookupGallery', array('url' => $url));
@@ -1682,15 +1682,15 @@ if ( !class_exists('phpFlickr_pager') ) {
 	class phpFlickr_pager {
 		var $phpFlickr, $per_page, $method, $args, $results, $global_phpFlickr;
 		var $total = null, $page = 0, $pages = null, $photos, $_extra = null;
-		
-		
-		function phpFlickr_pager($phpFlickr, $method = null, $args = null, $per_page = 30) {
+
+
+		function __construct($phpFlickr, $method = null, $args = null, $per_page = 30) {
 			$this->per_page = $per_page;
 			$this->method = $method;
 			$this->args = $args;
 			$this->set_phpFlickr($phpFlickr);
 		}
-		
+
 		function set_phpFlickr($phpFlickr) {
 			if ( is_a($phpFlickr, 'php23') ) {
 				$this->phpFlickr = $phpFlickr;
@@ -1701,7 +1701,7 @@ if ( !class_exists('phpFlickr_pager') ) {
 				}
 			}
 		}
-		
+
 		function __sleep() {
 			return array(
 				'method',
@@ -1711,14 +1711,14 @@ if ( !class_exists('phpFlickr_pager') ) {
 				'_extra',
 			);
 		}
-		
+
 		function load($page) {
 			$allowed_methods = array(
 				'flickr.photos.search' => 'photos',
 				'flickr.photosets.getPhotos' => 'photoset',
 			);
 			if ( !in_array($this->method, array_keys($allowed_methods)) ) return false;
-			
+
 			if ( $this->phpFlickr->cache ) {
 				$min = ($page - 1) * $this->per_page;
 				$max = $page * $this->per_page - 1;
@@ -1743,7 +1743,7 @@ if ( !class_exists('phpFlickr_pager') ) {
 						$this->photos = array_slice($this->results['photo'], $min % 500);
 						$this->total = $this->results['total'];
 						$this->pages = ceil($this->results['total'] / $this->per_page);
-						
+
 						$this->args['page'] = floor($min/500) + 2;
 						$this->results = $this->phpFlickr->call($this->method, $this->args);
 						if ( $this->results ) {
@@ -1761,7 +1761,7 @@ if ( !class_exists('phpFlickr_pager') ) {
 				$this->results = $this->phpFlickr->call($this->method, $this->args);
 				if ( $this->results ) {
 					$this->results = $this->results[$allowed_methods[$this->method]];
-					
+
 					$this->photos = $this->results['photo'];
 					$this->total = $this->results['total'];
 					$this->pages = $this->results['pages'];
@@ -1771,7 +1771,7 @@ if ( !class_exists('phpFlickr_pager') ) {
 				}
 			}
 		}
-		
+
 		function get($page = null) {
 			if ( is_null($page) ) {
 				$page = $this->page;
@@ -1785,7 +1785,7 @@ if ( !class_exists('phpFlickr_pager') ) {
 			$this->pages = 0;
 			return array();
 		}
-		
+
 		function next() {
 			$this->page++;
 			if ( $this->load($this->page) ) {
@@ -1795,7 +1795,7 @@ if ( !class_exists('phpFlickr_pager') ) {
 			$this->pages = 0;
 			return array();
 		}
-		
+
 	}
 }
 

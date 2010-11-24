@@ -1,7 +1,5 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
-require_once dirname(__FILE__) . '/../video_conferencing_meeting_object_renderer.class.php';
-require_once dirname(__FILE__) . '/../component/video_conferencing_browser_table/video_conferencing_browser_table.class.php';
 
 class TableVideoConferencingMeetingObjectRenderer extends VideoConferencingMeetingObjectRenderer
 {

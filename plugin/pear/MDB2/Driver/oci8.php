@@ -68,7 +68,7 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
      */
     function __construct()
     {
-        parent::__construct();
+        parent :: __construct();
 
         $this->phptype = 'oci8';
         $this->dbsyntax = 'oci8';

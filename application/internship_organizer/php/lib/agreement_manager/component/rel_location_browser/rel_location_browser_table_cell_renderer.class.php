@@ -22,7 +22,7 @@ class InternshipOrganizerAgreementRelLocationBrowserTableCellRenderer extends De
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function InternshipOrganizerAgreementRelLocationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

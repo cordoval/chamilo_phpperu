@@ -23,7 +23,7 @@ class PeerAssessmentPublicationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function PeerAssessmentPublicationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new PeerAssessmentPublicationBrowserTableColumnModel();
         $renderer = new PeerAssessmentPublicationBrowserTableCellRenderer($browser);

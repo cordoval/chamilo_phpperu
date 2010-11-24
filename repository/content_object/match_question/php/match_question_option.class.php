@@ -27,7 +27,7 @@ class MatchQuestionOption
      * answer to the question
      * @param int $weight The weight of this answer in the question
      */
-    function MatchQuestionOption($value, $weight, $comment)
+    function __construct($value, $weight, $comment)
     {
         $this->value = $value;
         $this->weight = $weight;

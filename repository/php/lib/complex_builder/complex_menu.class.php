@@ -19,8 +19,6 @@ use common\libraries\TreeMenuRenderer;
  * $Id: complex_menu.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * categories of learning objects.
@@ -69,7 +67,7 @@ class ComplexMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function ComplexMenu($root, $cloi, $url_format = '?application=repository&go=build_complex&builder_action=browse', $view_entire_structure = false, $show_url = true)
+    function __construct($root, $cloi, $url_format = '?application=repository&go=build_complex&builder_action=browse', $view_entire_structure = false, $show_url = true)
     {
         $url_format .= '&cloi=%s';
         $this->view_entire_structure = $view_entire_structure;
@@ -219,7 +217,7 @@ class ComplexMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: TREE_NAME));
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }
 ?>

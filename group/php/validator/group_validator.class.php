@@ -25,7 +25,7 @@ class GroupValidator extends Validator
     private $gdm;
     private $udm;
 
-    function GroupValidator()
+    function __construct()
     {
         $this->gdm = GroupDataManager :: get_instance();
         $this->udm = UserDataManager :: get_instance();

@@ -17,7 +17,7 @@ class SurveyContextTemplateForm extends FormValidator
     private $template;
    	private $user;
 
-    function SurveyContextTemplateForm($form_type, $template, $action, $user)
+    function __construct($form_type, $template, $action, $user)
     {
         parent :: __construct('create_context_template', 'post', $action);
 

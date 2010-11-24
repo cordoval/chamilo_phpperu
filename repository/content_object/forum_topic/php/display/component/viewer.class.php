@@ -22,8 +22,6 @@ use repository\RepositoryDataManager;
 use repository\ComplexContentObjectItem;
 use HTML_Table;
 
-require_once 'HTML/Table.php';
-
 class ForumTopicDisplayViewerComponent extends ForumTopicDisplay
 {
     private $action_bar;

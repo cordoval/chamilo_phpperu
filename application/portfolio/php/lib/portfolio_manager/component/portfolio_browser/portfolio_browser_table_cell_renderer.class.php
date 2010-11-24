@@ -25,7 +25,7 @@ class PortfolioBrowserTableCellRenderer extends DefaultPortfolioTableCellRendere
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function PortfolioBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -21,7 +21,7 @@ class LinkBrowserTableColumnModel extends DefaultLinkTableColumnModel
     /**
      * Constructor
      */
-    function LinkBrowserTableColumnModel($type)
+    function __construct($type)
     {
         parent :: __construct($type);
         $this->set_default_order_column(0);

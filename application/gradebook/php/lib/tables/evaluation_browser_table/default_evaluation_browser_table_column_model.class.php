@@ -14,7 +14,7 @@ class DefaultEvaluationBrowserTableColumnModel extends ObjectTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function DefaultEvaluationBrowserTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct(self :: get_default_columns());
 	}

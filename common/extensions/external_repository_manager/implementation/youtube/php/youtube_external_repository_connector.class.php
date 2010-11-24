@@ -13,39 +13,39 @@ use common\libraries\Translation;
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
-
 use repository\ExternalRepositoryUserSetting;
 use repository\RepositoryDataManager;
 use repository\ExternalRepositorySetting;
 
-use Zend_Loader;
-use Zend_Gdata_AuthSub;
-use Zend_Gdata_YouTube;
-use Zend_Gdata_YouTube_VideoEntry;
+use \Zend_Loader;
+use \Zend_Gdata_AuthSub;
+use \Zend_Gdata_YouTube;
+use \Zend_Gdata_YouTube_VideoEntry;
 
-require_once 'Zend/Loader.php';
+
 require_once dirname(__FILE__) . '/youtube_external_repository_object.class.php';
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';
+require_once dirname(__FILE__) . '/youtube_external_repository_manager.class.php';
 
 //YoutubeKey : AI39si4OLUsiI2mK0_k8HxqOtv0ctON-PzekhP_56JDkdph6wZ9tW2XqzDD7iVYY0GXKdMKlPSJyYZotNQGleVfRPDZih41Tug
 class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
 {
     private $youtube;
-    
+
     const RELEVANCE = 'relevance';
     const PUBLISHED = 'published';
     const VIEW_COUNT = 'viewCount';
     const RATING = 'rating';
 
-    function YoutubeExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
-        
+
         $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
-        
+
         Zend_Loader :: loadClass('Zend_Gdata_YouTube');
         Zend_Loader :: loadClass('Zend_Gdata_AuthSub');
-        
+
         if (! $session_token)
         {
             if (! isset($_GET['token']))
@@ -55,7 +55,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
                 $secure = false;
                 $session = true;
                 $redirect_url = Zend_Gdata_AuthSub :: getAuthSubTokenUri($next_url, $scope, $secure, $session);
-                
+
                 header('Location: ' . $redirect_url);
             }
             else
@@ -72,20 +72,23 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
                 }
             }
         }
-        
+
         $httpClient = Zend_Gdata_AuthSub :: getHttpClient($session_token);
-        
+
         $client = '';
         $application = PlatformSetting :: get('site_name');
         $key = ExternalRepositorySetting :: get('developer_key', $this->get_external_repository_instance_id());
-        
+
         $this->youtube = new Zend_Gdata_YouTube($httpClient, $application, $client, $key);
         $this->youtube->setMajorProtocolVersion(2);
     }
 
     static function get_sort_properties()
     {
-        return array(self :: RELEVANCE, self :: PUBLISHED, self :: VIEW_COUNT, self :: RATING);
+        return array(self :: RELEVANCE,
+                self :: PUBLISHED,
+                self :: VIEW_COUNT,
+                self :: RATING);
     }
 
     function is_editable($id)
@@ -115,14 +118,14 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
         $filesource->setContentType($_FILES['upload']['type']);
         $filesource->setSlug($_FILES['upload']['name']);
         $video_entry->setMediaSource($filesource);
-        
+
         $video_entry->setVideoTitle($values[YoutubeExternalRepositoryManagerForm :: VIDEO_TITLE]);
         $video_entry->setVideoCategory($values[YoutubeExternalRepositoryManagerForm :: VIDEO_CATEGORY]);
         $video_entry->setVideoTags($values[YoutubeExternalRepositoryManagerForm :: VIDEO_TAGS]);
         $video_entry->setVideoDescription($values[YoutubeExternalRepositoryManagerForm :: VIDEO_DESCRIPTION]);
-        
+
         $upload_url = 'http://uploads.gdata.youtube.com/feeds/api/users/default/uploads';
-        
+
         try
         {
             $new_entry = $this->youtube->insertEntry($video_entry, $upload_url, 'Zend_Gdata_YouTube_VideoEntry');
@@ -140,34 +143,34 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
     function retrieve_categories()
     {
         $properties = array();
-        
+
         //$options[] = array(XML_UNSERIALIZER_OPTION_FORCE_ENUM => array('atom:category'));
         //$array = Utilities :: extract_xml_file(Zend_Gdata_YouTube_VideoEntry::YOUTUBE_CATEGORY_SCHEMA, $options);
         $array = Utilities :: extract_xml_file(PATH :: get_plugin_path() . 'google/categories.cat');
-        
+
         $categories = array();
         foreach ($array['atom:category'] as $category)
         {
             $categories[$category['term']] = Translation :: get($category['term']);
         }
-        
+
         return $categories;
     }
 
     function get_upload_token($values)
     {
         $video_entry = new Zend_Gdata_YouTube_VideoEntry();
-        
+
         $video_entry->setVideoTitle($values[YoutubeExternalRepositoryManagerForm :: VIDEO_TITLE]);
         $video_entry->setVideoCategory($values[YoutubeExternalRepositoryManagerForm :: VIDEO_CATEGORY]);
         $video_entry->setVideoTags($values[YoutubeExternalRepositoryManagerForm :: VIDEO_TAGS]);
         $video_entry->setVideoDescription($values[YoutubeExternalRepositoryManagerForm :: VIDEO_DESCRIPTION]);
-        
+
         $token_handler_url = 'http://gdata.youtube.com/action/GetUploadToken';
         $token_array = $this->youtube->getFormUploadToken($video_entry, $token_handler_url);
         $token_value = $token_array['token'];
         $post_url = $token_array['url'];
-        
+
         return $token_array;
     }
 
@@ -195,7 +198,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
                 $new_query->setMaxResults($query->getMaxResults());
                 return @ $this->youtube->getVideoFeed($new_query->getQueryUrl(2));
             default :
-                return @ $this->youtube->getVideoFeed($query->getQueryUrl(2));
+                return $this->youtube->getUserUploads('default', $query->getQueryUrl(2));
         }
     }
 
@@ -221,9 +224,9 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
             $query->setOrderBy($order_property[0]->get_property());
         }
         $query->setVideoQuery($condition);
-        
+
         $query->setStartIndex($offset + 1);
-        
+
         if (($count + $offset) >= 900)
         {
             $temp = ($offset + $count) - 900;
@@ -233,9 +236,9 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             $query->setMaxResults($count);
         }
-        
+
         $videoFeed = $this->get_video_feed($query);
-        
+
         $objects = array();
         foreach ($videoFeed as $videoEntry)
         {
@@ -248,16 +251,16 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
             {
                 $thumbnail = null;
             }
-            
+
             $published = $videoEntry->getPublished()->getText();
             $published_timestamp = strtotime($published);
-            
+
             $modified = $videoEntry->getUpdated()->getText();
             $modified_timestamp = strtotime($modified);
-            
+
             $uploader = $videoEntry->getAuthor();
             $uploader = $uploader[0];
-            
+
             $object = new YoutubeExternalRepositoryObject();
             $object->set_id($videoEntry->getVideoId());
             $object->set_external_repository_id($this->get_external_repository_instance_id());
@@ -269,10 +272,10 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
             $object->set_url($videoEntry->getFlashPlayerUrl());
             $object->set_duration($videoEntry->getVideoDuration());
             $object->set_thumbnail($thumbnail);
-            
+
             $object->set_category($videoEntry->getVideoCategory());
             $object->set_tags($videoEntry->getVideoTags());
-            
+
             $control = $videoEntry->getControl();
             if (isset($control))
             {
@@ -282,12 +285,12 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
             {
                 $object->set_status(YoutubeExternalRepositoryObject :: STATUS_AVAILABLE);
             }
-            
+
             $object->set_rights($this->determine_rights($videoEntry));
-            
+
             $objects[] = $object;
         }
-        
+
         return new ArrayResultSet($objects);
     }
 
@@ -307,9 +310,9 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
     function retrieve_external_repository_object($id)
     {
         $videoEntry = $this->get_youtube_video_entry($id);
-        
+
         $video_thumbnails = $videoEntry->getVideoThumbnails();
-        
+
         if (count($video_thumbnails) > 0)
         {
             $thumbnail = $video_thumbnails[0]['url'];
@@ -318,16 +321,16 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             $thumbnail = null;
         }
-        
+
         $author = $videoEntry->getAuthor();
         $author = $author[0];
-        
+
         $published = $videoEntry->getPublished()->getText();
         $published_timestamp = strtotime($published);
-        
+
         $modified = $videoEntry->getUpdated()->getText();
         $modified_timestamp = strtotime($modified);
-        
+
         $object = new YoutubeExternalRepositoryObject();
         $object->set_id($videoEntry->getVideoId());
         $object->set_external_repository_id($this->get_external_repository_instance_id());
@@ -339,10 +342,10 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
         $object->set_url($videoEntry->getFlashPlayerUrl());
         $object->set_duration($videoEntry->getVideoDuration());
         $object->set_thumbnail($thumbnail);
-        
+
         $object->set_category($videoEntry->getVideoCategory());
         $object->set_tags($videoEntry->getVideoTags());
-        
+
         $control = $videoEntry->getControl();
         if (isset($control))
         {
@@ -352,9 +355,9 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             $object->set_status(YoutubeExternalRepositoryObject :: STATUS_AVAILABLE);
         }
-        
+
         $object->set_rights($this->determine_rights($videoEntry));
-        
+
         return $object;
     }
 
@@ -365,7 +368,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
         $video_entry->setVideoCategory($values[YoutubeExternalRepositoryObject :: PROPERTY_CATEGORY]);
         $video_entry->setVideoTags($values[YoutubeExternalRepositoryObject :: PROPERTY_TAGS]);
         $video_entry->setVideoDescription($values[YoutubeExternalRepositoryObject :: PROPERTY_DESCRIPTION]);
-        
+
         $edit_link = $video_entry->getEditLink()->getHref();
         $this->youtube->updateEntry($video_entry, $edit_link);
         return true;
@@ -375,7 +378,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $query = $this->youtube->newVideoQuery();
         $query->setVideoQuery($condition);
-        
+
         $videoFeed = $this->get_video_feed($query);
         if ($videoFeed->getTotalResults()->getText() >= 900)
         {
@@ -390,7 +393,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
     function delete_external_repository_object($id)
     {
         $video_entry = $this->youtube->getFullVideoEntry($id);
-        
+
         return $this->youtube->delete($video_entry);
     }
 
@@ -404,7 +407,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
         $video_entry->setVideoTitle($object->get_title());
         $video_entry->setVideoDescription(strip_tags($object->get_description()));
         $video_entry->setVideoCategory('Education');
-        
+
         $upload_url = 'http://uploads.gdata.youtube.com/feeds/api/users/default/uploads';
         try
         {

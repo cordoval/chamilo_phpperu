@@ -32,7 +32,7 @@ class CategoryQuotaBoxForm extends FormValidator
     /**
      * Creates a new LanguageForm
      */
-    function CategoryQuotaBoxForm($form_type, $action, $quota_box_rel_category, $user)
+    function __construct($form_type, $action, $quota_box_rel_category, $user)
     {
         parent :: __construct('quota_box_rel_category_form', 'post', $action);
 

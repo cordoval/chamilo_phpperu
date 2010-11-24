@@ -20,7 +20,7 @@ require_once Path :: get_plugin_path() . 'icalcreator/iCalcreator.class.php';
 class IcalExport extends ContentObjectExport
 {
 
-    function IcalExport($content_object)
+    function __construct($content_object)
     {
         parent :: __construct($content_object);
     }

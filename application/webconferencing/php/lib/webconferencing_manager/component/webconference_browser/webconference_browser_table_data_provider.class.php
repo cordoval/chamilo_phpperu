@@ -19,7 +19,7 @@ class WebconferenceBrowserTableDataProvider extends ObjectTableDataProvider
      * @param ApplicationComponent $browser
      * @param Condition $condition
      */
-    function WebconferenceBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

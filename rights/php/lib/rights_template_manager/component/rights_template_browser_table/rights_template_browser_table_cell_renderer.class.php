@@ -27,7 +27,7 @@ class RightsTemplateBrowserTableCellRenderer extends DefaultRightsTemplateTableC
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function RightsTemplateBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

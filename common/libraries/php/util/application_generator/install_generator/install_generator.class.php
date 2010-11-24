@@ -1,5 +1,5 @@
 <?php
-namespace common\libraries;
+namespace common\libraries\application_generator;
 
 /**
  * Dataclass generator used to generate install files
@@ -12,7 +12,7 @@ class InstallGenerator
     /**
      * Constructor
      */
-    function InstallGenerator()
+    function __construct()
     {
         $this->template = new MyTemplate();
         $this->template->set_rootdir(dirname(__FILE__));

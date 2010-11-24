@@ -13,6 +13,7 @@ use common\libraries\fedora_fs_lastobjects;
 use common\libraries\FedoraProxy;
 use common\libraries\RestConfig;
 use common\libraries\ArrayResultSet;
+use common\libraries\Utilities;
 
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 

@@ -1,5 +1,5 @@
 <?php
-namespace common\libraries;
+namespace common\libraries\content_object_generator;
 /***************************************************************************
  *                              template.php
  *                            -------------------
@@ -57,7 +57,7 @@ class MyTemplate
      * Constructor. Simply sets the root dir.
      *
      */
-    function MyTemplate($root = ".")
+    function __construct($root = ".")
     {
         $this->set_rootdir($root);
     }

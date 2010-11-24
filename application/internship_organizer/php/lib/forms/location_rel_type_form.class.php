@@ -21,7 +21,7 @@ class InternshipOrganizerLocationRelTypeForm extends FormValidator
     private $location_rel_type;
     private $user;
 
-    function InternshipOrganizerLocationRelTypeForm($form_type, $location_rel_type, $action, $user)
+    function __construct($form_type, $location_rel_type, $action, $user)
     {
         parent :: __construct('location_rel_type_settings', 'post', $action);
         

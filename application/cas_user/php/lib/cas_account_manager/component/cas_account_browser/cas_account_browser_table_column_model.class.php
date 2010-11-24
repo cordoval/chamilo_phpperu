@@ -27,7 +27,7 @@ class CasAccountBrowserTableColumnModel extends DefaultCasAccountTableColumnMode
     /**
      * Constructor
      */
-    function CasAccountBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

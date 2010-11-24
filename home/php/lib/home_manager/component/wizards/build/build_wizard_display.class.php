@@ -27,7 +27,7 @@ class BuildWizardDisplay extends HTML_QuickForm_Action_Display
      * @param Tool $parent The repository tool in which the wizard
      * runs
      */
-    public function BuildWizardDisplay($parent, $trail)
+    public function __construct($parent, $trail)
     {
         $this->parent = $parent;
         $this->breadcrumbtrail = $trail;

@@ -1,11 +1,17 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+
 use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+
 use common\libraries\Translation;
 use common\libraries\DatetimeUtilities;
+use common\libraries\Utilities;
+
 use repository\RepositoryDataManager;
+
 use common\libraries\Request;
 use common\libraries\Theme;
+
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\libraries\Utilities;
@@ -50,9 +56,9 @@ class MediamosaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
             foreach ($mediafiles as $mediafile)
             {
                 $download = null;
-                
+
                 $object_rights = $object->get_rights();
-                
+
                 if($object_rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD])
                 {
                     if ($mediafile->get_is_downloadable())
@@ -63,7 +69,7 @@ class MediamosaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
                        }
                     }
                 }
-                
+
                 $properties[Translation :: get('Version') . $i] = $mediafile->get_title() . $download;
 
                 $i ++;

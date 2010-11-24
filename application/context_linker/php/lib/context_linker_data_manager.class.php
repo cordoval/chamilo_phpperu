@@ -19,7 +19,7 @@ class ContextLinkerDataManager
     /**
      * Constructor.
      */
-    protected function ContextLinkerDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

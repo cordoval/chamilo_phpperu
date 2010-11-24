@@ -25,7 +25,7 @@ class SurveyContextRegistrationForm extends FormValidator
     /**
      * Creates a new LanguageForm
      */
-    function SurveyContextRegistrationForm($form_type, $action, $context_registration, $user, $manager)
+    function __construct($form_type, $action, $context_registration, $user, $manager)
     {
         parent :: __construct('context_registration_form', 'post', $action);
 

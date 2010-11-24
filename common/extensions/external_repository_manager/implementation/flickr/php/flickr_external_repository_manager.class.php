@@ -5,15 +5,16 @@ use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
-use common\libraries\Document;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
+use common\libraries\Utilities;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use repository\ExternalRepositorySetting;
+use repository\content_object\document\Document;
 
 require_once dirname(__FILE__) . '/flickr_external_repository_connector.class.php';
 
@@ -34,7 +35,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
     /**
      * @param Application $application
      */
-    function FlickrExternalRepositoryManager($external_repository, $application)
+    function __construct($external_repository, $application)
     {
         parent :: __construct($external_repository, $application);
         $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
@@ -91,8 +92,14 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
     {
         $menu_items = array();
 
+        $my_photos = array();
+        $my_photos['title'] = Translation :: get('MyPhotos');
+        $my_photos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_PHOTOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $my_photos['class'] = 'user';
+        $menu_items[] = $my_photos;
+
         $general = array();
-        $general['title'] = Translation :: get('Browse', null, Utilities :: COMMON_LIBRARIES);
+        $general['title'] = Translation :: get('Public');
         $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $general['class'] = 'home';
         $menu_items[] = $general;
@@ -108,12 +115,6 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         $most_interesting['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_INTERESTING), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $most_interesting['class'] = 'interesting';
         $menu_items[] = $most_interesting;
-
-        $my_photos = array();
-        $my_photos['title'] = Translation :: get('MyPhotos');
-        $my_photos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_PHOTOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $my_photos['class'] = 'user';
-        $menu_items[] = $my_photos;
 
         return $menu_items;
     }

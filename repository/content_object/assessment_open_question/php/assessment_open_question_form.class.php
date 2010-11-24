@@ -23,6 +23,7 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
         if ($object->get_id() != null)
         {
             $defaults[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE] = $object->get_question_type();
+            $defaults[AssessmentOpenQuestion :: PROPERTY_FEEDBACK] = $object->get_feedback();
         }
         else
         {
@@ -43,6 +44,9 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
             $choices[] = $this->createElement('radio', AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE, '', $type_label, $type_id);
         }
         $this->addGroup($choices, null, Translation :: get('OpenQuestionQuestionType'), '<br />', false);
+
+        $this->add_html_editor(AssessmentOpenQuestion :: PROPERTY_FEEDBACK, Translation :: get('Feedback'), false);
+
         $this->addElement('category');
     }
 
@@ -58,6 +62,9 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
             $choices[] = $this->createElement('radio', AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE, '', $type_label, $type_id);
         }
         $this->addGroup($choices, null, Translation :: get('OpenQuestionQuestionType'), '<br />', false);
+
+        $this->add_html_editor(AssessmentOpenQuestion :: PROPERTY_FEEDBACK, Translation :: get('Feedback'), false);
+
         $this->addElement('category');
     }
 
@@ -68,6 +75,7 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
         
         $values = $this->exportValues();
         $object->set_question_type($values[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE]);
+        $object->set_feedback($values[AssessmentOpenQuestion :: PROPERTY_FEEDBACK]);
         
         $this->set_content_object($object);
         return parent :: create_content_object($object);
@@ -79,6 +87,7 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
         
         $values = $this->exportValues();
         $object->set_question_type($values[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE]);
+        $object->set_feedback($values[AssessmentOpenQuestion :: PROPERTY_FEEDBACK]);
         
         $this->set_content_object($object);
         return parent :: update_content_object();

@@ -3,7 +3,7 @@ namespace rights;
 
 use common\libraries\Utilities;
 use common\libraries\Path;
-
+use user\DefaultUserTableColumnModel;
 use rights\RightsUtilities;
 /**
  * $Id: location_user_browser_table_column_model.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
@@ -25,7 +25,7 @@ class LocationUserBrowserTableColumnModel extends DefaultUserTableColumnModel
     /**
      * Constructor
      */
-    function LocationUserBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

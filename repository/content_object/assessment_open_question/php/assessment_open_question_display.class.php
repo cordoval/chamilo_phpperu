@@ -4,6 +4,7 @@ namespace repository\content_object\assessment_open_question;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
+use repository\OpenQuestionDisplay;
 
 /**
  * $Id: assessment_open_question_display.class.php $
@@ -38,7 +39,25 @@ class AssessmentOpenQuestionDisplay extends OpenQuestionDisplay
                 break;
         }
 
-        return '<b>' . Translation :: get('Type', null, Utilities :: COMMON_LIBRARIES) . ':</b> ' . $type . $description;
+        $html = array();
+        $html[] = $description;
+        $html[] = '<table class="data_table">';
+        $html[] = '<thead>';
+        $html[] = '<tr><th>&nbsp;</th><th>&nbsp;</th></tr>';
+        $html[] = '</thead>';
+        $html[] = '<tbody>';
+        $html[] = '<tr class="row_even">';
+        $html[] = '<td>' . Translation :: get('Type', null, Utilities :: COMMON_LIBRARIES) . '</td>';
+        $html[] = '<td>' . $type . '</td>';
+        $html[] = '</tr>';
+        $html[] = '<tr class="row_odd">';
+        $html[] = '<td>' . Translation :: get('Feedback') . '</td>';
+        $html[] = '<td>' . $object->get_feedback() . '</td>';
+        $html[] = '</tr>';
+        $html[] = '</tbody>';
+        $html[] = '</table>';
+
+        return implode("\n", $html);
     }
 }
 ?>

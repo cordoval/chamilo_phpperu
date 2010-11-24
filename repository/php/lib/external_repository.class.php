@@ -28,7 +28,7 @@ class ExternalRepository extends RepositoryDataClass
      */
     private static $already_required_types = array();
 
-    function ExternalRepository($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         parent :: __construct($defaultProperties);
     }

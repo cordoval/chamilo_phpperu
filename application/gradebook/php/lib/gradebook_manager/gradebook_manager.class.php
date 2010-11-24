@@ -51,7 +51,7 @@ class GradebookManager extends WebApplication
     const PARAM_PUBLICATION_ID = 'publication_id';
     const PARAM_PUBLICATION_APP = 'publication_app';
 
-    public function GradebookManager($user)
+    public function __construct($user)
     {
         parent :: __construct($user);
         $this->parse_input_from_table();

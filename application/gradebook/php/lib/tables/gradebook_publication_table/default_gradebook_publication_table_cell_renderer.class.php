@@ -14,7 +14,7 @@ class DefaultGradebookPublicationTableCellRenderer extends ObjectTableCellRender
 	/**
 	 * Constructor
 	 */
-	function DefaultGradebookPublicationTableCellRenderer()
+	function __construct()
 	{
 	}
 

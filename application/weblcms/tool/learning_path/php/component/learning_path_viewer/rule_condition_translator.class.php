@@ -13,7 +13,7 @@ class RuleConditionTranslator
 {
     private $stop_forward_traversing;
 
-    function RuleConditionTranslator()
+    function __construct()
     {
         $this->stop_forward_traversing = false;
     }

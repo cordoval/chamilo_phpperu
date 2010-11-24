@@ -2,6 +2,7 @@
 namespace group;
 use common\libraries\Translation;
 use common\libraries\Validator;
+use common\libraries\Webservice;
 /**
  * $Id: webservices_group.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.webservices
@@ -50,14 +51,6 @@ use common\libraries\Validator;
  * Stefan Billiet & Nick De Feyter
  * University College of Ghent
  */
-require_once (dirname(__FILE__) . '/../../common/global.inc.php');
-require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
-
-ini_set('max_execution_time', - 1);
-ini_set('memory_limit', - 1);
-
-$handler = new WebServicesGroup();
-$handler->run();
 
 class WebServicesGroup
 {
@@ -65,7 +58,7 @@ class WebServicesGroup
     private $functions;
     private $validator;
 
-    function WebServicesGroup()
+    function __construct()
     {
         $this->webservice = Webservice :: factory($this);
         $this->validator = Validator :: get_validator('group');

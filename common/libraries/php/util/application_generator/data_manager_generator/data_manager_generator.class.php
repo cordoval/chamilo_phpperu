@@ -1,5 +1,5 @@
 <?php
-namespace common\libraries;
+namespace common\libraries\application_generator;
 
 /**
  * Dataclass generator used to generate data managers
@@ -12,7 +12,7 @@ class DataManagerGenerator
     /**
      * Constructor
      */
-    function DataManagerGenerator()
+    function __construct()
     {
         $this->template = new MyTemplate();
         $this->template->set_rootdir(dirname(__FILE__));

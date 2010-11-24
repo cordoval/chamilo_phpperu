@@ -19,16 +19,14 @@ use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use application\weblcms\ContentObjectPublicationBrowser;
 
 /**
  * $Id: description_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.description.component.description_viewer
  */
-require_once dirname(__FILE__) . '/../../../../content_object_publication.class.php';
-require_once dirname(__FILE__) . '/../../../../content_object_publication_browser.class.php';
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/list_content_object_publication_list_renderer.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/description/description.class.php';
+
+require_once Path :: get_repository_content_object_path() . 'description/php/description.class.php';
 /**
  * This class allows the end user to browse through published descriptions.
  */
@@ -38,7 +36,7 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
     /**
      * Constructor
      */
-    function DescriptionBrowser($parent, $types)
+    function __construct($parent, $types)
     {
         parent :: __construct($parent, Description :: get_type_name());
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) && $parent->get_action() == 'view')

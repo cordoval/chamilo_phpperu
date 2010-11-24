@@ -15,7 +15,7 @@ class DefaultSurveyContextTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultSurveyContextTableColumnModel($survey_context_type)
+    function __construct($survey_context_type)
     {
         $this->survey_context_type = $survey_context_type;
         parent :: __construct(self :: get_default_columns());

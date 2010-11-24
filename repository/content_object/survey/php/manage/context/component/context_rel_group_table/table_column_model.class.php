@@ -12,7 +12,7 @@ class SurveyContextRelGroupTableColumnModel extends DefaultSurveyContextRelGroup
     /**
      * Constructor
      */
-    function SurveyContextRelGroupTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct();
        	$this->add_column(self :: get_modification_column());

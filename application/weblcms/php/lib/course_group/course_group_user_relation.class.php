@@ -25,7 +25,7 @@ class CourseGroupUserRelation
      * @param array $defaultProperties The default properties of the course user relation
      * object. Associative array.
      */
-    function CourseGroupUserRelation($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

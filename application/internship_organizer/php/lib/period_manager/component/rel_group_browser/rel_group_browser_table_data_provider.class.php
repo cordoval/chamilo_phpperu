@@ -8,7 +8,7 @@ class InternshipOrganizerPeriodRelGroupBrowserTableDataProvider extends ObjectTa
     
     private $browser;
 
-    function InternshipOrganizerPeriodRelGroupBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     

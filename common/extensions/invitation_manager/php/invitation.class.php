@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\invitation_manager;
+use common\libraries\DataClass;
 /**
  * @package admin.lib
  * @author Hans De Bisschop

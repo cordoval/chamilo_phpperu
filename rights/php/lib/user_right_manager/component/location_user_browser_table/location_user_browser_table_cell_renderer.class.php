@@ -3,14 +3,13 @@ namespace rights;
 
 use common\libraries\Translation;
 use common\libraries\Toolbar;
-
+use user\DefaultUserTableCellRenderer;
 use rights\RightsUtilities;
 /**
  * $Id: location_user_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.user_right_manager.component.location_user_bowser_table
  */
 require_once dirname(__FILE__) . '/location_user_browser_table_column_model.class.php';
-require_once Path :: get_user_path() . 'lib/user_table/default_user_table_cell_renderer.class.php';
 /**
  * Cell renderer for the user object browser table
  */
@@ -25,7 +24,7 @@ class LocationUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function LocationUserBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

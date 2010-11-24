@@ -26,7 +26,7 @@ class WebconferenceBrowserTableColumnModel extends DefaultWebconferenceTableColu
     /**
      * Constructor
      */
-    function WebconferenceBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

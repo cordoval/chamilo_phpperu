@@ -14,7 +14,7 @@ class ObjectPublicationGalleryTableCellRenderer implements GalleryObjectTableCel
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function ObjectPublicationGalleryTableCellRenderer($table_renderer)
+    function __construct($table_renderer)
     {
         $this->table_renderer = $table_renderer;
     }

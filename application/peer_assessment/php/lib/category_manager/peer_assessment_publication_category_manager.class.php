@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/peer_assessment_publication_category.class.ph
 class PeerAssessmentPublicationCategoryManager extends CategoryManager
 {
 
-    function PeerAssessmentPublicationCategoryManager($parent, $trail)
+    function __construct($parent, $trail)
     {
         parent :: __construct($parent, $trail);
     }

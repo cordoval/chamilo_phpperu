@@ -28,7 +28,7 @@ class ReportingTemplateRegistrationBrowserTableCellRenderer extends DefaultRepor
      * Constructor
      * @param ReportingTemplateManagerBrowserComponent $browser
      */
-    function ReportingTemplateRegistrationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

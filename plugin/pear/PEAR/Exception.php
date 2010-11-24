@@ -147,7 +147,7 @@ class PEAR_Exception extends Exception
             $code = null;
             $this->cause = null;
         }
-        parent::__construct($message, $code);
+        parent :: __construct($message, $code);
         $this->signal();
     }
 

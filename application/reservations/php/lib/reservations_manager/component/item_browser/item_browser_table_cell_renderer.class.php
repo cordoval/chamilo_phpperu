@@ -29,7 +29,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
      * Constructor
      * @param ReservationsManager $browser
      */
-    function ItemBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

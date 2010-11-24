@@ -37,7 +37,7 @@ abstract class ComplexContentObjectItemForm extends FormValidator
      * @param string $method The method to use ('post' or 'get').
      * @param string $action The URL to which the form should be submitted.
      */
-    protected function __construct($form_type, $complex_content_object_item, $form_name, $method = 'post', $action = null)
+    public function __construct($form_type, $complex_content_object_item, $form_name, $method = 'post', $action = null)
     {
         parent :: __construct($form_name, $method, $action);
         $this->form_type = $form_type;

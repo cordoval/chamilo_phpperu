@@ -4,9 +4,6 @@ namespace migration;
  * $Id: dokeos185_online_link.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_online_link.class.php';
-
 /**
  * This class presents a Dokeos185 online_link
  *
@@ -32,7 +29,7 @@ class Dokeos185OnlineLink extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185OnlineLink object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185OnlineLink($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -114,9 +111,21 @@ class Dokeos185OnlineLink extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the validation
      * @return true if the online link is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
     /**
@@ -124,7 +133,7 @@ class Dokeos185OnlineLink extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the conversion
      * @return the new online link
      */
-    function convert_data
+    function convert_data()
     {
         $course = $array['course'];
     }

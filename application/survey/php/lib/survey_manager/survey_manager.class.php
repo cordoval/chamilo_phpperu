@@ -53,7 +53,7 @@ class SurveyManager extends WebApplication
      * Constructor
      * @param User $user The current user
      */
-    function SurveyManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
     }

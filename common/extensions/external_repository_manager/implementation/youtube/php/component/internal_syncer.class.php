@@ -17,7 +17,7 @@ class YoutubeExternalRepositoryManagerInternalSyncerComponent extends YoutubeExt
     {
         $synchronization_data = $external_object->get_synchronization_data();
         $content_object = $synchronization_data->get_content_object();
-        
+
         $content_object->set_title($external_object->get_title());
         if (PlatformSetting :: get('description_required', 'repository') && StringUtilities :: is_null_or_empty($external_object->get_description()))
         {
@@ -27,9 +27,9 @@ class YoutubeExternalRepositoryManagerInternalSyncerComponent extends YoutubeExt
         {
             $content_object->set_description($external_object->get_description());
         }
-        
+
         $content_object->set_url('http://www.youtube.com/watch?v=' . $external_object->get_id());
-        
+
         if ($content_object->update())
         {
             $synchronization_data->set_content_object_timestamp($content_object->get_modification_date());

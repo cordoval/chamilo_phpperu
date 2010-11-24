@@ -24,7 +24,7 @@ class WikiPageTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor.
      */
-    function WikiPageTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_columns(), 1, SORT_ASC);
     }

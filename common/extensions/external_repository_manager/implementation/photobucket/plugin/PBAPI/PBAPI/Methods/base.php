@@ -1,4 +1,5 @@
 <?php
+
 use common\libraries\Path;
 /**
  * Photobucket API 
@@ -16,7 +17,7 @@ use common\libraries\Path;
 /**
  * Load Methods parent
  */
-require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Methods.php';
+require_once dirname(__FILE__) . '/../Methods.php';
 
 /**
  * Base API methods

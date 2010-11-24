@@ -1,4 +1,5 @@
 <?php
+
 namespace application\weblcms;
 
 use common\libraries\Request;
@@ -16,13 +17,14 @@ class ToolComponentMoverComponent extends ToolComponent
 
     function run()
     {
-        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+        $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT, $publication_id))
         {
 
             $move = $this->get_parent()->get_move_direction();
 
             $datamanager = WeblcmsDataManager :: get_instance();
-            $publication = $datamanager->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
+            $publication = $datamanager->retrieve_content_object_publication($publication_id);
             if ($publication->move($move))
             {
                 $message = htmlentities(Translation :: get('ContentObjectPublicationMoved'));
@@ -30,11 +32,14 @@ class ToolComponentMoverComponent extends ToolComponent
 
             $this->redirect($message, false, array(Tool :: PARAM_ACTION => null, Tool :: PARAM_BROWSER_TYPE => Request :: get(Tool :: PARAM_BROWSER_TYPE)));
 
-     //$this->redirect($message, false, array(Tool :: PARAM_ACTION => null, Tool :: PARAM_BROWSER_TYPE => Request :: get(Tool :: PARAM_BROWSER_TYPE)));
-
-
+            //$this->redirect($message, false, array(Tool :: PARAM_ACTION => null, Tool :: PARAM_BROWSER_TYPE => Request :: get(Tool :: PARAM_BROWSER_TYPE)));
+        }
+        else
+        {
+            $this->redirect(Translation :: get("NotAllowed"), '', array(Tool :: PARAM_PUBLICATION_ID => null, 'tool_action' => null));
         }
     }
+
 }
 
 ?>

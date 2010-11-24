@@ -12,7 +12,7 @@ class SurveyInstaller extends Installer
     /**
      * Constructor
      */
-    function SurveyInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, SurveyDataManager :: get_instance());
     }

@@ -27,7 +27,7 @@ class UserViewBrowserTableCellRenderer extends ObjectTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function UserViewBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         //parent :: __construct();
         $this->browser = $browser;

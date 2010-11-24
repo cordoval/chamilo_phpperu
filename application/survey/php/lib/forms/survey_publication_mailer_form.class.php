@@ -17,7 +17,7 @@ class SurveyPublicationMailerForm extends FormValidator
     const EMAIL_HEADER = 'email_header';
     const EMAIL_CONTENT = 'email_content';
 
-    function SurveyPublicationMailerForm($parent, $user, $users, $actions)
+    function __construct($parent, $user, $users, $actions)
     {
         parent :: __construct('survey_publication_mailer', 'post', $actions);
         

@@ -19,7 +19,7 @@ class TranslatorApplicationBrowserTableDataProvider extends ObjectTableDataProvi
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function TranslatorApplicationBrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }

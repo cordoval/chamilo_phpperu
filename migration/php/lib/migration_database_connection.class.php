@@ -1,14 +1,16 @@
 <?php
 namespace migration;
-
+use common\libraries\Connection;
+use common\libraries\Translation;
+use MDB2;
 /**
  * Class that extends the general connection class so we can use this to connect to different databases then the one of chamilo 2.0
  * @author Sven Vanpoucke
  */
 
-class MigrationDatabaseConnection Extends Connection
+class MigrationDatabaseConnection extends Connection
 {
-	function MigrationDatabaseConnection($connection_string)
+	function __construct($connection_string)
     {
         $connection = MDB2 :: connect($connection_string);
         if(MDB2 :: isError($this->connection))

@@ -1,7 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
-use repository\content_object\assessment\AssessmentDisplay;
+
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsManager;
 use common\extensions\reporting_viewer\ReportingViewer;
@@ -20,10 +20,6 @@ use common\libraries\Utilities;
  * $Id: learning_path_statistics_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component
  */
-require_once dirname(__FILE__) . '/../../../trackers/weblcms_lp_attempt_tracker.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/weblcms_lpi_attempt_tracker.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/weblcms_lpi_attempt_objective_tracker.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_tree.class.php';
 
 class LearningPathToolStatisticsViewerComponent extends LearningPathTool implements DelegateComponent

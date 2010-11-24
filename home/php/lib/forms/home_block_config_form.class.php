@@ -1,5 +1,6 @@
 <?php
 namespace home;
+
 use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\BasicApplication;
@@ -7,7 +8,9 @@ use common\libraries\Application;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
+
 use DOMDocument;
+
 /**
  * $Id: home_block_config_form.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib.forms
@@ -23,7 +26,7 @@ class HomeBlockConfigForm extends FormValidator
     private $homeblock_config;
     private $base_path;
 
-    function HomeBlockConfigForm($homeblock, $action)
+    function __construct($homeblock, $action)
     {
         parent :: __construct('home_block', 'post', $action);
 

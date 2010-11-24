@@ -6,10 +6,12 @@ use common\libraries\StringUtilities;
 use common\libraries\PlatformSetting;
 use common\libraries\Filesystem;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 use repository\ContentObject;
 use repository\ExternalRepositorySync;
 use repository\content_object\document\Document;
+use repository\RepositoryManager;
 
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;

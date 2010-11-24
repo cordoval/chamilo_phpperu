@@ -16,7 +16,7 @@ class EvaluationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function EvaluationBrowserTable($browser)
+    function __construct($browser)
     {
         $model = new EvaluationBrowserTableColumnModel();
         $renderer = new EvaluationBrowserTableCellRenderer($browser);

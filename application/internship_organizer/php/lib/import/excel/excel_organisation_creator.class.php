@@ -7,7 +7,7 @@ use common\libraries\AndCondition;
 class ExcelOrganisationCreator
 {
 
-    function ExcelOrganisationCreator()
+    function __construct()
     {
     
     }

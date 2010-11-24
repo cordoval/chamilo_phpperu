@@ -19,7 +19,7 @@ class LanguagePackBrowserTableDataProvider extends ObjectTableDataProvider
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function LanguagePackBrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }

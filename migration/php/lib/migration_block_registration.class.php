@@ -1,17 +1,23 @@
 <?php
+
 namespace migration;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
+use common\libraries\Translation;
+
 /**
  * $Id: $
  * @package migration.lib
  */
-/**
- *	@author Sven Vanpoucke
- */
 
+/**
+ * 	@author Sven Vanpoucke
+ */
 class MigrationBlockRegistration extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_NAME = 'name';
     const PROPERTY_IS_MIGRATED = 'is_migrated';
 
@@ -34,8 +40,8 @@ class MigrationBlockRegistration extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_WANT_TO_MIGRATE, $want_to_migrate);
     }
-    
-	function get_is_migrated()
+
+    function get_is_migrated()
     {
         return $this->get_default_property(self :: PROPERTY_IS_MIGRATED);
     }
@@ -51,7 +57,7 @@ class MigrationBlockRegistration extends DataClass
      */
     static function get_default_property_names()
     {
-         return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_IS_MIGRATED));
+        return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_IS_MIGRATED));
     }
 
     /**
@@ -64,7 +70,9 @@ class MigrationBlockRegistration extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(__CLASS__));
     }
+
 }
+
 ?>

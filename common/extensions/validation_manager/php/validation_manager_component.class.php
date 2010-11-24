@@ -21,7 +21,7 @@ class ValidationManagerComponent
      * Constructor.
      * @param ObjectPublisher $parent The creator of this object.
      */
-    function ValidationManagerComponent($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

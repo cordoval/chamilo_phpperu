@@ -19,7 +19,7 @@ require_once dirname(__FILE__) . '/object_publication_table_cell_renderer.class.
 class ObjectPublicationTable extends ObjectTable
 {
 
-    function ObjectPublicationTable($table_renderer, $condition, $cell_renderer = null, $column_model = null)
+    function __construct($table_renderer, $condition, $cell_renderer = null, $column_model = null)
     {
         $data_provider = new ObjectPublicationTableDataProvider($table_renderer, $condition);
 
@@ -43,7 +43,8 @@ class ObjectPublicationTable extends ObjectTable
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(Tool :: PARAM_PUBLICATION_ID, $ids);
     }
 }

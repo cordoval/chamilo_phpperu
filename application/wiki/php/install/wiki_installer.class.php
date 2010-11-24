@@ -20,7 +20,7 @@ class WikiInstaller extends Installer
     /**
      * Constructor
      */
-    function WikiInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, WikiDataManager :: get_instance());
     }

@@ -25,7 +25,7 @@ class RepositoryInstaller extends Installer
     /**
      * Constructor
      */
-    function RepositoryInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, RepositoryDataManager :: get_instance());
     }
@@ -72,6 +72,15 @@ class RepositoryInstaller extends Installer
         else
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoriesSubtreeCreated'));
+        }
+        
+   		if (! RepositoryRights :: create_videos_conferencing_subtree_root_location())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('VideosConferencingSubtreeCreated'));
         }
 
         if (! $this->add_metadata_catalogs())

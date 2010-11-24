@@ -29,7 +29,7 @@ class TemplateBrowserTableCellRenderer extends DefaultContentObjectTableCellRend
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function TemplateBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

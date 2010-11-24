@@ -31,7 +31,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
      * Constructor
      * @param ProfileManagerBrowserComponent $browser
      */
-    function ProfilePublicationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -51,7 +51,7 @@ abstract class ContentObjectPubFeedbackBrowser
      * @param mixed $types The types of learning objects for which
      * publications need to be displayed.
      */
-    function ContentObjectPubFeedbackBrowser($parent, $types)
+    function __construct($parent, $types)
     {
         $this->parent = $parent;
         $this->types = is_array($types) ? $types : array($types);

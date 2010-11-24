@@ -26,7 +26,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
     protected $table_renderer;
     private $object_count;
 
-    function ObjectPublicationTableCellRenderer($table_renderer)
+    function __construct($table_renderer)
     {
         $this->table_renderer = $table_renderer;
     }

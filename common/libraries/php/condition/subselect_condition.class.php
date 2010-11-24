@@ -48,7 +48,7 @@ class SubselectCondition implements Condition
      * @param string $name
      * @param array $values
      */
-    function SubselectCondition($name, $value, $storage_unit_value, $condition = null, $storage_unit_name = null, $data_manager = null)
+    function __construct($name, $value, $storage_unit_value, $condition = null, $storage_unit_name = null, $data_manager = null)
     {
         $this->name = $name;
         $this->value = $value;

@@ -10,7 +10,7 @@ require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 class ExcelOrganisationImport extends InternshipOrganizerImport
 {
 
-    function ExcelOrganisationImport($internship_organizer_file, $user, $object_type)
+    function __construct($internship_organizer_file, $user, $object_type)
     {
         parent :: __construct($internship_organizer_file, $user, $object_type);
     }

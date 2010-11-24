@@ -5,13 +5,15 @@ use common\libraries\Utilities;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
+use common\libraries\WebApplication;
+use tracking\SimpleTracker;
 
 /**
  * @package application.lib.survey.trackers
  */
 
-require_once Path :: get_application_path() . 'lib/survey/trackers/survey_question_answer_tracker.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/database_context_data_manager.class.php';
+require_once WebApplication :: get_application_class_path('survey') . 'trackers/survey_question_answer_tracker.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/database_context_data_manager.class.php';
 
 class WeblcmsSurveyParticipantTracker extends SimpleTracker
 {

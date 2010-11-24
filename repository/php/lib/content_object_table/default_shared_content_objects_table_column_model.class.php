@@ -38,7 +38,7 @@ class DefaultSharedContentObjectsTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultSharedContentObjectsTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

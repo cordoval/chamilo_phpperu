@@ -33,7 +33,7 @@ class ContentObjectShareForm extends FormValidator
     private $form_type;
     private $user;
 
-    function ContentObjectShareForm($form_type, $content_object_ids = array(), $user, $action)
+    function __construct($form_type, $content_object_ids = array(), $user, $action)
     {
         parent :: __construct('content_object_share_form', 'post', $action);
 

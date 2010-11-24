@@ -11,6 +11,9 @@ use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
 use repository\content_object\handbook_item\HandbookItem;
 use repository\content_object\learning_path\LearningPath;
+use common\libraries\Text;
+use common\libraries\Filesystem;
+use repository\content_object\scorm_item\ScormItem;
 
 /**
  * $Id: content_object_copier.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -82,7 +85,7 @@ class ContentObjectCopier
      *
      * @param Int $target_repository
      */
-    function ContentObjectCopier($target_repository = 0)
+    function __construct($target_repository = 0)
     {
         $this->rdm = RepositoryDataManager :: get_instance();
         $this->target_repository = $target_repository;

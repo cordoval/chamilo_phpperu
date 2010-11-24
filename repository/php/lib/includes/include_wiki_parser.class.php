@@ -5,6 +5,7 @@ use common\libraries\Path;
 use common\libraries\Text;
 
 use repository\ContentObject;
+use repository\content_object\document\Document;
 
 /**
  * $Id: include_wiki_parser.class.php 204 2009-11-13 12:51:30Z kariboe $

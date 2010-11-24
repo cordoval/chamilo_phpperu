@@ -11,7 +11,7 @@ class Hq23ExternalRepositoryGalleryTable extends GalleryObjectTable
 {
     const DEFAULT_NAME = 'hq23_external_repository_gallery_table';
 
-    function Hq23ExternalRepositoryGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $data_provider = new Hq23ExternalRepositoryGalleryTableDataProvider($browser, $condition);
         $renderer = new Hq23ExternalRepositoryGalleryTableCellRenderer($browser);

@@ -31,7 +31,7 @@ class ObjectTableColumnModel
      * Either the PHP constant SORT_ASC
      * or SORT_DESC.
      */
-    function ObjectTableColumnModel($columns, $default_order_column = 0, $default_order_direction = SORT_ASC)
+    function __construct($columns, $default_order_column = 0, $default_order_direction = SORT_ASC)
     {
         $this->columns = $columns;
         $this->order_column = $default_order_column;

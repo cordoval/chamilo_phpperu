@@ -23,7 +23,7 @@ class ReservationBrowserTableColumnModel extends DefaultReservationTableColumnMo
     /**
      * Constructor
      */
-    function ReservationBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

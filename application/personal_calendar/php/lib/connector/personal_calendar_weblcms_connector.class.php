@@ -5,13 +5,17 @@ use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
-use repository\ContentObject;
-use repository\content_object\calendar_event\CalendarEvent;
 use common\libraries\SubselectCondition;
 use common\libraries\OrCondition;
-use application\weblcms\WeblcmsDataManager;
-use application\weblcms\ContentObjectPublication;
+use common\libraries\Translation;
+
+use repository\ContentObject;
+use repository\content_object\calendar_event\CalendarEvent;
 use repository\RepositoryDataManager;
+
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsManager;
+use application\weblcms\ContentObjectPublication;
 /**
  * $Id: personal_calendar_weblcms_connector.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.connector
@@ -50,7 +54,7 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
                     $event->set_url('run.php?application=weblcms&amp;go=course_viewer&amp;tool_action=viewer&amp;browser=calendar&amp;course=' . $publication->get_course_id() . '&amp;tool=' . $publication->get_tool() . '&amp;publication=' . $publication->get_id());
                     $event->set_title($repeat->get_title());
                     $event->set_content($repeat->get_description());
-                    $event->set_source('weblcms');
+                    $event->set_source(Translation :: get('TypeName', null, WebApplication :: determine_namespace(WeblcmsManager :: APPLICATION_NAME)));
 
                     $result[] = $event;
                 }
@@ -63,7 +67,7 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
                 $event->set_url('run.php?application=weblcms&amp;go=course_viewer&amp;tool_action=viewer&amp;browser=calendar&amp;course=' . $publication->get_course_id() . '&amp;tool=' . $publication->get_tool() . '&amp;publication=' . $publication->get_id());
                 $event->set_title($object->get_title());
                 $event->set_content($object->get_description());
-                $event->set_source('weblcms');
+                $event->set_source(Translation :: get('TypeName', null, WebApplication :: determine_namespace(WeblcmsManager :: APPLICATION_NAME)));
                 $event->set_id($publication->get_id());
                 $result[] = $event;
             }
@@ -71,11 +75,9 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
         return $result;
     }
 
-	private function is_visible_event($event, $from_date, $end_date)
+    private function is_visible_event($event, $from_date, $end_date)
     {
-    	return ($event->get_start_date() >= $from_date && $event->get_start_date() <= $end_date) ||
-    		   ($event->get_end_date() >= $from_date && $event->get_end_date() <= $end_date) ||
-    		   ($event->get_start_date() < $from_date && $event->get_end_date() > $end_date);
+        return ($event->get_start_date() >= $from_date && $event->get_start_date() <= $end_date) || ($event->get_end_date() >= $from_date && $event->get_end_date() <= $end_date) || ($event->get_start_date() < $from_date && $event->get_end_date() > $end_date);
     }
 
     function get_conditions($user)
@@ -94,7 +96,9 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
         $access[] = new InCondition('course_group_id', $course_groups, 'content_object_publication_course_group');
         if (! empty($user_id) || ! empty($course_groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, 'content_object_publication_user'), new EqualityCondition('course_group_id', null, 'content_object_publication_course_group')));
+            $access[] = new AndCondition(array(
+                    new EqualityCondition('user_id', null, 'content_object_publication_user'),
+                    new EqualityCondition('course_group_id', null, 'content_object_publication_course_group')));
         }
 
         $conditions[] = new OrCondition($access);

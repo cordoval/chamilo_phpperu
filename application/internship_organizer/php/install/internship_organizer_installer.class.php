@@ -18,7 +18,7 @@ class InternshipOrganizerInstaller extends Installer
     /**
      * Constructor
      */
-    function InternshipOrganizerInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, InternshipOrganizerDataManager :: get_instance());
     }

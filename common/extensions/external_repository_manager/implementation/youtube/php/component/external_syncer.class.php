@@ -3,6 +3,7 @@ namespace common\extensions\external_repository_manager\implementation\youtube;
 
 use common\libraries\Translation;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 class YoutubeExternalRepositoryManagerExternalSyncerComponent extends YoutubeExternalRepositoryManager
 {
@@ -16,18 +17,18 @@ class YoutubeExternalRepositoryManagerExternalSyncerComponent extends YoutubeExt
     {
         $synchronization_data = $external_object->get_synchronization_data();
         $content_object = $synchronization_data->get_content_object();
-        
+
         $values = array();
         $values[ExternalRepository :: PROPERTY_ID] = $external_object->get_id();
         $values[ExternalRepository :: PROPERTY_TITLE] = trim(html_entity_decode(strip_tags($content_object->get_title())));
         $values[ExternalRepository :: PROPERTY_DESCRIPTION] = trim(html_entity_decode(strip_tags($content_object->get_description())));
         $values[YoutubeExternalRepositoryObject :: PROPERTY_CATEGORY] = $external_object->get_category();
         $values[YoutubeExternalRepositoryObject :: PROPERTY_TAGS] = $external_object->get_tags();
-        
+
         if ($this->get_external_repository_connector()->update_youtube_video($values))
         {
             $external_object = $this->get_external_repository_connector()->retrieve_external_repository_object($external_object->get_id());
-            
+
             $synchronization_data->set_content_object_timestamp($content_object->get_modification_date());
             $synchronization_data->set_external_repository_object_timestamp($external_object->get_modified());
             if ($synchronization_data->update())

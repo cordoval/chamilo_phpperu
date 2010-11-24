@@ -24,7 +24,7 @@ class PmPublicationBrowserTableDataProvider extends ObjectTableDataProvider
      * @param PersonalMessengerManagerComponent $browser
      * @param Condition $condition
      */
-    function PmPublicationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

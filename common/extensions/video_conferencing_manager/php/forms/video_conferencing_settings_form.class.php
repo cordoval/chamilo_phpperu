@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
 use repository\ExternalRepositorySetting;
+use common\libraries\FormValidator;
 
 class VideoConferencingSettingsForm extends FormValidator
 {

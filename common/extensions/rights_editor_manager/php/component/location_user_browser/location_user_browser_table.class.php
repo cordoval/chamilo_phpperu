@@ -21,14 +21,14 @@ class LocationUserBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function LocationUserBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new LocationUserBrowserTableColumnModel($browser);
         $renderer = new LocationUserBrowserTableCellRenderer($browser);
         $data_provider = new LocationUserBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, LocationUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = new ObjectTableFormActions();
+        $actions = new ObjectTableFormActions(__NAMESPACE__);
         //Deactivated: What should happen when a user is removed ? Full remove or deactivation of account ?
         //$actions[UserManager :: PARAM_REMOVE_SELECTED] = Translation :: get('RemoveSelected');
         $this->set_form_actions($actions);

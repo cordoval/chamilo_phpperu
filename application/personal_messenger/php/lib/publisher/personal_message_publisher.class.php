@@ -30,7 +30,7 @@ class PersonalMessagePublisher
 
     private $parent;
 
-    function PersonalMessagePublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

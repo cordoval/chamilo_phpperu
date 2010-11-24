@@ -2,6 +2,7 @@
 namespace repository;
 
 use repository\ContentObjectImport;
+use repository\content_object\document\Document;
 
 /**
  * $Id: csv_import.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -15,7 +16,7 @@ class DocumentImport extends ContentObjectImport
 {
     private $rdm;
 
-    function DocumentImport($content_object_file, $user, $category)
+    function __construct($content_object_file, $user, $category)
     {
         parent :: __construct($content_object_file, $user, $category);
     	$this->rdm = RepositoryDataManager :: get_instance();

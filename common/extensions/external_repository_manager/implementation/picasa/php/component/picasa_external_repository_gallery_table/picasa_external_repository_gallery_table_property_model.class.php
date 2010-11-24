@@ -5,7 +5,7 @@ use common\extensions\external_repository_manager\DefaultExternalRepositoryGalle
 
 class PicasaExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRepositoryGalleryObjectTablePropertyModel
 {
-    function PicasaExternalRepositoryGalleryTablePropertyModel()
+    function __construct()
     {
         parent :: __construct();
 

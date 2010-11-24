@@ -24,7 +24,7 @@ class MediamosaExternalRepositoryTableCellRenderer extends DefaultExternalReposi
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function MediamosaExternalRepositoryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

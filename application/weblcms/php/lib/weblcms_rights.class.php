@@ -277,14 +277,14 @@ class WeblcmsRights extends RightsUtilities
      */
     static function get_group_right_location($right, $group_id, $parent_id)
     {
-        if ($tree_type != self :: TREE_TYPE_COURSE || $tree_identifier == 0)
-        {
-            return parent :: get_group_right_location($right, $group_id, $parent_id);
-        }
-        else
-        {
+//        if ($tree_type != self :: TREE_TYPE_COURSE || $tree_identifier == 0)
+//        {
+//            return parent :: get_group_right_location($right, $group_id, $parent_id);
+//        }
+//        else
+//        {
             return self :: get_course_group_right_location($right, $group_id, $parent_id);
-        }
+//        }
     }
 
     // Rewrite of is_allowed and get_right to check for course groups as well

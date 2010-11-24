@@ -31,7 +31,7 @@ class CourseRequestForm extends FormValidator
     private $user_id;
     private $multiple_users;
 
-    function CourseRequestForm($form_type, $action, $course, $parent, $request, $multiple_users = false)
+    function __construct($form_type, $action, $course, $parent, $request, $multiple_users = false)
     {
         parent :: __construct('course_request', 'post', $action);
         $this->multiple_users = $multiple_users;

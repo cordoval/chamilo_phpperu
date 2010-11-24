@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\document;
 
+use common\libraries;
+
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
@@ -38,9 +40,10 @@ class DocumentForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $post_max_size = ini_get('upload_max_filesize');
+        $post_max_size = (Filesystem :: interpret_file_size(ini_get('post_max_size')) < Filesystem :: interpret_file_size(ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize'));
+
         $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
-        //$this->addElement('html', '<span style="margin-left: -38px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
+        $this->addElement('static', null, Translation :: get('MaxSize'), $post_max_size);
         $this->addElement('upload_or_create', 'upload_or_create', sprintf(Translation :: get('FileName'), $post_max_size));
         $this->register_html_editor(HTML_QuickForm_upload_or_create :: ELEMENT_EDITOR);
         //$this->addElement('checkbox','uncompress',Translation :: get('Uncompress'), '', array('id' => 'uncompress'));
@@ -51,10 +54,10 @@ class DocumentForm extends ContentObjectForm
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $post_max_size = ini_get('upload_max_filesize');
+        $post_max_size = (Filesystem :: interpret_file_size(ini_get('post_max_size')) < Filesystem :: interpret_file_size(ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize'));
 
         $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
-        //$this->addElement('html', '<span style="margin-left: -40px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
+        $this->addElement('static', null, Translation :: get('MaxSize'), $post_max_size);
         $object = $this->get_content_object();
         if (Utilities :: is_html_document($object->get_filename()))
         {
@@ -86,7 +89,7 @@ class DocumentForm extends ContentObjectForm
 
         $object = new Document();
 
-        if($values['choice'] == 0)
+        if ($values['choice'] == 0)
         {
             /*
             * Object content is replaced by uploaded file
@@ -107,58 +110,60 @@ class DocumentForm extends ContentObjectForm
         $document = parent :: create_content_object();
 
         $owner = $this->get_owner_id();
-//        $values = $this->exportValues();
+        //        $values = $this->exportValues();
         $owner_path = $this->get_upload_path() . $owner;
-//        Filesystem :: create_dir($owner_path);
-//        if ($values['choice'])
-//        {
-//            $filename = $values[Document :: PROPERTY_TITLE] . '.html';
-//            $hash = md5($filename);
-//
-//            $path = $owner . '/' . Text :: char_at($hash, 0);
-//            $full_path = $this->get_upload_path() . $path;
-//
-//            Filesystem :: create_dir($full_path);
-//            $hash = Filesystem :: create_unique_name($full_path, $hash);
-//
-//            $path = $path . '/' . $hash;
-//            $full_path = $full_path . '/' . $hash;
-//
-//            Filesystem :: write_to_file($full_path, $values['html_content']);
-//        }
-//        else
-//        {
-//            $filename = $_FILES['file']['name'];
-//            $hash = md5($_FILES['file']['name']);
-//
-//            $path = $owner . '/' . Text :: char_at($hash, 0);
-//            $full_path = $this->get_upload_path() . $path;
-//
-//            Filesystem :: create_dir($full_path);
-//            $hash = Filesystem :: create_unique_name($full_path, $hash);
-//
-//            $path = $path . '/' . $hash;
-//            $full_path = $full_path . '/' . $hash;
-//
-//            move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "' . $full_path . '"');
-//        }
-//
+        //        Filesystem :: create_dir($owner_path);
+        //        if ($values['choice'])
+        //        {
+        //            $filename = $values[Document :: PROPERTY_TITLE] . '.html';
+        //            $hash = md5($filename);
+        //
+        //            $path = $owner . '/' . Text :: char_at($hash, 0);
+        //            $full_path = $this->get_upload_path() . $path;
+        //
+        //            Filesystem :: create_dir($full_path);
+        //            $hash = Filesystem :: create_unique_name($full_path, $hash);
+        //
+        //            $path = $path . '/' . $hash;
+        //            $full_path = $full_path . '/' . $hash;
+        //
+        //            Filesystem :: write_to_file($full_path, $values['html_content']);
+        //        }
+        //        else
+        //        {
+        //            $filename = $_FILES['file']['name'];
+        //            $hash = md5($_FILES['file']['name']);
+        //
+        //            $path = $owner . '/' . Text :: char_at($hash, 0);
+        //            $full_path = $this->get_upload_path() . $path;
+        //
+        //            Filesystem :: create_dir($full_path);
+        //            $hash = Filesystem :: create_unique_name($full_path, $hash);
+        //
+        //            $path = $path . '/' . $hash;
+        //            $full_path = $full_path . '/' . $hash;
+        //
+        //            move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "' . $full_path . '"');
+        //        }
+        //
         $permissions_new_files = PlatformSetting :: get('permissions_new_files');
-//        Filesystem :: chmod($full_path, $permissions_new_files);
-//
-//        $object = new Document();
-//        $object->set_path($path);
-//        $object->set_filename($filename);
-//        $object->set_hash($hash);
-//        $object->set_filesize(Filesystem :: get_disk_space($full_path));
-//        $this->set_content_object($object);
-//        $document = parent :: create_content_object();
+        //        Filesystem :: chmod($full_path, $permissions_new_files);
+        //
+        //        $object = new Document();
+        //        $object->set_path($path);
+        //        $object->set_filename($filename);
+        //        $object->set_hash($hash);
+        //        $object->set_filesize(Filesystem :: get_disk_space($full_path));
+        //        $this->set_content_object($object);
+        //        $document = parent :: create_content_object();
+
 
         if ($values['uncompress'] && ! $values['choice'])
         {
             $documents = array();
             $filecompression = Filecompression :: factory();
             //Fix to make sure files can be unzipped
+
 
             $dir = $filecompression->extract_file($document->get_full_path());
             $entries = Filesystem :: get_directory_content($dir);
@@ -206,10 +211,10 @@ class DocumentForm extends ContentObjectForm
                     $object->set_filename(basename($entry));
                     $object->set_filesize(Filesystem :: get_disk_space($full_path));
                     $object->set_hash($hash);
-					$object->set_title(basename($url));
-					$object->set_content_hash(md5_file($full_path));
+                    $object->set_title(basename($url));
+                    $object->set_content_hash(md5_file($full_path));
 
-	                $this->set_content_object($object);
+                    $this->set_content_object($object);
                     $object = parent :: create_content_object();
                     if (isset($created_directories[dirname($url)]))
                     {
@@ -230,105 +235,106 @@ class DocumentForm extends ContentObjectForm
 
     function update_content_object()
     {
-         $document = $this->get_content_object();
-         $values = $this->exportValues();
+        $document = $this->get_content_object();
+        $values = $this->exportValues();
 
-         if (StringUtilities :: has_value(($values['html_content'])))
-         {
-             /*
+        if (StringUtilities :: has_value(($values['html_content'])))
+        {
+            /*
               * Object content is replaced by HTML content
               */
-             $document->set_filename($document->get_title() . '.html');
-             $document->set_in_memory_file($values['html_content']);
-         }
-         elseif(StringUtilities :: has_value($_FILES['file']['name']))
-         {
-             /*
+            $document->set_filename($document->get_title() . '.html');
+            $document->set_in_memory_file($values['html_content']);
+        }
+        elseif (StringUtilities :: has_value($_FILES['file']['name']))
+        {
+            /*
               * Object content is replaced by uploaded file
               */
-             $document->set_filename($_FILES['file']['name']);
-             $document->set_temporary_file_path($_FILES['file']['tmp_name']);
-         }
+            $document->set_filename($_FILES['file']['name']);
+            $document->set_temporary_file_path($_FILES['file']['tmp_name']);
+        }
 
-         if ((isset($values['version']) && $values['version'] == 0) || ! isset($values['version']))
-         {
-             $document->set_save_as_new_version(false);
-         }
-         else
-         {
-             $document->set_save_as_new_version(true);
-         }
+        if ((isset($values['version']) && $values['version'] == 0) || ! isset($values['version']))
+        {
+            $document->set_save_as_new_version(false);
+        }
+        else
+        {
+            $document->set_save_as_new_version(true);
+        }
 
-         return parent :: update_content_object();
+        return parent :: update_content_object();
     }
 
-//    function update_content_object()
-//    {
-//        $object = $this->get_content_object();
-//        $values = $this->exportValues();
-//
-//        $owner = $object->get_owner_id();
-//        $owner_path = $this->get_upload_path() . $owner;
-//        Filesystem :: create_dir($owner_path);
-//        if (isset($values['html_content']))
-//        {
-//            if ((isset($values['version']) && $values['version'] == 0) || ! isset($values['version']))
-//            {
-//                Filesystem :: remove($this->get_upload_path() . $object->get_path());
-//            }
-//
-//            $filename = $object->get_title() . '.html';
-//            $hash = md5($filename);
-//            $path = $owner . '/' . Text :: char_at($hash, 0);
-//            $full_path = $this->get_upload_path() . $path;
-//            Filesystem :: create_dir($full_path);
-//
-//            $hash = Filesystem :: create_unique_name($full_path, $hash);
-//            $path .= '/' . $hash;
-//            $full_path .= '/' . $hash;
-//
-//            Filesystem :: write_to_file($full_path, $values['html_content']);
-//        }
-//        elseif (strlen($_FILES['file']['name']) > 0)
-//        {
-//            if ((isset($values['version']) && $values['version'] == 0) || ! isset($values['version']))
-//            {
-//                Filesystem :: remove($this->get_upload_path() . $object->get_path());
-//            }
-//
-//            $filename = $_FILES['file']['name'];
-//            $hash = md5($filename);
-//            $path = $owner . '/' . Text :: char_at($hash, 0);
-//            $full_path = $this->get_upload_path() . $path;
-//            Filesystem :: create_dir($full_path);
-//
-//            $hash = Filesystem :: create_unique_name($full_path, $hash);
-//            $path .= '/' . $hash;
-//            $full_path .= '/' . $hash;
-//
-//            move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "' . $full_path . '"');
-//            Filesystem :: chmod($full_path, PlatformSetting :: get('permissions_new_files'));
-//        }
-//
-//        if(isset($path))
-//        {
-//            $object->set_path($path);
-//        }
-//        if(isset($filename))
-//        {
-//            $object->set_filename($filename);
-//        }
-//        if(isset($full_path))
-//        {
-//            $object->set_filesize(Filesystem :: get_disk_space($full_path));
-//        }
-//        if(isset($hash))
-//        {
-//            $object->set_hash($hash);
-//        }
-//
-//        return parent :: update_content_object();
-//    }
+    //    function update_content_object()
+    //    {
+    //        $object = $this->get_content_object();
+    //        $values = $this->exportValues();
+    //
+    //        $owner = $object->get_owner_id();
+    //        $owner_path = $this->get_upload_path() . $owner;
+    //        Filesystem :: create_dir($owner_path);
+    //        if (isset($values['html_content']))
+    //        {
+    //            if ((isset($values['version']) && $values['version'] == 0) || ! isset($values['version']))
+    //            {
+    //                Filesystem :: remove($this->get_upload_path() . $object->get_path());
+    //            }
+    //
+    //            $filename = $object->get_title() . '.html';
+    //            $hash = md5($filename);
+    //            $path = $owner . '/' . Text :: char_at($hash, 0);
+    //            $full_path = $this->get_upload_path() . $path;
+    //            Filesystem :: create_dir($full_path);
+    //
+    //            $hash = Filesystem :: create_unique_name($full_path, $hash);
+    //            $path .= '/' . $hash;
+    //            $full_path .= '/' . $hash;
+    //
+    //            Filesystem :: write_to_file($full_path, $values['html_content']);
+    //        }
+    //        elseif (strlen($_FILES['file']['name']) > 0)
+    //        {
+    //            if ((isset($values['version']) && $values['version'] == 0) || ! isset($values['version']))
+    //            {
+    //                Filesystem :: remove($this->get_upload_path() . $object->get_path());
+    //            }
+    //
+    //            $filename = $_FILES['file']['name'];
+    //            $hash = md5($filename);
+    //            $path = $owner . '/' . Text :: char_at($hash, 0);
+    //            $full_path = $this->get_upload_path() . $path;
+    //            Filesystem :: create_dir($full_path);
+    //
+    //            $hash = Filesystem :: create_unique_name($full_path, $hash);
+    //            $path .= '/' . $hash;
+    //            $full_path .= '/' . $hash;
+    //
+    //            move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "' . $full_path . '"');
+    //            Filesystem :: chmod($full_path, PlatformSetting :: get('permissions_new_files'));
+    //        }
+    //
+    //        if(isset($path))
+    //        {
+    //            $object->set_path($path);
+    //        }
+    //        if(isset($filename))
+    //        {
+    //            $object->set_filename($filename);
+    //        }
+    //        if(isset($full_path))
+    //        {
+    //            $object->set_filesize(Filesystem :: get_disk_space($full_path));
+    //        }
+    //        if(isset($hash))
+    //        {
+    //            $object->set_hash($hash);
+    //        }
+    //
+    //        return parent :: update_content_object();
+    //    }
+
 
     /**
      *

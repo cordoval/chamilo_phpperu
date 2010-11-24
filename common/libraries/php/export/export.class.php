@@ -22,7 +22,7 @@ abstract class Export
      * Constructor
      * @param string $filename
      */
-    public function Export($data)
+    public function __construct($data)
     {
         $this->data = $data;
         Export :: get_supported_filetypes();
@@ -118,7 +118,7 @@ abstract class Export
     }
 
     /**
-     * Factory function to create an instance of an export class
+     * Factory function __construct( create an instance of an export class
      * @param string $type One of the supported file types returned by the
      * get_supported_filetypes function.
      * @param string $filename The desired filename for the export file

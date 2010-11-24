@@ -1,4 +1,7 @@
 <?php
+namespace group;
+
+use common\libraries\DataClass;
 
 /**
  * @package admin.lib

@@ -28,7 +28,7 @@ class LanguagePackBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function LanguagePackBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new LanguagePackBrowserTableColumnModel($browser);
         $renderer = new LanguagePackBrowserTableCellRenderer($browser);

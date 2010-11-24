@@ -14,7 +14,6 @@ use group\DefaultGroupTableColumnModel;
  * $Id: location_group_browser_table_column_model.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.group_right_manager.component.location_group_browser_table
  */
-require_once Path :: get_group_path() . 'lib/group_table/default_group_table_column_model.class.php';
 /**
  * Table column model for the user browser table
  */
@@ -30,7 +29,7 @@ class LocationGroupBrowserTableColumnModel extends DefaultGroupTableColumnModel
     /**
      * Constructor
      */
-    function LocationGroupBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

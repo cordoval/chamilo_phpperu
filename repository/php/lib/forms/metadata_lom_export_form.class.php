@@ -13,7 +13,7 @@ class MetadataLomExportForm extends FormValidator
     private $content_object;
     private $ieee_lom_mapper;
 
-    public function MetadataLomExportForm($content_object, $ieee_lom_mapper)
+    public function __construct($content_object, $ieee_lom_mapper)
     {
         $this->content_object = $content_object;
         $this->ieee_lom_mapper = $ieee_lom_mapper;

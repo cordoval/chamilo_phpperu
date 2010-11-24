@@ -16,6 +16,11 @@ class AssessmentToolQtiExporterComponent extends AssessmentTool
     function run()
     {
         $pid = Request :: get(AssessmentTool :: PARAM_PUBLICATION_ID);
+        if (! $this->is_allowed(WeblcmsRights :: EDIT_RIGHT, $pid))
+        {
+            Display :: not_allowed();
+            return;
+        }
 
         $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($pid);
         $assessment = $publication->get_content_object();

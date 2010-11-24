@@ -8,7 +8,7 @@ abstract class SubManager
 {
     private $parent;
 
-    function SubManager($parent)
+    function __construct($parent)
     {
     	$this->parent = $parent;
         if (Request :: get(Application :: PARAM_APPLICATION) == $this->parent->get_application_name())
@@ -125,6 +125,11 @@ abstract class SubManager
     function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
     {
         return $this->get_parent()->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
+    }
+
+    function get_general_result($failures, $count, $single_object, $multiple_object, $type = Application :: RESULT_TYPE_CREATED)
+    {
+        return $this->get_parent()->get_general_result($failures, $count, $single_object, $multiple_object, $type);
     }
 
     function not_allowed()

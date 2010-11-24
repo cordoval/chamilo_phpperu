@@ -4,15 +4,13 @@ namespace user;
 use common\libraries\Translation;
 
 use common\libraries\Utilities;
-use HTML_Menu;
-use HTML_Menu_ArrayRenderer;
+use \HTML_Menu;
+use \HTML_Menu_ArrayRenderer;
 use common\libraries\TreeMenuRenderer;
 /**
  * $Id: user_menu.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * users.
@@ -42,7 +40,7 @@ class UserMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function UserMenu($current_category, $url_format = '?firstletter=%s', $extra_items = array())
+    function __construct($current_category, $url_format = '?firstletter=%s', $extra_items = array())
     {
         $this->urlFmt = $url_format;
         $menu = $this->get_menu_items($extra_items);
@@ -139,6 +137,6 @@ class UserMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+    	return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

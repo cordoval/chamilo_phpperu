@@ -17,7 +17,7 @@ class InternshipOrganizerPeriodUserBrowserTableCellRenderer extends DefaultInter
     private $browser;
     private $user_type;
 
-    function InternshipOrganizerPeriodUserBrowserTableCellRenderer($browser, $user_type)
+    function __construct($browser, $user_type)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -4,20 +4,20 @@ namespace reporting;
 use common\libraries\Path;
 use common\libraries\Translation;
 use user\UserManager;
+use common\libraries\Validator;
 use application\weblcms\CourseUserRelation;
 use application\weblcms\WeblcmsManager;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\Course;
+use application\weblcms\CourseCategory;
+use application\weblcms\CourseGroup;
+use application\weblcms\ContentObjectPublicationUser;
 
 /**
  * $Id: reporting_validator.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.validator
  * @author Michael Kyndt
  */
-require_once Path :: get_application_path() . '/lib/weblcms/weblcms_data_manager.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/course/course.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/category_manager/course_category.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/course/course_user_relation.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/course_group/course_group.class.php';
-require_once dirname(__FILE__) . '/../webservices/provider/content_object_publication_user.class.php';
 
 /**
  * Description of course_validatorclass
@@ -37,7 +37,7 @@ class ReportingValidator extends Validator
     private $udm;
     private $wdm;
 
-    function ReportingValidator()
+    function __construct()
     {
         $this->udm = UserDataManager :: get_instance();
         $this->wdm = WeblcmsDataManager :: get_instance();

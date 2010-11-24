@@ -22,7 +22,7 @@ class PhotoGalleryPublicationBrowserTableCellRenderer extends DefaultPhotoGaller
      * Constructor
      * @param PhotoGalleryManagerBrowserComponent $browser
      */
-    function PhotoGalleryPublicationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -5,8 +5,6 @@ namespace migration;
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_assignment.class.php';
-
 /**
  * This class presents a Dokeos185 assignment
  *
@@ -39,7 +37,7 @@ class Dokeos185Assignment extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185Assignment object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185Assignment($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -183,9 +181,21 @@ class Dokeos185Assignment extends Dokeos185MigrationDataClass
      * Check if the assignment is valid
      * @param array $array the parameters for the validation
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
     /**
@@ -193,7 +203,7 @@ class Dokeos185Assignment extends Dokeos185MigrationDataClass
      * Create assignment
      * @param array $array the parameters for the conversion
      */
-    function convert_data
+    function convert_data()
     {
         $course = $array['course'];
     }

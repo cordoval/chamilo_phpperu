@@ -25,7 +25,7 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
      * Constructor
      * @param WeblcmsBrowserComponent $browser
      */
-    function AdminRequestBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
     }

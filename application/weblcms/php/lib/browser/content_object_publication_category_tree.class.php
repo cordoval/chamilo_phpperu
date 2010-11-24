@@ -21,7 +21,6 @@ use common\libraries\OptionsMenuRenderer;
  * $Id: content_object_publication_category_tree.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser
  */
-require_once 'HTML/Menu.php';
 /**
  * A tree menu to display categories in a tool
  */
@@ -48,7 +47,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
      * tree with.
      * @param string $tree_id An id for the tree
      */
-    function ContentObjectPublicationCategoryTree($browser, $tree_id, $url_params = array())
+    function __construct($browser, $tree_id, $url_params = array())
     {
         $this->browser = $browser;
         $this->tree_id = $tree_id;
@@ -68,7 +67,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: TREE_NAME));
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 
     /**

@@ -11,7 +11,7 @@ class SurveyPageTable extends ObjectTable
     /**
      * Constructor
      */
-    function SurveyPageTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new SurveyPageTableColumnModel();
         $renderer = new SurveyPageTableCellRenderer($browser);

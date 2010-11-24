@@ -16,7 +16,7 @@ class InternshipOrganizerMomentForm extends FormValidator
     private $moment;
     private $user;
 
-    function InternshipOrganizerMomentForm($form_type, $moment, $action, $user)
+    function __construct($form_type, $moment, $action, $user)
     {
         parent :: __construct('moment_settings', 'post', $action);
         

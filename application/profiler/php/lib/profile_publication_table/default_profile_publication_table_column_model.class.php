@@ -16,7 +16,7 @@ class DefaultProfilePublicationTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultProfilePublicationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

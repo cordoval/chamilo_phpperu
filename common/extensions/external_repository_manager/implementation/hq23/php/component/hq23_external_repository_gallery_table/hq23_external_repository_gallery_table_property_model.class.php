@@ -6,7 +6,7 @@ use common\extensions\external_repository_manager\DefaultExternalRepositoryGalle
 
 class Hq23ExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRepositoryGalleryObjectTablePropertyModel
 {
-    function Hq23ExternalRepositoryGalleryTablePropertyModel()
+    function __construct()
     {
         parent :: __construct();
 

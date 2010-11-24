@@ -17,7 +17,7 @@ abstract class QuestionDisplay
     private $formvalidator;
     private $renderer;
 
-    function QuestionDisplay($formvalidator, $complex_content_object_question, $question_nr, $question)
+    function __construct($formvalidator, $complex_content_object_question, $question_nr, $question)
     {
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();

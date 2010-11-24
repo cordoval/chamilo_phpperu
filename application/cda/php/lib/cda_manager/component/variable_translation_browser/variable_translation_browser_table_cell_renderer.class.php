@@ -35,7 +35,7 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function VariableTranslationBrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

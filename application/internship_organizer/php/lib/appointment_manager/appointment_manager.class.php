@@ -25,7 +25,7 @@ class InternshipOrganizerAppointmentManager extends SubManager
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_APPOINTMENT;
 
-    function InternshipOrganizerAppointmentManager($manager)
+    function __construct($manager)
     {
         parent :: __construct($manager);
     }

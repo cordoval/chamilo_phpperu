@@ -10,8 +10,6 @@ use common\libraries\BreadcrumbTrail;
 /**
  * @package reporting.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 require_once Path :: get_reporting_path() . 'lib/reporting_template.class.php';
 require_once Path :: get_reporting_path() . 'lib/reporting_block.class.php';
 /**
@@ -48,7 +46,7 @@ class ReportingTemplateMenu
      * root.
      * @param string[] $filter_count_on_types - Array to define the types on which the count on the categories should be filtered
      */
-    function ReportingTemplateMenu(ReportingTemplate $reporting_template, $current_block, $url_format = '?block=%s')
+    function __construct(ReportingTemplate $reporting_template, $current_block, $url_format = '?block=%s')
     {
         $this->reporting_template = $reporting_template;
         $this->url_format = $url_format;
@@ -88,7 +86,8 @@ class ReportingTemplateMenu
         {
             foreach ($reporting_blocks as $reporting_block_index => $reporting_block)
             {
-                $bloc_parameters = array_merge($parameters, array(ReportingManager :: PARAM_REPORTING_BLOCK_ID => $reporting_block_index));
+                $bloc_parameters = array_merge($parameters, array(
+                        ReportingManager :: PARAM_REPORTING_BLOCK_ID => $reporting_block_index));
 
                 $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_chart.png)"><a href="' . $reporting_template->get_parent()->get_url($bloc_parameters) . '">' . $reporting_block->get_title() . '</a></li>';
             }
@@ -144,7 +143,7 @@ class ReportingTemplateMenu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 
     function as_html()

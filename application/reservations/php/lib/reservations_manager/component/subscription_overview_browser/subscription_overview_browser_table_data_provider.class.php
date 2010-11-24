@@ -21,7 +21,7 @@ class SubscriptionOverviewBrowserTableDataProvider extends ObjectTableDataProvid
      * @param RepositoryManagerComponent $browser
      * @param Condition $condition
      */
-    function SubscriptionOverviewBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

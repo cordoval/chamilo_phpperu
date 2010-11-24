@@ -24,7 +24,7 @@ class IeeeLomVocabulary
      * @param string|null $source
      * @param string|null $value
      */
-    public function IeeeLomVocabulary($value = null, $source = IeeeLom :: VERSION)
+    public function __construct($value = null, $source = IeeeLom :: VERSION)
     {
         $this->value = $value;
         $this->source = $source;

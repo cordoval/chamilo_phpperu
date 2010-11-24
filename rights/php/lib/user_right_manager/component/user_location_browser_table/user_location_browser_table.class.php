@@ -21,7 +21,7 @@ class UserLocationBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function UserLocationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new UserLocationBrowserTableColumnModel($browser);
         $renderer = new UserLocationBrowserTableCellRenderer($browser);

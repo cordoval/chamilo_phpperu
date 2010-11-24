@@ -14,7 +14,7 @@ class ProfilerDataManager
 
     private static $instance;
 
-    protected function ProfilerDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

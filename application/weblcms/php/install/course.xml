@@ -7,8 +7,8 @@
 		<property name="category_id" type="integer" default="0" />
 		<property name="titular_id" type="integer" />
 		<property name="visual_code" type="text" length="40" fixed="true" notnull="1" />
-		<property name="department_name" type="text" length="30" fixed="true" />
-		<property name="department_url" type="text" length="180" fixed="true" />
+		<property name="external_name" type="text" length="255" fixed="true" />
+		<property name="external_url" type="text" length="255" fixed="true" />
 		<property name="last_visit" type="integer" unsigned="1" notnull="1" />
 		<property name="last_edit" type="integer" unsigned="1" notnull="1" />
 		<property name="creation_date" type="integer" unsigned="1" notnull="1" />

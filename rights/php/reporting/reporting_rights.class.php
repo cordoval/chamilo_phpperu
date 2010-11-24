@@ -7,7 +7,7 @@ namespace rights;
 class ReportingRights
 {
 
-    function ReportingRights()
+    function __construct()
     {
     }
 

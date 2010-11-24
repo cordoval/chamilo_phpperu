@@ -5,14 +5,11 @@ use common\libraries\LocalSetting;
 use common\libraries\FormValidatorHtmlEditorOptions;
 use common\libraries\Utilities;
 
+require_once 'HTML/Quickform/Radio.php';
+
 /**
  * @package common.html.formvalidator.Element
  */
-// $Id: upload_or_create.php 128 2009-11-09 13:13:20Z vanpouckesven $
-require_once 'HTML/QuickForm/group.php';
-require_once 'HTML/QuickForm/radio.php';
-require_once 'HTML/QuickForm/file.php';
-require_once 'HTML/QuickForm/checkbox.php';
 /**
  * Form element to upload or create a document
  * This element contains 2 radio-
@@ -35,9 +32,9 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
      * @param array $attributes This should contain the keys 'receivers' and
      * 'receivers_selected'
      */
-    function HTML_QuickForm_upload_or_create($elementName = null, $elementLabel = null, $attributes = null)
+    function __construct($elementName = null, $elementLabel = null, $attributes = null)
     {
-        $this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_element :: __construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_appendName = false;
         $this->_type = 'upload_or_create';

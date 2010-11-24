@@ -13,7 +13,7 @@ class ServerPackageDependency extends PackageDependency
 
     private $version;
 
-    function ServerPackageDependency($dependency)
+    function __construct($dependency)
     {
         parent :: __construct($dependency);
         $this->set_version($dependency['version']);

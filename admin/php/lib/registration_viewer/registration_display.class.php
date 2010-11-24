@@ -12,7 +12,7 @@ class RegistrationDisplay
 {
     private $object;
 
-    function RegistrationDisplay($object)
+    function __construct($object)
     {
         $this->object = $object;
     }

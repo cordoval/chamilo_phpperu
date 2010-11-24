@@ -15,7 +15,7 @@ class DefaultInternshipOrganizerCategoryTableCellRenderer extends ObjectTableCel
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerCategoryTableCellRenderer()
+    function __construct()
     {
     }
 

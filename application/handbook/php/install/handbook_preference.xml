@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="handbook_preference">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="handbook_publication_id" type="integer" notnull="1" />
+                <property name="importance" type="integer" notnull="1" />
+		<property name="belongs_to" type="text" length="255" notnull="1" />
+		<property name="metadata_property_type_id" type="integer" notnull="1" />
+                <property name="pub_value" type="text" length="255"/>
+	</properties>
+
+</object>

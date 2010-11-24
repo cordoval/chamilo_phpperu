@@ -7,6 +7,8 @@ use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
 
+use user\UserManager;
+
 /**
  * $Id: repository_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
@@ -27,7 +29,7 @@ class RepositoryVersionBrowserTableCellRenderer extends DefaultContentObjectTabl
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function RepositoryVersionBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;
@@ -51,7 +53,8 @@ class RepositoryVersionBrowserTableCellRenderer extends DefaultContentObjectTabl
                 return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '" title="' . $title . '">' . $title_short . '</a>';
             case Translation :: get('CompareWith') :
                 return HTML_QuickForm :: createElement('radio', 'B', null, null, 'B' . $content_object->get_id())->toHtml();
-//                return 'aa';
+            case Translation :: get('User', null, UserManager :: APPLICATION_NAME) :
+                return $content_object->get_owner_fullname();
         }
         return parent :: render_cell($column, $content_object);
     }

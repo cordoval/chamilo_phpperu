@@ -16,7 +16,7 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
 	    private $question;
     private $analyse_type;
 
-    function SurveyQuestionReportingBlock($parent, $complex_question_id, $publication_id , $analyse_type)
+    function __construct($parent, $complex_question_id, $publication_id , $analyse_type)
     {
         parent :: __construct($parent);
         $complex_question = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_question_id);

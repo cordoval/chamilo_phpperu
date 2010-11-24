@@ -34,7 +34,7 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function TranslatorApplicationBrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

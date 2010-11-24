@@ -25,7 +25,7 @@ class WebserviceBrowserTableCellRenderer extends DefaultWebserviceTableCellRende
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function WebserviceBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

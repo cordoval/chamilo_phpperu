@@ -16,7 +16,7 @@ abstract class SurveyTemplate extends DataClass
 
     private $additionalProperties;
 
-    public function SurveyTemplate($defaultProperties = array (), $additionalProperties = null)
+    public function __construct($defaultProperties = array (), $additionalProperties = null)
     {
         parent :: __construct($defaultProperties);
         if (isset($additionalProperties))

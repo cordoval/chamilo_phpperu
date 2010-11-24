@@ -9,7 +9,7 @@ class MediamosaExternalRepositoryGalleryTable extends GalleryObjectTable
 {
     const DEFAULT_NAME = 'mediamosa_external_repository_gallery_table';
 
-    function MediamosaExternalRepositoryGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $data_provider = new MediamosaExternalRepositoryGalleryTableDataProvider($browser, $condition);
         $renderer = new MediamosaExternalRepositoryGalleryTableCellRenderer($browser);

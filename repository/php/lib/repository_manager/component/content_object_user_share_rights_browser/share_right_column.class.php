@@ -1,4 +1,7 @@
 <?php
+namespace repository;
+
+use common\libraries\StaticTableColumn;
 
 /*
  * To change this template, choose Tools | Templates
@@ -14,10 +17,10 @@ class ShareRightColumn extends StaticTableColumn
 {
     private $right_id;
 
-    function ShareRightColumn($title, $right_id)
+    function __construct($title, $right_id)
     {
         $this->right_id = $right_id;
-        parent :: StaticTableColumn($title);
+        parent :: __construct($title);
     }
 
     function get_right_id()

@@ -25,7 +25,7 @@ class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableC
      * Constructor
      * @param MenuManagerManagerBrowserComponent $browser
      */
-    function NavigationItemBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

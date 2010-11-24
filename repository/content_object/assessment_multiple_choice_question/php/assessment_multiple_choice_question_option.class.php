@@ -22,9 +22,9 @@ class AssessmentMultipleChoiceQuestionOption extends MultipleChoiceQuestionOptio
     private $score;
     private $feedback;
 
-    function AssessmentMultipleChoiceQuestionOption($value, $correct, $score, $feedback)
+    function __construct($value, $correct, $score, $feedback)
     {
-		parent :: MultipleChoiceQuestionOption($value);
+		parent :: __construct($value);
 		$this->correct = $correct;
     	$this->score = $score;
     	$this->feedback = $feedback;

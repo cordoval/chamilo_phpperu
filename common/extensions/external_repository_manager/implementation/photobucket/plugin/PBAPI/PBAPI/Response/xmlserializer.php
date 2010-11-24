@@ -16,7 +16,7 @@ use common\libraries\Path;
 /**
  * Load Response parent
  */
-require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Response.php';
+require_once dirname(__FILE__) . '/../Response.php';
 
 /**
  * Response XML parser using PEAR XML_Serializer/Unserializer

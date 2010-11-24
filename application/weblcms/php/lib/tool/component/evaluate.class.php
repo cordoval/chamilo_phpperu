@@ -6,8 +6,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
-
-require_once dirname(__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+use application\gradebook\EvaluationManagerInterface;
 
 class ToolComponentEvaluateComponent extends ToolComponent implements EvaluationManagerInterface
 {

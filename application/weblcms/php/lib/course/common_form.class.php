@@ -47,7 +47,7 @@ abstract class CommonForm extends FormValidator
     protected $object;
     protected $form_type;
 
-    function CommonForm($form_type, $object, $action, $parent, $form_name, $method)
+    function __construct($form_type, $object, $action, $parent, $form_name, $method)
     {
         parent :: __construct($form_name, $method, $action);
 

@@ -6,6 +6,7 @@ use common\libraries\Utilities;
 use common\libraries\Versionable;
 
 use repository\ContentObject;
+use common\libraries\Theme;
 
 /**
  * $Id: system_announcement.class.php 200 2009-11-13 12:30:04Z kariboe $

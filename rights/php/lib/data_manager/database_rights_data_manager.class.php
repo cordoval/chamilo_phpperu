@@ -13,11 +13,11 @@ use user\UserDataManager;
 use user\UserRightsTemplate;
 use group\GroupDataManager;
 use group\GroupRightsTemplate;
+
 /**
  * $Id: database_rights_data_manager.class.php 235 2009-11-16 12:08:00Z scaramanga $
  * @package rights.lib.data_manager
  */
-require_once 'MDB2.php';
 require_once dirname(__FILE__) . '/../rights_data_manager_interface.class.php';
 
 /**
@@ -312,6 +312,11 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
             // Try to retrieve the data of the parent element
             $new_parent = $this->retrieve_location($new_parent_id);
             // TODO: What if this is an invalid location ? Return error.
+
+            if(!$new_parent)
+            {
+                return false;
+            }
         }
 
         $number_of_elements = ($location->get_right_value() - $location->get_left_value() + 1) / 2;

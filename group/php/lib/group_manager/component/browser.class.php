@@ -50,22 +50,23 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
      */
     function run()
     {
-//        $this->edit_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_EDIT, $this->get_group());
-//        $this->view_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_VIEW, $this->get_group());
-//        $this->create_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_CREATE, $this->get_group());
-//        $this->export_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_EXPORT, $this->get_group());
-//        $this->move_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_MOVE, $this->get_group());
-//        $this->subscribe_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_SUBSCRIBE, $this->get_group());
-//        $this->unsubscribe_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_UNSUBSCRIBE, $this->get_group());
-//        $this->delete_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_DELETE, $this->get_group());
-//
-//        if (! ($this->edit_right || $this->view_right || $this->export_right || $this->subscribe_right || $this->unsubscribe_right || $this->delete_right || $this->move_right || $this->create_right))
-//        {
-//            $this->display_header();
-//            Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
-//            $this->display_footer();
-//            exit();
-//        }
+        //        $this->edit_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_EDIT, $this->get_group());
+        //        $this->view_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_VIEW, $this->get_group());
+        //        $this->create_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_CREATE, $this->get_group());
+        //        $this->export_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_EXPORT, $this->get_group());
+        //        $this->move_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_MOVE, $this->get_group());
+        //        $this->subscribe_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_SUBSCRIBE, $this->get_group());
+        //        $this->unsubscribe_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_UNSUBSCRIBE, $this->get_group());
+        //        $this->delete_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_DELETE, $this->get_group());
+        //
+        //        if (! ($this->edit_right || $this->view_right || $this->export_right || $this->subscribe_right || $this->unsubscribe_right || $this->delete_right || $this->move_right || $this->create_right))
+        //        {
+        //            $this->display_header();
+        //            Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
+        //            $this->display_footer();
+        //            exit();
+        //        }
+
 
         $this->action_bar = $this->get_action_bar();
 
@@ -108,7 +109,7 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
         $parameters[GroupManager :: PARAM_GROUP_ID] = $this->get_group();
 
         $table = new GroupRelUserBrowserTable($this, $parameters, $this->get_users_condition());
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users', null , 'user'), Theme :: get_image_path('user') . 'logo/' . Theme :: ICON_MINI . '.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users', null, 'user'), Theme :: get_image_path('user') . 'logo/' . Theme :: ICON_MINI . '.png', $table->as_html()));
         //        }
 
 
@@ -226,13 +227,14 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
 
         $action_bar->set_search_url($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())));
 
-        if ($this->create_right)
-        {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_group_url($this->get_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        }
+        //        if ($this->create_right)
+        //        {
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_group_url($this->get_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //        }
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Root', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_home.png', $this->get_group_viewing_url($this->get_root_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Root', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_home.png', $this->get_group_viewing_url($this->get_root_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }
@@ -249,11 +251,11 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
         //        $action_bar->set_search_url($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group->get_id())));
 
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_group_editing_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_group_editing_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         if ($this->group != $this->root_group)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_group_delete_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_group_delete_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         $toolbar->add_item(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_group_suscribe_user_browser_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -277,7 +279,7 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
         $description = $group->get_description();
         if ($description)
         {
-            $html[] = '<b>' . Translation :: get('Description', null , Utilities :: COMMON_LIBRARIES) . '</b>: ' . $description . '<br />';
+            $html[] = '<b>' . Translation :: get('Description', null, Utilities :: COMMON_LIBRARIES) . '</b>: ' . $description . '<br />';
         }
 
         $html[] = '<br />';
@@ -286,9 +288,9 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
         return implode("\n", $html);
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('group general');
+        $breadcrumbtrail->add_help('group general');
     }
 }
 ?>

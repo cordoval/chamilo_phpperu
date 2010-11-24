@@ -80,29 +80,20 @@ use common\libraries\Translation;
  * University College of Ghent
  */
 
-require_once (dirname(__FILE__) . '/../../../../common/global.inc.php');
-require_once dirname(__FILE__) . '/../../../../common/webservices/webservice.class.php';
-require_once dirname(__FILE__) . '/../data_manager/database.class.php';
-require_once dirname(__FILE__) . '/../course/course.class.php';
-require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
-require_once dirname(__FILE__) . '/../../../../common/webservices/input_user.class.php';
-require_once dirname(__FILE__) . '/../../../../user/lib/data_manager/database.class.php';
-require_once dirname(__FILE__) . '/../data_manager/database.class.php';
-require_once dirname(__FILE__) . '/../../../../repository/lib/content_object.class.php';
+
+use common\libraries\Webservice;
+use common\libraries\InputUser;
+use user\DatabaseUserDataManager;
+use repository\ContentObject;
+
 require_once dirname(__FILE__) . '/../content_object_publication.class.php';
-
-ini_set('max_execution_time', - 1);
-ini_set('memory_limit', - 1);
-
-$handler = new WebServicesCourse();
-$handler->run();
 
 class WebServicesCourse
 {
     private $webservice;
     private $validator;
 
-    function WebServicesCourse()
+    function __construct()
     {
         $this->webservice = Webservice :: factory($this);
         $this->validator = Validator :: get_validator('course');

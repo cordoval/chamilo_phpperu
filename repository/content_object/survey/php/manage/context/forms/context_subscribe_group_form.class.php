@@ -10,7 +10,7 @@ class SurveyContextSubscribeGroupForm extends FormValidator
     private $context;
     private $user;
 
-    function SurveyContextSubscribeGroupForm($context, $action, $user)
+    function __construct($context, $action, $user)
     {
         parent :: __construct('create_context', 'post', $action);
         

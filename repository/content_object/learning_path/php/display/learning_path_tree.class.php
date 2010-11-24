@@ -21,8 +21,6 @@ use common\libraries\Translation;
  * $Id: learning_path_tree.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component.learning_path_viewer
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__) . '/rule_condition_translator.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
@@ -63,7 +61,7 @@ class LearningPathTree extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function LearningPathTree($lp_id, $current_step, $url_format, $lpi_tracker_data)
+    function __construct($lp_id, $current_step, $url_format, $lpi_tracker_data)
     {
         $this->dm = RepositoryDataManager :: get_instance();
         $this->current_step = $current_step;
@@ -340,7 +338,7 @@ class LearningPathTree extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: TREE_NAME));
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 
     function get_progress()

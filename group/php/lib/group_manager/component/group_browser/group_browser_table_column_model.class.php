@@ -21,7 +21,7 @@ class GroupBrowserTableColumnModel extends DefaultGroupTableColumnModel
     /**
      * Constructor
      */
-    function GroupBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

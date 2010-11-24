@@ -17,7 +17,7 @@ class PhotoGalleryPublicationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function PhotoGalleryPublicationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new PhotoGalleryPublicationBrowserTableColumnModel();
         $renderer = new PhotoGalleryPublicationBrowserTableCellRenderer($browser);

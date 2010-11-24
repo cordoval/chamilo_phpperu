@@ -25,7 +25,7 @@ class LaikaUserBrowserTableColumnModel extends DefaultUserTableColumnModel
     /**
      * Constructor
      */
-    function LaikaUserBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

@@ -28,7 +28,7 @@ class CdaLanguageBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function CdaLanguageBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new CdaLanguageBrowserTableColumnModel();
         $renderer = new CdaLanguageBrowserTableCellRenderer($browser);

@@ -17,7 +17,7 @@ class HandbookPublicationBrowserTableDataProvider extends ObjectTableDataProvide
      * @param HandbookPublicationManagerComponent $browser
      * @param Condition $condition
      */
-    function HandbookPublicationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

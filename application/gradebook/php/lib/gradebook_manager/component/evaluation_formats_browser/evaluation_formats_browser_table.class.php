@@ -18,7 +18,7 @@ class EvaluationFormatsBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function EvaluationFormatsBrowserTable($browser, $parameters)
+    function __construct($browser, $parameters)
     {
         $model = new EvaluationFormatsBrowserTableColumnModel($browser);
         $renderer = new EvaluationFormatsBrowserTableCellRenderer($browser);

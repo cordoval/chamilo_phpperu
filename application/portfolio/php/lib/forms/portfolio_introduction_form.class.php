@@ -32,7 +32,7 @@ class PortfolioIntroductionForm extends FormValidator
     private $user;
    
 
-    function PortfolioIntroductionForm($form_type, $action, $user)
+    function __construct($form_type, $action, $user)
     {
 
         

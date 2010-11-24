@@ -13,7 +13,7 @@ class DefaultContextLinkTableCellRenderer extends ObjectTableCellRenderer
 	/**
 	 * Constructor
 	 */
-	function DefaultContextLinkTableCellRenderer()
+	function __construct()
 	{
 	}
 

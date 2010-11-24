@@ -7,6 +7,7 @@ use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
+use application\gradebook\GradebookUtilities;
 
 /**
  * $Id: deleter.class.php 195 2009-11-13 12:02:41Z chellee $
@@ -27,69 +28,70 @@ class ForumManagerDeleterComponent extends ForumManager
     {
         $ids = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
         $failures = 0;
-        
-        if (! empty($ids))
+
+        if (!empty($ids))
         {
-            if (! is_array($ids))
+            if (!is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             foreach ($ids as $id)
             {
                 $forum_publication = $this->retrieve_forum_publication($id);
-            	if(WebApplication :: is_active('gradebook'))
-       			{
-       				require_once dirname(__FILE__) . '/../../../gradebook/gradebook_utilities.class.php';
-			    	if(!GradebookUtilities :: move_internal_item_to_external_item(ForumManager :: APPLICATION_NAME, $forum_publication->get_id()))
-                    	$message = Translation :: get('MoveInternEvalToExternEvalFailed', null , 'application\gradebook');
-       			}
-                if (! $forum_publication->delete())
+                if (WebApplication :: is_active('gradebook'))
                 {
-                    $failures ++;
+                    if (!GradebookUtilities :: move_internal_item_to_external_item(ForumManager :: APPLICATION_NAME, $forum_publication->get_id()))
+                        $message = Translation :: get('MoveInternEvalToExternEvalFailed', null, 'application\gradebook');
+                }
+                if (!$forum_publication->delete())
+                {
+                    $failures++;
                 }
             }
-            
+
             if ($failures)
             {
                 if (count($ids) == 1)
                 {
-                    $message = Translation :: get('ObjectNotDeleted',array('OBJECT' => Translation :: get('Forum', null, 'repository\content_object\forum')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('Forum', null, 'repository\content_object\forum')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('Forums', null, 'repository\content_object\forum')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsNotDeleted', array('OBJECT' => Translation :: get('Forums', null, 'repository\content_object\forum')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = Translation :: get('ObjectDeleted',array('OBJECT' => Translation :: get('Forum', null, 'repository\content_object\forum')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('Forum', null, 'repository\content_object\forum')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('Forums', null, 'repository\content_object\forum')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsDeleted', array('OBJECT' => Translation :: get('Forums', null, 'repository\content_object\forum')), Utilities :: COMMON_LIBRARIES);
                 }
             }
-            
+
             $this->redirect($message, ($failures ? true : false), array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected',null, Utilities :: COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
-    
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
-    	$breadcrumbtrail->add_help('forum_deleter');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
+        $breadcrumbtrail->add_help('forum_deleter');
     }
-    
+
     function get_additional_parameters()
     {
-    	return array(self :: PARAM_PUBLICATION_ID);
+        return array(self :: PARAM_PUBLICATION_ID);
     }
+
 }
+
 ?>

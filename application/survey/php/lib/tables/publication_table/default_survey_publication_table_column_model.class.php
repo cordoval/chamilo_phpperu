@@ -25,7 +25,7 @@ class DefaultSurveyPublicationTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultSurveyPublicationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 0);
     }

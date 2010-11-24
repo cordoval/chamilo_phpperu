@@ -18,7 +18,7 @@ class PersonalCalendar120Updater extends Updater
     /**
      * Constructor
      */
-    function PersonalCalendar120Updater($application)
+    function __construct($application)
     {
         parent :: __construct($application, PersonalCalendarDataManager :: get_instance());
     }

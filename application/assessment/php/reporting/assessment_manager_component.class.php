@@ -4,7 +4,7 @@ namespace application\assessment;
 
 class AssessmentManagerComponent 
 {
-	public function AssessmentManagerComponent()
+	public function __construct()
 	{
 		
 	}

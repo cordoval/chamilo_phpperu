@@ -138,7 +138,7 @@ class AssessmentAssessmentAttemptsTracker extends SimpleTracker
         parent :: delete();
 
         $condition = new EqualityCondition(AssessmentQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->get_id());
-        $trackers = $this->get_data_manager()->retrieve_tracker_items(AssessmentQuestionAttemptsTracker :: get_table_name(), AssessmentQuestionAttemptsTracker :: CLASS_NAME, $condition);
+        $trackers = $this->get_data_manager()->retrieve_tracker_items(AssessmentQuestionAttemptsTracker :: get_table_name(), $condition, null, null, null, AssessmentQuestionAttemptsTracker :: CLASS_NAME);
 
         foreach ($trackers as $tracker)
         {

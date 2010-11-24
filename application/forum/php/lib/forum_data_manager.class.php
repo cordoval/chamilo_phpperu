@@ -25,7 +25,7 @@ class ForumDataManager
     /**
      * Constructor.
      */
-    protected function ForumDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

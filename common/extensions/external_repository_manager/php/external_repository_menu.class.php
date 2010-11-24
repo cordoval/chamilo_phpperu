@@ -11,8 +11,6 @@ use HTML_Menu_ArrayRenderer;
  * $Id: category_menu.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.category_manager
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * reservations categories
@@ -33,7 +31,7 @@ class ExternalRepositoryMenu extends HTML_Menu
     private $external_repository_manager;
     private $menu_items;
 
-    function ExternalRepositoryMenu($current_item, $external_repository_manager, $menu_items)
+    function __construct($current_item, $external_repository_manager, $menu_items)
     {
         $this->current_item = $current_item;
         $this->external_repository_manager = $external_repository_manager;
@@ -91,6 +89,6 @@ class ExternalRepositoryMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: get_classname_from_namespace(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

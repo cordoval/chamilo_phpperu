@@ -26,7 +26,7 @@ class PhrasesMasteryLevelManager extends SubManager
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
-    function PhrasesMasteryLevelManager($phrases_manager)
+    function __construct($phrases_manager)
     {
         parent :: __construct($phrases_manager);
         

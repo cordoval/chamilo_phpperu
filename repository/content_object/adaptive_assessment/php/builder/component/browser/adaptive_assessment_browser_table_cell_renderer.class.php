@@ -39,7 +39,7 @@ class AdaptiveAssessmentBrowserTableCellRenderer extends ComplexBrowserTableCell
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function AdaptiveAssessmentBrowserTableCellRenderer($browser, $condition)
+    function __construct($browser, $condition)
     {
         if ($condition)
         {

@@ -1,10 +1,14 @@
-<?php namespace application\survey;
-require_once Path :: get_application_path() . 'lib/survey/survey_publication_group.class.php';
-Path :: get_application_path() . 'lib/survey/survey_publication_user.class.php';
-require_once (Path :: get_reporting_path() . 'lib/reporting_data.class.php');
-require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
+<?php
 
-class SurveyExportManagerSurveyExcelExporterComponent extends SurveyExportManager
+namespace application\survey;
+
+//unknown files
+//require_once Path :: get_application_path() . 'lib/survey/survey_publication_group.class.php';
+//Path :: get_application_path() . 'lib/survey/survey_publication_user.class.php';
+use reporting\ReportingData;
+use \PHPExcel;
+
+class SurveyExportManagerSurveyExcelPercentageExporterComponent extends SurveyExportManager
 {
     
     const COUNT = 'count';

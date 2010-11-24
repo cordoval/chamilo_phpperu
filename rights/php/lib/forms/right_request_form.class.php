@@ -14,7 +14,7 @@ class RightsTemplateRequestForm extends FormValidator
 
     private $parameter = array();
 
-    function RightsTemplateRequestForm($parameters = null)
+    function __construct($parameters = null)
     {
         parent :: __construct('right_request', 'post', $parameters['form_action']);
 

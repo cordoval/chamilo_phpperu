@@ -11,7 +11,7 @@ class SoundcloudExternalRepositoryGalleryTable extends GalleryObjectTable
 {
     const DEFAULT_NAME = 'soundcloud_external_repository_gallery_table';
 
-    function SoundcloudExternalRepositoryGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $data_provider = new SoundcloudExternalRepositoryGalleryTableDataProvider($browser, $condition);
         $renderer = new SoundcloudExternalRepositoryGalleryTableCellRenderer($browser);
@@ -20,8 +20,8 @@ class SoundcloudExternalRepositoryGalleryTable extends GalleryObjectTable
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $renderer, $property_model);
 
         $this->set_additional_parameters($parameters);
-        $this->set_default_row_count(4);
-        $this->set_default_column_count(4);
+        $this->set_default_row_count(3);
+        $this->set_default_column_count(3);
         //        $this->set_order_directions_enabled($browser->support_sorting_direction());
     }
 }

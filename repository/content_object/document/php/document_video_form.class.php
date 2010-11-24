@@ -29,8 +29,9 @@ class DocumentVideoForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $post_max_size = ini_get('upload_max_filesize');
+        $post_max_size = (Filesystem :: interpret_file_size(ini_get('post_max_size')) < Filesystem :: interpret_file_size(ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize'));
         $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
+        $this->addElement('static', null, Translation :: get('MaxSize'), $post_max_size);
         $this->addElement('file', 'upload', sprintf(Translation :: get('FileName'), $post_max_size));
         $this->addFormRule(array($this, 'check_document_form'));
         $this->addElement('category');
@@ -39,10 +40,11 @@ class DocumentVideoForm extends ContentObjectForm
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $post_max_size = ini_get('upload_max_filesize');
+        $post_max_size = (Filesystem :: interpret_file_size(ini_get('post_max_size')) < Filesystem :: interpret_file_size(ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize'));
 
         $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
         $object = $this->get_content_object();
+        $this->addElement('static', null, Translation :: get('MaxSize'), $post_max_size);
         $this->addElement('file', 'file', sprintf(Translation :: get('FileName'), $post_max_size));
         $this->addRule('file', Translation :: get('DiskQuotaExceeded', null, Utilities :: COMMON_LIBRARIES), 'disk_quota');
         $this->addElement('category');

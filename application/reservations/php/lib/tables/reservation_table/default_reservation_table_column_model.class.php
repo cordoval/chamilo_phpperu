@@ -17,7 +17,7 @@ class DefaultReservationTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultReservationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

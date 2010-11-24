@@ -20,7 +20,7 @@ class DefaultCategoryQuotaBoxTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultCategoryQuotaBoxTableCellRenderer($browser)
+    function __construct($browser)
     {
     
     }

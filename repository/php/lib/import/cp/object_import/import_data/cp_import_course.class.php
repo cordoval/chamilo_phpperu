@@ -73,8 +73,8 @@ class CpImportCourse extends CpObjectImportBase{
     protected function process_general(Course $object, ImscpObjectReader $item){
     	$properties = array(Course::PROPERTY_VISUAL ,
     						Course::PROPERTY_NAME ,
-    						Course::PROPERTY_EXTLINK_NAME ,
-    						Course::PROPERTY_EXTLINK_URL ,
+    						Course::PROPERTY_EXTERNAL_NAME ,
+    						Course::PROPERTY_EXTERNAL_URL ,
     						Course::PROPERTY_EXPIRATION_DATE ,
     						);
 

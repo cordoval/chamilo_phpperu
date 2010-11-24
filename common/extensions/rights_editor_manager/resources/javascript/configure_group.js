@@ -13,7 +13,7 @@
 		var row = $(this).parent().parent().parent();
 		var images = $('.setRight', row);
 		
-		$.post("./common/extensions/rights_editor_manager/resources/javascript/ajax/group_right_location.php", {
+		$.post("./common/extensions/rights_editor_manager/php/ajax/group_right_location.php", {
 			rights : id,
 			locations: locations
 			}, function(result)
@@ -22,7 +22,7 @@
 				{
 					var newClass = $.ajax({
 						type: "POST",
-						url: "./common/extensions/rights_editor_manager/resources/javascript/ajax/group_right_location_class.php",
+						url: "./common/extensions/rights_editor_manager/php/ajax/group_right_location_class.php",
 						data: { rights : id },
 						async: false
 					}).responseText;

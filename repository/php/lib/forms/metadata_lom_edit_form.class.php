@@ -52,7 +52,7 @@ class MetadataLomEditForm extends FormValidator
     private $skipped_indexes;
     private $info_messages;
 
-    public function MetadataLomEditForm($content_object_id, $ieee_lom_mapper, $action, $catalogs)
+    public function __construct($content_object_id, $ieee_lom_mapper, $action, $catalogs)
     {
         parent :: __construct('lom_metadata', 'post', $action);
 

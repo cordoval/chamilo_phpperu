@@ -17,7 +17,7 @@ class DefaultWebserviceTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultWebserviceTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

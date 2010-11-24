@@ -44,7 +44,7 @@ class ReportingManager extends CoreApplication
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_TEMPLATES;
 
-    function ReportingManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
     }

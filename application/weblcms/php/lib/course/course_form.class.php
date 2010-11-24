@@ -35,7 +35,7 @@ class CourseForm extends CommonForm
     private $user;
     private $course_type_id;
 
-    function CourseForm($form_type, $course, $user, $action, $parent)
+    function __construct($form_type, $course, $user, $action, $parent)
     {
         $this->course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
         $this->allow_no_course_type = $user->is_platform_admin() || PlatformSetting :: get('allow_course_creation_without_coursetype', 'weblcms');
@@ -257,17 +257,13 @@ class CourseForm extends CommonForm
             $this->addElement('hidden', Course :: PROPERTY_TITULAR, $this->user->get_id());
         }
 
-        $this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get('Extlink_name'), array("size" => "50"));
-        $this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get('Extlink_url'), array("size" => "50"));
-        $this->addRule(Course :: PROPERTY_EXTLINK_URL, Translation :: get('IncorrectUrl'), 'url');
-
         $adm = AdminDataManager :: get_instance();
         $lang_options = AdminDataManager :: get_languages();
 
         $language_disabled = $this->object->get_language_fixed();
         if ($language_disabled)
         {
-            $lang = $adm->retrieve_language_from_english_name($this->object->get_course_type()->get_settings()->get_language())->get_original_name();
+            $lang = $adm->retrieve_language_from_isocode($this->object->get_course_type()->get_settings()->get_language())->get_original_name();
             $this->addElement('static', 'static_language', Translation :: get('CourseTypeLanguage'), $lang);
             $this->addElement('hidden', CourseSettings :: PROPERTY_LANGUAGE, $lang);
         }
@@ -327,6 +323,12 @@ class CourseForm extends CommonForm
             $this->addRule(Array('choices', CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS), Translation :: get('IncorrectNumber'), 'max_members');
             $this->addElement('html', '</div>');
         }
+        $this->addElement('category');
+
+        $this->addElement('category', Translation :: get('ExternalWebsite'));
+        $this->addElement('text', Course :: PROPERTY_EXTERNAL_NAME, Translation :: get('ExternalName'), array("size" => "50"));
+        $this->addElement('text', Course :: PROPERTY_EXTERNAL_URL, Translation :: get('ExternalUrl'), array("size" => "50"));
+        $this->addRule(Course :: PROPERTY_EXTERNAL_URL, Translation :: get('IncorrectUrl'), 'url');
         $this->addElement('category');
 
         $this->addElement('html', "<script type=\"text/javascript\">
@@ -835,8 +837,8 @@ class CourseForm extends CommonForm
         $course->set_name($values[Course :: PROPERTY_NAME]);
         $course->set_category($values[Course :: PROPERTY_CATEGORY]);
         $course->set_titular($values[Course :: PROPERTY_TITULAR]);
-        $course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
-        $course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
+        $course->set_external_name($values[Course :: PROPERTY_EXTERNAL_NAME]);
+        $course->set_external_url($values[Course :: PROPERTY_EXTERNAL_URL]);
         return $course;
     }
 
@@ -855,8 +857,8 @@ class CourseForm extends CommonForm
         $defaults[Course :: PROPERTY_TITULAR] = ! is_null($course->get_titular()) ? $course->get_titular() : $this->user->get_id();
         $defaults[Course :: PROPERTY_NAME] = $course->get_name();
         $defaults[Course :: PROPERTY_CATEGORY] = $course->get_category();
-        $defaults[Course :: PROPERTY_EXTLINK_NAME] = $course->get_extlink_name();
-        $defaults[Course :: PROPERTY_EXTLINK_URL] = $course->get_extlink_url();
+        $defaults[Course :: PROPERTY_EXTERNAL_NAME] = $course->get_external_name();
+        $defaults[Course :: PROPERTY_EXTERNAL_URL] = $course->get_external_url();
 
         $defaults[CourseRights :: PROPERTY_CODE] = $course->get_code();
 

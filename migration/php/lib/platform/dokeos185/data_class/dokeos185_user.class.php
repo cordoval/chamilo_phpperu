@@ -1,17 +1,26 @@
 <?php
+
 namespace migration;
 
 use admin\AdminDataManager;
+use common\libraries\Path;
+use application\profiler\ProfilerPublication;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
+use user\User;
+use repository\RepositoryCategory;
+use repository\content_object\document\Document;
+use user\UserDataManager;
+use common\libraries\Authentication;
+use common\libraries\LocalSetting;
 
 /**
  * $Id: dokeos185_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
-
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
-
-require_once Path :: get_application_path() . 'lib/profiler/profile_publication.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 user
@@ -19,12 +28,11 @@ require_once Path :: get_application_path() . 'lib/profiler/profile_publication.
  * @author David Van Wayenbergh
  * @author Sven Vanpoucke
  */
-
 class Dokeos185User extends Dokeos185MigrationDataClass
 {
-	 const CLASS_NAME = __CLASS__;
-	 const TABLE_NAME = 'user';
-	 const DATABASE_NAME = 'main_database';
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'user';
+    const DATABASE_NAME = 'main_database';
 
     /**
      * Table User Properties
@@ -309,9 +317,8 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function is_platform_admin()
     {
-    	return $this->get_data_manager()->is_platform_admin($this);
+        return $this->get_data_manager()->is_platform_admin($this);
     }
-
 
     /**
      * Checks if the user is valid
@@ -320,10 +327,10 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
-        if (! $this->get_username() || ! $this->get_password() || ! $this->get_status())
+        if (!$this->get_username() || !$this->get_password() || !$this->get_status())
         {
             $this->create_failed_element($this->get_user_id());
-			$this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'user', 'ID' => $this->get_user_id())));
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'user', 'ID' => $this->get_user_id())));
 
             return false;
         }
@@ -339,7 +346,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         {
             do
             {
-                $newusername = $newusername . ($index ++);
+                $newusername = $newusername . ($index++);
                 $user = $udm->retrieve_user_by_username($newusername);
             }
             while ($user);
@@ -375,7 +382,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     private function create_user()
     {
-    	//User parameters
+        //User parameters
         $chamilo_user = new User();
         $chamilo_user->set_lastname($this->get_lastname());
         $chamilo_user->set_firstname($this->get_firstname());
@@ -389,13 +396,13 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         $chamilo_user->set_active($this->get_active());
 
         //the expiration date needs to be converted from a string to a unix timestamp format
-        if($this->get_expiration_date())
+        if ($this->get_expiration_date())
         {
-        	$chamilo_user->set_expiration_date(strtotime($this->get_expiration_date()));
+            $chamilo_user->set_expiration_date(strtotime($this->get_expiration_date()));
         }
         else
         {
-        	$chamilo_user->set_expiration_date(0);
+            $chamilo_user->set_expiration_date(0);
         }
 
         //the registration date needs to be converted from a string to a unix timestamp format
@@ -457,41 +464,41 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function create_profile($chamilo_user)
     {
-    	//control if the profiler application exists
-		$is_registered = AdminDataManager :: is_registered('profiler');
+        //control if the profiler application exists
+        $is_registered = AdminDataManager :: is_registered('profiler');
         // Convert profile fields to Profile object if the user has user profile data
         if ($is_registered && ($this->get_competences() !== NULL || $this->get_diplomas() !== NULL || $this->get_teach() !== NULL || $this->get_openarea() !== NULL || $this->get_phone() !== NULL))
         {
-        	$chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($chamilo_user->get_id(), Translation :: get('Profile'));
-        	$chamilo_repository_profile = new Profile();
-        	$chamilo_repository_profile->set_competences($this->get_competences());
-        	$chamilo_repository_profile->set_diplomas($this->get_diplomas());
-        	$chamilo_repository_profile->set_teaching($this->get_teach());
-        	$chamilo_repository_profile->set_open($this->get_openarea());
-        	$chamilo_repository_profile->set_title($this->get_lastname().' '.$this->get_firstname());
-        	$chamilo_repository_profile->set_parent_id($chamilo_category_id);
-        	$chamilo_repository_profile->set_phone($this->get_phone());
-			$chamilo_repository_profile->set_owner_id($chamilo_user->get_id());
+            $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($chamilo_user->get_id(), Translation :: get('Profile'));
+            $chamilo_repository_profile = new Profile();
+            $chamilo_repository_profile->set_competences($this->get_competences());
+            $chamilo_repository_profile->set_diplomas($this->get_diplomas());
+            $chamilo_repository_profile->set_teaching($this->get_teach());
+            $chamilo_repository_profile->set_open($this->get_openarea());
+            $chamilo_repository_profile->set_title($this->get_lastname() . ' ' . $this->get_firstname());
+            $chamilo_repository_profile->set_parent_id($chamilo_category_id);
+            $chamilo_repository_profile->set_phone($this->get_phone());
+            $chamilo_repository_profile->set_owner_id($chamilo_user->get_id());
 
-        	//Create profile in database
-        	$chamilo_repository_profile->create();
+            //Create profile in database
+            $chamilo_repository_profile->create();
 
-        	//Publish Profile
-        	$chamilo_profile_publication = new ProfilerPublication();
-        	$chamilo_profile_publication->set_profile($chamilo_repository_profile->get_id());
-        	$chamilo_profile_publication->set_publisher($chamilo_user->get_id());
+            //Publish Profile
+            $chamilo_profile_publication = new ProfilerPublication();
+            $chamilo_profile_publication->set_profile($chamilo_repository_profile->get_id());
+            $chamilo_profile_publication->set_publisher($chamilo_user->get_id());
 
-        	//Create profile publication in database
-        	$chamilo_profile_publication->create();
+            //Create profile publication in database
+            $chamilo_profile_publication->create();
         }
     }
 
     /**
      * Helper function for convert_data to create new productions
      */
-	function create_productions($chamilo_user)
-	{
-		//Convert all production files to content objects
+    function create_productions($chamilo_user)
+    {
+        //Convert all production files to content objects
         $directory = $this->get_data_manager()->get_sys_path() . '/main/upload/users/' . $this->get_user_id() . '/' . $this->get_user_id() . '/';
         if (file_exists($directory))
         {
@@ -526,27 +533,27 @@ class Dokeos185User extends Dokeos185MigrationDataClass
 
                         //Create document in db
                         $chamilo_repository_document->create();
-
                     }
-
                 }
             }
         }
-	}
+    }
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
     }
 
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
 
     function get_database_name()
     {
-    	return self :: DATABASE_NAME;
+        return self :: DATABASE_NAME;
     }
+
 }
+
 ?>

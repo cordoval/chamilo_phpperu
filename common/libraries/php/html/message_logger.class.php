@@ -31,7 +31,7 @@ class MessageLogger
         return self :: $instances;
     }
 
-    function MessageLogger()
+    function __construct()
     {
         $this->messages = array();
     }

@@ -1,13 +1,19 @@
 <?php
 namespace migration;
-
+use common\libraries\Path;
 use admin\AdminDataManager;
+use application\weblcms\Course;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
+use application\weblcms\WeblcmsDataManager;
+use common\libraries\EqualityCondition;
+use application\weblcms\CourseModule;
 /**
  * $Id: dokeos185_course.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
-require_once Path :: get(SYS_PATH) . 'application/weblcms/php/course/course.class.php';
 require_once dirname(__FILE__) . '/dokeos185_user.class.php';
 
 /**
@@ -323,8 +329,8 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
             }
 
             //departement_name & url
-            $chamilo_course->set_extlink_name($this->get_department_name());
-            $chamilo_course->set_extlink_url($this->get_department_url());
+            $chamilo_course->set_external_name($this->get_department_name());
+            $chamilo_course->set_external_url($this->get_department_url());
 
             //Course - Settings
             if (AdminDataManager :: is_language_active($this->get_course_language()))
@@ -371,6 +377,10 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
             //create course in database
             $chamilo_course->create();
 
+            //set all standard tools invisible
+            $condition = new EqualityCondition(CourseModule::PROPERTY_COURSE_CODE, $chamilo_course->get_code());
+            WeblcmsDataManager :: get_instance()->update_course_module_visibility($condition,false);
+
             //Add id references to temp table
             $this->create_id_reference($this->get_code(), $chamilo_course->get_id());
 
@@ -380,7 +390,7 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 
     static function get_class_name()

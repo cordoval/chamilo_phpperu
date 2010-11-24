@@ -18,7 +18,7 @@ class DefaultExternalLinkTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultExternalLinkTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 3);
         $this->type = $type;

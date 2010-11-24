@@ -21,7 +21,7 @@ class GroupLocationBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function GroupLocationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new GroupLocationBrowserTableColumnModel($browser);
         $renderer = new GroupLocationBrowserTableCellRenderer($browser);

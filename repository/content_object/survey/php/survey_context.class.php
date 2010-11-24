@@ -27,7 +27,7 @@ abstract class SurveyContext extends DataClass
     //    abstract static public function get_display_name();
 
 
-    public function SurveyContext($defaultProperties = array (), $additionalProperties = null)
+    public function __construct($defaultProperties = array (), $additionalProperties = null)
     {
         parent :: __construct($defaultProperties);
         if (isset($additionalProperties))

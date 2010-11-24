@@ -35,7 +35,7 @@ class MediawikiParserContext
      * @param string $body
      * @param array $parameters
      */
-    function MediawikiParserContext(Wiki $wiki, $title, $body, $parameters)
+    function __construct(Wiki $wiki, $title, $body, $parameters)
     {
         $this->wiki = $wiki;
         $this->title = $title;

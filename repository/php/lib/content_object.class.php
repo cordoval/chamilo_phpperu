@@ -160,7 +160,7 @@ class ContentObject extends DataClass
      * object; in this case, they will be
      * retrieved when needed.
      */
-    function ContentObject($defaultProperties = array (), $additionalProperties = null)
+    function __construct($defaultProperties = array (), $additionalProperties = null)
     {
         parent :: __construct($defaultProperties);
         $this->additionalProperties = $additionalProperties;
@@ -732,20 +732,20 @@ class ContentObject extends DataClass
         if ($this->get_owner_id() == 0)
             return true;
 
-        $parent = $this->get_parent_id();
-        if (! $parent)
-        {
-            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
-        }
-        else
-        {
-            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
-        }
-
-        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
-        {
-            return false;
-        }
+//        $parent = $this->get_parent_id();
+//        if (! $parent)
+//        {
+//            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
+//        }
+//        else
+//        {
+//            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
+//        }
+//
+//        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
+//        {
+//            return false;
+//        }
 
         return true;
     }
@@ -764,20 +764,20 @@ class ContentObject extends DataClass
         if ($this->get_owner_id() == 0)
             return true;
 
-        $parent = $this->get_parent_id();
-        if (! $parent)
-        {
-            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
-        }
-        else
-        {
-            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
-        }
-
-        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
-        {
-            return false;
-        }
+//        $parent = $this->get_parent_id();
+//        if (! $parent)
+//        {
+//            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
+//        }
+//        else
+//        {
+//            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
+//        }
+//
+//        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
+//        {
+//            return false;
+//        }
 
         return true;
     }
@@ -837,19 +837,19 @@ class ContentObject extends DataClass
         {
             return false;
         }
-
-        if ($new_parent_id == 0)
-        {
-            $new_parent = RepositoryRights :: get_user_root_id();
-        }
-        else
-        {
-            $new_parent = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $new_parent_id, $this->get_owner_id());
-        }
-
-        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
-
-        return $location->move($new_parent);
+        return true;
+//        if ($new_parent_id == 0)
+//        {
+//            $new_parent = RepositoryRights :: get_user_root_id();
+//        }
+//        else
+//        {
+//            $new_parent = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $new_parent_id, $this->get_owner_id());
+//        }
+//
+//        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
+//
+//        return $location->move($new_parent);
     }
 
     function version($trueUpdate = true)
@@ -903,14 +903,14 @@ class ContentObject extends DataClass
      */
     function delete()
     {
-        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
-        if ($location)
-        {
-            if (! $location->remove())
-            {
-                return false;
-            }
-        }
+//        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
+//        if ($location)
+//        {
+//            if (! $location->remove())
+//            {
+//                return false;
+//            }
+//        }
         return RepositoryDataManager :: get_instance()->delete_content_object($this);
     }
 
@@ -1223,6 +1223,38 @@ class ContentObject extends DataClass
         }
 
         return $this->synchronization_data;
+    }
+
+    function get_shared_users()
+    {
+        $condition = new EqualityCondition(ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
+        $shared_users = $this->get_data_manager()->retrieve_content_object_user_shares($condition);
+
+        $users = array();
+
+        while ($shared_user = $shared_users->next_result())
+        {
+            $users[$shared_user->get_user_id()] = $shared_user->get_user()->get_fullname();
+        }
+
+        asort($users);
+        return $users;
+    }
+
+    function get_shared_groups()
+    {
+        $condition = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
+        $shared_groups = $this->get_data_manager()->retrieve_content_object_group_shares($condition);
+
+        $groups = array();
+
+        while ($shared_group = $shared_groups->next_result())
+        {
+            $groups[$shared_group->get_group_id()] = $shared_group->get_group()->get_name();
+        }
+
+        asort($groups);
+        return $groups;
     }
 
     function is_external()

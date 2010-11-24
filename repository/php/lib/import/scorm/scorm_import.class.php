@@ -24,7 +24,7 @@ use repository\content_object\scorm_item\ScormItem;
 class ScormImport extends ContentObjectImport
 {
 
-    function ScormImport($content_object_file, $user, $category)
+    function __construct($content_object_file, $user, $category)
     {
         parent :: __construct($content_object_file, $user, $category);
     }

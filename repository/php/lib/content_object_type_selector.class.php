@@ -1,8 +1,7 @@
 <?php
 namespace repository;
 
-use common\libraries;
-
+use common\libraries\PlatformSetting;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -55,7 +54,7 @@ class ContentObjectTypeSelector
     /**
      * @param array $content_object_types
      */
-    function ContentObjectTypeSelector($parent, $content_object_types = array(), $additional_links = array(), $use_general_statistics = false)
+    function __construct($parent, $content_object_types = array(), $additional_links = array(), $use_general_statistics = false)
     {
         $this->parent = $parent;
         $this->content_object_types = $content_object_types;
@@ -166,6 +165,12 @@ class ContentObjectTypeSelector
                 continue;
             }
 
+            $setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
+            if (! $setting)
+            {
+                continue;
+            }
+
             $package_info = PackageInfo :: factory(Registration :: TYPE_CONTENT_OBJECT, $type);
             $package_info = $package_info->get_package_info();
             $category = $package_info['package']['category'];
@@ -195,7 +200,14 @@ class ContentObjectTypeSelector
         asort($this->categories);
 
         $this->form = new FormValidator('select_content_object_type', 'post', $this->parent->get_url());
-        $this->form->addElement('select', self :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('CreateANew'), $this->as_tree(), array('class' => 'learning-object-creation-type postback'));
+        $select = $this->form->addElement('select', self :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('CreateANew'), array(), array('class' => 'learning-object-creation-type postback'));
+
+        foreach ($this->as_tree() as $key => $type)
+        {
+            $attributes = (is_integer($key) && $key != 0) ? array('disabled') : array();
+            $select->addOption($type, $key, $attributes);
+        }
+
         $this->form->addElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'normal select'));
     }
 

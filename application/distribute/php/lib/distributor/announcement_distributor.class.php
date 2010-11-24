@@ -29,7 +29,7 @@ class AnnouncementDistributor
 {
     private $parent;
 
-    function AnnouncementDistributor($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

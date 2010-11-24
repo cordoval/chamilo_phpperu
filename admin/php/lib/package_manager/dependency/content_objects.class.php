@@ -15,7 +15,7 @@ class ContentObjectsPackageDependency extends PackageDependency
 
     private $version;
 
-    function ContentObjectsPackageDependency($dependency)
+    function __construct($dependency)
     {
         parent :: __construct($dependency);
         $this->set_version($dependency['version']);

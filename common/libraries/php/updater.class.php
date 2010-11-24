@@ -31,7 +31,7 @@ abstract class Updater
     /**
      * Constructor
      */
-    function Updater($application, $data_manager = null)
+    function __construct($application, $data_manager = null)
     {
         $this->application = $application;
         $this->data_manager = $data_manager;

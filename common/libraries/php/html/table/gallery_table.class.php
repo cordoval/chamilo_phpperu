@@ -2,11 +2,8 @@
 namespace common\libraries;
 
 use Pager;
-use \HTML_Table;
+use HTML_Table;
 
-require_once "HTML/Table.php";
-require_once "Pager/Pager.php";
-require_once "Pager/Sliding.php";
 require_once 'table_sort.class.php';
 /**
  * This class allows you to display a sortable data-table. It is possible to
@@ -116,9 +113,10 @@ class GalleryTable extends HTML_Table
      * @param int $default_order_direction The default order direction; either
      * the constant SORT_ASC or SORT_DESC
      */
-    function GalleryTable($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $get_properties_function = null, $default_items_per_page = 20, $default_property = 0, $default_order_direction = SORT_ASC, $enable_order_directions = true, $ajax_enabled = false)
+    function __construct($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $get_properties_function = null, $default_items_per_page = 20, $default_property = 0, $default_order_direction = SORT_ASC, $enable_order_directions = true, $ajax_enabled = false)
     {
-        parent :: HTML_Table(array('class' => 'gallery_table'), 0, true);
+        parent :: __construct(array(
+                'class' => 'gallery_table'), 0, true);
         $this->table_name = $table_name;
         $this->additional_parameters = array();
         $this->param_prefix = $table_name . '_';
@@ -174,7 +172,10 @@ class GalleryTable extends HTML_Table
             $params['spacesAfterSeparator'] = '';
             $params['currentPage'] = $this->page_nr;
             $query_vars = array_keys($_GET);
-            $query_vars_needed = array($this->param_prefix . 'column', $this->param_prefix . 'direction', $this->param_prefix . 'per_page');
+            $query_vars_needed = array(
+                    $this->param_prefix . 'column',
+                    $this->param_prefix . 'direction',
+                    $this->param_prefix . 'per_page');
             if (count($this->additional_parameters) > 0)
             {
                 $query_vars_needed = array_merge($query_vars_needed, array_keys($this->additional_parameters));
@@ -229,11 +230,11 @@ class GalleryTable extends HTML_Table
             $property_model = $this->get_table_properties();
 
             $page = $this->get_page_select_form();
-//            $sort = $this->get_sort_select_form();
-//            if ($this->enable_order_directions)
-//            {
-//                $direction = $this->get_direction_select_form();
-//            }
+            //            $sort = $this->get_sort_select_form();
+            //            if ($this->enable_order_directions)
+            //            {
+            //                $direction = $this->get_direction_select_form();
+            //            }
             $nav = $this->get_navigation_html();
 
             $html[] = '<table style="width:100%;">';
@@ -251,8 +252,8 @@ class GalleryTable extends HTML_Table
                 }
             }
 
-//            $html[] = $sort;
-//            $html[] = $direction;
+            //            $html[] = $sort;
+            //            $html[] = $direction;
             $html[] = '</td>';
             $html[] = '<td style="text-align:center;">';
             $html[] = $this->get_table_title();
@@ -298,7 +299,7 @@ class GalleryTable extends HTML_Table
             if (count($this->form_actions))
             {
                 $html[] = '<a href="?' . $params . '&amp;' . $this->param_prefix . 'selectall=1" onclick="setCheckbox(\'form_' . $this->table_name . '\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> - ';
-                $html[] = '<a href="?' . $params . '"  onclick="setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> ';
+                $html[] = '<a href="?' . $params . '"  onclick="setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnselectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> ';
                 $html[] = '<select name="action">';
                 foreach ($this->form_actions as $action => $label)
                 {
@@ -352,8 +353,14 @@ class GalleryTable extends HTML_Table
             $this->addRow($row);
         }
         $col = 100 / count($table_data[0]);
-        $this->altRowAttributes(0, array('class' => 'row_odd'), array('class' => 'row_even'), true);
-        $this->altColAttributes(0, array('class' => 'col_odd', 'style' => 'width:' . number_format($col) . '%'), array('class' => 'col_even', 'style' => 'width:' . number_format($col) . '%'), true);
+        $this->altRowAttributes(0, array(
+                'class' => 'row_odd'), array(
+                'class' => 'row_even'), true);
+        $this->altColAttributes(0, array(
+                'class' => 'col_odd',
+                'style' => 'width:' . number_format($col) . '%'), array(
+                'class' => 'col_even',
+                'style' => 'width:' . number_format($col) . '%'), true);
 
         foreach ($this->th_attributes as $column => $attributes)
         {
@@ -787,10 +794,16 @@ class GalleryTableFromArray extends GalleryTable
      * @param int $default_items_per_page
      */
 
-    function GalleryTableFromArray($table_data, $default_property = 1, $default_items_per_page = 20, $tablename = 'tablename')
+    function __construct($table_data, $default_property = 1, $default_items_per_page = 20, $tablename = 'tablename')
     {
         $this->table_data = $table_data;
-        parent :: GalleryTable($tablename, array($this, 'get_total_number_of_items'), array($this, 'get_table_data'), array($this, 'get_table_properties'), $default_items_per_page, $default_property, $default_order_direction, $ajax_enabled);
+        parent :: __construct($tablename, array(
+                $this,
+                'get_total_number_of_items'), array(
+                $this,
+                'get_table_data'), array(
+                $this,
+                'get_table_properties'), $default_items_per_page, $default_property, $default_order_direction, $ajax_enabled);
     }
 
     /**

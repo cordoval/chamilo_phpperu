@@ -23,7 +23,7 @@ class EvaluationBrowserTableCellRenderer extends DefaultEvaluationBrowserTableCe
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function EvaluationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -11,7 +11,7 @@ class ProfilerCategoryManager extends CategoryManager
 {
     private $trail;
 
-    function ProfilerCategoryManager($parent, $trail)
+    function __construct($parent, $trail)
     {
         parent :: __construct($parent, $trail);
         $this->trail = $trail;

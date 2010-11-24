@@ -8,7 +8,7 @@ abstract class BasicRSS
 {
 	private $rss_stream;
 	
-	function BasicRSS($title, $link, $description, $source = '')
+	function __construct($title, $link, $description, $source = '')
 	{
 		$this->rss_stream = new RSSStream();
 		$this->set_channel_properties($title, $link, $description, $source);

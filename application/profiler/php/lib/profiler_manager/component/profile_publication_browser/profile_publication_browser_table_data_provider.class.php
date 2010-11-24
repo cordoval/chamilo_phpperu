@@ -21,7 +21,7 @@ class ProfilePublicationBrowserTableDataProvider extends ObjectTableDataProvider
      * @param ProfileManagerComponent $browser
      * @param Condition $condition
      */
-    function ProfilePublicationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

@@ -32,7 +32,7 @@ class Catalog extends RepositoryDataClass
 
     /*************************************************************************/
 
-    public function Catalog($defaultProperties = array ())
+    public function __construct($defaultProperties = array ())
     {
         parent :: __construct($defaultProperties);
     }

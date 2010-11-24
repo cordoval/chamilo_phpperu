@@ -29,7 +29,7 @@ class LaikaGroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function LaikaGroupBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

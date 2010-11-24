@@ -28,7 +28,7 @@
  */
 class pfcContainerInterface
 {
-  function pfcContainerInterface() { }
+  function __construct() { }
   function getDefaultConfig()      { return array(); }
   function init(&$c)               { return array(); }
 

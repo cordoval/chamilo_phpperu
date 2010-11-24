@@ -1,8 +1,9 @@
 <?php namespace application\survey;
 
+
+
 require_once dirname(__FILE__) . '/reporting_template_table/table.class.php';
 require_once dirname(__FILE__) . '/publication_rel_reporting_template_table/table.class.php';
-require_once Path :: get_application_path() . 'lib/survey/survey_publication_rel_reporting_template_registration.class.php';
 
 class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
 {

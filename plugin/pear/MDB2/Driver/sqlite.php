@@ -72,7 +72,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
      */
     function __construct()
     {
-        parent::__construct();
+        parent :: __construct();
 
         $this->phptype = 'sqlite';
         $this->dbsyntax = 'sqlite';

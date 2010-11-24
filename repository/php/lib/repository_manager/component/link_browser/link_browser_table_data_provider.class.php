@@ -33,7 +33,7 @@ class LinkBrowserTableDataProvider extends ObjectTableDataProvider
      * @param RepositoryManagerComponent $browser
      * @param Condition $condition
      */
-    function LinkBrowserTableDataProvider($browser, $condition, $type)
+    function __construct($browser, $condition, $type)
     {
         $this->type = $type;
     	parent :: __construct($browser, $condition);

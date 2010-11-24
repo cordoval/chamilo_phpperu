@@ -21,7 +21,7 @@ class FeedbackManagerForm extends FormValidator
 
     const PROPERTY_TEXT = 'text';
 
-    function FeedbackManagerForm($action)
+    function __construct($action)
     {
         parent :: __construct('feedback_form', 'post', $action);
         $this->build_text_form();

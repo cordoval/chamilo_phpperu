@@ -16,7 +16,7 @@ class SubscribeLocationBrowserTableColumnModel extends DefaultInternshipOrganize
     /**
      * Constructor
      */
-    function SubscribeLocationBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(0);

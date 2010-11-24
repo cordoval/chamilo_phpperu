@@ -14,18 +14,16 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\PublicationRSS;
 
-require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
-require_once Path :: get_common_path() . '/rss/publication_rss.class.php';
-require_once dirname(__FILE__) . '/../data_manager/database_weblcms_data_manager.class.php';
 
 class WeblcmsPublicationRSS extends PublicationRSS
 {
 
-    function WeblcmsPublicationRSS()
+    function __construct()
     {
         Utilities :: set_application(WeblcmsManager :: APPLICATION_NAME);
-        parent :: PublicationRSS(Translation :: get('WeblcmsPublicationRSSTitle'), htmlspecialchars(Path :: get(WEB_PATH)), Translation :: get('WeblcmsPublicationRSSDescription'), htmlspecialchars(Path :: get(WEB_PATH)));
+        parent :: __construct(Translation :: get('WeblcmsPublicationRSSTitle'), htmlspecialchars(Path :: get(WEB_PATH)), Translation :: get('WeblcmsPublicationRSSDescription'), htmlspecialchars(Path :: get(WEB_PATH)));
     }
 
     function retrieve_items($user, $min_date = '')

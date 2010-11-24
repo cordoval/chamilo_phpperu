@@ -22,7 +22,7 @@ abstract class Dokeos185MigrationDataClass extends MigrationDataClass
 	 */
 	private $included_objects;
     
-	function Dokeos185MigrationDataClass()
+	function __construct()
 	{
 		$this->included_objects = array();
 	}

@@ -45,6 +45,11 @@ class BlogToolComplexDisplayComponent extends BlogTool implements
                 Tool :: PARAM_PUBLICATION_ID);
     }
 
+    function get_root_content_object()
+    {
+        throw new Exception("unimplented method : application\weblcms\tool\blog\BlogToolComplexDisplayComponent#get_root_content_object()");
+    }
+
 }
 
 ?>

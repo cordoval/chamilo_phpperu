@@ -21,7 +21,7 @@ class WebserviceBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function WebserviceBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new WebserviceBrowserTableColumnModel();
         $renderer = new WebserviceBrowserTableCellRenderer($browser);

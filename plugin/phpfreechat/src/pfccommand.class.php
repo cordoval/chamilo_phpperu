@@ -114,7 +114,7 @@ class pfcCommand
    * Constructor
    * @private
    */
-  function pfcCommand()
+  function __construct()
   {
   }
 

@@ -32,7 +32,7 @@ class PhotoGalleryPublicationGroup
      * Creates a new ContentObjectPublicationCourseGroup object
      * @param array $defaultProperties The default properties
      */
-    function PhotoGalleryPublicationGroup($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

@@ -49,7 +49,7 @@ abstract class Mail
     /**
      * Constructor
      */
-    function Mail($subject, $message, $to, $from = null, $cc = array (), $bcc = array ())
+    function __construct($subject, $message, $to, $from = null, $cc = array (), $bcc = array ())
     {
         $this->subject = $subject;
         $this->message = $message;

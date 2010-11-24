@@ -20,7 +20,7 @@ class UserInstaller extends Installer
     /**
      * Constructor
      */
-    function UserInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, UserDataManager :: get_instance());
     }
@@ -74,7 +74,6 @@ class UserInstaller extends Installer
         $values = $this->get_form_values();
 
         $user = new User();
-
         $user->set_lastname($values['admin_surname']);
         $user->set_firstname($values['admin_firstname']);
         $user->set_username($values['admin_username']);
@@ -106,7 +105,6 @@ class UserInstaller extends Installer
         $values = $this->get_form_values();
 
         $user = new User();
-
         $user->set_lastname(Translation :: get('Anonymous'));
         $user->set_firstname(Translation :: get('Mr'));
         $user->set_username('anonymous');
@@ -145,7 +143,6 @@ class UserInstaller extends Installer
         $values = $this->get_form_values();
 
         $user = new User();
-
         $user->set_lastname('Doe');
         $user->set_firstname('John');
         $user->set_username('JohnDoe');
@@ -155,7 +152,6 @@ class UserInstaller extends Installer
         $user->set_status('1');
         $user->set_platformadmin('0');
         $user->set_official_code('TEST_USER');
-        //$user->set_phone($values['admin_phone']);
         $user->set_disk_quota('209715200');
         $user->set_database_quota('300');
         $user->set_version_quota('20');
@@ -167,7 +163,7 @@ class UserInstaller extends Installer
         }
         else
         {
-        	LocalSetting :: create_local_setting('platform_language', 'dutch', 'admin', $user->get_id());
+        	LocalSetting :: create_local_setting('platform_language', 'nl', 'admin', $user->get_id());
             return true;
         }
 

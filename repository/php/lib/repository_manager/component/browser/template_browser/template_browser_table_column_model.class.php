@@ -24,7 +24,7 @@ class TemplateBrowserTableColumnModel extends DefaultContentObjectTableColumnMod
     /**
      * Constructor
      */
-    function TemplateBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(0);

@@ -25,7 +25,7 @@ class GutenbergPublicationGalleryBrowserTableCellRenderer extends DefaultGutenbe
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function GutenbergPublicationGalleryBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

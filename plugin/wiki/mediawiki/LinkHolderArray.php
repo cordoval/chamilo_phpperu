@@ -188,7 +188,16 @@ class MediawikiLinkHolderArray
                 }
                 elseif (($id = $linkCache->getGoodLinkID($pdbk)) != 0)
                 {
-                    $colours[$pdbk] = $sk->getLinkColour($title, $threshold);
+                    if ($title->isRedirect())
+                    {
+                        # Page is a redirect
+                        $colours[$pdbk] = 'mw-redirect';
+                    }
+                    elseif ($threshold > 0 && $title->exists() && $title->getLength() < $threshold && $title->getNamespace())
+                    {
+                        # Page is a stub
+                        $colours[$pdbk] = 'stub';
+                    }
                     $output->addLink($title, $id);
                 }
                 elseif ($linkCache->isBadLink($pdbk))
@@ -204,11 +213,12 @@ class MediawikiLinkHolderArray
 
         $title_condition = new OrCondition($title_conditions);
 
-//        $complex_wiki_page_id = Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-//        $complex_wiki_page = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_wiki_page_id);
+        //        $complex_wiki_page_id = Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+        //        $complex_wiki_page = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_wiki_page_id);
+
 
         $wiki = $this->parent->get_mediawiki_parser_context()->get_wiki();
-//        $wiki = $complex_wiki_page->get_parent_object();
+        //        $wiki = $complex_wiki_page->get_parent_object();
         $wiki_pages = $wiki->get_wiki_pages_by_title($title_condition);
         $wiki_complex_ids = array();
 

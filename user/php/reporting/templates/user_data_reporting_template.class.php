@@ -21,7 +21,7 @@ require_once dirname (__FILE__) . '/../blocks/referers_reporting_block.class.php
 class UserDataReportingTemplate extends ReportingTemplate
 {
 
-    function UserDataReportingTemplate($parent)
+    function __construct($parent)
     {
          parent :: __construct($parent);
 

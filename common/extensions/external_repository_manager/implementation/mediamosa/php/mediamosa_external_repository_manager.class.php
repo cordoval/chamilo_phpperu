@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
@@ -22,15 +23,15 @@ require_once dirname(__FILE__) . '/mediamosa_external_repository_connector.class
 
 class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 {
-    
+
     const REPOSITORY_TYPE = 'mediamosa';
-    
+
     //const ACTION_MANAGE_SETTINGS = 'settings';
     //const ACTION_CLEAN_EXTERNAL_REPOSITORY = 'clean';
     //const ACTION_ADD_SETTING = 'add_setting';
     //const ACTION_UPDATE_SETTING = 'update_setting';
     //const ACTION_DELETE_SETTING = 'delete_setting';
-    
+
     const PARAM_MEDIAFILE = 'mediafile_id';
     //const PARAM_SERVER = 'server_id';
     //const PARAM_EXTERNAL_REPOSITORY_SETTING_ID = 'setting_id';
@@ -41,7 +42,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     const FEED_TYPE_MOST_RECENT = 3;
     const FEED_TYPE_MY_VIDEOS = 4;
     const FEED_TYPE_ALL = 5;
-    
+
     private static $server;
     private $server_selection_form;
 
@@ -77,12 +78,12 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     function get_menu_items()
     {
         $general = array();
-        
+
         $general['title'] = Translation :: get('Browse', null, Utilities :: COMMON_LIBRARIES);
         $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $general['class'] = 'home';
         $menu_items[] = $general;
-        
+
         $most_recent =  array();
         $most_recent['title'] = Translation :: get('MostRecent');
         $most_recent['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_RECENT), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
@@ -110,7 +111,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         $parameters = array();
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
-        
+
         return ($object->is_usable()) ? $this->get_url($parameters) : '#';
     }
 
@@ -120,14 +121,14 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         $external_repository = $rdm->retrieve_external_repository(Request :: get(MediamosaExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb('#', $external_repository->get_title()));
-        
+
 //        $server = Request :: get(self :: PARAM_SERVER);
 //        if ($server)
 //        {
 //            $this->set_parameter(self :: PARAM_SERVER, $server);
 //        }
         $parent = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
-        
+
         switch ($parent)
         {
             case parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY :
@@ -172,9 +173,9 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
-        
+
         }
-        
+
         $component->run();
     }
 
@@ -186,7 +187,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     {
         $links = array();
         $links[] = array('name' => Translation :: get('SetMediamosaDefaults'), 'action' => 'category', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_SET_MEDIAMOSA_DEFAULTS)));
-        
+
         $info = parent :: get_application_platform_admin_links();
 
         $info['links'] = $links;
@@ -196,7 +197,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     function display_header()
     {
         parent :: display_header();
-        
+
         if ($this->server_selection_form)
             $this->server_selection_form->display();
     }
@@ -214,7 +215,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     function import_external_repository_object($object)
     {
         $streaming_video_clip = new Mediamosa();
-        
+
         $streaming_video_clip->set_title($object->get_title());
         $streaming_video_clip->set_description($object->get_description());
         $streaming_video_clip->set_asset_id($object->get_id());
@@ -233,7 +234,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     function validate_settings()
     {
         $settings = array('url', 'loginname', 'password');
-        
+
         foreach ($settings as $variable)
         {
             $value = ExternalRepositorySetting :: get($variable);
@@ -253,7 +254,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         {
             $video_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $video_type, Document :: get_type_name());
         }
-        
+
         return new OrCondition($video_conditions);
     }
 
@@ -265,14 +266,14 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     function get_external_repository_actions()
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
-        
+
         $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
-        
+
         if ($is_platform)
         {
             $actions[] = self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY;
         }
-        
+
         return $actions;
     }
 

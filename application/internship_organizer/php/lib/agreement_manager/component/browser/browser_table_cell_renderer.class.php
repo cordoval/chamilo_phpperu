@@ -16,7 +16,7 @@ class InternshipOrganizerAgreementBrowserTableCellRenderer extends DefaultIntern
     
     private $browser;
 
-    function InternshipOrganizerAgreementBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

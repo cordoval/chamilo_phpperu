@@ -11,7 +11,7 @@ class InternshipOrganizerMentorRelLocationBrowserTableDataProvider extends Objec
      * @param ApplicationComponent $browser
      * @param Condition $condition
      */
-    function InternshipOrganizerMentorRelLocationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

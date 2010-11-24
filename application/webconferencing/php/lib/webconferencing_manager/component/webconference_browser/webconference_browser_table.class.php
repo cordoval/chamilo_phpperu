@@ -26,7 +26,7 @@ class WebconferenceBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function WebconferenceBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new WebconferenceBrowserTableColumnModel();
         $renderer = new WebconferenceBrowserTableCellRenderer($browser);

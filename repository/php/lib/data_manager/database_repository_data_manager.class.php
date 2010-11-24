@@ -32,8 +32,6 @@ require_once dirname(__FILE__) . '/database/database_complex_content_object_item
 require_once dirname(__FILE__) . '/../category_manager/repository_category.class.php';
 require_once dirname(__FILE__) . '/../repository_data_manager_interface.class.php';
 
-require_once 'MDB2.php';
-
 /**
 ==============================================================================
  * This is a data manager that uses a database for storage. It was written
@@ -403,10 +401,6 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         //Delete associated metadata
         $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $object->get_id());
         $this->delete_objects(ContentObjectMetadata :: get_table_name(), $condition);
-
-        //Delete synchronization with external repositories infos
-        $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $object->get_id());
-        $this->delete_objects(ExternalRepositorySyncInfo :: get_table_name(), $condition);
 
         //Delete synchronization with external repositories infos
         $condition = new EqualityCondition(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
@@ -2123,6 +2117,26 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $condition = new AndCondition($conditions);
 
         return $this->retrieve_object(ContentObjectGroupShare :: get_table_name(), $condition, array(), ContentObjectGroupShare :: CLASS_NAME);
+    }
+
+    function retrieve_active_external_repositories($types = array())
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ExternalRepository :: PROPERTY_ENABLED, 1);
+
+        if (!is_array($types))
+        {
+            $types = array($types);
+        }
+
+        if(count($types) > 0)
+        {
+            $conditions[] = new InCondition(ExternalRepository :: PROPERTY_TYPE, $types);
+        }
+
+        $condition = new AndCondition($conditions);
+
+        return $this->retrieve_external_repositories($condition);
     }
 }
 ?>

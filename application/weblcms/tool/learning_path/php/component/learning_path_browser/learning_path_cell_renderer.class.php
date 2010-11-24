@@ -24,7 +24,7 @@ require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPL
 class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
 {
 
-    function LearningPathCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
     }

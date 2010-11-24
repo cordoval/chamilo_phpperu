@@ -23,7 +23,7 @@ class ForumInstaller extends Installer
     /**
      * Constructor
      */
-    function ForumInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, ForumDataManager :: get_instance());
     }

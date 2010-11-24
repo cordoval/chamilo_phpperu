@@ -28,7 +28,6 @@
 /**
  * Base class for form elements
  */
-require_once 'HTML/QuickForm/element.php';
 
 /**
  * Base class for <button></button> form elements
@@ -52,11 +51,11 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
      * @access    public
      * @return    void
      */
-    function HTML_QuickForm_stylebutton($elementName = null, $elementLabel = null, $attributes = null, $value = null)
+    function __construct($elementName = null, $elementLabel = null, $attributes = null, $value = null)
     {
-        $this->HTML_QuickForm_element($elementName, null, $attributes);
+        parent :: __construct($elementName, null, $attributes);
         $this->styleButtonLabel = $elementLabel;
-        
+
         if (isset($value))
         {
         	$this->setValue($value);
@@ -67,16 +66,16 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
         }
     } //end constructor
 
-    
+
     // }}}
-    
+
     function getStyleButtonLabel()
     {
     	return $this->styleButtonLabel;
     }
-    
+
     // {{{ setType()
-    
+
 
     /**
      * Sets the element type
@@ -92,10 +91,10 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
         $this->updateAttributes(array('type' => $type));
     } // end func setType
 
-    
+
     // }}}
     // {{{ setName()
-    
+
 
     /**
      * Sets the input field name
@@ -110,10 +109,10 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
         $this->updateAttributes(array('name' => $name));
     } //end func setName
 
-    
+
     // }}}
     // {{{ getName()
-    
+
 
     /**
      * Returns the element name
@@ -127,10 +126,10 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
         return $this->getAttribute('name');
     } //end func getName
 
-    
+
     // }}}
     // {{{ setValue()
-    
+
 
     /**
      * Sets the value of the form element
@@ -145,10 +144,10 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
         $this->updateAttributes(array('value' => $value));
     } // end func setValue
 
-    
+
     // }}}
     // {{{ getValue()
-    
+
 
     /**
      * Returns the value of the form element
@@ -162,10 +161,10 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
         return $this->getAttribute('value');
     } // end func getValue
 
-    
+
     // }}}
     // {{{ toHtml()
-    
+
 
     /**
      * Returns the input field in HTML
@@ -186,10 +185,10 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
         }
     } //end func toHtml
 
-    
+
     // }}}
     // {{{ onQuickFormEvent()
-    
+
 
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
@@ -225,10 +224,10 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
         return true;
     } // end func onQuickFormEvent
 
-    
+
     // }}}
     // {{{ exportValue()
-    
+
 
     /**
      * We don't need values from button-type elements (except submit) and files
@@ -245,7 +244,7 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
             return parent :: exportValue($submitValues, $assoc);
         }
     }
-    
+
 // }}}
 } // end class HTML_QuickForm_element
 ?>

@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
+use common\extensions\external_repository_manager\DefaultExternalRepositoryObjectTableDataProvider;
 class MatterhornExternalRepositoryTableDataProvider extends DefaultExternalRepositoryObjectTableDataProvider
 {
 }

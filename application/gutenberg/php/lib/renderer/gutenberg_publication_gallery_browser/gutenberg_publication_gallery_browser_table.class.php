@@ -21,7 +21,7 @@ class GutenbergPublicationGalleryBrowserTable extends GalleryObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function GutenbergPublicationGalleryBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $property_model = new GutenbergPublicationGalleryBrowserTablePropertyModel();
         $cell_renderer = new GutenbergPublicationGalleryBrowserTableCellRenderer($browser);

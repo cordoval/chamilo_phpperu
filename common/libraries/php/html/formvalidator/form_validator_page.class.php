@@ -64,7 +64,7 @@ class FormValidatorPage extends FormValidator
      *
      * @access public
      */
-    function FormValidatorPage($formName, $method = 'post', $target = '', $attributes = null)
+    function __construct($formName, $method = 'post', $target = '', $attributes = null)
     {
         parent :: __construct($formName, $method, '', $target, $attributes);
     }

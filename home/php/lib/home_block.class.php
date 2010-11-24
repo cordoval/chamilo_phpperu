@@ -13,7 +13,6 @@ use PEAR;
  * $Id: home_block.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib
  */
-require_once 'XML/Unserializer.php';
 
 class HomeBlock extends DataClass
 {
@@ -34,7 +33,14 @@ class HomeBlock extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_COLUMN, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_APPLICATION, self :: PROPERTY_COMPONENT, self :: PROPERTY_VISIBILITY, self :: PROPERTY_USER));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_COLUMN,
+                self :: PROPERTY_TITLE,
+                self :: PROPERTY_SORT,
+                self :: PROPERTY_APPLICATION,
+                self :: PROPERTY_COMPONENT,
+                self :: PROPERTY_VISIBILITY,
+                self :: PROPERTY_USER));
     }
 
     /**
@@ -168,7 +174,9 @@ class HomeBlock extends DataClass
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('category', 'setting'));
+            $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array(
+                    'category',
+                    'setting'));
 
             // userialize the document
             $status = $unserializer->unserialize($file, true);

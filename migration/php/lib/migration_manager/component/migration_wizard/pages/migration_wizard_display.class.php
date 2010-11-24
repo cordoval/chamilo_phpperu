@@ -2,6 +2,10 @@
 namespace migration;
 
 use common\libraries\Theme;
+use \HTML_QuickForm_Action_Display;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Path;
 
 /**
  * $Id: migration_wizard_display.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -27,7 +31,7 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
      * @param Tool $parent The repository tool in which the wizard
      * runs
      */
-    public function MigrationWizardDisplay($parent)
+    public function __construct($parent)
     {
         $this->parent = $parent;
     }

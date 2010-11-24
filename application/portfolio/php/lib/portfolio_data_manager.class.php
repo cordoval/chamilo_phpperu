@@ -20,7 +20,7 @@ class PortfolioDataManager
     /**
      * Constructor.
      */
-    protected function PortfolioDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

@@ -21,7 +21,7 @@ class LdapAuthentication extends Authentication implements UserRegistrationSuppo
     /**
      * Constructor
      */
-    function LdapAuthentication()
+    function __construct()
     {
         $this->get_configuration();
     }

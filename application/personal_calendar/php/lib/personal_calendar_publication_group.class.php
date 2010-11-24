@@ -31,7 +31,7 @@ class PersonalCalendarPublicationGroup
      * Creates a new ContentObjectPublicationCourseGroup object
      * @param array $defaultProperties The default properties
      */
-    function PersonalCalendarPublicationGroup($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

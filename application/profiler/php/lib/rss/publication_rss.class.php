@@ -5,15 +5,14 @@ namespace application\profiler;
 use common\libraries\Path;
 use repository\RepositoryDataManager;
 use common\libraries\Redirect;
+use common\libraries\PublicationRSS;
 
-require_once dirname(__FILE__).'/../../../../../common/global.inc.php';
-require_once Path :: get_common_libraries_class_path().'/rss/publication_rss.class.php';
 
 class ProfilerPublicationRSS extends PublicationRSS
 {
-	function ProfilerPublicationRSS()
+	function __construct()
 	{
-		parent :: PublicationRSS('Chamilo Profiler', htmlspecialchars(Path :: get(WEB_PATH)), 'Profiler publications', htmlspecialchars(Path :: get(WEB_PATH)));
+		parent :: __construct('Chamilo Profiler', htmlspecialchars(Path :: get(WEB_PATH)), 'Profiler publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')

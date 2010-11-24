@@ -26,7 +26,7 @@ class DefaultPhrasesPublicationTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultPhrasesPublicationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

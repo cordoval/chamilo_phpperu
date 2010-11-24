@@ -26,7 +26,7 @@ class ContentObjectPropertyMetadataBrowserTableCellRenderer extends DefaultConte
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function ContentObjectPropertyMetadataBrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

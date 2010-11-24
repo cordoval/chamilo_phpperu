@@ -28,7 +28,7 @@ class pfcResponse
 {
   var $_commands = array();
 
-  function pfcResponse()
+  function __construct()
   {
   }
   

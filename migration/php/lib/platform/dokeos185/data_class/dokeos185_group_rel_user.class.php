@@ -1,5 +1,8 @@
 <?php
 namespace migration;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
 
 /**
  * $Id: dokeos185_group_rel_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -36,7 +39,7 @@ class Dokeos185GroupRelUser extends Dokeos185CourseDataMigrationDataClass
      * @param array $defaultProperties The default properties of the group tutor relation
      *                                 object. Associative array.
      */
-    function Dokeos185GroupRelUser($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -169,7 +172,7 @@ class Dokeos185GroupRelUser extends Dokeos185CourseDataMigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 
     static function get_class_name()

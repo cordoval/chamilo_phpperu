@@ -11,7 +11,7 @@ class SurveyContextTemplateBrowserTableDataProvider extends ObjectTableDataProvi
      * @param RepositoryManagerComponent $browser
      * @param Condition $condition
      */
-    function SurveyContextTemplateBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

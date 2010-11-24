@@ -21,7 +21,7 @@ class RightsTemplateLocationBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function RightsTemplateLocationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new RightsTemplateLocationBrowserTableColumnModel($browser);
         $renderer = new RightsTemplateLocationBrowserTableCellRenderer($browser);

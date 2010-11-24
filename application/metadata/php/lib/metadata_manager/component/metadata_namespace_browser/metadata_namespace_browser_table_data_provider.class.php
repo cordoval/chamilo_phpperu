@@ -17,7 +17,7 @@ class MetadataNamespaceBrowserTableDataProvider extends ObjectTableDataProvider
      * @param UserManagerComponent $browser
      * @param Condition $condition
      */
-    function MetadataNamespaceBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

@@ -20,7 +20,7 @@ class DefaultWebconferenceTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultWebconferenceTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

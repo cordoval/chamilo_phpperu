@@ -25,7 +25,7 @@ abstract class PackageRemover
     private $message;
     private $html;
 
-    function PackageRemover($package_manager)
+    function __construct($package_manager)
     {
         $this->parent = $package_manager;
         $this->package = Request :: get(PackageManager :: PARAM_PACKAGE);

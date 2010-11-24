@@ -32,7 +32,7 @@ class RightsTemplateManager extends SubManager
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_RIGHTS_TEMPLATES;
 
-    function RightsTemplateManager($rights_manager)
+    function __construct($rights_manager)
     {
         parent :: __construct($rights_manager);
 

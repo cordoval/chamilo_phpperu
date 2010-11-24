@@ -13,8 +13,6 @@ use HTML_Menu_ArrayRenderer;
  * $Id: group_menu.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of courses.
@@ -23,7 +21,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class InternshipOrganizerCategoryMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -32,13 +30,13 @@ class InternshipOrganizerCategoryMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-    
+
     private $include_root;
-    
+
     private $current_category;
-    
+
     private $show_complete_tree;
-    
+
     private $hide_current_category;
 
     /**
@@ -52,12 +50,12 @@ class InternshipOrganizerCategoryMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function InternshipOrganizerCategoryMenu($current_category, $url_format = '?go=category&application=internship_organizer&action=browser&category_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
+    function __construct($current_category, $url_format = '?go=category&application=internship_organizer&action=browser&category_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
     {
         $this->include_root = $include_root;
         $this->show_complete_tree = $show_complete_tree;
         $this->hide_current_category = $hide_current_category;
-        
+
         if ($current_category == '0' || is_null($current_category))
         {
             $condition = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_PARENT_ID, 0);
@@ -68,7 +66,7 @@ class InternshipOrganizerCategoryMenu extends HTML_Menu
         {
             $this->current_category = InternshipOrganizerDataManager :: get_instance()->retrieve_internship_organizer_category($current_category);
         }
-        
+
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
         parent :: __construct($menu);
@@ -79,10 +77,10 @@ class InternshipOrganizerCategoryMenu extends HTML_Menu
     function get_menu()
     {
         $include_root = $this->include_root;
-        
+
         $condition = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_PARENT_ID, 0);
         $group = InternshipOrganizerDataManager :: get_instance()->retrieve_categories($condition, null, 1, new ObjectTableOrder(InternshipOrganizerCategory :: PROPERTY_NAME))->next_result();
-        
+
         if (! $include_root)
         {
             return $this->get_menu_items($group->get_id());
@@ -90,18 +88,18 @@ class InternshipOrganizerCategoryMenu extends HTML_Menu
         else
         {
             $menu = array();
-            
+
             $menu_item = array();
             $menu_item['title'] = $group->get_name();
             //$menu_item['url'] = $this->get_url($group->get_id());
             $menu_item['url'] = $this->get_home_url();
-            
+
             $sub_menu_items = $this->get_menu_items($group->get_id());
             if (count($sub_menu_items) > 0)
             {
                 $menu_item['sub'] = $sub_menu_items;
             }
-            
+
             $menu_item['class'] = 'home';
             $menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
             $menu[$group->get_id()] = $menu_item;
@@ -120,23 +118,23 @@ class InternshipOrganizerCategoryMenu extends HTML_Menu
     private function get_menu_items($parent_id = 0)
     {
         $current_category = $this->current_category;
-        
+
         $show_complete_tree = $this->show_complete_tree;
         $hide_current_category = $this->hide_current_category;
-        
+
         $condition = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_PARENT_ID, $parent_id);
         $groups = InternshipOrganizerDataManager :: get_instance()->retrieve_categories($condition, null, null, new ObjectTableOrder(InternshipOrganizerCategory :: PROPERTY_NAME));
-        
+
         while ($group = $groups->next_result())
         {
             $group_id = $group->get_id();
-            
+
             if (! ($group_id == $current_category->get_id() && $hide_current_category))
             {
                 $menu_item = array();
                 $menu_item['title'] = $group->get_name();
                 $menu_item['url'] = $this->get_url($group->get_id());
-                
+
                 if ($group->is_parent_of($current_category) || $group->get_id() == $current_category->get_id() || $show_complete_tree)
                 {
                     if ($group->has_children())
@@ -151,13 +149,13 @@ class InternshipOrganizerCategoryMenu extends HTML_Menu
                         $menu_item['children'] = 'expand';
                     }
                 }
-                
+
                 $menu_item['class'] = 'category';
                 $menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
                 $menu[$group->get_id()] = $menu_item;
             }
         }
-        
+
         return $menu;
     }
 
@@ -207,6 +205,6 @@ class InternshipOrganizerCategoryMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

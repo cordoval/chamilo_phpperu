@@ -1,12 +1,15 @@
 <?php
 namespace migration;
+use application\weblcms\CourseUserRelation;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
 
 /**
  * $Id: dokeos185_course_rel_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
-require_once Path :: get(SYS_PATH) . 'application/weblcms/php/course/course_user_relation.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course_rel_user
@@ -126,7 +129,7 @@ class Dokeos185CourseRelUser extends Dokeos185MigrationDataClass
  		$new_course_id = $this->get_id_reference($this->get_course_code(), 'main_database.course');
         $new_user_id = $this->get_id_reference($this->get_user_id(), 'main_database.user');
         
-    	if (!$this->get_course_code() || !$this->get_user_id() || $this->get_status() == NULL || !$new_course_id || !$new_user_id)         {
+    	if (!$this->get_course_code() || !$this->get_user_id() || $this->get_status() == NULL || !$new_course_id || !$new_user_id)
 		{
             $this->create_failed_element($this->get_user_id() . '-' . $this->get_course_code());
             $this->set_message(Translation :: get('CourseRelUserInvalidMessage', array('USER_ID' => $this->get_user_id(), 'COURSE_ID' => $this->get_course_code())));
@@ -177,7 +180,7 @@ class Dokeos185CourseRelUser extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 
     static function get_class_name()

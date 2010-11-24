@@ -15,7 +15,7 @@ abstract class PackageInstallerSource
     private $package_folder;
     private $attributes;
 
-    function PackageInstallerSource($parent)
+    function __construct($parent)
     {
         $this->set_parent($parent);
         $this->set_package_file(null);

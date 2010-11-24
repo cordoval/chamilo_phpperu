@@ -3,6 +3,7 @@ namespace group;
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\FormValidator;
 /**
  * $Id: group_role_manager_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.forms
@@ -18,7 +19,7 @@ class GroupRightsTemplateManagerForm extends FormValidator
      * Creates a new UserForm
      * Used by the admin to create/update a group
      */
-    function GroupRightsTemplateManagerForm($group, $form_group, $action)
+    function __construct($group, $form_group, $action)
     {
         parent :: __construct('group_rights_template_manager_form', 'post', $action);
         

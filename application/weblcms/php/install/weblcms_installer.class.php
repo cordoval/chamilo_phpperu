@@ -10,8 +10,6 @@ use common\libraries\Utilities;
  * @package application.lib.weblcms.install
  */
 
-require_once 'Tree/Tree.php';
-
 /**
  * This installer can be used to create the storage structure for the
  * weblcms application.
@@ -22,7 +20,7 @@ class WeblcmsInstaller extends Installer
     /**
      * Constructor
      */
-    function WeblcmsInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, WeblcmsDataManager :: get_instance());
     }
@@ -111,7 +109,7 @@ class WeblcmsInstaller extends Installer
         $course->set_category(1);
         $course->set_visual('ALG001');
 
-        $course->set_language('english');
+        $course->set_language('en');
         $course->set_visibility(1);
         $course->set_access(1);
         $course->set_max_number_of_members(0);
@@ -157,7 +155,7 @@ class WeblcmsInstaller extends Installer
         $course->set_category(1);
         $course->set_visual('ALG002');
 
-        $course->set_language('english');
+        $course->set_language('en');
         $course->set_visibility(1);
         $course->set_access(0);
         $course->set_max_number_of_members(0);
@@ -203,7 +201,7 @@ class WeblcmsInstaller extends Installer
         $course->set_category(1);
         $course->set_visual('ALG003');
 
-        $course->set_language('english');
+        $course->set_language('en');
         $course->set_visibility(1);
         $course->set_access(1);
         $course->set_max_number_of_members(0);
@@ -249,7 +247,7 @@ class WeblcmsInstaller extends Installer
         $course->set_category(1);
         $course->set_visual('ALG004');
 
-        $course->set_language('english');
+        $course->set_language('en');
         $course->set_visibility(1);
         $course->set_access(0);
         $course->set_max_number_of_members(0);
@@ -295,7 +293,7 @@ class WeblcmsInstaller extends Installer
         $course->set_category(1);
         $course->set_visual('ALG005');
 
-        $course->set_language('english');
+        $course->set_language('en');
         $course->set_visibility(1);
         $course->set_access(1);
         $course->set_max_number_of_members(0);
@@ -341,7 +339,7 @@ class WeblcmsInstaller extends Installer
         $course->set_category(1);
         $course->set_visual('ECT2010233');
 
-        $course->set_language('english');
+        $course->set_language('en');
         $course->set_visibility(1);
         $course->set_access(1);
         $course->set_max_number_of_members(0);
@@ -385,7 +383,7 @@ class WeblcmsInstaller extends Installer
         $course->set_category(1);
         $course->set_visual('ECT2010253');
 
-        $course->set_language('english');
+        $course->set_language('en');
         $course->set_visibility(1);
         $course->set_access(1);
         $course->set_max_number_of_members(0);
@@ -430,7 +428,7 @@ class WeblcmsInstaller extends Installer
         $course->set_category(1);
         $course->set_visual('ECT2010178');
 
-        $course->set_language('english');
+        $course->set_language('en');
         $course->set_visibility(1);
         $course->set_access(1);
         $course->set_max_number_of_members(0);
@@ -475,7 +473,7 @@ class WeblcmsInstaller extends Installer
         $course->set_category(1);
         $course->set_visual('UNK2001890');
 
-        $course->set_language('english');
+        $course->set_language('en');
         $course->set_visibility(1);
         $course->set_access(1);
         $course->set_max_number_of_members(0);
@@ -520,7 +518,7 @@ class WeblcmsInstaller extends Installer
         $course->set_category(1);
         $course->set_visual('UNK20011230');
 
-        $course->set_language('english');
+        $course->set_language('en');
         $course->set_visibility(1);
         $course->set_access(1);
         $course->set_max_number_of_members(0);
@@ -569,7 +567,7 @@ class WeblcmsInstaller extends Installer
 
         $course_type_settings = new CourseTypeSettings();
         $course_type_settings->set_course_type_id(1);
-        $course_type_settings->set_language('english');
+        $course_type_settings->set_language('en');
         $course_type_settings->set_language_fixed(0);
         $course_type_settings->set_visibility(1);
         $course_type_settings->set_visibility_fixed(0);
@@ -629,7 +627,7 @@ class WeblcmsInstaller extends Installer
 
         $course_type_settings = new CourseTypeSettings();
         $course_type_settings->set_course_type_id(2);
-        $course_type_settings->set_language('english');
+        $course_type_settings->set_language('en');
         $course_type_settings->set_language_fixed(1);
         $course_type_settings->set_visibility(1);
         $course_type_settings->set_visibility_fixed(0);
@@ -690,7 +688,7 @@ class WeblcmsInstaller extends Installer
 
 		 $course_type_settings = new CourseTypeSettings();
 		 $course_type_settings->set_course_type_id(2);
-		 $course_type_settings->set_language('english');
+		 $course_type_settings->set_language('en');
 		 $course_type_settings->set_language_fixed(1);
 		 $course_type_settings->set_visibility(1);
 		 $course_type_settings->set_visibility_fixed(0);

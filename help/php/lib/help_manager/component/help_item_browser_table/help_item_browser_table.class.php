@@ -21,7 +21,7 @@ class HelpItemBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function HelpItemBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new HelpItemBrowserTableColumnModel();
         $renderer = new HelpItemBrowserTableCellRenderer($browser);

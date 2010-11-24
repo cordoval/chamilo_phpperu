@@ -25,7 +25,7 @@ class DistributeDataManager
     /**
      * Constructor.
      */
-    protected function DistributeDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

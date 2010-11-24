@@ -17,7 +17,7 @@ class InternshipOrganizerOrganisationBrowserTableColumnModel extends DefaultInte
     /**
      * Constructor
      */
-    function InternshipOrganizerOrganisationBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         //$this->set_default_order_column(0);

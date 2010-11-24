@@ -1,6 +1,6 @@
 <?php namespace application\survey;
 
-require_once Path :: get_application_path() . 'lib/survey/reporting_manager/component/browser.class.php';
+require_once dirname(__FILE__) . '/browser.class.php';
 
 class SurveyReportingManagerDeleterComponent extends SurveyReportingManager
 {

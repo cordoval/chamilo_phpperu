@@ -60,7 +60,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     const REDIRECT_URL = '';
     const PLACEHOLDER_URL = 'http://localhost/chamilo_2.0/layout/aqua/images/common/content_object/big/streaming_video_clip.png';
 
-    function MediamosaExternalRepositoryConnector($external_repository_instance) {
+    function __construct($external_repository_instance) {
         parent :: __construct($external_repository_instance);
 
         if (! $this->login()) {

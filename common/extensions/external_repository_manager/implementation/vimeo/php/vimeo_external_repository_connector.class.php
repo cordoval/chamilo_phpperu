@@ -19,7 +19,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use phpVimeo;
 
-require_once Path :: get_plugin_path() . 'phpvimeo/vimeo.php';
+require_once Path :: get_plugin_path(__NAMESPACE__) . 'phpvimeo/vimeo.php';
 require_once dirname(__FILE__) . '/vimeo_external_repository_object.class.php';
 
 /**
@@ -29,20 +29,21 @@ require_once dirname(__FILE__) . '/vimeo_external_repository_object.class.php';
 
 class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
 {
-    //    const SORT_DATE_POSTED = 'date-posted';
-    //    const SORT_DATE_TAKEN = 'date-taken';
-    //    const SORT_INTERESTINGNESS = 'interestingness';
-    //    const SORT_RELEVANCE = 'relevance';
+    const SORT_DATE_POSTED = 'date-posted';
+    const SORT_DATE_TAKEN = 'date-taken';
+    const SORT_INTERESTINGNESS = 'interestingness';
+    const SORT_RELEVANCE = 'relevance';
     //    
     private $vimeo;
     private $consumer_key;
     private $consumer_secret;
     private $token;
+    private $user;
 
     /**
      * @param ExternalRepository $external_repository_instance
      */
-    function VimeoExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
         
@@ -62,7 +63,7 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
             else
             {
                 $this->vimeo->setToken($_SESSION['request_token'], $_SESSION['request_token_secret'], 'access', true);
-              
+                
                 $this->token = $this->vimeo->getAccessToken($_GET['oauth_verifier']);
                 $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token', $this->get_external_repository_instance_id());
                 $user_setting = new ExternalRepositoryUserSetting();
@@ -81,8 +82,7 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
         }
         else
         {
-            $this->vimeo->setToken($oauth_token, $oauth_token_secret, 'access', true);
-        
+            $this->vimeo->setToken($oauth_token, $oauth_token_secret, 'access');
         }
     }
 
@@ -131,30 +131,54 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
                 $search_parameters['sort'] = $order_direction;
             }
         }
-        
-        $videos = $this->vimeo->call('vimeo.videos.getAll', array('user_id' => '4744622'));
-        
-        //        switch ($feed_type)
-        //        {
-        //            case FlickrExternalRepositoryManager :: FEED_TYPE_GENERAL :
-        //                $photos = ($condition ? $this->vimeo->photos_search($search_parameters) : $this->flickr->photos_getRecent($attributes, $count, $offset));
-        //                break;
-        //            case FlickrExternalRepositoryManager :: FEED_TYPE_MOST_INTERESTING :
-        //                $photos = $this->flickr->interestingness_getList(null, $attributes, $count, $offset);
-        //                break;
-        //            case FlickrExternalRepositoryManager :: FEED_TYPE_MOST_RECENT :
-        //                $photos = $this->flickr->photos_getRecent($attributes, $count, $offset);
-        //                break;
-        //            case FlickrExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS :
-        //                $search_parameters['user_id'] = 'me';
-        //                $photos = $this->flickr->photos_search($search_parameters);
-        //                break;
-        //            default :
-        //                $photos = ($condition ? $this->flickr->photos_search($search_parameters) : $this->flickr->photos_getRecent($attributes, $count, $offset));
-        //                break;
-        //        }
-        //        
+        //videos for the current user.
+        switch ($feed_type)
+        {
+            case VimeoExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS :
+                
+            	if ($condition)
+                {
+                	$search_parameters['query'] = $condition;
+                	$search_parameters['user_id'] = $this->get_user_info()->id;
+            	
+            		$videos = $this->vimeo->call('vimeo.videos.search', $search_parameters);
+                }
+                else
+                {
+            		$videos = $this->vimeo->call('vimeo.videos.getAll');
+                }
+                break;
+            case VimeoExternalRepositoryManager :: FEED_TYPE_GENERAL :   
+            	$search_parameters['query'] = $condition?$condition : 'chamilo';
+            	
+            	$videos = $this->vimeo->call('vimeo.videos.search', $search_parameters);
+            	break;               
+            default :
+                if ($condition)
+                {
+                	$search_parameters['query'] = $condition;
+                	$search_parameters['user_id'] = $this->get_user_info()->id;
+            	
+            		$videos = $this->vimeo->call('vimeo.videos.search', $search_parameters);
+                }
+                else
+                {
+            		$videos = $this->vimeo->call('vimeo.videos.getAll');
+                }
+                break;
+        }
         return $videos;
+    }
+    
+    public function get_user_info()
+    {
+    	if (! isset($this->user))
+        {
+	    	$token = $this->vimeo->getToken();
+	    	$response = $this->vimeo->call('vimeo.people.getInfo' , array('user_id' => $token[0]));
+	    	$this->user = $response->person;
+        }
+    	return $this->user;
     }
 
     /**
@@ -170,15 +194,17 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
         $videos_id = array();
         foreach ($videos->videos->video as $video)
         {
-            $videos_id[] = $video->id;
+            if ($video->title && $video->upload_date)
+            {
+        		$videos_id[] = $video->id;
+            }            
         }
-        
         $videos_info = array();
         foreach ($videos_id as $video_id)
         {
             $videos_info[] = $this->vimeo->call('vimeo.videos.getInfo', array('video_id' => $video_id));
         }
-        
+
         $objects = array();
         foreach ($videos_info as $video_info)
         {
@@ -243,7 +269,7 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
     function count_external_repository_objects($condition)
     {
         $videos = $this->retrieve_videos($condition, $order_property, 1, 1);
-        return $videos->total;
+        return $videos->videos->total;
     }
 
     /**
@@ -294,7 +320,7 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
         $feed_type = Request :: get(VimeoExternalRepositoryManager :: PARAM_FEED_TYPE);
         $query = ActionBarSearchForm :: get_query();
         
-        if (($feed_type == VimeoExternalRepositoryManager :: FEED_TYPE_GENERAL && $query) || $feed_type == VimeoExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS)
+        if (/*($feed_type == VimeoExternalRepositoryManager :: FEED_TYPE_GENERAL && $query) || */$feed_type == VimeoExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS)
         {
             return array(self :: SORT_DATE_POSTED, self :: SORT_DATE_TAKEN, self :: SORT_INTERESTINGNESS, self :: SORT_RELEVANCE);
         }
@@ -343,33 +369,33 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function update_external_repository_object($values)
     {
-    	$response = $this->vimeo->call('vimeo.videos.setDescription', array('description' => $values['description'], 'video_id' => $values['id']));
-    	if (! $response->stat == 'ok')
-    	{
-    		return false;
-    	}
-    	else
-    	{    		
-    		$response = $this->vimeo->call('vimeo.videos.setTitle', array('title' => $values['title'], 'video_id' => $values['id']));
-    		if (! $response->stat == 'ok')
-    		{
-    			return false;
-    		}
-    		else
-    		{
-    			$response = $this->vimeo->call('vimeo.videos.clearTags', array('video_id' => $values['id']));
-    			if ($response->stat == 'ok')
-    			{
-    				$response = $this->vimeo->call('vimeo.videos.addTags', array('video_id' => $values['id'], 'tags' => $values['tags']));
-    				if (! $response->stat == 'ok')
-    				{
-    					return false;
-    				}
-    				
-    			}
-    			return true;
-    		}
-    	}
+        $response = $this->vimeo->call('vimeo.videos.setDescription', array('description' => $values['description'], 'video_id' => $values['id']));
+        if (! $response->stat == 'ok')
+        {
+            return false;
+        }
+        else
+        {
+            $response = $this->vimeo->call('vimeo.videos.setTitle', array('title' => $values['title'], 'video_id' => $values['id']));
+            if (! $response->stat == 'ok')
+            {
+                return false;
+            }
+            else
+            {
+                $response = $this->vimeo->call('vimeo.videos.clearTags', array('video_id' => $values['id']));
+                if ($response->stat == 'ok')
+                {
+                    $response = $this->vimeo->call('vimeo.videos.addTags', array('video_id' => $values['id'], 'tags' => $values['tags']));
+                    if (! $response->stat == 'ok')
+                    {
+                        return false;
+                    }
+                
+                }
+                return true;
+            }
+        }
     }
 
     /**
@@ -377,12 +403,37 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
      * @param string $photo_path
      * @return mixed
      */
-    function create_external_repository_object($values, $photo_path)
+    function create_external_repository_object($values, $video_path)
     {
-        $tags = explode(',', $values[FlickrExternalRepositoryObject :: PROPERTY_TAGS]);
-        $tags = '"' . implode('" "', $tags) . '"';
+        $video_id = $this->vimeo->upload($video_path);
         
-        return $this->flickr->sync_upload($photo_path, $values[FlickrExternalRepositoryObject :: PROPERTY_TITLE], $values[FlickrExternalRepositoryObject :: PROPERTY_DESCRIPTION], $tags);
+        $response = $this->vimeo->call('vimeo.videos.setDescription', array('description' => $values['description'], 'video_id' => $video_id));
+        if (! $response->stat == 'ok')
+        {
+            return false;
+        }
+        else
+        {
+            $response = $this->vimeo->call('vimeo.videos.setTitle', array('title' => $values['title'], 'video_id' => $video_id));
+            if (! $response->stat == 'ok')
+            {
+                return false;
+            }
+            else
+            {
+                $response = $this->vimeo->call('vimeo.videos.clearTags', array('video_id' => $video_id));
+                if ($response->stat == 'ok')
+                {
+                    $response = $this->vimeo->call('vimeo.videos.addTags', array('video_id' => $video_id, 'tags' => $values['tags']));
+                    if (! $response->stat == 'ok')
+                    {
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+        }
     }
 
     /**
@@ -391,14 +442,30 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function export_external_repository_object($content_object)
     {
-        return $this->flickr->sync_upload($content_object->get_full_path(), $content_object->get_title(), $content_object->get_description());
+        $video_id = $this->vimeo->upload($content_object->get_full_path());
+        
+        $response = $this->vimeo->call('vimeo.videos.setDescription', array('description' => $content_object->get_description(), 'video_id' => $video_id));
+        if (! $response->stat == 'ok')
+        {
+            return false;
+        }
+        else
+        {
+            $response = $this->vimeo->call('vimeo.videos.setTitle', array('title' => $content_object->get_title(), 'video_id' => $video_id));
+            if (! $response->stat == 'ok')
+            {
+                return false;
+            }
+        }
+        return true;
+    
     }
 
     /**
      * @param int $license
      * @param string $photo_user_id
      * @return boolean
-     */    
+     */
     function determine_rights($video_entry)
     {
         $rights = array();

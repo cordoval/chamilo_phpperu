@@ -17,7 +17,7 @@ class DefaultNavigationItemTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultNavigationItemTableCellRenderer()
+    function __construct()
     {
     }
 

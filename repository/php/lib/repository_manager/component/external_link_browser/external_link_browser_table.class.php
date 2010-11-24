@@ -21,7 +21,7 @@ class ExternalLinkBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function ExternalLinkBrowserTable($browser, $parameters, $condition, $type)
+    function __construct($browser, $parameters, $condition, $type)
     {
         $this->type = $type;
 

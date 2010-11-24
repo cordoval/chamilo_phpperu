@@ -18,8 +18,6 @@ use \HTML_Table;
  * @author Sven Vanpoucke
  */
 
-require_once 'HTML/Table.php';
-
 class SimpleTable extends HTML_Table
 {
     /**
@@ -58,9 +56,9 @@ class SimpleTable extends HTML_Table
      * @param Array $data_array A list of data classes, the system will use this to extract the property values from it
      * @param CellRenderer $cellrenderer Used for actions on each row
      */
-    function SimpleTable($data_array, $cellrenderer, $actionhandler = null, $tablename)
+    function __construct($data_array, $cellrenderer, $actionhandler = null, $tablename)
     {
-        parent :: HTML_Table(array('class' => 'data_table'));
+        parent :: __construct(array('class' => 'data_table'));
 
         $this->defaultproperties = $cellrenderer->get_properties();
         $this->data_array = $data_array;

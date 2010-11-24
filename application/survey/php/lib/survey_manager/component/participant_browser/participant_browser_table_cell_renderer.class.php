@@ -1,6 +1,11 @@
 <?php 
 namespace application\survey;
+
 use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
 
 require_once dirname(__FILE__) . '/participant_browser_table_column_model.class.php';
 //require_once dirname(__FILE__) . '/../../../tables/participant_table/default_participant_table_cell_renderer.class.php';
@@ -20,7 +25,7 @@ class SurveyParticipantBrowserTableCellRenderer extends DefaultParticipantTableC
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function SurveyParticipantBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

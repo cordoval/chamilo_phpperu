@@ -10,7 +10,7 @@ abstract class PackageUpdaterType
     private $parent;
     private $source;
 
-    function PackageUpdaterType($parent, $source)
+    function __construct($parent, $source)
     {
         $this->set_parent($parent);
         $this->source = $source;

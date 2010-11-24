@@ -28,7 +28,7 @@ class LaikaWizardProcess extends HTML_QuickForm_Action
      * @param Tool $parent The repository tool in which the wizard
      * runs.
      */
-    public function LaikaWizardProcess($parent)
+    public function __construct($parent)
     {
         $this->parent = $parent;
     }

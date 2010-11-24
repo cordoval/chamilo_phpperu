@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../../../content_object_table/content_object_
 class ForumTableColumnModel extends ContentObjectTableColumnModel
 {
 
-    function ForumTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_columns(), 3, SORT_DESC);
     }

@@ -12,8 +12,7 @@ use common\libraries\Utilities;
  * @package application.lib.weblcms.weblcms_manager.component.course_category_browser
  */
 require_once dirname(__FILE__) . '/course_category_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../course/course_category_table/default_course_category_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../course/course_category.class.php';
+
 /**
  * Cell rendere for the learning object browser table
  */
@@ -28,7 +27,7 @@ class CourseCategoryBrowserTableCellRenderer extends DefaultCourseCategoryTableC
      * Constructor
      * @param WeblcmsBrowserComponent $browser
      */
-    function CourseCategoryBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -1,10 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\libraries\ObjectTableColumnModel;
 /**
  * $Id: repository_browser_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
  */
-require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
 /**
  * Table column model for the repository browser table
  */
@@ -18,7 +18,7 @@ class SettingsManagerTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function SettingsManagerTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
         $this->set_default_order_column(0);

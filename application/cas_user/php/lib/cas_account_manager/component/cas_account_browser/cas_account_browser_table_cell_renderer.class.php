@@ -27,7 +27,7 @@ class CasAccountBrowserTableCellRenderer extends DefaultCasAccountTableCellRende
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function CasAccountBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

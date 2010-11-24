@@ -19,7 +19,7 @@ class PhrasesInstaller extends Installer
     /**
      * Constructor
      */
-    function PhrasesInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, PhrasesDataManager :: get_instance());
     }

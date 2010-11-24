@@ -14,6 +14,10 @@ use common\libraries\Theme;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;
 use common\libraries\PatternMatchCondition;
+use repository\content_object\handbook_item\HandbookItem;
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
+use common\libraries\NotCondition;
 
 /**
  * $Id: template_browser.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -87,6 +91,13 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManager
             $conditions[] = new OrCondition($or_conditions);
         }
 
+        $types = array(HandbookItem :: get_type_name(), LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
+
+        foreach ($types as $type)
+        {
+            $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type));
+        }
+
         return new AndCondition($conditions);
 
     }
@@ -105,6 +116,11 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManager
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('repository_template_browser');
+    }
+
+    function is_allowed_to_create($type)
+    {
+        return true;
     }
 
 }

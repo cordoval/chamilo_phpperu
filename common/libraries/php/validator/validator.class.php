@@ -4,7 +4,12 @@ namespace common\libraries;
  * $Id: validator.class.php 182 2009-11-13 09:14:43Z vanpouckesven $
  * @package common.validator
  */
-require_once Path :: get_application_path() . 'lib/weblcms/validator/course_validator.class.php';
+
+//TODO Design question : is it really smart to have the base class depends on the subclasses ?
+use application\weblcms\CourseValidator;
+use group\GroupValidator;
+use user\UserValidator;
+use reporting\ReportingValidator;
 
 /**
  * This is the abstract validator class. It is to be a base class for specific validators

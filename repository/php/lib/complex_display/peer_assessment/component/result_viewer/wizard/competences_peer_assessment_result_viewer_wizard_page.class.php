@@ -18,9 +18,9 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 {
 	private $page_number;
 
-	function CompetencesPeerAssessmentResultViewerWizardPage($name, $parent, $page_number)
+	function __construct($name, $parent, $page_number)
 	{
-		parent :: PeerAssessmentResultViewerWizardPage($name, $parent);
+		parent :: __construct($name, $parent);
         $this->page_number = $page_number;
 	}
 

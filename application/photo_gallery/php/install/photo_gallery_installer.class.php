@@ -11,7 +11,7 @@ class PhotoGalleryInstaller extends Installer
     /**
      * Constructor
      */
-    function PhotoGalleryInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, PhotoGalleryDataManager :: get_instance());
     }

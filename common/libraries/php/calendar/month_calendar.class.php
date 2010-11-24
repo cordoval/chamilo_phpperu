@@ -26,10 +26,10 @@ class MonthCalendar extends CalendarTable
      * Creates a new month calendar
      * @param int $display_time A time in the month to be displayed
      */
-    function MonthCalendar($display_time)
+    function __construct($display_time)
     {
         $this->navigation_html = '';
-        parent :: CalendarTable($display_time);
+        parent :: __construct($display_time);
         $cell_mapping = array();
         $this->build_table();
         $this->events_to_show = array();
@@ -45,12 +45,12 @@ class MonthCalendar extends CalendarTable
     {
         $first_day = mktime(0, 0, 0, date('m', $this->get_display_time()), 1, date('Y', $this->get_display_time()));
         $setting = PlatformSetting :: get('first_day_of_week');
-        
+
         if ($setting == 'sunday')
         {
             return strtotime('Next Sunday', strtotime('-1 Week', $first_day));
         }
-        
+
         return strtotime('Next Monday', strtotime('-1 Week', $first_day));
     }
 
@@ -78,22 +78,36 @@ class MonthCalendar extends CalendarTable
         $first_day = mktime(0, 0, 0, date('m', $this->get_display_time()), 1, date('Y', $this->get_display_time()));
         $first_day_nr = date('w', $first_day) == 0 ? 6 : date('w', $first_day) - 1;
         $header = $this->getHeader();
-        
+
         $setting = PlatformSetting :: get('first_day_of_week');
-        
+
         if ($setting == 'sunday')
         {
             $first_table_date = strtotime('Next Sunday', strtotime('-1 Week', $first_day));
-            $header->addRow(array(Translation :: get('SundayLong'), Translation :: get('MondayLong'), Translation :: get('TuesdayLong'), Translation :: get('WednesdayLong'), Translation :: get('ThursdayLong'), Translation :: get('FridayLong'), Translation :: get('SaturdayLong')));
+            $header->addRow(array(
+                    Translation :: get('SundayLong'),
+                    Translation :: get('MondayLong'),
+                    Translation :: get('TuesdayLong'),
+                    Translation :: get('WednesdayLong'),
+                    Translation :: get('ThursdayLong'),
+                    Translation :: get('FridayLong'),
+                    Translation :: get('SaturdayLong')));
         }
         else
         {
             $first_table_date = strtotime('Next Monday', strtotime('-1 Week', $first_day));
-            $header->addRow(array(Translation :: get('MondayLong'), Translation :: get('TuesdayLong'), Translation :: get('WednesdayLong'), Translation :: get('ThursdayLong'), Translation :: get('FridayLong'), Translation :: get('SaturdayLong'), Translation :: get('SundayLong')));
+            $header->addRow(array(
+                    Translation :: get('MondayLong'),
+                    Translation :: get('TuesdayLong'),
+                    Translation :: get('WednesdayLong'),
+                    Translation :: get('ThursdayLong'),
+                    Translation :: get('FridayLong'),
+                    Translation :: get('SaturdayLong'),
+                    Translation :: get('SundayLong')));
         }
-        
+
         $header->setRowType(0, 'th');
-        
+
         $table_date = $first_table_date;
         $cell = 0;
         while (date('Ym', $table_date) <= date('Ym', $this->get_display_time()))
@@ -104,7 +118,9 @@ class MonthCalendar extends CalendarTable
                 $row = intval($cell / 7);
                 $column = $cell % 7;
                 $this->setCellContents($row, $column, $cell_contents);
-                $this->cell_mapping[date('Ymd', $table_date)] = array($row, $column);
+                $this->cell_mapping[date('Ymd', $table_date)] = array(
+                        $row,
+                        $column);
                 $class = array();
                 // Is current table date today?
                 if (date('Ymd', $table_date) == date('Ymd'))
@@ -151,7 +167,7 @@ class MonthCalendar extends CalendarTable
                 $this->setCellContents($row, $column, $cell_content);
             }
         }
-    
+
     }
 
     /**
@@ -204,6 +220,11 @@ class MonthCalendar extends CalendarTable
     {
         $this->add_events();
         return $this->toHtml();
+    }
+
+    function set_navigation_html($navigation_html)
+    {
+        $this->navigation_html = $navigation_html;
     }
 }
 ?>

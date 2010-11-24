@@ -33,5 +33,9 @@ class ToolComponentComplexDisplayComponent extends ToolComponent implements Comp
     {
         return $this->publication;
     }
+
+    function is_allowed($right){
+        return $this->is_allowed($right, $this->get_publication());
+    }
 }
 ?>

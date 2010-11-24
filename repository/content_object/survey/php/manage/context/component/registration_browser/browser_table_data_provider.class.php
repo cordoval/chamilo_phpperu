@@ -6,7 +6,7 @@ use common\libraries\ObjectTableDataProvider;
 class SurveyContextRegistrationBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
-    function SurveyContextRegistrationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

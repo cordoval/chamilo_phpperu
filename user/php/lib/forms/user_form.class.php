@@ -41,7 +41,7 @@ class UserForm extends FormValidator
      * Creates a new UserForm
      * Used by the admin to create/update a user
      */
-    function UserForm($form_type, $user, $form_user, $action)
+    function __construct($form_type, $user, $form_user, $action)
     {
         parent :: __construct('user_settings', 'post', $action);
 
@@ -161,7 +161,7 @@ class UserForm extends FormValidator
             $defaults[$rights_template->get_id()] = array('title' => $rights_template->get_name(), 'description', $rights_template->get_description(), 'class' => 'rights_template');
         }
 
-        $url = Path :: get(WEB_PATH) . 'rights/xml_feeds/xml_rights_template_feed.php';
+        $url = Path :: get(WEB_PATH) . 'rights/php/xml_feeds/xml_rights_template_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddRightsTemplates');
         $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);

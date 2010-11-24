@@ -40,7 +40,7 @@ CKEDITOR.editorConfig = function( config )
 	
 	config.toolbar_Basic =
 		[
-		 	['Maximize','-','Styles','Format','Font','FontSize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Table','Image','Chamiloflash','Chamiloyoutube','Chamilovideo','Chamiloaudio','latex','-','Templates','-','Source']
+		 	['Maximize','-','Styles','Format','Font','FontSize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Table','Image','Chamiloflash','Chamiloyoutube','Chamilovideo','Chamiloaudio','latex','-','Templates','SpecialChar','-','Source']
 		];
 	
 	config.toolbar_BasicMarkup =

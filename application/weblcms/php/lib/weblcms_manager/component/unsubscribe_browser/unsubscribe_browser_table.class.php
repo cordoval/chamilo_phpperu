@@ -20,7 +20,7 @@ class UnsubscribeBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function UnsubscribeBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new UnsubscribeBrowserTableColumnModel();
         $renderer = new UnsubscribeBrowserTableCellRenderer($browser);

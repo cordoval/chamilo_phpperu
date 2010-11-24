@@ -19,7 +19,7 @@ class ContentObjectPublicationUser
     const PROPERTY_TOOL = 'tool';
     const PROPERTY_USER_ID = 'user_id';
 
-    function ContentObjectPublicationUser($course, $tool, $user)
+    function __construct($course, $tool, $user)
     {
         $this->set_default_property(self :: PROPERTY_COURSE_ID, $course);
         $this->set_default_property(self :: PROPERTY_TOOL, $tool);

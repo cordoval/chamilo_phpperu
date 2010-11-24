@@ -16,7 +16,7 @@ class SystemAnnouncerMultipublisher
 {
     private $parent;
 
-    function SystemAnnouncerMultipublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

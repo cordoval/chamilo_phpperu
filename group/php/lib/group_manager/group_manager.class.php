@@ -68,7 +68,7 @@ class GroupManager extends CoreApplication
     private $recycle_bin_url;
     private $breadcrumbs;
 
-    function GroupManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
         $this->create_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_GROUP));

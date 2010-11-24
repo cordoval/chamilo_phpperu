@@ -13,6 +13,10 @@ use repository\content_object\portfolio_item\PortfolioItem;
 
 use repository\ContentObject;
 use repository\RepositoryDataManager;
+use repository\ExternalRepositorySetting;
+use repository\ExternalRepository;
+
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 /**
  * $Id: user_quota_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms
@@ -34,7 +38,7 @@ class UserQuotaForm extends FormValidator
     /**
      * Creates a new UserQuotaForm
      */
-    function UserQuotaForm($user, $action)
+    function __construct($user, $action)
     {
         parent :: __construct('quota_settings', 'post', $action);
 

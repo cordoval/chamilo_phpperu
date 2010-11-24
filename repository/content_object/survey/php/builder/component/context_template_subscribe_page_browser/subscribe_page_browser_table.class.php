@@ -19,7 +19,7 @@ class SurveyContextTemplateSubscribePageBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function SurveyContextTemplateSubscribePageBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
 
     	$model = new SurveyContextTemplateSubscribePageBrowserTableColumnModel();
@@ -28,7 +28,7 @@ class SurveyContextTemplateSubscribePageBrowserTable extends ObjectTable
         parent :: __construct($data_provider, SurveyContextTemplateSubscribePageBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
 
-        $actions = new ObjectTableFormActions(SurveyBuilder :: PARAM_BUILDER_ACTION);
+        $actions = new ObjectTableFormActions(__NAMESPACE__, SurveyBuilder :: PARAM_BUILDER_ACTION);
         $actions->add_form_action(new ObjectTableFormAction(SurveyBuilder :: ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE, Translation :: get('Subscribe')));
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
@@ -37,7 +37,8 @@ class SurveyContextTemplateSubscribePageBrowserTable extends ObjectTable
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(SurveyBuilder :: PARAM_TEMPLATE_REL_PAGE_ID, $ids);
     }
 }

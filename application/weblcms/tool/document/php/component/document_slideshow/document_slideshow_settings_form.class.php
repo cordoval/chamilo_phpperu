@@ -10,9 +10,9 @@ class DocumentSlideshowSettingsForm extends FormValidator
 {
     private $user;
 
-    function DocumentSlideshowSettingsForm($action, $user)
+    function __construct($action, $user)
     {
-        parent :: FormValidator('document_slideshow_settings', 'post', $action);
+        parent :: __construct('document_slideshow_settings', 'post', $action);
         $this->user = $user;
 
         $this->build_basic_form();

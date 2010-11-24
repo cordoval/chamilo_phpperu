@@ -32,7 +32,7 @@ class VariableBrowserTableCellRenderer extends DefaultVariableTableCellRenderer
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function VariableBrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

@@ -20,7 +20,7 @@ class DefaultLinkTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultLinkTableColumnModel($type)
+    function __construct($type)
     {
         parent :: __construct(self :: get_default_columns($type), 3);
         $this->type = $type;

@@ -10,7 +10,7 @@ class ObjectTableOrder
     private $direction;
     private $alias;
 
-    function ObjectTableOrder($property, $direction = SORT_ASC, $alias = null)
+    function __construct($property, $direction = SORT_ASC, $alias = null)
     {
         $this->property = $property;
         $this->direction = $direction;

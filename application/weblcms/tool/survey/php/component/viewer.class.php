@@ -28,8 +28,6 @@ use application\weblcms\tool\announcement\AnnouncementTool;
  * @package application.lib.weblcms.tool.assessment.component
  */
 
-require_once dirname(__FILE__) . '/../../../browser/content_object_publication_category_tree.class.php';
-require_once dirname(__FILE__) . '/../../../browser/object_publication_table/object_publication_table.class.php';
 require_once dirname(__FILE__) . '/survey_browser/survey_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/survey_browser/survey_column_model.class.php';
 

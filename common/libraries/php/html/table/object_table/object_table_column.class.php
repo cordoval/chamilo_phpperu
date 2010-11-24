@@ -37,7 +37,7 @@ class ObjectTableColumn implements TableColumn
      * object property, false
      * otherwise.
      */
-    function ObjectTableColumn($property, $is_sortable = true, $storage_unit_alias = null, $translate = true)
+    function __construct($property, $is_sortable = true, $storage_unit_alias = null, $translate = true)
     {
         $this->property = $property;
         if ($translate)

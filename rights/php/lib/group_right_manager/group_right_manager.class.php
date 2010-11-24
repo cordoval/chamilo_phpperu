@@ -24,7 +24,7 @@ class GroupRightManager extends SubManager
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_GROUP_RIGHTS;
 
-    function GroupRightManager($rights_manager)
+    function __construct($rights_manager)
     {
         parent :: __construct($rights_manager);
 

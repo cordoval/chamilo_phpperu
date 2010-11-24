@@ -15,7 +15,7 @@ class UserDetails
      * Constructor
      * @param User $user
      */
-    public function UserDetails($user)
+    public function __construct($user)
     {
         $this->user = $user;
     }

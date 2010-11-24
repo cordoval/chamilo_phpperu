@@ -21,7 +21,7 @@ class ExternalLinkBrowserTableDataProvider extends ObjectTableDataProvider
      * @param RepositoryManagerComponent $browser
      * @param Condition $condition
      */
-    function ExternalLinkBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

@@ -36,10 +36,10 @@ class PackageLanguageRemover extends PackageRemover
 
         return true;
     }
-    
+
     function delete_language()
     {
-    	$language = AdminDataManager :: get_instance()->retrieve_language_from_english_name($this->registration->get_name());
+    	$language = AdminDataManager :: get_instance()->retrieve_language_from_isocode($this->registration->get_name());
     	return $language->delete();
     }
 }

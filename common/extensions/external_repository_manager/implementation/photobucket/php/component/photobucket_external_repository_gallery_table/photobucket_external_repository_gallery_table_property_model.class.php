@@ -5,7 +5,7 @@ use common\extensions\external_repository_manager\DefaultExternalRepositoryGalle
 
 class PhotobucketExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRepositoryGalleryObjectTablePropertyModel
 {
-    function PhotobucketExternalRepositoryGalleryTablePropertyModel()
+    function __construct()
     {
         parent :: __construct();
     }

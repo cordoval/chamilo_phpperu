@@ -23,7 +23,7 @@ class HandbookPublicationBrowserTableCellRenderer extends DefaultHandbookPublica
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function HandbookPublicationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

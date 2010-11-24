@@ -16,6 +16,7 @@ use tracking\Event;
 use repository\ComplexDisplay;
 use repository\content_object\assessment\AssessmentComplexDisplaySupport;
 use common\libraries\DelegateComponent;
+use application\weblcms\WeblcmsQuestionAttemptsTracker;
 
 /**
  * $Id: assessment_tester.class.php 216 2009-11-13 14:08:06Z kariboe $

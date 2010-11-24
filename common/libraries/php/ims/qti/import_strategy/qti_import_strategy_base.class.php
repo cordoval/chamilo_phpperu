@@ -510,7 +510,7 @@ class QtiImportStrategyBase
     }
 
     /**
-     * Helper function for get_score_rules. Extract the if/elseif which set a score from a condition
+     * Helper function __construct( get_score_rules. Extract the if/elseif which set a score from a condition
      * @param $condition
      * @param $outcome_id
      * @param $score_id
@@ -530,7 +530,7 @@ class QtiImportStrategyBase
     }
 
     /**
-     * Helper function for get_score_rules. Returns true if the if/elseif sets the score based on the response.
+     * Helper function __construct( get_score_rules. Returns true if the if/elseif sets the score based on the response.
      * @param ImsXmlReader $if
      * @param unknown_type $response_id
      * @param unknown_type $score_id

@@ -6,11 +6,10 @@ use common\libraries\Session;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\TreeMenu;
+use common\libraries\TreeMenuItem;
+use application\gradebook\GradebookTreeMenuDataProvider;
 
-require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu.class.php';
-require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu_item.class.php';
-
-require_once dirname(__FILE__) . '/course/course_user_relation.class.php';
 
 class WeblcmsGradebookTreeMenuDataProvider extends GradebookTreeMenuDataProvider
 {

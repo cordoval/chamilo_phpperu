@@ -15,17 +15,13 @@ namespace user;
  * University College of Ghent
  */
 
-require_once (dirname(__FILE__) . '/../../common/global.inc.php');
-//require_once dirname(__FILE__) . '/../../common/webservices/action_success.class.php';
 
-$handler = new LoginWebservice();
-$handler->run();
 
 class LoginWebservice
 {
     private $webservice;
 
-    function LoginWebservice()
+    function __construct()
     {
         $this->webservice = Webservice :: factory($this);
     }

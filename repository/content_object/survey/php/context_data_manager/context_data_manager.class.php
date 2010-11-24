@@ -1,4 +1,4 @@
-<?php namespace repository\content_object\survey;
+<?php 
 namespace repository\content_object\survey;
 
 use common\libraries\Configuration;
@@ -31,7 +31,7 @@ class SurveyContextDataManager implements DataManagerInterface
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/' . strtolower($type) . '_context_data_manager.class.php';
-            $class = Utilities :: underscores_to_camelcase($type) . 'SurveyContextDataManager';
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'SurveyContextDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

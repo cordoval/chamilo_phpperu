@@ -5,8 +5,6 @@ namespace migration;
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_online_connected.class.php';
-
 /**
  * This class presents a Dokeos185 online_connected
  *
@@ -31,7 +29,7 @@ class Dokeos185OnlineConnected extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185OnlineConnected object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185OnlineConnected($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -104,9 +102,21 @@ class Dokeos185OnlineConnected extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the validation
      * @return true if the online connected is valid 
      */
-    function is_valid($array)
+   function is_valid()
     {
-        $course = $array['course'];
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
     /**
@@ -114,7 +124,7 @@ class Dokeos185OnlineConnected extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the conversion
      * @return the new online connected
      */
-    function convert_data
+    function convert_data()
     {
         $course = $array['course'];
     }

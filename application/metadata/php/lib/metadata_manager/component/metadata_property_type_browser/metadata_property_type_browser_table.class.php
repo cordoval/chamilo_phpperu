@@ -19,7 +19,7 @@ class MetadataPropertyTypeBrowserTable extends ObjectTable
 	/**
 	 * Constructor
 	 */
-	function MetadataPropertyTypeBrowserTable($browser, $parameters, $condition)
+	function __construct($browser, $parameters, $condition)
 	{
 		$model = new MetadataPropertyTypeBrowserTableColumnModel();
 		$renderer = new MetadataPropertyTypeBrowserTableCellRenderer($browser);

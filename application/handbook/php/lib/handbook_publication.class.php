@@ -4,6 +4,8 @@ use common\libraries\DataClass;
 use common\libraries\Utilities;
 
 
+require_once dirname(__FILE__).'/handbook_rights.class.php';
+
 /**
  * This class describes a HandbookPublication data object
  * @author Nathalie Blocry
@@ -132,9 +134,34 @@ class HandbookPublication extends DataClass
 //		return Utilities::get_classname_from_namespace(Utilities :: camelcase_to_underscores(self :: CLASS_NAME));
 
             return self :: TABLE_NAME;
-
-
 	}
+
+        function create()
+        {
+            $succes = parent :: create();
+            if(!$succes)
+            {
+                    return false;
+            }
+            else
+            {
+                  return HandbookRights :: create_location_in_handbooks_subtree($this->get_id());
+            }
+
+        }
+
+        function delete()
+        {
+            $location = HandbookRights :: get_location_by_identifier_from_handbooks_subtree($this->get_id());
+            if($location)
+            {
+                    if(!$location->remove())
+                    {
+                            return false;
+                    }
+            }
+            return parent :: delete();
+        }
 }
 
 ?>

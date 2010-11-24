@@ -30,7 +30,7 @@ class CourseGroupTableColumn extends ObjectTableColumn
      * it displays a user property, that particular property, a User::PROPERTY_* constant.
      * @param boolean $contains_user_property True if the column displays a user property, false otherwise.
      */
-    function CourseGroupTableColumn($property_name_or_column_title, $contains_course_group_property = false)
+    function __construct($property_name_or_column_title, $contains_course_group_property = false)
     {
         if ($contains_course_group_property)
         {

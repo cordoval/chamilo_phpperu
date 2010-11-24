@@ -19,7 +19,7 @@ class VariableScanner
     private $scanners;
     private $variable_writer;
 
-    function VariableScanner($scanners = array('translations'), $variable_writer_type = 'file')
+    function __construct($scanners = array('translations'), $variable_writer_type = 'file')
     {
         foreach($scanners as $scanner)
         {

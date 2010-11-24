@@ -12,7 +12,7 @@ class DefaultInternshipOrganizerPeriodRelUserTableColumnModel extends ObjectTabl
 	/**
 	 * Constructor
 	 */
-	function DefaultInternshipOrganizerPeriodRelUserTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct(self :: get_default_columns(), 0);
 	}

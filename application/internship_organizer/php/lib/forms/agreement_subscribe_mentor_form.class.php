@@ -17,7 +17,7 @@ class InternshipOrganizerAgreementSubscribeMentorForm extends FormValidator
     private $agreement;
     private $user;
 
-    function InternshipOrganizerAgreementSubscribeMentorForm($agreement, $action, $user)
+    function __construct($agreement, $action, $user)
     {
         parent :: __construct('create_agreement', 'post', $action);
         

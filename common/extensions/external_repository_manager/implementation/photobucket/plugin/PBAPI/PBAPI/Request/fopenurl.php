@@ -16,8 +16,7 @@ use common\libraries\Path;
 /**
  * Load Request parent
  */
-require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Request.php';
-
+require_once dirname(__FILE__) . '/../Request.php';
 /**
  * FOPEN_URL request strategy
  * requires fopen url wrappers

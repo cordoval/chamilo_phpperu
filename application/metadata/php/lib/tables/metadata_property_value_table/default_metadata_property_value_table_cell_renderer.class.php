@@ -15,7 +15,7 @@ class DefaultMetadataPropertyValueTableCellRenderer extends ObjectTableCellRende
 	/**
 	 * Constructor
 	 */
-	function DefaultMetadataPropertyValueTableCellRenderer()
+	function __construct()
 	{
 	}
 

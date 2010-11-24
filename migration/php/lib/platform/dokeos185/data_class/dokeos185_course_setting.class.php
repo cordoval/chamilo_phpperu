@@ -1,6 +1,10 @@
 <?php
 
 namespace migration;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
+use admin\Setting;
 /**
  * $Id: dokeos185_course_setting.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -39,7 +43,7 @@ class Dokeos185CourseSetting extends Dokeos185CourseDataMigrationDataClass
      * Creates a new Dokeos185CourseSetting object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185CourseSetting($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -287,7 +291,7 @@ class Dokeos185CourseSetting extends Dokeos185CourseDataMigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 
     static function get_class_name()

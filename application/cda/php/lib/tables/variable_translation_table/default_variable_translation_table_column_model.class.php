@@ -22,7 +22,7 @@ class DefaultVariableTranslationTableColumnModel extends ObjectTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function DefaultVariableTranslationTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct(self :: get_default_columns(), 1);
 	}

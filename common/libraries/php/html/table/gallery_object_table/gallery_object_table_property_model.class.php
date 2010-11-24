@@ -31,7 +31,7 @@ class GalleryObjectTablePropertyModel
      * Either the PHP constant SORT_ASC
      * or SORT_DESC.
      */
-    function GalleryObjectTablePropertyModel($properties, $default_order_property = 0, $default_order_direction = SORT_ASC)
+    function __construct($properties, $default_order_property = 0, $default_order_direction = SORT_ASC)
     {
         $this->properties = $properties;
         $this->order_property = $default_order_property;

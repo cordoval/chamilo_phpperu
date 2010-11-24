@@ -5,8 +5,6 @@ namespace migration;
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_permission_task.class.php';
-
 /**
  * This class presents a Dokeos185 permission_task
  *
@@ -33,7 +31,7 @@ class Dokeos185PermissionTask extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185PermissionTask object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185PermissionTask($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -124,9 +122,21 @@ class Dokeos185PermissionTask extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the validation
      * @return true if the task permission is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
     /**
@@ -134,7 +144,7 @@ class Dokeos185PermissionTask extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the conversion
      * @return the new task permission
      */
-    function convert_data
+    function convert_data()
     {
         $course = $array['course'];
     }

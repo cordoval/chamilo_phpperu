@@ -21,7 +21,7 @@ class SurveyPageQuestionBrowserTableCellRenderer extends DefaultSurveyPageQuesti
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function SurveyPageQuestionBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

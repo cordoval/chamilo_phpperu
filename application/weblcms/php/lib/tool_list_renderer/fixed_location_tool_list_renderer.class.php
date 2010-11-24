@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use application\weblcms\tool\link;
+
 use common\libraries\Theme;
 use common\libraries\DynamicContentTab;
 use common\libraries\DynamicTabsRenderer;
@@ -10,6 +12,7 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use application\weblcms\tool\home\HomeTool;
+use application\weblcms\tool\link\LinkTool;
 use HTML_Table;
 
 /**
@@ -18,7 +21,6 @@ use HTML_Table;
  */
 require_once (dirname(__FILE__) . '/../tool_list_renderer.class.php');
 require_once (dirname(__FILE__) . '/../course/course_section.class.php');
-require_once ('HTML/Table.php');
 /**
  * Tool list renderer which displays all course tools on a fixed location.
  * Disabled tools will be shown in a disabled looking way.
@@ -33,9 +35,9 @@ class FixedLocationToolListRenderer extends ToolListRenderer
      * Constructor
      * @param  WebLcms $parent The parent application
      */
-    function FixedLocationToolListRenderer($parent, $visible_tools)
+    function __construct($parent, $visible_tools)
     {
-        parent :: ToolListRenderer($parent, $visible_tools);
+        parent :: __construct($parent, $visible_tools);
 
         $course = $parent->get_course();
         $this->course = $course;
@@ -165,14 +167,14 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             {
                 $lcms_action = HomeTool :: ACTION_HIDE_PUBLICATION;
                 $visible_image = 'action_visible.png';
-                $tool_image = 'tool_' . $publication->get_tool() . '.png';
+                $tool_image = Theme :: ICON_MEDIUM . '.png';
                 $link_class = '';
             }
             else
             {
                 $lcms_action = HomeTool :: ACTION_SHOW_PUBLICATION;
                 $visible_image = 'action_invisible.png';
-                $tool_image = 'tool_' . $publication->get_tool() . '_na.png';
+                $tool_image = Theme :: ICON_MEDIUM . '_na.png';
                 $link_class = ' class="invisible"';
             }
 
@@ -191,10 +193,21 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 }
 
                 // Show tool-icon + name
-                $cell_contents[] = '<a href="' . $parent->get_url(array(
-                        'tool_action' => null, WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $publication->get_tool(),
-                        Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true) . '" ' . $link_class . '>';
-                $cell_contents[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
+
+
+                if ($publication->get_tool() == LinkTool :: TOOL_NAME)
+                {
+                    $url = $publication->get_content_object()->get_url();
+                    $target = ' target="_blank"';
+                }
+                else
+                {
+                    $url = $parent->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $publication->get_tool(), Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
+                    $target = '';
+                }
+
+                $cell_contents[] = '<a href="' . $url . '"' . $target . $link_class . '>';
+                $cell_contents[] = '<img src="' . Theme :: get_image_path(Tool :: get_tool_type_namespace($publication->get_tool())) . 'logo/' . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
                 $cell_contents[] = '&nbsp;';
                 $cell_contents[] = $title;
                 $cell_contents[] = '</a>';

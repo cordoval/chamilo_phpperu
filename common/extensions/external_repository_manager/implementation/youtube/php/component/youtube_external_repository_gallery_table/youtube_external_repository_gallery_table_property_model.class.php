@@ -6,7 +6,7 @@ use common\extensions\external_repository_manager\DefaultExternalRepositoryGalle
 
 class YoutubeExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRepositoryGalleryObjectTablePropertyModel
 {
-    function YoutubeExternalRepositoryGalleryTablePropertyModel()
+    function __construct()
     {
         parent :: __construct();
 

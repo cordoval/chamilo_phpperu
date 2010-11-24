@@ -6,7 +6,7 @@ use common\extensions\external_repository_manager\DefaultExternalRepositoryGalle
 
 class VimeoExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRepositoryGalleryObjectTablePropertyModel
 {
-    function VimeoExternalRepositoryGalleryTablePropertyModel()
+    function __construct()
     {
         parent :: __construct();
 

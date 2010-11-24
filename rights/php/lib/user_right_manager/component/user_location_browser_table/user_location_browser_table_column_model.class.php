@@ -24,7 +24,7 @@ class UserLocationBrowserTableColumnModel extends DefaultLocationTableColumnMode
     /**
      * Constructor
      */
-    function UserLocationBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

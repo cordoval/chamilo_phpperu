@@ -11,7 +11,7 @@ class DefaultInternshipOrganizerMentorTableColumnModel extends ObjectTableColumn
 	/**
 	 * Constructor
 	 */
-	function DefaultInternshipOrganizerMentorTableColumnModel() {
+	function __construct() {
 		parent::__construct ( self::get_default_columns (), 0 );
 	}
 	

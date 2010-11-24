@@ -15,7 +15,7 @@ class BbcodeParser
 
     private $bbcode;
 
-    function BbcodeParser()
+    function __construct()
     {
         $this->bbcode = new StringParser_BBCode();
         //		$this->bbcode->addFilter (STRINGPARSER_FILTER_PRE, 'convertlinebreaks');

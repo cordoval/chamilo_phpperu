@@ -5,6 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 use repository\content_object\document\Document;
 use repository\RepositoryDataManager;

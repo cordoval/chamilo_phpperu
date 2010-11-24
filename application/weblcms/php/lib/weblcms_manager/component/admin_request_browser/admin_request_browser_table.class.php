@@ -23,7 +23,7 @@ class AdminRequestBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function AdminRequestBrowserTable($browser, $parameters, $condition, $request_type)
+    function __construct($browser, $parameters, $condition, $request_type)
     {
 
         $model = new AdminRequestBrowserTableColumnModel($request_type);

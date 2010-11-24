@@ -15,7 +15,11 @@ class Autoloader
 
     static function load($classname)
     {
-        $list = array('validation_manager' => 'validation_manager.class.php');
+        $list = array(
+            'validation_manager' => 'validation_manager.class.php',
+            'default_validation_table_column_model' => 'validation_table/default_validation_table_column_model.class.php',
+            'default_validation_table_cell_renderer' => 'validation_table/default_validation_table_cell_renderer.class.php',
+            );
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

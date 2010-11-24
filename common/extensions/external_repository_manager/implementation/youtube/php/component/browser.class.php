@@ -2,7 +2,6 @@
 namespace common\extensions\external_repository_manager\implementation\youtube;
 
 use common\libraries\Request;
-
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 
 class YoutubeExternalRepositoryManagerBrowserComponent extends YoutubeExternalRepositoryManager
@@ -14,7 +13,7 @@ class YoutubeExternalRepositoryManagerBrowserComponent extends YoutubeExternalRe
         {
             $this->set_parameter(YoutubeExternalRepositoryManager :: PARAM_FEED_IDENTIFIER, Request :: get(YoutubeExternalRepositoryManager :: PARAM_FEED_IDENTIFIER));
         }
-        
+
         ExternalRepositoryComponent :: launch($this);
     }
 }

@@ -5,7 +5,7 @@ class DefaultSurveyContextRelUserTableColumnModel extends ObjectTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function DefaultSurveyContextRelUserTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct(self :: get_default_columns(), 0);
 	}

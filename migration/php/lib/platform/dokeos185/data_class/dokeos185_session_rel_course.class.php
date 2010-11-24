@@ -5,8 +5,6 @@ namespace migration;
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_session_rel_course.class.php';
-
 /**
  * This class presents a Dokeos185 session_rel_course
  *
@@ -33,7 +31,7 @@ class Dokeos185SessionRelCourse extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185SessionRelCourse object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185SessionRelCourse($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -124,9 +122,21 @@ class Dokeos185SessionRelCourse extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return Boolean
      */
-    function is_valid($array)
+    function is_valid()
     {
-    
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
     /**
@@ -134,7 +144,7 @@ class Dokeos185SessionRelCourse extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return 
      */
-    function convert_data
+    function convert_data()
     {
     
     }

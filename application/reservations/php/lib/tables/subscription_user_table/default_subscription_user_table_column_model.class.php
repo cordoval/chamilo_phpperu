@@ -18,7 +18,7 @@ class DefaultSubscriptionUserTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultSubscriptionUserTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct(self :: get_default_columns($browser), 1);
     }

@@ -23,7 +23,7 @@ require_once dirname(__FILE__) . '/../blocks/weblcms_course_user_learning_path_i
 class CourseUserReportingTemplate extends ReportingTemplate
 {
 
-    function CourseUserReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
 

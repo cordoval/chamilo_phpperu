@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\Utilities;
 use common\libraries\ObjectTableCellRenderer;
+use application\weblcms\WeblcmsDataManager;
 
 /**
  * $Id: default_publication_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -18,7 +19,7 @@ class DefaultPublicationTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultPublicationTableCellRenderer()
+    function __construct()
     {
     }
 
@@ -49,7 +50,7 @@ class DefaultPublicationTableCellRenderer extends ObjectTableCellRenderer
 
                     $wdm = WeblcmsDataManager :: get_instance();
                     $course = $wdm->retrieve_course($course_id);
-                    return $course->get_name() . ' > ' . $tool;
+                    return $course->get_name() . ' (' . $course->get_visual() . ') > ' . $tool;
                 }
 
                 return $content_object_publication->get_location();

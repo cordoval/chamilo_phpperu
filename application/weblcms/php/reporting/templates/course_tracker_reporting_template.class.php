@@ -18,7 +18,7 @@ require_once dirname(__FILE__) . '/../blocks/weblcms_average_exercise_score_repo
 class CourseTrackerReportingTemplate extends ReportingTemplate
 {
 
-    function CourseTrackerReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
 

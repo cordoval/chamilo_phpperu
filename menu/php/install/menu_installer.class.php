@@ -23,7 +23,7 @@ class MenuInstaller extends Installer
     /**
      * Constructor
      */
-    function MenuInstaller($values)
+    function __construct($values)
     {
         $this->values = $values;
         parent :: __construct($values, MenuDataManager :: get_instance());

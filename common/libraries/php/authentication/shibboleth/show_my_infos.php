@@ -7,7 +7,7 @@
  * This file allows to see the current Shibboleth user attribute values 
  * that are sent to Chamilo. It can be useful to debug the Shibboleth authentication. 
  */
-
+require_once dirname(__FILE__) . '/../../../global.inc.php';
 require_once dirname(__FILE__) . '/shibboleth_authentication.class.php';
 
 /*

@@ -25,7 +25,7 @@ class Diagnoser
     const STATUS_ERROR = 3;
     const STATUS_INFORMATION = 4;
 
-    function Diagnoser($manager = null)
+    function __construct($manager = null)
     {
         $this->manager = $manager;
     }

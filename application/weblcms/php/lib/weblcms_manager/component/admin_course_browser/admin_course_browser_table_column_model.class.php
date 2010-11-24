@@ -23,7 +23,7 @@ class AdminCourseBrowserTableColumnModel extends DefaultCourseTableColumnModel
     /**
      * Constructor
      */
-    function AdminCourseBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->add_column(new ObjectTableColumn(Course :: PROPERTY_COURSE_TYPE_ID));

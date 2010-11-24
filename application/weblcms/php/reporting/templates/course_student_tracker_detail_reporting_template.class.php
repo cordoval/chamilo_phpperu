@@ -22,7 +22,7 @@ require_once dirname(__FILE__) . '/../blocks/weblcms_last_access_reporting_block
 class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
 {
 
-    function CourseStudentTrackerDetailReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
 

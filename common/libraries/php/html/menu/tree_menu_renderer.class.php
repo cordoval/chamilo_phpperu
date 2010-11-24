@@ -5,7 +5,6 @@ use \HTML_Menu_DirectTreeRenderer;
  * $Id: tree_menu_renderer.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.menu
  */
-require_once 'HTML/Menu/DirectTreeRenderer.php';
 
 /**
  * Renderer which can be used to include a tree menu on your page.
@@ -24,7 +23,7 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
     /**
      * Constructor.
      */
-    function TreeMenuRenderer($tree_name = '', $search_url = '')
+    function __construct($tree_name = '', $search_url = '')
     {
         $this->search_url = $search_url;
         $this->tree_name = $tree_name;

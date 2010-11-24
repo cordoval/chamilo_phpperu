@@ -29,7 +29,7 @@ class SubscribeUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
      * Constructor
      * @param WeblcmsBrowserComponent $browser
      */
-    function SubscribeUserBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

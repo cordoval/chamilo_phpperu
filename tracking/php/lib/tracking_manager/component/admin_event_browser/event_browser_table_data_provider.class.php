@@ -29,7 +29,7 @@ class EventBrowserTableDataProvider extends ObjectTableDataProvider
      * @param RepositoryManagerComponent $browser
      * @param Condition $condition
      */
-    function EventBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         $this->browser = $browser;
         $this->condition = $condition;

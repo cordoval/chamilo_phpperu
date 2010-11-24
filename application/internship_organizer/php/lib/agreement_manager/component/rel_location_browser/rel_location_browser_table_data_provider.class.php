@@ -11,7 +11,7 @@ class InternshipOrganizerAgreementRelLocationBrowserTableDataProvider extends Ob
      * @param RepositoryManagerComponent $browser
      * @param Condition $condition
      */
-    function InternshipOrganizerAgreementRelLocationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

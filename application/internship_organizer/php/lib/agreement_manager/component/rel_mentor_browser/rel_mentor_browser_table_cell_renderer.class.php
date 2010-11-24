@@ -12,7 +12,7 @@ class InternshipOrganizerAgreementRelMentorBrowserTableCellRenderer extends Defa
     
     private $browser;
 
-    function InternshipOrganizerAgreementRelMentorBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

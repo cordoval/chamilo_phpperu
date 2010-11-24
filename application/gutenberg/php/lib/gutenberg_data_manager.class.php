@@ -18,7 +18,7 @@ class GutenbergDataManager
     /**
      * Constructor.
      */
-    protected function GutenbergDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

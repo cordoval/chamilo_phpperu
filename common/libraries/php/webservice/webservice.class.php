@@ -39,7 +39,7 @@ abstract class Webservice
     private $credential;
     private $ru;
 
-    public function Webservice()
+    public function __construct()
     {
         $this->ru = new WebserviceRights();
     }

@@ -17,7 +17,7 @@ class DefaultEventTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultEventTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

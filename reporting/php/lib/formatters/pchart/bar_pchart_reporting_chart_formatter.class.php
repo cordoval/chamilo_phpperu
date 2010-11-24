@@ -14,7 +14,7 @@ use pChart;
 class BarPchartReportingChartFormatter extends PchartReportingChartFormatter
 {
 
-    public function BarPchartReportingChartFormatter(&$reporting_block)
+    public function __construct(&$reporting_block)
     {
         parent :: __construct($reporting_block);
     }

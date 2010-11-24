@@ -217,8 +217,7 @@ class Display
 
     public static function small_header()
     {
-        global $language_interface;
-        $document_language = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface)->get_isocode();
+        $document_language = Translation :: get_language();
         if (empty($document_language))
         {
             //if there was no valid iso-code, use the english one

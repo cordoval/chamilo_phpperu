@@ -57,9 +57,9 @@ abstract class ToolComponent extends SubManager
      * @param int $right
      * @return boolean True if the current user has the right
      */
-    function is_allowed($right)
+    function is_allowed($right, $publication_id)
     {
-        return $this->get_parent()->is_allowed($right);
+        return $this->get_parent()->is_allowed($right, $publication_id);
     }
 
     /**

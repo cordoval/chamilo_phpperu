@@ -18,7 +18,7 @@ class StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer extends De
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

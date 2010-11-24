@@ -12,12 +12,17 @@ use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
+use common\libraries\ActionBarRenderer;
+use common\libraries\DatetimeUtilities;
+
+use common\extensions\dynamic_form_manager\DynamicFormManager;
+
+use HTML_Table;
 
 /**
  * $Id: user_detail.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
  */
-require_once 'HTML/Table.php';
 
 class UserManagerUserDetailComponent extends UserManager implements AdministrationComponent
 {
@@ -50,7 +55,7 @@ class UserManagerUserDetailComponent extends UserManager implements Administrati
 			echo $this->display_groups($user);
 			echo '<br />';
 
-			$apps = WebApplication :: load_all_from_filesystem();
+			$apps = WebApplication :: load_all();
 			foreach($apps as $app_name)
 			{
 				$app = WebApplication :: factory($app_name, $this->get_user());
@@ -84,7 +89,7 @@ class UserManagerUserDetailComponent extends UserManager implements Administrati
 	{
 		$html = array();
 
-		$table = new Html_Table(array('class' => 'data_table'));
+		$table = new HTML_Table(array('class' => 'data_table'));
 
 		$table->setHeaderContents(0, 0, Translation :: get('UserInformation'));
         $table->setCellAttributes(0, 0, array('colspan' => 3, 'style' => 'text-align: center;'));
@@ -142,7 +147,7 @@ class UserManagerUserDetailComponent extends UserManager implements Administrati
 	{
 		$html = array();
 
-		$table = new Html_Table(array('class' => 'data_table'));
+		$table = new HTML_Table(array('class' => 'data_table'));
 
 		$table->setHeaderContents(0, 0, Translation :: get('Groups', null, 'group'));
         $table->setCellAttributes(0, 0, array('colspan' => 2, 'style' => 'text-align: center;'));

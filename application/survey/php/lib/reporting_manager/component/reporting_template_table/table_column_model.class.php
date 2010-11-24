@@ -3,8 +3,6 @@ namespace application\survey;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 
-require_once Path :: get_application_path() . 'lib/survey/tables/reporting_template_table/default_reporting_template_table_column_model.class.php';
-
 class SurveyReportingTemplateTableColumnModel extends DefaultSurveyReportingTemplateTableColumnModel
 {
     /**
@@ -15,7 +13,7 @@ class SurveyReportingTemplateTableColumnModel extends DefaultSurveyReportingTemp
     /**
      * Constructor
      */
-    function SurveyReportingTemplateTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

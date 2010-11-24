@@ -21,7 +21,7 @@ class PhrasesMasteryLevelBrowserTableDataProvider extends ObjectTableDataProvide
      * @param ApplicationComponent $browser
      * @param Condition $condition
      */
-    function PhrasesMasteryLevelBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

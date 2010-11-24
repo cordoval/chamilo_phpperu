@@ -27,7 +27,7 @@ abstract class HtmlEditorProcessor
         }
     }
 
-    function HtmlEditorProcessor($parent, $selected_content_objects)
+    function __construct($parent, $selected_content_objects)
     {
         $this->set_parent($parent);
         $this->set_selected_content_objects($selected_content_objects);

@@ -29,7 +29,7 @@ class PrerequisitesBuilderForm extends FormValidator
     /**
      * Creates a new AccountForm
      */
-    function PrerequisitesBuilderForm($user, $clo_item, $action)
+    function __construct($user, $clo_item, $action)
     {
         parent :: __construct('prerequisites', 'post', $action);
 
@@ -358,17 +358,28 @@ class PrerequisitesBuilderForm extends FormValidator
 
         foreach ($values['prerequisite'] as $group_number => $items)
         {
-            $prereq_formula .= $values['group_operator'][$group_number] . '(';
+            $prerequisites_string = '';
 
             foreach ($items as $item_number => $item)
             {
-                $prereq_formula .= $values['operator'][$group_number][$item_number] . $values['not'][$group_number][$item_number] . $item;
+                if($item == -1)
+                {
+                    continue;
+                }
+                
+                $prerequisites_string .= $values['operator'][$group_number][$item_number] . $values['not'][$group_number][$item_number] . $item;
             }
 
-            $prereq_formula .= ')';
+            if($prerequisites_string != '')
+            {
+                $prereq_formula .= $values['group_operator'][$group_number] . '(';
+                $prereq_formula .= $prerequisites_string;
+                $prereq_formula .= ')';
+            }
         }
 
         $this->clo_item->set_prerequisites($prereq_formula);
+
         return $this->clo_item->update();
     }
 

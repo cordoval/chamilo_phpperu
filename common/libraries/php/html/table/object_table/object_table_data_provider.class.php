@@ -23,7 +23,7 @@ abstract class ObjectTableDataProvider
      * @param ApplicationManagerComponent $browser
      * @param Condition $condition
      */
-    function ObjectTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         $this->browser = $browser;
         $this->condition = $condition;

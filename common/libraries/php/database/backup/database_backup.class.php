@@ -5,7 +5,7 @@ abstract class DatabaseBackup
 	private $storage_units;
 	private $data_manager;
 	
-	function DatabaseBackup(array $storage_units, $data_manager)
+	function __construct(array $storage_units, $data_manager)
 	{
 		$this->storage_units = $storage_units;
 		$this->data_manager = $data_manager;

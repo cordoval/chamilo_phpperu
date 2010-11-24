@@ -55,7 +55,7 @@ class Phpbb2Template {
 	 * Constructor. Simply sets the root dir.
 	 *
 	 */
-	function Template($root = ".")
+	function __construct($root = ".")
 	{
 		$this->set_rootdir($root);
 	}

@@ -5,9 +5,15 @@
 		<code>reservations</code>
 		<section>application</section>
 		<category>social</category>
-		<author>Sven Vanpoucke</author>
+		<authors>
+			<author>
+				<name>Sven Vanpoucke</name>
+				<email>sven.vanpoucke@hogent.be</email>
+				<company>Hogeschool Gent</company>
+			</author>
+		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/applications/r/reservations/reservations-1.0.0.zip</filename>
+		<filename>pool/main/application/r/reservations/reservations-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

@@ -30,7 +30,7 @@ class HelpItemBrowserTableCellRenderer extends DefaultHelpItemTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function HelpItemBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

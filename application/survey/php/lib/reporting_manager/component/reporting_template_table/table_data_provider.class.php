@@ -1,9 +1,12 @@
-<?php namespace application\survey;
+<?php
+
+namespace application\survey;
+use common\libraries\ObjectTableDataProvider;
 
 class SurveyReportingTemplateTableDataProvider extends ObjectTableDataProvider
 {
 
-    function SurveyReportingTemplateTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

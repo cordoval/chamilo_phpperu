@@ -9,7 +9,7 @@ class DefaultSurveyTemplateTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultSurveyTemplateTableCellRenderer()
+    function __construct()
     {
     }
 

@@ -1,4 +1,11 @@
 <?php
+namespace repository;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\Utilities;
+use common\libraries\ObjectTableColumn;
+
+use user\User;
 
 require_once dirname (__FILE__) . '/action_column.php';
 
@@ -8,8 +15,8 @@ require_once dirname (__FILE__) . '/action_column.php';
  */
 class ContentObjectUserShareRightsBrowserTableColumnModel extends ObjectTableColumnModel
 {
-    
-    function ContentObjectUserShareRightsBrowserTableColumnModel()
+
+    function __construct()
     {
         parent :: __construct();
         $this->add_column(new ObjectTableColumn(User :: PROPERTY_USERNAME));

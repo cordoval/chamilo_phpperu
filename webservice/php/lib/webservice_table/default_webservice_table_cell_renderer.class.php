@@ -18,7 +18,7 @@ class DefaultWebserviceTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultWebserviceTableCellRenderer()
+    function __construct()
     {
     }
 

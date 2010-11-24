@@ -5,9 +5,9 @@
 		<code>calendar_event</code>
 		<section>content_object</section>
 		<category>agenda</category>
-		<author></author>
+		<authors></authors>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/c/calendar_event/calendar_event-1.0.0.zip</filename>
+		<filename>pool/main/content_object/c/calendar_event/calendar_event-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

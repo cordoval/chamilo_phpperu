@@ -9,7 +9,7 @@ class FormValidatorTab
     private $method;
     private $title;
 
-    function FormValidatorTab($method, $title)
+    function __construct($method, $title)
     {
         $this->method = $method;
         $this->title = $title;

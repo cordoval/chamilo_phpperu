@@ -29,7 +29,7 @@ class LinkBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function LinkBrowserTable($browser, $parameters, $condition, $type)
+    function __construct($browser, $parameters, $condition, $type)
     {
         $this->type = $type;
 

@@ -34,7 +34,7 @@ class DynamicFormElement extends DataClass
 
     function DynamicForm($defaultProperties)
     {
-        parent :: DataClass($defaultProperties);
+        parent :: __construct($defaultProperties);
 
      //$this->options = array();
     }

@@ -20,7 +20,7 @@ class ContentObjectBrowserTableColumnModel extends DefaultContentObjectTableColu
 	/**
 	 * Constructor
 	 */
-	function ContentObjectBrowserTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);

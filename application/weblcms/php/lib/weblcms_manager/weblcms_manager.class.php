@@ -17,6 +17,8 @@ use common\libraries\Request;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 
+use HTML_Table;
+
 /**
  * $Id: weblcms_manager.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager
@@ -185,7 +187,7 @@ class WeblcmsManager extends WebApplication
      * from the query string.
      * @param Tool $tool The default tool, or null if none.
      */
-    function WeblcmsManager($user)
+    function __construct($user)
     {
         parent :: __construct($user);
 
@@ -725,17 +727,17 @@ class WeblcmsManager extends WebApplication
                 $c[] = $course;
         }
 
-        $directory = dirname(__FILE__) . '/../tool/';
+        $directory = dirname(__FILE__) . '/../../../tool/';
         $tools = Filesystem :: get_directory_content($directory, Filesystem :: LIST_DIRECTORIES, false);
         foreach ($tools as $tool)
         {
-            $path = $directory . $tool . '/' . $tool . '_tool.class.php';
+            $path = $directory . $tool . '/php/' . $tool . '_tool.class.php';
 
             if (! file_exists($path))
                 continue;
 
             require_once $path;
-            $class = Utilities :: underscores_to_camelcase($tool) . 'Tool';
+            $class = Tool :: get_tool_type_namespace($tool) . '\\' . Utilities :: underscores_to_camelcase($tool) . 'Tool';
             $obj = new $class(new self());
             $types[$tool] = $obj->get_allowed_types();
         }
@@ -1608,7 +1610,7 @@ class WeblcmsManager extends WebApplication
     {
         $html = array();
 
-        $table = new Html_Table(array('class' => 'data_table'));
+        $table = new HTML_Table(array('class' => 'data_table'));
 
         $table->setHeaderContents(0, 0, Translation :: get('Courses'));
         $table->setCellAttributes(0, 0, array('colspan' => 2, 'style' => 'text-align: center;'));

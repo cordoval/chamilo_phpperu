@@ -1,5 +1,5 @@
 <?php
-namespace common\libraries;
+namespace common\libraries\content_object_generator;
 
 /**
  * Dataclass generator used to generate dataclasses with given properties
@@ -12,7 +12,7 @@ class DataClassGenerator
     /**
      * Constructor
      */
-    function DataClassGenerator()
+    function __construct()
     {
     }
 

@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\libraries\ObjectTableOrder;
 use common\libraries\ObjectTableDataProvider;
 
 /**
@@ -21,7 +22,7 @@ class RepositoryVersionBrowserTableDataProvider extends ObjectTableDataProvider
      * @param RepositoryManagerComponent $browser
      * @param Condition $condition
      */
-    function RepositoryVersionBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }
@@ -35,7 +36,8 @@ class RepositoryVersionBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_objects($offset, $count, $order_property = null)
     {
-        $order_property = $this->get_order_property($order_property);
+        //$order_property = $this->get_order_property($order_property);
+        $order_property = new ObjectTableOrder(ContentObject :: PROPERTY_ID, SORT_DESC);
 
         return $this->get_browser()->retrieve_content_object_versions_resultset($this->get_condition(), $order_property, $offset, $count);
     }

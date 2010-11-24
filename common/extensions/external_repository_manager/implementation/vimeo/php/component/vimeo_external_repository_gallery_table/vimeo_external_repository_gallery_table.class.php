@@ -11,7 +11,7 @@ class VimeoExternalRepositoryGalleryTable extends GalleryObjectTable
 {
     const DEFAULT_NAME = 'vimeo_external_repository_gallery_table';
 
-    function VimeoExternalRepositoryGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $data_provider = new VimeoExternalRepositoryGalleryTableDataProvider($browser, $condition);
         $renderer = new VimeoExternalRepositoryGalleryTableCellRenderer($browser);
@@ -21,7 +21,7 @@ class VimeoExternalRepositoryGalleryTable extends GalleryObjectTable
 
         $this->set_additional_parameters($parameters);
         $this->set_default_row_count(4);
-        $this->set_default_column_count(4);
+        $this->set_default_column_count(3);
         //        $this->set_order_directions_enabled($browser->support_sorting_direction());
     }
 }

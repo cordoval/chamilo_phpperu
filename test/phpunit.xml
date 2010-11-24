@@ -60,11 +60,12 @@
 
     <!--
     Uncomment the next sectionq if you want the tests to produce reports.
-    This does slow a bit the process
+    This does slow the process
     -->
    
     <logging>
         <!-- HTML Coverage Report [Xdebug and Tokenizer Required]-->
+        <!-- this is really really slow !-->
         
         <log type="coverage-html" target="../files/build/coverage" charset="UTF-8"
             yui="true" highlight="true"

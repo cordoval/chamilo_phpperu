@@ -33,7 +33,7 @@ class Dokeos185SurveyQuestionOption extends Dokeos185CourseDataMigrationDataClas
      * Creates a new Dokeos185SurveyQuestionOption object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185SurveyQuestionOption($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -181,7 +181,7 @@ class Dokeos185SurveyQuestionOption extends Dokeos185CourseDataMigrationDataClas
 
     public static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 }
 

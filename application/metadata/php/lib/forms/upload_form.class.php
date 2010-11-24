@@ -9,7 +9,7 @@ use common\libraries\Utilities;
 
 class UploadForm extends FormValidator
 {
-    function UploadForm($url)
+    function __construct($url)
     {
         
         parent :: __construct('upload_form', 'post', $url);

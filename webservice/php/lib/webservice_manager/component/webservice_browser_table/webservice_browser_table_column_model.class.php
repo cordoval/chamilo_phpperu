@@ -20,7 +20,7 @@ class WebserviceBrowserTableColumnModel extends DefaultWebserviceTableColumnMode
     /**
      * Constructor
      */
-    function WebserviceBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

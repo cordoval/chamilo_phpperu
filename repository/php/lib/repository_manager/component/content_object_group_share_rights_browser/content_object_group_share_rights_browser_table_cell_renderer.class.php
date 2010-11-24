@@ -2,11 +2,14 @@
 namespace repository;
 
 use user\UserManager;
+
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\ObjectTableCellRenderer;
+
 use group\GroupDataManager;
 use group\Group;
 use group\GroupManager;
@@ -25,7 +28,7 @@ class ContentObjectGroupShareRightsBrowserTableCellRenderer extends ObjectTableC
 
     private $browser;
 
-    function ContentObjectGroupShareRightsBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         $this->browser = $browser;
     }
@@ -42,7 +45,7 @@ class ContentObjectGroupShareRightsBrowserTableCellRenderer extends ObjectTableC
 
         if ($column instanceof ShareRightColumn)
         { // to do return right value:
-            if($group_share->has_right($column->get_right_id()))
+            if ($group_share->has_right($column->get_right_id()))
             {
                 return Theme :: get_common_image('action_setting_true', 'png');
             }
@@ -51,35 +54,26 @@ class ContentObjectGroupShareRightsBrowserTableCellRenderer extends ObjectTableC
                 return Theme :: get_common_image('action_setting_false', 'png');
             }
         }
-        else if ($column instanceof ActionColumn)
-        {
-            $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-            $toolbar->add_item(new ToolbarItem(
-                            Translation :: get('ContentObjectGroupShareEditor'),
-                            Theme :: get_common_image_path() . 'action_edit.png',
-                            $this->browser->get_content_object_share_editor_url(Request::get(RepositoryManager::PARAM_CONTENT_OBJECT_ID), null, $group_share->get_group_id()),
-                            ToolbarItem :: DISPLAY_ICON
-            ));
-            $toolbar->add_item(new ToolbarItem(
-                            Translation :: get('ContentObjectGroupShareDeleter'),
-                            Theme :: get_common_image_path() . 'action_delete.png',
-                            $this->browser->get_content_object_share_deleter_url(Request::get(RepositoryManager::PARAM_CONTENT_OBJECT_ID), null, $group_share->get_group_id()),
-                            ToolbarItem :: DISPLAY_ICON
-            ));
-            return $toolbar->as_html();
-        }
         else
-        {
-            switch ($column->get_name())
+            if ($column instanceof ActionColumn)
             {
-                case Group :: PROPERTY_NAME :
-                    return $group->get_name();
-                case Translation :: get('Users', null, UserManager :: APPLICATION_NAME) :
-                    return $group->count_users(true);
-                case Translation :: get('Subgroups', null, GroupManager :: APPLICATION_NAME) :
-                    return $group->count_subgroups(true);
+                $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+                $toolbar->add_item(new ToolbarItem(Translation :: get('ContentObjectGroupShareEditor'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_content_object_share_editor_url(Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID), null, $group_share->get_group_id()), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('ContentObjectGroupShareDeleter'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_content_object_share_deleter_url(Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID), null, $group_share->get_group_id()), ToolbarItem :: DISPLAY_ICON));
+                return $toolbar->as_html();
             }
-        }
+            else
+            {
+                switch ($column->get_name())
+                {
+                    case Group :: PROPERTY_NAME :
+                        return $group->get_name();
+                    case Translation :: get('Users', null, UserManager :: APPLICATION_NAME) :
+                        return $group->count_users(true);
+                    case Translation :: get('Subgroups', null, GroupManager :: APPLICATION_NAME) :
+                        return $group->count_subgroups(true);
+                }
+            }
     }
 
     function render_id_cell($object)

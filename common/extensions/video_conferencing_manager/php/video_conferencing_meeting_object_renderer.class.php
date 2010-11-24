@@ -8,7 +8,7 @@ abstract class VideoConferencingMeetingObjectRenderer
 
     protected $video_conferencing_meeting_browser;
 
-    function VideoConferencingMeetingObjectRenderer($video_conferencing_meeting_browser)
+    function __construct($video_conferencing_meeting_browser)
     {
         $this->video_conferencing_meeting_browser = $video_conferencing_meeting_browser;
     }

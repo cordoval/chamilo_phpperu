@@ -50,7 +50,7 @@ class LastRss
 	private $imagetags = array('title', 'url', 'link', 'width', 'height');
 	private $textinputtags = array('title', 'description', 'name', 'link');
 	
-	function LastRss($url)
+	function __construct($url)
 	{
 		// Set default values, can be overwritten via setters if necessary
 		$this->cdata = 'content';

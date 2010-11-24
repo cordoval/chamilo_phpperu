@@ -6,6 +6,8 @@ use common\libraries\FormValidator;
 use admin\AdminDataManager;
 use common\libraries\Utilities;
 use common\libraries\Translation;
+use common\libraries\Filesystem;
+use common\libraries\Request;
 
 /**
  * $Id: group_form.class.php 224 2009-11-13 14:40:30Z kariboe $
@@ -23,7 +25,7 @@ class MigrationForm extends FormValidator
     const PARAM_MIGRATE = 'migrate';
     const PARAM_SELECT_BLOCKS = 'select_blocks';
 
-	function MigrationForm($action)
+	function __construct($action)
     {
         parent :: __construct('migration_settings', 'post', $action);
 

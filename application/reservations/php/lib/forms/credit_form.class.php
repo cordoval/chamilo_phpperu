@@ -21,7 +21,7 @@ class CreditForm extends FormValidator
     /**
      * Creates a new LanguageForm
      */
-    function CreditForm($action)
+    function __construct($action)
     {
         parent :: __construct('credit_form', 'post', $action);
         $this->build_basic_form();

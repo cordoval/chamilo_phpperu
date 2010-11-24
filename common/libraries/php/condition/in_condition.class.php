@@ -40,7 +40,7 @@ class InCondition implements Condition
      * @param string $name
      * @param array $values
      */
-    function InCondition($name, $values, $storage_unit = null, $is_alias = false)
+    function __construct($name, $values, $storage_unit = null, $is_alias = false)
     {
         $this->name = $name;
         $this->values = $values;

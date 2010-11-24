@@ -9,7 +9,7 @@ class ExternalRepositoryLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'external_repository';
 
-    function ExternalRepositoryLauncher($user)
+    function __construct($user)
     {
         parent :: __construct($user);
     }
@@ -45,6 +45,50 @@ class ExternalRepositoryLauncher extends LauncherApplication
     function get_external_repository()
     {
         return $this->external_repository;
+    }
+
+    /**
+     * Get a series of links for all external repository instances of one or more types
+     *
+     * @param array $types An array of external repository manager types
+     * @param unknown_type $auto_open if there is only one instance, should it be opened automatically
+     * @return string
+     */
+    function get_links($types = array(), $auto_open = false)
+    {
+        $instances = RepositoryDataManager :: get_instance()->retrieve_active_external_repositories($types);
+
+        if ($instances->size() == 0)
+        {
+            return null;
+        }
+        else
+        {
+            $html = array();
+            $buttons = array();
+
+            while ($instance = $instances->next_result())
+            {
+                $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=' . $instance->get_id();
+                $image = Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($instance->get_type())) . 'logo/16.png';
+                $title = Translation :: get('BrowseObject', array('OBJECT' => $instance->get_title()), Utilities :: COMMON_LIBRARIES);
+                $buttons[] = '<a class="button normal_button upload_button" style="background-image: url(' . $image . ');" onclick="javascript:openPopup(\'' . $link . '\');"> ' . $title . '</a>';
+            }
+
+            $html[] = '<div style="margin-bottom: 10px;">' . implode(' ', $buttons) . '</div>';
+
+            if ($instances->size() == 1 && $auto_open)
+            {
+                $html[] = '<script type="text/javascript">';
+                $html[] = '$(document).ready(function ()';
+                $html[] = '{';
+                $html[] = '	openPopup(\'' . $link . '\');';
+                $html[] = '});';
+                $html[] = '</script>';
+            }
+
+            return implode("\n", $html);
+        }
     }
 }
 ?>

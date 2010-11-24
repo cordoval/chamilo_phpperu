@@ -14,6 +14,7 @@ class Translation
      */
     private static $instance;
     private static $called_class;
+    private static $recently_added;
 
     /**
      * Language strings defined in the language-files. Stored as an associative array.
@@ -38,7 +39,7 @@ class Translation
     /**
      * Constructor.
      */
-    private function Translation($language = null)
+    private function __construct($language = null)
     {
         if (is_null($language))
         {
@@ -84,6 +85,7 @@ class Translation
         $backtrace = debug_backtrace();
         self :: $called_class = $backtrace[1]['class'];
         //self :: $called_class = get_called_class();
+
 
         $translation = $instance->translate($variable, $context);
 
@@ -174,6 +176,10 @@ class Translation
                 }
                 else
                 {
+                    if (PlatformSetting :: get('write_new_variables_to_translation_file') && !array_key_exists($variable, $strings[$language][$context]) && count($strings[$language][$context]) > 0)
+                    {
+                        $this->add_variable_to_context_internationalization($language, $context, $variable);
+                    }
                     return '[CDA context={' . $context . '}]' . $variable . '[/CDA]';
                 }
             }
@@ -199,12 +205,39 @@ class Translation
     function add_context_internationalization($language, $context)
     {
         $called_class = explode('\\', $context);
-        $path = Path :: get(SYS_PATH) . implode('/', $called_class) . '/resources/i18n/' . $language . '.i18n';
+        $path = Path :: get(SYS_PATH) . implode('/', $called_class) . '/resources/i18n/' . substr($language, 0, 2) . '.i18n';
 
         $strings = parse_ini_file($path);
 
         $instance = self :: get_instance();
         $instance->strings[$language][$context] = $strings;
+    }
+
+    function add_variable_to_context_internationalization($language, $context, $variable)
+    {
+        if (! in_array($variable, self :: $recently_added[$language][$context]))
+        {
+            $path = Path :: get(SYS_PATH) . Path :: namespace_to_path($context) . '/resources/i18n/' . $language . '.i18n';
+            if (is_writable($path))
+            {
+                if (! $handle = fopen($path, 'a'))
+                {
+                    return;
+                }
+
+                $string = "\n" . $variable . ' = ""';
+
+                // Write $somecontent to our opened file
+                if (fwrite($handle, $string) === FALSE)
+                {
+                    return;
+                }
+
+                fclose($handle);
+
+                self :: $recently_added[$language][$context][] = $variable;
+            }
+        }
     }
 
     static function application_to_class($application)

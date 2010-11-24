@@ -17,7 +17,7 @@ class PhotoGalleryPublicationGalleryBrowserTable extends GalleryObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function PhotoGalleryPublicationGalleryBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $property_model = new PhotoGalleryPublicationGalleryBrowserTablePropertyModel();
         $cell_renderer = new PhotoGalleryPublicationGalleryBrowserTableCellRenderer($browser);

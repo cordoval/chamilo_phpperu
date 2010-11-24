@@ -15,7 +15,7 @@ class ExternalRepositoryBrowserGalleryTableCellRenderer extends DefaultExternalR
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function ExternalRepositoryBrowserGalleryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;
@@ -31,7 +31,7 @@ class ExternalRepositoryBrowserGalleryTableCellRenderer extends DefaultExternalR
         return implode("\n", $html);
     }
 
-    function get_cell_content($object)
+    function get_cell_content(ExternalRepositoryObject $object)
     {
         $html = array();
         $display = ExternalRepositoryObjectDisplay :: factory($object);

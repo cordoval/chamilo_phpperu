@@ -4,7 +4,6 @@ namespace application\personal_messenger;
 
 use common\libraries\WebApplication;
 use common\libraries\Request;
-use PersonalMessengerBlock;
 use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\Session;
@@ -49,7 +48,7 @@ class PersonalMessengerManager extends WebApplication
      * Constructor
      * @param User $user The current user
      */
-    function PersonalMessengerManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
 

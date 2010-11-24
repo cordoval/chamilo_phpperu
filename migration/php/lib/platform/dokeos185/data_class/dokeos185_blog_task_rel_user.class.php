@@ -5,8 +5,6 @@ namespace migration;
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_blog_task_rel_user.class.php';
-
 /**
  * This class presents a Dokeos185 blog_task_rel_user
  *
@@ -33,7 +31,7 @@ class Dokeos185BlogTaskRelUser extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185BlogTaskRelUser object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185BlogTaskRelUser($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -128,16 +126,28 @@ class Dokeos185BlogTaskRelUser extends Dokeos185MigrationDataClass
      * Check if the task user relation is valid
      * @param array $array the parameters for the validation
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
+    }
+
+    public function get_database_name() {
+        throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
     /**
      * Convert to new blog task user relation
      * @param array $array the parameters for the conversion
      */
-    function convert_data
+    function convert_data()
     {
         $course = $array['course'];
     }

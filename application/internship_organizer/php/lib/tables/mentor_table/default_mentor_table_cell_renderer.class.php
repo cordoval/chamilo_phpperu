@@ -11,7 +11,7 @@ class DefaultInternshipOrganizerMentorTableCellRenderer extends ObjectTableCellR
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerMentorTableCellRenderer()
+    function __construct()
     {
     }
 

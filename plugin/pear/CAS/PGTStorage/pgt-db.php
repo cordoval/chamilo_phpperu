@@ -131,7 +131,7 @@ class PGTStorageDB extends PGTStorage
    *
    * @public
    */
-  function PGTStorageDB($cas_parent,$user,$password,$database_type,$hostname,$port,$database,$table)
+  function __construct($cas_parent,$user,$password,$database_type,$hostname,$port,$database,$table)
     {
       phpCAS::traceBegin();
 

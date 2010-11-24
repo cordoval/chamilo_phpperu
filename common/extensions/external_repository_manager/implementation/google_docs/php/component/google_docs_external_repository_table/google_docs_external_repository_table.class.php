@@ -17,7 +17,7 @@ class GoogleDocsExternalRepositoryTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function GoogleDocsExternalRepositoryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new GoogleDocsExternalRepositoryTableColumnModel();
         $renderer = new GoogleDocsExternalRepositoryTableCellRenderer($browser);

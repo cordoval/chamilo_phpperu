@@ -20,7 +20,7 @@ class ContextLinkBrowserTable extends ObjectTable
 	/**
 	 * Constructor
 	 */
-	function ContextLinkBrowserTable($browser, $parameters, $condition)
+	function __construct($browser, $parameters, $condition)
 	{
 		$model = new ContextLinkBrowserTableColumnModel();
 		$renderer = new ContextLinkBrowserTableCellRenderer($browser);

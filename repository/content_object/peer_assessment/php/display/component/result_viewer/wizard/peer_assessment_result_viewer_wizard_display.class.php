@@ -9,7 +9,7 @@ class PeerAssessmentResultViewerWizardDisplay extends HTML_QuickForm_Action_Disp
 {
     private $parent;       								    	
 
-    public function PeerAssessmentResultViewerWizardDisplay($parent)
+    public function __construct($parent)
     {
         $this->parent = $parent;
     }

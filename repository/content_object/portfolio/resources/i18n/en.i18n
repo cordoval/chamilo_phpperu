@@ -1,0 +1,10 @@
+TypeName = "Portfolio"
+Publish = "Publish"
+PortfolioPreviewNotAvailable = "Previews are not available for portfolio objects right now."
+
+Title = ""
+Description = ""
+PortfolioBuilderBrowserComponent = ""
+PortfolioBuilderItemCreatorComponent = ""
+ObjectAdded = ""
+PortfolioBuilderUpdaterComponent = ""

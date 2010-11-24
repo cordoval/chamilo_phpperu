@@ -52,7 +52,7 @@ abstract class CategoryManager
      * @param  boolean $email_option If true the publisher has the option to
      * send the published learning object by email to the selecter target users.
      */
-    function CategoryManager($parent, $trail, $subcategories_allowed = true)
+    function __construct($parent, $trail, $subcategories_allowed = true)
     {
         $this->parent = $parent;
         $this->trail = $trail;

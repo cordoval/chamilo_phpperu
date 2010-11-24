@@ -36,7 +36,7 @@ class DatabaseContentObjectResultSet extends ResultSet
      * the learning objects (so when retrieving the learning objects, the
      * datamanager shouldn't perform additional queries)
      */
-    function DatabaseContentObjectResultSet($data_manager, $handle, $single_type)
+    function __construct($data_manager, $handle, $single_type)
     {
         $this->data_manager = $data_manager;
         $this->handle = $handle;

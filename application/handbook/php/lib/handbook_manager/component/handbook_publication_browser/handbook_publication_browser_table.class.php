@@ -18,7 +18,7 @@ class HandbookPublicationBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function HandbookPublicationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new HandbookPublicationBrowserTableColumnModel();
         $renderer = new HandbookPublicationBrowserTableCellRenderer($browser);

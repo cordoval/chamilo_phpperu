@@ -17,7 +17,7 @@ require_once dirname(__FILE__) . '/matterhorn_external_repository_connector.clas
 require_once Path :: get_common_extensions_path() . 'external_repository_manager/php/general/streaming/streaming_media_external_repository_browser_gallery_table_cell_renderer.class.php';
 
 /**
- * 
+ *
  * @author magali.gillard
  *
  */
@@ -25,10 +25,10 @@ require_once Path :: get_common_extensions_path() . 'external_repository_manager
 class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
 {
     const REPOSITORY_TYPE = 'matterhorn';
-    
+
     const PARAM_FEED_TYPE = 'feed';
     const PARAM_FEED_IDENTIFIER = 'identifier';
-    
+
     const FEED_TYPE_GENERAL = 1;
     const FEED_TYPE_MY_VIDEO = 2;
 
@@ -37,10 +37,10 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
     /**
      * @param Application $application
      */
-    function MatterhornExternalRepositoryManager($external_repository, $application)
+    function __construct($external_repository, $application)
     {
         parent :: __construct($external_repository, $application);
-       // $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
+        // $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
     }
 
     /* (non-PHPdoc)
@@ -56,13 +56,13 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
      */
     function validate_settings()
     {
-//        $login = ExternalRepositorySetting:: get('login');
-//        $password = ExternalRepositorySetting:: get('password');
-//
-//        if (! $login || ! $password)
-//		{
-//            return false;
-//        }
+        //        $login = ExternalRepositorySetting:: get('login');
+        //        $password = ExternalRepositorySetting:: get('password');
+        //
+        //        if (! $login || ! $password)
+        //		{
+        //            return false;
+        //        }
         return true;
     }
 
@@ -93,7 +93,7 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
     function get_menu_items()
     {
         $menu_items = array();
-        
+
         return $menu_items;
     }
 
@@ -110,7 +110,7 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_external_repository_actions()
     {
-        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
+        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
 
         $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
 
@@ -152,8 +152,8 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
     {
         return self :: REPOSITORY_TYPE;
     }
-    
-   /**
+
+    /**
      * Helper function for the SubManager class,
      * pending access to class constants via variables in PHP 5.3
      * e.g. $name = $class :: DEFAULT_ACTION

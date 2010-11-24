@@ -3,21 +3,24 @@ namespace admin;
 
 use common\libraries\Utilities;
 
-use \PEAR;
-use \XML_Unserializer;
-
-require_once 'XML/Unserializer.php';
+use PEAR;
+use XML_Unserializer;
 
 class PackageInfo
 {
-	private $package_name;
+    private $package_name;
 
-	function PackageInfo($package_name)
-	{
-		$this->package_name = $package_name;
+    function __construct($package_name)
+    {
+        $this->package_name = $package_name;
 
-	}
+    }
 
+    /**
+     * @param string $type
+     * @param string $package_name
+     * @return PackageInfo
+     */
     static function factory($type, $package_name)
     {
         $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'PackageInfo';
@@ -27,20 +30,21 @@ class PackageInfo
 
     function get_package_info()
     {
-    	$path = $this->get_path();
-    	$file = $path . 'package.info';
+        $path = $this->get_path();
+        $file = $path . 'package.info';
 
-    	if (file_exists($file))
-    	{
-        	$xml_data = file_get_contents($file);
-        	if ($xml_data)
+        if (file_exists($file))
+        {
+            $xml_data = file_get_contents($file);
+            if ($xml_data)
             {
                 $unserializer = new XML_Unserializer();
                 $unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
                 $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
                 $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
                 $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-                $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('dependency'));
+                $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array(
+                        'dependency'));
 
                 // userialize the document
                 $status = $unserializer->unserialize($xml_data);
@@ -56,28 +60,28 @@ class PackageInfo
             }
             else
             {
-            	return false;
+                return false;
             }
-    	}
-    	else
-    	{
-    	    return false;
-    	}
+        }
+        else
+        {
+            return false;
+        }
     }
 
     function get_package_name()
     {
-    	return $this->package_name;
+        return $this->package_name;
     }
 
-	function get_package()
-	{
+    function get_package()
+    {
         $package_info = $this->get_package_info();
         $package_info['package']['dependencies'] = serialize($package_info['package']['dependencies']);
 
-		$package = new RemotePackage();
-		$package->set_default_properties($package_info['package']);
+        $package = new RemotePackage();
+        $package->set_default_properties($package_info['package']);
         return $package;
-	}
+    }
 }
 ?>

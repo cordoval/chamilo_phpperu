@@ -2,6 +2,7 @@
 namespace user;
 
 use common\libraries\Utilities;
+use common\libraries\DataClass;
 /**
  * $Id: buddy_list_category.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @author Sven Vanpoucke

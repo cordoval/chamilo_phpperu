@@ -1,4 +1,14 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\Theme;
+use common\libraries\Translation;
+use common\libraries\DelegateComponent;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicActionsTab;
+use common\libraries\Utilities;
+use common\libraries\DynamicAction;
+use repository\RepositoryManager;
 
 class SurveyContextManagerManagerChooserComponent extends SurveyContextManager implements DelegateComponent
 {
@@ -13,7 +23,6 @@ class SurveyContextManagerManagerChooserComponent extends SurveyContextManager i
     {
 
         $links = $this->get_context_manager_links();
-
         $this->display_header();
         echo $this->get_context_manager_tabs($links);
         $this->display_footer();

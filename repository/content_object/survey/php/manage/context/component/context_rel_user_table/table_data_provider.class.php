@@ -5,7 +5,7 @@ class SurveyContextRelUserBrowserTableDataProvider extends ObjectTableDataProvid
     
     private $browser;
 
-    function SurveyContextRelUserBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     

@@ -18,7 +18,6 @@ require_once dirname(__FILE__) . '/task.class.php';
  */
 class TaskForm extends ContentObjectForm
 {
-    const TOTAL_PROPERTIES = 5;
     const PARAM_REPEAT = 'repeated';
     const PARAM_REPEAT_DATE = 'repeate_date';
 
@@ -176,19 +175,6 @@ class TaskForm extends ContentObjectForm
         }
 
         parent :: setDefaults($defaults);
-    }
-
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        $defaults[Task :: PROPERTY_TASK_TYPE] = $valuearray[3];
-        $defaults[Task :: PROPERTY_TASK_PRIORITY] = $valuearray[4];
-        $defaults[Task :: PROPERTY_START_DATE] = $valuearray[5];
-        $defaults[Task :: PROPERTY_END_DATE] = $valuearray[6];
-
-        parent :: set_values($defaults);
     }
 
     // Inherited

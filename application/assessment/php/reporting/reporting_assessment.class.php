@@ -28,7 +28,7 @@ require_once dirname(__FILE__) . '/../trackers/assessment_assessment_attempts_tr
 class ReportingAssessment
 {
 
-    function ReportingAssessment()
+    function __construct()
     {
     
     }

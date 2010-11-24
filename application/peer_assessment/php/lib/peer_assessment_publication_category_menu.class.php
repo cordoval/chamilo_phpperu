@@ -1,5 +1,4 @@
 <?php
-
 namespace application\peer_assessment;
 
 use HTML_Menu;
@@ -12,9 +11,6 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\TreeMenuRenderer;
 use common\libraries\Utilities;
-
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 
 require_once dirname(__FILE__) . '/category_manager/peer_assessment_publication_category.class.php';
 require_once dirname(__FILE__) . '/peer_assessment_data_manager.class.php';
@@ -51,7 +47,7 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function PeerAssessmentPublicationCategoryMenu($current_category, $url_format = '?application=peer_assessment&go=browse_peer_assessment_publications&category=%s')
+    function __construct($current_category, $url_format = '?application=peer_assessment&go=browse_peer_assessment_publications&category=%s')
     {
         $this->current_category = $current_category;
         $this->urlFmt = $url_format;

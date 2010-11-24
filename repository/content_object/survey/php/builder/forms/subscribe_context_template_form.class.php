@@ -19,7 +19,7 @@ class SubscribeContextTemplateForm extends FormValidator
     private $survey;
     private $user;
 
-    function SubscribeContextTemplateForm($form_type, $survey, $action, $user)
+    function __construct($form_type, $survey, $action, $user)
     {
         parent :: __construct('subscribe_context_template', 'post', $action);
 

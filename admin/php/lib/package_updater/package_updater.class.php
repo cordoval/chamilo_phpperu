@@ -39,7 +39,7 @@ class PackageUpdater
         $this->registration = $registration;
     }
 
-	function PackageUpdater()
+	function __construct()
     {
     	$this->registration = AdminDataManager::get_instance()->retrieve_registration(Request :: get(PackageManager::PARAM_REGISTRATION));
         $this->message = array();

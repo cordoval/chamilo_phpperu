@@ -5,7 +5,6 @@ use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
-use common\libraries\Document;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\Utilities;
@@ -15,6 +14,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use repository\ExternalRepositorySetting;
+use repository\content_object\document\Document;
 
 /**
  * @author Hans De Bisschop
@@ -26,14 +26,14 @@ class VimeoExternalRepositoryManager extends ExternalRepositoryManager
     const PARAM_FEED_TYPE = 'feed';
 
     const FEED_TYPE_GENERAL = 1;
-//    const FEED_TYPE_MOST_INTERESTING = 2;
-//    const FEED_TYPE_MOST_RECENT = 3;
+    //    const FEED_TYPE_MOST_INTERESTING = 2;
+    //    const FEED_TYPE_MOST_RECENT = 3;
     const FEED_TYPE_MY_PHOTOS = 2;
 
     /**
      * @param Application $application
      */
-    function VimeoExternalRepositoryManager($external_repository, $application)
+    function __construct($external_repository, $application)
     {
         parent :: __construct($external_repository, $application);
         $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
@@ -52,7 +52,7 @@ class VimeoExternalRepositoryManager extends ExternalRepositoryManager
      */
     function validate_settings()
     {
-     	$key = ExternalRepositorySetting :: get('consumer_key');
+        $key = ExternalRepositorySetting :: get('consumer_key');
         $secret = ExternalRepositorySetting :: get('consumer_secret');
 
         if (! $key || ! $secret)
@@ -90,29 +90,34 @@ class VimeoExternalRepositoryManager extends ExternalRepositoryManager
     {
         $menu_items = array();
 
+        $my_photos = array();
+        $my_photos['title'] = Translation :: get('MyVideos');
+        $my_photos['url'] = $this->get_url(array(
+                self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_PHOTOS), array(
+                ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $my_photos['class'] = 'user';
+        $menu_items[] = $my_photos;
+
         $general = array();
-        $general['title'] = Translation :: get('Browse', null, Utilities :: COMMON_LIBRARIES);
-        $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $general['title'] = Translation :: get('Public');
+        $general['url'] = $this->get_url(array(
+                self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(
+                ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $general['class'] = 'home';
         $menu_items[] = $general;
 
-        $most_recent = array();
-//        $most_recent['title'] = Translation :: get('MostRecent');
-//        $most_recent['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_RECENT), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $most_recent['class'] = 'recent';
-//        $menu_items[] = $most_recent;
-//
-//        $most_interesting = array();
-//        $most_interesting['title'] = Translation :: get('MostInteresting');
-//        $most_interesting['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_INTERESTING), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $most_interesting['class'] = 'interesting';
-//        $menu_items[] = $most_interesting;
+//        $most_recent = array();
+        //        $most_recent['title'] = Translation :: get('MostRecent');
+        //        $most_recent['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_RECENT), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        //        $most_recent['class'] = 'recent';
+        //        $menu_items[] = $most_recent;
+        //
+        //        $most_interesting = array();
+        //        $most_interesting['title'] = Translation :: get('MostInteresting');
+        //        $most_interesting['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_INTERESTING), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        //        $most_interesting['class'] = 'interesting';
+        //        $menu_items[] = $most_interesting;
 
-        $my_photos = array();
-        $my_photos['title'] = Translation :: get('MyVideos');
-        $my_photos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_PHOTOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $my_photos['class'] = 'user';
-        $menu_items[] = $my_photos;
 
         return $menu_items;
     }
@@ -130,7 +135,8 @@ class VimeoExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_external_repository_actions()
     {
-        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
+        $actions = array(
+                self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
 
         $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
 
@@ -147,7 +153,10 @@ class VimeoExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_available_renderers()
     {
-        return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
+        return array(
+                ExternalRepositoryObjectRenderer :: TYPE_GALLERY,
+                ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW,
+                ExternalRepositoryObjectRenderer :: TYPE_TABLE);
     }
 
     /* (non-PHPdoc)
@@ -155,7 +164,7 @@ class VimeoExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_content_object_type_conditions()
     {
-        $image_types = Document :: get_image_types();
+        $image_types = Document :: get_video_types();
         $image_conditions = array();
         foreach ($image_types as $image_type)
         {

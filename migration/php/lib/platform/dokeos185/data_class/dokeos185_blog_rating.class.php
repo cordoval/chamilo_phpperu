@@ -1,11 +1,10 @@
 <?php
 namespace migration;
+
 /**
  * $Id: dokeos185_blog_rating.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_blog_rating.class.php';
 
 /**
  * This class presents a Dokeos185 blog_rating
@@ -35,7 +34,7 @@ class Dokeos185BlogRating extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185BlogRating object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185BlogRating($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -141,20 +140,32 @@ class Dokeos185BlogRating extends Dokeos185MigrationDataClass
 
     /**
      * Check if the blog rating is valid
-     * @param array $array the parameters for the validation
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        throw new Exception("Unimplemented method migration/php/lib/platform/dokeos185/data_class/dokeos185_blog_rating.class.php#is_valid");
     }
 
     /**
      * Convert to new blog rating
      * @param array $array the parameters for the conversion
      */
-    function convert_data
+    function convert_data()
     {
         $course = $array['course'];
+    }
+
+    function get_database_name()
+    {
+        throw new Exception("Unimplemented method migration/php/lib/platform/dokeos185/data_class/dokeos185_blog_rating.class.php#get_database_name");
+    }
+
+    public static function get_table_name() {
+        throw new Exception("Unimplemented method migration/php/lib/platform/dokeos185/data_class/dokeos185_blog_rating.class.php#get_table_name");
+    }
+
+    public static function get_class_name() {
+        throw new Exception("Unimplemented method migration/php/lib/platform/dokeos185/data_class/dokeos185_blog_rating.class.php#get_class_name");
     }
 
     /**

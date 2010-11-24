@@ -16,7 +16,7 @@ class CasUserRequestBrowserTableDataProvider extends ObjectTableDataProvider
      * @param ApplicationComponent $browser
      * @param Condition $condition
      */
-    function CasUserRequestBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

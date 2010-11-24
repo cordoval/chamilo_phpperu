@@ -8,6 +8,7 @@ use common\libraries\Utilities;
 use common\libraries\Application;
 
 use \HTML_QuickForm_Action;
+use common\libraries\Theme;
 
 /**
  * $Id: publisher_wizard_process.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -29,7 +30,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
      * @param Tool $parent The repository tool in which the wizard
      * runs.
      */
-    public function PublisherWizardProcess($parent)
+    public function __construct($parent)
     {
         $this->parent = $parent;
     }
@@ -108,9 +109,11 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 
     function display_block_header($application)
     {
+        $namespace = Application :: determine_namespace($application);
+
         $html = array();
-        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(layout/aqua/images/admin/place_' . Utilities :: camelcase_to_underscores($application) . '.png);">';
-        $html[] = '<div class="title">' . Translation :: get('ApplicationName', null, Application :: determine_namespace($application)) . '</div>';
+        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(' . Theme :: get_image_path($namespace) . 'logo/' . Theme :: ICON_BIG . '.png);">';
+        $html[] = '<div class="title">' . Translation :: get('TypeName', null, $namespace) . '</div>';
         $html[] = '<div class="description">';
         return implode("\n", $html);
     }

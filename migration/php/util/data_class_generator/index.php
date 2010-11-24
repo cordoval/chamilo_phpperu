@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 /**
  * @package migration.util.data_class_generator
  * @author Sven Vanpoucke

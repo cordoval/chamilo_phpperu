@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\photobucket;
 
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\StringUtilities;
 
@@ -20,16 +21,16 @@ class PhotobucketExternalRepositoryManagerInternalSyncerComponent extends Photob
     {
         $synchronization_data = $external_object->get_synchronization_data();
         $content_object = $synchronization_data->get_content_object();
-        
+
         if (StringUtilities :: is_null_or_empty($external_object->get_title()))
         {
             $content_object->set_title($external_object->get_id() . '.jpg');
         }
         else
         {
-			$content_object->set_title($external_object->get_title());        
+			$content_object->set_title($external_object->get_title());
         }
-        
+
         if (PlatformSetting :: get('description_required', 'repository') && StringUtilities :: is_null_or_empty($external_object->get_description()))
         {
             $content_object->set_description('-');
@@ -38,7 +39,7 @@ class PhotobucketExternalRepositoryManagerInternalSyncerComponent extends Photob
         {
             $content_object->set_description($external_object->get_description());
         }
-        
+
         if ($content_object->update())
         {
             $synchronization_data->set_content_object_timestamp($content_object->get_modification_date());

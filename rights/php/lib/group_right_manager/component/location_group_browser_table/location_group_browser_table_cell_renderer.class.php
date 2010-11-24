@@ -8,12 +8,12 @@ use common\libraries\Translation;
 use rights\RightsUtilities;
 use group\GroupManager;
 use user\UserManager;
+use group\DefaultGroupTableCellRenderer;
 /**
  * $Id: location_group_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.group_right_manager.component.location_group_browser_table
  */
 require_once dirname(__FILE__) . '/location_group_browser_table_column_model.class.php';
-require_once Path :: get_group_path() . 'lib/group_table/default_group_table_cell_renderer.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
@@ -28,7 +28,7 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function LocationGroupBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

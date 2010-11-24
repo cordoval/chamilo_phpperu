@@ -29,7 +29,7 @@ class ExportContentObjectTable extends ObjectTable
      * the selected learning object.
      * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
      */
-    function ExportContentObjectTable($parent, $owner, $types, $query, $table_actions)
+    function __construct($parent, $owner, $types, $query, $table_actions)
     {
         $data_provider = new ExportContentObjectTableDataProvider($owner, $types, $query, $parent);
         $column_model = new ExportContentObjectTableColumnModel();

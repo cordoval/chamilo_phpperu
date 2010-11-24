@@ -44,7 +44,7 @@ class PointInPolygon
      * PointInPolygon constructor
      * @param Array $vertices The vertices that form the polygon.
      */
-    function PointInPolygon($vertices)
+    function __construct($vertices)
     {
         $this->vertices = $vertices;
     }

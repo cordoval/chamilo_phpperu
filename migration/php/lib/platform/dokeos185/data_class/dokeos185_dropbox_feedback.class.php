@@ -2,6 +2,11 @@
 namespace migration;
 
 use common\libraries\EqualityCondition;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
+use repository\content_object\feedback\Feedback;
+use admin\FeedbackPublication;
 
 /**
  * $Id: dokeos185_dropbox_feedback.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -36,7 +41,7 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
      * Creates a new Dokeos185DropboxFeedback object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185DropboxFeedback($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -203,7 +208,7 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 
     static function get_class_name()

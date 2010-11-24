@@ -15,7 +15,7 @@ class DefaultHelpItemTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultHelpItemTableCellRenderer()
+    function __construct()
     {
     }
 

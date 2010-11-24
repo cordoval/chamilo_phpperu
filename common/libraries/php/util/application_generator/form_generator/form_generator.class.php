@@ -1,5 +1,5 @@
 <?php
-namespace common\libraries;
+namespace common\libraries\application_generator;
 
 /**
  * Dataclass generator used to generate a form for an object
@@ -12,7 +12,7 @@ class FormGenerator
     /**
      * Constructor
      */
-    function FormGenerator()
+    function __construct()
     {
     }
 

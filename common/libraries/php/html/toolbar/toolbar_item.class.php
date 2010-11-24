@@ -18,7 +18,7 @@ class ToolbarItem
     private $class;
     private $target;
 
-    function ToolbarItem($label = null, $image = null, $href = null, $display = self :: DISPLAY_ICON_AND_LABEL, $confirmation = false, $class = null, $target = null)
+    function __construct($label = null, $image = null, $href = null, $display = self :: DISPLAY_ICON_AND_LABEL, $confirmation = false, $class = null, $target = null)
     {
         $this->label = $label;
         $this->display = $display;

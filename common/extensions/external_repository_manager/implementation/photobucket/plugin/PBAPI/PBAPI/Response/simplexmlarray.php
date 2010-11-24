@@ -20,8 +20,8 @@ use common\libraries\Path;
 /**
  * base class for SimpleXML
  */
-require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Response.php';
-require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Response/simplexml.php';
+require_once dirname(__FILE__) . '/../Response.php';
+require_once dirname(__FILE__) . '/../Response/simplexml.php';
 
 /**
  * Response XML parser using SimpleXML

@@ -21,7 +21,7 @@ abstract class RepoViewerComponent
      * Constructor.
      * @param ObjectRepoViewer $parent The creator of this object.
      */
-    function RepoViewerComponent($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

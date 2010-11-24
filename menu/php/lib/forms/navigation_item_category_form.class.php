@@ -18,7 +18,7 @@ class NavigationItemCategoryForm extends FormValidator
     
     private $menuitem;
 
-    function NavigationItemCategoryForm($form_type, $menuitem, $action)
+    function __construct($form_type, $menuitem, $action)
     {
         parent :: __construct('navigation_item', 'post', $action);
         

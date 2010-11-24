@@ -24,7 +24,7 @@ class WikiDataManager
     /**
      * Constructor.
      */
-    protected function WikiDataManager()
+    public function __construct()
     {
         $this->initialize();
     }

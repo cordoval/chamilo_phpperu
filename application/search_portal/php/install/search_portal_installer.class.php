@@ -18,7 +18,7 @@ class SearchPortalInstaller extends Installer
     /**
      * Constructor
      */
-    function SearchPortalInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values);
     }

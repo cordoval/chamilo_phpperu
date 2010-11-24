@@ -100,7 +100,7 @@ class ObjectTable
      *                                                       Omit to use the
      *                                                       default renderer.
      */
-    function ObjectTable($data_provider, $table_name, $column_model, $cell_renderer, $ajax_enabled = false)
+    function __construct($data_provider, $table_name, $column_model, $cell_renderer, $ajax_enabled = false)
     {
         $this->set_data_provider($data_provider);
         $this->set_name($table_name);
@@ -296,7 +296,7 @@ class ObjectTable
     {
         if (is_array($actions))
         {
-            $actions = new ObjectTableFormActions();
+            $actions = new ObjectTableFormActions(__NAMESPACE__);
         }
         $this->form_actions = $actions;
     }

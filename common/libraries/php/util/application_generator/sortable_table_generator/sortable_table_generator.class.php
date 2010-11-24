@@ -1,5 +1,5 @@
 <?php
-namespace common\libraries;
+namespace common\libraries\application_generator;
 
 /**
  * Component generator used to generate components
@@ -12,7 +12,7 @@ class SortableTableGenerator
     /**
      * Constructor
      */
-    function SortableTableGenerator()
+    function __construct()
     {
     }
 

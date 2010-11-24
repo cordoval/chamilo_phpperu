@@ -12,7 +12,7 @@ class SurveyAbsoluteQuestionReportingTemplate extends ReportingTemplate
     private $filter_parameters;
     private $wizard;
 
-    function SurveyAbsoluteQuestionReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         

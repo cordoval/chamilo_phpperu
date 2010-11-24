@@ -30,9 +30,9 @@ class AssessmentMatchingQuestionOption extends MatchingQuestionOption
      * @param int $match The index of the match corresponding to this option
      * @param int $score The score of this answer in the question
      */
-    function AssessmentMatchingQuestionOption($value, $match, $score, $feedback)
+    function __construct($value, $match, $score, $feedback)
     {
-        parent :: MatchingQuestionOption($value);
+        parent :: __construct($value);
         $this->score = $score;
         $this->feedback = $feedback;
         $this->match = $match;

@@ -13,8 +13,6 @@ use HTML_Menu_ArrayRenderer;
  * $Id: webservice_category_menu.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of courses.
@@ -44,7 +42,7 @@ class WebserviceCategoryMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function WebserviceCategoryMenu($current_category, $url_format = '?application=webservice&go=webservice_browser&webservice_category_id=%s')
+    function __construct($current_category, $url_format = '?application=webservice&go=webservice_browser&webservice_category_id=%s')
     {
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
@@ -153,6 +151,6 @@ class WebserviceCategoryMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+    	return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

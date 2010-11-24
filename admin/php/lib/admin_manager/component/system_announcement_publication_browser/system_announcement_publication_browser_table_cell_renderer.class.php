@@ -23,7 +23,7 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
      * Constructor
      * @param ProfileManagerBrowserComponent $browser
      */
-    function SystemAnnouncementPublicationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

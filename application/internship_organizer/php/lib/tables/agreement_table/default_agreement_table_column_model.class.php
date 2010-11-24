@@ -15,7 +15,7 @@ class DefaultInternshipOrganizerAgreementTableColumnModel extends ObjectTableCol
 	/**
 	 * Constructor
 	 */
-	function DefaultInternshipOrganizerAgreementTableColumnModel() {
+	function __construct() {
 		parent::__construct ( self::get_default_columns (), 0 );
 	}
 	

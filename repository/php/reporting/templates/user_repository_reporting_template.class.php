@@ -25,7 +25,7 @@ require_once dirname(__FILE__) . '/../blocks/user_document_type_repository_repor
 class UserRepositoryReportingTemplate extends ReportingTemplate
 {
 
-    function UserRepositoryReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
 

@@ -2,11 +2,11 @@
 namespace rights;
 
 use repository\RepositoryDataManager;
+use common\libraries\ResultSet;
 /**
  * $Id: database_location_result_set.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.data_manager.database
  */
-require_once dirname(__FILE__) . '/../../../../common/database/result_set.class.php';
 /**
  * This class represents a resultset which represents a set of courses.
  */
@@ -28,7 +28,7 @@ class DatabaseLocationResultSet extends ResultSet
      * @param DB_result $handle The handle to retrieve records from a database
      * resultset
      */
-    function DatabaseLocationResultSet($data_manager, $handle)
+    function __construct($data_manager, $handle)
     {
         $this->data_manager = $data_manager;
         $this->handle = $handle;

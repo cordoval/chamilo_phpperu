@@ -29,7 +29,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
      * Constructor
      * @param PersonalMessengerManagerBrowserComponent $browser
      */
-    function PmPublicationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

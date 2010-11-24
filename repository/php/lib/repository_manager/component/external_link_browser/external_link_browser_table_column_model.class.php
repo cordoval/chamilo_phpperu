@@ -21,7 +21,7 @@ class ExternalLinkBrowserTableColumnModel extends DefaultExternalLinkTableColumn
     /**
      * Constructor
      */
-    function ExternalLinkBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(0);

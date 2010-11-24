@@ -1,7 +1,6 @@
 <?php
 namespace migration;
-
-require_once dirname(__FILE__) . "/../../../../../user/trackers/login_logout_tracker.class.php";
+use user\LoginLogoutTracker;
 
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
@@ -38,7 +37,7 @@ class Dokeos185TrackELogin extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackELogin object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackELogin($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -178,7 +177,7 @@ class Dokeos185TrackELogin extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 
     static function get_class_name()

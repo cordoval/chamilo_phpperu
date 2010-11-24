@@ -1,6 +1,9 @@
 <?php
 namespace migration;
 
+use common\libraries\Translation;
+use common\libraries\Utilities;
+
 /**
  * Generic parser framework to parse several included objects from a given dokeos 185 field
  * @author svenvanpoucke
@@ -18,7 +21,7 @@ class Dokeos185TextFieldParser
 	 */
 	private $included_objects;
 	
-	function Dokeos185TextFieldParser()
+	function __construct()
 	{
 		$this->included_objects = array();	
 	}
@@ -33,7 +36,7 @@ class Dokeos185TextFieldParser
 		
 		require_once($location);
 		
-		$class = 'Dokeos185' . Utilities :: underscores_to_camelcase($type) . 'TextFieldParser';
+		$class = __NAMESPACE__ . '\\' . 'Dokeos185' . Utilities :: underscores_to_camelcase($type) . 'TextFieldParser';
 		return new $class();
 	}
 	

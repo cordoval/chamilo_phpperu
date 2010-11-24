@@ -24,7 +24,7 @@ class pfcJSON
 {
   var $json = null;
   
-  function pfcJSON()
+  function __construct()
   {
     // if the php5-json module is not available, use a software json implementation
     if (!function_exists('json_encode')) {

@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/assessment_publication_category.class.php';
 class AssessmentPublicationCategoryManager extends CategoryManager
 {
 
-    function AssessmentPublicationCategoryManager($parent, $trail)
+    function __construct($parent, $trail)
     {
         parent :: __construct($parent, $trail);
     }

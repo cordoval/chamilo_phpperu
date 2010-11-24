@@ -3,7 +3,6 @@ namespace application\survey;
 use common\libraries\ObjectTableCellRenderer;
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';
-require_once Path :: get_application_path() . 'lib/survey/tables/publication_rel_reporting_template_table/default_publication_rel_reporting_template_table_cell_renderer.class.php';
 
 class SurveyPublicationRelReportingTemplateTableCellRenderer extends DefaultSurveyPublicationRelReportingTemplateTableCellRenderer
 {
@@ -14,7 +13,7 @@ class SurveyPublicationRelReportingTemplateTableCellRenderer extends DefaultSurv
      * Constructor
      * @param RepositoryManagerComponent $browser
      */
-    function SurveyPublicationRelReportingTemplateTableCellRenderer($component)
+    function __construct($component)
     {
         parent :: __construct();
         $this->component = $component;

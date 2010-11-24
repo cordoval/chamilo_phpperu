@@ -102,7 +102,7 @@ class RepositoryManagerContentObjectShareRightsDeleterComponent extends Reposito
         $parameters[] = RepositoryManager :: PARAM_CONTENT_OBJECT_ID;
         $parameters[] = RepositoryManager :: PARAM_CATEGORY_ID;
         $parameters[] = ContentObjectShare :: PARAM_TYPE;
-        $parameters[] = RepositoryManager :: PARAM_SHOW_OBJECTS_SHARED_BY_ME;
+        $parameters[] = RepositoryManager :: PARAM_SHARED_VIEW;
 
         return $parameters;
     }

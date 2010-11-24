@@ -1,13 +1,17 @@
 <?php
+
 namespace migration;
 
 use common\libraries\Text;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
+use repository\content_object\document\Document;
 
 /**
  * $Id: dokeos185_blog_attachment.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
@@ -17,7 +21,7 @@ require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class
  */
 class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
 {
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'blog_attachment';
 
     /**
@@ -39,7 +43,7 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_ID, self :: PROPERTY_PATH, self :: PROPERTY_COMMENT, self :: PROPERTY_SIZE, self :: PROPERTY_POST_ID, self :: PROPERTY_FILENAME, self :: PROPERTY_BLOG_ID,
-        			 self :: PROPERTY_COMMENT_ID);
+            self :: PROPERTY_COMMENT_ID);
     }
 
     /**
@@ -96,7 +100,7 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
         return $this->get_default_property(self :: PROPERTY_FILENAME);
     }
 
-	/**
+    /**
      * Returns the blog_id of this Dokeos185BlogAttachment.
      * @return the blog_id.
      */
@@ -105,7 +109,7 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
         return $this->get_default_property(self :: PROPERTY_BLOG_ID);
     }
 
-	/**
+    /**
      * Returns the comment_id of this Dokeos185BlogAttachment.
      * @return the comment_id.
      */
@@ -120,16 +124,16 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-    	$course = $this->get_course();
-    	$path = $this->get_data_manager()->get_sys_path() . '/courses/' . $course->get_directory() . '/upload/blog/' . $this->get_path();
+        $course = $this->get_course();
+        $path = $this->get_data_manager()->get_sys_path() . '/courses/' . $course->get_directory() . '/upload/blog/' . $this->get_path();
 
-    	$post_id = $this->get_id_reference($this->get_post_id(), $this->get_database_name() . '.blog_post');
-    	$blog_id = $this->get_id_reference($this->get_blog_id(), $this->get_database_name() . '.blog');
-    	$comment_id = $this->get_id_reference($this->get_comment_id(), $this->get_database_name() . '.blog_comment');
+        $post_id = $this->get_id_reference($this->get_post_id(), $this->get_database_name() . '.blog_post');
+        $blog_id = $this->get_id_reference($this->get_blog_id(), $this->get_database_name() . '.blog');
+        $comment_id = $this->get_id_reference($this->get_comment_id(), $this->get_database_name() . '.blog_comment');
 
-    	$converted_path = $path;
-    	
-    	if ( !$post_id || !$blog_id || !$this->get_filename() || ! $this->get_path() || !file_exists($converted_path) || ($this->get_comment_id() > 0 && !$comment_id))
+        $converted_path = $path;
+
+        if (!$post_id || !$blog_id || !$this->get_filename() || !$this->get_path() || !file_exists($converted_path) || ($this->get_comment_id() > 0 && !$comment_id))
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'blog_attachment', 'ID' => $this->get_id())));
@@ -146,38 +150,38 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
     function convert_data()
     {
         $course = $this->get_course();
-    	$path = $this->get_data_manager()->get_sys_path() . '/courses/' . $course->get_directory() . '/upload/blog/';
+        $path = $this->get_data_manager()->get_sys_path() . '/courses/' . $course->get_directory() . '/upload/blog/';
 
-    	if(!$this->get_comment_id())
-    	{
-    		$object_id = $this->get_id_reference($this->get_post_id(), $this->get_database_name() . '.blog_post');
-    	}
-    	else
-    	{
-    		$object_id = $this->get_id_reference($this->get_comment_id(), $this->get_database_name() . '.blog_comment');
-    	}
+        if (!$this->get_comment_id())
+        {
+            $object_id = $this->get_id_reference($this->get_post_id(), $this->get_database_name() . '.blog_post');
+        }
+        else
+        {
+            $object_id = $this->get_id_reference($this->get_comment_id(), $this->get_database_name() . '.blog_comment');
+        }
 
-    	$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
+        $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
 
-    	$hash = md5($this->get_filename());
-    	$new_path = Path :: get(SYS_REPO_PATH) . $object->get_owner_id() . '/' . Text :: char_at($hash, 0) . '/';
-    	$file_exists = file_exists($new_path . $hash);
+        $hash = md5($this->get_filename());
+        $new_path = Path :: get(SYS_REPO_PATH) . $object->get_owner_id() . '/' . Text :: char_at($hash, 0) . '/';
+        $file_exists = file_exists($new_path . $hash);
 
-    	//$converted_path = iconv('UTF-8', 'ISO-8859-1', $path);
-    	$converted_path = $path;
-    	//$converted_filename = iconv('UTF-8', 'ISO-8859-1', $this->get_path());
-    	$converted_filename = $this->get_path();
-    	
-    	$migrated_hash = $this->migrate_file($converted_path, $new_path, $converted_filename, $hash);
-    	
-    	if($file_exists && $hash == $migrated_hash)
-    	{
-    		$document = RepositoryDataManager :: retrieve_document_from_hash($object->get_owner_id(), $migrated_hash);
-    	}
+        //$converted_path = iconv('UTF-8', 'ISO-8859-1', $path);
+        $converted_path = $path;
+        //$converted_filename = iconv('UTF-8', 'ISO-8859-1', $this->get_path());
+        $converted_filename = $this->get_path();
 
-    	if(!$document)
-    	{
-    		$document = new Document();
+        $migrated_hash = $this->migrate_file($converted_path, $new_path, $converted_filename, $hash);
+
+        if ($file_exists && $hash == $migrated_hash)
+        {
+            $document = RepositoryDataManager :: retrieve_document_from_hash($object->get_owner_id(), $migrated_hash);
+        }
+
+        if (!$document)
+        {
+            $document = new Document();
             $document->set_filename($this->get_filename());
             $document->set_path($object->get_owner_id() . '/' . Text :: char_at($migrated_hash, 0) . '/' . $migrated_hash);
             $document->set_filesize($this->get_size());
@@ -192,25 +196,25 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
             $document->set_parent_id($chamilo_category_id);
 
             $document->create();
-    	}
+        }
 
-    	$object->attach_content_object($document->get_id());
+        $object->attach_content_object($document->get_id());
 
-    	//Add id references to temp table
+        //Add id references to temp table
         $this->create_id_reference($this->get_id(), $document->get_id());
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'forum_attachment', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $document->get_id())));
-
     }
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
     }
 
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
+
 }
 
 ?>

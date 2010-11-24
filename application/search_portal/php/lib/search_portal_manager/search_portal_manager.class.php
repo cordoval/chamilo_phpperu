@@ -19,7 +19,7 @@ class SearchPortalManager extends WebApplication
 
     const DEFAULT_ACTION = self :: ACTION_SEARCH;
 
-    function SearchPortalManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
     }

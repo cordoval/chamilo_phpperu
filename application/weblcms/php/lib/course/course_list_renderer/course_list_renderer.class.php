@@ -25,7 +25,7 @@ class CourseListRenderer
      */
     private $new_publication_icons;
 
-    function CourseListRenderer($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
         $this->new_publication_icons = false;
@@ -168,7 +168,7 @@ class CourseListRenderer
         {
             if ($tool->visible && WeblcmsDataManager :: tool_has_new_publications($tool->name, $this->get_user(), $course))
             {
-                $html[] = '<a href="' . $this->get_tool_url($tool->name, $course) . '"><img src="' . Theme :: get_image_path('weblcms') . 'tool_' . $tool->name . '_new.png" alt="' . Translation :: get('New', null, Utilities :: COMMON_LIBRARIES ) . '"/></a>';
+                $html[] = '<a href="' . $this->get_tool_url($tool->name, $course) . '"><img src="' . Theme :: get_image_path(Tool :: get_tool_type_namespace($tool->name)) . 'logo/' . Theme :: ICON_MEDIUM . '_new.png" alt="' . Translation :: get('New', null, Utilities :: COMMON_LIBRARIES ) . '"/></a>';
             }
         }
         return implode($html, "\n");

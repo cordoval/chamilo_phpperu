@@ -639,7 +639,7 @@ class pfcGlobalConfig
   var $_params_type         = array();
   var $_query_string        = '';
   
-  function pfcGlobalConfig( $params = array() )
+  function __construct( $params = array() )
   {
     // @todo find a cleaner way to forward serverid to i18n functions
     $GLOBALS['serverid'] = isset($params['serverid']) ? $params['serverid'] : '_serverid_';

@@ -5,16 +5,16 @@
 		<code>survey_description</code>
 		<section>content_object</section>
 		<category>survey</category>
-		<author></author>
+		<authors></authors>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/s/survey_description/survey_description-1.0.0.zip</filename>
+		<filename>pool/main/content_object/s/survey_description/survey_description-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
 		<sha256></sha256>
 		<sha512></sha512>
 		<tagline></tagline>
-		<survey_description></survey_description>
+		<description></description>
 		<homepage></homepage>
 		<dependencies>
 			<server>

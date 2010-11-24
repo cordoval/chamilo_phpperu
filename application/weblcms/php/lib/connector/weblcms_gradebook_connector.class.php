@@ -12,7 +12,7 @@ class WeblcmsGradebookConnector extends GradebookConnector
 {
     private $tool;
 
-    function WeblcmsGradebookConnector($tool)
+    function __construct($tool)
     {
         $this->tool = $tool;
         if (! $this->tool)

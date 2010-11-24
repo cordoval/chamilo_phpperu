@@ -7,12 +7,12 @@ use common\libraries\Session;
 use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;
+use application\weblcms\ListContentObjectPublicationListRenderer;
 
 /**
  * $Id: document_publication_slideshow_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component.document_slideshow
  */
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/list_content_object_publication_list_renderer.class.php';
 
 class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationListRenderer
 {

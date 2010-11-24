@@ -9,7 +9,6 @@ use common\libraries\Utilities;
  * @package install.lib.installmanager.component.inc.wizard
  */
 require_once dirname(__FILE__) . '/install_wizard_page.class.php';
-require_once 'MDB2.php';
 /**
  * Class for database settings page
  * Displays a form where the user can enter the installation settings
@@ -51,7 +50,7 @@ class DatabaseInstallWizardPage extends InstallWizardPage
         $this->addRule('database_host', 'ThisFieldIsRequired', 'required');
         $this->addRule('database_driver', 'ThisFieldIsRequired', 'required');
         $this->addRule('database_name', 'ThisFieldIsRequired', 'required');
-        
+
         $pattern = '/^[a-z0-9][a-z0-9_-]*([a-z])+$|^([a-z])+[a-z0-9][a-z0-9_-]*$|^[a-z0-9][a-z0-9_-]*([a-z])+[a-z0-9_-]*$|[a-z]/';
         $this->addRule('database_name', 'OnlyCharactersNumbersUnderscoresAndHyphens', 'regex', $pattern);
         $this->addRule(array('database_driver', 'database_host', 'database_username', 'database_password'), Translation :: get('CouldNotConnectToDatabase'), new ValidateDatabaseConnection());

@@ -1,6 +1,6 @@
 <?php namespace application\survey;
 
-require_once Path :: get_application_path() . 'lib/survey/survey_publication_rel_reporting_template_registration.class.php';
+use common\libraries\DelegateComponent;
 
 class SurveyReportingManagerReportingComponent extends SurveyReportingManager implements DelegateComponent
 {

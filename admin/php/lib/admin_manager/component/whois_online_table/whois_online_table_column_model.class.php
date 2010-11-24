@@ -22,7 +22,7 @@ class WhoisOnlineTableColumnModel extends DefaultUserTableColumnModel
     /**
      * Constructor
      */
-    function WhoisOnlineTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->add_column(new ObjectTableColumn(User :: PROPERTY_EMAIL));

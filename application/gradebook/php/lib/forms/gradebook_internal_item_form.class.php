@@ -5,13 +5,14 @@ namespace application\gradebook;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\Request;
 
 class GradebookInternalItemForm extends FormValidator
 {
 
     private $calculated_applications = array('assessment', 'learning_path');
 
-    function GradebookInternalItemForm()
+    function __construct()
     {
 
     }

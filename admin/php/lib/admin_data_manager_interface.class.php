@@ -45,6 +45,8 @@ interface AdminDataManagerInterface
 
     function retrieve_language_from_english_name($english_name);
 
+    function retrieve_language_from_isocode($isocode);
+
     function retrieve_language($id);
 
     function retrieve_feedback_publications($pid, $cid, $application);
@@ -201,7 +203,7 @@ interface AdminDataManagerInterface
      * @return Invitation
      */
     function retrieve_invitation_by_code($code);
-    
+
     function delete_feedback_from_publication($application, $publication_id);
 
 }

@@ -4,7 +4,7 @@ class ValidateScoreBoundariesRule extends \HTML_QuickForm_Rule
 
     private $evaluation_format;
 
-    function ValidateScoreBoundariesRule($evaluation_format)
+    function __construct($evaluation_format)
     {
         $this->evaluation_format = $evaluation_format;
     }

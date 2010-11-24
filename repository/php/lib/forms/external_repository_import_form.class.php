@@ -9,7 +9,7 @@ class ExternalRepositoryImportForm extends FormValidator
     private $repository_object_infos;
     private $export;
 
-    function ExternalRepositoryImportForm($repository_object_infos, $export, $action_url)
+    function __construct($repository_object_infos, $export, $action_url)
     {
         parent :: __construct('external_repository_import', 'post', $action_url);
 

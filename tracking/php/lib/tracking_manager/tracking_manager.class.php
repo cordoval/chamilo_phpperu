@@ -46,7 +46,7 @@ class TrackingManager extends CoreApplication
      * Constructor
      * @param User $user The active user
      */
-    function TrackingManager($user)
+    function __construct($user)
     {
         parent :: __construct($user);
         $this->tdm = TrackingDataManager :: get_instance();

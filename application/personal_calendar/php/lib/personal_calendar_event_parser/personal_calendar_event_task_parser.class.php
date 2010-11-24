@@ -16,13 +16,6 @@ class PersonalCalendarEventTaskParser extends PersonalCalendarEventParser
         $publisher = $publication->get_publisher();
         $publishing_user = $publication->get_publication_publisher();
 
-        //            if (isset($query) && $query != '')
-        //            {
-        //                if ((stripos($object->get_title(), $query) === false) && (stripos($object->get_description(), $query) === false))
-        //                    continue;
-        //            }
-
-
         if ($object->repeats())
         {
             $repeats = $object->get_repeats($from_date, $to_date);
@@ -45,7 +38,7 @@ class PersonalCalendarEventTaskParser extends PersonalCalendarEventParser
                 }
 
                 $event->set_content($repeat->get_description());
-                $event->set_source(Utilities :: get_classname_from_object($object));
+                $event->set_source(Translation :: get('TypeName', null, Utilities :: get_namespace_from_object($object)));
                 $event->set_id($publication->get_id());
                 $events[] = $event;
             }
@@ -55,7 +48,7 @@ class PersonalCalendarEventTaskParser extends PersonalCalendarEventParser
             $event = new PersonalCalendarEvent();
             $event->set_start_date($object->get_start_date());
             $event->set_end_date($object->get_end_date());
-            $event->set_url($this->get_parent()->get_publication_viewing_url($publication));
+            $event->set_url($this->get_publication_viewing_url($publication));
 
             // Check whether it's a shared or regular publication
             if ($publisher != $this->get_parent()->get_user_id())
@@ -68,7 +61,7 @@ class PersonalCalendarEventTaskParser extends PersonalCalendarEventParser
             }
 
             $event->set_content($object->get_description());
-            $event->set_source(Utilities :: get_classname_from_object($object));
+            $event->set_source(Translation :: get('TypeName', null, Utilities :: get_namespace_from_object($object)));
             $event->set_id($publication->get_id());
             $events[] = $event;
         }

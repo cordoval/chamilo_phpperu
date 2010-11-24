@@ -1,11 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\youtube;
-require_once dirname(__FILE__) . '../youtube_external_repository_connector.class.php';
+use common\extensions\external_repository_manager\ExternalRepositoryBrowserGalleryPropertyModel;
 
 class YoutubeExternalRepositoryBrowserGalleryPropertyModel extends ExternalRepositoryBrowserGalleryPropertyModel
 {
 
-    function YoutubeExternalRepositoryBrowserGalleryPropertyModel()
+    function __construct()
     {
         parent :: __construct();
 

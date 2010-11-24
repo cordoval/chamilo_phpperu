@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
+use common\libraries\ObjectTable;
 /**
  * Table to display a set of matterhorn external repository objects.
  */
@@ -9,13 +10,13 @@ require_once dirname(__file__) . '/matterhorn_external_repository_table_column_m
 
 class MatterhornExternalRepositoryTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'youtube_external_repository_table';
+    const DEFAULT_NAME = 'matterhorn_external_repository_table';
 
     /**
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function MatterhorneExternalRepositoryTable($browser, $parameters, $condition)
+    function MatterhornExternalRepositoryTable($browser, $parameters, $condition)
     {
         $model = new MatterhornExternalRepositoryTableColumnModel();
         $renderer = new MatterhornExternalRepositoryTableCellRenderer($browser);

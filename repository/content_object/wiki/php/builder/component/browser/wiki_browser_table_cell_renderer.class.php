@@ -25,7 +25,7 @@ class WikiBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function WikiBrowserTableCellRenderer($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }
