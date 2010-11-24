@@ -4,19 +4,12 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\SubManager;
-/**
- * $Id: external_repository_instance_manager.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
- * @package repository.lib.external_repository_instance_manager
- * @author Hans De Bisschop
- */
-//require_once dirname(__FILE__) . '/component/registration_browser/registration_browser_table.class.php';
 
-
-class ExternalRepositoryInstanceManager extends SubManager
+class VideoConferencingInstanceManager extends SubManager
 {
     const PARAM_INSTANCE_ACTION = 'action';
     const PARAM_INSTANCE = 'instance';
-    const PARAM_EXTERNAL_REPOSITORY_TYPE = 'type';
+    const PARAM_VIDEO_CONFERENCING_TYPE = 'type';
 
     const ACTION_BROWSE_INSTANCES = 'browser';
     const ACTION_ACTIVATE_INSTANCE = 'activator';
@@ -51,17 +44,17 @@ class ExternalRepositoryInstanceManager extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_repository_path() . 'lib/external_repository_instance_manager/component/';
+        return Path :: get_repository_path() . 'lib/video_conferencing_instance_manager/component/';
     }
 
-    function count_external_repositories($condition = null)
+    function count_videos_conferencing($condition = null)
     {
-        return $this->get_parent()->count_external_repositories($condition);
+        return $this->get_parent()->count_videos_conferencing($condition);
     }
 
-    function retrieve_external_repositories($condition = null, $offset = null, $count = null, $order_property = null)
+    function retrieve_videos_conferencing($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_external_repositories($condition, $offset, $count, $order_property);
+        return $this->get_parent()->retrieve_videos_conferencing($condition, $offset, $count, $order_property);
     }
 
     static function launch($application)
@@ -69,9 +62,9 @@ class ExternalRepositoryInstanceManager extends SubManager
         parent :: launch(__CLASS__, $application);
     }
 
-    function retrieve_external_repository($external_repository_id)
+    function retrieve_video_conferencing($video_conferencing_id)
     {
-        return $this->get_parent()->retrieve_external_repository($external_repository_id);
+        return $this->get_parent()->retrieve_video_conferencing($video_conferencing_id);
     }
 
     /**

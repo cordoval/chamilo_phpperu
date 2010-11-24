@@ -167,14 +167,14 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             {
                 $lcms_action = HomeTool :: ACTION_HIDE_PUBLICATION;
                 $visible_image = 'action_visible.png';
-                $tool_image = '32.png';
+                $tool_image = Theme :: ICON_MEDIUM . '.png';
                 $link_class = '';
             }
             else
             {
                 $lcms_action = HomeTool :: ACTION_SHOW_PUBLICATION;
                 $visible_image = 'action_invisible.png';
-                $tool_image = '32_na.png';
+                $tool_image = Theme :: ICON_MEDIUM . '_na.png';
                 $link_class = ' class="invisible"';
             }
 

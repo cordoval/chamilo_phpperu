@@ -466,6 +466,12 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
         //   $groups_and_templates = new ObjectResultSet($user->get_data_manager(), $user->get_data_manager()->query($query), $class_name = GroupRightsTemplate :: CLASS_NAME);
     }
 
+    function unsubscribe_user_from_all_groups($user)
+    {
+        $condition = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $groupreluser->get_user_id());
+        return $this->delete(GroupRelUser :: get_table_name(), $condition);
+    }
+
 }
 
 ?>

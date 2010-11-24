@@ -1,8 +1,11 @@
 <?php
+
+namespace {NAMESPACE};
+
+use common\libraries\ObjectTableColumnModel;
 /**
  * @package {L_APPLICATION_NAME}.tables.{L_OBJECT_CLASS}_table
  */
-require_once dirname(__FILE__).'/../../{L_OBJECT_CLASS}.class.php';
 
 /**
  * Default column model for the {L_OBJECT_CLASS} table
@@ -15,7 +18,7 @@ class Default{OBJECT_CLASS}TableColumnModel extends ObjectTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function Default{OBJECT_CLASS}TableColumnModel()
+	function __construct()
 	{
 		parent :: __construct(self :: get_default_columns(), 1);
 	}

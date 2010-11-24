@@ -26,6 +26,7 @@ class Registration extends DataClass
     const TYPE_LANGUAGE = 'language';
     const TYPE_EXTENSION = 'extension';
     const TYPE_EXTERNAL_REPOSITORY_MANAGER = 'external_repository_manager';
+	const TYPE_VIDEO_CONFERENCING_MANAGER = 'video_conferencing_manager';
 
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
@@ -195,7 +196,7 @@ class Registration extends DataClass
 
     static function get_types()
     {
-        return array(self :: TYPE_APPLICATION, self :: TYPE_CONTENT_OBJECT, self :: TYPE_LANGUAGE, self :: TYPE_EXTERNAL_REPOSITORY_MANAGER, self :: TYPE_EXTENSION);
+        return array(self :: TYPE_APPLICATION, self :: TYPE_CONTENT_OBJECT, self :: TYPE_LANGUAGE, self :: TYPE_EXTERNAL_REPOSITORY_MANAGER, self :: TYPE_VIDEO_CONFERENCING_MANAGER,self :: TYPE_EXTENSION);
     }
 }
 ?>

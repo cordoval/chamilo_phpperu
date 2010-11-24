@@ -1,8 +1,12 @@
 <?php
+
+namespace {NAMESPACE};
+
+use common\libraries\Translation;
+
 /**
  * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
  */
-require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
 
 /**
  * {APPLICATION_NAME} component which allows the user to browse the {L_APPLICATION_NAME} application
@@ -12,19 +16,16 @@ require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
 class {APPLICATION_NAME}ManagerBrowserComponent extends {APPLICATION_NAME}Manager
 {
 	
-	function run()
-	{
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Browse{APPLICATION_NAME}')));
+    function run()
+    {
+        $this->display_header($trail);
 
-		$this->display_header($trail);
-		
-		<!-- BEGIN OBJECTS -->
-		echo '<br /><a href="' . $this->get_browse_{OBJECTS.L_OBJECT_CLASSES}_url() . '">' . Translation :: get('Browse{OBJECTS.OBJECT_CLASSES}') . '</a>'; 
-		<!-- END OBJECTS -->
-		
-		$this->display_footer();
-	}
+        <!-- BEGIN OBJECTS -->
+        echo '<br /><a href="' . $this->get_browse_{OBJECTS.L_OBJECT_CLASSES}_url() . '">' . Translation :: get('Browse{OBJECTS.OBJECT_CLASSES}') . '</a>';
+        <!-- END OBJECTS -->
+
+        $this->display_footer();
+    }
 
 }
 ?>

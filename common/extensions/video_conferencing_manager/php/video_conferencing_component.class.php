@@ -17,7 +17,7 @@ abstract class VideoConferencingComponent extends SubManager
 //    const INTERNAL_SYNCER_COMPONENT = 'internal_syncer';
 //    const EXTERNAL_SYNCER_COMPONENT = 'external_syncer';
 
-    static function factory($type, $application)
+static function factory($type, $application)
     {
         $file = dirname(__FILE__) . '/component/' . $type . '.class.php';
         if (! file_exists($file))
@@ -27,13 +27,13 @@ abstract class VideoConferencingComponent extends SubManager
         
         require_once $file;
         
-        $class = 'VideoConferencingComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
+        $class = __NAMESPACE__ . '\\' . 'VideoConferencingComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
         return new $class($application);
     }
 
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'video_conferencing_manager/component/';
+        return Path :: get_common_extensions_path() . 'video_conferencing_manager/php/component/';
     }
 
     //meeting

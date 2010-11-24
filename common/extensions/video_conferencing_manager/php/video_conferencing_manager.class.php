@@ -4,8 +4,13 @@ namespace common\extensions\video_conferencing_manager;
 use common\libraries\SubManager;
 use common\libraries\LauncherApplication;
 use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
-abstract class VideoConferencingyManager extends SubManager
+use admin\Registration;
+use admin\AdminDataManager;
+
+abstract class VideoConferencingManager extends SubManager
 {
     const PARAM_VIDEO_CONFERENCING_MANAGER_ACTION = 'conferencing_action';
 
@@ -98,7 +103,7 @@ abstract class VideoConferencingyManager extends SubManager
     {
         $type = $application->get_video_conferencing()->get_type();
 
-        $file = dirname(__FILE__) . '/implementation/' . $type . '/php/' . $type . '_video_conferencing_manager.class.php';
+        $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_video_conferencing_manager.class.php';
         if (! file_exists($file))
         {
             throw new Exception(Translation :: get('VideoConferencingManagerTypeDoesNotExist', array('type' => $type)));
@@ -106,7 +111,7 @@ abstract class VideoConferencingyManager extends SubManager
 
         require_once $file;
 
-        $class = Utilities :: underscores_to_camelcase($type) . 'VideoConferencingManager';
+        $class = self :: NAMESPACE_NAME . '\implementation\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'VideoConferencingManager';
 
         $settings_validated = call_user_func(array($class, 'validate_settings'));
 
@@ -475,6 +480,27 @@ abstract class VideoConferencingyManager extends SubManager
         require_once $file;
 
         return new $class($application->get_video_conferencing(), $application->get_parent());
+    }
+    
+	static function get_namespace($type = null)
+    {
+        if ($type)
+        {
+            return __NAMESPACE__ . '\implementation\\' . $type;
+        }
+        else
+        {
+            return __NAMESPACE__;
+        }
+    }
+    
+	static function get_registered_types($status = Registration :: STATUS_ACTIVE)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_VIDEO_CONFERENCING_MANAGER);
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_STATUS, $status);
+
+        return AdminDataManager :: get_instance()->retrieve_registrations(new AndCondition($conditions));
     }
 }
 ?>

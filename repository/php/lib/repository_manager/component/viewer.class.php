@@ -276,6 +276,13 @@ class RepositoryManagerViewerComponent extends RepositoryManager
             $browser = new ExternalLinkBrowserTable($this, $parameters);
             $this->tabs->add_tab(new DynamicContentTab('external_repositories', Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace()), Theme :: get_image_path() . 'place_mini_external_repository.png', $browser->as_html()));
         }
+        
+     	// VIDEOS CONFERENCING
+        if ($content_object->is_external())
+        {
+            $browser = new ExternalLinkBrowserTable($this, $parameters);
+            $this->tabs->add_tab(new DynamicContentTab('videos_conferencing', Translation :: get('VideosConferencing', null, VideoConferencingManager :: get_namespace()), Theme :: get_image_path() . 'place_mini_external_repository.png', $browser->as_html()));
+        }
 
         // LINKS | PUBLICATIONS
         $browser = new LinkBrowserTable($this, $parameters, null, LinkBrowserTable :: TYPE_PUBLICATIONS);

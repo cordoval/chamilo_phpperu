@@ -7,6 +7,7 @@ use common\libraries\Installer;
 use common\libraries\Filesystem;
 use common\libraries\Path;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\video_conferencing_manager\VideoConferencingManager;
 /**
  * $Id: admin_installer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.install
@@ -72,6 +73,18 @@ class AdminInstaller extends Installer
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
         }
 
+        // Register the video conferencing manager implementations
+        if (! $this->register_video_conferencing_managers())
+        {
+            return false;
+        }
+        else
+        {
+        	echo('hier');
+        	dump(VideoConferencingManager :: get_namespace());
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('VideosConferencing', null, VideoConferencingManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
+        }
+        
         return true;
     }
 
@@ -182,6 +195,30 @@ class AdminInstaller extends Installer
             $registration = new Registration();
             $registration->set_name($folder);
             $registration->set_type(Registration :: TYPE_EXTERNAL_REPOSITORY_MANAGER);
+            $registration->set_version('1.0.0');
+            $registration->set_status(Registration :: STATUS_ACTIVE);
+            if (! $registration->create())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+	/**
+     * @return boolean
+     */
+    function register_video_conferencing_managers()
+    {
+        $video_conferencing_manager_path = Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/';
+        $folders = Filesystem :: get_directory_content($video_conferencing_manager_path, Filesystem :: LIST_DIRECTORIES, false);
+
+        foreach ($folders as $folder)
+        {
+            $registration = new Registration();
+            $registration->set_name($folder);
+            $registration->set_type(Registration :: TYPE_VIDEO_CONFERENCING_MANAGER);
             $registration->set_version('1.0.0');
             $registration->set_status(Registration :: STATUS_ACTIVE);
             if (! $registration->create())

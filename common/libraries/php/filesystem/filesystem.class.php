@@ -5,8 +5,6 @@ use DirectoryIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-
-
 /**
  * $Id: filesystem.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.filesystem
@@ -47,7 +45,7 @@ class Filesystem
      */
     public static function create_dir($path, $mode = null)
     {
-    	if (! $mode)
+        if (! $mode)
         {
             $mode = 0777;
             /*if(class_exists('PlatformSetting'))
@@ -56,7 +54,7 @@ class Filesystem
 				if($ad && $ad != '')
 					$mode = $ad;
 			}*/
-        
+
         }
         // If the given path is a file, return false
         if (is_file($path))
@@ -66,13 +64,13 @@ class Filesystem
         // If the directory doesn't exist yet, create it using php's mkdir function
         if (! is_dir($path))
         {
-        	if (! mkdir($path, $mode, true))
+            if (! mkdir($path, $mode, true))
             {
-            	return false;
+                return false;
             }
             else
             {
-            	return chmod($path, $mode);
+                return chmod($path, $mode);
             }
         }
         return true;
@@ -113,7 +111,7 @@ class Filesystem
         if (! is_dir($source))
             return self :: copy_file($source, $destination, $overwrite);
         $bool = true;
-        
+
         $content = self :: get_directory_content($source, self :: LIST_FILES_AND_DIRECTORIES, false);
         foreach ($content as $file)
         {
@@ -129,16 +127,16 @@ class Filesystem
                 $bool &= self :: recurse_copy($path_to_file, $path_to_new_file, $overwrite);
             }
         }
-        
+
         return $bool;
     }
-	
+
     function recurse_move($source, $destination, $overwrite = false)
     {
         if (! is_dir($source))
             return self :: move_file($source, $destination, $overwrite);
         $bool = true;
-        
+
         $content = self :: get_directory_content($source, self :: LIST_FILES_AND_DIRECTORIES, false);
         foreach ($content as $file)
         {
@@ -154,14 +152,14 @@ class Filesystem
                 $bool &= self :: recurse_move($path_to_file, $path_to_new_file, $overwrite);
             }
         }
-        
+
         return $bool;
     }
-    
+
     /**
      * Moves a file. If the destination directory doesn't exist, this function
      * tries to create the directory using the Filesystem::create_dir function.
-     * Path cannot have a '/' at the end 
+     * Path cannot have a '/' at the end
      * @param string $source The full path to the source file
      * @param string $destination The full path to the destination file
      * @param boolean $overwrite If the destination file allready exists, should
@@ -172,14 +170,15 @@ class Filesystem
     {
         if (file_exists($destination) && ! $overwrite)
         {
-        	return false;
+            return false;
         }
         $destination_dir = dirname($destination);
         if (file_exists($source) && Filesystem :: create_dir($destination_dir))
         {
-        	return rename($source, $destination);
+            return rename($source, $destination);
         }
     }
+
     /**
      * Creates a unique name for a file or a directory. This function will also
      * use the function Filesystem::create_safe_name to make sure the resulting
@@ -349,8 +348,8 @@ class Filesystem
     public static function get_directory_content($path, $type = Filesystem::LIST_FILES_AND_DIRECTORIES, $recursive = true)
     {
         $result = array();
-        
-    	if ($recursive)
+
+        if ($recursive)
         {
             $it = new RecursiveDirectoryIterator($path);
             $it = new RecursiveIteratorIterator($it, 1);
@@ -391,16 +390,16 @@ class Filesystem
      */
     public static function remove($path)
     {
-        if(realpath($path) == '/')
-        	return false;
-        	
-    	if (is_file($path))
+        if (realpath($path) == '/')
+            return false;
+
+        if (is_file($path))
         {
             return @unlink($path);
         }
         elseif (is_dir($path))
         {
-        	$content = Filesystem :: get_directory_content($path);
+            $content = Filesystem :: get_directory_content($path);
             // Reverse sort the content so deepest entries come first.
             rsort($content);
             $result = true;
@@ -419,7 +418,7 @@ class Filesystem
         }
     }
 
-	/**
+    /**
      * Copy a file from one directory to another directory, but with protection to rename
      * files when there is already a file in the destination directory with the same name but
      * a different md5 hash
@@ -438,22 +437,22 @@ class Filesystem
         {
             return null;
         }
-        
+
         if (file_exists($destination_file) && is_file($destination_file))
         {
             if (! (md5_file($source_file) == md5_file($destination_file)))
             {
                 $new_unique_file = self :: create_unique_name($destination_path, $destination_filename);
-                 
+
                 if ($move_file)
                 {
-                	self :: move_file($source_file, $destination_path . $new_unique_file);
+                    self :: move_file($source_file, $destination_path . $new_unique_file);
                 }
                 else
                 {
                     self :: copy_file($source_file, $destination_path . $new_unique_file);
                 }
-                
+
                 return $new_unique_file;
             }
             else
@@ -461,7 +460,7 @@ class Filesystem
                 return $destination_filename;
             }
         }
-        
+
         if ($move_file)
         {
             self :: move_file($source_file, $destination_file);
@@ -470,10 +469,10 @@ class Filesystem
         {
             self :: copy_file($source_file, $destination_file);
         }
-        
+
         return $destination_filename;
     }
-    
+
     /**
      * Transform the file size in a human readable format.
      *
@@ -505,6 +504,26 @@ class Filesystem
         return $file_size;
     }
 
+    public static function interpret_file_size($file_size)
+    {
+        $bytes = 0;
+
+        $bytes_array = array(
+                'B' => 1, 'KB' => 1024, 'MB' => 1024 * 1024, 'GB' => 1024 * 1024 * 1024, 'TB' => 1024 * 1024 * 1024 * 1024, 'PB' => 1024 * 1024 * 1024 * 1024 * 1024, 'K' => 1024, 'M' => 1024 * 1024, 'G' => 1024 * 1024 * 1024,
+                'T' => 1024 * 1024 * 1024 * 1024, 'P' => 1024 * 1024 * 1024 * 1024 * 1024);
+
+        $bytes = floatval($file_size);
+
+        if (preg_match('#([KMGTP]?B?)$#si', $file_size, $matches) && ! empty($bytes_array[$matches[1]]))
+        {
+            $bytes *= $bytes_array[$matches[1]];
+        }
+
+        $bytes = intval(round($bytes, 2));
+
+        return $bytes;
+    }
+
     /**
      * This function streams a file to the client
      *
@@ -521,17 +540,18 @@ class Filesystem
         }
         $filename = ($name == '') ? basename($full_file_name) : $name;
         $len = filesize($full_file_name);
-        
+
         if ($forced)
         {
             //force the browser to save the file instead of opening it
-            
+
 
             header('Content-type: application/octet-stream');
             //header('Content-Type: application/force-download');
-            if($content_type){
-				header('Content-type: ' . $content_type);
-			}
+            if ($content_type)
+            {
+                header('Content-type: ' . $content_type);
+            }
             header('Content-length: ' . $len);
             if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
             {
@@ -549,7 +569,7 @@ class Filesystem
             }
             header('Content-Description: ' . $filename);
             header('Content-transfer-encoding: binary');
-            
+
             $fp = fopen($full_file_name, 'r');
             fpassthru($fp);
             return true;
@@ -557,7 +577,7 @@ class Filesystem
         else
         {
             //no forced download, just let the browser decide what to do according to the mimetype
-            
+
 
             $content_type = DocumentManager :: file_get_mime_type($filename);
             header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
@@ -583,20 +603,20 @@ class Filesystem
     /**
      * Call the chmod function on the given file path.
      * The chmod value must be the octal value, with or without its leading zero
-     * 
+     *
      * Ex:
-     * 		Filesystem :: chmod('/path/to/file', '666')		OK
-     * 		Filesystem :: chmod('/path/to/file', '0666')	OK
-     * 		Filesystem :: chmod('/path/to/file', 666)		OK
-     * 		Filesystem :: chmod('/path/to/file', 0666)		OK
-     * 
+     * Filesystem :: chmod('/path/to/file', '666')		OK
+     * Filesystem :: chmod('/path/to/file', '0666')	OK
+     * Filesystem :: chmod('/path/to/file', 666)		OK
+     * Filesystem :: chmod('/path/to/file', 0666)		OK
+     *
      * Note:
-     * 		This function was written to facilitate the storage of a chmod value. 
-     * 		
-     * 		The PHP chmod value must be called with an octal number, but it is not easy 
-     * 		to store a value with a leading 0 that is a number and not a string.
-     * 
-     * 
+     * This function was written to facilitate the storage of a chmod value.
+     *
+     * The PHP chmod value must be called with an octal number, but it is not easy
+     * to store a value with a leading 0 that is a number and not a string.
+     *
+     *
      * @param $file_path string Path to file or folder
      * @param $chmod_value mixed The chmod value as a string or an integer
      * @return void
@@ -604,7 +624,7 @@ class Filesystem
     public static function chmod($file_path, $chmod_value)
     {
         $new_chmod_value = null;
-        
+
         if (is_integer($chmod_value))
         {
             $new_chmod_value = (int) $chmod_value;
@@ -613,11 +633,11 @@ class Filesystem
         {
             $new_chmod_value = intval($chmod_value);
         }
-        
+
         if (isset($new_chmod_value) && file_exists($file_path))
         {
             $new_chmod_value = octdec($new_chmod_value);
-            
+
             chmod($file_path, $new_chmod_value);
         }
     }
