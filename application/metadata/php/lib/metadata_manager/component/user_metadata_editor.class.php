@@ -8,6 +8,8 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use user\UserDataManager;
 use common\libraries\Utilities;
+use \common\libraries\BreadcrumbTrail
+use \common\libraries\Breadcrumb
 
 /**
  * Component to edit an existing metadata_property_value object
@@ -37,7 +39,7 @@ class MetadataManagerUserMetadataEditorComponent extends MetadataManager
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }

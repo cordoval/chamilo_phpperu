@@ -32,10 +32,10 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
 
     function run()
     {
-        $trail = new BreadcrumbTrail;
-        $trail->add(new Breadcrumb($this->get_url(array(ContextLinkerManager :: PARAM_ACTION => null)), Translation :: get('ContextLinker')));
-        $trail->add(new Breadcrumb($this->get_url(array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID))), Translation :: get('BrowseObjects', array('OBJECT' => Translation::get('ContextLinks')), Utilities::COMMON_LIBRARIES)));
-        $trail->add_help('ContextLinkBrowser');
+//        $trail = new BreadcrumbTrail;
+//        $trail->add(new Breadcrumb($this->get_url(array(ContextLinkerManager :: PARAM_ACTION => null)), Translation :: get('ContextLinker')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID))), Translation :: get('BrowseObjects', array('OBJECT' => Translation::get('ContextLinks')), Utilities::COMMON_LIBRARIES)));
+//        $trail->add_help('ContextLinkBrowser');
 
         $this->display_header($trail);
 
