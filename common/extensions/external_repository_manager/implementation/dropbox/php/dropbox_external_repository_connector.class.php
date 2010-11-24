@@ -2,13 +2,13 @@
 namespace common\extensions\external_repository_manager\implementation\dropbox;
 
 use common\libraries\Redirect;
-
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Session;
 use common\libraries\Utilities;
 use common\libraries\ArrayResultSet;
 use common\libraries\ActionBarSearchForm;
+use common\libraries\Filesystem;
 
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
@@ -35,9 +35,9 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
     private $tokens;
     private $oauth;    
 
-    const SORT_DATE_CREATED = 'date-modified';    
+    const SORT_DATE_CREATED = 'date-created';    
 
-    function DropboxExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
         
@@ -50,8 +50,7 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
 		    $state = $_SESSION['state'];
 		} else {
 		    $state = 1;
-		}
-		
+		}	
 		switch($state) 
 		{
 			case 1 :
@@ -62,14 +61,15 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
 		        header('Location: ' . $url);
 		        die();
 		    case 2 :
-		        $this->oauth->setToken($_SESSION['oauth_tokens']);
+		        
+		    	$this->oauth->setToken($_SESSION['oauth_tokens']);
 		        $this->tokens = $this->oauth->getAccessToken();
 		        $_SESSION['state'] = 3;
-		        $_SESSION['oauth_tokens'] = $this->tokens;		
+		        $_SESSION['oauth_tokens'] = $this->tokens;	        		
 		    case 3 :		    	
 		        $this->oauth->setToken($_SESSION['oauth_tokens']);		        
 		        break;
-		}   	 	
+		}   
 		$this->dropbox = new Dropbox_API($this->oauth);	        
 	}      
 	
@@ -95,15 +95,21 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_files($condition = null, $order_property, $offset, $count)
     {    	
-        $folder = Request::get('folder');    	
-        $files = $this->dropbox->getMetaData('/'.$folder);
+        $folder = Request::get('folder');
+       	if(!is_null($folder))
+       	{
+       		$folder = urldecode($folder);
+       	}
+       	else $folder = '/';
+    	
+       	$files = $this->dropbox->getMetaData($this->encode($folder));        
         return $files;
     }
     
-	function retrieve_parent_folder($condition = null, $order_property, $offset, $count)
+	function retrieve_folder($path, $condition = null, $order_property, $offset, $count)
     {    	
-        $files = $this->dropbox->getMetaData('/');    	
-        return $files;
+        $folders = $this->dropbox->getMetaData($path);
+        return $folders;
     }
 
     /**
@@ -140,35 +146,41 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
     function retrieve_folders($folder_url)
     {
     	$folders = array();
-    	$files = $this->retrieve_files($condition, $order_property, $offset, $count);
-    	
-    	$test = $this->retrieve_parent_folder($order_property, $offset, $count); 
-    	foreach ($test['contents'] as $file)
-        {
-        	if($file['is_dir'] == 1)            
-		    	if($files['path']!= '')
-		    	{
-		    		$folder[] = array();    	
-		        	$folder['title'] = substr($file['path'], strripos($file['path'], '/')+1);
-		        	$folder['url'] = str_replace('__PLACEHOLDER__', substr($file['path'], strripos($file['path'], '/')+1), $folder_url);
-		       		$folder['class'] = 'category';             	
-			        $folders[] = $folder;   	
-		    	}                
-        }   	
-    	
-        foreach ($files['contents'] as $file)
+    	$files = $this->retrieve_folder('/', $condition, $order_property, $offset, $count);
+    	foreach ($files['contents'] as $file)
         {
             if($file['is_dir'] == 1)
             {
             	$folder[] = array();
             	$folder['title'] = substr($file['path'], strripos($file['path'], '/')+1);
-            	$folder['url'] = str_replace('__PLACEHOLDER__', substr($file['path'], 1), $folder_url);            	
-            	$folder['class'] = 'category';             	
+            	$folder['url'] = str_replace('__PLACEHOLDER__', substr($file['path'], 1), $folder_url);   
+            	$folder['class'] = 'category';
+            	$folder['sub'] =  $this->get_folder_tree($folder_url, $file['path']);
             	$folders[] = $folder;   	
             }            
         }
         return $folders;
-    }	
+    }
+
+	function get_folder_tree($folder_url, $folder_path)
+    {
+        
+        $folders = $this->retrieve_folder($this->encode($folder_path), $condition, $order_property, $offset, $count);
+        $items = array();
+    	foreach ($folders['contents'] as $child)
+        {
+            if($child['is_dir'] == 1)
+            {
+        		$sub_folder = array();
+            	$sub_folder['title'] = substr($child['path'], strripos($child['path'], '/')+1);           
+            	$sub_folder['url'] = str_replace('__PLACEHOLDER__', $child['path'], $folder_url);
+            	$sub_folder['class'] = 'category';
+            	$sub_folder['sub'] =  $this->get_folder_tree($folder_url, $child['path']);
+				$items[] = $sub_folder;	
+            }
+        }        
+        return $items;
+    }
 
     /**
      * @param mixed $condition
@@ -216,7 +228,6 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
                 }
             }
         }
-
         return null;
     }
 
@@ -236,7 +247,6 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             return array();
         }
-
     }
 
     /* (non-PHPdoc)
@@ -244,12 +254,13 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_object($id)
     {
-        $file = $this->dropbox->getMetaData('/'.$id);
+    	$id = str_replace(' ', '', $id);
+    	$file = $this->dropbox->getMetaData($this->encode($id));
         
     	$object = new DropboxExternalRepositoryObject();
         $object->set_external_repository_id($this->get_external_repository_instance_id());
         $object->set_id($id);
-        $object->set_title(substr($file['path'], 1));
+        $object->set_title(str_replace('/', '', substr($id, strripos($id, '/'))));
         $object->set_modified($file['modified']);
         $object->set_type($file['icon']);
         $object->set_description($file['size']);
@@ -274,7 +285,8 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function create_external_repository_object($file, $file_path)
     {
-        return $this->dropbox->putFile($file, $file_path);
+    	$file = str_replace(' ', '', $file);
+    	return $this->dropbox->putFile($file, $file_path);
     }
 
     /**
@@ -283,7 +295,8 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function export_external_repository_object($content_object)
     {
-        return $this->dropbox->putFile($content_object->get_title(), $content_object->get_full_path());
+        $file = str_replace(' ', '', $content_object->get_title());
+    	return $this->dropbox->putFile($file, $content_object->get_full_path());
     }    
 
     /**
@@ -297,7 +310,18 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function download_external_repository_object($id)
     {
-    	return $this->dropbox->getFile($id);
+    	return $this->dropbox->getFile($this->encode($id));
+    }
+    
+    function encode($path)
+    {
+    	$file = explode('/', $path);
+    	$newpath = array();
+        foreach($file as $f)
+        {
+        	$newpath[] = rawurlencode($f);        	
+        }
+        return implode('/', $newpath);
     }
 }
 ?>

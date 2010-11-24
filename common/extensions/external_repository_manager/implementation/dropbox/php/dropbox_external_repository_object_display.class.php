@@ -18,10 +18,7 @@ class DropboxExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDis
     }
 
     function get_preview($is_thumbnail = false)
-    {
-		
-        
-        
+    {   
     }
 }
 ?>

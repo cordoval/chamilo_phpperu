@@ -26,7 +26,7 @@ class DropboxExternalRepositoryManagerForm extends FormValidator
     private $external_repository_object;    
     
 
-    function DropboxExternalRepositoryManagerForm($form_type, $action, $application)
+    function __construct($form_type, $action, $application)
     {
         parent :: __construct(Utilities :: get_classname_from_object($this, true), 'post', $action);
 
@@ -51,7 +51,7 @@ class DropboxExternalRepositoryManagerForm extends FormValidator
         $this->external_repository_object = $external_repository_object;
 
         $defaults[DropboxExternalRepositoryObject :: PROPERTY_ID] = $external_repository_object->get_id();
-        $defaults[DropboxExternalRepositoryObject :: PROPERTY_TITLE] = $external_repository_object->get_description();
+        //$defaults[DropboxExternalRepositoryObject :: PROPERTY_TITLE] = $external_repository_object->get_description();
         //$defaults[DropboxExternalRepositoryObject :: PROPERTY_FILE_ID] = $external_repository_object->get_album_id();
         //$defaults[PicasaExternalRepositoryObject :: PROPERTY_DESCRIPTION] = html_entity_decode($external_repository_object->get_description());
         //$defaults[DropboxExternalRepositoryObject :: PROPERTY_TAGS] = $external_repository_object->get_tags_string();
@@ -61,17 +61,11 @@ class DropboxExternalRepositoryManagerForm extends FormValidator
 
         parent :: setDefaults($defaults);
     }
-
-    public function get_tags()
-    {
-        $external_repository_object = $this->external_repository_object;
-        return implode(",", $external_repository_object->get_tags());
-    }
-
+    
     function build_basic_form()
     {
-        $this->addElement('text', DropboxExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title', null, Utilities :: COMMON_LIBRARIES), array('size' => '50'));
-        $this->addRule(DropboxExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        //$this->addElement('text', DropboxExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title', null, Utilities :: COMMON_LIBRARIES), array('size' => '50'));
+        //$this->addRule(DropboxExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         //$albums = $this->application->get_external_repository_connector()->get_authenticated_user_albums();
 
@@ -106,14 +100,14 @@ class DropboxExternalRepositoryManagerForm extends FormValidator
 
     function update_file()
     {
-        return $this->application->get_external_repository_connector()->update_external_repository_object($this->exportValues());
+        //return $this->application->get_external_repository_connector()->update_external_repository_object($this->exportValues());
     }
 
     function upload_file()
     {
         if (StringUtilities :: has_value(($_FILES[self :: FILE]['name'])))
         {
-            if($this->application->get_external_repository_connector()->create_external_repository_object($_FILES[self :: FILE]['name'], $_FILES[self :: FILE]['tmp_name']))
+	        if($this->application->get_external_repository_connector()->create_external_repository_object($_FILES[self :: FILE]['name'], $_FILES[self :: FILE]['tmp_name']))
             	return $_FILES[self :: FILE]['name'];
         }
         else
