@@ -14,39 +14,39 @@ use common\libraries\Theme;
 use common\libraries\DynamicTabsRenderer;
 use common\libraries\DynamicContentTab;
 use common\libraries\Filesystem;
-use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\video_conferencing_manager\VideoConferencingManager;
 
 use DOMDocument;
 
-require_once dirname(__FILE__) . '/../forms/external_repository_form.class.php';
+require_once dirname(__FILE__) . '/../forms/video_conferencing_form.class.php';
 
-class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalRepositoryInstanceManager
+class VideoConferencingInstanceManagerCreatorComponent extends VideoConferencingInstanceManager
 {
 
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('external_repository general');
+        $trail->add_help('video_conferencing general');
 
         if (! $this->get_user()->is_platform_admin())
         {
             $this->not_allowed();
         }
 
-        $type = Request :: get(ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE);
+        $type = Request :: get(VideoConferencingInstanceManager :: PARAM_VIDEO_CONFERENCING_TYPE);
 
-        if ($type && ExternalRepositoryManager :: exists($type))
+        if ($type && VideoConferencingManager :: exists($type))
         {
-            $external_repository = new ExternalRepository();
-            $external_repository->set_type($type);
-            $form = new ExternalRepositoryForm(ExternalRepositoryForm :: TYPE_CREATE, $external_repository, $this->get_url(array(
-                    ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)));
+            $video_conferencing = new VideoConferencing();
+            $video_conferencing->set_type($type);
+            $form = new VideoConferencingForm(ExternalRepositoryForm :: TYPE_CREATE, $video_conferencing, $this->get_url(array(
+                    VideoConferencingInstanceManager :: PARAM_VIDEO_CONFERENCING_TYPE => $type)));
             if ($form->validate())
             {
                 $success = $form->create_external_repository();
                 $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array(
-                        'OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(
-                        ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
+                        'OBJECT' => Translation :: get('VideoConferencing')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(
+                        VideoConferencingInstanceManager :: PARAM_INSTANCE_ACTION => VideoConferencingInstanceManager :: ACTION_BROWSE_INSTANCES));
             }
             else
             {
@@ -62,7 +62,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
             $renderer_name = Utilities :: get_classname_from_object($this, true);
             $tabs = new DynamicTabsRenderer($renderer_name);
 
-            $repository_types = $this->get_external_repository_types();
+            $repository_types = $this->get_video_conferencing_types();
 
             foreach ($repository_types['sections'] as $category => $category_name)
             {
@@ -71,12 +71,12 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
                 foreach ($repository_types['types'][$category] as $type => $name)
                 {
                     $types_html[] = '<a href="' . $this->get_url(array(
-                            ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($type)) . 'logo/48.png);">';
+                            VideoConferencingInstanceManager :: PARAM_VIDEO_CONFERENCING_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_image_path(VideoConferencingManager :: get_namespace($type)) . 'logo/48.png);">';
                     $types_html[] = $name;
                     $types_html[] = '</div></a>';
                 }
 
-                $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_image_path(ExternalRepositoryManager :: get_namespace()) . 'category_' . $category . '.png', implode("\n", $types_html)));
+                $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_image_path(VideoConferencingManager :: get_namespace()) . 'category_' . $category . '.png', implode("\n", $types_html)));
             }
 
             echo $tabs->render();
@@ -84,9 +84,9 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
         }
     }
 
-    function get_external_repository_types()
+    function get_video_conferencing_types()
     {
-        $active_managers = ExternalRepositoryManager :: get_registered_types();
+        $active_managers = VideoConferencingManager :: get_registered_types();
 
         $types = array();
         $sections = array();
@@ -99,8 +99,8 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
             $section = isset($package_info['package']['category']) ? $package_info['package']['category'] : 'various';
             $multiple = isset($package_info['package']['extra']['multiple']) ? $package_info['package']['extra']['multiple'] : false;
 
-            $condition = new EqualityCondition(ExternalRepository :: PROPERTY_TYPE, $active_manager->get_name());
-            $count = $this->count_external_repositories($condition);
+            $condition = new EqualityCondition(VideoConferencing :: PROPERTY_TYPE, $active_manager->get_name());
+            $count = $this->count_videos_conferencing($condition);
             if (! $multiple && $count > 0)
             {
                 continue;
@@ -108,7 +108,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
 
             if (! in_array($section, array_keys($sections)))
             {
-                $sections[$section] = Translation :: get('Category' . Utilities :: underscores_to_camelcase($section), null, ExternalRepositoryManager :: get_namespace());
+                $sections[$section] = Translation :: get('Category' . Utilities :: underscores_to_camelcase($section), null, VideoConferencingManager :: get_namespace());
             }
 
             if (! isset($types[$section]))
@@ -116,7 +116,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
                 $types[$section] = array();
             }
 
-            $types[$section][$active_manager->get_name()] = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($active_manager->get_name()));
+            $types[$section][$active_manager->get_name()] = Translation :: get('TypeName', null, VideoConferencingManager :: get_namespace($active_manager->get_name()));
             asort($types[$section]);
         }
 

@@ -217,7 +217,7 @@ class RepositoryRights
     
     static function create_videos_conferencing_subtree_root_location()
     {
-    	return RightsUtilities :: create_location('ext_rep_tree', RepositoryManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_VIDEO_CONFERENCING);
+    	return RightsUtilities :: create_location('vid_conf_tree', RepositoryManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_VIDEO_CONFERENCING);
     }
 }
 ?>
