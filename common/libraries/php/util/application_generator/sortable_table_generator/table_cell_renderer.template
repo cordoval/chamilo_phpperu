@@ -1,4 +1,7 @@
 <?php
+
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
 /**
  * @package {L_APPLICATION_NAME}.tables.{L_OBJECT_CLASS}_table
  */
@@ -25,7 +28,7 @@ class {OBJECT_CLASS}BrowserTableCellRenderer extends Default{OBJECT_CLASS}TableC
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function {OBJECT_CLASS}BrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

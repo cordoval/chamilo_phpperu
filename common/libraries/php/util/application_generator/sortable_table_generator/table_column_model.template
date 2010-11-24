@@ -2,7 +2,7 @@
 /**
  * @package {L_APPLICATION_NAME}.tables.{L_OBJECT_CLASS}_table
  */
- 
+
 require_once dirname(__FILE__).'/../../../tables/{L_OBJECT_CLASS}_table/default_{L_OBJECT_CLASS}_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../{L_OBJECT_CLASS}.class.php';
 
@@ -23,7 +23,7 @@ class {OBJECT_CLASS}BrowserTableColumnModel extends Default{OBJECT_CLASS}TableCo
 	/**
 	 * Constructor
 	 */
-	function {OBJECT_CLASS}BrowserTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);

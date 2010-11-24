@@ -1,4 +1,5 @@
 <?php
+use common\libraries\ObjectTableDataProvider;
 /**
  * @package {L_APPLICATION_NAME}.tables.{L_OBJECT_CLASS}_table
  */
@@ -15,9 +16,9 @@ class {OBJECT_CLASS}BrowserTableDataProvider extends ObjectTableDataProvider
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function {OBJECT_CLASS}BrowserTableDataProvider($browser, $condition)
+  function __construct($browser, $condition)
   {
-		parent :: __construct($browser, $condition);
+        parent :: __construct($browser, $condition);
   }
   /**
    * Retrieves the objects 

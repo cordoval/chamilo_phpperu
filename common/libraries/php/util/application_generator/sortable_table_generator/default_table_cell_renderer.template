@@ -1,4 +1,6 @@
 <?php
+
+use common\libraries\ObjectTableCellRenderer;
 /**
  * @package {L_APPLICATION_NAME}.tables.{L_OBJECT_CLASS}_table
  */
@@ -16,7 +18,7 @@ class Default{OBJECT_CLASS}TableCellRenderer extends ObjectTableCellRenderer
 	/**
 	 * Constructor
 	 */
-	function Default{OBJECT_CLASS}TableCellRenderer()
+	function __construct()
 	{
 	}
 	

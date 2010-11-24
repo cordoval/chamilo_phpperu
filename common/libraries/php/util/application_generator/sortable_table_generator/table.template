@@ -1,4 +1,9 @@
 <?php
+
+use common\libraries\ObjectTable;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * @package {L_APPLICATION_NAME}.{L_APPLICATION_NAME}_manager.component.{L_OBJECT_CLASS}_browser
  */
@@ -20,7 +25,7 @@ class {OBJECT_CLASS}BrowserTable extends ObjectTable
 	/**
 	 * Constructor
 	 */
-	function {OBJECT_CLASS}BrowserTable($browser, $parameters, $condition)
+	function __construct($browser, $parameters, $condition)
 	{
 		$model = new {OBJECT_CLASS}BrowserTableColumnModel();
 		$renderer = new {OBJECT_CLASS}BrowserTableCellRenderer($browser);
