@@ -198,6 +198,7 @@ class Autoloader
                 'action_bar_renderer' => 'action_bar/action_bar_renderer.class.php',
                 'image_content_object_table' => "formvalidator/html_editor/html_editor_file_browser/html_editor_repo_viewer/image/component/image_content_object_table/image_content_object_table.class.php",
                 'html_editor_repo_viewer' => 'formvalidator/html_editor/html_editor_file_browser/html_editor_repo_viewer/html_editor_repo_viewer.class.php',
+                'template_cache' => 'layout/template_cache.class.php',
             );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
