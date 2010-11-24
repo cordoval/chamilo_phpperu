@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries\application_generator;
 
+use common\libraries\Utilities;
+
 /**
  * Dataclass generator used to generate a form for an object
  * @author Sven Vanpoucke

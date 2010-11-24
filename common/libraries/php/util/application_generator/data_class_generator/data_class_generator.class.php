@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries\application_generator;
+use common\libraries\Utilities;
 
 /**
  * Dataclass generator used to generate dataclasses with given properties

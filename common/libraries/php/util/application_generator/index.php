@@ -1,8 +1,11 @@
 <?php
 namespace common\libraries\application_generator;
 
+use common\libraries\Filesystem;
+use common\libraries\Utilities;
+
 ini_set('include_path', realpath(dirname(__FILE__) . '/../../../plugin/pear'));
-require_once dirname(__FILE__) . '/../../global.inc.php';
+require_once dirname(__FILE__) . '/../../../../global.inc.php';
 include (dirname(__FILE__) . '/settings.inc.php');
 include (dirname(__FILE__) . '/my_template.class.php');
 //include (Path :: get_plugin_path() . 'phpbb/phpbb2_template.class.php');
