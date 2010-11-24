@@ -395,5 +395,22 @@ class DimdimVideoConferencingConnector extends VideoConferencingConnector
     {
         return $this->vimeo->call('vimeo.videos.delete', array('video_id' => $id));
     }
+
+    public function retrieve_video_conferencing_object($id) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+    public function retrieve_video_conferencing_objects($condition, $order_property, $offset, $count) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+    public function count_video_conferencing_objects($condition) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+    public function delete_video_conferencing_object($id) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+    public function export_video_conferencing_object($id) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
 }
 ?>

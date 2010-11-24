@@ -91,9 +91,14 @@ class Autoloader
     static function check_for_special_files()
     {
         $list = array(
-            'user_manager' => 'user_manager/user_manager.class.php', 'user_manager_component' => 'user_manager/user_manager_component.class.php', 'user_validator' => '../validator/user_validator.class.php',
+            'user_manager' => 'user_manager/user_manager.class.php', 
+            'user_manager_component' => 'user_manager/user_manager_component.class.php',
+            'user_validator' => '../validator/user_validator.class.php',
             'visit_tracker' => '../trackers/visit_tracker.class.php',
-            'database_user_data_manager' => 'data_manager/database_user_data_manager.class.php');
+            'database_user_data_manager' => 'data_manager/database_user_data_manager.class.php',
+            'default_user_table_cell_renderer' => 'user_table/default_user_table_cell_renderer.class.php',
+            'default_user_table_column_model' => 'default_user_table_column_model.class.php'
+            );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

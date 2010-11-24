@@ -2,6 +2,7 @@
 namespace repository;
 
 use repository\ContentObjectImport;
+use repository\content_object\document\Document;
 
 /**
  * $Id: csv_import.class.php 204 2009-11-13 12:51:30Z kariboe $

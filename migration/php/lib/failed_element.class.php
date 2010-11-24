@@ -1,18 +1,22 @@
 <?php
+
 namespace migration;
+
 use common\libraries\DataClass;
+use common\libraries\Utilities;
+
 /**
  * $Id: $
  * @package migration.lib
  */
-/**
- *	@author Sven Vanpoucke
- */
 
+/**
+ * 	@author Sven Vanpoucke
+ */
 class FailedElement extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_FAILED_TABLE_NAME = 'failed_table_name';
     const PROPERTY_FAILED_ID = 'failed_id';
 
@@ -55,7 +59,9 @@ class FailedElement extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(__CLASS__));
     }
+
 }
+
 ?>

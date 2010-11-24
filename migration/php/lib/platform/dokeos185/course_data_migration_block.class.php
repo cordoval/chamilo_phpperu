@@ -1,6 +1,8 @@
 <?php
 
 namespace migration;
+
+use common\libraries\Translation;
 require_once dirname(__FILE__) . '/data_class/dokeos185_course.class.php';
 
 /**

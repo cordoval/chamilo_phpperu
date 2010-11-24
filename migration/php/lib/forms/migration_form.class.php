@@ -6,6 +6,8 @@ use common\libraries\FormValidator;
 use admin\AdminDataManager;
 use common\libraries\Utilities;
 use common\libraries\Translation;
+use common\libraries\Filesystem;
+use common\libraries\Request;
 
 /**
  * $Id: group_form.class.php 224 2009-11-13 14:40:30Z kariboe $

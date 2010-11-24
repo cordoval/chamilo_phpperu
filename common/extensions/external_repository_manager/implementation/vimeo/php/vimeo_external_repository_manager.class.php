@@ -106,7 +106,7 @@ class VimeoExternalRepositoryManager extends ExternalRepositoryManager
         $general['class'] = 'home';
         $menu_items[] = $general;
 
-        $most_recent = array();
+//        $most_recent = array();
         //        $most_recent['title'] = Translation :: get('MostRecent');
         //        $most_recent['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_RECENT), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         //        $most_recent['class'] = 'recent';
@@ -164,7 +164,7 @@ class VimeoExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_content_object_type_conditions()
     {
-        $image_types = Document :: get_image_types();
+        $image_types = Document :: get_video_types();
         $image_conditions = array();
         foreach ($image_types as $image_type)
         {

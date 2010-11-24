@@ -118,7 +118,7 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
         $this->create($user);
 
         // Create the user's root category for the repository
-        RepositoryRights :: create_user_root($user);
+//        RepositoryRights :: create_user_root($user);
 
         return true;
     }

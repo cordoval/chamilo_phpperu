@@ -3,6 +3,7 @@ namespace migration;
 
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Path;
 
 /**
  * $Id: dokeos185_track_cos.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -160,7 +161,7 @@ class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 
     static function get_class_name()

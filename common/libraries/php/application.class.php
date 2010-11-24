@@ -28,6 +28,11 @@ abstract class Application
 
     const PLACEHOLDER_APPLICATION = '__APPLICATION__';
 
+    const RESULT_TYPE_CREATED = 'Created';
+    const RESULT_TYPE_UPDATED = 'Updated';
+    const RESULT_TYPE_DELETED = 'Deleted';
+    const RESULT_TYPE_MOVED = 'Moved';
+
     function __construct($user)
     {
         $this->user = $user;
@@ -580,6 +585,46 @@ abstract class Application
         }
 
         return Translation :: get($message);
+    }
+
+    /**
+     * Generates a general results message like ObjectCreated, ObjectUpdated, ObjectDeleted
+     * @param int $failures
+     * @param int $count
+     * @param String $object
+     * @param String> $type
+     * @return String
+     */
+    function get_general_result($failures, $count, $single_object, $multiple_object, $type = Application :: RESULT_TYPE_CREATED)
+    {
+        if($count == 1)
+        {
+            $param = array('OBJECT' => $single_object);
+
+            if($failures)
+            {
+                $message = 'ObjectNot' . $type;
+            }
+            else
+            {
+                $message = 'Object' . $type;
+            }
+        }
+        else
+        {
+            $param = array('OBJECTS' => $multiple_object);
+
+            if($failures)
+            {
+                $message = 'ObjectsNot' . $type;
+            }
+            else
+            {
+                $message = 'Objects' . $type;
+            }
+        }
+
+        return Translation :: get($message, $param);
     }
 
     /**

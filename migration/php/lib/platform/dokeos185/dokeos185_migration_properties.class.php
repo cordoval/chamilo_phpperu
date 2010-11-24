@@ -1,6 +1,10 @@
 <?php
 namespace migration;
 
+use common\libraries\Filesystem;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . '/dokeos185_data_manager.class.php';
 
 class Dokeos185MigrationProperties extends MigrationProperties
@@ -59,7 +63,7 @@ class Dokeos185MigrationProperties extends MigrationProperties
 		
 		foreach($selected_blocks as $block)
 		{
-			$class = Utilities :: underscores_to_camelcase($block) . 'MigrationBlock';
+			$class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($block) . 'MigrationBlock';
 			$object = new $class();
 			if(!$object->check_prerequisites($blocks))
 			{

@@ -1,5 +1,9 @@
 <?php
 namespace migration;
+
+use application\weblcms\ContentObjectPublication;
+use admin\FeedbackPublication;
+use repository\ComplexContentObjectItem;
 /**
  * $Id: import.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.migration_manager
