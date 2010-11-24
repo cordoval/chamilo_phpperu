@@ -7,7 +7,6 @@ use repository\ExternalRepositorySetting;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\libraries\Path;
 use common\libraries\Translation;
-use common\libraries\Utilities;
 /**
  * Description of mediamosa_external_repository_upload_form
  *

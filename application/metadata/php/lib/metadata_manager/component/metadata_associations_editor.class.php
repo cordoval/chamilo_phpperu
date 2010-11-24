@@ -6,7 +6,9 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
-
+use common\libraries\Redirect;
+use common\libraries\DynamicTabsRenderer;
+use admin\AdminManager;
 /**
  * Component to edit an existing metadata_attribute_nesting object
  * @author Sven Vanpoucke
@@ -33,8 +35,9 @@ class MetadataManagerMetadataAssociationsEditorComponent extends MetadataManager
         {
             $trail = new BreadcrumbTrail();
 
-            $trail->add(new BreadCrumb($this->get_url(), Translation :: get('Admin')));
-            $trail->add(new BreadCrumb($this->get_url(), Translation :: get('Metadata')));
+            $trail->add(new BreadCrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
+            $trail->add(new BreadCrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => MetadataManager:: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Metadata')));
+            $trail->add(new BreadCrumb($this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_TYPES)), Translation :: get('BrowseObjects', array('OBJECTS' => Translation :: get('MetadataPropertyTypes')), Utilities :: COMMON_LIBRARIES)));
             $trail->add(new BreadCrumb($this->get_url(), Translation :: get('EditAssociations')));
 
             $this->display_header($trail);
