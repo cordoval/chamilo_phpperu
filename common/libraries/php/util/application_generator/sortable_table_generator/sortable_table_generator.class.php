@@ -50,7 +50,9 @@ class SortableTableGenerator
         {
             $this->template->set_filenames(array('default_table_cell_renderer' => 'default_table_cell_renderer.template', 'default_table_column_model' => 'default_table_column_model.template', 'table' => 'table.template', 'table_data_provider' => 'table_data_provider.template', 'table_cell_renderer' => 'table_cell_renderer.template', 'table_column_model' => 'table_column_model.template'));
             
-            $this->template->assign_vars(array('APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name), 'L_APPLICATION_NAME' => Utilities :: camelcase_to_underscores($application_name), 'L_OBJECT_CLASS' => $class_lower, 'OBJECT_CLASS' => $class, 'L_OBJECT_CLASSES' => $class2_lower, 'U_OBJECT_CLASSES' => $class2_upper, 'AUTHOR' => $author));
+            $this->template->assign_vars(array('APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name),
+                'L_APPLICATION_NAME' => Utilities :: camelcase_to_underscores($application_name), 'L_OBJECT_CLASS' => $class_lower, 'OBJECT_CLASS' => $class,
+                'L_OBJECT_CLASSES' => $class2_lower, 'U_OBJECT_CLASSES' => $class2_upper, 'AUTHOR' => $author, 'NAMESPACE' => 'application\\' . $application_name));
             
             foreach ($properties as $property)
             {
