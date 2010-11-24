@@ -2,6 +2,8 @@
 namespace migration;
 
 use common\libraries\Text;
+use repository\RepositoryDataManager;
+use repository\RepositoryManager;
 
 /**
  * Implementation of the dokeos 185 text field parser to parse images from the given field

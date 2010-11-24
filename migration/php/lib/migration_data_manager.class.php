@@ -4,6 +4,8 @@ namespace migration;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Configuration;
+use common\libraries\Utilities;
+use common\libraries\Translation;
 
 /**
  * $Id: migration_data_manager.class.php 221 2009-11-13 14:36:41Z vanpouckesven $

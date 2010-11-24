@@ -50,7 +50,7 @@ class DefaultPublicationTableCellRenderer extends ObjectTableCellRenderer
 
                     $wdm = WeblcmsDataManager :: get_instance();
                     $course = $wdm->retrieve_course($course_id);
-                    return $course->get_name() . ' > ' . $tool;
+                    return $course->get_name() . ' (' . $course->get_visual() . ') > ' . $tool;
                 }
 
                 return $content_object_publication->get_location();

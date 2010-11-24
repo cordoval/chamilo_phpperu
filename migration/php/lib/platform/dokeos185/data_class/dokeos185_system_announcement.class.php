@@ -1,5 +1,10 @@
 <?php
 namespace migration;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
+use repository\content_object\system_announcement\SystemAnnouncement;
+use admin\SystemAnnouncementPublication;
 /**
  * $Id: dokeos185_system_announcement.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
@@ -190,7 +195,7 @@ class Dokeos185SystemAnnouncement extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
     
     static function get_class_name()

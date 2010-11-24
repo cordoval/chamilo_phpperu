@@ -13,16 +13,33 @@
     <property name="phpunit-config-file" location="${test-dir}/phpunit.xml" />
 
     <!-- ============================================  -->
+    <!-- Other properties                              -->
+    <!-- ============================================  -->
+    <property environment="env" />
+
+
+    <!-- ============================================  -->
     <!-- Defining conditions                           -->
     <!-- ============================================  -->
     <condition property="isWindows">
         <os family="windows" />
     </condition>
 
+
+
     <!-- ============================================  -->
     <!-- Target: setCommands depending on OS Family    -->
     <!-- ============================================  -->
-    <target name="setcommands" depends="setcommandsNix, setcommandsWin" />
+    <target name="setcommands" depends="setcommandsNix, setcommandsWin" >
+        <condition property="phpunit-command-present">
+          <or>
+            <available file="${phpunitCmd}" filepath="${env.PATH}" />
+            <!-- special case for Windows, may be PATH or Path -->
+            <available file="${phpunitCmd}" filepath="${env.Path}" />
+            <available file="${phpunitCmd}" filepath="${env.PATH}" />
+          </or>
+        </condition>
+    </target>
 
     <target name="setcommandsNix" unless="isWindows">
         <echo message="Defining executables for *Nix system" />
@@ -54,7 +71,8 @@
     <!-- ============================================  -->
     <!-- Target: phpunit                               -->
     <!-- ============================================  -->
-    <target name="phpunit" depends="setcommands, clean, prepare">
+    <target name="phpunit" depends="phpunitOk, phpunitKo" />
+    <target name="phpunitOk" depends="setcommands, clean, prepare" if="phpunit-command-present">
         <echo message="Running all the tests" />
         <exec   dir="${test-dir}"
                 executable="${phpunitCmd}"
@@ -62,6 +80,10 @@
          >
             <arg line="--configuration ${phpunit-config-file}" />
          </exec>
+    </target>
+
+    <target name="phpunitKo" depends="" unless="phpunit-command-present">
+        <echo message="Cannot run the tests, please install phpunit" />
     </target>
 
     <!-- ============================================  -->

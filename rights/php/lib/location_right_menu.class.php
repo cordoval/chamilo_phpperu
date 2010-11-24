@@ -3,6 +3,7 @@ namespace rights;
 
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use \HTML_Menu;
 /**
  * $Id: location_right_menu.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib

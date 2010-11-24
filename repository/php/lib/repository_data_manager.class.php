@@ -18,6 +18,7 @@ use repository\content_object\portfolio_item\PortfolioItem;
 use repository\content_object\portfolio_item\HandbookItem;
 
 use home\HomeDataManager;
+use repository\content_object\document\Document;
 /**
  * $Id: repository_data_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib

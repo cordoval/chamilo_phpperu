@@ -2,6 +2,7 @@
 namespace migration;
 use \HTML_QuickForm_Controller;
 use common\libraries\PlatformSetting;
+use common\libraries\ObjectTableOrder;
 
 /**
  * $Id: migration_wizard.class.php 221 2009-11-13 14:36:41Z vanpouckesven $

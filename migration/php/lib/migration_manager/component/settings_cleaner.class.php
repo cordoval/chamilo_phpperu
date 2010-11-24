@@ -6,6 +6,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\FormValidator;
 
 use admin\AdminDataManager;
+use common\libraries\Translation;
 
 /**
  * $Id: migration.class.php 221 2009-11-13 14:36:41Z vanpouckesven $

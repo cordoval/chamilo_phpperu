@@ -1,5 +1,9 @@
 <?php
 namespace migration;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
+use repository\content_object\description\Description;
 
 /**
  * $Id: dokeos185_course_description.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -195,7 +199,7 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
 
     static function get_class_name()
