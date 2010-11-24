@@ -20,7 +20,7 @@ class Autoloader
             'portfolio_rights' => 'rights/portfolio_rights.class.php',
             'portfolio_information' => 'portfolio_information.class.php',
             'portfolio_manager' => 'portfolio_manager/portfolio_manager.class.php',
-            '');
+            'user_menu' => 'user_menu.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
         if (key_exists($lower_case, $list))
         {
