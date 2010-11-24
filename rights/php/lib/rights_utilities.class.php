@@ -20,6 +20,7 @@ use group\GroupRelUser;
 use group\Group;
 use group\GroupRightsTemplate;
 use common\libraries\ObjectResultSet;
+use ReflectionClass;
 
 /**
  * $Id: rights_utilities.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
@@ -1147,9 +1148,9 @@ class RightsUtilities
     {
         if (! isset(self :: $constants))
         {
-            $base_path = (WebApplication :: is_application($application) ? (Path :: get_application_path() . 'lib/' . $application . '/') : (Path :: get(SYS_PATH) . $application . '/lib/'));
+            $base_path = (WebApplication :: is_application($application) ? (Path :: get_application_path() . $application . 'php/lib/') : (Path :: get(SYS_PATH) . $application . '/php/lib/'));
             $class = $application . '_rights.class.php';
-            $class_name = Application :: application_to_class($application) . 'Rights';
+            $class_name = Application :: determine_namespace($application) . '\\' . Application :: application_to_class($application) . 'Rights';
 
             $file = $base_path . $class;
 
