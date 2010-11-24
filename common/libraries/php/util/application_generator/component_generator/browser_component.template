@@ -1,10 +1,15 @@
 <?php
+
+namespace {NAMESPACE};
+
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Translation;
+
 /**
  * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
  */
  
-require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
-
 /**
  * {L_APPLICATION_NAME} component which allows the user to browse his {L_OBJECT_CLASSES}
  * @author Sven Vanpoucke
@@ -12,30 +17,37 @@ require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
  */
 class {APPLICATION_NAME}Manager{OBJECT_CLASSES}BrowserComponent extends {APPLICATION_NAME}Manager
 {
-	
-	function run()
-	{
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb($this->get_url(array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE)), Translation :: get('Browse{APPLICATION_NAME}')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Browse{OBJECT_CLASSES}')));
 
-		$this->display_header($trail);
+    function run()
+    {
+        $this->display_header($trail);
 
-		echo '<a href="' . $this->get_create_{L_OBJECT_CLASS}_url() . '">' . Translation :: get('Create{OBJECT_CLASS}') . '</a>'; 
-		echo '<br /><br />';
-		
-		${L_OBJECT_CLASSES} = $this->retrieve_{L_OBJECT_CLASSES}();
-		while(${L_OBJECT_CLASS} = ${L_OBJECT_CLASSES}->next_result())
-		{
-			echo '<div style="border: 1px solid grey; padding: 5px;">';
-			dump(${L_OBJECT_CLASS});
-			echo '<br /><a href="' . $this->get_update_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}). '">' . Translation :: get('Update{OBJECT_CLASS}') . '</a>'; 
-			echo ' | <a href="' . $this->get_delete_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}) . '">' . Translation :: get('Delete{OBJECT_CLASS}') . '</a>'; 
-			echo '</div><br /><br />'; 
-		}
-		
-		$this->display_footer();
-	}
+        echo '<a href="' . $this->get_create_{L_OBJECT_CLASS}_url() . '">' . Translation :: get('Create{OBJECT_CLASS}') . '</a>';
+        echo '<br /><br />';
+
+        ${L_OBJECT_CLASSES} = $this->retrieve_{L_OBJECT_CLASSES}();
+        while(${L_OBJECT_CLASS} = ${L_OBJECT_CLASSES}->next_result())
+        {
+                echo '<div style="border: 1px solid grey; padding: 5px;">';
+                dump(${L_OBJECT_CLASS});
+                echo '<br /><a href="' . $this->get_update_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}). '">' . Translation :: get('Update{OBJECT_CLASS}') . '</a>';
+                echo ' | <a href="' . $this->get_delete_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}) . '">' . Translation :: get('Delete{OBJECT_CLASS}') . '</a>';
+                echo '</div><br /><br />';
+        }
+
+        $this->display_footer();
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('{L_OBJECT_CLASSES}_browser');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE)), Translation :: get('{APPLICATION_NAME}ManagerBrowserComponent')));
+    }
+
+    function get_additional_parameters()
+    {
+    	return array();
+    }
 
 }
 ?>

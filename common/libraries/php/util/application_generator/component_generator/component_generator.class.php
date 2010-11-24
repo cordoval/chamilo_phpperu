@@ -29,7 +29,8 @@ class ComponentGenerator
         {
             $this->template->set_filenames(array('general_browser_component' => 'general_browser_component.template', 'browser_component' => 'browser_component.template', 'creator_component' => 'creator_component.template', 'updater_component' => 'updater_component.template', 'deleter_component' => 'deleter_component.template', 'sortable_browser_component' => 'sortable_browser_component.template'));
             
-            $this->template->assign_vars(array('APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name), 'L_APPLICATION_NAME' => Utilities :: camelcase_to_underscores($application_name), 'AUTHOR' => $author));
+            $this->template->assign_vars(array('APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name), 'L_APPLICATION_NAME' => Utilities :: camelcase_to_underscores($application_name), 
+                'AUTHOR' => $author, 'NAMESPACE' => 'application\\' . $application_name));
             
             foreach ($classes as $class)
             {

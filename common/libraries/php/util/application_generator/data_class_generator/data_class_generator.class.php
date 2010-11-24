@@ -41,7 +41,9 @@ class DataClassGenerator
             
             $property_names = array();
             
-            $this->template->assign_vars(array('PACKAGE' => $package, 'DESCRIPTION' => $description, 'AUTHOR' => $author, 'OBJECT_CLASS' => $classname, 'L_OBJECT_CLASS' => Utilities :: camelcase_to_underscores($classname), 'APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name)));
+            $this->template->assign_vars(array('PACKAGE' => $package, 'DESCRIPTION' => $description, 'AUTHOR' => $author,
+                'OBJECT_CLASS' => $classname, 'L_OBJECT_CLASS' => Utilities :: camelcase_to_underscores($classname),
+                'APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name), 'NAMESPACE' => 'application\\' . $application_name));
             
             foreach ($properties as $property)
             {
@@ -55,8 +57,7 @@ class DataClassGenerator
             
             $this->template->assign_vars(array('DEFAULT_PROPERTY_NAMES' => implode(', ', $property_names), 'APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name)));
             
-            $string = "<?php
-namespace common\libraries; \n" . $this->template->pparse_return('dataclass') . "\n?>";
+            $string = $this->template->pparse_return('dataclass');
             fwrite($file, $string);
             fclose($file);
         }
