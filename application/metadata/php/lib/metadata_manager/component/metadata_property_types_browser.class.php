@@ -7,6 +7,8 @@ use common\libraries\Application;
 use common\libraries\ActionBarRenderer;
 use common\libraries\Theme;
 use common\libraries\Utilities;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 
 /**
  * metadata component which allows the user to browse his metadata_property_types
@@ -18,16 +20,22 @@ class MetadataManagerMetadataPropertyTypesBrowserComponent extends MetadataManag
 
     function run()
     {
-            $this->display_header($trail);
+        $trail = new BreadcrumbTrail();
 
-            $action_bar = $this->get_action_bar();
-            
-            $html[] = $action_bar->as_html();
-            $html[] = $this->get_table();
+        $trail->add(new BreadCrumb($this->get_url(), Translation :: get('Admin')));
+        $trail->add(new BreadCrumb($this->get_url(), Translation :: get('Metadata')));
+        $trail->add(new BreadCrumb($this->get_url(), Translation :: get('BrowseObjects', array('OBJECTS' => Translation :: get('MetadataPropertyTypes')), Utilities :: COMMON_LIBRARIES)));
 
-            echo implode("\n", $html);
+        $this->display_header($trail);
 
-            $this->display_footer();
+        $action_bar = $this->get_action_bar();
+
+        $html[] = $action_bar->as_html();
+        $html[] = $this->get_table();
+
+        echo implode("\n", $html);
+
+        $this->display_footer();
     }
 
     function get_table()

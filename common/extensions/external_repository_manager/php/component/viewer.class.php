@@ -9,7 +9,6 @@ use common\libraries\Theme;
 use common\libraries\Utilities;
 
 use repository\ExternalRepositorySync;
-use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../external_repository_object_display.class.php';
 

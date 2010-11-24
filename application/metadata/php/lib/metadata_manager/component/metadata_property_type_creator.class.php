@@ -3,7 +3,8 @@ namespace application\metadata;
 
 use common\libraries\Translation;
 use common\libraries\Utilities;
-
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 /**
  * Component to create a new metadata_property_type object
  * @author Sven Vanpoucke
@@ -32,9 +33,15 @@ class MetadataManagerMetadataPropertyTypeCreatorComponent extends MetadataManage
                 }
                 else
 		{
-			$this->display_header();
-			$form->display();
-			$this->display_footer();
+                    $trail = new BreadcrumbTrail();
+
+                    $trail->add(new BreadCrumb($this->get_url(), Translation :: get('Admin')));
+                    $trail->add(new BreadCrumb($this->get_url(), Translation :: get('Metadata')));
+                    $trail->add(new BreadCrumb($this->get_url(), Translation :: get('CreateObject', array('OBJECT' => Translation :: get('MetadataPropertyType')), Utilities :: COMMON_LIBRARIES)));
+
+                    $this->display_header($trail);
+                    $form->display();
+                    $this->display_footer();
 		}
 	}
 }

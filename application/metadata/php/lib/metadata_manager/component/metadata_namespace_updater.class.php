@@ -4,7 +4,8 @@ namespace application\metadata;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Utilities;
-
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 /**
  * Component to edit an existing metadata_namespace object
  * @author Sven Vanpoucke
@@ -27,7 +28,13 @@ class MetadataManagerMetadataNamespaceUpdaterComponent extends MetadataManager
 		}
 		else
 		{
-			$this->display_header();
+			$trail = new BreadcrumbTrail();
+
+                        $trail->add(new BreadCrumb($this->get_url(), Translation :: get('Admin')));
+                        $trail->add(new BreadCrumb($this->get_url(), Translation :: get('Metadata')));
+                        $trail->add(new BreadCrumb($this->get_url(), Translation :: get('UpdateObject', array('OBJECT' => Translation :: get('Namespace')), Utilities :: COMMON_LIBRARIES)));
+
+                        $this->display_header($trail);
 			$form->display();
 			$this->display_footer();
 		}

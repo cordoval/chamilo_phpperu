@@ -6,6 +6,7 @@ use application\metadata\MetadataDataManager;
 use application\metadata\MetadataPropertyValue;
 use application\metadata\MetadataForm;
 
+
 /**
  * This class describes the form for a ContextLink object.
  * @author Sven Vanpoucke
@@ -24,7 +25,9 @@ class ContextLinkForm extends MetadataForm
         
     function ContextLinkForm($name, $form_type, $context_link, $metadata_property_values = array(), $action)
     {
-    	$this->set_parent_type(self :: TYPE);
+    	
+
+        $this->set_parent_type(self :: TYPE);
 
         parent :: __construct($name, 'post', $action);
 
@@ -43,8 +46,6 @@ class ContextLinkForm extends MetadataForm
                 $this->build_alternative_form();
                 $this->setDefaults(array(parent :: PARENT_ID => $context_link->get_alternative_content_object_id()));
         }
-
-        
     }
 
     function build_basic_form()
