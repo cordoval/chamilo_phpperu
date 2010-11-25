@@ -5,6 +5,7 @@
     <!-- ============================================  -->
     <!-- Defining locations                            -->
     <!-- ============================================  -->
+    <property name="root-dir" location="." />
     <property name="files-dir" location="./files" />
     <property name="build-dir" location="${files-dir}/build" />
     <property name="build-logs-dir" location="${build-dir}/logs" />
@@ -12,6 +13,7 @@
     <property name="test-dir" location="./test" />
     <property name="phpunit-coverage-config-file" location="${test-dir}/phpunit-coverage.xml" />
     <property name="phpunit-config-file" location="${test-dir}/phpunit.xml" />
+    <property name="pdepend-report-file" location="${build-logs-dir}/pdepend.xml" />
 
     <!-- ============================================  -->
     <!-- Other properties                              -->
@@ -40,15 +42,25 @@
             <available file="${phpunitCmd}" filepath="${env.PATH}" />
           </or>
         </condition>
+        <condition property="pdepend-command-present">
+          <or>
+            <available file="${pdependCmd}" filepath="${env.PATH}" />
+            <!-- special case for Windows, may be PATH or Path -->
+            <available file="${pdependCmd}" filepath="${env.Path}" />
+            <available file="${pdependCmd}" filepath="${env.PATH}" />
+          </or>
+        </condition>
     </target>
 
     <target name="setcommandsNix" unless="isWindows">
         <echo message="Defining executables for *Nix system" />
         <property name="phpunitCmd" value="phpunit" />
+        <property name="pdependCmd" value="pdepend" />
     </target>
 
     <target name="setcommandsWin" if="isWindows">
         <property name="phpunitCmd" value="phpunit.bat" />
+        <property name="pdependCmd" value="pdepend.bat" />
     </target>
 
     <!-- ============================================  -->
@@ -105,6 +117,24 @@
 
     <target name="phpunit-ko" depends="" unless="phpunit-command-present">
         <echo message="Cannot run the tests, please install phpunit" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: pdepend                               -->
+    <!-- ============================================  -->
+    <target name="pdepend" depends="pdepend-ok, pdepend-ko" />
+
+    <target name="pdepend-ok" depends="setcommands, clean, prepare" if="${pdepend-command-present}" >
+        <exec   dir="${basedir}"
+                executable="${pdependCmd}"
+                failonerror="true"
+        >
+            <arg line="--summary-xml=${pdepend-report-file} ${root-dir}" />
+        </exec>
+    </target>
+
+    <target name="pdepend-ko" depends="" unless="pdepend-command-present">
+        <echo message="Cannot run dependency analysys, please install pdepend" />
     </target>
 
     <!-- ============================================  -->
