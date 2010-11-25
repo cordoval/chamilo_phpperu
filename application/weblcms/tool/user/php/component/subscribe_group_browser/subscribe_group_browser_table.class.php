@@ -32,7 +32,7 @@ class SubscribeGroupBrowserTable extends ObjectTable
         $model = new SubscribeGroupBrowserTableColumnModel();
         $renderer = new SubscribeGroupBrowserTableCellRenderer($browser);
         $data_provider = new SubscribeGroupBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(_CLASS__, true), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = new ObjectTableFormActions(__NAMESPACE__, Tool :: PARAM_ACTION);
 

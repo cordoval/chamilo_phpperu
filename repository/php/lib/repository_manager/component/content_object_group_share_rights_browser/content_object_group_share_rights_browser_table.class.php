@@ -23,7 +23,7 @@ class ContentObjectGroupShareRightsBrowserTable extends ObjectTable
         $model = new ContentObjectGroupShareRightsBrowserTableColumnModel();
         $renderer = new ContentObjectGroupShareRightsBrowserTableCellRenderer($browser);
         $data_provider = new ContentObjectGroupShareRightsBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(_CLASS__, true), $model, $renderer);
 
         $table_form_actions = new ObjectTableFormActions(__NAMESPACE__);
         $table_form_actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_CONTENT_OBJECT_SHARE_DELETER, Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), true));
