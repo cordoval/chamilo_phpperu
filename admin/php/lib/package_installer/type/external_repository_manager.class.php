@@ -23,13 +23,11 @@ class PackageInstallerExternalRepositoryManagerType extends PackageInstallerType
 
             if (! $this->add_registration())
             {
-                $this->get_parent()->add_message(Translation :: get('ObjectNotAdded', array(
-                        'OBJECT' => Translation :: get('ExternalRepositoryManagerRegistration')), Utilities :: COMMON_LIBRARIES), PackageInstaller :: TYPE_WARNING);
+                $this->get_parent()->add_message(Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManagerRegistration')), Utilities :: COMMON_LIBRARIES), PackageInstaller :: TYPE_WARNING);
             }
             else
             {
-                $this->get_parent()->add_message(Translation :: get('ObjectAdded', array(
-                        'OBJECT' => Translation :: get('ExternalRepositoryManagerRegistration')), Utilities :: COMMON_LIBRARIES));
+                $this->get_parent()->add_message(Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManagerRegistration')), Utilities :: COMMON_LIBRARIES));
             }
         }
         else
@@ -55,7 +53,7 @@ class PackageInstallerExternalRepositoryManagerType extends PackageInstallerType
         $registration = new Registration();
         $registration->set_name($attributes->get_code());
         $registration->set_type(Registration :: TYPE_EXTERNAL_REPOSITORY_MANAGER);
-        $registration->set_version('1.0.0');
+        $registration->set_version($attributes->get_version());
         $registration->set_status(Registration :: STATUS_ACTIVE);
 
         return $registration->create();

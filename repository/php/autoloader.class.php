@@ -56,6 +56,7 @@ class Autoloader
                 'content_object_form',
                 'content_object_import_form',
                 'content_object_include_parser',
+                'content_object_installer',
                 'content_object_metadata_catalog',
                 'content_object_metadata',
                 'content_object_pub_feedback',

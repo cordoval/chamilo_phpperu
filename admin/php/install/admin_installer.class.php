@@ -63,28 +63,26 @@ class AdminInstaller extends Installer
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('Extensions', null, ExternalRepositoryManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
         }
 
-        // Register the external repository manager implementations
-        if (! $this->register_external_repository_managers())
-        {
-            return false;
-        }
-        else
-        {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
-        }
+        //        // Register the external repository manager implementations
+        //        if (! $this->register_external_repository_managers())
+        //        {
+        //            return false;
+        //        }
+        //        else
+        //        {
+        //            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
+        //        }
+        //
+        //        // Register the video conferencing manager implementations
+        //        if (! $this->register_video_conferencing_managers())
+        //        {
+        //            return false;
+        //        }
+        //        else
+        //        {
+        //            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('VideosConferencing', null, VideoConferencingManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
+        //        }
 
-        // Register the video conferencing manager implementations
-        if (! $this->register_video_conferencing_managers())
-        {
-            return false;
-        }
-        else
-        {
-        	echo('hier');
-        	dump(VideoConferencingManager :: get_namespace());
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('VideosConferencing', null, VideoConferencingManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
-        }
-        
         return true;
     }
 
@@ -205,7 +203,7 @@ class AdminInstaller extends Installer
 
         return true;
     }
-    
+
 	/**
      * @return boolean
      */

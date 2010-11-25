@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Announcement</name>
-		<code>announcement</code>
-		<section>content_object</section>
-		<category>news</category>
+		<name>User</name>
+		<code>user</code>
+		<section>core</section>
+		<category>core</category>
 		<authors></authors>
 		<version>1.0.0</version>
-		<filename>pool/main/content_object/a/announcement/announcement-2.1.0.zip</filename>
+		<filename>pool/main/core/u/user/user-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
@@ -20,17 +20,10 @@
 			<server>
 				<dependency>
 					<id>php</id>
-					<version type="4">5.2.0</version>
+					<version type="4">5.3.0</version>
 					<severity>1</severity>
 				</dependency>
 			</server>
-			<applications>
-				<dependency>
-					<id>personal_calendar</id>
-					<version type="4">1.0.0</version>
-					<severity>1</severity>
-				</dependency>
-			</applications>
 		</dependencies>
 	</package>
 </packages>
