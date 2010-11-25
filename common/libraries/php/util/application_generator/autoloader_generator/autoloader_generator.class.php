@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries\application_generator;
 
+use common\libraries\Utilities;
+
 /**
  * Dataclass generator used to generate autoloader files
  * @author Sven Vanpoucke
@@ -23,7 +25,7 @@ class AutoloaderGenerator
      * @param string $location - The location of the class
      * @param string $application_name - The name of the application
      */
-    function generate_autoload_files($location, $application_name, $classes, $author)
+    function generate_autoloader_files($location, $application_name, $classes, $author)
     {
         if (! is_dir($location))
             mkdir($location, 0777, true);
