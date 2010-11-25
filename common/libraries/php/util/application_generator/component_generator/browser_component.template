@@ -28,11 +28,11 @@ class {APPLICATION_NAME}Manager{OBJECT_CLASSES}BrowserComponent extends {APPLICA
         ${L_OBJECT_CLASSES} = $this->retrieve_{L_OBJECT_CLASSES}();
         while(${L_OBJECT_CLASS} = ${L_OBJECT_CLASSES}->next_result())
         {
-                echo '<div style="border: 1px solid grey; padding: 5px;">';
-                dump(${L_OBJECT_CLASS});
-                echo '<br /><a href="' . $this->get_update_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}). '">' . Translation :: get('Update{OBJECT_CLASS}') . '</a>';
-                echo ' | <a href="' . $this->get_delete_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}) . '">' . Translation :: get('Delete{OBJECT_CLASS}') . '</a>';
-                echo '</div><br /><br />';
+            echo '<div style="border: 1px solid grey; padding: 5px;">';
+            dump(${L_OBJECT_CLASS});
+            echo '<br /><a href="' . $this->get_update_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}). '">' . Translation :: get('Update{OBJECT_CLASS}') . '</a>';
+            echo ' | <a href="' . $this->get_delete_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}) . '">' . Translation :: get('Delete{OBJECT_CLASS}') . '</a>';
+            echo '</div><br /><br />';
         }
 
         $this->display_footer();

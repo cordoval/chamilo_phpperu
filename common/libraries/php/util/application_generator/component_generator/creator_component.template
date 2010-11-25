@@ -27,14 +27,14 @@ class {APPLICATION_NAME}Manager{OBJECT_CLASS}CreatorComponent extends {APPLICATI
 
         if($form->validate())
         {
-                $success = $form->create_{L_OBJECT_CLASS}();
-                $this->redirect($success ? Translation :: get('{OBJECT_CLASS}Created') : Translation :: get('{OBJECT_CLASS}NotCreated'), !$success, array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}));
+            $success = $form->create_{L_OBJECT_CLASS}();
+            $this->redirect($success ? Translation :: get('{OBJECT_CLASS}Created') : Translation :: get('{OBJECT_CLASS}NotCreated'), !$success, array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}));
         }
         else
         {
-                $this->display_header($trail);
-                $form->display();
-                $this->display_footer();
+            $this->display_header($trail);
+            $form->display();
+            $this->display_footer();
         }
     }
 

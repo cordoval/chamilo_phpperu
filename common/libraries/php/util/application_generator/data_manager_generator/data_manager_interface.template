@@ -15,13 +15,13 @@ interface {APPLICATION_NAME}DataManagerInterface
     function initialize();
 
     <!-- BEGIN OBJECTS -->
-    abstract function get_next_{OBJECTS.L_OBJECT_CLASS}_id();
-    abstract function create_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS});
-    abstract function update_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS});
-    abstract function delete_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS});
-    abstract function count_{OBJECTS.L_OBJECT_CLASSES}($conditions = null);
-    abstract function retrieve_{OBJECTS.L_OBJECT_CLASS}($id);
-    abstract function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $count = null, $order_property = null);
+    function get_next_{OBJECTS.L_OBJECT_CLASS}_id();
+    function create_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS});
+    function update_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS});
+    function delete_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS});
+    function count_{OBJECTS.L_OBJECT_CLASSES}($conditions = null);
+    function retrieve_{OBJECTS.L_OBJECT_CLASS}($id);
+    function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $count = null, $order_property = null);
     <!-- END OBJECTS -->
 }
 ?>
