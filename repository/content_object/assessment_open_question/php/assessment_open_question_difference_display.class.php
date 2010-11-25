@@ -2,7 +2,6 @@
 namespace repository\content_object\assessment_open_question;
 
 use common\libraries\Path;
-
 use repository\ContentObjectDifferenceDisplay;
 
 /**

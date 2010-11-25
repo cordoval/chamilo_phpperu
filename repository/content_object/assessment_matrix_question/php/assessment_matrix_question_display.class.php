@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment_matrix_question;
 
 use common\libraries\Path;
+use repository\MatrixQuestionDisplay;
 
 /**
  * $Id: assessment_matrix_question_display.class.php $
