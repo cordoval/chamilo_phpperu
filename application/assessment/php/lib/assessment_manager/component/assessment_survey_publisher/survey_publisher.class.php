@@ -16,6 +16,7 @@ use common\libraries\Mail;
  * @package application.lib.assessment.assessment_manager.component.assessment_survey_publisher
  */
 require_once dirname(__FILE__) . '/survey_publication_form.class.php';
+require_once dirname(__FILE__) . '/survey_publisher_component.class.php';
 require_once dirname(__FILE__) . '/../../../survey_invitation.class.php';
 
 class SurveyPublisher extends SurveyPublisherComponent

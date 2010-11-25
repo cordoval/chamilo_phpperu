@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries\application_generator;
 
+use common\libraries\Utilities;
+
 /**
  * Manager generator used to generate managers
  * @author Sven Vanpoucke
