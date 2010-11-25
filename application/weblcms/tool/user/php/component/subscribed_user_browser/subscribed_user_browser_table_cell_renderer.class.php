@@ -134,7 +134,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 
                 $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $unsubscribe_url, ToolbarItem :: DISPLAY_ICON));
 
-                if($this->course_user_relation->get_status() == CourseUserRelation :: STATUS_TEACHER)
+                if($this->course_user_relation && $this->course_user_relation->get_status() == CourseUserRelation :: STATUS_TEACHER)
                 {
                     $status_change_url = $this->browser->get_status_changer_url($user->get_id(), CourseUserRelation :: STATUS_STUDENT);
                     $toolbar->add_item(new ToolbarItem(Translation :: get('MakeStudent'), Theme :: get_image_path(WebApplication :: determine_namespace(WeblcmsManager :: APPLICATION_NAME)) . 'action_subscribe_student.png', $status_change_url, ToolbarItem :: DISPLAY_ICON));
