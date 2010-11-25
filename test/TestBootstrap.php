@@ -62,7 +62,9 @@ class Initializer
 
     private static function _initPHPSettings()
     {
-        ini_set('error_reporting', 'E_ALL & ~E_DEPRECATED');
+	// I do not understand why but Fatal error aren't shown 
+	// when setting these parameters
+        //ini_set('error_reporting', 'E_ALL & ~E_DEPRECATED');
     }
 
 }
