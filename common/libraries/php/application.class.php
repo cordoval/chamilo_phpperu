@@ -57,7 +57,8 @@ abstract class Application
         $table_name = Request :: post('table_name');
         if (isset($table_name))
         {
-            $class = Utilities :: underscores_to_camelcase($table_name);
+            $namespace = Request :: post($table_name . '_namespace');
+            $class = $namespace . '\\' . Utilities :: underscores_to_camelcase($table_name);
             if (class_exists($class))
             {
                 call_user_func(array($class, 'handle_table_action'));
