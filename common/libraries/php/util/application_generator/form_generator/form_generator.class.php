@@ -41,7 +41,7 @@ class FormGenerator
             
             $this->template->assign_vars(array('OBJECT_CLASS' => $object_name, 'L_OBJECT_CLASS' => Utilities :: camelcase_to_underscores($object_name), 'AUTHOR' => $author,
                 'NAMESPACE' => 'application\\' . $application_name));
-            
+
             foreach ($properties as $property)
             {
                 $property_lower = Utilities :: camelcase_to_underscores($property);

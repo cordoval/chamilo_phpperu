@@ -21,9 +21,12 @@ class Autoloader
             <!-- BEGIN OBJECTS -->
             '{OBJECTS.L_OBJECT_CLASS}' => '{OBJECTS.L_OBJECT_CLASS}.class.php',
             '{OBJECTS.L_OBJECT_CLASS}_form' => 'forms/{OBJECTS.L_OBJECT_CLASS}_form.class.php',
+            <!-- BEGIN TABLE -->
+            '{OBJECTS.L_OBJECT_CLASS}_browser_table' => '{L_APPLICATION_NAME}_manager/component/{OBJECTS.L_OBJECT_CLASS}_browser/{OBJECTS.L_OBJECT_CLASS}_browser_table.class.php',
+            <!-- END TABLE -->
             <!-- END OBJECTS -->
             '{L_APPLICATION_NAME}_manager' => '{L_APPLICATION_NAME}_manager/{L_APPLICATION_NAME}_manager.class.php'
-            );
+        );
 
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 

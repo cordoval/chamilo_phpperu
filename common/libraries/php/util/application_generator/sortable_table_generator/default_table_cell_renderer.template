@@ -15,36 +15,36 @@ use common\libraries\ObjectTableCellRenderer;
  */
 class Default{OBJECT_CLASS}TableCellRenderer extends ObjectTableCellRenderer
 {
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-	}
-	
-	/**
-	 * Renders a table cell
-	 * @param ContentObjectTableColumnModel $column The column which should be
-	 * rendered
-	 * @param {OBJECT_CLASS} ${L_OBJECT_CLASS} - The {L_OBJECT_CLASS}
-	 * @return string A HTML representation of the rendered table cell
-	 */
-	function render_cell($column, ${L_OBJECT_CLASS})
-	{
-		switch ($column->get_name())
-		{
-			<!-- BEGIN PROPERTIES -->
-			case {OBJECT_CLASS} :: PROPERTY_{PROPERTIES.U_PROPERTY} :
-				return ${L_OBJECT_CLASS}->get_{PROPERTIES.L_PROPERTY}();
-			<!-- END PROPERTIES -->
-			default :
-				return '&nbsp;';
-		}
-	}
-	
-	function render_id_cell($object)
-	{
-		return $object->get_id();
-	}
+    /**
+     * Constructor
+     */
+    function __construct()
+    {
+    }
+
+    /**
+     * Renders a table cell
+     * @param ContentObjectTableColumnModel $column The column which should be
+     * rendered
+     * @param {OBJECT_CLASS} ${L_OBJECT_CLASS} - The {L_OBJECT_CLASS}
+     * @return string A HTML representation of the rendered table cell
+     */
+    function render_cell($column, ${L_OBJECT_CLASS})
+    {
+        switch ($column->get_name())
+        {
+            <!-- BEGIN PROPERTIES -->
+            case {OBJECT_CLASS} :: PROPERTY_{PROPERTIES.U_PROPERTY} :
+                return ${L_OBJECT_CLASS}->get_{PROPERTIES.L_PROPERTY}();
+            <!-- END PROPERTIES -->
+            default :
+                return '&nbsp;';
+        }
+    }
+
+    function render_id_cell($object)
+    {
+        return $object->get_id();
+    }
 }
 ?>

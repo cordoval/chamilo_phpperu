@@ -17,8 +17,9 @@ include (dirname(__FILE__) . '/component_generator/component_generator.class.php
 include (dirname(__FILE__) . '/rights_generator/rights_generator.class.php');
 include (dirname(__FILE__) . '/install_generator/install_generator.class.php');
 include (dirname(__FILE__) . '/autoloader_generator/autoloader_generator.class.php');
+include (dirname(__FILE__) . '/package_info_generator/package_info_generator.class.php');
 
-$location = $application['location'];
+$location = $application['location'] . '/php/';
 $name = $application['name'];
 $author = $application['author'];
 
@@ -37,7 +38,7 @@ log_message('Folders succesfully created.');
  * Generate Forms
  */
 log_message('Generating dataclasses, forms and tables...');
-$files = Filesystem :: get_directory_content($location, Filesystem :: LIST_FILES, false);
+$files = Filesystem :: get_directory_content($location . '../', Filesystem :: LIST_FILES, false);
 foreach ($files as $file)
 {
     if (substr($file, - 4) != '.xml')
@@ -45,14 +46,14 @@ foreach ($files as $file)
     
     $new_path = move_file($location, $file);
     
-    $properties = retrieve_properties_from_xml_file($location, $file);
+    $properties = retrieve_properties_from_xml_file($location . '/../', $file);
     $lclass = str_replace('.xml', '', basename($file));
     $classname = Utilities :: underscores_to_camelcase($lclass);
     
     $description = 'This class describes a ' . $classname . ' data object';
     
-    $data_class_generator->generate_data_class($location, $classname, $properties, $name, $description, $author, $name);
-    $form_generator->generate_form($location . 'forms/', $classname, $properties, $author, $name);
+    $data_class_generator->generate_data_class($location . 'lib/', $classname, $properties, $name, $description, $author, $name);
+    $form_generator->generate_form($location . 'lib/forms/', $classname, $properties, $author, $name);
     
     if ($application['options'][$lclass]['table'] == 1)
     {
@@ -88,9 +89,13 @@ log_message('Generating install files...');
 generate_install_files($location, $name, $author);
 log_message('Install files generated.');
 
-log_message('Generate autoloader files...');
-generate_autoloader_files($location, $name, $classes, $author);
-log_message('Autoloader files generated.');
+log_message('Generate autoloader...');
+generate_autoloader($location, $name, $classes, $author, $application['options']);
+log_message('Autoloader generated.');
+
+log_message('Generating package info...');
+generate_package_info($location, $name, $author);
+log_message('Package info generated.');
 
 /**
  * Create folders for the application
@@ -100,7 +105,8 @@ log_message('Autoloader files generated.');
  */
 function create_folders($location, $name)
 {
-    $folders = array('data_manager', 'forms', 'install', $name . '_manager', $name . '_manager/component', 'rights', 'tables');
+    $folders = array('lib/data_manager', 'lib/forms', 'install', 'lib/' . $name . '_manager',
+        'lib/' . $name . '_manager/component', 'rights', 'lib/tables');
     foreach ($folders as $folder)
     {
         Filesystem :: create_dir($location . $folder);
@@ -116,7 +122,7 @@ function create_folders($location, $name)
 function move_file($location, $file)
 {
     $new_file = $location . 'install/' . basename($file);
-    Filesystem :: copy_file($location . $file, $new_file);
+    Filesystem :: copy_file($location . '../' . $file, $new_file);
     return $new_file;
 }
 
@@ -154,8 +160,8 @@ function generate_sortable_table($location, $classname, $properties, $name, $aut
 {
     $l_class = Utilities :: camelcase_to_underscores($classname);
     
-    $default_location = $location . 'tables/' . $l_class . '_table/';
-    $browser_table_location = $location . $name . '_manager/component/' . $l_class . '_browser/';
+    $default_location = $location . 'lib/tables/' . $l_class . '_table/';
+    $browser_table_location = $location . 'lib/' . $name . '_manager/component/' . $l_class . '_browser/';
     
     global $sortable_table_generator;
     $sortable_table_generator->generate_tables($default_location, $browser_table_location, $name, $properties, $classname, $author);
@@ -171,8 +177,8 @@ function generate_sortable_table($location, $classname, $properties, $name, $aut
  */
 function generate_data_managers($location, $name, $classes, $author)
 {
-    $data_manager_location = $location;
-    $database_location = $location . 'data_manager/';
+    $data_manager_location = $location . 'lib/';
+    $database_location = $location . 'lib/data_manager/';
     $data_manager_generator = new DataManagerGenerator();
     $data_manager_generator->generate_data_managers($data_manager_location, $database_location, $name, $classes, $author);
 }
@@ -187,7 +193,7 @@ function generate_data_managers($location, $name, $classes, $author)
  */
 function generate_managers($location, $name, $classes, $author)
 {
-    $manager_location = $location . Utilities :: camelcase_to_underscores($name) . '_manager/';
+    $manager_location = $location . 'lib/' . Utilities :: camelcase_to_underscores($name) . '_manager/';
     $manager_generator = new ManagerGenerator();
     $manager_generator->generate_managers($manager_location, $name, $classes, $author);
 }
@@ -202,7 +208,7 @@ function generate_managers($location, $name, $classes, $author)
  */
 function generate_components($location, $name, $classes, $author)
 {
-    $manager_location = $location . Utilities :: camelcase_to_underscores($name) . '_manager/component/';
+    $manager_location = $location . 'lib/' . Utilities :: camelcase_to_underscores($name) . '_manager/component/';
     $component_generator = new ComponentGenerator();
     
     global $application;
@@ -247,17 +253,30 @@ function log_message($message)
 }
 
 /**
- * Generates the autoloaders for an application
+ * Generates the autoloader for an application
  *
  * @param String $location - The application location
  * @param String $name - The application name
  * @param String $classes - The class names
  * @param String $author - The Author
  */
-function generate_autoloader_files($location, $name, $classes, $author)
+function generate_autoloader($location, $name, $classes, $author, $options)
 {
     $manager_generator = new AutoloaderGenerator();
-    $manager_generator->generate_autoloader_files($location, $name, $classes, $author);
+    $manager_generator->generate_autoloader($location, $name, $classes, $author, $options);
+}
+
+/**
+ * Generates the package info for an application
+ *
+ * @param String $location - The application location
+ * @param String $name - The application name
+ * @param String $author - The Author
+ */
+function generate_package_info($location, $name, $author)
+{
+    $manager_generator = new PackageInfoGenerator();
+    $manager_generator->generate_package_info($location, $name, $author);
 }
 
 ?>

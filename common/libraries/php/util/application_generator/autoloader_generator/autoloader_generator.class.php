@@ -25,12 +25,12 @@ class AutoloaderGenerator
      * @param string $location - The location of the class
      * @param string $application_name - The name of the application
      */
-    function generate_autoloader_files($location, $application_name, $classes, $author)
+    function generate_autoloader($location, $application_name, $classes, $author, $options)
     {
         if (! is_dir($location))
             mkdir($location, 0777, true);
         
-        $file = fopen($location . Utilities :: camelcase_to_underscores($application_name) . '_autoloader.class.php', 'w+');
+        $file = fopen($location . 'autoloader.class.php', 'w+');
         
         if ($file)
         {
@@ -41,6 +41,11 @@ class AutoloaderGenerator
             {
                 $class_lower = Utilities :: camelcase_to_underscores($class);
                 $this->template->assign_block_vars('OBJECTS', array('L_OBJECT_CLASS' => $class_lower));
+
+                if($options[$class_lower]['table'] == 1)
+                {
+                    $this->template->assign_block_vars('OBJECTS.TABLE', array());
+                }
             }
 
             $string = trim($this->template->pparse_return('autoloader'));
