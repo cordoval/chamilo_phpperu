@@ -122,6 +122,12 @@ class HotspotQuestionForm extends ContentObjectForm
     function create_content_object()
     {
         $values = $this->exportValues();
+
+        if ($values['image_object'] == 'image_object')
+        {
+            return false;
+        }
+
         $object = new HotspotQuestion();
         $object->set_image($values['image_object']);
         $this->set_content_object($object);
