@@ -147,7 +147,7 @@ function dump_tree($tree, $objects)
         {
             $id = $lo->get_id();
             $value = Utilities :: content_object_for_element_finder($lo);
-            echo '<leaf id="lo_', $id, '" classes="', $value['class'], '" title="', htmlentities($value['title']), '" description="', htmlentities($value['description']), '"/>', "\n";
+            echo '<leaf id="lo_' . $id . '" classes="' . $value['classes'] . '" title="' . htmlentities($value['title']) . '" description="' . htmlentities($value['description']) . '"/>' . "\n";
         }
         echo '</node>', "\n";
     }

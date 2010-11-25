@@ -47,14 +47,14 @@ class HotspotQuestionForm extends ContentObjectForm
         $this->addElement('html', '<div id="hotspot_select" style="display: none;">');
         $this->addElement('category', Translation :: get('Hotspots'));
         $this->addElement('static', 'uploadify', Translation :: get('UploadImage'), '<div id="uploadify"></div>');
-        $this->addElement('element_finder', 'image', Translation :: get('SelectImage'), $url, $locale, array());
+        $this->addElement('element_finder', 'image', Translation :: get('SelectImage'), $url, $locale, array(), array('load_elements' => true));
         $this->addElement('category');
         $this->addElement('html', '</div>');
 
         $this->addElement('html', '<div id="hotspot_options" style="display: none;">');
         $this->addElement('category', Translation :: get('Hotspots'));
         $this->add_options();
-        $this->addElement('hidden', 'image_object', Translation :: get('ImageObject'));
+        $this->addElement('hidden', 'image_object', 'image_object');
         $this->addElement('category');
 
         $this->add_image();
@@ -74,7 +74,7 @@ class HotspotQuestionForm extends ContentObjectForm
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js'));
         $this->add_options();
-        $this->addElement('hidden', 'image_object', Translation :: get('ImageObject'));
+        $this->addElement('hidden', 'image_object', 'image_object');
 
         $this->addElement('category');
 
