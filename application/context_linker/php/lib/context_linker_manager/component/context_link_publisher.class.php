@@ -7,7 +7,8 @@ use common\libraries\EqualityCondition;
 use application\metadata\MetadataPropertyValue;
 use application\metadata\ContentObjectMetadataPropertyValue;
 use common\libraries\Utilities;
-
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 /**
  * Component to create a new context_link object
  * @author Sven Vanpoucke
@@ -24,6 +25,11 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
 
     function run()
     {
+        $trail = new BreadcrumbTrail;
+        $trail->add(new Breadcrumb($this->get_url(array(ContextLinkerManager :: PARAM_ACTION => null)), Translation :: get('ContextLinker')));
+        $trail->add(new Breadcrumb(Translation :: get('CreateObject', array('OBJECT' => Translation::get('ContextLink')), Utilities::COMMON_LIBRARIES)));
+        $trail->add_help('ContextLinkCreator');
+
         $context_link = new ContextLink();
         $context_link->set_original_content_object_id(Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID));
         $context_link->set_alternative_content_object_id(Request :: get(ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID));
@@ -59,7 +65,7 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
         }
         else
         {
-            $this->display_header();
+            $this->display_header($trail);
             $html = array();
             $html[] = '<table><tr><td><h4>'.Translation :: get('OriginalContentObject').'</h4>';
             $html[] = '<div>' . $this->get_content_object_metadata_output(Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID)) . '</div>';

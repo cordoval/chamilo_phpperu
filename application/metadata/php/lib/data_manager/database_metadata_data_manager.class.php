@@ -248,6 +248,10 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 		return $this->retrieve_objects(ContentObjectMetadataPropertyValue :: get_table_name(), $condition, $offset, $max_objects, $order_by, ContentObjectMetadataPropertyValue :: CLASS_NAME);
 	}
 
+        /*
+         * retrieves metadata property values from content object preformatted
+         * @return array property values [$n] = prefix : property type = prefix property value
+         */
         function retrieve_full_content_object_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
         {
             $type_alias = $this->get_alias(MetadataPropertyType :: get_table_name());
