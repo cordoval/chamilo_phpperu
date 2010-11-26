@@ -4,7 +4,7 @@ namespace repository\content_object\survey;
 use common\libraries\Translation;
 use common\libraries\Path;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context_registration.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context_registration.class.php';
 
 class SurveyContextManagerRegistrationDeleterComponent extends SurveyContextManager
 {

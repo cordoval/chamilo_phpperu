@@ -1,11 +1,11 @@
-<?php namespace repository\content_object\survey;
+<?php 
 namespace repository\content_object\survey;
 
 use common\libraries\Path;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context.class.php';
 
 class DefaultSurveyContextTableColumnModel extends ObjectTableColumnModel
 {
