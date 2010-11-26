@@ -15,7 +15,6 @@ use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
 use repository\content_object\learning_path\LearningPathComplexDisplaySupport;
 use repository\content_object\learning_path\LearningPathDisplay;
-use repository\content_object\learning_path\LearningPathContentObjectDisplay;
 use repository\content_object\assessment\AssessmentComplexDisplaySupport;
 use repository\content_object\forum\ForumComplexDisplaySupport;
 use repository\content_object\wiki\WikiComplexDisplaySupport;
@@ -33,6 +32,7 @@ use application\weblcms\WeblcmsForumTopicViewsTracker;
 
 use tracking\Event;
 
+require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_content_object_display.class.php';
 require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lp_attempt_tracker.class.php';
 require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lpi_attempt_tracker.class.php';
 require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lpi_attempt_objective_tracker.class.php';
