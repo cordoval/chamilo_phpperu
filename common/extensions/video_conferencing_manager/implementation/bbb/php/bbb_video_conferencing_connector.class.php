@@ -1,19 +1,20 @@
 <?php
 namespace common\extensions\video_conferencing_manager\implementation\bbb;
 
+use common\libraries\Path;
+
 use common\extensions\video_conferencing_manager\VideoConferencingConnector;
 use common\extensions\video_conferencing_manager\VideoConferencingObject;
 
 use repository\ExternalSetting;
 
-/**
- * Consumer Key: 69950a3f3ed038479b4b65ffde049f1d
- * Consumer Secret: a84782d0ca686c59
- */
+use phpBbb;
+
+require_once Path :: get_plugin_path(__NAMESPACE__) . 'phpbbb/bbb.php';
 
 class BbbVideoConferencingConnector extends VideoConferencingConnector
 {  
-    private $dimdim;
+    private $bbb;
     private $account_id;
     private $account_pw;
     private $meeting_name;
@@ -32,6 +33,8 @@ class BbbVideoConferencingConnector extends VideoConferencingConnector
         $this->account = ExternalSetting :: get('account', $this->get_video_conferencing_instance_id());
         $this->password = ExternalSetting :: get('password', $this->get_video_conferencing_instance_id());
         
+        $this->bbb = new phpBbb('devbuild.bigbluebutton.org', '639259d4-9dd8-4b25-bf01-95f9567eaf4b');
+        $this->bbb->authenticate('BBB Example Meeting', 'test123', '123456', '234567', 'hello');
 //        
 //        $this->vimeo = new phpVimeo($this->consumer_key, $this->consumer_secret);
 //        $oauth_token = ExternalRepositoryUserSetting :: get('oauth_token', $this->get_external_repository_instance_id());

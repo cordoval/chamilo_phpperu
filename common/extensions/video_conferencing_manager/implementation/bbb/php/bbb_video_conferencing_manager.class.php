@@ -36,13 +36,13 @@ class BbbVideoConferencingManager extends VideoConferencingManager
      */
     function validate_settings($video_conferencing)
     {
-     	$account_id = ExternalSetting :: get('account_id', $video_conferencing->get_id());
-        $account_pw = ExternalSetting :: get('account_pw', $video_conferencing->get_id());
-
-        if (! $account_id || ! $account_pw)
-        {
-            return false;
-        }
+//     	$account_id = ExternalSetting :: get('account_id', $video_conferencing->get_id());
+//        $account_pw = ExternalSetting :: get('account_pw', $video_conferencing->get_id());
+//
+//        if (! $account_id || ! $account_pw)
+//        {
+//            return false;
+//        }
         return true;
     }
 
