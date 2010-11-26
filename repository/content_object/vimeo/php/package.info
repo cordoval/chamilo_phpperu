@@ -18,6 +18,10 @@
 			</author>
 		</authors>
 		<version>1.0.0</version>
+		<release>
+			<phase>GA</phase>
+			<realm>main</realm>
+		</release>
 		<filename>pool/main/content_object/v/vimeo/vimeo-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>

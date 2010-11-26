@@ -13,6 +13,10 @@
 			</author>
 		</authors>
 		<version>1.0.0</version>
+		<release>
+			<phase>GA</phase>
+			<realm>main</realm>
+		</release>
 		<filename>pool/main/extension/e/email_manager/email_manager-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
