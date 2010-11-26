@@ -5,7 +5,7 @@ use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\SubManager;
 
-class ExternalInstanceInstanceManager extends SubManager
+class ExternalInstanceManager extends SubManager
 {
     const PARAM_INSTANCE_ACTION = 'action';
     const PARAM_INSTANCE = 'instance';
@@ -44,7 +44,7 @@ class ExternalInstanceInstanceManager extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_repository_path() . 'lib/external_instance_instance_manager/component/';
+        return Path :: get_repository_path() . 'lib/external_instance_manager/component/';
     }
 
     function count_videos_conferencing($condition = null)
@@ -65,6 +65,18 @@ class ExternalInstanceInstanceManager extends SubManager
     function retrieve_external_instance($external_instance_id)
     {
         return $this->get_parent()->retrieve_external_instance($external_instance_id);
+    }
+    
+   static function get_namespace($type = null)
+    {
+        if ($type)
+        {
+            return __NAMESPACE__ . '\implementation\\' . $type;
+        }
+        else
+        {
+            return __NAMESPACE__;
+        }
     }
 
     /**

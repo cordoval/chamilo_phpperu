@@ -9,11 +9,11 @@ use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\Utilities;
 
-use common\extensions\external_repository_manager\VideoConferencingRenderer;
-use common\extensions\external_repository_manager\VideoConferencingManager;
-use common\extensions\external_repository_manager\VideoConferencingObject;
+use common\extensions\video_conferencing_manager\VideoConferencingObjectRenderer;
+use common\extensions\video_conferencing_manager\VideoConferencingManager;
+use common\extensions\video_conferencing_manager\VideoConferencingObject;
 
-use repository\VideoConferencingSetting;
+use repository\ExternalSetting;
 use repository\content_object\document\Document;
 
 /**
@@ -34,10 +34,10 @@ class BbbVideoConferencingManager extends VideoConferencingManager
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#validate_settings()
      */
-    function validate_settings()
+    function validate_settings($video_conferencing)
     {
-     	$account_id = VideoConferencingSetting :: get('account_id');
-        $account_pw = VideoConferencingSetting :: get('account_pw');
+     	$account_id = ExternalSetting :: get('account_id', $video_conferencing->get_id());
+        $account_pw = ExternalSetting :: get('account_pw', $video_conferencing->get_id());
 
         if (! $account_id || ! $account_pw)
         {
@@ -79,7 +79,7 @@ class BbbVideoConferencingManager extends VideoConferencingManager
     {
         $actions = array(self :: ACTION_CREATE_MEETING);
 
-        $is_platform = $this->get_user()->is_platform_admin() && (count(VideoConferencingSetting :: get_all()) > 0);
+        $is_platform = $this->get_user()->is_platform_admin() && (count(VideoConferencingSetting :: get_all($this->get_video_conferencing()->get_id())) > 0);
 
         if ($is_platform)
         {

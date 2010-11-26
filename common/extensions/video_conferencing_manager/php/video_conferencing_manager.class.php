@@ -7,16 +7,24 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Path;
+use common\libraries\Theme;
+use common\libraries\Request;
+use common\libraries\Application;
+use common\libraries\Translation;
+use common\libraries\DynamicVisualTabsRenderer;
+use common\libraries\DynamicVisualTab;
 
 use admin\Registration;
 use admin\AdminDataManager;
+
+use repository\ExternalSetting;
 
 abstract class VideoConferencingManager extends SubManager
 {
     const PARAM_VIDEO_CONFERENCING_MANAGER_ACTION = 'conferencing_action';
 
-    const ACTION_CREATE_MEETING = 'create';
-    const ACTION_CONFIGURE_VIDEO_CONFERENCING = 'configure';
+    const ACTION_CREATE_MEETING = 'creator';
+    const ACTION_CONFIGURE_VIDEO_CONFERENCING = 'configurer';
 
     const DEFAULT_ACTION = self :: ACTION_CREATE_MEETING;
 
@@ -25,6 +33,7 @@ abstract class VideoConferencingManager extends SubManager
     const PARAM_QUERY = 'query';
     const PARAM_RENDERER = 'renderer';
 
+    const NAMESPACE_NAME = __NAMESPACE__;
     const CLASS_NAME = __CLASS__;
 
     private $video_conferencing;
@@ -45,7 +54,7 @@ abstract class VideoConferencingManager extends SubManager
 
         $this->set_optional_parameters();
 
-        if ($this->validate_settings())
+        if ($this->validate_settings($this->video_conferencing))
         {
             $this->initialize_video_conferencing($this);
         }
@@ -94,7 +103,9 @@ abstract class VideoConferencingManager extends SubManager
      */
     static function launch($application)
     {
-        $type = $application->get_video_conferencing()->get_type();
+        $video_conferencing = $application->get_video_conferencing();
+  
+    	$type = $video_conferencing->get_type();
 
         $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_video_conferencing_manager.class.php';
         if (! file_exists($file))
@@ -106,15 +117,14 @@ abstract class VideoConferencingManager extends SubManager
 
         $class = self :: NAMESPACE_NAME . '\implementation\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'VideoConferencingManager';
 
-        $settings_validated = call_user_func(array($class, 'validate_settings'));
+        $settings_validated = call_user_func(array($class, 'validate_settings'), $video_conferencing);
 
         if (! $settings_validated)
         {
             if ($application->get_user()->is_platform_admin())
             {
                 Request :: set_get(Application :: PARAM_ERROR_MESSAGE, Translation :: get('PleaseReviewSettings'));
-                Request :: set_get(self :: PARAM_EXTERNAL_VIDEO_CONFERENCING_ACTION, self :: ACTION_CONFIGURE_VIDEO_CONFERENCING);
-            }
+                Request :: set_get(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION, self :: ACTION_CONFIGURE_VIDEO_CONFERENCING);            }
             else
             {
                 parent :: display_header();
@@ -199,7 +209,7 @@ abstract class VideoConferencingManager extends SubManager
         $actions = array();
         $actions[] = self :: ACTION_CREATE_MEETING;
 
-        $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 0);
+        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalSetting :: get_all($this->get_video_conferencing()->get_id())) > 0);
 
         if ($is_platform)
         {
@@ -250,7 +260,7 @@ abstract class VideoConferencingManager extends SubManager
     /**
      * @return boolean
      */
-    abstract function validate_settings();
+    abstract function validate_settings($video_conferencing);
 
     /**
      * @return string
@@ -277,7 +287,7 @@ abstract class VideoConferencingManager extends SubManager
      * @param VideoConferencingObject $object
      * @return string
      */
-    abstract function get_video_conferencing_object_viewing_url(VideoConferencingObject $object);
+    //abstract function get_video_conferencing_object_viewing_url(VideoConferencingObject $object);
 
     /**
      * @param string $id
@@ -348,7 +358,7 @@ abstract class VideoConferencingManager extends SubManager
     /**
      * @return Condition
      */
-    abstract function get_content_object_type_conditions();
+    //abstract function get_content_object_type_conditions();
 
     /**
      * @param string $type

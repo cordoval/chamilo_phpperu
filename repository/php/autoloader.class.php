@@ -181,7 +181,7 @@ class Autoloader
                 'repository_block' => '../blocks/repository_block.class.php',
                 'database_repository_data_manager' => 'data_manager/database_repository_data_manager.class.php',
                 'external_repository_instance_manager' => 'external_repository_instance_manager/external_repository_instance_manager.class.php',
-        		'video_conferencing_instance_manager' => 'video_conferencing_instance_manager/video_conferencing_instance_manager.class.php');
+        		'external_instance_manager' => 'external_instance_manager/external_instance_manager.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

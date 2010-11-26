@@ -3,7 +3,7 @@ namespace repository;
 
 use common\libraries\ObjectTableDataProvider;
 
-class ExternalInstanceInstanceBrowserTableDataProvider extends ObjectTableDataProvider
+class ExternalInstanceBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
     /**

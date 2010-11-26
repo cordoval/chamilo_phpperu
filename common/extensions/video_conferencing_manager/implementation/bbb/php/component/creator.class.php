@@ -3,7 +3,7 @@ namespace common\extensions\video_conferencing_manager\implementation\bbb;
 
 use common\extensions\video_conferencing_manager\VideoConferencingComponent;
 
-class BbbVideoConferencingManagerViewerComponent extends BbbVideoConferencingManager
+class BbbVideoConferencingManagerCreatorComponent extends BbbVideoConferencingManager
 {
 
     function run()
@@ -11,4 +11,4 @@ class BbbVideoConferencingManagerViewerComponent extends BbbVideoConferencingMan
         VideoConferencingComponent :: launch($this);
     }
 }
-?>s
+?>

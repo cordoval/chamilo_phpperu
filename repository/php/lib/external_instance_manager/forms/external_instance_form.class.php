@@ -1,7 +1,7 @@
 <?php
 namespace repository;
 
-use common\extensions\external_instance_manager\ExternalInstanceManager;
+
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -78,7 +78,7 @@ class ExternalInstanceForm extends FormValidator
         $external_instance = $this->external_instance;
         $configuration = $this->configuration;
 
-        require_once Path :: get_common_extensions_path() . 'external_instance_manager/implementation/' . $external_instance->get_type() . '/php/settings/settings_' . $external_instance->get_type() . '_connector.class.php';
+        require_once Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/' . $external_instance->get_type() . '/php/settings/settings_' . $external_instance->get_type() . '_connector.class.php';
 
         $categories = count($configuration['settings']);
 
@@ -200,22 +200,22 @@ class ExternalInstanceForm extends FormValidator
         $external_instance = $this->external_instance;
         $values = $this->exportValues();
 
-        $external_repository->set_title($values[ExternalInstance :: PROPERTY_TITLE]);
-        $external_repository->set_description($values[ExternalInstance :: PROPERTY_DESCRIPTION]);
-        $external_repository->set_type($values[ExternalInstance :: PROPERTY_TYPE]);
-        $external_repository->set_creation_date(time());
-        $external_repository->set_modification_date(time());
+        $external_instance->set_title($values[ExternalInstance :: PROPERTY_TITLE]);
+        $external_instance->set_description($values[ExternalInstance :: PROPERTY_DESCRIPTION]);
+        $external_instance->set_type($values[ExternalInstance :: PROPERTY_TYPE]);
+        $external_instance->set_creation_date(time());
+        $external_instance->set_modification_date(time());
 
         if (isset($values[ExternalInstance :: PROPERTY_ENABLED]))
         {
-            $external_repository->set_enabled(true);
+            $external_instance->set_enabled(true);
         }
         else
         {
-            $external_repository->set_enabled(false);
+            $external_instance->set_enabled(false);
         }
 
-        if (! $external_repository->update())
+        if (! $external_instance->update())
         {
             return false;
         }
@@ -226,7 +226,7 @@ class ExternalInstanceForm extends FormValidator
 
             foreach ($settings as $name => $value)
             {
-                $setting = RepositoryDataManager :: get_instance()->retrieve_external_instance_setting_from_variable_name($name, $external_instance->get_id());
+                $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name($name, $external_instance->get_id());
                 $setting->set_value($value);
 
                 if (! $setting->update())
@@ -345,7 +345,7 @@ class ExternalInstanceForm extends FormValidator
     {
         $external_instance = $this->external_instance;
 
-        $file = Path :: get_common_extensions_path() . 'external_instance_manager/implementation/' . $external_instance->get_type() . '/php/settings/settings_' . $external_instance->get_type() . '.xml';
+        $file = Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/' . $external_instance->get_type() . '/php/settings/settings_' . $external_instance->get_type() . '.xml';
         $result = array();
 
         if (file_exists($file))

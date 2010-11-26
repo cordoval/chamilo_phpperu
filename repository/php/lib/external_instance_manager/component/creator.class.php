@@ -25,7 +25,7 @@ use DOMDocument;
 
 require_once dirname(__FILE__) . '/../forms/external_instance_form.class.php';
 
-class ExternalInstanceInstanceManagerCreatorComponent extends ExternalInstanceInstanceManager
+class ExternalInstanceManagerCreatorComponent extends ExternalInstanceManager
 {
 
     function run()
@@ -38,20 +38,20 @@ class ExternalInstanceInstanceManagerCreatorComponent extends ExternalInstanceIn
             $this->not_allowed();
         }
 
-        $type = Request :: get(ExternalInstanceInstanceManager :: PARAM_EXTERNAL_INSTANCE_TYPE);
+        $type = Request :: get(ExternalInstanceManager :: PARAM_EXTERNAL_INSTANCE_TYPE);
         if ($type && ExternalInstanceManager :: exists($type))
         {
             $external_instance = new ExternalInstance();
             $external_instance->set_type($type);
             $external_instance->set_instance_type(Utilities :: get_classname_from_namespace(ExternalInstanceManager :: CLASS_NAME, true));
             $form = new ExternalInstanceForm(ExternalInstanceForm :: TYPE_CREATE, $external_instance, $this->get_url(array(
-                    ExternalInstanceInstanceManager :: PARAM_EXTERNAL_INSTANCE_TYPE => $type)));
+                    ExternalInstanceManager :: PARAM_EXTERNAL_INSTANCE_TYPE => $type)));
             if ($form->validate())
             {
                 $success = $form->create_external_instance();
                 $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array(
                         'OBJECT' => Translation :: get('ExternalInstance')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(
-                        ExternalInstanceInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceInstanceManager :: ACTION_BROWSE_INSTANCES));
+                        ExternalInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceManager :: ACTION_BROWSE_INSTANCES));
             }
             else
             {
@@ -76,7 +76,7 @@ class ExternalInstanceInstanceManagerCreatorComponent extends ExternalInstanceIn
                 foreach ($repository_types['types'][$category] as $type => $name)
                 {
                     $types_html[] = '<a href="' . $this->get_url(array(
-                            ExternalInstanceInstanceManager :: PARAM_EXTERNAL_INSTANCE_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_image_path(ExternalInstanceManager :: get_namespace($type)) . 'logo/48.png);">';
+                            ExternalInstanceManager :: PARAM_EXTERNAL_INSTANCE_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_image_path(ExternalInstanceManager :: get_namespace($type)) . 'logo/48.png);">';
                     $types_html[] = $name;
                     $types_html[] = '</div></a>';
                 }

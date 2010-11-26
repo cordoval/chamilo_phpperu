@@ -7,7 +7,7 @@ use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../forms/external_instance_form.class.php';
 
-class ExternalInstanceInstanceManagerUpdaterComponent extends ExternalInstanceInstanceManager
+class ExternalInstanceManagerUpdaterComponent extends ExternalInstanceManager
 {
 
     function run()
@@ -17,17 +17,17 @@ class ExternalInstanceInstanceManagerUpdaterComponent extends ExternalInstanceIn
             $this->not_allowed();
         }
 
-        $instance_id = Request :: get(ExternalInstanceInstanceManager :: PARAM_INSTANCE);
+        $instance_id = Request :: get(ExternalInstanceManager :: PARAM_INSTANCE);
 
         if(isset($instance_id))
         {
             $external_instance = $this->retrieve_external_instance($instance_id);
-            $form = new ExternalInstanceForm(ExternalInstanceForm :: TYPE_EDIT, $external_instance, $this->get_url(array(ExternalInstanceInstanceManager :: PARAM_INSTANCE => $instance_id)));
+            $form = new ExternalInstanceForm(ExternalInstanceForm :: TYPE_EDIT, $external_instance, $this->get_url(array(ExternalInstanceManager :: PARAM_INSTANCE => $instance_id)));
 
             if ($form->validate())
             {
                 $success = $form->update_external_instance();
-                $this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('ExternalInstance')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(ExternalInstanceInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceInstanceManager :: ACTION_BROWSE_INSTANCES));
+                $this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('ExternalInstance')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(ExternalInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceManager :: ACTION_BROWSE_INSTANCES));
             }
             else
             {

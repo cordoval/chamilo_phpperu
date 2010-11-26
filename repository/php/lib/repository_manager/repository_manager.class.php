@@ -148,9 +148,9 @@ class RepositoryManager extends CoreApplication
     const ACTION_VIEW_DOUBLES = 'doubles_viewer';
     const ACTION_EXTERNAL_REPOSITORY_MANAGER = 'external_repository';
     const ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES = 'external_repository_instance_manager';
-    const ACTION_MANAGE_VIDEO_CONFERENCING_INSTANCES = 'video_conferencing_instance_manager';
     
     const ACTION_EXTERNAL_INSTANCE_MANAGER = 'external_instance';
+	const ACTION_MANAGE_EXTERNAL_INSTANCES = 'external_instance_manager';
 
     const ACTION_BROWSE_USER_VIEWS = 'user_view_browser';
     const ACTION_CREATE_USER_VIEW = 'user_view_creator';
@@ -1027,7 +1027,7 @@ class RepositoryManager extends CoreApplication
             {
                 $video_conferencing_item = array();
                 $video_conferencing_item['title'] = (count($video_conferencing_manager_types) > 0) ? Translation :: get('VideosConferencing', null, VideoConferencingManager :: get_namespace()) : Translation :: get('VideoConferencing', null, VideoConferencingManager :: get_namespace());
-                $video_conferencing_item['url'] = $this->get_video_conferencing_instance_manager_url();
+                $video_conferencing_item['url'] = $this->get_external_instance_manager_url();
                 $video_conferencing_item['class'] = 'video_conferencing';
             }
             
@@ -1715,11 +1715,11 @@ class RepositoryManager extends CoreApplication
                 ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION));
     }
     
-    function get_video_conferencing_instance_manager_url()
+    function get_external_instance_manager_url()
     {
         return $this->get_url(array(
-                self :: PARAM_ACTION => self :: ACTION_MANAGE_VIDEO_CONFERENCING_INSTANCES), array(
-                VideoConferencingInstanceManager :: PARAM_INSTANCE_ACTION));
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_INSTANCES), array(
+                ExternalInstanceManager :: PARAM_INSTANCE_ACTION));
     }
 
     /**

@@ -5,7 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
-class ExternalInstanceInstanceManagerDeleterComponent extends ExternalInstanceInstanceManager
+class ExternalInstanceManagerDeactivatorComponent extends ExternalInstanceManager
 {
 
     function run()
@@ -15,7 +15,7 @@ class ExternalInstanceInstanceManagerDeleterComponent extends ExternalInstanceIn
             $this->not_allowed();
         }
 
-        $ids = Request :: get(ExternalInstanceInstanceManager :: PARAM_INSTANCE);
+        $ids = Request :: get(ExternalInstanceManager :: PARAM_INSTANCE);
         $failures = 0;
 
         if (! empty($ids))
@@ -28,8 +28,9 @@ class ExternalInstanceInstanceManagerDeleterComponent extends ExternalInstanceIn
             foreach ($ids as $id)
             {
                 $external_instance = $this->retrieve_external_instance($id);
+                $external_instance->deactivate();
 
-                if (! $external_instance->delete())
+                if (! $external_instance->update())
                 {
                     $failures ++;
                 }
@@ -39,12 +40,12 @@ class ExternalInstanceInstanceManagerDeleterComponent extends ExternalInstanceIn
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'ObjectNotDeleted';
+                    $message = 'ObjectNotDeactivated';
                     $parameter = array('OBJECT' => Translation :: get('ExternalInstance'));
                 }
                 else
                 {
-                    $message = 'ObjectsNotDeleted';
+                    $message = 'ObjectsNotDeactivated';
                     $parameter = array('OBJECTS' => Translation :: get('VideosConferencing'));
                 }
             }
@@ -52,21 +53,21 @@ class ExternalInstanceInstanceManagerDeleterComponent extends ExternalInstanceIn
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'ObjectDeleted';
+                    $message = 'ObjectDeactivated';
                     $parameter = array('OBJECT' => Translation :: get('ExternalInstance'));
                 }
                 else
                 {
-                    $message = 'ObjectsDeleted';
+                    $message = 'ObjectsDeactivated';
                     $parameter = array('OBJECTS' => Translation :: get('VideosConferencing'));
                 }
             }
 
-            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(ExternalInstanceInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceInstanceManager :: ACTION_BROWSE_INSTANCES));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(ExternalInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceManager :: ACTION_BROWSE_INSTANCES));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ExternalInstance')), Utilities :: COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoExternalInstanceSelected')));
         }
     }
 }

@@ -4,12 +4,14 @@ namespace common\extensions\video_conferencing_manager\implementation\bbb;
 use common\extensions\video_conferencing_manager\VideoConferencingConnector;
 use common\extensions\video_conferencing_manager\VideoConferencingObject;
 
+use repository\ExternalSetting;
+
 /**
  * Consumer Key: 69950a3f3ed038479b4b65ffde049f1d
  * Consumer Secret: a84782d0ca686c59
  */
 
-class BBBVideoConferencingConnector extends VideoConferencingConnector
+class BbbVideoConferencingConnector extends VideoConferencingConnector
 {  
     private $dimdim;
     private $account_id;
@@ -23,49 +25,49 @@ class BBBVideoConferencingConnector extends VideoConferencingConnector
     /**
      * @param ExternalRepository $external_repository_instance
      */
-    function BBBVideoConferencingConnector($video_conferencing_instance)
+    function __construct($video_conferencing_instance)
     {
         parent :: __construct($video_conferencing_instance);
         
-        $this->account = ExternalRepositorySetting :: get('account', $this->get_video_conferencing_instance_id());
-        $this->password = ExternalRepositorySetting :: get('password', $this->get_video_conferencing_instance_id());
+        $this->account = ExternalSetting :: get('account', $this->get_video_conferencing_instance_id());
+        $this->password = ExternalSetting :: get('password', $this->get_video_conferencing_instance_id());
         
-        
-        $this->vimeo = new phpVimeo($this->consumer_key, $this->consumer_secret);
-        $oauth_token = ExternalRepositoryUserSetting :: get('oauth_token', $this->get_external_repository_instance_id());
-        $oauth_token_secret = ExternalRepositoryUserSetting :: get('oauth_token_secret', $this->get_external_repository_instance_id());
-        
-        if (! $oauth_token || ! $oauth_token_secret)
-        {
-            if (! $_SESSION['request_token'])
-            {
-                $this->vimeo->auth('delete', Redirect :: current_url());
-            }
-            else
-            {
-                $this->vimeo->setToken($_SESSION['request_token'], $_SESSION['request_token_secret'], 'access', true);
-              
-                $this->token = $this->vimeo->getAccessToken($_GET['oauth_verifier']);
-                $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token', $this->get_external_repository_instance_id());
-                $user_setting = new ExternalRepositoryUserSetting();
-                $user_setting->set_setting_id($setting->get_id());
-                $user_setting->set_user_id(Session :: get_user_id());
-                $user_setting->set_value($this->token['oauth_token']);
-                $user_setting->create();
-                
-                $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token_secret', $this->get_external_repository_instance_id());
-                $user_setting = new ExternalRepositoryUserSetting();
-                $user_setting->set_setting_id($setting->get_id());
-                $user_setting->set_user_id(Session :: get_user_id());
-                $user_setting->set_value($this->token['oauth_token_secret']);
-                $user_setting->create();
-            }
-        }
-        else
-        {
-            $this->vimeo->setToken($oauth_token, $oauth_token_secret, 'access', true);
-        
-        }
+//        
+//        $this->vimeo = new phpVimeo($this->consumer_key, $this->consumer_secret);
+//        $oauth_token = ExternalRepositoryUserSetting :: get('oauth_token', $this->get_external_repository_instance_id());
+//        $oauth_token_secret = ExternalRepositoryUserSetting :: get('oauth_token_secret', $this->get_external_repository_instance_id());
+//        
+//        if (! $oauth_token || ! $oauth_token_secret)
+//        {
+//            if (! $_SESSION['request_token'])
+//            {
+//                $this->vimeo->auth('delete', Redirect :: current_url());
+//            }
+//            else
+//            {
+//                $this->vimeo->setToken($_SESSION['request_token'], $_SESSION['request_token_secret'], 'access', true);
+//              
+//                $this->token = $this->vimeo->getAccessToken($_GET['oauth_verifier']);
+//                $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token', $this->get_external_repository_instance_id());
+//                $user_setting = new ExternalRepositoryUserSetting();
+//                $user_setting->set_setting_id($setting->get_id());
+//                $user_setting->set_user_id(Session :: get_user_id());
+//                $user_setting->set_value($this->token['oauth_token']);
+//                $user_setting->create();
+//                
+//                $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token_secret', $this->get_external_repository_instance_id());
+//                $user_setting = new ExternalRepositoryUserSetting();
+//                $user_setting->set_setting_id($setting->get_id());
+//                $user_setting->set_user_id(Session :: get_user_id());
+//                $user_setting->set_value($this->token['oauth_token_secret']);
+//                $user_setting->create();
+//            }
+//        }
+//        else
+//        {
+//            $this->vimeo->setToken($oauth_token, $oauth_token_secret, 'access', true);
+//        
+//        }
     }
 
     /**

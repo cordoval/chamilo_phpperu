@@ -12,9 +12,9 @@ use common\libraries\PatternMatchCondition;
 use common\libraries\Utilities;
 use rights\RightsManager;
 
-require_once Path :: get_repository_path() . 'lib/external_instance_instance_manager/component/external_instance_instance_browser/external_instance_instance_browser_table.class.php';
+require_once Path :: get_repository_path() . 'lib/external_instance_manager/component/external_instance_browser/external_instance_browser_table.class.php';
 
-class ExternalInstanceInstanceManagerBrowserComponent extends ExternalInstanceInstanceManager
+class ExternalInstanceManagerBrowserComponent extends ExternalInstanceManager
 {
 
     private $action_bar;
@@ -29,7 +29,7 @@ class ExternalInstanceInstanceManagerBrowserComponent extends ExternalInstanceIn
         $this->action_bar = $this->get_action_bar();
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-        $table = new ExternalInstanceInstanceBrowserTable($this, $parameters, $this->get_condition());
+        $table = new ExternalInstanceBrowserTable($this, $parameters, $this->get_condition());
 
         $this->display_header();
         echo $this->action_bar->as_html();
@@ -60,9 +60,9 @@ class ExternalInstanceInstanceManagerBrowserComponent extends ExternalInstanceIn
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddExternalInstanceInstance'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(ExternalInstanceInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceInstanceManager :: ACTION_CREATE_INSTANCE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddExternalInstance'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(ExternalInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceManager :: ACTION_CREATE_INSTANCE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights', null, RightsManager :: APPLICATION_NAME), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(ExternalInstanceInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceInstanceManager :: ACTION_MANAGE_INSTANCE_RIGHTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights', null, RightsManager :: APPLICATION_NAME), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(ExternalInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceManager :: ACTION_MANAGE_INSTANCE_RIGHTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }
 }

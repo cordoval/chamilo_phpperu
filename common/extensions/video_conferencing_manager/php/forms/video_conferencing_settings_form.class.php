@@ -1,7 +1,15 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
-use repository\ExternalRepositorySetting;
+
+use repository\ExternalSetting;
+use repository\RepositoryDataManager;
+
 use common\libraries\FormValidator;
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+
+use DOMDocument;
 
 class VideoConferencingSettingsForm extends FormValidator
 {
@@ -26,7 +34,7 @@ class VideoConferencingSettingsForm extends FormValidator
 
         $this->configurer = $configurer;
         $this->is_user_setting_form = $is_user_setting_form;
-        $this->video_conferencing = RepositoryDataManager :: get_instance()->retrieve_video_conferencing($video_conferencing_id);
+        $this->video_conferencing = RepositoryDataManager :: get_instance()->retrieve_external_instance($video_conferencing_id);
         $this->configuration = $this->parse_settings();
         $this->build_form();
         $this->setDefaults();
@@ -47,7 +55,7 @@ class VideoConferencingSettingsForm extends FormValidator
         {
             $categories = count($configuration['settings']);
 
-            require_once Path :: get_common_extensions_path() . 'video_conferencing_manager/type/' . $video_conferencing->get_type() . '/settings/settings_' . $video_conferencing->get_type() . '_connector.class.php';
+            require_once Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/' . $video_conferencing->get_type() . '/php/settings/settings_' . $video_conferencing->get_type() . '_connector.class.php';
 
             foreach ($configuration['settings'] as $category_name => $settings)
             {
@@ -154,9 +162,9 @@ class VideoConferencingSettingsForm extends FormValidator
 
     function parse_settings()
     {
-        $external_repository = $this->external_repository;
+        $video_conferencing = $this->video_conferencing;
 
-        $file = Path :: get_common_extensions_path() . 'video_conferencing_manager/type/' . $video_conferencing->get_type() . '/settings/settings_' . $video_conferencing->get_type() . '.xml';
+        $file = Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/' . $video_conferencing->get_type() . '/php/settings/settings_' . $video_conferencing->get_type() . '.xml';
         $result = array();
 
         if (file_exists($file))
@@ -265,12 +273,12 @@ class VideoConferencingSettingsForm extends FormValidator
             {
                 if ($setting['user_setting'] && $this->is_user_setting_form)
                 {
-                    $configuration_value = VideoConferencingUserSetting :: get($name, $this->configurer->get_video_conferencing()->get_id());
+                    $configuration_value = ExternalUserSetting :: get($name, $this->configurer->get_video_conferencing()->get_id());
                     //                    $configuration_value = LocalSetting :: get($name, $application);
                 }
                 else
                 {
-                    $configuration_value = VideoConferencingSetting :: get($name, $this->configurer->get_video_conferencing()->get_id());
+                    $configuration_value = ExternalSetting :: get($name, $this->configurer->get_video_conferencing()->get_id());
                 }
 
                 if (isset($configuration_value))
@@ -295,7 +303,7 @@ class VideoConferencingSettingsForm extends FormValidator
     {
         $values = $this->exportValues();
         $configuration = $this->configuration;
-        $external_repository = $this->video_conferencing;
+        $video_conferencing = $this->video_conferencing;
         $problems = 0;
 
         foreach ($configuration['settings'] as $category_name => $settings)
@@ -304,8 +312,8 @@ class VideoConferencingSettingsForm extends FormValidator
             {
                 if ($setting['locked'] != 'true')
                 {
-                    $setting = RepositoryDataManager :: get_instance()->retrieve_video_conferencing_setting_from_variable_name($name, $video_conferencing->get_id());
-                    if ($setting instanceof ExternalRepositorySetting)
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name($name, $video_conferencing->get_id());
+                    if ($setting instanceof ExternalSetting)
                     {
                         if (isset($values[$name]))
                         {
@@ -323,8 +331,8 @@ class VideoConferencingSettingsForm extends FormValidator
                     }
                     else
                     {
-                        $setting = new VideoConferencingSetting();
-                        $setting->set_video_conferencing_id($video_conferencing->get_id());
+                        $setting = new ExternalSetting();
+                        $setting->set_external_id($video_conferencing->get_id());
                         $setting->set_variable($name);
 
                         if (isset($values[$name]))
