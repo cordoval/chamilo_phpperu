@@ -1,9 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager;
 
-
 use common\libraries\Request;
 use common\libraries\Translation;
+
+use repository\ExternalRepositorySync;
 
 class ExternalRepositoryComponentInternalSyncerComponent extends ExternalRepositoryComponent
 {

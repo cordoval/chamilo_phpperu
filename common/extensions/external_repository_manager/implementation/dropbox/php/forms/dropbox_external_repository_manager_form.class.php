@@ -100,7 +100,7 @@ class DropboxExternalRepositoryManagerForm extends FormValidator
 
     function update_file()
     {
-        //return $this->application->get_external_repository_connector()->update_external_repository_object($this->exportValues());
+        return $this->application->get_external_repository_connector()->update_external_repository_object($this->exportValues());
     }
 
     function upload_file()

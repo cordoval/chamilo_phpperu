@@ -23,6 +23,7 @@ class DropboxExternalRepositoryManagerUploaderComponent extends DropboxExternalR
             {
                 $parameters = $this->get_parameters();
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
+                $id = str_replace(' ', '', $id);
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $id;
 
                 if ($this->is_stand_alone())
