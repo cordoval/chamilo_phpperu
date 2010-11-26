@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\libraries;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
@@ -65,7 +66,7 @@ class ExternalInstanceForm extends FormValidator
 
     function build_general_form()
     {
-        $this->addElement('static', null, Translation :: get('ExternalInstanceType', null, ExternalInstanceManager :: get_namespace()), Translation :: get('TypeName', null, ExternalInstanceManager :: get_namespace($this->external_instance->get_type())));
+        $this->addElement('static', null, Translation :: get('ExternalInstanceType', null, ExternalInstanceManager :: get_namespace()), Translation :: get('TypeName', null, ExternalInstanceManager :: get_namespace($this->external_instance->get_instance_type(), $this->external_instance->get_type())));
         $this->addElement('hidden', ExternalInstance :: PROPERTY_TYPE, $this->external_instance->get_type());
         $this->addElement('text', ExternalInstance :: PROPERTY_TITLE, Translation :: get('Title', null, ExternalInstanceManager :: get_namespace()), array("size" => "50"));
         $this->addRule(ExternalInstance :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
@@ -78,7 +79,11 @@ class ExternalInstanceForm extends FormValidator
         $external_instance = $this->external_instance;
         $configuration = $this->configuration;
 
-        require_once Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/' . $external_instance->get_type() . '/php/settings/settings_' . $external_instance->get_type() . '_connector.class.php';
+        $namespace = ExternalInstanceManager :: get_namespace($external_instance->get_instance_type(), $external_instance->get_type());
+        $manager_class = ExternalInstanceManager :: get_manager_class($external_instance->get_instance_type());
+        $path = Path :: namespace_to_path($namespace);
+
+        require_once Path :: get(SYS_PATH) . $path . '/php/settings/settings_' . $external_instance->get_type() . '_connector.class.php';
 
         $categories = count($configuration['settings']);
 
@@ -88,11 +93,11 @@ class ExternalInstanceForm extends FormValidator
 
             foreach ($settings as $name => $setting)
             {
-                $label = Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalInstanceManager::get_namespace($this->external_instance->get_type()));
+                $label = Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalInstanceManager :: get_namespace($this->external_instance->get_instance_type(), $this->external_instance->get_type()));
                 $name = self :: SETTINGS_PREFIX . '[' . $name . ']';
                 if (! $has_settings && $categories > 1)
                 {
-                    $this->addElement('category', Translation :: get(Utilities :: underscores_to_camelcase($category_name), null, ExternalInstanceManager::get_namespace($this->external_instance->get_type())));
+                    $this->addElement('category', Translation :: get(Utilities :: underscores_to_camelcase($category_name), null, ExternalInstanceManager :: get_namespace($this->external_instance->get_instance_type(), $this->external_instance->get_type())));
                     $has_settings = true;
                 }
 
@@ -116,7 +121,7 @@ class ExternalInstanceForm extends FormValidator
                                     $validation['format'] = NULL;
                                 }
 
-                                $this->addRule($name, Translation :: get($validation['message'], null, ExternalInstanceManager::get_namespace($this->external_instance->get_type())), $validation['rule'], $validation['format']);
+                                $this->addRule($name, Translation :: get($validation['message'], null, ExternalInstanceManager :: get_namespace($this->external_instance->get_instance_type(), $this->external_instance->get_type())), $validation['rule'], $validation['format']);
                             }
                         }
                     }
@@ -126,7 +131,8 @@ class ExternalInstanceForm extends FormValidator
                 {
                     $this->add_html_editor($name, $label, ($setting['required'] == 'true'));
                 }
-                elseif($setting['field'] == 'password'){
+                elseif ($setting['field'] == 'password')
+                {
                     $this->add_password($name, $label, ($setting['required'] == 'true'));
                 }
                 else
@@ -154,7 +160,7 @@ class ExternalInstanceForm extends FormValidator
                             }
                             else
                             {
-                                $group[] = & $this->createElement($setting['field'], $name, null, Translation :: get(Utilities :: underscores_to_camelcase($option_name), null, ExternalInstanceManager::get_namespace($this->external_instance->get_type())), $option_value);
+                                $group[] = & $this->createElement($setting['field'], $name, null, Translation :: get(Utilities :: underscores_to_camelcase($option_name), null, ExternalInstanceManager :: get_namespace($this->external_instance->get_instance_type(), $this->external_instance->get_type())), $option_value);
                             }
                         }
                         $this->addGroup($group, $name, $label, '<br/>', false);
@@ -267,7 +273,7 @@ class ExternalInstanceForm extends FormValidator
         if (! $external_instance->create())
         {
 
-        	return false;
+            return false;
         }
         else
         {
@@ -287,7 +293,7 @@ class ExternalInstanceForm extends FormValidator
 
             if ($failures > 0)
             {
-            	return false;
+                return false;
             }
         }
 
@@ -344,8 +350,10 @@ class ExternalInstanceForm extends FormValidator
     function parse_settings()
     {
         $external_instance = $this->external_instance;
+        $namespace = ExternalInstanceManager :: get_namespace($external_instance->get_instance_type(), $external_instance->get_type());
+        $path = Path :: namespace_to_path($namespace);
 
-        $file = Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/' . $external_instance->get_type() . '/php/settings/settings_' . $external_instance->get_type() . '.xml';
+        $file = Path :: get(SYS_PATH) . $path . '/php/settings/settings_' . $external_instance->get_type() . '.xml';
         $result = array();
 
         if (file_exists($file))

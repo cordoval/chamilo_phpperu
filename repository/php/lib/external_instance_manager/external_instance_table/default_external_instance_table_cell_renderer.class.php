@@ -20,9 +20,10 @@ class DefaultExternalInstanceTableCellRenderer extends ObjectTableCellRenderer
         {
             case ExternalInstance :: PROPERTY_ID :
                 return $external_instance->get_id();
-//            case ExternalInstance :: PROPERTY_TYPE :
-//                $type = $external_instance->get_type();
-//                return '<img src="' . Theme :: get_image_path(ExternalInstanceManager :: get_namespace($type)) . '/logo/22.png" alt="' . htmlentities(Translation :: get('TypeName', null, ExternalInstanceManager :: get_namespace($type))) . '"/>';
+            case ExternalInstance :: PROPERTY_INSTANCE_TYPE :
+                return $external_instance->get_instance_type();
+            case ExternalInstance :: PROPERTY_TYPE :
+                return '<img src="' . Theme :: get_image_path(ExternalInstanceManager :: get_namespace($external_instance->get_instance_type(), $external_instance->get_type())) . '/logo/22.png" alt="' . htmlentities(Translation :: get('TypeName', null, ExternalInstanceManager :: get_namespace($external_instance->get_instance_type(), $external_instance->get_type()))) . '"/>';
             case ExternalInstance :: PROPERTY_TITLE :
                 return Utilities :: truncate_string($external_instance->get_title(), 50);
             case ExternalInstance :: PROPERTY_DESCRIPTION :

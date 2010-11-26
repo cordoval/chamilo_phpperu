@@ -17,8 +17,6 @@ class ExternalInstance extends RepositoryDataClass
 
     const PROPERTY_ENABLED = 'enabled';
 
-    const CATALOG_REPOSITORY_LIST = 'repository_list';
-
     /**
      * Contains a list of already required export types
      * Allow to spare some business logic processing
@@ -31,8 +29,6 @@ class ExternalInstance extends RepositoryDataClass
     {
         parent :: __construct($defaultProperties);
     }
-
-    /*************************************************************************/
 
     function set_title($title)
     {
@@ -49,7 +45,6 @@ class ExternalInstance extends RepositoryDataClass
     {
         return $this->get_default_property(self :: PROPERTY_TITLE);
     }
-    /*************************************************************************/
 
     function set_instance_type($instance_type)
     {
@@ -67,8 +62,6 @@ class ExternalInstance extends RepositoryDataClass
         return $this->get_default_property(self :: PROPERTY_INSTANCE_TYPE);
     }
 
-    /*************************************************************************/
-
     function set_description($description)
     {
         if (isset($description) && strlen($description) > 0)
@@ -85,7 +78,6 @@ class ExternalInstance extends RepositoryDataClass
         return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
     }
 
-    /*************************************************************************/
     function set_type($type)
     {
         if (isset($type) && strlen($type) > 0)
@@ -101,8 +93,6 @@ class ExternalInstance extends RepositoryDataClass
     {
         return $this->get_default_property(self :: PROPERTY_TYPE);
     }
-
-    /*************************************************************************/
 
     function set_enabled($enabled)
     {
@@ -125,8 +115,6 @@ class ExternalInstance extends RepositoryDataClass
         return $this->get_enabled();
     }
 
-    /*************************************************************************/
-
     static function get_default_property_names($extended_property_names = array())
     {
         $extended_property_names[] = self :: PROPERTY_TITLE;
@@ -143,7 +131,6 @@ class ExternalInstance extends RepositoryDataClass
         return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
-
     /*************************************************************************
      * Fat model methods
      *************************************************************************/
@@ -152,7 +139,7 @@ class ExternalInstance extends RepositoryDataClass
     {
         if (! parent :: create())
         {
-        	return false;
+            return false;
         }
         else
         {
@@ -163,11 +150,12 @@ class ExternalInstance extends RepositoryDataClass
             }
         }
 
-//        $succes = RepositoryRights :: create_location_in_external_repositories_subtree($this->get_title(), $this->get_id(), RepositoryRights :: get_external_repositories_subtree_root_id());
-//        if (! $succes)
-//        {
-//            return false;
-//        }
+        //        $succes = RepositoryRights :: create_location_in_external_repositories_subtree($this->get_title(), $this->get_id(), RepositoryRights :: get_external_repositories_subtree_root_id());
+        //        if (! $succes)
+        //        {
+        //            return false;
+        //        }
+
 
         return true;
     }
@@ -192,14 +180,15 @@ class ExternalInstance extends RepositoryDataClass
             }
         }
 
-//        $location = RepositoryRights :: get_location_by_identifier_from_external_repositories_subtree($this->get_id());
-//        if ($location)
-//        {
-//            if (! $location->remove())
-//            {
-//                return false;
-//            }
-//        }
+        //        $location = RepositoryRights :: get_location_by_identifier_from_external_repositories_subtree($this->get_id());
+        //        if ($location)
+        //        {
+        //            if (! $location->remove())
+        //            {
+        //                return false;
+        //            }
+        //        }
+
 
         return true;
     }

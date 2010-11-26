@@ -347,3 +347,4 @@ ManageRights = "Manage";
 GivenRights = "Rights"
 ShareWithOtherUsersGroups = "Share with other users and groups"
 NoExternalRepositoriesAvailable = "There are currently no external repositories installed on your platform, please install some via the administration package manger if you want to add them to your repository."
+ExternalInstanceType = "Type";
