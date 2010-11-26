@@ -54,6 +54,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
         }
         else
         {
+            $repository_types = $this->get_external_repository_types();
 
             $renderer_name = Utilities :: get_classname_from_object($this, true);
             $tabs = new DynamicTabsRenderer($renderer_name);
@@ -65,8 +66,6 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
                 $this->display_footer();
                 exit;
             }
-
-            $repository_types = $this->get_external_repository_types();
 
             foreach ($repository_types['sections'] as $category => $category_name)
             {
