@@ -71,7 +71,7 @@ abstract class ExternalRepositoryManager extends SubManager
         }
 
         $this->set_optional_parameters();
-        if ($this->validate_settings())
+        if ($this->validate_settings($this->external_repository))
         {
             $this->initialize_external_repository($this);
         }
@@ -120,7 +120,8 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     static function launch($application)
     {
-        $type = $application->get_external_repository()->get_type();
+    	$external_repository = $application->get_external_repository();
+        $type = $external_repository->get_type();
 
         $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_external_repository_manager.class.php';
         if (! file_exists($file))
@@ -135,7 +136,7 @@ abstract class ExternalRepositoryManager extends SubManager
 
         $settings_validated = call_user_func(array(
                 $class,
-                'validate_settings'));
+                'validate_settings'), $external_repository);
 
         if (! $settings_validated)
         {
@@ -296,7 +297,7 @@ abstract class ExternalRepositoryManager extends SubManager
     /**
      * @return boolean
      */
-    abstract function validate_settings();
+    abstract function validate_settings($external_repository);
 
     /**
      * @return string

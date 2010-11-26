@@ -1,8 +1,9 @@
 <?php 
 namespace repository\content_object\survey;
 
-use \common\libraries\Path;
-use \common\libraries\NestedTreeNode;
+use common\libraries\Path;
+use common\libraries\NestedTreeNode;
+use common\libraries\Utilities;
 
 require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context_manager_rights.class.php';
 

@@ -2,6 +2,7 @@
 namespace repository\content_object\survey;
 
 use common\libraries\DataClass;
+use common\libraries\Utilities;
 
 require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.class.php');
 
@@ -103,6 +104,7 @@ abstract class SurveyTemplate extends DataClass
     function get_type()
     {
         return self :: class_to_type(Utilities :: get_classname_from_object($this));
+        
     }
 
     function get_context_template_id()

@@ -28,9 +28,9 @@ class DefaultExternalRepositoryInstanceTableCellRenderer extends ObjectTableCell
                 return Utilities :: truncate_string($external_repository->get_title(), 50);
             case ExternalRepository :: PROPERTY_DESCRIPTION :
                 return Utilities :: truncate_string($external_repository->get_description(), 50);
-            case ExternalRepository :: PROPERTY_CREATION_DATE :
+            case ExternalRepository :: PROPERTY_CREATED :
                 return DatetimeUtilities :: format_locale_date(null, $external_repository->get_creation_date());
-            case ExternalRepository :: PROPERTY_MODIFICATION_DATE :
+            case ExternalRepository :: PROPERTY_MODIFIED :
                 return DatetimeUtilities :: format_locale_date(null, $external_repository->get_modification_date());
             default :
                 return '&nbsp;';
