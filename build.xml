@@ -15,6 +15,7 @@
     <property name="build-dir" value="${files-dir}/build" />
     <property name="build-logs-dir" value="${build-dir}/logs" />
     <property name="build-coverage-dir" value="${build-dir}/coverage" />
+    <property name="build-codeBrowser-dir" value="${build-dir}/codeBrowser" />
     <property name="test-dir" value="./test" />
     <property name="phpunit-coverage-config-file" value="${test-dir}/phpunit-coverage.xml" />
     <property name="phpunit-config-file" value="${test-dir}/phpunit.xml" />
@@ -39,11 +40,13 @@
         <echo message="Defining executables for *Nix system" />
         <property name="phpunitCmd" value="phpunit" />
         <property name="pdependCmd" value="pdepend" />
+        <property name="phpcbCmd" value="phpcb" />
     </target>
 
     <target name="setcommandsWin" if="isWindows">
         <property name="phpunitCmd" value="phpunit.bat" />
         <property name="pdependCmd" value="pdepend.bat" />
+        <property name="phpcbCmd" value="phpcb.bat" />
     </target>
 
     <!-- ============================================  -->
@@ -75,6 +78,15 @@
                 command="pear install pdepend/PHP_Depend-beta"
 		passthru="true"
          />
+         <exec   dir="${basedir}"
+                command="pear config-set preferred_state beta"
+		passthru="true"
+         />
+         <exec   dir="${basedir}"
+                command="pear install --alldeps phpunit/PHP_CodeBrowser"
+		passthru="true"
+         />
+
     </target>
 
 
@@ -94,6 +106,7 @@
         <mkdir dir="${build-dir}" />
         <mkdir dir="${build-coverage-dir}" />
         <mkdir dir="${build-logs-dir}" />
+        <mkdir dir="${build-codeBrowser-dir}" />
     </target>
 
     <!-- ============================================  -->
@@ -124,8 +137,21 @@
     <!-- Target: pdepend                               -->
     <!-- ============================================  -->
     <target name="pdepend" depends="setcommands, clean, prepare"  >
+        <echo message="Computing dependency report" />
         <exec   dir="${basedir}"
                 command="${pdependCmd} --summary-xml=${pdepend-report-file} ${classes-dirs}"
+                checkreturn="true"
+		passthru="true"
+        />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: phpcb                                 -->
+    <!-- ============================================  -->
+    <target name="phpcb" depends="setcommands, clean, prepare"  >
+        <echo message="Generating a browseable version of the codebase" />
+        <exec   dir="${basedir}"
+                command="${phpcbCmd} --output ${build-codeBrowser-dir} --source ${basedir}"
                 checkreturn="true"
 		passthru="true"
         />

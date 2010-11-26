@@ -50,7 +50,7 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager
     /* (non-PHPdoc)
 	 * @see application/common/external_repository_manager/ExternalRepositoryManager#validate_settings()
 	 */
-    function validate_settings()
+    function validate_settings($external_repository)
     {
         return true;
     }

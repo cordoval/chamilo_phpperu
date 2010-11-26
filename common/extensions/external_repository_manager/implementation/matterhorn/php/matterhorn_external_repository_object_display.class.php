@@ -44,8 +44,9 @@ class MatterhornExternalRepositoryObjectDisplay extends StreamingMediaExternalRe
 
     function get_preview($is_thumbnail = false)
     {
-    	$settings = ExternalRepositorySetting :: get('url');
-		$object = $this->get_object();
+    	$object = $this->get_object();
+    	$settings = ExternalRepositorySetting :: get('url', $object->get_external_repository_id());
+		
         $html = array();
 
 		if ($is_thumbnail)

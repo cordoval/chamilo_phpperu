@@ -200,18 +200,8 @@ class ExternalRepositorySetting extends DataClass
      * @param int $external_repository_id
      * @return mixed
      */
-    static function get($variable, $external_repository_id = null)
+    static function get($variable, $external_repository_id)
     {
-        if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
-        {
-            $external_repository_id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
-
-            if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
-            {
-                Display :: error_page(Translation :: get('WhatsUpDoc', null, Utilities :: COMMON_LIBRARIES));
-            }
-        }
-
         if (! isset(self :: $settings[$external_repository_id]))
         {
             self :: load($external_repository_id);
@@ -220,17 +210,8 @@ class ExternalRepositorySetting extends DataClass
         return (isset(self :: $settings[$external_repository_id][$variable]) ? self :: $settings[$external_repository_id][$variable] : null);
     }
 
-    static function get_all($external_repository_id = null)
+    static function get_all($external_repository_id)
     {
-        if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
-        {
-            $external_repository_id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
-
-            if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
-            {
-                Display :: error_page(Translation :: get('WhatsUpDoc', null, Utilities :: COMMON_LIBRARIES));
-            }
-        }
 
         if (! isset(self :: $settings[$external_repository_id]))
         {
