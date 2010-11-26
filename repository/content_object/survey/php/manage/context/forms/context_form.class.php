@@ -1,4 +1,11 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\ResourceManager;
+use common\libraries\Path;
 
 class SurveyContextForm extends FormValidator
 {

@@ -4,6 +4,8 @@ namespace repository\content_object\survey;
 use repository\DatabaseRepositoryDataManager;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
+use common\libraries\DataClass;
+use common\libraries\Utilities;
 
 require_once (dirname(__FILE__) . '/../survey_context_template.class.php');
 require_once (dirname(__FILE__) . '/../survey_template.class.php');

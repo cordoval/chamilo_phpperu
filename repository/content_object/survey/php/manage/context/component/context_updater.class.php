@@ -6,8 +6,8 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/forms/context_form.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/forms/context_form.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context.class.php';
 
 class SurveyContextManagerContextUpdaterComponent extends SurveyContextManager
 {
