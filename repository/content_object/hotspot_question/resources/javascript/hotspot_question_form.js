@@ -233,7 +233,9 @@ $(function ()
 	}
 	
 	function setHotspotImage(ev, ui)
-	{0
+	{
+		alert('haha');
+		return false;
 		var learningObjectId = $(this).attr('id').replace('lo_', ''),
 			imageProperties;
 		$('input[name="image_object"]').val(learningObjectId);
@@ -316,7 +318,7 @@ $(function ()
 		$('.add_option').live('click', addOption);
 
 		// Process image selection
-		$('.inactive_elements a:not(.disabled, .category)').live('click', setHotspotImage);
+		$('.element_finder_inactive a:not(.disabled, .category)').live('click', setHotspotImage);
 		
 		// Allow selection of a different image
 //		$("#change_image").bind('click', resetImage);

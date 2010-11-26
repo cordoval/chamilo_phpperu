@@ -32,8 +32,8 @@ class HotspotQuestionForm extends ContentObjectForm
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/hotspot_question/resources/javascript/hotspot_question_form.js'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js'));
+        //$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
+        //$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js'));
 
         $url = $this->get_path(WEB_PATH) . 'repository/php/xml_feeds/xml_image_feed.php';
         $locale = array();
@@ -44,9 +44,11 @@ class HotspotQuestionForm extends ContentObjectForm
 
         $this->add_warning_message('hotspot_javascript', Translation :: get('HotspotJavascriptWarning'), Translation :: get('HotspotJavascriptRequired'), true);
 
+        $this->addElement('html', '<a>Blabla</a>');
         $this->addElement('html', '<div id="hotspot_select" style="display: none;">');
         $this->addElement('category', Translation :: get('Hotspots'));
         $this->addElement('static', 'uploadify', Translation :: get('UploadImage'), '<div id="uploadify"></div>');
+        //$this->addElement('image_selecter', 'image', Translation :: get('SelectImage'), $url, $locale, array());
         $this->addElement('element_finder', 'image', Translation :: get('SelectImage'), $url, $locale, array(), array('load_elements' => true));
         $this->addElement('category');
         $this->addElement('html', '</div>');
