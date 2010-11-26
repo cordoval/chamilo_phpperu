@@ -38,8 +38,8 @@ class LanguageInstallWizardPage extends InstallWizardPage
         $buttons = array();
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Start'), array(
                 'class' => 'normal next'));
-        $buttons[] = $this->createElement('style_submit_button', '_qf_page_preconfigured_jump', Translation :: get('UsePredefinedConfigurationFile'), array(
-                'class' => 'normal quickstart'));
+//        $buttons[] = $this->createElement('style_submit_button', '_qf_page_preconfigured_jump', Translation :: get('UsePredefinedConfigurationFile'), array(
+//                'class' => 'normal quickstart'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->setDefaultAction($this->getButtonName('next'));
         $this->set_form_defaults();

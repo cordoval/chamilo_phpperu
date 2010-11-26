@@ -106,9 +106,9 @@ class Diagnoser
         $array[] = $this->build_setting($status, '[PHP]', 'phpversion()', 'http://www.php.net/manual/en/function.phpversion.php', phpversion(), '>= 5.2', null, Translation :: get('PHPVersionInfo'));
 
         $setting = ini_get('output_buffering');
-	    $req_setting = 1;
+	    $req_setting = 0;
 	    $status = $setting == $req_setting ? self :: STATUS_OK : self :: STATUS_ERROR;
-        $array[] = $this->build_setting($status, '[INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('FileUploadsInfo'));
+        $array[] = $this->build_setting($status, '[INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('OutputBufferingInfo'));
 
         $setting = ini_get('file_uploads');
         $req_setting = 1;

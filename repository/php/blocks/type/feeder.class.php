@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\CoreApplication;
 use home\HomeManager;
+use repository\content_object\rss_feed\RssFeed;
 
 /**
  * $Id: feeder.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -36,11 +37,11 @@ class RepositoryFeeder extends RepositoryBlock
             $html[] = $this->display_header($content_object);
             if ($feed)
             {
-                $html[] = '<div class="tool_menu">';
+                $html[] = '<br /><div class="tool_menu">';
                 $html[] = '<ul>';
                 foreach ($feed['items'] as $item)
                 {
-                    $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'treemenu_types/rss_feed_item.png)"><a href="' . htmlentities($item['link']) . '">' . $item['title'] . '</a></li>';
+                    $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(RssFeed :: get_type_name())) . 'logo/' . Theme :: ICON_MINI . '.png)"><a href="' . htmlentities($item['link']) . '">' . $item['title'] . '</a></li>';
                 }
                 $html[] = '</ul>';
                 $html[] = '<div class="clear"></div>';
@@ -60,7 +61,7 @@ class RepositoryFeeder extends RepositoryBlock
     {
         $html = array();
 
-        $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . Theme :: get_image_path() . 'block_rss_feed.png);">';
+        $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . Theme :: get_image_path() . 'logo/' . Theme :: ICON_MEDIUM . '.png);">';
         $html[] = $this->display_title($content_object);
         $html[] = '<div class="description"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') . '>';
 
