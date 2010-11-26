@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!-- 
+	If you do not have phing, please install it :
+	$> pear channel-discover pear.phing.info
+	$> pear install phing/phing
+-->
 <project name="Chamilo2" default="phpunit">
 
     <!-- ============================================  -->
     <!-- Defining locations                            -->
     <!-- ============================================  -->
-    <property name="root-dir" location="." />
-    <property name="files-dir" location="./files" />
-    <property name="build-dir" location="${files-dir}/build" />
-    <property name="build-logs-dir" location="${build-dir}/logs" />
-    <property name="build-coverage-dir" location="${build-dir}/coverage" />
-    <property name="test-dir" location="./test" />
-    <property name="phpunit-coverage-config-file" location="${test-dir}/phpunit-coverage.xml" />
-    <property name="phpunit-config-file" location="${test-dir}/phpunit.xml" />
-    <property name="pdepend-report-file" location="${build-logs-dir}/pdepend.xml" />
-
-    <!-- ============================================  -->
-    <!-- Other properties                              -->
-    <!-- ============================================  -->
-    <property environment="env" />
+    <property name="basedir" value="." />
+    <property name="files-dir" value="./files" />
+    <property name="classes-dirs" value="./admin,./application,./common,./group,./help,./home,./install,./menu,./migration,./reporting,./rights,./tracking,./user,./webservice" />
+    <property name="build-dir" value="${files-dir}/build" />
+    <property name="build-logs-dir" value="${build-dir}/logs" />
+    <property name="build-coverage-dir" value="${build-dir}/coverage" />
+    <property name="test-dir" value="./test" />
+    <property name="phpunit-coverage-config-file" value="${test-dir}/phpunit-coverage.xml" />
+    <property name="phpunit-config-file" value="${test-dir}/phpunit.xml" />
+    <property name="pdepend-report-file" value="${build-logs-dir}/pdepend.xml" />
 
 
     <!-- ============================================  -->
@@ -33,24 +33,7 @@
     <!-- ============================================  -->
     <!-- Target: setCommands depending on OS Family    -->
     <!-- ============================================  -->
-    <target name="setcommands" depends="setcommandsNix, setcommandsWin" >
-        <condition property="phpunit-command-present">
-          <or>
-            <available file="${phpunitCmd}" filepath="${env.PATH}" />
-            <!-- special case for Windows, may be PATH or Path -->
-            <available file="${phpunitCmd}" filepath="${env.Path}" />
-            <available file="${phpunitCmd}" filepath="${env.PATH}" />
-          </or>
-        </condition>
-        <condition property="pdepend-command-present">
-          <or>
-            <available file="${pdependCmd}" filepath="${env.PATH}" />
-            <!-- special case for Windows, may be PATH or Path -->
-            <available file="${pdependCmd}" filepath="${env.Path}" />
-            <available file="${pdependCmd}" filepath="${env.PATH}" />
-          </or>
-        </condition>
-    </target>
+    <target name="setcommands" depends="setcommandsNix, setcommandsWin" />
 
     <target name="setcommandsNix" unless="isWindows">
         <echo message="Defining executables for *Nix system" />
@@ -62,6 +45,38 @@
         <property name="phpunitCmd" value="phpunit.bat" />
         <property name="pdependCmd" value="pdepend.bat" />
     </target>
+
+    <!-- ============================================  -->
+    <!-- Target: install-dependencies                  -->
+    <!-- ============================================  -->
+    <target name="install-dependencies">
+        <echo message="install phpunit and pdepend from PEAR" />
+        <exec   dir="${basedir}"
+                command="pear channel-discover pear.phpunit.de"
+		passthru="true"
+         />
+        <exec   dir="${basedir}"
+                command="pear channel-discover components.ez.no"
+		passthru="true"
+         />
+        <exec   dir="${basedir}"
+                command="pear channel-discover pear.symfony-project.com"
+		passthru="true"
+         />
+        <exec   dir="${basedir}"
+                command="pear channel-discover pear.pdepend.org"
+		passthru="true"
+         />
+        <exec   dir="${basedir}"
+                command="pear install phpunit/PHPUnit"
+		passthru="true"
+         />
+        <exec   dir="${basedir}"
+                command="pear install pdepend/PHP_Depend-beta"
+		passthru="true"
+         />
+    </target>
+
 
     <!-- ============================================  -->
     <!-- Target: clean                                 -->
@@ -84,57 +99,36 @@
     <!-- ============================================  -->
     <!-- Target: phpunit (with reports)                -->
     <!-- ============================================  -->
-    <target name="phpunit-coverage" depends="phpunit-coverage-ok, phpunit-coverage-ko" />
-
-    <target name="phpunit-coverage-ok" depends="setcommands, clean, prepare" if="phpunit-command-present">
+    <target name="phpunit-coverage" depends="setcommands, clean, prepare">
         <echo message="Running all the tests and generating reports (this takes several minutes)..." />
-        <exec   dir="${test-dir}"
-                executable="${phpunitCmd}"
-                failonerror="true"
-         >
-            <arg line="--configuration ${phpunit-coverage-config-file}" />
-         </exec>
-    </target>
-
-    <target name="phpunit-coverage-ko" depends="" unless="phpunit-command-present">
-        <echo message="Cannot run the tests, please install phpunit" />
+        <exec   dir="${basedir}"
+                command="${phpunitCmd} --configuration ${phpunit-coverage-config-file}"
+                checkreturn="true"
+		passthru="true"
+         />
     </target>
 
     <!-- ============================================  -->
     <!-- Target: phpunit (no report, much faster)      -->
     <!-- ============================================  -->
-    <target name="phpunit" depends="phpunit-ok, phpunit-ko" />
-    <target name="phpunit-ok" depends="setcommands" if="phpunit-command-present">
+    <target name="phpunit" depends="setcommands" >
         <echo message="Running all the tests" />
-        <exec   dir="${test-dir}"
-                executable="${phpunitCmd}"
-                failonerror="true"
-         >
-            <arg line="--configuration ${phpunit-config-file}" />
-            <arg line="--configuration ${phpunit-config-file}" />
-         </exec>
-    </target>
-
-    <target name="phpunit-ko" depends="" unless="phpunit-command-present">
-        <echo message="Cannot run the tests, please install phpunit" />
+        <exec   dir="${basedir}"
+                command="${phpunitCmd} --configuration ${phpunit-config-file}"
+                checkreturn="true"
+		passthru="true"
+        />
     </target>
 
     <!-- ============================================  -->
     <!-- Target: pdepend                               -->
     <!-- ============================================  -->
-    <target name="pdepend" depends="pdepend-ok, pdepend-ko" />
-
-    <target name="pdepend-ok" depends="setcommands, clean, prepare" if="${pdepend-command-present}" >
+    <target name="pdepend" depends="setcommands, clean, prepare"  >
         <exec   dir="${basedir}"
-                executable="${pdependCmd}"
-                failonerror="true"
-        >
-            <arg line="--summary-xml=${pdepend-report-file} ${root-dir}" />
-        </exec>
-    </target>
-
-    <target name="pdepend-ko" depends="" unless="pdepend-command-present">
-        <echo message="Cannot run dependency analysys, please install pdepend" />
+                command="${pdependCmd} --summary-xml=${pdepend-report-file} ${classes-dirs}"
+                checkreturn="true"
+		passthru="true"
+        />
     </target>
 
     <!-- ============================================  -->
