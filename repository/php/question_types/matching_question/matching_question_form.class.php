@@ -3,7 +3,7 @@ namespace repository;
 
 use common\libraries\Translation;
 use common\libraries\Theme;
-
+use common\libraries\Utilities;
 use repository\ContentObject;
 
 /**

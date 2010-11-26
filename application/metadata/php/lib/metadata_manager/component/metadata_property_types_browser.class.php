@@ -7,6 +7,11 @@ use common\libraries\Application;
 use common\libraries\ActionBarRenderer;
 use common\libraries\Theme;
 use common\libraries\Utilities;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Redirect;
+use common\libraries\DynamicTabsRenderer;
+use admin\AdminManager;
 
 /**
  * metadata component which allows the user to browse his metadata_property_types
@@ -18,16 +23,22 @@ class MetadataManagerMetadataPropertyTypesBrowserComponent extends MetadataManag
 
     function run()
     {
-            $this->display_header($trail);
+        $trail = new BreadcrumbTrail();
 
-            $action_bar = $this->get_action_bar();
-            
-            $html[] = $action_bar->as_html();
-            $html[] = $this->get_table();
+        $trail->add(new BreadCrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
+        $trail->add(new BreadCrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => MetadataManager:: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Metadata')));
+        $trail->add(new BreadCrumb($this->get_url(), Translation :: get('BrowseObjects', array('OBJECTS' => Translation :: get('MetadataPropertyTypes')), Utilities :: COMMON_LIBRARIES)));
 
-            echo implode("\n", $html);
+        $this->display_header($trail);
 
-            $this->display_footer();
+        $action_bar = $this->get_action_bar();
+
+        $html[] = $action_bar->as_html();
+        $html[] = $this->get_table();
+
+        echo implode("\n", $html);
+
+        $this->display_footer();
     }
 
     function get_table()

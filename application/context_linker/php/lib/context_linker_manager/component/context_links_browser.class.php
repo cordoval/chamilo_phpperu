@@ -12,6 +12,8 @@ use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 use common\libraries\Session;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 
 use \Freemind;
 use \FreemindNode;
@@ -30,7 +32,12 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
 
     function run()
     {
-        $this->display_header();
+//        $trail = new BreadcrumbTrail;
+//        $trail->add(new Breadcrumb($this->get_url(array(ContextLinkerManager :: PARAM_ACTION => null)), Translation :: get('ContextLinker')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID))), Translation :: get('BrowseObjects', array('OBJECT' => Translation::get('ContextLinks')), Utilities::COMMON_LIBRARIES)));
+//        $trail->add_help('ContextLinkBrowser');
+
+        $this->display_header($trail);
 
         $html = array();
 
@@ -56,7 +63,7 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
             
             $cdm = ContextLinkerDataManager :: get_instance();
             $content_object_id = Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID);
-            $result = $cdm->retrieve_full_context_links_recursive($content_object_id, null, null, null, null, parent :: ARRAY_TYPE_RECURSIVE);
+            $result = $cdm->retrieve_full_context_links_recursive($content_object_id, null, null, null,  parent :: ARRAY_TYPE_RECURSIVE);
 
             $mindmap = new Freemind();
 

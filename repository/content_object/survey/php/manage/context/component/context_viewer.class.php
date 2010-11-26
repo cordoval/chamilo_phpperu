@@ -1,10 +1,12 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_rel_user_table/table.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_rel_group_table/table.class.php';
+use common\libraries\Path;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context_rel_user.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context_rel_group.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_rel_user_table/table.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_rel_group_table/table.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context_rel_user.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context_rel_group.class.php';
 
 class SurveyContextManagerContextViewerComponent extends SurveyContextManager
 {

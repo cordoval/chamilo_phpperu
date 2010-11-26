@@ -1,7 +1,10 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\Path;
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/context_rel_user_table/default_context_rel_user_table_cell_renderer.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/tables/context_rel_user_table/default_context_rel_user_table_cell_renderer.class.php';
 
 class SurveyContextRelUserBrowserTableCellRenderer extends DefaultSurveyContextRelUserTableCellRenderer
 {

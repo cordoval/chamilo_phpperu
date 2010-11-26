@@ -9,6 +9,11 @@ use common\libraries\Theme;
 use common\libraries\ActionBarRenderer;
 use common\libraries\EqualityCondition;
 use common\libraries\Utilities;
+use common\libraries\Redirect;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use admin\AdminManager;
 
 require_once dirname(__FILE__) . '/../metadata_manager.class.php';
 require_once dirname(__FILE__) . '/metadata_default_value_browser/metadata_default_value_browser_table.class.php';
@@ -28,6 +33,13 @@ class MetadataManagerMetadataDefaultValuesBrowserComponent extends MetadataManag
             exit(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('MetadataPropertyType')), Utilities :: COMMON_LIBRARIES));
         }
         
+        $trail = new BreadcrumbTrail();
+
+        $trail->add(new BreadCrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
+        $trail->add(new BreadCrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => MetadataManager:: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Metadata')));
+        $trail->add(new BreadCrumb($this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_TYPES)), Translation :: get('BrowseObjects', array('OBJECTS' => Translation :: get('MetadataPropertyTypes')), Utilities :: COMMON_LIBRARIES)));
+        $trail->add(new BreadCrumb($this->get_url(), Translation :: get('BrowseObjects', array('OBJECTS' => Translation :: get('MetadataDefaultValues')), Utilities :: COMMON_LIBRARIES)));
+
         $this->display_header($trail);
 
         $action_bar = $this->get_action_bar();

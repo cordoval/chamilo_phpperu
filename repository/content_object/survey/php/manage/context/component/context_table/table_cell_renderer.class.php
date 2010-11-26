@@ -1,7 +1,12 @@
 <?php 
-
 namespace repository\content_object\survey;
+
 use common\libraries\Path;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Theme;
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/tables/context_table/default_context_table_cell_renderer.class.php';
