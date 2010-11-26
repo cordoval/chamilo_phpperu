@@ -1,8 +1,10 @@
 <?php 
 namespace repository\content_object\survey;
 
-use \common\libraries\Path;
-use \common\libraries\DataClass;
+use common\libraries\Path;
+use common\libraries\DataClass;
+use common\libraries\Utilities;
+use rights\RightsUtilities;
 
 
 require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.class.php');

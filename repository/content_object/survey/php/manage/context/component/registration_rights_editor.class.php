@@ -1,4 +1,8 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\Request;
+use common\extensions\rights_editor_manager\RightsEditorManager;
 
 class SurveyContextManagerRegistrationRightsEditorComponent extends SurveyContextManager
 {

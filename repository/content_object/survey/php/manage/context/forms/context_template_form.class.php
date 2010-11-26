@@ -2,6 +2,8 @@
 namespace repository\content_object\survey;
 
 use repository\RepositoryDataManager;
+use common\libraries\FormValidator;
+use common\libraries\Translation;
 
 class SurveyContextTemplateForm extends FormValidator
 {
