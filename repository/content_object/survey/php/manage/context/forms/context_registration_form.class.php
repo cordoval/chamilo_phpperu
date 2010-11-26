@@ -22,7 +22,7 @@ class SurveyContextRegistrationForm extends FormValidator
     const PROPERTIES = 'properties_';
     const PROPERTY_KEYS = 'keys_';
 
-    const ROOT_DIR = 'lib/content_object/survey/';
+    const ROOT_DIR = 'survey/php/';
     const CONTEXT = 'context';
 
     private $context_registration;
@@ -262,11 +262,14 @@ class SurveyContextRegistrationForm extends FormValidator
 
         $result = false;
         $filename = $type;
-        $repository_directory = Path :: get_repository_path();
+        $repository_directory = Path :: get_repository_content_object_path();
 
         $path = $repository_directory . self :: ROOT_DIR;
+        
+        
+        
         $new_dir = $path . self :: CONTEXT . '/' . $type;
-
+        
         $result = Filesystem :: create_dir($new_dir);
 
         if ($result)
@@ -294,7 +297,9 @@ class SurveyContextRegistrationForm extends FormValidator
         $context_class = array();
 
         $context_class[] = '<?php namespace repository\content_object\survey;';
-        $context_class[] = 'require_once (Path :: get_repository_path().' . '\'' . '/lib/content_object/survey/survey_context.class.php\');';
+        $context_class[] = 'use common\libraries\Path;';
+        
+        $context_class[] = 'require_once (Path :: get_repository_content_object_path().' . '\'' . 'survey/php/survey_context.class.php\');';
 
         $context_class[] = 'class ' . Utilities :: underscores_to_camelcase($type) . ' extends SurveyContext';
         $context_class[] = '{';
