@@ -1,6 +1,11 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/context_template_table/default_context_template_table_column_model.class.php';
+use common\libraries\Path;
+use common\libraries\StaticTableColumn;
+use common\libraries\Translation;
+
+require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/tables/context_template_table/default_context_template_table_column_model.class.php';
 
 
 class SurveyContextTemplateBrowserTableColumnModel extends DefaultSurveyContextTemplateTableColumnModel

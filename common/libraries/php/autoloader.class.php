@@ -27,6 +27,11 @@ class Autoloader
             return true;
         }
 
+        if (self :: check_for_fedora_files())
+        {
+            return true;
+        }
+
         if (self :: check_for_interface_files())
         {
             return true;
@@ -207,6 +212,25 @@ class Autoloader
         {
             $url = $list[$lower_case];
             require_once dirname(__FILE__) . '/html/' . $url;
+            return true;
+        }
+
+        return false;
+    }
+
+    static function check_for_fedora_files()
+    {
+        $list = array(
+            'fedora_fs_base' => 'fs/fedora_fs_base.class.php',
+            'fedora_fs_folder' => 'fs/fedora_fs_folder.class.php',
+        );
+
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
+
+        if (key_exists($lower_case, $list))
+        {
+            $url = $list[$lower_case];
+            require_once dirname(__FILE__) . '/fedora/' . $url;
             return true;
         }
 

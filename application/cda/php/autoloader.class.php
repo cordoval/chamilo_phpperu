@@ -27,7 +27,8 @@ class Autoloader
 		'language_pack' => 'language_pack.class.php',
 		'cda_language' => 'cda_language.class.php',
 		'cda_manager' => 'cda_manager/cda_manager.class.php',
-		'variable_form' => 'forms/variable_form.class.php'
+		'variable_form' => 'forms/variable_form.class.php',
+                'exporter_wizard_page' => 'cda_manager/component/translation_exporter/pages/exporter_wizard_page.class.php',
             );
 		     
         $lower_case = Utilities :: camelcase_to_underscores($classname);
