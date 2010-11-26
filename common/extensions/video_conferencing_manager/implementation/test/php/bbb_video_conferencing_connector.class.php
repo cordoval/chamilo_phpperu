@@ -1,5 +1,5 @@
 <?php
-namespace common\extensions\video_conferencing_manager\implementation\dimdim;
+namespace common\extensions\video_conferencing_manager\implementation\bbb;
 
 use common\extensions\video_conferencing_manager\VideoConferencingConnector;
 use common\extensions\video_conferencing_manager\VideoConferencingObject;
@@ -9,17 +9,21 @@ use common\extensions\video_conferencing_manager\VideoConferencingObject;
  * Consumer Secret: a84782d0ca686c59
  */
 
-class DimdimVideoConferencingConnector extends VideoConferencingConnector
+class BBBVideoConferencingConnector extends VideoConferencingConnector
 {  
     private $dimdim;
-    private $account;
-    private $password;
+    private $account_id;
+    private $account_pw;
+    private $meeting_name;
+    private $meeting_id;
+    private $attendee_pw;
+    private $moderator_pw;
     
 
     /**
      * @param ExternalRepository $external_repository_instance
      */
-    function DimdimVideoConferencingConnector($video_conferencing_instance)
+    function BBBVideoConferencingConnector($video_conferencing_instance)
     {
         parent :: __construct($video_conferencing_instance);
         
