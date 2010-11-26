@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="bbb">
+	<settings>
+		<category name="credentials">
+			<setting name="account_id" field="text" default="">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+			<setting name="account_pw" field="text" default="">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+			<setting name="oauth_token" field="text" default="" user_setting="1"/>		
+		</category>
+	</settings>
+</application>

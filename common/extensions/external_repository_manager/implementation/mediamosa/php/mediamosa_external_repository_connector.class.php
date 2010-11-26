@@ -143,7 +143,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     }
 
     function set_mediamosa_default_user_quotum($user_id) {
-        $quotum = ExternalRepositorySetting :: get('default_user_quotum');
+        $quotum = ExternalRepositorySetting :: get('default_user_quotum', $this->get_external_repository_instance_id());
         if ($this->set_mediamosa_user_quotum($user_id, $quotum)) {
             return true;
         }

@@ -64,6 +64,9 @@ class Autoloader
                 'content_object',
                 'content_object_attachment',
                 'difference_engine',
+        		'external_instance',
+        		'external_setting',
+        		'external_user_setting',
                 'external_repository',
                 'external_repository_setting',
                 'external_repository_user_setting',
@@ -80,12 +83,7 @@ class Autoloader
                 'content_object_user_share',
                 'content_object_group_share',
                 'content_object_type_selector',
-                'content_object_type_selector_support',
-        		'video_conferencing',
-                'video_conferencing_setting',
-                'video_conferencing_user_setting',
-                'video_conferencing_sync_info',
-                'video_conferencing_sync');
+                'content_object_type_selector_support',);
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -184,7 +182,7 @@ class Autoloader
                 'repository_block' => '../blocks/repository_block.class.php',
                 'database_repository_data_manager' => 'data_manager/database_repository_data_manager.class.php',
                 'external_repository_instance_manager' => 'external_repository_instance_manager/external_repository_instance_manager.class.php',
-        		'video_conferencing_instance_manager' => 'video_conferencing_instance_manager/video_conferencing_instance_manager.class.php');
+        		'external_instance_manager' => 'external_instance_manager/external_instance_manager.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
