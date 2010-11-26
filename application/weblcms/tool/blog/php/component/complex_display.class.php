@@ -2,11 +2,15 @@
 namespace application\weblcms\tool\blog;
 
 use repository\content_object\blog\BlogComplexDisplaySupport;
+use repository\ComplexDisplay;
+
 use application\weblcms\Tool;
+use application\weblcms\ToolComponent;
+use application\weblcms\WeblcmsDataManager;
+
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
-use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
 
@@ -24,9 +28,21 @@ class BlogToolComplexDisplayComponent extends BlogTool implements
         BlogComplexDisplaySupport
 {
 
+    private $publication;
+
     function run()
     {
-        ToolComponent :: launch($this);
+        $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+        $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
+
+        $this->publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
+
+        ComplexDisplay :: launch($this->publication->get_content_object()->get_type(), $this);
+    }
+
+    function get_root_content_object()
+    {
+        return $this->publication->get_content_object();
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
@@ -44,12 +60,6 @@ class BlogToolComplexDisplayComponent extends BlogTool implements
         return array(
                 Tool :: PARAM_PUBLICATION_ID);
     }
-
-    function get_root_content_object()
-    {
-        throw new Exception("unimplented method : application\weblcms\tool\blog\BlogToolComplexDisplayComponent#get_root_content_object()");
-    }
-
 }
 
 ?>

@@ -233,7 +233,7 @@ $(function ()
 	}
 	
 	function setHotspotImage(ev, ui)
-	{
+	{0
 		var learningObjectId = $(this).attr('id').replace('lo_', ''),
 			imageProperties;
 		$('input[name="image_object"]').val(learningObjectId);
