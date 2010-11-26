@@ -6,6 +6,7 @@ use common\libraries\LauncherApplication;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Path;
 
 use admin\Registration;
 use admin\AdminDataManager;
@@ -355,9 +356,9 @@ abstract class VideoConferencingManager extends SubManager
      */
     static public function exists($type)
     {
-        $path = dirname(__FILE__) . '/type';
+        $path = Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation';
         $video_conferencing_path = $path . '/' . $type;
-        $video_conferencing_manager_path = $video_conferencing_path . '/' . $type . '_video_conferencing_manager.class.php';
+        $video_conferencing_manager_path = $video_conferencing_path . '/php/' . $type . '_video_conferencing_manager.class.php';
 
         if (file_exists($video_conferencing_path) && is_dir($video_conferencing_path) && file_exists($video_conferencing_manager_path))
         {
@@ -368,7 +369,7 @@ abstract class VideoConferencingManager extends SubManager
             return false;
         }
     }
-
+    
     function create_component($type, $application = null)
     {
         if ($application == null)

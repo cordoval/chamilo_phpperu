@@ -34,16 +34,15 @@ class VideoConferencingInstanceManagerCreatorComponent extends VideoConferencing
         }
 
         $type = Request :: get(VideoConferencingInstanceManager :: PARAM_VIDEO_CONFERENCING_TYPE);
-
         if ($type && VideoConferencingManager :: exists($type))
         {
             $video_conferencing = new VideoConferencing();
             $video_conferencing->set_type($type);
-            $form = new VideoConferencingForm(ExternalRepositoryForm :: TYPE_CREATE, $video_conferencing, $this->get_url(array(
+            $form = new VideoConferencingForm(VideoConferencingForm :: TYPE_CREATE, $video_conferencing, $this->get_url(array(
                     VideoConferencingInstanceManager :: PARAM_VIDEO_CONFERENCING_TYPE => $type)));
             if ($form->validate())
             {
-                $success = $form->create_external_repository();
+                $success = $form->create_video_conferencing();
                 $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array(
                         'OBJECT' => Translation :: get('VideoConferencing')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(
                         VideoConferencingInstanceManager :: PARAM_INSTANCE_ACTION => VideoConferencingInstanceManager :: ACTION_BROWSE_INSTANCES));

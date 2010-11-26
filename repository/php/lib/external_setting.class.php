@@ -14,15 +14,16 @@ use DOMDocument;
  * @author Hans De Bisschop
  */
 
-class ExternalRepositorySetting extends DataClass
+class ExternalSetting extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
-    const PROPERTY_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
+    
+    const PROPERTY_TYPE = 'type';
+    const PROPERTY_EXTERNAL_ID = 'external_id';
     const PROPERTY_VARIABLE = 'variable';
     const PROPERTY_VALUE = 'value';
     const PROPERTY_USER_SETTING = 'user_setting';
-
+    
     /**
      * A static array containing all settings of external repository instances
      * @var array
@@ -38,7 +39,7 @@ class ExternalRepositorySetting extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_EXTERNAL_REPOSITORY_ID, self :: PROPERTY_VARIABLE, self :: PROPERTY_VALUE, self :: PROPERTY_USER_SETTING));
+        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_EXTERNAL_ID, self :: PROPERTY_VARIABLE, self :: PROPERTY_VALUE, self :: PROPERTY_USER_SETTING));
     }
 
     /**
@@ -52,9 +53,9 @@ class ExternalRepositorySetting extends DataClass
     /**
      * @return string the external repository id
      */
-    function get_external_repository_id()
+    function get_external_id()
     {
-        return $this->get_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY_ID);
+        return $this->get_default_property(self :: PROPERTY_REPOSITORY_ID);
     }
 
     /**
@@ -78,9 +79,9 @@ class ExternalRepositorySetting extends DataClass
     /**
      * @param string $external_repository_id
      */
-    function set_external_repository_id($external_repository_id)
+    function set_external_id($external_id)
     {
-        $this->set_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
+        $this->set_default_property(self :: PROPERTY_EXTERNAL_ID, $external_id);
     }
 
     /**
@@ -119,6 +120,16 @@ class ExternalRepositorySetting extends DataClass
         $this->set_default_property(self :: PROPERTY_USER_SETTING, $user_setting);
     }
 
+    function get_type()
+    {
+        return $this->get_default_property(self :: PROPERTY_TYPE);
+    }
+
+    function set_type($type)
+    {
+        $this->set_default_property(self :: PROPERTY_TYPE, $type);
+    }
+
     /**
      * @return string
      */
@@ -132,39 +143,39 @@ class ExternalRepositorySetting extends DataClass
         return self :: CLASS_NAME;
     }
 
-    static function initialize(ExternalRepository $external_repository)
+    static function initialize(VideoConferencing $video_conferencing)
     {
-        $settings_file = Path :: get_common_extensions_path() . 'external_repository_manager/implementation/' . $external_repository->get_type() . '/php/settings/settings_' . $external_repository->get_type() . '.xml';
-
+        $settings_file = Path :: get_common_extensions_path() . $this->get_type() . '/implementation/' . $video_conferencing->get_type() . '/php/settings/settings_' . $video_conferencing->get_type() . '.xml';
+        
         $doc = new DOMDocument();
-
+        
         $doc->load($settings_file);
         $object = $doc->getElementsByTagname('application')->item(0);
         $settings = $doc->getElementsByTagname('setting');
-
+        
         foreach ($settings as $index => $setting)
         {
-            $repository_setting = new ExternalRepositorySetting();
-            $repository_setting->set_external_repository_id($external_repository->get_id());
-            $repository_setting->set_variable($setting->getAttribute('name'));
-            $repository_setting->set_value($setting->getAttribute('default'));
-
+            $external_setting = new ExternalSetting();
+            $external_setting->set_external_id($video_conferencing->get_id());
+            $external_setting->set_variable($setting->getAttribute('name'));
+            $external_setting->set_value($setting->getAttribute('default'));
+            
             $user_setting = $setting->getAttribute('user_setting');
             if ($user_setting)
             {
-                $repository_setting->set_user_setting($user_setting);
+                $external_setting->set_user_setting($user_setting);
             }
             else
             {
-                $repository_setting->set_user_setting(0);
+                $external_setting->set_user_setting(0);
             }
-
-            if (! $repository_setting->create())
+            
+            if (! $external_setting->create())
             {
                 return false;
             }
         }
-
+        
         return true;
     }
 
@@ -178,8 +189,8 @@ class ExternalRepositorySetting extends DataClass
         {
             if ($this->get_user_setting())
             {
-                $condition = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_SETTING_ID, $this->get_id());
-                if (! RepositoryDataManager :: get_instance()->delete_external_repository_user_settings($condition))
+                $condition = new EqualityCondition(ExternalUserSetting :: PROPERTY_SETTING_ID, $this->get_id());
+                if (! RepositoryDataManager :: get_instance()->delete_external_user_settings($condition))
                 {
                     return false;
                 }
@@ -200,38 +211,37 @@ class ExternalRepositorySetting extends DataClass
      * @param int $external_repository_id
      * @return mixed
      */
-    static function get($variable, $external_repository_id)
+    static function get($variable, $external_id)
     {
-        if (! isset(self :: $settings[$external_repository_id]))
+        if (! isset(self :: $settings[$external_id]))
         {
-            self :: load($external_repository_id);
+            self :: load($external_id);
         }
-
-        return (isset(self :: $settings[$external_repository_id][$variable]) ? self :: $settings[$external_repository_id][$variable] : null);
+        
+        return (isset(self :: $settings[$external_id][$variable]) ? self :: $settings[$external_id][$variable] : null);
     }
 
-    static function get_all($external_repository_id)
+    static function get_all($external_id)
     {
-
-        if (! isset(self :: $settings[$external_repository_id]))
+        if (! isset(self :: $settings[$external_id]))
         {
-            self :: load($external_repository_id);
+            self :: load($external_id);
         }
-
-        return self :: $settings[$external_repository_id];
+        
+        return self :: $settings[$external_id];
     }
 
     /**
      * @param int $external_repository_id
      */
-    static function load($external_repository_id)
+    static function load($external_id)
     {
-        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
-        $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
-
+        $condition = new EqualityCondition(self :: PROPERTY_EXTERNAL_ID, $external_id);
+        $settings = RepositoryDataManager :: get_instance()->retrieve_external_settings($condition);
+        
         while ($setting = $settings->next_result())
         {
-            self :: $settings[$external_repository_id][$setting->get_variable()] = $setting->get_value();
+            self :: $settings[$external_id][$setting->get_variable()] = $setting->get_value();
         }
     }
 }

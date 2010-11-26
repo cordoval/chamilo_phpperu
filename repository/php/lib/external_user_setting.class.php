@@ -16,10 +16,11 @@ use common\extensions\external_repository_manager\ExternalRepositoryManager;
  * @package user.lib
  */
 
-class ExternalRepositoryUserSetting extends DataClass
+class ExternalUserSetting extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
+    const PROPERTY_TYPE = 'type';
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_SETTING_ID = 'setting_id';
     const PROPERTY_VALUE = 'value';
@@ -36,7 +37,7 @@ class ExternalRepositoryUserSetting extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID, self :: PROPERTY_SETTING_ID, self :: PROPERTY_VALUE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_USER_ID, self :: PROPERTY_SETTING_ID, self :: PROPERTY_VALUE));
     }
 
     /**
@@ -55,6 +56,16 @@ class ExternalRepositoryUserSetting extends DataClass
     function set_user_id($user_id)
     {
         $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
+    }
+    
+	function get_type()
+    {
+        return $this->get_default_property(self :: PROPERTY_TYPE);
+    }
+
+    function set_type($type)
+    {
+        $this->set_default_property(self :: PROPERTY_TYPE, $type);
     }
 
     function get_setting_id()
@@ -92,49 +103,39 @@ class ExternalRepositoryUserSetting extends DataClass
      * @param int $external_repository_id
      * @return mixed
      */
-    static function get($variable, $external_repository_id = null, $user_id = null)
+    static function get($variable, $external_id, $user_id = null)
     {
-        if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
-        {
-            $external_repository_id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
-
-            if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
-            {
-                Display :: error_page(Translation :: get('WhatsUpDoc', null, Utilities :: COMMON_LIBRARIES));
-            }
-        }
-
         if (is_null($user_id) || ! is_numeric($user_id))
         {
             $user_id = Session :: get_user_id();
         }
 
-        if (! isset(self :: $settings[$external_repository_id][$user_id]))
+        if (! isset(self :: $settings[$external_id][$user_id]))
         {
-            self :: load($external_repository_id, $user_id);
+            self :: load($external_id, $user_id);
         }
 
-        return (isset(self :: $settings[$external_repository_id][$user_id][$variable]) ? self :: $settings[$external_repository_id][$user_id][$variable] : null);
+        return (isset(self :: $settings[$external_id][$user_id][$variable]) ? self :: $settings[$external_id][$user_id][$variable] : null);
     }
-    
-    static function load($external_repository_id, $user_id)
+
+    static function load($external_id, $user_id)
     {
-        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
-        $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
+        $condition = new EqualityCondition(ExternalSetting :: PROPERTY_EXTERNAL_ID, $external_id);
+        $settings = RepositoryDataManager :: get_instance()->retrieve_external_settings($condition);
 
         $setting_ids = array();
         while ($setting = $settings->next_result())
         {
             $conditions = array();
-            $conditions[] = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_USER_ID, $user_id);
-            $conditions[] = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_SETTING_ID, $setting->get_id());
+            $conditions[] = new EqualityCondition(self :: PROPERTY_USER_ID, $user_id);
+            $conditions[] = new EqualityCondition(self :: PROPERTY_SETTING_ID, $setting->get_id());
             $condition = new AndCondition($conditions);
 
-            $user_settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_user_settings($condition, array(), 0, 1);
+            $user_settings = RepositoryDataManager :: get_instance()->retrieve_external_user_settings($condition, array(), 0, 1);
             if ($user_settings->size() == 1)
             {
                 $user_setting = $user_settings->next_result();
-                self :: $settings[$external_repository_id][$user_id][$setting->get_variable()] = $user_setting->get_value();
+                self :: $settings[$external_id][$user_id][$setting->get_variable()] = $user_setting->get_value();
             }
         }
     }
