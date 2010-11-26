@@ -145,7 +145,7 @@ class ExternalSetting extends DataClass
 
     static function initialize(VideoConferencing $video_conferencing)
     {
-        $settings_file = Path :: get_common_extensions_path() . $this->get_type() . '/implementation/' . $video_conferencing->get_type() . '/php/settings/settings_' . $video_conferencing->get_type() . '.xml';
+        $settings_file = Path :: get_common_extensions_path() . $video_conferencing->get_instance_type() . '/implementation/' . $video_conferencing->get_type() . '/php/settings/settings_' . $video_conferencing->get_type() . '.xml';
         
         $doc = new DOMDocument();
         

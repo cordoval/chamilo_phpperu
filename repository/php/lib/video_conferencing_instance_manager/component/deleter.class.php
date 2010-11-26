@@ -5,7 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
-class VideoConferencingInstanceManagerDeleterComponent extends VideoConferencingInstanceManager
+class ExternalInstanceInstanceManagerDeleterComponent extends ExternalInstanceInstanceManager
 {
 
     function run()
@@ -15,7 +15,7 @@ class VideoConferencingInstanceManagerDeleterComponent extends VideoConferencing
             $this->not_allowed();
         }
 
-        $ids = Request :: get(VideoConferencingInstanceManager :: PARAM_INSTANCE);
+        $ids = Request :: get(ExternalInstanceInstanceManager :: PARAM_INSTANCE);
         $failures = 0;
 
         if (! empty($ids))
@@ -27,9 +27,9 @@ class VideoConferencingInstanceManagerDeleterComponent extends VideoConferencing
 
             foreach ($ids as $id)
             {
-                $video_conferencing = $this->retrieve_video_conferencing($id);
+                $external_instance = $this->retrieve_external_instance($id);
 
-                if (! $video_conferencing->delete())
+                if (! $external_instance->delete())
                 {
                     $failures ++;
                 }
@@ -40,7 +40,7 @@ class VideoConferencingInstanceManagerDeleterComponent extends VideoConferencing
                 if (count($ids) == 1)
                 {
                     $message = 'ObjectNotDeleted';
-                    $parameter = array('OBJECT' => Translation :: get('VideoConferencing'));
+                    $parameter = array('OBJECT' => Translation :: get('ExternalInstance'));
                 }
                 else
                 {
@@ -53,7 +53,7 @@ class VideoConferencingInstanceManagerDeleterComponent extends VideoConferencing
                 if (count($ids) == 1)
                 {
                     $message = 'ObjectDeleted';
-                    $parameter = array('OBJECT' => Translation :: get('VideoConferencing'));
+                    $parameter = array('OBJECT' => Translation :: get('ExternalInstance'));
                 }
                 else
                 {
@@ -62,11 +62,11 @@ class VideoConferencingInstanceManagerDeleterComponent extends VideoConferencing
                 }
             }
 
-            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(VideoConferencingInstanceManager :: PARAM_INSTANCE_ACTION => VideoConferencingInstanceManager :: ACTION_BROWSE_INSTANCES));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(ExternalInstanceInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceInstanceManager :: ACTION_BROWSE_INSTANCES));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('VideoConferencing')), Utilities :: COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ExternalInstance')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

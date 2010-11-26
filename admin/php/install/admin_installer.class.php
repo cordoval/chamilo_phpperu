@@ -80,8 +80,7 @@ class AdminInstaller extends Installer
         }
         else
         {
-        	echo('hier');
-        	dump(VideoConferencingManager :: get_namespace());
+
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('VideosConferencing', null, VideoConferencingManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
         }
         

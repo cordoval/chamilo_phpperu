@@ -3,7 +3,7 @@ namespace repository;
 
 use common\libraries\ObjectTableDataProvider;
 
-class VideoConferencingInstanceBrowserTableDataProvider extends ObjectTableDataProvider
+class ExternalInstanceInstanceBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
     /**

@@ -12,7 +12,7 @@ use common\extensions\rights_editor_manager\RightsEditorManager;
  * Repository manager component to edit the rights for the learning objects in
  * the repository.
  */
-class VideoConferencingInstanceManagerRightsEditorComponent extends VideoConferencingInstanceManager
+class ExternalInstanceInstanceManagerRightsEditorComponent extends ExternalInstanceInstanceManager
 {
     /**
      * Runs this component and displays its output.

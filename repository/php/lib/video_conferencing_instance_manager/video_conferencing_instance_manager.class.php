@@ -5,11 +5,11 @@ use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\SubManager;
 
-class VideoConferencingInstanceManager extends SubManager
+class ExternalInstanceInstanceManager extends SubManager
 {
     const PARAM_INSTANCE_ACTION = 'action';
     const PARAM_INSTANCE = 'instance';
-    const PARAM_VIDEO_CONFERENCING_TYPE = 'type';
+    const PARAM_EXTERNAL_INSTANCE_TYPE = 'type';
 
     const ACTION_BROWSE_INSTANCES = 'browser';
     const ACTION_ACTIVATE_INSTANCE = 'activator';
@@ -44,17 +44,17 @@ class VideoConferencingInstanceManager extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_repository_path() . 'lib/video_conferencing_instance_manager/component/';
+        return Path :: get_repository_path() . 'lib/external_instance_instance_manager/component/';
     }
 
     function count_videos_conferencing($condition = null)
     {
-        return $this->get_parent()->count_videos_conferencing($condition);
+        return $this->get_parent()->count_external_instances($condition);
     }
 
     function retrieve_videos_conferencing($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->get_parent()->retrieve_videos_conferencing($condition, $offset, $count, $order_property);
+        return $this->get_parent()->retrieve_external_instances($condition, $offset, $count, $order_property);
     }
 
     static function launch($application)
@@ -62,9 +62,9 @@ class VideoConferencingInstanceManager extends SubManager
         parent :: launch(__CLASS__, $application);
     }
 
-    function retrieve_video_conferencing($video_conferencing_id)
+    function retrieve_external_instance($external_instance_id)
     {
-        return $this->get_parent()->retrieve_video_conferencing($video_conferencing_id);
+        return $this->get_parent()->retrieve_external_instance($external_instance_id);
     }
 
     /**

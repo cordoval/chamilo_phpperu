@@ -1324,6 +1324,11 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         return $this->create($external_repository);
     }
+    
+   	function create_external_instance($external_instance)
+    {
+        return $this->create($external_instance);
+    }
 
     function count_categories($conditions = null)
     {
@@ -1568,10 +1573,21 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->retrieve_objects(ExternalRepository :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalRepository :: CLASS_NAME);
     }
 
+	function retrieve_external_instance_condition($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(ExternalInstance :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalInstance :: CLASS_NAME);
+    }
+    
     function retrieve_external_repository($external_repository_id)
     {
         $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ID, $external_repository_id);
         return $this->retrieve_object(ExternalRepository :: get_table_name(), $condition, array(), ExternalRepository :: CLASS_NAME);
+    }
+    
+	function retrieve_external_instance($external_instance_id)
+    {
+        $condition = new EqualityCondition(ExternalInstance :: PROPERTY_ID, $external_instance_id);
+        return $this->retrieve_object(ExternalInstance :: get_table_name(), $condition, array(), ExternalInstance :: CLASS_NAME);
     }
 
     function retrieve_external_repositories($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -1579,15 +1595,34 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->retrieve_objects(ExternalRepository :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalRepository :: CLASS_NAME);
     }
 
+	function retrieve_external_instances($condition = null, $offset = null, $max_objects = null, $order_by = nul)
+    {
+    return $this->retrieve_objects(ExternalInstance :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalInstance :: CLASS_NAME);
+    }
+    
     function count_external_repositories($condition = null)
     {
         return $this->count_objects(ExternalRepository :: get_table_name(), $condition);
+    }
+    
+    function count_external_instances($condition = null)
+    {
+    	return $this->count_objects(ExternalInstance :: get_table_name(), $condition);
     }
 
     function retrieve_active_external_repository_types()
     {
         $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ENABLED, 1);
         return $this->retrieve_distinct(ExternalRepository :: get_table_name(), ExternalRepository :: PROPERTY_TYPE, $condition, array(), ExternalRepository :: CLASS_NAME);
+    }
+    
+	function retrieve_active_external_instance_types($instance_type)
+    {
+    	$conditions = array();
+        $conditions[] = new EqualityCondition(ExternalInstance :: PROPERTY_ENABLED, 1);
+        $conditions[] = new EqualityCondition(ExternalInstance :: PROPERTY_INSTANCE_TYPE, $instance_type);
+        $condition = new AndCondition($conditions);
+        return $this->retrieve_distinct(ExternalInstance :: get_table_name(), ExternalInstance :: PROPERTY_TYPE, $condition, array(), ExternalInstance :: CLASS_NAME);
     }
 
     function retrieve_external_repository_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -1604,44 +1639,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->retrieve_object(ExternalRepositoryUserQuotum :: get_table_name(), $condition, array(), ExternalRepositoryUserQuotum :: CLASS_NAME);
     }
     
-    //video_conferencing
-	function retrieve_video_conferencing_condition($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {
-        return $this->retrieve_objects(VideoConferencing :: get_table_name(), $condition, $offset, $max_objects, $order_by, VideoConferencing :: CLASS_NAME);
-    }
-
-    function retrieve_video_conferencing($video_conferencing_id)
-    {
-        $condition = new EqualityCondition(VideoConferencing :: PROPERTY_ID, $video_conferencingy_id);
-        return $this->retrieve_object(VideoConferencing :: get_table_name(), $condition, array(), VideoConferencing :: CLASS_NAME);
-    }
-
-    function retrieve_videos_conferencing($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {
-        return $this->retrieve_objects(VideoConferencing :: get_table_name(), $condition, $offset, $max_objects, $order_by, VideoConferencing :: CLASS_NAME);
-    }
-
-    function count_videos_conferencing($condition = null)
-    {
-        return $this->count_objects(VideoConferencing :: get_table_name(), $condition);
-    }
-
-    function retrieve_active_video_conferencing_types()
-    {
-        $condition = new EqualityCondition(VideoConferencing :: PROPERTY_ENABLED, 1);
-        return $this->retrieve_distinct(VideoConferencing :: get_table_name(), VideoConferencing :: PROPERTY_TYPE, $condition, array(), VideoConferencing :: CLASS_NAME);
-    }
-
-    function retrieve_video_conferencing_user_quotum($user_id, $video_conferencing_id)
-    {
-        $condition2 = new EqualityCondition(VideoConferencingUserQuotum :: PROPERTY_USER_ID, $user_id);
-        $condition1 = new EqualityCondition(VideoConferencingUserQuotum :: PROPERTY_VIDEO_CONFERENCING_ID, $video_conferencing_id);
-
-        $condition = new AndCondition($condition1, $condition2);
-        return $this->retrieve_object(VideoConferencingUserQuotum :: get_table_name(), $condition, array(), ExternalRepositoryUserQuotum :: CLASS_NAME);
-    }
-
-    function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null)
+     function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         /*
 	     * Get 'catalog' alias and add it to the query in order to support WHERE and ORDER BY clause
@@ -1894,13 +1892,12 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->retrieve_objects(ExternalUserSetting :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalUserSetting :: CLASS_NAME);
     }
 
-    function retrieve_external_setting_from_variable_name($variable, $external_repository_id)
+    function retrieve_external_setting_from_variable_name($variable, $external_id)
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(ExternalSetting :: PROPERTY_EXTERNAL_ID, $external_id);
         $conditions[] = new EqualityCondition(ExternalSetting :: PROPERTY_VARIABLE, $variable);
         $condition = new AndCondition($conditions);
-
         return $this->retrieve_object(ExternalSetting :: get_table_name(), $condition, array(), ExternalSetting :: CLASS_NAME);
     }
 
@@ -2044,13 +2041,25 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ID, $external_repository->get_id());
         return $this->update($external_repository, $condition);
     }
+    
+	function update_external_instance($external_instance)
+    {
+        $condition = new EqualityCondition(ExternalInstance :: PROPERTY_ID, $external_instance->get_id());
+        return $this->update($external_instance, $condition);
+    }
 
     function delete_external_repository($external_repository)
     {
         $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ID, $external_repository->get_id());
         return $this->delete(ExternalRepository :: get_table_name(), $condition);
     }
-
+    
+    function delete_external_instance($external_instance)
+    {
+        $condition = new EqualityCondition(ExternalInstance :: PROPERTY_ID, $external_instance->get_id());
+        return $this->delete(ExternalInstance :: get_table_name(), $condition);
+    }
+    
     function create_external_repository_user_quotum(ExternalRepositoryUserQuotum $external_repository_user_quotum)
     {
         return $this->create($external_repository_user_quotum);

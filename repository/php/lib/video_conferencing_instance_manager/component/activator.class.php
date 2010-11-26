@@ -5,7 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
-class VideoConferencingInstanceManagerActivatorComponent extends VideoConferencingInstanceManager
+class ExternalInstanceInstanceManagerActivatorComponent extends ExternalInstanceInstanceManager
 {
 
     function run()
@@ -15,7 +15,7 @@ class VideoConferencingInstanceManagerActivatorComponent extends VideoConferenci
             $this->not_allowed();
         }
 
-        $ids = Request :: get(VideoConferencingInstanceManager :: PARAM_INSTANCE);
+        $ids = Request :: get(ExternalInstanceInstanceManager :: PARAM_INSTANCE);
         $failures = 0;
 
         if (! empty($ids))
@@ -27,10 +27,10 @@ class VideoConferencingInstanceManagerActivatorComponent extends VideoConferenci
 
             foreach ($ids as $id)
             {
-                $video_conferencing = $this->retrieve_video_conferencing($id);
-                $video_conferencing->activate();
+                $external_instance = $this->retrieve_external_instance($id);
+                $external_instance->activate();
 
-                if (! $video_conferencing->update())
+                if (! $external_instance->update())
                 {
                     $failures ++;
                 }
@@ -41,7 +41,7 @@ class VideoConferencingInstanceManagerActivatorComponent extends VideoConferenci
                 if (count($ids) == 1)
                 {
                     $message = 'ObjectNotActivated';
-                    $parameter = array('OBJECT' => Translation :: get('VideoConferencing'));
+                    $parameter = array('OBJECT' => Translation :: get('ExternalInstance'));
                 }
                 else
                 {
@@ -54,7 +54,7 @@ class VideoConferencingInstanceManagerActivatorComponent extends VideoConferenci
                 if (count($ids) == 1)
                 {
                     $message = 'ObjectActivated';
-                    $parameter = array('OBJECT' => Translation :: get('VideoConferencing'));
+                    $parameter = array('OBJECT' => Translation :: get('ExternalInstance'));
                 }
                 else
                 {
@@ -63,7 +63,7 @@ class VideoConferencingInstanceManagerActivatorComponent extends VideoConferenci
                 }
             }
 
-            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(VideoConferencingInstanceManager :: PARAM_INSTANCE_ACTION => VideoConferencingInstanceManager :: ACTION_BROWSE_INSTANCES));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(ExternalInstanceInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceInstanceManager :: ACTION_BROWSE_INSTANCES));
         }
         else
         {

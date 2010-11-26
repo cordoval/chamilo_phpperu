@@ -1,6 +1,10 @@
 <?php
 namespace repository;
 
+use common\extensions\external_instance_manager;
+
+use common\libraries;
+
 use admin;
 
 use admin\PackageInfo;
@@ -10,42 +14,44 @@ use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 use common\libraries\Theme;
 use common\libraries\DynamicTabsRenderer;
 use common\libraries\DynamicContentTab;
 use common\libraries\Filesystem;
-use common\extensions\video_conferencing_manager\VideoConferencingManager;
+use common\extensions\external_instance_manager\ExternalInstanceManager;
 
 use DOMDocument;
 
-require_once dirname(__FILE__) . '/../forms/video_conferencing_form.class.php';
+require_once dirname(__FILE__) . '/../forms/external_instance_form.class.php';
 
-class VideoConferencingInstanceManagerCreatorComponent extends VideoConferencingInstanceManager
+class ExternalInstanceInstanceManagerCreatorComponent extends ExternalInstanceInstanceManager
 {
 
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('video_conferencing general');
+        $trail->add_help('external_instance general');
 
         if (! $this->get_user()->is_platform_admin())
         {
             $this->not_allowed();
         }
 
-        $type = Request :: get(VideoConferencingInstanceManager :: PARAM_VIDEO_CONFERENCING_TYPE);
-        if ($type && VideoConferencingManager :: exists($type))
+        $type = Request :: get(ExternalInstanceInstanceManager :: PARAM_EXTERNAL_INSTANCE_TYPE);
+        if ($type && ExternalInstanceManager :: exists($type))
         {
-            $video_conferencing = new VideoConferencing();
-            $video_conferencing->set_type($type);
-            $form = new VideoConferencingForm(VideoConferencingForm :: TYPE_CREATE, $video_conferencing, $this->get_url(array(
-                    VideoConferencingInstanceManager :: PARAM_VIDEO_CONFERENCING_TYPE => $type)));
+            $external_instance = new ExternalInstance();
+            $external_instance->set_type($type);
+            $external_instance->set_instance_type(Utilities :: get_classname_from_namespace(ExternalInstanceManager :: CLASS_NAME, true));
+            $form = new ExternalInstanceForm(ExternalInstanceForm :: TYPE_CREATE, $external_instance, $this->get_url(array(
+                    ExternalInstanceInstanceManager :: PARAM_EXTERNAL_INSTANCE_TYPE => $type)));
             if ($form->validate())
             {
-                $success = $form->create_video_conferencing();
+                $success = $form->create_external_instance();
                 $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array(
-                        'OBJECT' => Translation :: get('VideoConferencing')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(
-                        VideoConferencingInstanceManager :: PARAM_INSTANCE_ACTION => VideoConferencingInstanceManager :: ACTION_BROWSE_INSTANCES));
+                        'OBJECT' => Translation :: get('ExternalInstance')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(
+                        ExternalInstanceInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceInstanceManager :: ACTION_BROWSE_INSTANCES));
             }
             else
             {
@@ -61,7 +67,7 @@ class VideoConferencingInstanceManagerCreatorComponent extends VideoConferencing
             $renderer_name = Utilities :: get_classname_from_object($this, true);
             $tabs = new DynamicTabsRenderer($renderer_name);
 
-            $repository_types = $this->get_video_conferencing_types();
+            $repository_types = $this->get_external_instance_types();
 
             foreach ($repository_types['sections'] as $category => $category_name)
             {
@@ -70,12 +76,12 @@ class VideoConferencingInstanceManagerCreatorComponent extends VideoConferencing
                 foreach ($repository_types['types'][$category] as $type => $name)
                 {
                     $types_html[] = '<a href="' . $this->get_url(array(
-                            VideoConferencingInstanceManager :: PARAM_VIDEO_CONFERENCING_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_image_path(VideoConferencingManager :: get_namespace($type)) . 'logo/48.png);">';
+                            ExternalInstanceInstanceManager :: PARAM_EXTERNAL_INSTANCE_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_image_path(ExternalInstanceManager :: get_namespace($type)) . 'logo/48.png);">';
                     $types_html[] = $name;
                     $types_html[] = '</div></a>';
                 }
 
-                $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_image_path(VideoConferencingManager :: get_namespace()) . 'category_' . $category . '.png', implode("\n", $types_html)));
+                $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_image_path(ExternalInstanceManager :: get_namespace()) . 'category_' . $category . '.png', implode("\n", $types_html)));
             }
 
             echo $tabs->render();
@@ -83,9 +89,9 @@ class VideoConferencingInstanceManagerCreatorComponent extends VideoConferencing
         }
     }
 
-    function get_video_conferencing_types()
+    function get_external_instance_types()
     {
-        $active_managers = VideoConferencingManager :: get_registered_types();
+        $active_managers = ExternalInstanceManager :: get_registered_types();
 
         $types = array();
         $sections = array();
@@ -98,7 +104,10 @@ class VideoConferencingInstanceManagerCreatorComponent extends VideoConferencing
             $section = isset($package_info['package']['category']) ? $package_info['package']['category'] : 'various';
             $multiple = isset($package_info['package']['extra']['multiple']) ? $package_info['package']['extra']['multiple'] : false;
 
-            $condition = new EqualityCondition(VideoConferencing :: PROPERTY_TYPE, $active_manager->get_name());
+            $conditions = array();
+            $conditions[] = new EqualityCondition(ExternalInstance :: PROPERTY_TYPE, $active_manager->get_name());
+            $conditions[] = new EqualityCondition(ExternalInstance :: PROPERTY_INSTANCE_TYPE, $active_manager->get_type());
+            $condition = new AndCondition($conditions);
             $count = $this->count_videos_conferencing($condition);
             if (! $multiple && $count > 0)
             {
@@ -107,7 +116,7 @@ class VideoConferencingInstanceManagerCreatorComponent extends VideoConferencing
 
             if (! in_array($section, array_keys($sections)))
             {
-                $sections[$section] = Translation :: get('Category' . Utilities :: underscores_to_camelcase($section), null, VideoConferencingManager :: get_namespace());
+                $sections[$section] = Translation :: get('Category' . Utilities :: underscores_to_camelcase($section), null, ExternalInstanceManager :: get_namespace());
             }
 
             if (! isset($types[$section]))
@@ -115,7 +124,7 @@ class VideoConferencingInstanceManagerCreatorComponent extends VideoConferencing
                 $types[$section] = array();
             }
 
-            $types[$section][$active_manager->get_name()] = Translation :: get('TypeName', null, VideoConferencingManager :: get_namespace($active_manager->get_name()));
+            $types[$section][$active_manager->get_name()] = Translation :: get('TypeName', null, ExternalInstanceManager :: get_namespace($active_manager->get_name()));
             asort($types[$section]);
         }
 

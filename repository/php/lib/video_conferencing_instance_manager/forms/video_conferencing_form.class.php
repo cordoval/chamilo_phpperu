@@ -1,7 +1,7 @@
 <?php
 namespace repository;
 
-use common\extensions\video_conferencing_manager\VideoConferencingManager;
+use common\extensions\external_instance_manager\ExternalInstanceManager;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -16,7 +16,7 @@ use DOMDocument;
  * @package home.lib.forms
  */
 
-class VideoConferencingForm extends FormValidator
+class ExternalInstanceForm extends FormValidator
 {
 
     const TYPE_CREATE = 1;
@@ -24,15 +24,15 @@ class VideoConferencingForm extends FormValidator
 
     const SETTINGS_PREFIX = 'settings';
 
-    private $video_conferencing;
+    private $external_instance;
     private $configuration;
     private $form_type;
 
-    function __construct($form_type, $video_conferencing, $action)
+    function __construct($form_type, $external_instance, $action)
     {
-        parent :: __construct('video_conferencing', 'post', $action);
+        parent :: __construct('external_instance', 'post', $action);
 
-        $this->video_conferencing = $video_conferencing;
+        $this->external_instance = $external_instance;
         $this->configuration = $this->parse_settings();
         $this->form_type = $form_type;
         if ($this->form_type == self :: TYPE_EDIT)
@@ -49,7 +49,7 @@ class VideoConferencingForm extends FormValidator
 
     function build_basic_form()
     {
-        $video_conferencing = $this->video_conferencing;
+        $external_instance = $this->external_instance;
         $configuration = $this->configuration;
 
         $tabs_generator = new DynamicFormTabsRenderer($this->getAttribute('name'), $this);
@@ -65,20 +65,20 @@ class VideoConferencingForm extends FormValidator
 
     function build_general_form()
     {
-        $this->addElement('static', null, Translation :: get('VideoConferencingType', null, VideoConferencingManager :: get_namespace()), Translation :: get('TypeName', null, VideoConferencingManager :: get_namespace($this->video_conferencing->get_type())));
-        $this->addElement('hidden', VideoConferencing :: PROPERTY_TYPE, $this->video_conferencing->get_type());
-        $this->addElement('text', VideoConferencing :: PROPERTY_TITLE, Translation :: get('Title', null, VideoConferencingManager :: get_namespace()), array("size" => "50"));
-        $this->addRule(VideoConferencing :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-        $this->add_html_editor(VideoConferencing :: PROPERTY_DESCRIPTION, Translation :: get('Description', null, VideoConferencingManager :: get_namespace()), true);
-        $this->addElement('checkbox', VideoConferencing :: PROPERTY_ENABLED, Translation :: get('Enabled', null, Utilities :: COMMON_LIBRARIES));
+        $this->addElement('static', null, Translation :: get('ExternalInstanceType', null, ExternalInstanceManager :: get_namespace()), Translation :: get('TypeName', null, ExternalInstanceManager :: get_namespace($this->external_instance->get_type())));
+        $this->addElement('hidden', ExternalInstance :: PROPERTY_TYPE, $this->external_instance->get_type());
+        $this->addElement('text', ExternalInstance :: PROPERTY_TITLE, Translation :: get('Title', null, ExternalInstanceManager :: get_namespace()), array("size" => "50"));
+        $this->addRule(ExternalInstance :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $this->add_html_editor(ExternalInstance :: PROPERTY_DESCRIPTION, Translation :: get('Description', null, ExternalInstanceManager :: get_namespace()), true);
+        $this->addElement('checkbox', ExternalInstance :: PROPERTY_ENABLED, Translation :: get('Enabled', null, Utilities :: COMMON_LIBRARIES));
     }
 
     function build_settings_form()
     {
-        $video_conferencing = $this->video_conferencing;
+        $external_instance = $this->external_instance;
         $configuration = $this->configuration;
 
-        require_once Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/' . $video_conferencing->get_type() . '/php/settings/settings_' . $video_conferencing->get_type() . '_connector.class.php';
+        require_once Path :: get_common_extensions_path() . 'external_instance_manager/implementation/' . $external_instance->get_type() . '/php/settings/settings_' . $external_instance->get_type() . '_connector.class.php';
 
         $categories = count($configuration['settings']);
 
@@ -88,11 +88,11 @@ class VideoConferencingForm extends FormValidator
 
             foreach ($settings as $name => $setting)
             {
-                $label = Translation :: get(Utilities :: underscores_to_camelcase($name), null, VideoConferencingManager::get_namespace($this->video_conferencing->get_type()));
+                $label = Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalInstanceManager::get_namespace($this->external_instance->get_type()));
                 $name = self :: SETTINGS_PREFIX . '[' . $name . ']';
                 if (! $has_settings && $categories > 1)
                 {
-                    $this->addElement('category', Translation :: get(Utilities :: underscores_to_camelcase($category_name), null, VideoConferencingManager::get_namespace($this->video_conferencing->get_type())));
+                    $this->addElement('category', Translation :: get(Utilities :: underscores_to_camelcase($category_name), null, ExternalInstanceManager::get_namespace($this->external_instance->get_type())));
                     $has_settings = true;
                 }
 
@@ -116,7 +116,7 @@ class VideoConferencingForm extends FormValidator
                                     $validation['format'] = NULL;
                                 }
 
-                                $this->addRule($name, Translation :: get($validation['message'], null, VideoConferencingManager::get_namespace($this->video_conferencing->get_type())), $validation['rule'], $validation['format']);
+                                $this->addRule($name, Translation :: get($validation['message'], null, ExternalInstanceManager::get_namespace($this->external_instance->get_type())), $validation['rule'], $validation['format']);
                             }
                         }
                     }
@@ -154,7 +154,7 @@ class VideoConferencingForm extends FormValidator
                             }
                             else
                             {
-                                $group[] = & $this->createElement($setting['field'], $name, null, Translation :: get(Utilities :: underscores_to_camelcase($option_name), null, VideoConferencingManager::get_namespace($this->video_conferencing->get_type())), $option_value);
+                                $group[] = & $this->createElement($setting['field'], $name, null, Translation :: get(Utilities :: underscores_to_camelcase($option_name), null, ExternalInstanceManager::get_namespace($this->external_instance->get_type())), $option_value);
                             }
                         }
                         $this->addGroup($group, $name, $label, '<br/>', false);
@@ -177,7 +177,7 @@ class VideoConferencingForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $this->addElement('hidden', VideoConferencing :: PROPERTY_ID);
+        $this->addElement('hidden', ExternalInstance :: PROPERTY_ID);
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
@@ -195,18 +195,18 @@ class VideoConferencingForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
-    function update_video_conferencing()
+    function update_external_instance()
     {
-        $video_conferencing = $this->video_conferencing;
+        $external_instance = $this->external_instance;
         $values = $this->exportValues();
 
-        $external_repository->set_title($values[VideoConferencing :: PROPERTY_TITLE]);
-        $external_repository->set_description($values[VideoConferencing :: PROPERTY_DESCRIPTION]);
-        $external_repository->set_type($values[VideoConferencing :: PROPERTY_TYPE]);
+        $external_repository->set_title($values[ExternalInstance :: PROPERTY_TITLE]);
+        $external_repository->set_description($values[ExternalInstance :: PROPERTY_DESCRIPTION]);
+        $external_repository->set_type($values[ExternalInstance :: PROPERTY_TYPE]);
         $external_repository->set_creation_date(time());
         $external_repository->set_modification_date(time());
 
-        if (isset($values[VideoConferencing :: PROPERTY_ENABLED]))
+        if (isset($values[ExternalInstance :: PROPERTY_ENABLED]))
         {
             $external_repository->set_enabled(true);
         }
@@ -226,7 +226,7 @@ class VideoConferencingForm extends FormValidator
 
             foreach ($settings as $name => $value)
             {
-                $setting = RepositoryDataManager :: get_instance()->retrieve_video_conferencing_setting_from_variable_name($name, $video_conferencing->get_id());
+                $setting = RepositoryDataManager :: get_instance()->retrieve_external_instance_setting_from_variable_name($name, $external_instance->get_id());
                 $setting->set_value($value);
 
                 if (! $setting->update())
@@ -244,29 +244,30 @@ class VideoConferencingForm extends FormValidator
         return true;
     }
 
-    function create_video_conferencing()
+    function create_external_instance()
     {
-        $video_conferencing = $this->video_conferencing;
+        $external_instance = $this->external_instance;
         $values = $this->exportValues();
 
-        $video_conferencing->set_title($values[VideoConferencing :: PROPERTY_TITLE]);
-        $video_conferencing->set_description($values[VideoConferencing :: PROPERTY_DESCRIPTION]);
-        $video_conferencing->set_type($values[VideoConferencing :: PROPERTY_TYPE]);
-        $video_conferencing->set_creation_date(time());
-        $video_conferencing->set_modification_date(time());
+        $external_instance->set_title($values[ExternalInstance :: PROPERTY_TITLE]);
+        $external_instance->set_description($values[ExternalInstance :: PROPERTY_DESCRIPTION]);
+        $external_instance->set_type($values[ExternalInstance :: PROPERTY_TYPE]);
+        $external_instance->set_creation_date(time());
+        $external_instance->set_modification_date(time());
 
-        if (isset($values[VideoConferencing :: PROPERTY_ENABLED]))
+        if (isset($values[ExternalInstance :: PROPERTY_ENABLED]))
         {
-            $external_repository->set_enabled(true);
+            $external_instance->set_enabled(true);
         }
         else
         {
-            $external_repository->set_enabled(false);
+            $external_instance->set_enabled(false);
         }
 
-        if (! $external_repository->create())
+        if (! $external_instance->create())
         {
-            return false;
+
+        	return false;
         }
         else
         {
@@ -275,7 +276,7 @@ class VideoConferencingForm extends FormValidator
 
             foreach ($settings as $name => $value)
             {
-                $setting = RepositoryDataManager :: get_instance()->retrieve_video_conferencing_setting_from_variable_name($name, $external_repository->get_id());
+                $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name($name, $external_instance->get_id());
                 $setting->set_value($value);
 
                 if (! $setting->update())
@@ -286,7 +287,7 @@ class VideoConferencingForm extends FormValidator
 
             if ($failures > 0)
             {
-                return false;
+            	return false;
             }
         }
 
@@ -301,12 +302,13 @@ class VideoConferencingForm extends FormValidator
      */
     function setDefaults($defaults = array ())
     {
-        $video_conferencing = $this->video_conferencing;
-        $defaults[VideoConferencing :: PROPERTY_ID] = $video_conferencing->get_id();
-        $defaults[VideoConferencing :: PROPERTY_TITLE] = $video_conferencing->get_title();
-        $defaults[VideoConferencing :: PROPERTY_TYPE] = $video_conferencing->get_type();
-        $defaults[VideoConferencing :: PROPERTY_DESCRIPTION] = $video_conferencing->get_description();
-        $defaults[VideoConferencing :: PROPERTY_ENABLED] = $video_conferencing->get_enabled();
+        $external_instance = $this->external_instance;
+        $defaults[ExternalInstance :: PROPERTY_ID] = $external_instance->get_id();
+        $defaults[ExternalInstance :: PROPERTY_TITLE] = $external_instance->get_title();
+        $defaults[ExternalInstance :: PROPERTY_TYPE] = $external_instance->get_type();
+        $defaults[ExternalInstance :: PROPERTY_INSTANCE_TYPE] = $external_instance->get_instance_type();
+        $defaults[ExternalInstance :: PROPERTY_DESCRIPTION] = $external_instance->get_description();
+        $defaults[ExternalInstance :: PROPERTY_ENABLED] = $external_instance->get_enabled();
 
         $configuration = $this->configuration;
 
@@ -314,8 +316,8 @@ class VideoConferencingForm extends FormValidator
         {
             foreach ($settings as $name => $setting)
             {
-                $setting = RepositoryDataManager :: get_instance()->retrieve_video_conferencing_setting_from_variable_name($name, $external_repository->get_id());
-                if ($setting instanceof VideoConferencingSetting)
+                $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name($name, $external_instance->get_id());
+                if ($setting instanceof ExternalSetting)
                 {
                     $defaults[self :: SETTINGS_PREFIX][$name] = $setting->get_value();
                 }
@@ -325,15 +327,15 @@ class VideoConferencingForm extends FormValidator
         parent :: setDefaults($defaults);
     }
 
-    function get_video_conferencing_types()
+    function get_external_instance_types()
     {
-        $path = Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/';
+        $path = Path :: get_common_extensions_path() . 'external_instance_manager/implementation/';
         $folders = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
 
         $types = array();
         foreach ($folders as $folder)
         {
-            $types[$folder] = Translation :: get('TypeName', null, VideoConferencingManager :: get_namespace($folder));
+            $types[$folder] = Translation :: get('TypeName', null, ExternalInstanceManager :: get_namespace($folder));
         }
         ksort($types);
         return $types;
@@ -341,9 +343,9 @@ class VideoConferencingForm extends FormValidator
 
     function parse_settings()
     {
-        $video_conferencing = $this->video_conferencing;
+        $external_instance = $this->external_instance;
 
-        $file = Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/' . $video_conferencing->get_type() . '/php/settings/settings_' . $video_conferencing->get_type() . '.xml';
+        $file = Path :: get_common_extensions_path() . 'external_instance_manager/implementation/' . $external_instance->get_type() . '/php/settings/settings_' . $external_instance->get_type() . '.xml';
         $result = array();
 
         if (file_exists($file))

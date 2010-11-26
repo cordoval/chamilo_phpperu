@@ -5,7 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
-class VideoConferencingInstanceManagerDeactivatorComponent extends VideoConferencingInstanceManager
+class ExternalInstanceInstanceManagerDeactivatorComponent extends ExternalInstanceInstanceManager
 {
 
     function run()
@@ -15,7 +15,7 @@ class VideoConferencingInstanceManagerDeactivatorComponent extends VideoConferen
             $this->not_allowed();
         }
 
-        $ids = Request :: get(VideoConferencingInstanceManager :: PARAM_INSTANCE);
+        $ids = Request :: get(ExternalInstanceInstanceManager :: PARAM_INSTANCE);
         $failures = 0;
 
         if (! empty($ids))
@@ -27,10 +27,10 @@ class VideoConferencingInstanceManagerDeactivatorComponent extends VideoConferen
 
             foreach ($ids as $id)
             {
-                $video_conferencing = $this->retrieve_video_conferencing($id);
-                $video_conferencing->deactivate();
+                $external_instance = $this->retrieve_external_instance($id);
+                $external_instance->deactivate();
 
-                if (! $video_conferencing->update())
+                if (! $external_instance->update())
                 {
                     $failures ++;
                 }
@@ -41,7 +41,7 @@ class VideoConferencingInstanceManagerDeactivatorComponent extends VideoConferen
                 if (count($ids) == 1)
                 {
                     $message = 'ObjectNotDeactivated';
-                    $parameter = array('OBJECT' => Translation :: get('VideoConferencing'));
+                    $parameter = array('OBJECT' => Translation :: get('ExternalInstance'));
                 }
                 else
                 {
@@ -54,7 +54,7 @@ class VideoConferencingInstanceManagerDeactivatorComponent extends VideoConferen
                 if (count($ids) == 1)
                 {
                     $message = 'ObjectDeactivated';
-                    $parameter = array('OBJECT' => Translation :: get('VideoConferencing'));
+                    $parameter = array('OBJECT' => Translation :: get('ExternalInstance'));
                 }
                 else
                 {
@@ -63,11 +63,11 @@ class VideoConferencingInstanceManagerDeactivatorComponent extends VideoConferen
                 }
             }
 
-            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(VideoConferencingInstanceManager :: PARAM_INSTANCE_ACTION => VideoConferencingInstanceManager :: ACTION_BROWSE_INSTANCES));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(ExternalInstanceInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceInstanceManager :: ACTION_BROWSE_INSTANCES));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoVideoConferencingSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoExternalInstanceSelected')));
         }
     }
 }
