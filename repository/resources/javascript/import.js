@@ -2,7 +2,7 @@
 {
     function disableImportButton(e, ui)
     {
-        $(this).attr('disabled', 'disabled');
+        $(this).attr('readonly');
         $(this).removeClass('positive');
         $(this).addClass('loading');
         $(this).html(getTranslation('Uploading', null, 'common\libraries'));

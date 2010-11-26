@@ -39,8 +39,8 @@ class RepositoryInstaller extends Installer
      */
     function install_extra()
     {
-        $rdm = $this->get_data_manager();
-
+    	$rdm = $this->get_data_manager();
+        
         //    	$dir = dirname(__FILE__) . '/../lib/content_object';
         //        // Register the learning objects
         //        $folders = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
@@ -54,7 +54,7 @@ class RepositoryInstaller extends Installer
         //            	$this->add_message(Installer::TYPE_NORMAL, $content_object->retrieve_message());
         //            }
         //        }
-
+        
 
         if (! RepositoryRights :: create_content_objects_subtree_root_location())
         {
@@ -64,7 +64,7 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ContentObjectsSubtreeCreated'));
         }
-
+        
         if (! RepositoryRights :: create_external_repositories_subtree_root_location())
         {
             return false;
@@ -74,7 +74,7 @@ class RepositoryInstaller extends Installer
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoriesSubtreeCreated'));
         }
         
-   		if (! RepositoryRights :: create_videos_conferencing_subtree_root_location())
+        if (! RepositoryRights :: create_videos_conferencing_subtree_root_location())
         {
             return false;
         }
@@ -82,16 +82,17 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('VideosConferencingSubtreeCreated'));
         }
-
+        
         if (! $this->add_metadata_catalogs())
         {
             return false;
         }
-
-//        if (! $this->install_external_repository_managers())
-//        {
-//            return false;
-//        }
+        
+        //        if (! $this->install_external_repository_managers())
+        //        {
+        //            return false;
+        //        }
+        
 
         return true;
     }
@@ -105,23 +106,23 @@ class RepositoryInstaller extends Installer
     {
         /** LANGUAGES **/
         $languages = array(
-                array('name' => 'Dutsch', 'value' => 'nl'), array('name' => 'English', 'value' => 'en'), array('name' => 'French', 'value' => 'fr'), array('name' => 'German', 'value' => 'de'), array('name' => 'Italian', 'value' => 'it'),
+                array('name' => 'Dutsch', 'value' => 'nl'), array('name' => 'English', 'value' => 'en'), array('name' => 'French', 'value' => 'fr'), array('name' => 'German', 'value' => 'de'), array('name' => 'Italian', 'value' => 'it'), 
                 array('name' => 'Spanish', 'value' => 'es'));
-
+        
         $this->add_metadata_catalog_type(Catalog :: CATALOG_LOM_LANGUAGE, $languages);
-
+        
         /** ROLES **/
         $roles = array(
-                array('name' => 'author', 'value' => 'author'), array('name' => 'validator', 'value' => 'validator'), array('name' => 'unknown', 'value' => 'unknown'), array('name' => 'initiator', 'value' => 'initiator'),
-                array('name' => 'terminator', 'value' => 'terminator'), array('name' => 'publisher', 'value' => 'publisher'), array('name' => 'editor', 'value' => 'editor'),
-                array('name' => 'graphical_designer', 'value' => 'graphical_designer'), array('name' => 'technical_implementer', 'value' => 'technical_implementer'), array('name' => 'content_provider', 'value' => 'content_provider'),
-                array('name' => 'technical_validator', 'value' => 'technical_validator'), array('name' => 'educational_validator', 'value' => 'educational_validator'), array('name' => 'script_writer', 'value' => 'script_writer'),
+                array('name' => 'author', 'value' => 'author'), array('name' => 'validator', 'value' => 'validator'), array('name' => 'unknown', 'value' => 'unknown'), array('name' => 'initiator', 'value' => 'initiator'), 
+                array('name' => 'terminator', 'value' => 'terminator'), array('name' => 'publisher', 'value' => 'publisher'), array('name' => 'editor', 'value' => 'editor'), 
+                array('name' => 'graphical_designer', 'value' => 'graphical_designer'), array('name' => 'technical_implementer', 'value' => 'technical_implementer'), array('name' => 'content_provider', 'value' => 'content_provider'), 
+                array('name' => 'technical_validator', 'value' => 'technical_validator'), array('name' => 'educational_validator', 'value' => 'educational_validator'), array('name' => 'script_writer', 'value' => 'script_writer'), 
                 array('name' => 'instructional_designer', 'value' => 'instructional_designer'), array('name' => 'subject_matter_expert', 'value' => 'subject_matter_expert'));
-
+        
         $this->add_metadata_catalog_type(Catalog :: CATALOG_LOM_ROLE, $roles);
-
+        
         $this->add_message(self :: TYPE_NORMAL, Translation :: get('MetadataCatalogCreated'));
-
+        
         return true;
     }
 
@@ -134,7 +135,7 @@ class RepositoryInstaller extends Installer
             $catalogItem->set_name($data['name']);
             $catalogItem->set_value($data['value']);
             $catalogItem->set_sort($index * 10);
-
+            
             if (! $catalogItem->save())
             {
                 $this->add_message(self :: TYPE_ERROR, Translation :: get('MetadataUnableToAddCatalogItem'));
@@ -143,10 +144,17 @@ class RepositoryInstaller extends Installer
         }
     }
 
+    function install_video_conferencing_managers()
+    {
+        $video_conferencing_manager = Translation :: get('VideoConferencingManager', null, VideoConferencingManager :: get_namespace());
+    	
+        return true;
+    }
+
     function install_external_repository_managers()
     {
         $external_repository_manager = Translation :: get('ExternalRepositoryManager', null, ExternalRepositoryManager :: get_namespace());
-
+        
         // Adding the YouTube Manager
         $youtube = new ExternalRepository();
         $youtube->set_title('YouTube');
@@ -164,7 +172,7 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': YouTube');
         }
-
+        
         // Adding the Flickr Manager
         $flickr = new ExternalRepository();
         $flickr->set_title('Flickr');
@@ -182,7 +190,7 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get($external_repository_manager)), Utilities :: COMMON_LIBRARIES) . ': Flickr');
         }
-
+        
         // Adding the Photobucket Manager
         $photobucket = new ExternalRepository();
         $photobucket->set_title('Photobucket');
@@ -200,7 +208,7 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get($external_repository_manager)), Utilities :: COMMON_LIBRARIES) . ': Photobucket');
         }
-
+        
         // Adding the Matterhorn Manager
         $matterhorn = new ExternalRepository();
         $matterhorn->set_title('Matterhorn');
@@ -218,7 +226,7 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get($external_repository_manager)), Utilities :: COMMON_LIBRARIES) . ': Matterhorn');
         }
-
+        
         return true;
     }
 }

@@ -44,7 +44,7 @@ http://httpd.apache.org/download.cgi
 
 1.2. PHP
 
-You need PHP version 5.2 minimum and configured with the
+You need PHP version 5.3 minimum and configured with the
 following modules : 
 
 * gd
@@ -88,7 +88,7 @@ any means.
 
 2.1. Download the Chamilo 2.0 install package (.zip for Windows users
 or .tar.gz for all others) from the Chamilo download page:
-http://www.chamilo.org/download.php
+http://www.chamilo.org/nl/node/94
 
 2.2. Unzip or untar the downloaded install package. Most current operating
 systems can do this with a built-in graphical application, if this doesn't

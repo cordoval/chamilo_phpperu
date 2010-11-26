@@ -5,7 +5,6 @@ use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\Request;
 
-require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'import/excel/excel_region_creator.class.php';
 require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 
 class ExcelRegionImport extends InternshipOrganizerImport

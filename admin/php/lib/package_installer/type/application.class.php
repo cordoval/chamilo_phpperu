@@ -36,7 +36,7 @@ class PackageInstallerApplicationType extends PackageInstallerType
             }
             else
             {
-            	$this->add_message($installer->retrieve_message());
+                $this->add_message($installer->retrieve_message());
                 $this->installation_successful('initilization');
             }
 
@@ -82,7 +82,7 @@ class PackageInstallerApplicationType extends PackageInstallerType
 
     static function get_path($application_name)
     {
-    	return BasicApplication::get_application_path($application_name);
+        return BasicApplication :: get_application_path($application_name);
     }
 
     function set_version()

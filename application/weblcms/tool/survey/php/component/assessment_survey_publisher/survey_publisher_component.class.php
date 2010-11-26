@@ -19,6 +19,7 @@ abstract class SurveyPublisherComponent
 
     abstract function run();
 
+    // TODO code review : stop creating cycling dependecies !
     function factory($parent, $publish_action)
     {
         switch ($publish_action)

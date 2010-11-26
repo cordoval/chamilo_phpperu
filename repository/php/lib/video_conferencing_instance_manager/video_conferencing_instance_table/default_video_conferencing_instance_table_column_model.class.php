@@ -7,7 +7,7 @@ use common\libraries\ObjectTableColumn;
 
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
 
-class DefaultExternalRepositoryInstanceTableColumnModel extends ObjectTableColumnModel
+class DefaultVideoConferencingInstanceTableColumnModel extends ObjectTableColumnModel
 {
 
     /**
@@ -25,9 +25,9 @@ class DefaultExternalRepositoryInstanceTableColumnModel extends ObjectTableColum
     private static function get_default_columns()
     {
         $columns = array();
-        $columns[] = new ObjectTableColumn(ExternalRepository :: PROPERTY_TYPE);
-        $columns[] = new ObjectTableColumn(ExternalRepository :: PROPERTY_TITLE);
-        $columns[] = new ObjectTableColumn(ExternalRepository :: PROPERTY_DESCRIPTION);
+        $columns[] = new ObjectTableColumn(VideoConferencing :: PROPERTY_TYPE);
+        $columns[] = new ObjectTableColumn(VideoConferencing :: PROPERTY_TITLE);
+        $columns[] = new ObjectTableColumn(VideoConferencing :: PROPERTY_DESCRIPTION);
         return $columns;
     }
 }

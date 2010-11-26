@@ -376,3 +376,7 @@ YearView = "Year"
 JumpTo = "Jump to"
 Unshare = "Unshare"
 BuildComplexObject = "Build object"
+ChamiloTitle = 'Chamilo';
+PhpTitle = 'PHP';
+MysqlTitle = 'MySQL';
+WebserverTitle = 'Webserver';

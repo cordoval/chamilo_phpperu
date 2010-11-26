@@ -8,6 +8,7 @@ use common\libraries\Theme;
 use repository\ContentObjectDisplay;
 
 use LastRss;
+use repository\ContentObject;
 
 /**
  * $Id: rss_feed_display.class.php 200 2009-11-13 12:30:04Z kariboe $

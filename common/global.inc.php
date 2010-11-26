@@ -283,17 +283,17 @@ function __global_get_error_message()
 
     $version = phpversion();
 
-    if ($version >= 5.2)
+    if ($version >= 5.3)
     {
-        $error_message .= '				<div class="normal-message" style="margin-bottom: 39px; margin-top: 30px;">From the looks of it, Chamilo 2.0 is currently not installed on your system.<br /><br />Please check your database and/or configuration files if you are certain the platform was installed correctly.<br /><br />If you\'re starting Chamilo for the first time, you may want to install the platform first by clicking the button below. Alternatively, you can read the installation guide, visit ChamiloPlanet.org for more information or go to the community forum if you need support.
+        $error_message .= '				<div class="normal-message" style="margin-bottom: 39px; margin-top: 30px;">From the looks of it, Chamilo 2.0 is currently not installed on your system.<br /><br />Please check your database and/or configuration files if you are certain the platform was installed correctly.<br /><br />If you\'re starting Chamilo for the first time, you may want to install the platform first by clicking the button below. Alternatively, you can read the installation guide, visit chamilo.org for more information or go to the community forum if you need support.
 				</div>
 				<div class="clear">&nbsp;</div>
-				<div style="text-align: center;"><a class="button positive_button" href="install/">Install Chamilo 2.0</a><a class="button normal_button read_button" href="documentation/installation_guide.html">Read the installation guide</a><a class="button normal_button surf_button" href="http://www.chamilo.org/">Visit ChamiloPlanet.org</a><a class="button normal_button help_button" href="http://www.chamilo.org/forum/">Get support</a></div>' . "\n";
+				<div style="text-align: center;"><a class="button positive_button" href="install/">Install Chamilo 2.0</a><a class="button normal_button read_button" href="documentation/install.txt">Read the installation guide</a><a class="button normal_button surf_button" href="http://www.chamilo.org/">Visit chamilo.org</a><a class="button normal_button help_button" href="http://www.chamilo.org/forum/">Get support</a></div>' . "\n";
     }
     else
     {
         $error_message .= '				<div class="error-message">Your version of PHP is not recent enough to use chamilo 2.0.
-					   <br /><a href="http://www.php.net">Please upgrade to PHP version 5.2 or higher</a></div><br /><br />' . "\n";
+					   <br /><a href="http://www.php.net">Please upgrade to PHP version 5.3 or higher</a></div><br /><br />' . "\n";
     }
 
     $error_message .= '			</div>

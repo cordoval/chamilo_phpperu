@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment_open_question;
 
 use common\libraries\Path;
+use reposistory\OpenQuestionDifference;
 
 /**
  * $Id: assessment_open_question_difference.class.php 200 2009-11-13 12:30:04Z kariboe $

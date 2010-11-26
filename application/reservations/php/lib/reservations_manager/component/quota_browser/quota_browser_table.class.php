@@ -31,7 +31,7 @@ class QuotaBrowserTable extends ObjectTable
         $model = new QuotaBrowserTableColumnModel();
         $renderer = new QuotaBrowserTableCellRenderer($browser);
         $data_provider = new QuotaBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(_CLASS__, true), $model, $renderer);
         $this->set_additional_parameters($parameters);
 
         if ($browser->get_user() && $browser->get_user()->is_platform_admin())

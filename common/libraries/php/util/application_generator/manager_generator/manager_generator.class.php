@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries\application_generator;
 
+use common\libraries\Utilities;
+
 /**
  * Manager generator used to generate managers
  * @author Sven Vanpoucke
@@ -29,7 +31,8 @@ class ManagerGenerator
         {
             $this->template->set_filenames(array('manager' => 'manager.template'));
             
-            $this->template->assign_vars(array('APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name), 'L_APPLICATION_NAME' => Utilities :: camelcase_to_underscores($application_name), 'AUTHOR' => $author));
+            $this->template->assign_vars(array('APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name), 
+                'L_APPLICATION_NAME' => Utilities :: camelcase_to_underscores($application_name), 'AUTHOR' => $author, 'NAMESPACE' => 'application\\' . $application_name));
             
             foreach ($classes as $class)
             {

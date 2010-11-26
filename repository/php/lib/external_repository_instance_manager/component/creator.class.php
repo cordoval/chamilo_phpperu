@@ -40,14 +40,11 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
         {
             $external_repository = new ExternalRepository();
             $external_repository->set_type($type);
-            $form = new ExternalRepositoryForm(ExternalRepositoryForm :: TYPE_CREATE, $external_repository, $this->get_url(array(
-                    ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)));
+            $form = new ExternalRepositoryForm(ExternalRepositoryForm :: TYPE_CREATE, $external_repository, $this->get_url(array(ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)));
             if ($form->validate())
             {
                 $success = $form->create_external_repository();
-                $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array(
-                        'OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(
-                        ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
+                $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
             }
             else
             {
@@ -58,10 +55,17 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
         }
         else
         {
-            $this->display_header();
 
             $renderer_name = Utilities :: get_classname_from_object($this, true);
             $tabs = new DynamicTabsRenderer($renderer_name);
+
+            if (count($repository_types['sections']) == 0)
+            {
+                $this->display_header();
+                $this->display_warning_message(Translation :: get('NoExternalRepositoriesAvailable'));
+                $this->display_footer();
+                exit;
+            }
 
             $repository_types = $this->get_external_repository_types();
 
@@ -71,8 +75,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
 
                 foreach ($repository_types['types'][$category] as $type => $name)
                 {
-                    $types_html[] = '<a href="' . $this->get_url(array(
-                            ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($type)) . 'logo/48.png);">';
+                    $types_html[] = '<a href="' . $this->get_url(array(ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($type)) . 'logo/48.png);">';
                     $types_html[] = $name;
                     $types_html[] = '</div></a>';
                 }
@@ -80,6 +83,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
                 $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_image_path(ExternalRepositoryManager :: get_namespace()) . 'category_' . $category . '.png', implode("\n", $types_html)));
             }
 
+            $this->display_header();
             echo $tabs->render();
             $this->display_footer();
         }
@@ -122,8 +126,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
         }
 
         asort($sections);
-        return array('sections' => $sections,
-                'types' => $types);
+        return array('sections' => $sections, 'types' => $types);
     }
 }
 ?>

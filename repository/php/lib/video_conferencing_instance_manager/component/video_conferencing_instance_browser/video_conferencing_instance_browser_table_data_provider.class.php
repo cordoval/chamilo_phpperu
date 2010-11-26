@@ -3,7 +3,7 @@ namespace repository;
 
 use common\libraries\ObjectTableDataProvider;
 
-class ExternalRepositoryInstanceBrowserTableDataProvider extends ObjectTableDataProvider
+class VideoConferencingInstanceBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
     /**
@@ -25,12 +25,12 @@ class ExternalRepositoryInstanceBrowserTableDataProvider extends ObjectTableData
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        return $this->get_browser()->retrieve_external_repositories($this->get_condition(), $offset, $count, $order_property);
+        return $this->get_browser()->retrieve_videos_conferencing($this->get_condition(), $offset, $count, $order_property);
     }
 
     function get_object_count()
     {
-        return $this->get_browser()->count_external_repositories($this->get_condition());
+        return $this->get_browser()->count_videos_conferencing($this->get_condition());
     }
 }
 ?>

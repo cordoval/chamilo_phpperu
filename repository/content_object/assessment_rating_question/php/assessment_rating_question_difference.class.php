@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment_rating_question;
 
 use common\libraries\Path;
+use repository\RatingQuestionDifference;
 
 /**
  * $Id: assessment_rating_question_difference.class.php 200 2009-11-13 12:30:04Z kariboe $

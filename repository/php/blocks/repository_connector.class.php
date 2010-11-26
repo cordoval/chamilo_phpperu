@@ -4,6 +4,8 @@ namespace repository;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\Session;
+use repository\content_object\rss_feed\RssFeed;
+use repository\content_object\link\Link;
 
 /**
  * $Id: repository_connector.class.php 200 2009-11-13 12:30:04Z kariboe $

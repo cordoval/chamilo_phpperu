@@ -1,9 +1,13 @@
 <?php
+
+namespace {NAMESPACE};
+
+use common\libraries\Installer;
+
 /**
- * {APPLICATION_NAME}.install
+ * @package {APPLICATION_NAME}.install
  */
  
-require_once dirname(__FILE__).'/../{APPLICATION_NAME}_data_manager.class.php';
 
 /**
  * This installer can be used to create the storage structure for the
@@ -22,9 +26,9 @@ class {C_APPLICATION_NAME}Installer extends Installer
     	parent :: __construct($values, {C_APPLICATION_NAME}DataManager :: get_instance());
     }
 	
-	function get_path()
-	{
-		return dirname(__FILE__);
-	}
+    function get_path()
+    {
+            return dirname(__FILE__);
+    }
 }
 ?>

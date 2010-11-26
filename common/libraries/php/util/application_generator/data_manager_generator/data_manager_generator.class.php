@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries\application_generator;
 
+use common\libraries\Utilities;
+
 /**
  * Dataclass generator used to generate data managers
  * @author Sven Vanpoucke
@@ -27,13 +29,16 @@ class DataManagerGenerator
             mkdir($database_location, 0777, true);
         
         $dm_file = fopen($data_manager_location . Utilities :: camelcase_to_underscores($application_name) . '_data_manager.class.php', 'w+');
+        $dm_interface_file = fopen($data_manager_location . Utilities :: camelcase_to_underscores($application_name) . '_data_manager_interface.class.php', 'w+');
         $database_file = fopen($database_location . 'database.class.php', 'w+');
         
         if ($dm_file && $database_file)
         {
-            $this->template->set_filenames(array('datamanager' => 'data_manager.template', 'database' => 'data_manager_database.template'));
+            $this->template->set_filenames(array('datamanager' => 'data_manager.template', 'database' => 'data_manager_database.template', 'datamanager_interface' => 'data_manager_interface.template'));
             
-            $this->template->assign_vars(array('APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name), 'L_APPLICATION_NAME' => Utilities :: camelcase_to_underscores($application_name), 'AUTHOR' => $author));
+            $this->template->assign_vars(array('APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name), 
+                    'L_APPLICATION_NAME' => Utilities :: camelcase_to_underscores($application_name), 'AUTHOR' => $author,
+                    'NAMESPACE' => 'application\\' . $application_name));
             
             foreach ($classes as $class)
             {
@@ -52,6 +57,10 @@ class DataManagerGenerator
             $string = trim($this->template->pparse_return('database'));
             fwrite($database_file, $string);
             fclose($database_file);
+
+            $string = trim($this->template->pparse_return('datamanager_interface'));
+            fwrite($dm_interface_file, $string);
+            fclose($dm_interface_file);
         }
     }
 }

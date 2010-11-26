@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\WebApplication;
+use common\libraries\Redirect;
 
 /**
  * $Id: course_list.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -41,7 +42,7 @@ class WeblcmsCourseList extends WeblcmsBlock
      */
     function get_link($parameters)
     {
-        return $this->get_parent()->get_link($parameters);
+        return $this->get_parent()->get_link($parameters, null, null, Redirect :: TYPE_APPLICATION);
     }
 }
 ?>

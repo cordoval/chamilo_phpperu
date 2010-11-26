@@ -5,7 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
-class ExternalRepositoryInstanceManagerDeleterComponent extends ExternalRepositoryInstanceManager
+class VideoConferencingInstanceManagerDeleterComponent extends VideoConferencingInstanceManager
 {
 
     function run()
@@ -15,7 +15,7 @@ class ExternalRepositoryInstanceManagerDeleterComponent extends ExternalReposito
             $this->not_allowed();
         }
 
-        $ids = Request :: get(ExternalRepositoryInstanceManager :: PARAM_INSTANCE);
+        $ids = Request :: get(VideoConferencingInstanceManager :: PARAM_INSTANCE);
         $failures = 0;
 
         if (! empty($ids))
@@ -27,9 +27,9 @@ class ExternalRepositoryInstanceManagerDeleterComponent extends ExternalReposito
 
             foreach ($ids as $id)
             {
-                $external_repository = $this->retrieve_external_repository($id);
+                $video_conferencing = $this->retrieve_video_conferencing($id);
 
-                if (! $external_repository->delete())
+                if (! $video_conferencing->delete())
                 {
                     $failures ++;
                 }
@@ -40,12 +40,12 @@ class ExternalRepositoryInstanceManagerDeleterComponent extends ExternalReposito
                 if (count($ids) == 1)
                 {
                     $message = 'ObjectNotDeleted';
-                    $parameter = array('OBJECT' => Translation :: get('ExternalRepository'));
+                    $parameter = array('OBJECT' => Translation :: get('VideoConferencing'));
                 }
                 else
                 {
                     $message = 'ObjectsNotDeleted';
-                    $parameter = array('OBJECTS' => Translation :: get('ExternalRepositories'));
+                    $parameter = array('OBJECTS' => Translation :: get('VideosConferencing'));
                 }
             }
             else
@@ -53,20 +53,20 @@ class ExternalRepositoryInstanceManagerDeleterComponent extends ExternalReposito
                 if (count($ids) == 1)
                 {
                     $message = 'ObjectDeleted';
-                    $parameter = array('OBJECT' => Translation :: get('ExternalRepository'));
+                    $parameter = array('OBJECT' => Translation :: get('VideoConferencing'));
                 }
                 else
                 {
                     $message = 'ObjectsDeleted';
-                    $parameter = array('OBJECTS' => Translation :: get('ExternalRepositories'));
+                    $parameter = array('OBJECTS' => Translation :: get('VideosConferencing'));
                 }
             }
 
-            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(VideoConferencingInstanceManager :: PARAM_INSTANCE_ACTION => VideoConferencingInstanceManager :: ACTION_BROWSE_INSTANCES));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('VideoConferencing')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 }
