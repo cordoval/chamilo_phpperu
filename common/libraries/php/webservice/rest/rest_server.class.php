@@ -1,4 +1,7 @@
 <?php
+
+namespace common\libraries;
+
 class RestServer
 {
     const ACCEPTED_FORMAT_PLAIN = 'text/plain';
@@ -16,13 +19,19 @@ class RestServer
     const METHOD_PUT = 'PUT';
     const METHOD_DELETE = 'DELETE';
 
+    const PARAM_ID = 'id';
+    const PARAM_APPLICATION = 'application';
+    const PARAM_OBJECT = 'object';
+
     public $url;
     public $method;
     public $format;
     public $data;
+    public $webservice_handler;
 
     function __construct()
     {
+
     }
 
     function handle()
@@ -36,6 +45,7 @@ class RestServer
         $this->determine_method();
         $this->determine_format();
         $this->determine_data();
+        $this->determine_webservice_handler();
     }
 
     public function determine_path()
@@ -100,6 +110,9 @@ class RestServer
         {
             case self :: METHOD_GET :
                 $this->data = $_GET;
+                unset($this->data[self :: PARAM_APPLICATION]);
+                unset($this->data[self :: PARAM_OBJECT]);
+                unset($this->data[self :: PARAM_ID]);
                 break;
             case self :: METHOD_POST :
                 $this->data = $_POST;
@@ -107,9 +120,62 @@ class RestServer
             case self :: METHOD_PUT :
                 parse_str(file_get_contents('php://input'), $_PUT);
                 $this->data = $_PUT;
+                break;
             case self :: METHOD_DELETE :
                 parse_str(file_get_contents('php://input'), $_DELETE);
                 $this->data = $_DELETE;
+                break;
+        }
+    }
+
+    public function determine_webservice_handler()
+    {
+        $application = Request :: get(self :: PARAM_APPLICATION);
+        $object = Request :: get(self :: PARAM_OBJECT);
+        $id = Request :: get(self :: PARAM_ID);
+
+        $type = Application :: get_type($application);
+        $path = $type :: get_application_path($application) . 'php/webservices/' . $object . '/webservice_handler.class.php';
+        require_once($path);
+        $class = Application :: determine_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($object) . 'WebserviceHandler';
+
+        $this->webservice_handler = new $class();
+
+        switch ($this->get_method())
+        {
+            case self :: METHOD_GET :
+                if ($id)
+                {
+                    if (method_exists($this->webservice_handler, 'get_' . $object))
+                    {
+                        call_user_func(array($this->webservice_handler, 'get_' . $object), array($id, $this->data));
+                    }
+                }
+                else
+                {
+                    if (method_exists($this->webservice_handler, 'get_' . $object))
+                    {
+                        call_user_func(array($this->webservice_handler, 'get_' . $object . '_list'), array($this->data));
+                    }
+                }
+                break;
+            case self :: METHOD_POST :
+                if (method_exists($this->webservice_handler, 'create_' . $object))
+                {
+                    call_user_func(array($this->webservice_handler, 'create_' . $object), array($id, $this->data));
+                }
+                break;
+            case self :: METHOD_PUT :
+                if (method_exists($this->webservice_handler, 'update_' . $object))
+                {
+                    call_user_func(array($this->webservice_handler, 'update_' . $object), array($id, $this->data));
+                }
+                break;
+            case self :: METHOD_DELETE :
+                if (method_exists($this->webservice_handler, 'delete_' . $object))
+                {
+                    call_user_func(array($this->webservice_handler, 'delete_' . $object), array($id, $this->data));
+                }
                 break;
         }
     }
@@ -191,9 +257,9 @@ class RestServer
 }
 
 // TEST SCRIPT
-//include_once ('../../global.inc.php');
-//
-//$rest_server = new RestServer();
-//$rest_server->handle();
-//dump($rest_server);
+include_once ('../../../../global.inc.php');
+
+$rest_server = new RestServer();
+$rest_server->handle();
+dump($rest_server);
 ?>
