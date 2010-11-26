@@ -6,6 +6,7 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
 use rights\RightsUtilities;
+use user\UserDataManager;
 
 require_once dirname(__FILE__) . '/../survey_publication.class.php';
 
