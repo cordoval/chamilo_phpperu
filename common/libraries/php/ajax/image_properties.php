@@ -1,5 +1,4 @@
 <?php
-
 namespace common\libraries;
 
 use repository\RepositoryDataManager;
@@ -13,7 +12,7 @@ use repository\ContentObject;
 require_once dirname(__FILE__) . '/../../../global.inc.php';
 require_once Path :: get_repository_content_object_path() . 'document/php/document.class.php';
 
-$object = Request :: post('content_object'); dump($object);
+$object = Request :: post('content_object');
 $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object);
 
 $full_path = $object->get_full_path();

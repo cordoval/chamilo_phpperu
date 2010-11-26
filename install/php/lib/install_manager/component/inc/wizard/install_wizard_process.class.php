@@ -1,8 +1,5 @@
 <?php
 namespace install;
-use repository;
-
-use common\libraries;
 
 use common\libraries\Application;
 use common\libraries\Path;

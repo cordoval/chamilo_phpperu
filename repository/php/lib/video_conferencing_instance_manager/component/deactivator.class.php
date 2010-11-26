@@ -5,7 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
-class ExternalRepositoryInstanceManagerDeactivatorComponent extends ExternalRepositoryInstanceManager
+class VideoConferencingInstanceManagerDeactivatorComponent extends VideoConferencingInstanceManager
 {
 
     function run()
@@ -15,7 +15,7 @@ class ExternalRepositoryInstanceManagerDeactivatorComponent extends ExternalRepo
             $this->not_allowed();
         }
 
-        $ids = Request :: get(ExternalRepositoryInstanceManager :: PARAM_INSTANCE);
+        $ids = Request :: get(VideoConferencingInstanceManager :: PARAM_INSTANCE);
         $failures = 0;
 
         if (! empty($ids))
@@ -27,10 +27,10 @@ class ExternalRepositoryInstanceManagerDeactivatorComponent extends ExternalRepo
 
             foreach ($ids as $id)
             {
-                $external_repository = $this->retrieve_external_repository($id);
-                $external_repository->deactivate();
+                $video_conferencing = $this->retrieve_video_conferencing($id);
+                $video_conferencing->deactivate();
 
-                if (! $external_repository->update())
+                if (! $video_conferencing->update())
                 {
                     $failures ++;
                 }
@@ -41,12 +41,12 @@ class ExternalRepositoryInstanceManagerDeactivatorComponent extends ExternalRepo
                 if (count($ids) == 1)
                 {
                     $message = 'ObjectNotDeactivated';
-                    $parameter = array('OBJECT' => Translation :: get('ExternalRepository'));
+                    $parameter = array('OBJECT' => Translation :: get('VideoConferencing'));
                 }
                 else
                 {
                     $message = 'ObjectsNotDeactivated';
-                    $parameter = array('OBJECTS' => Translation :: get('ExternalRepositories'));
+                    $parameter = array('OBJECTS' => Translation :: get('VideosConferencing'));
                 }
             }
             else
@@ -54,20 +54,20 @@ class ExternalRepositoryInstanceManagerDeactivatorComponent extends ExternalRepo
                 if (count($ids) == 1)
                 {
                     $message = 'ObjectDeactivated';
-                    $parameter = array('OBJECT' => Translation :: get('ExternalRepository'));
+                    $parameter = array('OBJECT' => Translation :: get('VideoConferencing'));
                 }
                 else
                 {
                     $message = 'ObjectsDeactivated';
-                    $parameter = array('OBJECTS' => Translation :: get('ExternalRepositories'));
+                    $parameter = array('OBJECTS' => Translation :: get('VideosConferencing'));
                 }
             }
 
-            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(VideoConferencingInstanceManager :: PARAM_INSTANCE_ACTION => VideoConferencingInstanceManager :: ACTION_BROWSE_INSTANCES));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoExternalRepositorySelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoVideoConferencingSelected')));
         }
     }
 }

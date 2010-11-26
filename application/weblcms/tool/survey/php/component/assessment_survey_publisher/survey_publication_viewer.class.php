@@ -9,13 +9,14 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
-use application\assessment\SurveyPublisherComponent;
+
 
 /**
  * $Id: survey_publication_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_survey_publisher
  */
 require_once dirname(__FILE__) . '/survey_user_table/survey_user_table.class.php';
+require_once dirname(__FILE__) . '/survey_publisher_component.class.php';
 
 class SurveyPublicationViewer extends SurveyPublisherComponent
 {

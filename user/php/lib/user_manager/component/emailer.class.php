@@ -7,6 +7,7 @@ use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
+use common\extensions\email_manager\EmailManager;
 
 /**
  * $Id: deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

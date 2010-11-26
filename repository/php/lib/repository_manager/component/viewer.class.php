@@ -235,8 +235,8 @@ class RepositoryManagerViewerComponent extends RepositoryManager
                         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_move.png', $move_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                     }
 
-                    $metadata_url = $this->get_content_object_metadata_editing_url($object);
-                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Metadata', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_metadata.png', $metadata_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                    //$metadata_url = $this->get_content_object_metadata_editing_url($object);
+                    //$action_bar->add_common_action(new ToolbarItem(Translation :: get('Metadata', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_metadata.png', $metadata_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
                     $action_bar->add_common_action(new ToolbarItem(Translation :: get('Share', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_share.png', $this->get_content_object_share_create_url($object->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
@@ -275,6 +275,13 @@ class RepositoryManagerViewerComponent extends RepositoryManager
         {
             $browser = new ExternalLinkBrowserTable($this, $parameters);
             $this->tabs->add_tab(new DynamicContentTab('external_repositories', Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace()), Theme :: get_image_path() . 'place_mini_external_repository.png', $browser->as_html()));
+        }
+
+     	// VIDEOS CONFERENCING
+        if ($content_object->is_external())
+        {
+            $browser = new ExternalLinkBrowserTable($this, $parameters);
+            $this->tabs->add_tab(new DynamicContentTab('videos_conferencing', Translation :: get('VideosConferencing', null, VideoConferencingManager :: get_namespace()), Theme :: get_image_path() . 'place_mini_external_repository.png', $browser->as_html()));
         }
 
         // LINKS | PUBLICATIONS

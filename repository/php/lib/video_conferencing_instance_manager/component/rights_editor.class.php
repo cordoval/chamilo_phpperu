@@ -12,7 +12,7 @@ use common\extensions\rights_editor_manager\RightsEditorManager;
  * Repository manager component to edit the rights for the learning objects in
  * the repository.
  */
-class ExternalRepositoryInstanceManagerRightsEditorComponent extends ExternalRepositoryInstanceManager
+class VideoConferencingInstanceManagerRightsEditorComponent extends VideoConferencingInstanceManager
 {
     /**
      * Runs this component and displays its output.
@@ -26,7 +26,7 @@ class ExternalRepositoryInstanceManagerRightsEditorComponent extends ExternalRep
 
     	if(!$identifiers)
 		{
-        	$locations[] = RepositoryRights :: get_external_repositories_subtree_root();
+        	$locations[] = RepositoryRights :: get_videos_conferencing_subtree_root();
 		}
 
         if ($identifiers && ! is_array($identifiers))
@@ -36,7 +36,7 @@ class ExternalRepositoryInstanceManagerRightsEditorComponent extends ExternalRep
 
         foreach ($identifiers as $identifier)
         {
-        	$locations[] = RepositoryRights :: get_location_by_identifier_from_external_repositories_subtree($identifier);
+        	$locations[] = RepositoryRights :: get_location_by_identifier_from_videos_conferencing_subtree($identifier);
         }
 
         $manager = new RightsEditorManager($this, $locations);

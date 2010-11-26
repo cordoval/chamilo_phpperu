@@ -4,7 +4,6 @@ namespace repository\content_object\blog;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Path;
-use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\Application;
 use common\libraries\DatetimeUtilities;

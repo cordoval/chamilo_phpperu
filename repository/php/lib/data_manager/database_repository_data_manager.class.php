@@ -1603,6 +1603,43 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $condition = new AndCondition($condition1, $condition2);
         return $this->retrieve_object(ExternalRepositoryUserQuotum :: get_table_name(), $condition, array(), ExternalRepositoryUserQuotum :: CLASS_NAME);
     }
+    
+    //video_conferencing
+	function retrieve_video_conferencing_condition($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(VideoConferencing :: get_table_name(), $condition, $offset, $max_objects, $order_by, VideoConferencing :: CLASS_NAME);
+    }
+
+    function retrieve_video_conferencing($video_conferencing_id)
+    {
+        $condition = new EqualityCondition(VideoConferencing :: PROPERTY_ID, $video_conferencingy_id);
+        return $this->retrieve_object(VideoConferencing :: get_table_name(), $condition, array(), VideoConferencing :: CLASS_NAME);
+    }
+
+    function retrieve_videos_conferencing($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(VideoConferencing :: get_table_name(), $condition, $offset, $max_objects, $order_by, VideoConferencing :: CLASS_NAME);
+    }
+
+    function count_videos_conferencing($condition = null)
+    {
+        return $this->count_objects(VideoConferencing :: get_table_name(), $condition);
+    }
+
+    function retrieve_active_video_conferencing_types()
+    {
+        $condition = new EqualityCondition(VideoConferencing :: PROPERTY_ENABLED, 1);
+        return $this->retrieve_distinct(VideoConferencing :: get_table_name(), VideoConferencing :: PROPERTY_TYPE, $condition, array(), VideoConferencing :: CLASS_NAME);
+    }
+
+    function retrieve_video_conferencing_user_quotum($user_id, $video_conferencing_id)
+    {
+        $condition2 = new EqualityCondition(VideoConferencingUserQuotum :: PROPERTY_USER_ID, $user_id);
+        $condition1 = new EqualityCondition(VideoConferencingUserQuotum :: PROPERTY_VIDEO_CONFERENCING_ID, $video_conferencing_id);
+
+        $condition = new AndCondition($condition1, $condition2);
+        return $this->retrieve_object(VideoConferencingUserQuotum :: get_table_name(), $condition, array(), ExternalRepositoryUserQuotum :: CLASS_NAME);
+    }
 
     function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null)
     {

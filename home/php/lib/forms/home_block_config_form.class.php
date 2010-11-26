@@ -75,7 +75,7 @@ class HomeBlockConfigForm extends FormValidator
                         if ($options_type == 'dynamic')
                         {
                             $options_source = $setting['options']['source'];
-                            $class = 'Block' . Application :: application_to_class($application) . 'Connector';
+                            $class =  Application :: determine_namespace($application) . '\\' . Application :: application_to_class($application) . 'BlockConnector';
                             $options = call_user_func(array($class, $options_source));
                         }
                         else

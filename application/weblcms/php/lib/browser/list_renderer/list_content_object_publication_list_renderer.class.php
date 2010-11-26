@@ -55,7 +55,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
 
         if ($this->get_actions() && count($publications) > 0 && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
-            $table_name = Utilities :: camelcase_to_underscores(__CLASS__);
+            $table_name = Utilities :: get_classname_from_namespace(__CLASS__, true);
             foreach ($_GET as $parameter => $value)
             {
                 if ($parameter == 'message')

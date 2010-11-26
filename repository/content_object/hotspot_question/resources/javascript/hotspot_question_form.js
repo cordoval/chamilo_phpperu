@@ -233,12 +233,12 @@ $(function ()
 	}
 	
 	function setHotspotImage(ev, ui)
-	{
+	{0
 		var learningObjectId = $(this).attr('id').replace('lo_', ''),
 			imageProperties;
 		$('input[name="image_object"]').val(learningObjectId);
 		
-		imageProperties = doAjaxPost("./common/libraries/resources/javascript/ajax/image_properties.php", { content_object: learningObjectId });
+		imageProperties = doAjaxPost("./common/libraries/php/ajax/image_properties.php", { content_object: learningObjectId });
 		imageProperties = eval('(' + imageProperties + ')');
 		
 		$('#hotspot_image').css('width', imageProperties.width + 'px');
@@ -288,7 +288,7 @@ $(function ()
 		});
 		
 		var value = $('input[name="image_object"]').val();
-		if(value != 'Image object' && value != 'ImageObject')
+		if(value != 'image_object')
 		{
 			imageProperties = doAjaxPost("./common/libraries/php/ajax/image_properties.php", { content_object: value });
 			imageProperties = eval('(' + imageProperties + ')');
@@ -316,7 +316,7 @@ $(function ()
 		$('.add_option').live('click', addOption);
 
 		// Process image selection
-		$('.inactive_elements a:not(.disabled, .category)').bind('click', setHotspotImage);
+		$('.inactive_elements a:not(.disabled, .category)').live('click', setHotspotImage);
 		
 		// Allow selection of a different image
 //		$("#change_image").bind('click', resetImage);

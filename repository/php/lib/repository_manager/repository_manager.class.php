@@ -20,6 +20,7 @@ use common\libraries\OrCondition;
 use common\libraries\OptionsMenuRenderer;
 use common\libraries\Path;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\video_conferencing_manager\VideoConferencingManager;
 
 use user\UserDataManager;
 use repository\content_object\learning_path_item\LearningPathItem;
@@ -147,6 +148,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_VIEW_DOUBLES = 'doubles_viewer';
     const ACTION_EXTERNAL_REPOSITORY_MANAGER = 'external_repository';
     const ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES = 'external_repository_instance_manager';
+    const ACTION_MANAGE_VIDEO_CONFERENCING_INSTANCES = 'video_conferencing_instance_manager';
 
     const ACTION_BROWSE_USER_VIEWS = 'user_view_browser';
     const ACTION_CREATE_USER_VIEW = 'user_view_creator';
@@ -921,6 +923,7 @@ class RepositoryManager extends CoreApplication
             $doubles['url'] = $this->get_view_doubles_url();
             $doubles['class'] = 'doubles';
 
+            //external repository
             $external_repository_manager_types = $this->retrieve_active_external_repository_types();
 
             foreach ($external_repository_manager_types as $key => $external_repository_manager_type)
@@ -1008,6 +1011,94 @@ class RepositoryManager extends CoreApplication
                 $external_repository_item['sub'] = $external_repository_sub_items;
             }
 
+            //video_conferencing
+            $video_conferencing_manager_types = $this->retrieve_active_video_conferencing_types();
+            
+        	foreach ($video_conferencing_manager_types as $key => $video_conferencing_manager_type)
+            {
+                $name = Translation :: get('TypeName', null, VideoConferencingManager :: get_namespace($video_conferencing_manager_type));
+                $video_conferencing_manager_types[$name] = $video_conferencing_manager_type;
+                unset($video_conferencing_manager_types[$key]);
+            }
+            
+        	if ($this->get_user()->is_platform_admin())
+            {
+                $video_conferencing_item = array();
+                $video_conferencing_item['title'] = (count($video_conferencing_manager_types) > 0) ? Translation :: get('VideosConferencing', null, VideoConferencingManager :: get_namespace()) : Translation :: get('VideoConferencing', null, VideoConferencingManager :: get_namespace());
+                $video_conferencing_item['url'] = $this->get_video_conferencing_instance_manager_url();
+                $video_conferencing_item['class'] = 'video_conferencing';
+            }
+            
+        	if (count($video_conferencing_manager_types) > 0)
+            {
+                if (! $this->get_user()->is_platform_admin())
+                {
+                    $video_conferencing_item = array();
+                    $video_conferencing_item['title'] = (count($video_conferencing_manager_types) > 0) ? Translation :: get('VideosConferencing', null, VideoConferencingManager :: get_namespace()) : Translation :: get('VideoConferencing', null, VideoConferencingManager :: get_namespace());
+                    $video_conferencing_item['url'] = '#';
+                    $video_conferencing_item['class'] = '$video_conferencing_item';
+                }
+                $video_conferencing_sub_items = array();
+
+                foreach ($video_conferencing_manager_types as $video_conferencing_manager_type)
+                {
+                    $conditions = array();
+                    $conditions[] = new EqualityCondition(VideoConferencing :: PROPERTY_TYPE, $video_conferencing_manager_type);
+                    $conditions[] = new EqualityCondition(VideoConferencing :: PROPERTY_ENABLED, 1);
+                    $condition = new AndCondition($conditions);
+                    $video_conferencing_managers = $this->retrieve_videos_conferencing($condition, 0, - 1, new ObjectTableOrder(VideoConferencing :: PROPERTY_TITLE));
+
+                    if ($video_conferencing_managers->size() > 1)
+                    {
+                        $video_conferencing_type_item = array();
+                        $video_conferencing_type_item['title'] = Translation :: get('TypeName', null, VideoConferencingManager :: get_namespace($video_conferencing_manager_type));
+                        $video_conferencing_type_item['url'] = '#';
+                        $video_conferencing_type_item['class'] = $video_conferencing_manager_type;
+                        $video_conferencing_type_subitems = array();
+
+                        while ($video_conferencing_manager = $video_conferencing_managers->next_result())
+                        {
+                            if (! RepositoryRights :: is_allowed_in_videos_conferencing_subtree(RepositoryRights :: USE_RIGHT, $video_conferencing_manager->get_id()))
+                            {
+                                continue;
+                            }
+
+                            $video_conferencing_type_subitem = array();
+                            $video_conferencing_type_subitem['title'] = $video_conferencing_manager->get_title();
+                            $video_conferencingy_type_subitem['url'] = $this->get_url(array(
+                                    Application :: PARAM_ACTION => self :: ACTION_VIDEO_CONFERENCING_MANAGER,
+                                    VideoConferencingManager :: PARAM_VIDEO_CONFERENCING => $video_conferencing_manager->get_id()), array(
+                                    VideoConferencingManager :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION,
+                                    VideoConferencingManager :: PARAM_RENDERER));
+                            $video_conferencing_type_subitem['class'] = $video_conferencing_manager->get_type();
+                            $video_conferencing_type_subitems[] = $video_conferencing_type_subitem;
+                        }
+                        $video_conferencing_type_item['sub'] = $video_conferencing_type_subitems;
+                        $video_conferencing_sub_items[] = $video_conferencing_type_item;
+                    }
+                    else
+                    {
+                        $external_repository_manager = $external_repository_managers->next_result();
+
+                        if (RepositoryRights :: is_allowed_in_video_conferencing_subtree(RepositoryRights :: USE_RIGHT, $video_conferencing_manager->get_id()))
+                        {
+
+                            $video_conferencing_sub_item = array();
+                            $video_conferencing_sub_item['title'] = $video_conferencing_manager->get_title();
+                            $video_conferencing_sub_item['url'] = $this->get_url(array(
+                                    Application :: PARAM_ACTION => self :: ACTION_VIDEO_CONFERENCING_MANAGER,
+                                    VideoConferencingManager :: PARAM_VIDEO_CONFERENCING => $video_conferencing_manager->get_id()), array(
+                                    VideoConferencingManager :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION,
+                                   VideoConferencingManager :: PARAM_RENDERER));
+                            $video_conferencing_sub_item['class'] = $video_conferencing_manager->get_type();
+                            $video_conferencing_sub_items[] = $video_conferencing_sub_item;
+                        }
+                    }
+                }
+
+                $video_conferencing_item['sub'] = $video_conferencing_sub_items;
+			}            
+            
             $content_object_managers = RepositoryDataManager :: get_content_object_managers();
 
             if (count($content_object_managers) > 0)
@@ -1042,6 +1133,10 @@ class RepositoryManager extends CoreApplication
             //                $extra_items[] = $external_repository;
             //            }
 
+        	if (isset($video_conferencing_item) && (count($video_conferencing_item['sub']) > 0 || $this->get_user()->is_platform_admin()))
+            {
+                $extra_items[] = $video_conferencing_item;
+            }
 
             if (isset($external_repository_item) && (count($external_repository_item['sub']) > 0 || $this->get_user()->is_platform_admin()))
             {
@@ -1333,6 +1428,31 @@ class RepositoryManager extends CoreApplication
     {
         return RepositoryDataManager :: get_instance()->count_external_repositories($condition);
     }
+    //video_conferencing
+	function retrieve_video_conferencing_condition($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return RepositoryDataManager :: get_instance()->retrieve_video_conferencing_condition($condition, $offset, $count, $order_property);
+    }
+
+    function retrieve_video_conferencing($external_repository_id)
+    {
+        return RepositoryDataManager :: get_instance()->retrieve_video_conferencing($external_repository_id);
+    }
+
+    function retrieve_active_video_conferencing_types()
+    {
+        return RepositoryDataManager :: get_instance()->retrieve_active_video_conferencing_types();
+    }
+
+    function retrieve_videos_conferencing($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return RepositoryDataManager :: get_instance()->retrieve_videos_conferencing($condition, $offset, $count, $order_property);
+    }
+
+    function count_videos_conferencing($condition = null)
+    {
+        return RepositoryDataManager :: get_instance()->count_videos_conferencing($condition);
+    }
 
     /**
      * Renders the users block and returns it.
@@ -1590,6 +1710,13 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array(
                 self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES), array(
                 ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION));
+    }
+    
+    function get_video_conferencing_instance_manager_url()
+    {
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_VIDEO_CONFERENCING_INSTANCES), array(
+                VideoConferencingInstanceManager :: PARAM_INSTANCE_ACTION));
     }
 
     /**

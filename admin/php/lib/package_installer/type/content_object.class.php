@@ -1,10 +1,14 @@
 <?php
 namespace admin;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Filesystem;
+use DOMDocument;
+use repository\ContentObjectInstaller;
+
 require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_type.class.php';
 
 /**
@@ -20,7 +24,6 @@ class PackageInstallerContentObjectType extends PackageInstallerType
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $object_name = $attributes->get_code();
-        $object_path = Path :: get_repository_content_object_path() . $object_name;
 
         if ($this->verify_dependencies())
         {
@@ -29,33 +32,21 @@ class PackageInstallerContentObjectType extends PackageInstallerType
             /**********************************************
              * Do the actual install of the objects here. *
              **********************************************/
-            $rdm = RepositoryDataManager :: get_instance();
-            $object_files = Filesystem :: get_directory_content($object_path, Filesystem :: LIST_FILES, false);
-
-            foreach ($object_files as $file)
+            $installer = ContentObjectInstaller :: factory($object_name);
+            if ($installer)
             {
-                if ((substr($file, - 3) == 'xml'))
+                if (! $installer->install())
                 {
-                    $storage_unit = $object_path . '/' . $file;
-                    // Create the learning object table that stores the additional lo-properties
-                    if (! $this->create_storage_unit($storage_unit))
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        $this->get_parent()->installation_successful('initilization', Translation :: get('ContentObjectStorageUnitsSuccessfullyCreated'));
-                    }
+                    return $this->get_parent()->installation_failed('installation', Translation :: get('ContenObjectInstallationFailed'));
                 }
-            }
+                else
+                {
+                    $this->add_message($installer->retrieve_message());
+                    $this->installation_successful('content_object');
+                }
 
-            if (! $this->add_registration())
-            {
-                $this->get_parent()->add_message(Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get('ContentObjectRegistration')), Utilities :: COMMON_LIBRARIES), PackageInstaller :: TYPE_WARNING);
-            }
-            else
-            {
-                $this->get_parent()->add_message(Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ContentObjectRegistration')), Utilities :: COMMON_LIBRARIES));
+                unset($installer);
+                flush();
             }
         }
         else
@@ -68,9 +59,9 @@ class PackageInstallerContentObjectType extends PackageInstallerType
         return true;
     }
 
-	static function get_path($content_object_name)
+    static function get_path($content_object_name)
     {
-    	return Path :: get_repository_content_object_path() . $content_object_name . '/';
+        return Path :: get_repository_content_object_path() . $content_object_name . '/';
     }
 
     function add_registration()
@@ -82,7 +73,7 @@ class PackageInstallerContentObjectType extends PackageInstallerType
         $registration = new Registration();
         $registration->set_type(Registration :: TYPE_CONTENT_OBJECT);
         $registration->set_name($attributes->get_code());
-        $registration->set_status(1);
+        $registration->set_status(Registration :: STATUS_ACTIVE);
         $registration->set_version($attributes->get_version());
 
         return $registration->create();
