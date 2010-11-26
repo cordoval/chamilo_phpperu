@@ -1,8 +1,8 @@
 TypeName = "Search portal"
 ResultsThroughOfFrom = ""
-SearchPortal = ""
+SearchPortal = "Search portal"
 Emailer = ""
-SearchPortalManagerSearcherComponent = ""
+SearchPortalManagerSearcherComponent = "Search"
 CouldNotLoadSearchSource = ""
 
 Basic = ""
