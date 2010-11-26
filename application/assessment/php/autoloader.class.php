@@ -19,7 +19,9 @@ class Autoloader
     {
        self :: $class_name = $classname;
         $list = array(
-            'assessment_manager' => 'assessment_manager/assessment_manager.class.php');
+            'assessment_manager' => 'assessment_manager/assessment_manager.class.php',
+            'results_export' => 'assessment_manager/component/assessment_results_export_form/export.class.php',
+            );
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (key_exists($lower_case, $list))

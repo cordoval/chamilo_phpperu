@@ -1,6 +1,5 @@
 <?php
-
-namespace application\weblcms\tool\assessment;
+namespace application\weblcms\tool\survey;
 
 
 use common\libraries\Utilities;
@@ -16,7 +15,6 @@ class Autoloader
     {
         
         $list = array(
-            'survey_publisher_component' => 'component/assessment_survey_publisher/survey_publisher_component.class.php',
             'results_export' => 'component/assessment_results_export_form/export.class.php',
         );
 

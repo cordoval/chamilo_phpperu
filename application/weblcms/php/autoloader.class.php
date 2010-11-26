@@ -69,7 +69,9 @@ class Autoloader
             'weblcms_survey_participant_mail_tracker' => 'trackers/weblcms_survey_participant_mail_tracker.class.php',
             'weblcms_survey_participant_tracker' => 'trackers/weblcms_survey_participant_tracker.class.php',
             'weblcms_survey_question_answer_tracker' => 'trackers/weblcms_survey_question_answer_tracker.class.php',
-            'weblcms_rights' => 'weblcms_rights.class.php'
+            'weblcms_rights' => 'weblcms_rights.class.php',
+            'course_group_unsubscribe_right' => 'course/course_group_unsubscribe_right.class.php',
+            'course_group_subscribe_right' => 'course/course_group_subscribe_right.class.php',
             );
 
         $lower_case = Utilities :: camelcase_to_underscores($classname);
