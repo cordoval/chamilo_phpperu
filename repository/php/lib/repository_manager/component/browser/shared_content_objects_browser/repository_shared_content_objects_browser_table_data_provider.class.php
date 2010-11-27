@@ -37,10 +37,6 @@ class RepositorySharedContentObjectsBrowserTableDataProvider extends ObjectTable
     {
         $order_property = $this->get_order_property($order_property);
 
-        // We always use title as second sorting parameter
-        //		$order_property[] = ContentObject :: PROPERTY_TITLE;
-
-
         return RepositoryDataManager :: get_instance()->retrieve_shared_content_objects($this->get_condition(), $offset, $count, $order_property);
     }
 

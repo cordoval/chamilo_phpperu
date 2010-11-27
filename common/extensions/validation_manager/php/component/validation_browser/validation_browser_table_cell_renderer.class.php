@@ -52,7 +52,7 @@ class ValidationBrowserTableCellRenderer extends DefaultValidationTableCellRende
                 //				}
                 $title_short = Utilities :: truncate_string($title_short, 53, false);
               */
-                $date_format = '%B %d, %Y at %I:%M %p'; //Translation :: get('dateTimeFormatLong');
+                $date_format = '%B %d, %Y at %I:%M %p';
                 $val = DatetimeUtilities :: format_locale_date($date_format, $validation->get_validated());
                 return $val;
                 break;

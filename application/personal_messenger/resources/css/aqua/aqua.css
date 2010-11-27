@@ -1,0 +1,11 @@
+@CHARSET "ISO-8859-1";
+ul.tree-menu li div a.type_inbox {
+	background-image: url(../../images/aqua/treemenu/inbox.png);
+}
+ul.tree-menu li div a.type_outbox {
+	background-image: url(../../images/aqua/treemenu/outbox.png);
+}
+
+ul.tree-menu li div a.type_compose {
+	background-image: url(../../images/aqua/treemenu/compose.png);
+}

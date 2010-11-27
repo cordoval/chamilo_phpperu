@@ -68,13 +68,13 @@ class PersonalMessengerMenu extends HTML_Menu
         $menu_item = array();
         $menu_item['title'] = Translation :: get('Inbox');
         $menu_item['url'] = $this->get_category_url('inbox');
-        $menu_item['class'] = 'type_category';
+        $menu_item['class'] = 'type_inbox';
         $home_item[] = $menu_item;
 
         $menu_item = array();
         $menu_item['title'] = Translation :: get('Outbox');
         $menu_item['url'] = $this->get_category_url('outbox');
-        $menu_item['class'] = 'type_category';
+        $menu_item['class'] = 'type_outbox';
         $home_item[] = $menu_item;
         $menu = array_merge($home_item, $menu);
         return $menu;

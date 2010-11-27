@@ -100,7 +100,7 @@ class ContentObjectImportForm extends FormValidator
             if (strpos($f, '.svn') !== false || strpos($f, 'csv') !== false)
                 continue;
 
-            $types[$f] = Translation :: get('Type' . $f, null, Utilities :: COMMON_LIBRARIES);
+            $types[$f] = Translation :: get('Type' . Utilities :: underscores_to_camelcase($f), null, Utilities :: COMMON_LIBRARIES);
         }
 
         return $types;

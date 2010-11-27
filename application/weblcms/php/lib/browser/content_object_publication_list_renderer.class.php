@@ -546,7 +546,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function format_date($date)
     {
-        $date_format = Translation :: get('dateTimeFormatLong', null, Utilities :: COMMON_LIBRARIES);
+        $date_format = Translation :: get('DateTimeFormatLong', null, Utilities :: COMMON_LIBRARIES);
         return DatetimeUtilities :: format_locale_date($date_format, $date);
     }
 

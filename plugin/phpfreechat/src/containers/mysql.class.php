@@ -69,7 +69,7 @@ class pfcContainer_Mysql extends pfcContainerInterface
     
   function __construct()
   {
-    pfcContainerInterface::pfcContainerInterface();
+    pfcContainerInterface::__construct();
   }
 
   function getDefaultConfig()

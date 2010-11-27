@@ -3,6 +3,7 @@ namespace common\libraries;
 
 use repository\RepositoryDataManager;
 use repository\RepositoryManager;
+use getID3;
 
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';
 
