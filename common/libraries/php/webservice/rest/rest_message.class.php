@@ -39,6 +39,7 @@ abstract class RestMessage
     // Helper functions
     function render_xml_header()
     {
+        header('Content-Type: application/xml');
         echo '<?xml version="1.0" encoding="UTF-8"?>';
     }
 
@@ -72,6 +73,16 @@ abstract class RestMessage
         echo implode("\n", $html);
         
         Display :: footer();
+    }
+
+    function render_json_header()
+    {
+        header('Content-Type: application/json');
+    }
+
+    function render_plain_header()
+    {
+        header('Content-Type: text/plain');
     }
 
     static function factory($type)
