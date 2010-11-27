@@ -43,7 +43,7 @@ abstract class ExternalRepositoryManager extends SubManager
     const DEFAULT_ACTION = self :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
 
     const PARAM_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
-    const PARAM_EXTERNAL_REPOSITORY = 'external_repository';
+    const PARAM_EXTERNAL_REPOSITORY = 'external_instance';
     const PARAM_QUERY = 'query';
     const PARAM_RENDERER = 'renderer';
     const PARAM_FOLDER = 'folder';

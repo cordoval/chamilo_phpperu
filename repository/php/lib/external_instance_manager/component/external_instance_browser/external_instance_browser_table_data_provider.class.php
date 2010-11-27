@@ -8,7 +8,7 @@ class ExternalInstanceBrowserTableDataProvider extends ObjectTableDataProvider
 
     /**
      * Constructor
-     * @param ExternalRepositoryInstanceManager $browser
+     * @param ExternalInstanceManager $browser
      * @param Condition $condition
      */
     function __construct($browser, $condition)

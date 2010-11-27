@@ -29,7 +29,7 @@ class MediamosaForm extends ContentObjectForm
         $this->addElement('hidden', ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID);
         $this->addElement('hidden', ExternalRepositoryObject :: PROPERTY_ID);
 
-        $external_repositories = ExternalRepositoryLauncher :: get_links(Mediamosa :: get_type_name(), true);
+        $external_repositories = ExternalRepositoryLauncher :: get_links(Utilities :: get_classname_from_namespace(ExternalRepositoryManager :: CLASS_NAME, true), Mediamosa :: get_type_name(), true);
         if ($external_repositories)
         {
             $this->addElement('category', Translation :: get('Media'));

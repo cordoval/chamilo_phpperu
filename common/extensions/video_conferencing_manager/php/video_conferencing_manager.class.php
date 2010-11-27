@@ -29,7 +29,7 @@ abstract class VideoConferencingManager extends SubManager
     const DEFAULT_ACTION = self :: ACTION_CREATE_MEETING;
 
     const PARAM_VIDEO_CONFERENCING_ID = 'video_conferencing_id';
-    const PARAM_VIDEO_CONFERENCING = 'video_conferencing';
+    const PARAM_VIDEO_CONFERENCING = 'external_instance';
     const PARAM_QUERY = 'query';
     const PARAM_RENDERER = 'renderer';
 

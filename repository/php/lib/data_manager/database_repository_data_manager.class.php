@@ -399,10 +399,6 @@ class DatabaseRepositoryDataManager extends Database implements
             $this->delete_objects(Utilities :: get_classname_from_object($object, true), $condition);
         }
 
-        //Delete associated metadata
-        $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $object->get_id());
-        $this->delete_objects(ContentObjectMetadata :: get_table_name(), $condition);
-
         //Delete synchronization with external repositories infos
         $condition = new EqualityCondition(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
         $this->delete_objects(ExternalRepositorySync :: get_table_name(), $condition);
@@ -1469,90 +1465,6 @@ class DatabaseRepositoryDataManager extends Database implements
             return $this->record_to_complex_content_object_item($record, $object_type, true);
     }
 
-    function create_content_object_metadata($content_object_metadata)
-    {
-        $created = $content_object_metadata->get_creation_date();
-        if (is_numeric($created))
-        {
-            $content_object_metadata->set_creation_date($content_object_metadata->get_creation_date());
-        }
-
-        return $this->create($content_object_metadata);
-    }
-
-    function update_content_object_metadata($content_object_metadata)
-    {
-        $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata->get_id());
-
-        $date = $content_object_metadata->get_modification_date();
-        if (is_numeric($date))
-        {
-            $content_object_metadata->set_modification_date($content_object_metadata->get_modification_date());
-        }
-
-        return $this->update($content_object_metadata, $condition);
-    }
-
-    function delete_content_object_metadata($content_object_metadata)
-    {
-        $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata->get_id());
-        return $this->delete($content_object_metadata->get_table_name(), $condition);
-    }
-
-    function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {
-        return $this->retrieve_objects(ContentObjectMetadata :: get_table_name(), $condition, $offset, $max_objects, $order_by, ContentObjectMetadata :: CLASS_NAME);
-    }
-
-    function retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value)
-    {
-        if (StringUtilities :: has_value($catalog_name) && StringUtilities :: has_value($entry_value))
-        {
-            $catalog_name = StringUtilities :: escape_mysql($catalog_name);
-            $entry_value = StringUtilities :: escape_mysql($entry_value);
-
-            $query = 'SELECT count(*) as total, content_object_id FROM repository_content_object_metadata
-                WHERE
-                (property LIKE \'general_identifier[%][catalog]\' AND value = \'' . $catalog_name . '\')
-                OR
-                (property LIKE \'general_identifier[%][entry]\' AND value = \'' . $entry_value . '\')
-                GROUP BY content_object_id
-                HAVING total=2';
-
-            return $this->retrieve_object_set($query, 'repository_content_object_metadata', null, null, null, null, 'ContentObjectMetadata');
-        }
-    }
-
-    function create_content_object_metadata_catalog($content_object_metadata_catalog)
-    {
-        $created = $content_object_metadata_catalog->get_creation_date();
-        if (is_numeric($created))
-        {
-            $content_object_metadata_catalog->set_creation_date($content_object_metadata_catalog->get_creation_date());
-        }
-
-        return $this->create($content_object_metadata_catalog);
-    }
-
-    function update_content_object_metadata_catalog($content_object_metadata_catalog)
-    {
-        $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata_catalog->get_id());
-
-        $date = $content_object_metadata_catalog->get_modification_date();
-        if (is_numeric($date))
-        {
-            $content_object_metadata_catalog->set_modification_date($content_object_metadata_catalog->get_modification_date());
-        }
-
-        return $this->update($content_object_metadata_catalog, $condition);
-    }
-
-    function delete_content_object_metadata_catalog($content_object_metadata_catalog)
-    {
-        $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata_catalog->get_id());
-        return $this->delete($content_object_metadata_catalog->get_table_name(), $condition);
-    }
-
     function set_new_clo_version($lo_id, $new_lo_id)
     {
         $translator = new ConditionTranslator($this);
@@ -1575,7 +1487,7 @@ class DatabaseRepositoryDataManager extends Database implements
         return $this->retrieve_object(ExternalInstance :: get_table_name(), $condition, array(), ExternalInstance :: CLASS_NAME);
     }
 
-    function retrieve_external_instances($condition = null, $offset = null, $max_objects = null, $order_by = nul)
+    function retrieve_external_instances($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(ExternalInstance :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalInstance :: CLASS_NAME);
     }
@@ -1592,11 +1504,6 @@ class DatabaseRepositoryDataManager extends Database implements
         $conditions[] = new EqualityCondition(ExternalInstance :: PROPERTY_INSTANCE_TYPE, $instance_type);
         $condition = new AndCondition($conditions);
         return $this->retrieve_distinct(ExternalInstance :: get_table_name(), ExternalInstance :: PROPERTY_TYPE, $condition, array(), ExternalInstance :: CLASS_NAME);
-    }
-
-    function retrieve_external_repository_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {
-        return $this->retrieve_objects(ExternalRepositoryFedora :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalRepositoryFedora :: CLASS_NAME);
     }
 
     function retrieve_external_repository_user_quotum($user_id, $external_repository_id)
@@ -2098,10 +2005,10 @@ class DatabaseRepositoryDataManager extends Database implements
         return $this->retrieve_object(ContentObjectGroupShare :: get_table_name(), $condition, array(), ContentObjectGroupShare :: CLASS_NAME);
     }
 
-    function retrieve_active_external_repositories($types = array())
+    function retrieve_active_external_instances($manager_types = array(), $types = array())
     {
         $conditions = array();
-        $conditions[] = new EqualityCondition(ExternalRepository :: PROPERTY_ENABLED, 1);
+        $conditions[] = new EqualityCondition(ExternalInstance :: PROPERTY_ENABLED, 1);
 
         if (! is_array($types))
         {
@@ -2110,12 +2017,22 @@ class DatabaseRepositoryDataManager extends Database implements
 
         if (count($types) > 0)
         {
-            $conditions[] = new InCondition(ExternalRepository :: PROPERTY_TYPE, $types);
+            $conditions[] = new InCondition(ExternalInstance :: PROPERTY_TYPE, $types);
+        }
+
+        if (! is_array($manager_types))
+        {
+            $manager_types = array($manager_types);
+        }
+
+        if (count($manager_types) > 0)
+        {
+            $conditions[] = new InCondition(ExternalInstance :: PROPERTY_INSTANCE_TYPE, $manager_types);
         }
 
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_external_repositories($condition);
+        return $this->retrieve_external_instances($condition);
     }
 }
 ?>

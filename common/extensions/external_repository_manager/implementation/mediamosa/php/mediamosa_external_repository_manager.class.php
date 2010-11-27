@@ -118,7 +118,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     function run()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        $external_repository = $rdm->retrieve_external_repository(Request :: get(MediamosaExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+        $external_repository = $rdm->retrieve_external_instance(Request :: get(MediamosaExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb('#', $external_repository->get_title()));
 

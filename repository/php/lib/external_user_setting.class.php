@@ -8,7 +8,6 @@ use common\libraries\EqualityCondition;
 use common\libraries\Session;
 use common\libraries\AndCondition;
 use common\libraries\DataClass;
-use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 /**
  * $Id: external_repository_user_setting.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

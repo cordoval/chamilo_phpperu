@@ -418,20 +418,6 @@ interface RepositoryDataManagerInterface
 
     function retrieve_last_post($forum_id);
 
-    function create_content_object_metadata($content_object_metadata);
-
-    function delete_content_object_metadata($content_object_metadata);
-
-    function update_content_object_metadata($content_object_metadata);
-
-    function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null);
-
-    function retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value);
-
-    function retrieve_external_repository_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null);
-
-    function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null);
-
     function create_external_repository_sync_info($external_repository_sync_info);
 
     function update_external_repository_sync_info($external_repository_sync_info);

@@ -1,9 +1,12 @@
 <?php
 namespace repository\content_object\matterhorn;
 
+use common\libraries;
+
 use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\Path;
+use common\libraries\Utilities;
 use common\libraries\ExternalRepositoryLauncher;
 
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
@@ -20,7 +23,7 @@ class MatterhornForm extends ContentObjectForm
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Properties'));
 
-        $external_repositories = ExternalRepositoryLauncher :: get_links(Matterhorn :: get_type_name(), true);
+        $external_repositories = ExternalRepositoryLauncher :: get_links(Utilities :: get_classname_from_namespace(ExternalRepositoryManager :: CLASS_NAME, true), Matterhorn :: get_type_name(), true);
         if ($external_repositories)
         {
             $this->addElement('static', null, null, $external_repositories);

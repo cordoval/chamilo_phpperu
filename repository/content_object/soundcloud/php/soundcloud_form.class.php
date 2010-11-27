@@ -32,7 +32,7 @@ class SoundcloudForm extends ContentObjectForm
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Properties'));
 
-        $external_repositories = ExternalRepositoryLauncher :: get_links(Soundcloud :: get_type_name(), true);
+        $external_repositories = ExternalRepositoryLauncher :: get_links(Utilities :: get_classname_from_namespace(ExternalRepositoryManager :: CLASS_NAME, true), Soundcloud :: get_type_name(), true);
         if ($external_repositories)
         {
             $this->addElement('static', null, null, $external_repositories);

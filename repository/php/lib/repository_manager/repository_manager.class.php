@@ -114,8 +114,6 @@ class RepositoryManager extends CoreApplication
     const ACTION_UNLINK_CONTENT_OBJECTS = 'unlinker';
     const ACTION_RESTORE_CONTENT_OBJECTS = 'restorer';
     const ACTION_MOVE_CONTENT_OBJECTS = 'mover';
-    const ACTION_EDIT_CONTENT_OBJECT_METADATA = 'metadata_editor';
-    const ACTION_VIEW_CONTENT_OBJECT_METADATA = 'metadata_viewer';
     const ACTION_EDIT_CONTENT_OBJECT_RIGHTS = 'rights_editor';
     const ACTION_VIEW_MY_PUBLICATIONS = 'publication_browser';
     const ACTION_VIEW_QUOTA = 'quota_viewer';
@@ -130,12 +128,6 @@ class RepositoryManager extends CoreApplication
     const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'complex_builder';
     const ACTION_VIEW_REPO = 'attachment_viewer';
     const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
-    //    const ACTION_EXTERNAL_REPOSITORY_BROWSE = 'ext_rep_browse';
-    //    const ACTION_EXTERNAL_REPOSITORY_EXPORT = 'ext_rep_export';
-    //    const ACTION_EXTERNAL_REPOSITORY_IMPORT = 'ext_rep_import';
-    //    const ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS = 'ext_rep_list_objects';
-    //    const ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW = 'ext_rep_metadata_review';
-    //    const ACTION_EXTERNAL_REPOSITORY_CATALOG = 'ext_rep_catalog';
     const ACTION_BROWSE_TEMPLATES = 'template_browser';
     const ACTION_COPY_CONTENT_OBJECT = 'content_object_copier';
     const ACTION_COPY_CONTENT_OBJECT_TO_TEMPLATES = 'template_creator';
@@ -150,7 +142,6 @@ class RepositoryManager extends CoreApplication
     const ACTION_DELETE_LINK = 'link_deleter';
     const ACTION_VIEW_DOUBLES = 'doubles_viewer';
     const ACTION_EXTERNAL_REPOSITORY_MANAGER = 'external_repository';
-    const ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES = 'external_repository_instance_manager';
 
     const ACTION_EXTERNAL_INSTANCE_MANAGER = 'external_instance';
     const ACTION_MANAGE_EXTERNAL_INSTANCES = 'external_instance_manager';
@@ -503,9 +494,9 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), self :: PARAM_CATEGORY_ID => $content_object->get_parent_id()));
     }
 
-    function get_external_repository_object_viewing_url(ExternalRepositorySync $external_repository_sync)
+    function get_external_instance_viewing_url(ExternalRepositorySync $external_instance_sync)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_sync->get_external_repository_id(), ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $external_repository_sync->get_external_repository_object_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXTERNAL_INSTANCE_MANAGER, self :: PARAM_EXTERNAL_INSTANCE => $external_instance_sync->get_external_repository_id(), ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $external_instance_sync->get_external_repository_object_id()));
     }
 
     /**
@@ -619,16 +610,6 @@ class RepositoryManager extends CoreApplication
     function get_content_object_moving_url($content_object)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
-    }
-
-    /**
-     * Gets the url to edit the metadata of a learning object.
-     * @param ContentObject $content_object The learning object.
-     * @return string The requested URL.
-     */
-    function get_content_object_metadata_editing_url($content_object)
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_METADATA, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     /**
@@ -1006,7 +987,7 @@ class RepositoryManager extends CoreApplication
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
 
         $links[] = new DynamicAction(Translation :: get('ImportTemplate'), Translation :: get('ImportTemplateDescription'), Theme :: get_image_path() . 'admin/import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('ManageExternalRepositoryManagerInstances'), Translation :: get('ManageExternalRepositoryManagerInstancesDescription'), Theme :: get_image_path() . 'admin/repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ManageExternalInstances'), Translation :: get('ManageExternalInstancesDescription'), Theme :: get_image_path() . 'admin/external_instance.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_INSTANCES), array(), false, Redirect :: TYPE_CORE));
         /*$links[] = new DynamicAction(Translation :: get('ManageContentObjectTypes'), Translation :: get('ManageContentObjectTypesDescription'), Theme :: get_image_path() . 'browse_repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS), array(), false, Redirect :: TYPE_CORE));*/
 
@@ -1120,44 +1101,7 @@ class RepositoryManager extends CoreApplication
         return $rdm->retrieve_user_views($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_property = null)
-    {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_content_object_metadata($condition, $offset, $max_objects, $order_property);
-    }
-
-    function retrieve_content_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_property = null)
-    {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_content_object_metadata_catalog($condition, $offset, $max_objects, $order_property);
-    }
-
-    function retrieve_external_repository_condition($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return RepositoryDataManager :: get_instance()->retrieve_external_repository_condition($condition, $offset, $count, $order_property);
-    }
-
-    function retrieve_external_repository($external_repository_id)
-    {
-        return RepositoryDataManager :: get_instance()->retrieve_external_repository($external_repository_id);
-    }
-
-    function retrieve_active_external_repository_types()
-    {
-        return RepositoryDataManager :: get_instance()->retrieve_active_external_repository_types();
-    }
-
-    function retrieve_external_repositories($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return RepositoryDataManager :: get_instance()->retrieve_external_repositories($condition, $offset, $count, $order_property);
-    }
-
-    function count_external_repositories($condition = null)
-    {
-        return RepositoryDataManager :: get_instance()->count_external_repositories($condition);
-    }
-
-    //video_conferencing
+    // External instances
     function retrieve_external_instance_condition($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return RepositoryDataManager :: get_instance()->retrieve_external_instance_condition($condition, $offset, $count, $order_property);
@@ -1390,11 +1334,6 @@ class RepositoryManager extends CoreApplication
     function get_available_renderers()
     {
         return array(ContentObjectRenderer :: TYPE_TABLE, ContentObjectRenderer :: TYPE_GALLERY, ContentObjectRenderer :: TYPE_SLIDESHOW);
-    }
-
-    function get_external_repository_instance_manager_url()
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION));
     }
 
     function get_external_instance_manager_url()

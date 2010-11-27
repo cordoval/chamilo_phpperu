@@ -32,7 +32,7 @@ abstract class ContentObjectRenderer
         return $this->repository_browser;
     }
 
-    static function factory($type, $external_repository_browser)
+    static function factory($type, $repository_browser)
     {
         $file = dirname(__FILE__) . '/renderer/' . $type . '_content_object_renderer.class.php';
         if (! file_exists($file))
@@ -44,7 +44,7 @@ abstract class ContentObjectRenderer
         require_once $file;
 
         $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'ContentObjectRenderer';
-        return new $class($external_repository_browser);
+        return new $class($repository_browser);
     }
 
     abstract function as_html();
@@ -116,7 +116,6 @@ abstract class ContentObjectRenderer
             $actions[] = new ToolbarItem(Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_move.png', $this->get_repository_browser()->get_content_object_moving_url($content_object), ToolbarItem :: DISPLAY_ICON);
         }
 
-        //$actions[] = new ToolbarItem(Translation :: get('Metadata', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_metadata.png', $this->get_repository_browser()->get_content_object_metadata_editing_url($content_object), ToolbarItem :: DISPLAY_ICON);
         $actions[] = new ToolbarItem(Translation :: get('Share', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_repository_browser()->get_content_object_share_create_url($content_object->get_id()), ToolbarItem :: DISPLAY_ICON);
         $actions[] = new ToolbarItem(Translation :: get('Export', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_export.png', $this->get_repository_browser()->get_content_object_exporting_url($content_object), ToolbarItem :: DISPLAY_ICON);
         $actions[] = new ToolbarItem(Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_repository_browser()->get_publish_content_object_url($content_object), ToolbarItem :: DISPLAY_ICON);
