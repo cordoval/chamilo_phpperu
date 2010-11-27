@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableCellRenderer;
@@ -21,9 +23,11 @@ class DefaultExternalInstanceTableCellRenderer extends ObjectTableCellRenderer
             case ExternalInstance :: PROPERTY_ID :
                 return $external_instance->get_id();
             case ExternalInstance :: PROPERTY_INSTANCE_TYPE :
-                return $external_instance->get_instance_type();
+                $name = htmlentities(Translation :: get('TypeName', null, ExternalInstanceManager :: get_namespace($external_instance->get_instance_type())));
+                return '<img src="' . Theme :: get_image_path(ExternalInstanceManager :: get_namespace($external_instance->get_instance_type())) . '/logo/22.png" alt="' . $name . '" title="' . $name . '"/>';
             case ExternalInstance :: PROPERTY_TYPE :
-                return '<img src="' . Theme :: get_image_path(ExternalInstanceManager :: get_namespace($external_instance->get_instance_type(), $external_instance->get_type())) . '/logo/22.png" alt="' . htmlentities(Translation :: get('TypeName', null, ExternalInstanceManager :: get_namespace($external_instance->get_instance_type(), $external_instance->get_type()))) . '"/>';
+                $name = htmlentities(Translation :: get('TypeName', null, ExternalInstanceManager :: get_namespace($external_instance->get_instance_type(), $external_instance->get_type())));
+                return '<img src="' . Theme :: get_image_path(ExternalInstanceManager :: get_namespace($external_instance->get_instance_type(), $external_instance->get_type())) . '/logo/22.png" alt="' . $name . '" title="' . $name . '"/>';
             case ExternalInstance :: PROPERTY_TITLE :
                 return Utilities :: truncate_string($external_instance->get_title(), 50);
             case ExternalInstance :: PROPERTY_DESCRIPTION :
