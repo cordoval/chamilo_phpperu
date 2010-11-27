@@ -51,13 +51,13 @@ class ContentObjectPublisher
             $content_objects = RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
 
             $html[] = '<div class="content_object padding_10">';
-            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects', null ,Utilities:: COMMON_LIBRARIES) . '</div>';
+            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects', null, Utilities :: COMMON_LIBRARIES) . '</div>';
             $html[] = '<div class="description">';
             $html[] = '<ul class="attachments_list">';
 
             while ($content_object = $content_objects->next_result())
             {
-                $namespace =ContentObject :: get_content_object_type_namespace($content_object->get_type());
+                $namespace = ContentObject :: get_content_object_type_namespace($content_object->get_type());
                 $html[] = '<li><img src="' . Theme :: get_image_path($namespace) . 'logo/' . Theme :: ICON_MINI . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, $namespace)) . '"/> ' . $content_object->get_title() . '</li>';
             }
 
@@ -75,11 +75,13 @@ class ContentObjectPublisher
 
             if (! $publication)
             {
-                $message = Translation :: get('ObjectNotPublished', array('OBJECT' => Translation :: get('Object')),Utilities:: COMMON_LIBRARIES);
+                $message = Translation :: get('ObjectNotPublished', array(
+                        'OBJECT' => Translation :: get('Object')), Utilities :: COMMON_LIBRARIES);
             }
             else
             {
-                $message = Translation :: get('ObjectPublished', array('OBJECT' => Translation :: get('Object')),Utilities:: COMMON_LIBRARIES);
+                $message = Translation :: get('ObjectPublished', array(
+                        'OBJECT' => Translation :: get('Object')), Utilities :: COMMON_LIBRARIES);
             }
 
             $parameters['tool_action'] = null;

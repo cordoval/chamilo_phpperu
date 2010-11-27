@@ -174,7 +174,7 @@ class RepositoryRights
 
 	static function is_allowed_in_external_instances_subtree($right, $location)
     {
-    	 return RightsUtilities :: is_allowed($right, $location, self :: TYPE_CONTENT_OBJECT, RepositoryManager :: APPLICATION_NAME, null, 0, self :: TREE_TYPE_EXTERNAL_INSTANCE);
+    	 return RightsUtilities :: is_allowed($right, $location, self :: TYPE_EXTERNAL_INSTANCE, RepositoryManager :: APPLICATION_NAME, null, 0, self :: TREE_TYPE_EXTERNAL_INSTANCE);
     }
 
     static function create_external_instances_subtree_root_location()

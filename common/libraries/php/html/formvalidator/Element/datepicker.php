@@ -2,6 +2,7 @@
 use common\libraries\Theme;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 /**
  * @package common.html.formvalidator.Element
@@ -30,8 +31,22 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
         $this->_appendName = true;
         $this->_type = 'datepicker';
         $popup_link = '<a href="javascript:openCalendar(\'' . $js_form_name . '\',\'' . $elementName . '\')"><img src="' . Theme :: get_common_image_path() . 'action_calendar_select.png" style="vertical-align:middle;"/></a>';
-        $special_chars = array('D', 'l', 'd', 'M', 'F', 'm', 'y', 'H', 'a', 'A', 's', 'i', 'h', 'g', 'W','.', ' ');
-        $hour_minute_devider = Translation :: get("HourMinuteDivider");
+        $special_chars = array('D', 'l', 'd',
+                'M',
+                'F',
+                'm',
+                'y',
+                'H',
+                'a',
+                'A',
+                's',
+                'i',
+                'h',
+                'g',
+                'W',
+                '.',
+                ' ');
+        $hour_minute_devider = Translation :: get('HourMinuteDivider', null, Utilities :: COMMON_LIBRARIES);
         foreach ($special_chars as $index => $char)
         {
             $popup_link = str_replace($char, "\\" . $char, $popup_link);
@@ -46,7 +61,19 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
         // If translation not available in PEAR::HTML_QuickForm_date, add the Chamilo-translation
         if (! array_key_exists($editor_lang, $this->_locale))
         {
-            $this->_locale[$editor_lang]['months_long'] = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
+            $this->_locale[$editor_lang]['months_long'] = array(
+                    Translation :: get("JanuaryLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("FebruaryLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("MarchLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("AprilLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("MayLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("JuneLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("JulyLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("AugustLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("SeptemberLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("OctoberLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("NovemberLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("DecemberLong", null, Utilities :: COMMON_LIBRARIES));
         }
 
         $this->include_time_picker = $include_time_picker;
@@ -76,7 +103,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
      */
     function getElementJS()
     {
-         $js = '';
+        $js = '';
         //if(!defined('DATEPICKER_JAVASCRIPT_INCLUDED'))
         {
             //define('DATEPICKER_JAVASCRIPT_INCLUDED',1);
