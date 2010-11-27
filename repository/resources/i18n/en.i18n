@@ -346,5 +346,5 @@ Linker = "Linker"
 ManageRights = "Manage";
 GivenRights = "Rights"
 ShareWithOtherUsersGroups = "Share with other users and groups"
-NoExternalRepositoriesAvailable = "There are currently no external repositories installed on your platform, please install some via the administration package manger if you want to add them to your repository."
+NoExternalInstancesAvailable = "There are currently no external services linked to your platform, please install some connectors via the administration package manager if you want to add them to your repository."
 ExternalInstanceType = "Type";

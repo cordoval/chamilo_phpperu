@@ -43,13 +43,11 @@ class ExternalInstanceManagerCreatorComponent extends ExternalInstanceManager
             $external_instance = new ExternalInstance();
             $external_instance->set_type($type);
             $external_instance->set_instance_type($instance_type);
-            $form = new ExternalInstanceForm(ExternalInstanceForm :: TYPE_CREATE, $external_instance, $this->get_url(array(
-                    ExternalInstanceManager :: PARAM_EXTERNAL_TYPE => $instance_type, ExternalInstanceManager :: PARAM_EXTERNAL_INSTANCE_TYPE => $type)));
+            $form = new ExternalInstanceForm(ExternalInstanceForm :: TYPE_CREATE, $external_instance, $this->get_url(array(ExternalInstanceManager :: PARAM_EXTERNAL_TYPE => $instance_type, ExternalInstanceManager :: PARAM_EXTERNAL_INSTANCE_TYPE => $type)));
             if ($form->validate())
             {
                 $success = $form->create_external_instance();
-                $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalInstance')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(
-                        ExternalInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceManager :: ACTION_BROWSE_INSTANCES));
+                $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalInstance')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(ExternalInstanceManager :: PARAM_INSTANCE_ACTION => ExternalInstanceManager :: ACTION_BROWSE_INSTANCES));
             }
             else
             {
@@ -60,18 +58,24 @@ class ExternalInstanceManagerCreatorComponent extends ExternalInstanceManager
         }
         else
         {
-            $this->display_header();
+            $instance_types = $this->get_external_instance_types();
+
+            if (count($instance_types['sections']) == 0)
+            {
+                $this->display_header();
+                $this->display_warning_message(Translation :: get('NoExternalInstancesAvailable'));
+                $this->display_footer();
+                exit();
+            }
 
             $renderer_name = Utilities :: get_classname_from_object($this, true);
             $tabs = new DynamicTabsRenderer($renderer_name);
 
-            $repository_types = $this->get_external_instance_types();
-
-            foreach ($repository_types['sections'] as $category => $category_name)
+            foreach ($instance_types['sections'] as $category => $category_name)
             {
                 $types_html = array();
 
-                foreach ($repository_types['types'][$category] as $type => $registration)
+                foreach ($instance_types['types'][$category] as $type => $registration)
                 {
                     $manager_class = ExternalInstanceManager :: get_manager_class($registration->get_type());
 
@@ -83,6 +87,7 @@ class ExternalInstanceManagerCreatorComponent extends ExternalInstanceManager
                 $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_image_path($manager_class :: get_namespace()) . 'category_' . $category . '.png', implode("\n", $types_html)));
             }
 
+            $this->display_header();
             echo $tabs->render();
             $this->display_footer();
         }

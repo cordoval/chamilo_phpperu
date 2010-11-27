@@ -4,7 +4,7 @@ namespace common\extensions\external_repository_manager\implementation\mediamosa
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
 use repository\RepositoryDataManager;
@@ -237,7 +237,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
         foreach ($settings as $variable)
         {
-            $value = ExternalRepositorySetting :: get($variable, $external_repository->get_id());
+            $value = ExternalSetting :: get($variable, $external_repository->get_id());
             if (! $value)
             {
                 return false;
@@ -267,7 +267,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
 
-        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all($this->get_external_repository()->get_id())) > 0);
+        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalSetting :: get_all($this->get_external_repository()->get_id())) > 0);
 
         if ($is_platform)
         {

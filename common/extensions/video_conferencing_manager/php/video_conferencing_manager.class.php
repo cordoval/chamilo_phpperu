@@ -44,7 +44,7 @@ abstract class VideoConferencingManager extends SubManager
     function VideoConferencingManager($application)
     {
         parent :: __construct($application);
-        $this->video_conferencing = $application->get_video_conferencing();
+        $this->video_conferencing = $application->get_external_instance();
 
         $video_conferencing_manager_action = Request :: get(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION);
         if ($video_conferencing_manager_action)
@@ -103,8 +103,8 @@ abstract class VideoConferencingManager extends SubManager
      */
     static function launch($application)
     {
-        $video_conferencing = $application->get_video_conferencing();
-  
+        $video_conferencing = $application->get_external_instance();
+
     	$type = $video_conferencing->get_type();
 
         $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_video_conferencing_manager.class.php';
@@ -325,7 +325,7 @@ abstract class VideoConferencingManager extends SubManager
     {
         $toolbar_items = array();
 
-       
+
         return $toolbar_items;
     }
 
@@ -379,7 +379,7 @@ abstract class VideoConferencingManager extends SubManager
             return false;
         }
     }
-    
+
     function create_component($type, $application = null)
     {
         if ($application == null)
@@ -420,7 +420,7 @@ abstract class VideoConferencingManager extends SubManager
 
         return new $class($application->get_video_conferencing(), $application->get_parent());
     }
-    
+
 	static function get_namespace($type = null)
     {
         if ($type)
@@ -432,7 +432,7 @@ abstract class VideoConferencingManager extends SubManager
             return __NAMESPACE__;
         }
     }
-    
+
 	static function get_registered_types($status = Registration :: STATUS_ACTIVE)
     {
         $conditions = array();

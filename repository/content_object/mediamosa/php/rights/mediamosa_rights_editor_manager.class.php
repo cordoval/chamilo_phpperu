@@ -9,7 +9,7 @@ use common\libraries\AndCondition;
 use common\extensions\rights_editor_manager\RightsEditorManager;
 use common\extensions\external_repository_manager\implementation\mediamosa\MediamosaExternalRepositoryConnector;
 use user\UserDataManager;
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 use repository\RepositoryDataManager;
 use repository\ExternalRepositorySync;
 use rights\RightsDataManager;
@@ -99,7 +99,7 @@ class MediamosaRightsEditorManager extends RightsEditorManager
                     else
                     {
                         //master_slave
-                        $slaves = explode('|', ExternalRepositorySetting :: get('slave_app_ids', $sync->get_external_repository_id()));
+                        $slaves = explode('|', ExternalSetting :: get('slave_app_ids', $sync->get_external_repository_id()));
 
                         foreach($slaves as $slave)
                         {

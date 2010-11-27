@@ -4,6 +4,8 @@ namespace common\extensions\video_conferencing_manager;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
+use repository\RepositoryManager;
+
 require_once dirname(__FILE__) . '/../forms/video_conferencing_settings_form.class.php';
 
 class VideoConferencingComponentConfigurerComponent extends VideoConferencingComponent
@@ -11,7 +13,7 @@ class VideoConferencingComponentConfigurerComponent extends VideoConferencingCom
 
     function run()
     {
-        $video_conferencing_id = $this->get_parameter(VideoConferencingManager :: PARAM_VIDEO_CONFERENCING);
+        $video_conferencing_id = $this->get_parameter(RepositoryManager :: PARAM_EXTERNAL_INSTANCE);
 
         $form = new VideoConferencingSettingsForm($this, $video_conferencing_id, 'config', 'post', $this->get_url());
         if ($form->validate())

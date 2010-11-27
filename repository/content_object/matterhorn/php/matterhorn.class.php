@@ -7,7 +7,7 @@ use common\libraries\Versionable;
 use common\libraries\AndCondition;
 
 use repository\ContentObject;
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 
 class Matterhorn extends ContentObject implements Versionable
 {
@@ -23,10 +23,10 @@ class Matterhorn extends ContentObject implements Versionable
         $synchronization_data = $this->get_synchronization_data();
 
         $conditions = array();
-        $conditions[] = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_VARIABLE, 'url');
-        $conditions[] = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $synchronization_data->get_external_repository_id());
+        $conditions[] = new EqualityCondition(ExternalSetting :: PROPERTY_VARIABLE, 'url');
+        $conditions[] = new EqualityCondition(ExternalSetting :: PROPERTY_EXTERNAL_ID, $synchronization_data->get_external_repository_id());
         $condition = new AndCondition($conditions);
-        $settings = $this->get_data_manager()->retrieve_external_repository_settings($condition)->next_result();
+        $settings = $this->get_data_manager()->retrieve_external_settings($condition)->next_result();
 
         return $settings->get_value() . '/engage/ui/embed.html?id=' . $synchronization_data->get_external_repository_object_id();
     }

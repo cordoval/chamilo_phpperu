@@ -132,9 +132,9 @@ class ExternalSetting extends DataClass
         return self :: CLASS_NAME;
     }
 
-    static function initialize(VideoConferencing $video_conferencing)
+    static function initialize(ExternalInstance $external_instance)
     {
-        $settings_file = Path :: get_common_extensions_path() . $video_conferencing->get_instance_type() . '/implementation/' . $video_conferencing->get_type() . '/php/settings/settings_' . $video_conferencing->get_type() . '.xml';
+        $settings_file = Path :: get_common_extensions_path() . $external_instance->get_instance_type() . '/implementation/' . $external_instance->get_type() . '/php/settings/settings_' . $external_instance->get_type() . '.xml';
 
         $doc = new DOMDocument();
 
@@ -145,7 +145,7 @@ class ExternalSetting extends DataClass
         foreach ($settings as $index => $setting)
         {
             $external_setting = new ExternalSetting();
-            $external_setting->set_external_id($video_conferencing->get_id());
+            $external_setting->set_external_id($external_instance->get_id());
             $external_setting->set_variable($setting->getAttribute('name'));
             $external_setting->set_value($setting->getAttribute('default'));
 

@@ -14,8 +14,8 @@ use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use repository\RepositoryDataManager;
-use repository\ExternalRepositorySetting;
-use repository\ExternalRepositoryUserSetting;
+use repository\ExternalSetting;
+use repository\ExternalUserSetting;
 
 use Dropbox_OAuth_PEAR;
 use Dropbox_API;
@@ -41,8 +41,8 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         parent :: __construct($external_repository_instance);
         
-        $this->key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
-        $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
+        $this->key = ExternalSetting :: get('key', $this->get_external_repository_instance_id());
+        $this->secret = ExternalSetting :: get('secret', $this->get_external_repository_instance_id());
         
         $this->oauth = new Dropbox_OAuth_PEAR($this->key, $this->secret);
         
