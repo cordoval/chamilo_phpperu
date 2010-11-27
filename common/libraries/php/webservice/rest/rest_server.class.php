@@ -2,17 +2,14 @@
 
 namespace common\libraries;
 
+require_once dirname(__FILE__) . '/rest_message.class.php';
+
 class RestServer
 {
     const ACCEPTED_FORMAT_PLAIN = 'text/plain';
     const ACCEPTED_FORMAT_HTML = 'text/html; charset=UTF-8';
     const ACCEPTED_FORMAT_JSON = 'application/json';
     const ACCEPTED_FORMAT_XML = 'application/xml';
-
-    const FORMAT_PLAIN = 'plain';
-    const FORMAT_HTML = 'html';
-    const FORMAT_JSON = 'json';
-    const FORMAT_XML = 'xml';
 
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
@@ -74,19 +71,19 @@ class RestServer
                 switch ($format)
                 {
                     case self :: ACCEPTED_FORMAT_HTML :
-                        $this->format = self :: FORMAT_HTML;
+                        $this->format = RestMessage :: FORMAT_HTML;
                         return;
                         break;
                     case self :: ACCEPTED_FORMAT_JSON :
-                        $this->format = self :: FORMAT_JSON;
+                        $this->format = RestMessage :: FORMAT_JSON;
                         return;
                         break;
                     case self :: ACCEPTED_FORMAT_XML :
-                        $this->format = self :: FORMAT_XML;
+                        $this->format = RestMessage :: FORMAT_XML;
                         return;
                         break;
                     case self :: ACCEPTED_FORMAT_PLAIN :
-                        $this->format = self :: FORMAT_PLAIN;
+                        $this->format = RestMessage :: FORMAT_PLAIN;
                         return;
                         break;
                 }
@@ -100,7 +97,7 @@ class RestServer
         }
         else
         {
-            $this->format = self :: FORMAT_PLAIN;
+            $this->format = RestMessage :: FORMAT_HTML;
         }
     }
 
@@ -146,37 +143,42 @@ class RestServer
             case self :: METHOD_GET :
                 if ($id)
                 {
-                    if (method_exists($this->webservice_handler, 'get_' . $object))
+                    if (method_exists($this->webservice_handler, 'get'))
                     {
-                        call_user_func(array($this->webservice_handler, 'get_' . $object), array($id, $this->data));
+                        $message = call_user_func(array($this->webservice_handler, 'get'), array($id, $this->data));
                     }
                 }
                 else
                 {
-                    if (method_exists($this->webservice_handler, 'get_' . $object))
+                    if (method_exists($this->webservice_handler, 'get_list'))
                     {
-                        call_user_func(array($this->webservice_handler, 'get_' . $object . '_list'), array($this->data));
+                        $message = call_user_func(array($this->webservice_handler, 'get_list'), array($this->data));
                     }
                 }
                 break;
             case self :: METHOD_POST :
-                if (method_exists($this->webservice_handler, 'create_' . $object))
+                if (method_exists($this->webservice_handler, 'create'))
                 {
-                    call_user_func(array($this->webservice_handler, 'create_' . $object), array($id, $this->data));
+                    $message = call_user_func(array($this->webservice_handler, 'create'), array($id, $this->data));
                 }
                 break;
             case self :: METHOD_PUT :
-                if (method_exists($this->webservice_handler, 'update_' . $object))
+                if (method_exists($this->webservice_handler, 'update'))
                 {
-                    call_user_func(array($this->webservice_handler, 'update_' . $object), array($id, $this->data));
+                    $message = call_user_func(array($this->webservice_handler, 'update'), array($id, $this->data));
                 }
                 break;
             case self :: METHOD_DELETE :
-                if (method_exists($this->webservice_handler, 'delete_' . $object))
+                if (method_exists($this->webservice_handler, 'delete'))
                 {
-                    call_user_func(array($this->webservice_handler, 'delete_' . $object), array($id, $this->data));
+                    $message = call_user_func(array($this->webservice_handler, 'delete'), array($id, $this->data));
                 }
                 break;
+        }
+
+        if($message instanceof RestMessage)
+        {
+            $message->render($this->format);
         }
     }
 
@@ -251,15 +253,8 @@ class RestServer
 
     public function get_formats()
     {
-        return array(self :: FORMAT_JSON, self :: FORMAT_XML, self :: FORMAT_HTML, self :: FORMAT_PLAIN);
+        return array(RestMessage :: FORMAT_JSON, RestMessage :: FORMAT_XML, RestMessage :: FORMAT_HTML, RestMessage :: FORMAT_PLAIN);
     }
 
 }
-
-// TEST SCRIPT
-include_once ('../../../../global.inc.php');
-
-$rest_server = new RestServer();
-$rest_server->handle();
-dump($rest_server);
 ?>

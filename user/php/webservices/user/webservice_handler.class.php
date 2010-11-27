@@ -2,29 +2,36 @@
 
 namespace user;
 
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\RestMessage;
+
 class UserWebserviceHandler
 {
-    function get_user_list($data)
+    function get_list($data)
     {
-        
+        $message = RestMessage :: factory(RestMessage :: TYPE_SUCCESS);
+        $message->set_success(true);
+        $message->set_message(Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES));
+        return $message;
     }
 
-    function get_user($id, $data)
-    {
-
-    }
-
-    function create_user($id, $data)
+    function get($id, $data)
     {
 
     }
 
-    function update_user($id, $data)
+    function create($id, $data)
     {
 
     }
 
-    function delete_user($id, $data)
+    function update($id, $data)
+    {
+
+    }
+
+    function delete($id, $data)
     {
         
     }
