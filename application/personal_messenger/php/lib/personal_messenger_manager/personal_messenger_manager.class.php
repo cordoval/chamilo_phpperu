@@ -93,7 +93,7 @@ class PersonalMessengerManager extends WebApplication
         $create = array();
         $create['title'] = Translation :: get('Send');
         $create['url'] = $this->get_personal_message_creation_url();
-        $create['class'] = 'create';
+        $create['class'] = 'type_compose';
         $extra_items[] = $create;
 
         $temp_replacement = '__FOLDER__';

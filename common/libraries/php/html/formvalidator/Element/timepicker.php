@@ -29,7 +29,7 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
         $this->_appendName = true;
         $this->_type = 'timepicker';
         $special_chars = array('D', 'l', 'd', 'M', 'F', 'm', 'y', 'H', 'a', 'A', 's', 'i', 'h', 'g', ' ');
-        $hour_minute_devider = Translation :: get("HourMinuteDivider");
+        $hour_minute_devider = Translation :: get('HourMinuteDivider', null, Utilities :: COMMON_LIBRARIES);
         foreach ($special_chars as $index => $char)
         {
             $popup_link = str_replace($char, "\\" . $char, $popup_link);
@@ -44,7 +44,19 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
         // If translation not available in PEAR::HTML_QuickForm_date, add the Chamilo-translation
         if (! array_key_exists($editor_lang, $this->_locale))
         {
-            $this->_locale[$editor_lang]['months_long'] = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
+            $this->_locale[$editor_lang]['months_long'] = array(
+                    Translation :: get("JanuaryLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("FebruaryLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("MarchLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("AprilLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("MayLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("JuneLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("JulyLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("AugustLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("SeptemberLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("OctoberLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("NovemberLong", null, Utilities :: COMMON_LIBRARIES),
+                    Translation :: get("DecemberLong", null, Utilities :: COMMON_LIBRARIES));
         }
 
         if ($include_minutes_picker)

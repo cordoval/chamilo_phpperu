@@ -14,7 +14,8 @@ use common\libraries\Authentication;
 /**
  * Repository manager component to edit an existing learning object.
  */
-class HomeManagerCreatorComponent extends HomeManager implements AdministrationComponent
+class HomeManagerCreatorComponent extends HomeManager implements
+        AdministrationComponent
 {
 
     /**
@@ -26,27 +27,31 @@ class HomeManagerCreatorComponent extends HomeManager implements AdministrationC
 
         $user = $this->get_user();
         $user_home_allowed = $this->get_platform_setting('allow_user_home');
-        
-        if ($user_home_allowed && Authentication :: is_valid())
-        {
-            $user_id = $user->get_id();
-        }
-        else
-        {
-            if (! $user->is_platform_admin())
-            {
-                $this->display_header();
-                Display :: error_message(Translation :: get('NotAllowed', null, Utilities::COMMON_LIBRARIES));
-                $this->display_footer();
-                exit();
-            }
-            
-            $user_id = '0';
-        }
-        
+
+        //        if ($user_home_allowed && Authentication :: is_valid())
+        //        {
+        //            $user_id = $user->get_id();
+        //        }
+        //        else
+        //        {
+        //            if (! $user->is_platform_admin())
+        //            {
+        //                $this->display_header();
+        //                Display :: error_message(Translation :: get('NotAllowed', null, Utilities::COMMON_LIBRARIES));
+        //                $this->display_footer();
+        //                exit();
+        //            }
+
+
+        $user_id = '0';
+        //        }
+
+
         if ($type)
         {
-            $url = $this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_CREATE_HOME, HomeManager :: PARAM_HOME_TYPE => $type));
+            $url = $this->get_url(array(
+                    Application :: PARAM_ACTION => HomeManager :: ACTION_CREATE_HOME,
+                    HomeManager :: PARAM_HOME_TYPE => $type));
             switch ($type)
             {
                 case HomeManager :: TYPE_BLOCK :
@@ -70,13 +75,14 @@ class HomeManagerCreatorComponent extends HomeManager implements AdministrationC
                     $form = new HomeTabForm(HomeTabForm :: TYPE_CREATE, $object, $url);
                     break;
             }
-            
+
             if ($object->get_user() == $user_id || ($object->get_user() == '0' && $user->is_platform_admin()))
             {
                 if ($form->validate())
                 {
                     $success = $form->create_object();
-                    $this->redirect(Translation :: get($success ? 'HomeCreated' : 'HomeNotCreated'), ($success ? false : true), array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
+                    $this->redirect(Translation :: get($success ? 'HomeCreated' : 'HomeNotCreated'), ($success ? false : true), array(
+                            Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
                 }
                 else
                 {
@@ -87,24 +93,26 @@ class HomeManagerCreatorComponent extends HomeManager implements AdministrationC
             }
             else
             {
-                $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities::COMMON_LIBRARIES)));
+                $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES)));
             }
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities::COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
-    
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManagerManagerComponent')));
-    	$breadcrumbtrail->add_help('home_creator');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManagerManagerComponent')));
+        $breadcrumbtrail->add_help('home_creator');
     }
-    
+
     function get_additional_parameters()
     {
-    	return array(HomeManager :: PARAM_HOME_TYPE);
+        return array(
+                HomeManager :: PARAM_HOME_TYPE);
     }
 }
 ?>

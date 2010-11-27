@@ -1,9 +1,13 @@
 <?php
 namespace common\extensions\feedback_manager;
 
+use common\extensions\repo_viewer\RepoViewer;
 use common\extensions\repo_viewer\RepoViewerInterface;
+
 use admin\FeedbackPublication;
+
 use repository\content_object\feedback\Feedback;
+
 use common\libraries\Translation;
 /**
  * $Id: creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

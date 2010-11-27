@@ -57,11 +57,6 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     private $external_repository;
 
-    static function get_i18n_context($configuration)
-    {
-
-    }
-
     /**
      * @param Application $application
      */

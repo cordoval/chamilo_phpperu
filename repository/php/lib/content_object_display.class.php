@@ -206,7 +206,7 @@ abstract class ContentObjectDisplay
                 {
                     $url = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=attachment_viewer&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $attachment->get_id();
                     $url = 'javascript:openPopup(\'' . $url . '\'); return false;';
-                    $html[] = '<li><a href="#" onClick="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($attachment->get_type()))) . '"/> ' . $attachment->get_title() . '</a></li>';
+                    $html[] = '<li><a href="#" onClick="' . $url . '"><img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($attachment->get_type())) . 'logo/' . Theme :: ICON_MINI . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($attachment->get_type()))) . '"/> ' . $attachment->get_title() . '</a></li>';
                 }
                 $html[] = '</ul>';
                 $html[] = '</div>';

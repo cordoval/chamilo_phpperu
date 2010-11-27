@@ -218,7 +218,8 @@ class DatabaseRepositoryDataManager extends Database implements
         {
             return array();
         }
-        $array = array_map(array($this, 'escape_column_name'), $content_object->get_additional_property_names());
+        $array = array_map(array($this,
+                'escape_column_name'), $content_object->get_additional_property_names());
 
         if (count($array) == 0)
         {
@@ -264,7 +265,9 @@ class DatabaseRepositoryDataManager extends Database implements
         {
             $query = 'SELECT COUNT(' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER, $content_object_alias) . ') FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias;
             $match = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
-            $condition = isset($condition) ? new AndCondition(array($match, $condition)) : $match;
+            $condition = isset($condition) ? new AndCondition(array(
+                    $match,
+                    $condition)) : $match;
         }
 
         $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . $content_object_version_alias . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_version_alias);
@@ -710,7 +713,8 @@ class DatabaseRepositoryDataManager extends Database implements
         else
         {
             $condition = new InCondition(ContentObject :: PROPERTY_ID, $object_ids);
-            $properties = array(ContentObject :: PROPERTY_STATE => $state);
+            $properties = array(
+                    ContentObject :: PROPERTY_STATE => $state);
             return $this->update_objects(ContentObject :: get_table_name(), $properties, $condition);
         }
     }
@@ -745,7 +749,8 @@ class DatabaseRepositoryDataManager extends Database implements
     function get_version_ids($object)
     {
         $condition = new EqualityCondition(ContentObject :: PROPERTY_OBJECT_NUMBER, $object->get_object_number());
-        $order_by = array(new ObjectTableOrder(ContentObject :: PROPERTY_ID));
+        $order_by = array(
+                new ObjectTableOrder(ContentObject :: PROPERTY_ID));
 
         $version_ids = array();
         $query = 'SELECT ' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . ' FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
@@ -855,7 +860,13 @@ class DatabaseRepositoryDataManager extends Database implements
 		 *   marks that are not escaped with the SQL equivalent _.
 		======================================================================
 		 */
-        return preg_replace(array('/([%\'\\\\_])/e', '/(?<!\\\\)\*/', '/(?<!\\\\)\?/'), array("'\\\\\\\\' . '\\1'", '%', '_'), $string);
+        return preg_replace(array(
+                '/([%\'\\\\_])/e',
+                '/(?<!\\\\)\*/',
+                '/(?<!\\\\)\?/'), array(
+                "'\\\\\\\\' . '\\1'",
+                '%',
+                '_'), $string);
     }
 
     /**
@@ -879,14 +890,17 @@ class DatabaseRepositoryDataManager extends Database implements
         foreach ($types as $index => $type)
         {
             $class = ContentObject :: type_to_class($type);
-            $properties = call_user_func(array($class, 'get_disk_space_properties'));
+            $properties = call_user_func(array(
+                    $class,
+                    'get_disk_space_properties'));
             if (is_null($properties))
             {
                 continue;
             }
             if (! is_array($properties))
             {
-                $properties = array($properties);
+                $properties = array(
+                        $properties);
             }
             $sum = array();
             foreach ($properties as $index => $property)
@@ -902,7 +916,9 @@ class DatabaseRepositoryDataManager extends Database implements
             {
                 $query = 'SELECT ' . implode('+', $sum) . ' AS disk_space FROM ' . $this->escape_table_name(ContentObject :: get_table_name());
                 $match = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
-                $condition = new AndCondition(array($match, $condition_owner));
+                $condition = new AndCondition(array(
+                        $match,
+                        $condition_owner));
             }
 
             if (isset($condition))
@@ -1288,12 +1304,14 @@ class DatabaseRepositoryDataManager extends Database implements
         $conditions[] = new InequalityCondition(RepositoryCategory :: PROPERTY_DISPLAY_ORDER, InequalityCondition :: GREATER_THAN, $category->get_display_order());
         $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $category->get_parent());
         $condition = new AndCondition($conditions);
-        $properties = array(RepositoryCategory :: PROPERTY_DISPLAY_ORDER => ($this->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER) . '-1'));
+        $properties = array(
+                RepositoryCategory :: PROPERTY_DISPLAY_ORDER => ($this->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER) . '-1'));
         $this->update_objects(RepositoryCategory :: get_table_name(), $properties, $condition);
 
         // Move the objecs in the category to the garbage bin
         $condition = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category->get_id());
-        $properties = array(ContentObject :: PROPERTY_STATE => '1');
+        $properties = array(
+                ContentObject :: PROPERTY_STATE => '1');
         $this->update_objects(ContentObject :: get_table_name(), $properties, $condition);
 
         // Delete all subcategories by recursively repeating the entire process
@@ -1331,7 +1349,8 @@ class DatabaseRepositoryDataManager extends Database implements
     {
         if ($order_property instanceof ObjectTableOrder)
         {
-            $order_property = array($order_property);
+            $order_property = array(
+                    $order_property);
         }
 
         $order_property[] = new ObjectTableOrder(RepositoryCategory :: PROPERTY_PARENT);
@@ -1637,7 +1656,9 @@ class DatabaseRepositoryDataManager extends Database implements
 
     function delete_assisting_content_objects($object)
     {
-        $assisting_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
+        $assisting_types = array(
+                LearningPathItem :: get_type_name(),
+                PortfolioItem :: get_type_name());
 
         $failures = 0;
 
@@ -1949,13 +1970,49 @@ class DatabaseRepositoryDataManager extends Database implements
         return $this->retrieve_object_set($query, ContentObject :: get_table_name(), $condition, $offset, $count, $order_property, ContentObject :: CLASS_NAME);
     }
 
+    function retrieve_shared_type_content_objects($type, Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null)
+    {
+        $query = $this->get_shared_objects_query($type);
+        $condition = $this->get_type_condition($type, $condition);
+
+        return $this->retrieve_object_set($query, ContentObject :: get_table_name(), $condition, $offset, $count, $order_property, ContentObject :: CLASS_NAME);
+    }
+
     function count_shared_content_objects(Condition $condition = null)
     {
-        $query = $this->get_shared_objects_query(true);
+        $query = $this->get_shared_objects_query(null, true);
         return $this->count_result_set($query, ContentObject :: get_table_name(), $condition);
     }
 
-    private function get_shared_objects_query($count = false)
+    function count_shared_type_content_objects($type, Condition $condition = null)
+    {
+        $query = $this->get_shared_objects_query($type, true);
+        $condition = $this->get_type_condition($type, $condition);
+
+        return $this->count_result_set($query, ContentObject :: get_table_name(), $condition);
+    }
+
+    private function get_type_condition($type, $condition)
+    {
+        if (! ContentObject :: is_extended_type($type))
+        {
+            if (! $condition)
+            {
+                $condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type, $this->get_alias(ContentObject :: get_table_name()));
+            }
+            else
+            {
+                $conditions = array();
+                $conditions[] = $condition;
+                $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type, $this->get_alias(ContentObject :: get_table_name()));
+                $condition = new AndCondition($conditions);
+            }
+        }
+
+        return $condition;
+    }
+
+    private function get_shared_objects_query($type = null, $count = false)
     {
         $content_object_table = $this->escape_table_name(ContentObject :: get_table_name());
         $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
@@ -1981,6 +2038,16 @@ class DatabaseRepositoryDataManager extends Database implements
         $query .= $content_object_alias . '.' . ContentObject :: PROPERTY_ID . ' = ' . $content_object_user_share_alias . '.' . ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID;
         $query .= ' LEFT JOIN ' . $content_object_group_share_table . '  AS ' . $content_object_group_share_alias . ' ON ';
         $query .= $content_object_alias . '.' . ContentObject :: PROPERTY_ID . ' = ' . $content_object_group_share_alias . '.' . ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID;
+
+        if (! is_null($type))
+        {
+            $type_alias = $this->get_alias($type);
+
+            if (ContentObject :: is_extended_type($type))
+            {
+                $query .= ' JOIN ' . $this->escape_table_name($type) . ' AS ' . $type_alias . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $type_alias);
+            }
+        }
 
         return $query;
     }
@@ -2012,7 +2079,8 @@ class DatabaseRepositoryDataManager extends Database implements
 
         if (! is_array($types))
         {
-            $types = array($types);
+            $types = array(
+                    $types);
         }
 
         if (count($types) > 0)
@@ -2022,7 +2090,8 @@ class DatabaseRepositoryDataManager extends Database implements
 
         if (! is_array($manager_types))
         {
-            $manager_types = array($manager_types);
+            $manager_types = array(
+                    $manager_types);
         }
 
         if (count($manager_types) > 0)
