@@ -28,6 +28,7 @@ class Document extends ContentObject implements Versionable
 
     const TYPE_IMAGE = 'image';
     const TYPE_FLASH = 'flash';
+    const TYPE_FLASH_VIDEO = 'flash_video';
     const TYPE_VIDEO = 'video';
     const TYPE_AUDIO = 'audio';
 
@@ -514,6 +515,15 @@ class Document extends ContentObject implements Versionable
         $flash_types = array();
         $flash_types[] = 'swf';
         $flash_types[] = 'SWF';
+
+        return $flash_types;
+    }
+
+    static function get_flash_video_types()
+    {
+        $flash_types = array();
+        $flash_types[] = 'flv';
+        $flash_types[] = 'FLV';
 
         return $flash_types;
     }
