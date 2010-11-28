@@ -1,7 +1,13 @@
-<?php namespace repository\content_object\survey;
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/forms/context_form.class.php';
+<?php 
+namespace repository\content_object\survey;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context.class.php';
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
+use common\libraries\Translation;
+
+require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/forms/context_form.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context.class.php';
 
 class SurveyContextManagerContextCreatorComponent extends SurveyContextManager
 {

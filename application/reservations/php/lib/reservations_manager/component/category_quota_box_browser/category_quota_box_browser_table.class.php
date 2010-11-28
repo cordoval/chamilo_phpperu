@@ -32,7 +32,7 @@ class CategoryQuotaBoxBrowserTable extends ObjectTable
         $model = new CategoryQuotaBoxBrowserTableColumnModel();
         $renderer = new CategoryQuotaBoxBrowserTableCellRenderer($browser);
         $data_provider = new CategoryQuotaBoxBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(_CLASS__, true), $model, $renderer);
         $this->set_additional_parameters($parameters);
 
         if ($browser->get_user() && $browser->get_user()->is_platform_admin())

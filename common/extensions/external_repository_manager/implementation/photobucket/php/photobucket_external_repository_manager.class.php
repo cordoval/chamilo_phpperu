@@ -14,7 +14,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
 
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 use repository\content_object\document\Document;
 /**
  *
@@ -51,15 +51,15 @@ class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#validate_settings()
      */
-    function validate_settings()
+    function validate_settings($external_repository)
     {
-//    	$key = ExternalRepositorySetting :: get('key');
-//        $secret = ExternalRepositorySetting :: get('secret');
-//
-//        if (! $key || ! $secret)
-//        {
-//            return false;
-//        }
+    	$key = ExternalSetting :: get('consumer_key', $external_repository->get_id());
+        $secret = ExternalSetting :: get('consumer_secret', $external_repository->get_id());
+
+        if (! $key || ! $secret)
+        {
+            return false;
+        }
         return true;
     }
 
@@ -121,7 +121,7 @@ class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
 
-        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
+        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalSetting :: get_all($this->get_external_repository()->get_id())) > 0);
 
         if ($is_platform)
         {

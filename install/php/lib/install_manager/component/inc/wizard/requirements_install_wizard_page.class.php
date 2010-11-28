@@ -94,7 +94,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 
         $array[] = $diagnoser->build_setting($status, '[PHP-INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('OutputBufferingInfo', null, Utilities :: COMMON_LIBRARIES), $path);
 
-        $extensions = array('gd' => 'http://www.php.net/gd', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://www.php.net/xsl', 'openssl' => 'http://www.php.net/openssl', 'curl' => 'http://www.php.net/curl');
+        $extensions = array('gd' => 'http://www.php.net/gd', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://www.php.net/xsl'/*, 'openssl' => 'http://www.php.net/openssl', 'curl' => 'http://www.php.net/curl'*/);
 
         foreach ($extensions as $extension => $url)
         {

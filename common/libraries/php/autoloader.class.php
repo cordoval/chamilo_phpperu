@@ -27,6 +27,11 @@ class Autoloader
             return true;
         }
 
+        if (self :: check_for_fedora_files())
+        {
+            return true;
+        }
+
         if (self :: check_for_interface_files())
         {
             return true;
@@ -198,6 +203,7 @@ class Autoloader
                 'action_bar_renderer' => 'action_bar/action_bar_renderer.class.php',
                 'image_content_object_table' => "formvalidator/html_editor/html_editor_file_browser/html_editor_repo_viewer/image/component/image_content_object_table/image_content_object_table.class.php",
                 'html_editor_repo_viewer' => 'formvalidator/html_editor/html_editor_file_browser/html_editor_repo_viewer/html_editor_repo_viewer.class.php',
+                'template_cache' => 'layout/template_cache.class.php',
             );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
@@ -206,6 +212,25 @@ class Autoloader
         {
             $url = $list[$lower_case];
             require_once dirname(__FILE__) . '/html/' . $url;
+            return true;
+        }
+
+        return false;
+    }
+
+    static function check_for_fedora_files()
+    {
+        $list = array(
+            'fedora_fs_base' => 'fs/fedora_fs_base.class.php',
+            'fedora_fs_folder' => 'fs/fedora_fs_folder.class.php',
+        );
+
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
+
+        if (key_exists($lower_case, $list))
+        {
+            $url = $list[$lower_case];
+            require_once dirname(__FILE__) . '/fedora/' . $url;
             return true;
         }
 
@@ -288,7 +313,9 @@ class Autoloader
                 'rss_icon_generator' => 'util/rss_icon_generator/rss_icon_generator.class.php',
                 'chamilo_test_suite' => 'test/chamilo_test_suite.class.php',
                 'file_logger' => 'filesystem/file_logger.class.php',
-                'timer' => 'datetime/timer.class.php');
+                'timer' => 'datetime/timer.class.php',
+                'publication_r_s_s' => 'rss/publication_rss.class.php',
+                'rest_server' => 'webservice/rest/rest_server.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

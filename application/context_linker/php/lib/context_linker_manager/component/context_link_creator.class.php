@@ -8,6 +8,8 @@ use repository\RepositoryDataManager;
 use repository\content_object\document\Document;
 use repository\content_object\youtube\Youtube;
 use common\libraries\Utilities;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 
 /**
  * Component to create a new context_link object
@@ -23,6 +25,11 @@ class ContextLinkerManagerContextLinkCreatorComponent extends ContextLinkerManag
     
     function run()
     {
+        $trail = new BreadcrumbTrail;
+        $trail->add(new Breadcrumb($this->get_url(array(ContextLinkerManager :: PARAM_ACTION => null)), Translation :: get('ContextLinker')));
+        $trail->add(new Breadcrumb(Translation :: get('CreateObject', array('OBJECT' => Translation::get('ContextLink')), Utilities::COMMON_LIBRARIES)));
+        $trail->add_help('ContextLinkCreator');
+        
         $rdm = RepositoryDataManager :: get_instance();
         if($this->content_object = $rdm->retrieve_content_object(Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID)))
         {
@@ -51,7 +58,7 @@ class ContextLinkerManagerContextLinkCreatorComponent extends ContextLinkerManag
         }
         else
         {
-            $this->display_header();
+            $this->display_header($trail);
             echo '<p>' . Translation :: get('NoContentObjectSelected', null, 'repository') . '</p>';
             $this->display_footer();
         }

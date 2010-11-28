@@ -84,7 +84,7 @@ abstract class SurveyContext extends DataClass
 
     static function factory($type, $defaultProperties = array(), $additionalProperties = null)
     {
-        $class = self :: type_to_class($type);
+    	$class = __NAMESPACE__.'\\'. self :: type_to_class($type);
         require_once dirname(__FILE__) . '/context/' . $type . '/' . $type . '.class.php';
         return new $class($defaultProperties, $additionalProperties);
     }

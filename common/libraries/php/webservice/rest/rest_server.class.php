@@ -1,4 +1,9 @@
 <?php
+
+namespace common\libraries;
+
+require_once dirname(__FILE__) . '/rest_message.class.php';
+
 class RestServer
 {
     const ACCEPTED_FORMAT_PLAIN = 'text/plain';
@@ -6,23 +11,24 @@ class RestServer
     const ACCEPTED_FORMAT_JSON = 'application/json';
     const ACCEPTED_FORMAT_XML = 'application/xml';
 
-    const FORMAT_PLAIN = 'plain';
-    const FORMAT_HTML = 'html';
-    const FORMAT_JSON = 'json';
-    const FORMAT_XML = 'xml';
-
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
     const METHOD_PUT = 'PUT';
     const METHOD_DELETE = 'DELETE';
 
+    const PARAM_ID = 'id';
+    const PARAM_APPLICATION = 'application';
+    const PARAM_OBJECT = 'object';
+
     public $url;
     public $method;
     public $format;
     public $data;
+    public $webservice_handler;
 
     function __construct()
     {
+
     }
 
     function handle()
@@ -36,6 +42,7 @@ class RestServer
         $this->determine_method();
         $this->determine_format();
         $this->determine_data();
+        $this->determine_webservice_handler();
     }
 
     public function determine_path()
@@ -64,19 +71,19 @@ class RestServer
                 switch ($format)
                 {
                     case self :: ACCEPTED_FORMAT_HTML :
-                        $this->format = self :: FORMAT_HTML;
+                        $this->format = RestMessage :: FORMAT_HTML;
                         return;
                         break;
                     case self :: ACCEPTED_FORMAT_JSON :
-                        $this->format = self :: FORMAT_JSON;
+                        $this->format = RestMessage :: FORMAT_JSON;
                         return;
                         break;
                     case self :: ACCEPTED_FORMAT_XML :
-                        $this->format = self :: FORMAT_XML;
+                        $this->format = RestMessage :: FORMAT_XML;
                         return;
                         break;
                     case self :: ACCEPTED_FORMAT_PLAIN :
-                        $this->format = self :: FORMAT_PLAIN;
+                        $this->format = RestMessage :: FORMAT_PLAIN;
                         return;
                         break;
                 }
@@ -90,7 +97,7 @@ class RestServer
         }
         else
         {
-            $this->format = self :: FORMAT_PLAIN;
+            $this->format = RestMessage :: FORMAT_HTML;
         }
     }
 
@@ -100,6 +107,9 @@ class RestServer
         {
             case self :: METHOD_GET :
                 $this->data = $_GET;
+                unset($this->data[self :: PARAM_APPLICATION]);
+                unset($this->data[self :: PARAM_OBJECT]);
+                unset($this->data[self :: PARAM_ID]);
                 break;
             case self :: METHOD_POST :
                 $this->data = $_POST;
@@ -107,10 +117,68 @@ class RestServer
             case self :: METHOD_PUT :
                 parse_str(file_get_contents('php://input'), $_PUT);
                 $this->data = $_PUT;
+                break;
             case self :: METHOD_DELETE :
                 parse_str(file_get_contents('php://input'), $_DELETE);
                 $this->data = $_DELETE;
                 break;
+        }
+    }
+
+    public function determine_webservice_handler()
+    {
+        $application = Request :: get(self :: PARAM_APPLICATION);
+        $object = Request :: get(self :: PARAM_OBJECT);
+        $id = Request :: get(self :: PARAM_ID);
+
+        $type = Application :: get_type($application);
+        $path = $type :: get_application_path($application) . 'php/webservices/' . $object . '/webservice_handler.class.php';
+        require_once($path);
+        $class = Application :: determine_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($object) . 'WebserviceHandler';
+
+        $this->webservice_handler = new $class();
+
+        switch ($this->get_method())
+        {
+            case self :: METHOD_GET :
+                if ($id)
+                {
+                    if (method_exists($this->webservice_handler, 'get'))
+                    {
+                        $message = call_user_func(array($this->webservice_handler, 'get'), array($id, $this->data));
+                    }
+                }
+                else
+                {
+                    if (method_exists($this->webservice_handler, 'get_list'))
+                    {
+                        $message = call_user_func(array($this->webservice_handler, 'get_list'), array($this->data));
+                    }
+                }
+                break;
+            case self :: METHOD_POST :
+                if (method_exists($this->webservice_handler, 'create'))
+                {
+                    $message = call_user_func(array($this->webservice_handler, 'create'), array($id, $this->data));
+                }
+                break;
+            case self :: METHOD_PUT :
+                if (method_exists($this->webservice_handler, 'update'))
+                {
+                    $message = call_user_func(array($this->webservice_handler, 'update'), array($id, $this->data));
+                }
+                break;
+            case self :: METHOD_DELETE :
+                if (method_exists($this->webservice_handler, 'delete'))
+                {
+                    $message = call_user_func(array($this->webservice_handler, 'delete'), array($id, $this->data));
+                }
+                break;
+        }
+
+        if($message instanceof RestMessage)
+        {
+            $message->render($this->format);
         }
     }
 
@@ -185,15 +253,8 @@ class RestServer
 
     public function get_formats()
     {
-        return array(self :: FORMAT_JSON, self :: FORMAT_XML, self :: FORMAT_HTML, self :: FORMAT_PLAIN);
+        return array(RestMessage :: FORMAT_JSON, RestMessage :: FORMAT_XML, RestMessage :: FORMAT_HTML, RestMessage :: FORMAT_PLAIN);
     }
 
 }
-
-// TEST SCRIPT
-//include_once ('../../global.inc.php');
-//
-//$rest_server = new RestServer();
-//$rest_server->handle();
-//dump($rest_server);
 ?>

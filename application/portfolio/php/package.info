@@ -13,6 +13,10 @@
 			</author>
 		</authors>
 		<version>1.0.0</version>
+		<release>
+			<phase>GA</phase>
+			<realm>main</realm>
+		</release>
 		<filename>pool/main/application/p/portfolio/portfolio-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
@@ -26,7 +30,7 @@
 			<server>
 				<dependency>
 					<id>php</id>
-					<version type="4">5.2.0</version>
+					<version type="4">5.3.0</version>
 					<severity>1</severity>
 				</dependency>
 			</server>

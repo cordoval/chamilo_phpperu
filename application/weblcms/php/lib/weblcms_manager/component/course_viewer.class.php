@@ -166,9 +166,15 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
                 $class = Tool :: type_to_class($tool);
 
                 $this->set_tool_class($class);
-                $wdm->log_course_module_access($this->get_course_id(), $this->get_user_id(), $tool, $category);
 
                 Tool :: launch($tool, $this);
+
+                /**
+                 * Only log the module access after everything's been rendered or handled or users will
+                 * see there's something new on the course homepage, but not wich publications once
+                 * they open the tool.
+                 */
+                $wdm->log_course_module_access($this->get_course_id(), $this->get_user_id(), $tool, $category);
             }
         }
         else

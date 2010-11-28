@@ -3,7 +3,7 @@ namespace common\extensions\external_repository_manager\implementation\mediamosa
 
 use common\libraries\Utilities;
 use common\libraries\FormValidator;
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -26,7 +26,7 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator
         $this->upload_ticket = $upload_ticket;
 
         $this->connector = $this->application->get_external_repository_connector();
-        $this->method = ExternalRepositorySetting :: get('upload_method', $this->connector->get_external_repository_instance_id());
+        $this->method = ExternalSetting :: get('upload_method', $this->connector->get_external_repository_instance_id());
 
         parent :: __construct('mediamosa_upload', $this->method, $this->upload_ticket['action']);
 

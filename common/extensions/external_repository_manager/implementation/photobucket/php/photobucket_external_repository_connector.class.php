@@ -5,14 +5,15 @@ use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Session;
 use common\libraries\Utilities;
+use common\libraries\Redirect;
 use common\libraries\ArrayResultSet;
 
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use repository\RepositoryDataManager;
-use repository\ExternalRepositorySetting;
-use repository\ExternalRepositoryUserSetting;
+use repository\ExternalSetting;
+use repository\ExternalUserSetting;
 
 use PBAPI;
 
@@ -37,9 +38,9 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         parent :: __construct($external_repository_instance);
         
-        $this->key = ExternalRepositorySetting :: get('consumer_key', $this->get_external_repository_instance_id());
-        $this->secret = ExternalRepositorySetting :: get('consumer_secret', $this->get_external_repository_instance_id());
-        $url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
+        $this->key = ExternalSetting :: get('consumer_key', $this->get_external_repository_instance_id());
+        $this->secret = ExternalSetting :: get('consumer_secret', $this->get_external_repository_instance_id());
+        $url = ExternalSetting :: get('url', $this->get_external_repository_instance_id());
         $this->login();
     }
 
@@ -48,7 +49,7 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
         $this->consumer = new PBAPI($this->key, $this->secret);
         $this->consumer->setResponseParser('simplexmlarray');
         
-        $this->photobucket_session = unserialize(ExternalRepositoryUserSetting :: get('session', $this->get_external_repository_instance_id()));
+        $this->photobucket_session = unserialize(ExternalUserSetting :: get('session', $this->get_external_repository_instance_id()));
         $oauth_access_token = $this->photobucket_session['photobucket_access_token'];
         
         $oauth_request_token = Session :: retrieve('photobucket_request_token');
@@ -73,8 +74,8 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
                 $session_array['photobucket_subdomain'] = $this->consumer->getSubdomain();
                 $session_array = serialize($session_array);
                 
-                $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session', $this->get_external_repository_instance_id());
-                $user_setting = new ExternalRepositoryUserSetting();
+                $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name('session', $this->get_external_repository_instance_id());
+                $user_setting = new ExternalUserSetting();
                 $user_setting->set_setting_id($setting->get_id());
                 $user_setting->set_user_id(Session :: get_user_id());
                 $user_setting->set_value($session_array);

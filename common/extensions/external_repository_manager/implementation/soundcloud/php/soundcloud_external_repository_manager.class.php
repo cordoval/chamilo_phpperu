@@ -14,7 +14,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryObjectRender
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 
 require_once dirname(__FILE__) . '/soundcloud_external_repository_connector.class.php';
 
@@ -52,10 +52,10 @@ class SoundcloudExternalRepositoryManager extends ExternalRepositoryManager
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#validate_settings()
      */
-    function validate_settings()
+    function validate_settings($external_repository)
     {
-        $key = ExternalRepositorySetting :: get('key');
-        $secret = ExternalRepositorySetting :: get('secret');
+        $key = ExternalSetting :: get('key',$external_repository->get_id());
+        $secret = ExternalSetting :: get('secret', $external_repository->get_id());
 
         if (! $key || ! $secret)
         {
@@ -133,7 +133,7 @@ class SoundcloudExternalRepositoryManager extends ExternalRepositoryManager
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
 
-        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
+        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalSetting :: get_all($this->get_external_repository()->get_id())) > 0);
 
         if ($is_platform)
         {

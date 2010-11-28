@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 use repository\QtiImport;
+use common\libraries\Qti;
+use common\libraries\ImsQtiReader;
 
 require_once dirname(__FILE__) .'/qti_question_builder.class.php';
 

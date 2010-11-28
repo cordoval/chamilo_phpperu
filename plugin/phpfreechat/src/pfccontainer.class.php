@@ -2,17 +2,17 @@
 /**
  * pfccontainer.class.php
  *
- * Copyright © 2006 Stephane Gully <stephane.gully@gmail.com>
+ * Copyright ï¿½ 2006 Stephane Gully <stephane.gully@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the
@@ -22,7 +22,7 @@
 
  require_once dirname(__FILE__)."/pfccontainerinterface.class.php";
  require_once dirname(__FILE__)."/pfcurlprocessing.php";
- 
+
 /**
  * pfcContainer is an abstract class which define interface
  * to be implemented by concrete container (example: File)
@@ -41,16 +41,16 @@ class pfcContainer extends pfcContainerInterface
     static $i;
     if (!isset($i))
       $i = new pfcContainer($type, $usememorycache);
-    return $i;    
+    return $i;
   }
-  
+
   function __construct($type = 'File', $usememorycache = true)
   {
-    pfcContainerInterface::pfcContainerInterface();
+    pfcContainerInterface::__construct();
 
     $this->_usememorycache = $usememorycache;
     $type = strtolower($type);
-    
+
     // create the concrete container instance
     require_once dirname(__FILE__)."/containers/".$type.".class.php";
     $container_classname = "pfcContainer_".$type;
@@ -68,7 +68,7 @@ class pfcContainer extends pfcContainerInterface
     if ($this->_container)
       return $this->_container->init($c);
   }
-  
+
   /**
    * Create (connect/join) the nickname into the server or the channel locations
    * Notice: the caller must take care to update all channels the users joined (use stored channel list into metadata)
@@ -82,10 +82,10 @@ class pfcContainer extends pfcContainerInterface
     $c =& pfcGlobalConfig::Instance();
 
     if ($nick == '')
-      user_error('pfcContainer::createNick nick is empty', E_USER_ERROR);      
+      user_error('pfcContainer::createNick nick is empty', E_USER_ERROR);
     if ($nickid == '')
-      user_error('pfcContainer::createNick nickid is empty', E_USER_ERROR);      
-    
+      user_error('pfcContainer::createNick nickid is empty', E_USER_ERROR);
+
     if ($chan == NULL) $chan = 'SERVER';
 
     $this->setMeta("nickid-to-metadata",  $nickid, 'nick', $nick);
@@ -96,33 +96,33 @@ class pfcContainer extends pfcContainerInterface
 
     // update the SERVER channel
     if ($chan != 'SERVER') $this->updateNick($nickid);
-    
+
     return true;
   }
   */
-  
+
   function createNick($nickid, $nick)
   {
     $c =& pfcGlobalConfig::Instance();
 
     if ($nick == '')
-      user_error('pfcContainer::createNick nick is empty', E_USER_ERROR);      
+      user_error('pfcContainer::createNick nick is empty', E_USER_ERROR);
     if ($nickid == '')
-      user_error('pfcContainer::createNick nickid is empty', E_USER_ERROR);      
-    
+      user_error('pfcContainer::createNick nickid is empty', E_USER_ERROR);
+
     $this->setMeta("nickid-to-metadata",  $nickid, 'nick', $nick);
     $this->setMeta("metadata-to-nickid",  'nick', $this->encode($nick), $nickid);
-    
+
     return true;
   }
-  
-  
+
+
   function joinChan($nickid, $chan)
   {
     $c =& pfcGlobalConfig::Instance();
 
     if ($nickid == '')
-      user_error('pfcContainer::joinChan nickid is empty', E_USER_ERROR);      
+      user_error('pfcContainer::joinChan nickid is empty', E_USER_ERROR);
 
     if ($chan == NULL) $chan = 'SERVER';
 
@@ -131,12 +131,12 @@ class pfcContainer extends pfcContainerInterface
 
     // update the SERVER channel
     if ($chan == 'SERVER') $this->updateNick($nickid);
-    
+
     return true;
   }
 
 
-  
+
   /**
    * Remove (disconnect/quit) the nickname from the server or from a channel
    * Notice: when a user quit, the caller must take care removeNick from each channels ('SERVER' included)
@@ -148,24 +148,24 @@ class pfcContainer extends pfcContainerInterface
   function removeNick($chan, $nickid)
   {
     $c =& pfcGlobalConfig::Instance();
-    
+
     if ($chan == NULL) $chan = 'SERVER';
 
     $deleted_user = array();
     $deleted_user["nick"]      = array();
     $deleted_user["nickid"]    = array();
     $deleted_user["timestamp"] = array();
-    
+
     if (!$nickid) return $deleted_user;
 
     $timestamp = $this->getMeta("channelid-to-nickid", $this->encode('SERVER'), $nickid);
     if (count($timestamp["timestamp"]) == 0) return $deleted_user;
     $timestamp = $timestamp["timestamp"][0];
-    
+
     $deleted_user["nick"][]      = $this->getNickname($nickid);
     $deleted_user["nickid"][]    = $nickid;
     $deleted_user["timestamp"][] = $timestamp;
-        
+
     // remove the nickid from the channel list
     $this->rmMeta('channelid-to-nickid', $this->encode($chan), $nickid);
     $this->rmMeta('nickid-to-channelid', $nickid, $this->encode($chan));
@@ -235,7 +235,7 @@ class pfcContainer extends pfcContainerInterface
     $newnickid = $this->getNickId($newnick);
     if ($oldnickid == "") return false; // the oldnick must be connected
     if ($newnickid != "") return false; // the newnick must not be inuse
-    
+
     // remove the oldnick to oldnickid correspondance
     $this->rmMeta("metadata-to-nickid", 'nick', $this->encode($oldnick));
 
@@ -273,7 +273,7 @@ class pfcContainer extends pfcContainerInterface
 
   /**
    * Remove (disconnect/quit) the timeouted nicknames
-   * Notice: this function will remove all nicknames which are not uptodate from all his joined channels 
+   * Notice: this function will remove all nicknames which are not uptodate from all his joined channels
    * @param $timeout
    * @return array("nickid"=>array("nickid1", ...),"timestamp"=>array(timestamp1, ...)) contains all disconnected nickids and there timestamp
    */
@@ -309,10 +309,10 @@ class pfcContainer extends pfcContainerInterface
         // (order is important because the SERVER channel has timestamp informations)
         $du = $this->removeNick('SERVER', $nickid);
         $channels[] = 'SERVER';
-        
+
         $deleted_user["nick"]      = array_merge($deleted_user["nick"],      $du["nick"]);
         $deleted_user["nickid"]    = array_merge($deleted_user["nickid"],    $du["nickid"]);
-        $deleted_user["timestamp"] = array_merge($deleted_user["timestamp"], $du["timestamp"]);       
+        $deleted_user["timestamp"] = array_merge($deleted_user["timestamp"], $du["timestamp"]);
         $deleted_user["channels"]  = array_merge($deleted_user["channels"],  array($channels));
       }
     }
@@ -328,7 +328,7 @@ class pfcContainer extends pfcContainerInterface
   function getOnlineNick($chan)
   {
     $c =& pfcGlobalConfig::Instance();
-    
+
     if ($chan == NULL) $chan = 'SERVER';
 
     $online_user = array('nick'=>array(),'nickid'=>array(),'timestamp'=>array());
@@ -348,7 +348,7 @@ class pfcContainer extends pfcContainerInterface
     }
     return $online_user;
   }
-  
+
   /**
    * Returns returns a positive number if the nick is online in the given channel
    * @param $chan if NULL then check if the user is online on the server, otherwise check if the user has joined the channel
@@ -362,7 +362,7 @@ class pfcContainer extends pfcContainerInterface
     $ret = $this->getMeta("channelid-to-nickid",
                           $this->encode($chan),
                           $nickid);
-    
+
     return (count($ret['timestamp']) > 0);
   }
 
@@ -379,7 +379,7 @@ class pfcContainer extends pfcContainerInterface
   {
     $c =& pfcGlobalConfig::Instance();
     if ($chan == NULL) $chan = 'SERVER';
-    
+
     $msgid = $this->_requestMsgId($chan);
 
     // format message
@@ -432,7 +432,7 @@ class pfcContainer extends pfcContainerInterface
         $data["param"]     = $formated_line[4];
         $datalist[$data["id"]] = $data;
       }
-    }   
+    }
     return array("data" => $datalist,
                  "new_from_id" => $new_from_id+1 );
   }
@@ -446,7 +446,7 @@ class pfcContainer extends pfcContainerInterface
   function getLastId($chan)
   {
     if ($chan == NULL) $chan = 'SERVER';
-    
+
     $lastmsgid = $this->getMeta("channelid-to-msgid", $this->encode($chan), 'lastmsgid', true);
     if (count($lastmsgid["value"]) == 0)
       $lastmsgid = 0;
@@ -455,18 +455,18 @@ class pfcContainer extends pfcContainerInterface
     return $lastmsgid;
   }
 
-  
+
   /**
    * Return a unique id. Each time this function is called, the last id is incremented.
    * used internaly
    * @private
-   */ 
+   */
   function _requestMsgId($chan)
   {
     if ($chan == NULL) $chan = 'SERVER';
-    
+
     $lastmsgid = $this->incMeta("channelid-to-msgid", $this->encode($chan), 'lastmsgid');
-    
+
     if (count($lastmsgid["value"]) == 0)
       $lastmsgid = 0;
     else
@@ -482,7 +482,7 @@ class pfcContainer extends pfcContainerInterface
   {
     $this->rmMeta(NULL);
   }
-  
+
   function getAllUserMeta($nickid)
   {
     $result = array();
@@ -493,7 +493,7 @@ class pfcContainer extends pfcContainerInterface
     //    $result['chanid'] = $result['chanid']['value'];
     return $result;
   }
-  
+
   function getUserMeta($nickid, $key = NULL)
   {
     $ret = $this->getMeta("nickid-to-metadata", $nickid, $key, true);
@@ -538,9 +538,9 @@ class pfcContainer extends pfcContainerInterface
     $ret = $this->setMeta("channelid-to-metadata", $this->encode($chan), $key, $value);
     return $ret;
   }
-  
+
   var $_cache = array();
-  
+
   /**
    * Write a meta data value identified by a group / subgroup / leaf [with a value]
    * As an example in the default file container this  arborescent structure is modelised by simple directories
@@ -577,11 +577,11 @@ class pfcContainer extends pfcContainerInterface
       $this->_cache[$group]['childs'][$subgroup]['childs'][$leaf]['value'] = array($leafvalue);
       $this->_cache[$group]['childs'][$subgroup]['childs'][$leaf]['timestamp'] = array(time());
     }
-    
-    return $ret;    
+
+    return $ret;
   }
 
-  
+
   /**
    * Read meta data identified by a group [/ subgroup [/ leaf]]
    * @param $group is mandatory, it's the arborescence's root
@@ -637,9 +637,9 @@ class pfcContainer extends pfcContainerInterface
         if (isset($ret['timestamp'])) $ret2['timestamp'] = $ret['timestamp'];
         if (isset($ret['value']))     $ret2['value'] = $ret['value'];
         return $ret2;
-      }      
+      }
     }
-    
+
     // get the fresh data
     $ret = $this->_container->getMeta($group, $subgroup, $leaf, $withleafvalue);
 
@@ -662,10 +662,10 @@ class pfcContainer extends pfcContainerInterface
           $this->_cache[$group]['childs'][$subgroup]['childs'][$leaf]['value'] = $ret['value'];
         else
           unset($this->_cache[$group]['childs'][$subgroup]['childs'][$leaf]['value']);
-        $this->_cache[$group]['childs'][$subgroup]['childs'][$leaf]['timestamp'] = $ret['timestamp'];    
+        $this->_cache[$group]['childs'][$subgroup]['childs'][$leaf]['timestamp'] = $ret['timestamp'];
       }
     }
-    
+
     return $ret;
   }
 
@@ -676,7 +676,7 @@ class pfcContainer extends pfcContainerInterface
    * @param $subgroup is mandatory
    * @param $leaf is mandatory, it's the counter name
    * @return array which contains two subarray 'timestamp' and 'value' (value contains the incremented numeric value)
-   */  
+   */
   function incMeta($group, $subgroup, $leaf)
   {
     $ret = $this->_container->incMeta($group, $subgroup, $leaf);
@@ -699,9 +699,9 @@ class pfcContainer extends pfcContainerInterface
       $this->_cache[$group]['childs'][$subgroup]['childs'][$leaf]['value']     = $ret['value'];
       $this->_cache[$group]['childs'][$subgroup]['childs'][$leaf]['timestamp'] = array(time());
     }
-    
-    return $ret;    
-  } 
+
+    return $ret;
+  }
 
   /**
    * Remove a meta data or a group of metadata
@@ -746,27 +746,27 @@ class pfcContainer extends pfcContainerInterface
         unset($this->_cache[$group]['childs'][$subgroup]['childs'][$leaf]);
       }
     }
-  
+
     return $this->_container->rmMeta($group, $subgroup, $leaf);
   }
-  
+
   /**
    * In the default File container: used to encode UTF8 strings to ASCII filenames
    * This method can be overridden by the concrete container
-   */  
+   */
   function encode($str)
   {
     return $this->_container->encode($str);
   }
-  
+
   /**
    * In the default File container: used to decode ASCII filenames to UTF8 strings
    * This method can be overridden by the concrete container
-   */  
+   */
   function decode($str)
   {
     return $this->_container->decode($str);
-  }    
+  }
 }
 
 ?>

@@ -21,6 +21,8 @@ use application\metadata\ContentObjectMetadataPropertyValue;
 class DatabaseContextLinkerDataManager extends Database implements ContextLinkerDataManagerInterface
 {
 
+    private $loop_protection = array();
+
     function initialize()
     {
 //            $aliases = array();
@@ -125,9 +127,11 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
     /*
      * recursively look for connections for a content object
      *
+     * @param $array_type ContextLinkerManager :: ARRAY_TYPE_FLAT(for table display) or ContextLinkerManager :: ARRAY_TYPE_RECURSIVE (for visual display)
+     * @param $direction : look for parents (ContextLinkerManager :: RECURSIVE_DIRECTION_UP) or for children (ContextLinkerManager :: RECURSIVE_DIRECTION_DOWN)
      * @return array[n] = output from retrieve_full_context_links
      */
-    function retrieve_recursive($condition = null, $offset = null, $max_objects = null, $order_by = null, $ids = array(), $array_type = ContextLinkerManager :: ARRAY_TYPE_FLAT, $direction = ContextLinkerManager :: RECURSIVE_DIRECTION_BOTH)
+    function retrieve_recursive($condition = null, $offset = null, $max_objects = null, $order_by = null,  $array_type = ContextLinkerManager :: ARRAY_TYPE_FLAT, $direction = ContextLinkerManager :: RECURSIVE_DIRECTION_BOTH)
     {
         $context_links = $this->retrieve_full_context_links($condition, $offset, $max_objects, $order_by);
 
@@ -155,15 +159,17 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
                     }
                 }
 
-                //downward direction
-                if($direction == ContextLinkerManager :: RECURSIVE_DIRECTION_BOTH || $direction == ContextLinkerManager :: RECURSIVE_DIRECTION_DOWN)
+                //downward direction - look for children
+                if($direction == ContextLinkerManager :: RECURSIVE_DIRECTION_DOWN)
                 {
                     //downward direction
                     //if parent is not used as child (endless loop protection)
-                    if(!isset($ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]]))
+                    //if(!isset($ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]]))
+                    if(!isset($this->loop_protection[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]]))
                     {
-                        $ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]] = 1;
-                        $result2 = $this->retrieve_recursive($condition_orig, $offset, $max_objects, $order_by, $ids, $array_type, $direction);
+                        //$ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]] = 1;
+                        $this->loop_protection[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]] = 1;
+                        $result2 = $this->retrieve_recursive($condition_orig, $offset, $max_objects, $order_by,  $array_type, $direction);
 
                         if($array_type == ContextLinkerManager :: ARRAY_TYPE_FLAT)
                         {
@@ -186,16 +192,19 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
                     }
                 }
 
-                //upward direction
-                if($direction == ContextLinkerManager :: RECURSIVE_DIRECTION_BOTH || $direction == ContextLinkerManager :: RECURSIVE_DIRECTION_UP)
+                //upward direction - look for parents
+                if($direction == ContextLinkerManager :: RECURSIVE_DIRECTION_UP)
                 {
                     //if child is not used as parent (endless loop protection)
-                    if(!isset($ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]]))
+                    //if(!isset($ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]]))
                         //if(!isset($ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]]))
+                    if(!isset($this->loop_protection[$context_link[ContextLinkerManager::PROPERTY_ORIG_ID]]))
                     {
-                        $ids[$context_link[ContextLinkerManager::PROPERTY_ORIG_ID]] = 1;
-                        $result2 = $this->retrieve_recursive($condition_alt, $offset, $max_objects, $order_by, $ids, $array_type, $direction);
-
+                        //$ids[$context_link[ContextLinkerManager::PROPERTY_ORIG_ID]] = 1;
+                        
+                        $this->loop_protection[$context_link[ContextLinkerManager::PROPERTY_ORIG_ID]]=1;
+                        $result2 = $this->retrieve_recursive($condition_alt, $offset, $max_objects, $order_by,  $array_type, $direction);
+                        
                         if($array_type == ContextLinkerManager :: ARRAY_TYPE_FLAT)
                         {
                             $result = array_merge($result2, $result);
@@ -228,15 +237,32 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
         return $result;
     }
 
-    function retrieve_full_context_links_recursive($content_object_id, $offset = null, $max_objects = null, $order_by = null, $ids = array(), $array_type = ContextLinkerManager :: ARRAY_TYPE_FLAT)
+    /*
+     * finds all parents and children of a certain context link as far
+     * recursively finds parents of parent and children of children
+     *
+     * @param $content_object_id the id of the central content object
+     * @param $array_type ContextLinkerManager :: ARRAY_TYPE_FLAT(for table display) or ContextLinkerManager :: ARRAY_TYPE_RECURSIVE (for visual display)
+     *
+     * @return array
+     * flat = array[n]=output of retrieve_full_context_links
+     * recursive
+     * array[id]=output of retrieve_full_context_links
+     * array[children] = array children
+     * array[parents] = array parents
+     */
+    function retrieve_full_context_links_recursive($content_object_id, $offset = null, $max_objects = null, $order_by = null, $array_type = ContextLinkerManager :: ARRAY_TYPE_FLAT)
     {
         //create conditions
         $condition_down = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $content_object_id);
+       
         $condition_up = new EqualityCondition(ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, $content_object_id);
 
         //do queries
-        $result_parents = $this->retrieve_recursive($condition_up, $offset = null, $max_objects = null, $order_by = null, $ids = array(), $array_type, ContextLinkerManager :: RECURSIVE_DIRECTION_UP);
-        $result_children = $this->retrieve_recursive($condition_down, $offset = null, $max_objects = null, $order_by = null, $ids = array(), $array_type, ContextLinkerManager :: RECURSIVE_DIRECTION_DOWN);
+        $result_children = $this->retrieve_recursive($condition_down, $offset = null, $max_objects = null, $order_by = null,  $array_type, ContextLinkerManager :: RECURSIVE_DIRECTION_DOWN);
+        $this->loop_protection = array(); //reset
+        $result_parents = $this->retrieve_recursive($condition_up, $offset = null, $max_objects = null, $order_by = null,  $array_type, ContextLinkerManager :: RECURSIVE_DIRECTION_UP);
+        
     
         //format result
         if($array_type == ContextLinkerManager :: ARRAY_TYPE_RECURSIVE)

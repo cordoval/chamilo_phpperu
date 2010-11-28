@@ -17,7 +17,7 @@ use common\libraries\Utilities;
 
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 use user\UserDataManager;
 
 require_once dirname(__FILE__) . '/fedora_external_repository_object.class.php';
@@ -137,15 +137,15 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             $external_repository_id = $this->get_external_repository_instance_id();
         }
-        $url = ExternalRepositorySetting :: get('Url', $external_repository_id);
-        $client_certificate_file = ExternalRepositorySetting :: get('ClientCertificateFile', $external_repository_id);
-        $client_certificate_key_file = ExternalRepositorySetting :: get('ClientCertificateKeyFile', $external_repository_id);
-        $client_certificate_key_password = ExternalRepositorySetting :: get('ClientCertificateKeyPassword', $external_repository_id);
-        $check_target_certificate = ExternalRepositorySetting :: get('CheckTargetCertificate', $external_repository_id);
-        $target_ca_file = ExternalRepositorySetting :: get('TargetCaFile', $external_repository_id);
-        $basic_login = ExternalRepositorySetting :: get('Login', $external_repository_id);
-        $basic_password = ExternalRepositorySetting :: get('Password', $external_repository_id);
-        $max_results = ExternalRepositorySetting :: get('MaxResults', $external_repository_id);
+        $url = ExternalSetting :: get('Url', $external_repository_id);
+        $client_certificate_file = ExternalSetting :: get('ClientCertificateFile', $external_repository_id);
+        $client_certificate_key_file = ExternalSetting :: get('ClientCertificateKeyFile', $external_repository_id);
+        $client_certificate_key_password = ExternalSetting :: get('ClientCertificateKeyPassword', $external_repository_id);
+        $check_target_certificate = ExternalSetting :: get('CheckTargetCertificate', $external_repository_id);
+        $target_ca_file = ExternalSetting :: get('TargetCaFile', $external_repository_id);
+        $basic_login = ExternalSetting :: get('Login', $external_repository_id);
+        $basic_password = ExternalSetting :: get('Password', $external_repository_id);
+        $max_results = ExternalSetting :: get('MaxResults', $external_repository_id);
 
         $result = new RestConfig();
         $result->set_base_url($url);
@@ -193,7 +193,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector
         }
 
         $external_repository_id = $this->get_external_repository_instance_id();
-        $api_name = ExternalRepositorySetting :: get('Api', $external_repository_id);
+        $api_name = ExternalSetting :: get('Api', $external_repository_id);
         if ($api_name)
         {
             $path = dirname(__FILE__) . '/component/api/' . $api_name . '/fedora_' . $api_name . '_connector_extender.class.php';

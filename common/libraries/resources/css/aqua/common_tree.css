@@ -178,9 +178,9 @@ ul.tree-menu li div a.import {
 	background-image: url(../../images/aqua/treemenu/import.png);
 }
 
-ul.tree-menu li div a.external_repository {
+ul.tree-menu li div a.external_instance {
 	background-image:
-		url(../../images/aqua/treemenu/external_repository.png);
+		url(../../images/aqua/treemenu/external_instance.png);
 }
 
 ul.tree-menu li div a.search_results {

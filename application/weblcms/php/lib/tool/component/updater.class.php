@@ -67,7 +67,7 @@ class ToolComponentUpdaterComponent extends ToolComponent
                 if ($publication_form->validate() || $content_object->get_type() == 'introduction')
                 {
                     $publication_form->update_content_object_publication();
-                    $message = htmlentities(Translation :: get('ObjectUpdated', null ,Utilities:: COMMON_LIBRARIES));
+                    $message = htmlentities(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('Publication')) ,Utilities:: COMMON_LIBRARIES));
 
                     $show_details = Request :: get('details');
                     $tool = Request :: get('tool');

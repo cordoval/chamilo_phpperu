@@ -13,9 +13,9 @@ use common\libraries\Translation;
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
-use repository\ExternalRepositoryUserSetting;
+use repository\ExternalUserSetting;
 use repository\RepositoryDataManager;
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 
 use \Zend_Loader;
 use \Zend_Gdata_AuthSub;
@@ -41,7 +41,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         parent :: __construct($external_repository_instance);
 
-        $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
+        $session_token = ExternalUserSetting :: get('session_token', $this->get_external_repository_instance_id());
 
         Zend_Loader :: loadClass('Zend_Gdata_YouTube');
         Zend_Loader :: loadClass('Zend_Gdata_AuthSub');
@@ -63,8 +63,8 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
                 $session_token = Zend_Gdata_AuthSub :: getAuthSubSessionToken($_GET['token']);
                 if ($session_token)
                 {
-                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
-                    $user_setting = new ExternalRepositoryUserSetting();
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
+                    $user_setting = new ExternalUserSetting();
                     $user_setting->set_setting_id($setting->get_id());
                     $user_setting->set_user_id(Session :: get_user_id());
                     $user_setting->set_value($session_token);
@@ -77,7 +77,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
 
         $client = '';
         $application = PlatformSetting :: get('site_name');
-        $key = ExternalRepositorySetting :: get('developer_key', $this->get_external_repository_instance_id());
+        $key = ExternalSetting :: get('developer_key', $this->get_external_repository_instance_id());
 
         $this->youtube = new Zend_Gdata_YouTube($httpClient, $application, $client, $key);
         $this->youtube->setMajorProtocolVersion(2);

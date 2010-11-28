@@ -1,6 +1,6 @@
 TypeName = "Multiple choice question"
-SwitchToCheckboxes = "Only allow one answer"
-SwitchToRadioButtons = "Allow multiple answers"
+SwitchToCheckboxes = "Allow multiple answers"
+SwitchToRadioButtons = "Only allow one answer"
 AddMultipleChoiceOption = "Add an option"
 Answer = "Answer"
 Feedback = "Feedback"

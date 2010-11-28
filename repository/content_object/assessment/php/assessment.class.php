@@ -8,6 +8,8 @@ use common\libraries\ComplexContentObjectSupport;
 
 use repository\RepositoryDataManager;
 use repository\ContentObject;
+use repository\ComplexContentObjectItem;
+
 use repository\content_object\assessment_rating_question\AssessmentRatingQuestion;
 use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
 use repository\content_object\hotspot_question\HotspotQuestion;
@@ -172,6 +174,12 @@ class Assessment extends ContentObject implements ComplexContentObjectSupport
     function count_questions()
     {
         return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+    }
+
+    function get_questions()
+    {
+        $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name());
+        return RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition);
     }
 }
 ?>

@@ -10,8 +10,8 @@ use common\libraries\ActionBarSearchForm;
 use common\libraries\ArrayResultSet;
 use common\libraries\Session;
 
-use repository\ExternalRepositoryUserSetting;
-use repository\ExternalRepositorySetting;
+use repository\ExternalUserSetting;
+use repository\ExternalSetting;
 use repository\RepositoryDataManager;
 
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
@@ -47,12 +47,12 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         parent :: __construct($external_repository_instance);
         
-        $this->consumer_key = ExternalRepositorySetting :: get('consumer_key', $this->get_external_repository_instance_id());
-        $this->consumer_secret = ExternalRepositorySetting :: get('consumer_secret', $this->get_external_repository_instance_id());
+        $this->consumer_key = ExternalSetting :: get('consumer_key', $this->get_external_repository_instance_id());
+        $this->consumer_secret = ExternalSetting :: get('consumer_secret', $this->get_external_repository_instance_id());
         
         $this->vimeo = new phpVimeo($this->consumer_key, $this->consumer_secret);
-        $oauth_token = ExternalRepositoryUserSetting :: get('oauth_token', $this->get_external_repository_instance_id());
-        $oauth_token_secret = ExternalRepositoryUserSetting :: get('oauth_token_secret', $this->get_external_repository_instance_id());
+        $oauth_token = ExternalUserSetting :: get('oauth_token', $this->get_external_repository_instance_id());
+        $oauth_token_secret = ExternalUserSetting :: get('oauth_token_secret', $this->get_external_repository_instance_id());
         
         if (! $oauth_token || ! $oauth_token_secret)
         {
@@ -65,15 +65,15 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
                 $this->vimeo->setToken($_SESSION['request_token'], $_SESSION['request_token_secret'], 'access', true);
                 
                 $this->token = $this->vimeo->getAccessToken($_GET['oauth_verifier']);
-                $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token', $this->get_external_repository_instance_id());
-                $user_setting = new ExternalRepositoryUserSetting();
+                $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name('oauth_token', $this->get_external_repository_instance_id());
+                $user_setting = new ExternalUserSetting();
                 $user_setting->set_setting_id($setting->get_id());
                 $user_setting->set_user_id(Session :: get_user_id());
                 $user_setting->set_value($this->token['oauth_token']);
                 $user_setting->create();
                 
-                $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token_secret', $this->get_external_repository_instance_id());
-                $user_setting = new ExternalRepositoryUserSetting();
+                $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name('oauth_token_secret', $this->get_external_repository_instance_id());
+                $user_setting = new ExternalUserSetting();
                 $user_setting->set_setting_id($setting->get_id());
                 $user_setting->set_user_id(Session :: get_user_id());
                 $user_setting->set_value($this->token['oauth_token_secret']);

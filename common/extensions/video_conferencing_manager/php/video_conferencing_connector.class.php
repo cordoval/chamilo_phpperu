@@ -1,6 +1,9 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
 
+use common\libraries\Utilities;
+use Exception;
+
 abstract class VideoConferencingConnector
 {
 
@@ -48,7 +51,7 @@ abstract class VideoConferencingConnector
     {
         $type = $video_conferencing_instance->get_type();
         
-        $file = dirname(__FILE__) . '/type/' . $type . '/' . $type . '_video_conferencing_connector.class.php';
+        $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_video_conferencing_connector.class.php';
         if (! file_exists($file))
         {
             throw new Exception(Translation :: get('VideoConferencingConnectorTypeDoesNotExist', array('type' => $type)));
@@ -56,7 +59,7 @@ abstract class VideoConferencingConnector
         
         require_once $file;
         
-        $class = Utilities :: underscores_to_camelcase($type) . 'VideoConferencingConnector';
+        $class ='common\extensions\video_conferencing_manager\implementation\\' . $type .'\\'  . Utilities :: underscores_to_camelcase($type) . 'VideoConferencingConnector';
         return new $class($video_conferencing_instance);
     }
     

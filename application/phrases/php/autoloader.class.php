@@ -23,6 +23,7 @@ class Autoloader
             'phrases_publication' => 'phrases_publication.class.php',
             'phrases_publication_menu' => 'phrases_publication_menu.class.php',
             'phrases_mastery_level' => 'phrases_mastery_level.class.php',
+            'phrases_mastery_level_manager' => 'phrases_manager/component/mastery_level_manager/mastery_level_manager.class.php',
             'phrases_publication_form' => 'forms/phrases_publication_form.class.php',
             'phrases_publication_manager' => 'phrases_manager/component/publication_manager/publication_manager.class.php',
             'phrases_manager' => 'phrases_manager/phrases_manager.class.php',

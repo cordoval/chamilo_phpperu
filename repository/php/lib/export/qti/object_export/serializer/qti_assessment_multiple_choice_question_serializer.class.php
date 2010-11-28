@@ -7,6 +7,7 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
+use common\libraries\Qti;
 use repository\content_object\assessment_multiple_choice_question\AssessmentMultipleChoiceQuestion;
 
 class QtiAssessmentMultipleChoiceQuestionSerializer extends QtiQuestionSerializer

@@ -17,6 +17,7 @@ class Autoloader
         
         $list = array(
             'survey_publisher_component' => 'component/assessment_survey_publisher/survey_publisher_component.class.php',
+            'results_export' => 'component/assessment_results_export_form/export.class.php',
         );
 
         $lower_case = Utilities :: camelcase_to_underscores($classname);

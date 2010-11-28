@@ -4,7 +4,7 @@ namespace common\extensions\external_repository_manager\implementation\matterhor
 use common\libraries\Utilities;
 use common\libraries\ArrayResultSet;
 
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
@@ -36,7 +36,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         parent :: __construct($external_repository_instance);
 
-        $url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
+        $url = ExternalSetting :: get('url', $this->get_external_repository_instance_id());
         $this->matterhorn = new MatterhornRestClient($url);
     }
 

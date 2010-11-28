@@ -4,7 +4,7 @@ namespace common\extensions\external_repository_manager\implementation\mediamosa
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
 use repository\RepositoryDataManager;
@@ -118,7 +118,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     function run()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        $external_repository = $rdm->retrieve_external_repository(Request :: get(MediamosaExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+        $external_repository = $rdm->retrieve_external_instance(Request :: get(MediamosaExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb('#', $external_repository->get_title()));
 
@@ -231,13 +231,13 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
     }
 
-    function validate_settings()
+    function validate_settings($external_repository)
     {
         $settings = array('url', 'loginname', 'password');
 
         foreach ($settings as $variable)
         {
-            $value = ExternalRepositorySetting :: get($variable);
+            $value = ExternalSetting :: get($variable, $external_repository->get_id());
             if (! $value)
             {
                 return false;
@@ -267,7 +267,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
 
-        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
+        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalSetting :: get_all($this->get_external_repository()->get_id())) > 0);
 
         if ($is_platform)
         {

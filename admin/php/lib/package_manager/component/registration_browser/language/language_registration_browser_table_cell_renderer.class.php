@@ -42,6 +42,13 @@ class LanguageRegistrationBrowserTableCellRenderer extends DefaultRegistrationTa
             return $this->get_modification_links($registration);
         }
 
+        switch ($column->get_name())
+        {
+            case Registration :: PROPERTY_NAME :
+                $language = AdminDataManager :: get_instance()->retrieve_language_from_isocode($registration->get_name());
+                return $language->get_original_name();
+        }
+
         return parent :: render_cell($column, $registration);
     }
 

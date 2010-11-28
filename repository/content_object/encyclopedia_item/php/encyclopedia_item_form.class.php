@@ -35,20 +35,20 @@ class EncyclopediaItemForm extends ContentObjectForm
 
     private function build_default_form()
     {
-        $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';
+        $url = $this->get_path(WEB_PATH) . 'repository/php/xml_feeds/xml_image_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectImage');
-        $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
-        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
-        $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
 
         $this->addElement('image_selecter', EncyclopediaItem :: ATTACHMENT_IMAGE, Translation :: get('Image'), $url, $locale);
 
         $url = $this->get_path(WEB_PATH) . 'repository/lib/content_object/comic_book/xml_feeds/xml_comic_book_feed.php';
         $locale = array();
-        $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
-        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
-        $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $locale['Display'] = Translation :: get('SelectCovers');
 
         $comic_books = Utilities :: content_objects_for_element_finder($this->get_content_object()->get_comic_books());
@@ -56,7 +56,7 @@ class EncyclopediaItemForm extends ContentObjectForm
         $comic_book->setHeight('100');
 
         $this->addElement('textarea', EncyclopediaItem :: PROPERTY_TAGS, Translation :: get('Tags'), array('cols' => '70', 'rows' => '2'));
-        $this->addRule(EncyclopediaItem :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $this->addRule(EncyclopediaItem :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
     }
 
     function setDefaults($defaults = array ())
@@ -95,7 +95,7 @@ class EncyclopediaItemForm extends ContentObjectForm
         $object->set_images($this->exportValue(EncyclopediaItem :: ATTACHMENT_IMAGE));
 
         $comic_books = $this->exportValue(EncyclopediaItem :: ATTACHMENT_COMIC_BOOK);
-        $comic_books['lo'] = !isset($comic_books['lo']) ? array() : $comic_books['lo'];
+        $comic_books['lo'] = ! isset($comic_books['lo']) ? array() : $comic_books['lo'];
         $object->set_comic_books($comic_books['lo']);
     }
 

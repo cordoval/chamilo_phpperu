@@ -4,10 +4,13 @@ namespace common\libraries;
 use common\libraries\Request;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use repository\RepositoryDataManager;
+use repository\RepositoryManager;
 
 class ExternalRepositoryLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'external_repository';
+
+    private $external_instance;
 
     function __construct($user)
     {
@@ -17,7 +20,7 @@ class ExternalRepositoryLauncher extends LauncherApplication
     function run()
     {
         $type = $this->get_type();
-        $this->external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($type);
+        $this->external_instance = RepositoryDataManager :: get_instance()->retrieve_external_instance($type);
         $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, $type);
 
         ExternalRepositoryManager :: launch($this);
@@ -25,7 +28,7 @@ class ExternalRepositoryLauncher extends LauncherApplication
 
     function get_type()
     {
-        return Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
+        return Request :: get(RepositoryManager :: PARAM_EXTERNAL_INSTANCE);
     }
 
     public function get_link($parameters = array (), $filter = array(), $encode_entities = false, $application_type = Redirect :: TYPE_APPLICATION)
@@ -42,9 +45,9 @@ class ExternalRepositoryLauncher extends LauncherApplication
         return self :: APPLICATION_NAME;
     }
 
-    function get_external_repository()
+    function get_external_instance()
     {
-        return $this->external_repository;
+        return $this->external_instance;
     }
 
     /**
@@ -54,9 +57,9 @@ class ExternalRepositoryLauncher extends LauncherApplication
      * @param unknown_type $auto_open if there is only one instance, should it be opened automatically
      * @return string
      */
-    function get_links($types = array(), $auto_open = false)
+    function get_links($manager_types = array(), $types = array(), $auto_open = false)
     {
-        $instances = RepositoryDataManager :: get_instance()->retrieve_active_external_repositories($types);
+        $instances = RepositoryDataManager :: get_instance()->retrieve_active_external_instances($manager_types, $types);
 
         if ($instances->size() == 0)
         {
@@ -69,7 +72,7 @@ class ExternalRepositoryLauncher extends LauncherApplication
 
             while ($instance = $instances->next_result())
             {
-                $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=' . $instance->get_id();
+                $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . RepositoryManager :: PARAM_EXTERNAL_INSTANCE . '=' . $instance->get_id();
                 $image = Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($instance->get_type())) . 'logo/16.png';
                 $title = Translation :: get('BrowseObject', array('OBJECT' => $instance->get_title()), Utilities :: COMMON_LIBRARIES);
                 $buttons[] = '<a class="button normal_button upload_button" style="background-image: url(' . $image . ');" onclick="javascript:openPopup(\'' . $link . '\');"> ' . $title . '</a>';

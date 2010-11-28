@@ -3,8 +3,13 @@ namespace application\weblcms\tool\user;
 
 use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
+
 use group\GroupDataManager;
+use group\GroupRelUser;
+use group\Group;
+
 use user\User;
+
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;

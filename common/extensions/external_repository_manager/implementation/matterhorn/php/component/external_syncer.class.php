@@ -4,10 +4,14 @@ namespace common\extensions\external_repository_manager\implementation\matterhor
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
+use repository\RepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+
 class MatterhornExternalRepositoryManagerExternalSyncerComponent extends MatterhornExternalRepositoryManager
 {
 
-function run()
+    function run()
     {
         ExternalRepositoryComponent :: launch($this);
     }
@@ -18,11 +22,11 @@ function run()
         $content_object = $synchronization_data->get_content_object();
 
         $values = array();
-        $values[ExternalRepository :: PROPERTY_ID] = $external_object->get_id();
-        $values[ExternalRepository :: PROPERTY_TITLE] = trim(html_entity_decode(strip_tags($content_object->get_title())));
-        $values[ExternalRepository :: PROPERTY_DESCRIPTION] = trim(html_entity_decode(strip_tags($content_object->get_description())));
-        $values[YoutubeExternalRepositoryObject :: PROPERTY_CATEGORY] = $external_object->get_category();
-        $values[YoutubeExternalRepositoryObject :: PROPERTY_TAGS] = $external_object->get_tags();
+        $values[ExternalRepositoryObject :: PROPERTY_ID] = $external_object->get_id();
+        $values[ExternalRepositoryObject :: PROPERTY_TITLE] = trim(html_entity_decode(strip_tags($content_object->get_title())));
+        $values[ExternalRepositoryObject :: PROPERTY_DESCRIPTION] = trim(html_entity_decode(strip_tags($content_object->get_description())));
+        $values[MatterhornExternalRepositoryObject :: PROPERTY_CATEGORY] = $external_object->get_category();
+        $values[MatterhornExternalRepositoryObject :: PROPERTY_TAGS] = $external_object->get_tags();
 
         if ($this->get_external_repository_connector()->update_youtube_video($values))
         {

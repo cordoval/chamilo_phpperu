@@ -25,7 +25,7 @@ namespace common\extensions\external_repository_manager\implementation\mediamosa
 
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use common\libraries\Translation;
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 use repository\RepositoryDataManager;
 use RestClient;
 use common\libraries\PlatformSetting;
@@ -143,7 +143,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     }
 
     function set_mediamosa_default_user_quotum($user_id) {
-        $quotum = ExternalRepositorySetting :: get('default_user_quotum');
+        $quotum = ExternalSetting :: get('default_user_quotum', $this->get_external_repository_instance_id());
         if ($this->set_mediamosa_user_quotum($user_id, $quotum)) {
             return true;
         }
@@ -170,7 +170,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                 }
                 else
                 {
-                    $quotum = ExternalRepositorySetting :: get('default_user_quotum', $this->get_external_repository_instance_id());
+                    $quotum = ExternalSetting :: get('default_user_quotum', $this->get_external_repository_instance_id());
                 }
                 return $this->create_mediamosa_user($chamilo_user_id, $quotum);
             }
@@ -195,8 +195,8 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     }
 
     function login() {
-        //$url = ExternalRepositorySetting :: factory('url', $this->get_external_repository_instance_id());
-        $url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
+        //$url = ExternalSetting :: factory('url', $this->get_external_repository_instance_id());
+        $url = ExternalSetting :: get('url', $this->get_external_repository_instance_id());
         $this->mediamosa = new MediamosaRestClient($url);
         //TODO: jens -> implement curl request
         $this->mediamosa->set_connexion_mode(RestClient :: MODE_PEAR);
@@ -207,7 +207,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             if (PlatformSetting :: get('proxy_settings_active', 'admin'))
                 $this->mediamosa->set_proxy(PlatformSetting :: get('proxy_server', 'admin'), PlatformSetting :: get('proxy_port', 'admin'), PlatformSetting :: get('proxy_username', 'admin'), PlatformSetting :: get('proxy_password', 'admin'));
 
-            if ($this->mediamosa->login(ExternalRepositorySetting :: get('loginname', $this->get_external_repository_instance_id()), ExternalRepositorySetting :: get('password', $this->get_external_repository_instance_id()))) {
+            if ($this->mediamosa->login(ExternalSetting :: get('loginname', $this->get_external_repository_instance_id()), ExternalSetting :: get('password', $this->get_external_repository_instance_id()))) {
                 return true;
             }
         }
@@ -439,7 +439,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         if(!$this->app_id)
         {
-            $this->app_id = ExternalRepositorySetting :: get('app_id', $this->get_external_repository_instance_id());
+            $this->app_id = ExternalSetting :: get('app_id', $this->get_external_repository_instance_id());
         }
         return $this->app_id;
     }
@@ -526,7 +526,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             {
                 //if there is still an original mediafile
                 //see if it can be removed
-                if ((string) $mediafile->is_original_file == 'TRUE' && ExternalRepositorySetting :: get('remove_originals', $this->get_external_repository_instance_id())) {
+                if ((string) $mediafile->is_original_file == 'TRUE' && ExternalSetting :: get('remove_originals', $this->get_external_repository_instance_id())) {
                     $this->remove_mediamosa_original_mediafile($asset);
                 }
                 
@@ -713,7 +713,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
 
         //update master/slave settings if necessary
         //get general settings
-        $slaves = explode('|', ExternalRepositorySetting :: get('slave_app_ids', $this->get_external_repository_instance_id()));
+        $slaves = explode('|', ExternalSetting :: get('slave_app_ids', $this->get_external_repository_instance_id()));
         $slaves_flip = array_flip($slaves);
         $ok = 0;
 

@@ -62,8 +62,9 @@ class Initializer
 
     private static function _initPHPSettings()
     {
-//        ini_set('max_execution_time', - 1);
-//        ini_set('memory_limit', '512M');
+	// I do not understand why but Fatal error aren't shown 
+	// when setting these parameters
+        //ini_set('error_reporting', 'E_ALL & ~E_DEPRECATED');
     }
 
 }

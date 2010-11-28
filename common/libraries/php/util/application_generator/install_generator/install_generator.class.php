@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries\application_generator;
 
+use common\libraries\Utilities;
+
 /**
  * Dataclass generator used to generate install files
  * @author Sven Vanpoucke
@@ -34,7 +36,8 @@ class InstallGenerator
         {
             $this->template->set_filenames(array('install' => 'install.template'));
             
-            $this->template->assign_vars(array('APPLICATION_NAME' => Utilities :: camelcase_to_underscores($application_name), 'C_APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name), 'AUTHOR' => $author));
+            $this->template->assign_vars(array('APPLICATION_NAME' => Utilities :: camelcase_to_underscores($application_name), 
+                'C_APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name), 'AUTHOR' => $author, 'NAMESPACE' => 'application\\' . $application_name));
             
             $string = trim($this->template->pparse_return('install'));
             fwrite($file, $string);

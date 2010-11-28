@@ -1,8 +1,6 @@
 <?php
 namespace repository;
 
-use common\extensions\external_repository_manager;
-
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -38,16 +36,15 @@ class DefaultExternalLinkTableCellRenderer extends ObjectTableCellRenderer
      */
     function render_cell($column, $object)
     {
-        $external_repository = $object->get_external_repository();
+        $external_instance = $object->get_external_repository();
         switch ($column->get_name())
         {
-            case ExternalRepository :: PROPERTY_TYPE :
-                $type = $external_repository->get_type();
-                return '<img src="' . Theme :: get_image_path(ExternalRepositoryManager::get_namespace($type)) . 'logo/22.png" alt="' . htmlentities(Translation :: get('TypeName', null, ExternalRepositoryManager::get_namespace($type))) . '"/>';
-            case ExternalRepository :: PROPERTY_TITLE :
-                return Utilities :: truncate_string($external_repository->get_title(), 50);
-            case ExternalRepository :: PROPERTY_DESCRIPTION :
-                return Utilities :: truncate_string($external_repository->get_description(), 50);
+            case ExternalInstance :: PROPERTY_TYPE :
+                return '<img src="' . Theme :: get_image_path(ExternalInstanceManager :: get_namespace($external_instance->get_instance_type(), $external_instance->get_type())) . 'logo/22.png" alt="' . htmlentities(Translation :: get('TypeName', null, ExternalInstanceManager :: get_namespace($external_instance->get_instance_type(), $external_instance->get_type()))) . '"/>';
+            case ExternalInstance :: PROPERTY_TITLE :
+                return Utilities :: truncate_string($external_instance->get_title(), 50);
+            case ExternalInstance :: PROPERTY_DESCRIPTION :
+                return Utilities :: truncate_string($external_instance->get_description(), 50);
             default :
                 return '&nbsp;';
         }

@@ -8,8 +8,8 @@ use common\libraries\ActionBarSearchForm;
 use common\libraries\ArrayResultSet;
 use common\libraries\Session;
 
-use repository\ExternalRepositoryUserSetting;
-use repository\ExternalRepositorySetting;
+use repository\ExternalUserSetting;
+use repository\ExternalSetting;
 use repository\RepositoryDataManager;
 
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
@@ -67,12 +67,12 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         parent :: __construct($external_repository_instance);
 
-        $this->key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
-        $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
+        $this->key = ExternalSetting :: get('key', $this->get_external_repository_instance_id());
+        $this->secret = ExternalSetting :: get('secret', $this->get_external_repository_instance_id());
         $this->flickr = new phpFlickr($this->key, $this->secret);
 
 
-        $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
+        $session_token = ExternalUserSetting :: get('session_token', $this->get_external_repository_instance_id());
 
         if (! $session_token)
         {
@@ -87,8 +87,8 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
                 $token = $this->flickr->auth_getToken($frob);
                 if ($token['token'])
                 {
-                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
-                    $user_setting = new ExternalRepositoryUserSetting();
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
+                    $user_setting = new ExternalUserSetting();
                     $user_setting->set_setting_id($setting->get_id());
                     $user_setting->set_user_id(Session :: get_user_id());
                     $user_setting->set_value($token['token']);

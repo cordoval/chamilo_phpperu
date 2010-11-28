@@ -235,9 +235,6 @@ class RepositoryManagerViewerComponent extends RepositoryManager
                         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_move.png', $move_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                     }
 
-                    $metadata_url = $this->get_content_object_metadata_editing_url($object);
-                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Metadata', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_metadata.png', $metadata_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
                     $action_bar->add_common_action(new ToolbarItem(Translation :: get('Share', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_share.png', $this->get_content_object_share_create_url($object->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
                     if ($object instanceof ComplexContentObjectSupport)
@@ -270,11 +267,11 @@ class RepositoryManagerViewerComponent extends RepositoryManager
         $tabs = new DynamicTabsRenderer($renderer_name);
         $parameters = array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(), RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS);
 
-        // EXTERNAL REPOSITORIES
+        // EXTERNAL INSTANCES
         if ($content_object->is_external())
         {
             $browser = new ExternalLinkBrowserTable($this, $parameters);
-            $this->tabs->add_tab(new DynamicContentTab('external_repositories', Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace()), Theme :: get_image_path() . 'place_mini_external_repository.png', $browser->as_html()));
+            $this->tabs->add_tab(new DynamicContentTab('external_instances', Translation :: get('ExternalInstances'), Theme :: get_image_path() . 'place_mini_external_instance.png', $browser->as_html()));
         }
 
         // LINKS | PUBLICATIONS

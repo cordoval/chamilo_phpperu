@@ -4,6 +4,8 @@ namespace common\extensions\external_repository_manager;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
+use repository\RepositoryManager;
+
 require_once dirname(__FILE__) . '/../forms/external_repository_settings_form.class.php';
 
 class ExternalRepositoryComponentConfigurerComponent extends ExternalRepositoryComponent
@@ -11,7 +13,7 @@ class ExternalRepositoryComponentConfigurerComponent extends ExternalRepositoryC
 
     function run()
     {
-        $external_repository_id = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
+        $external_repository_id = $this->get_parameter(RepositoryManager :: PARAM_EXTERNAL_INSTANCE);
 
         $form = new ExternalRepositorySettingsForm($this, $external_repository_id, 'config', 'post', $this->get_url());
         if ($form->validate())

@@ -43,7 +43,7 @@ abstract class ExternalRepositoryManager extends SubManager
     const DEFAULT_ACTION = self :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
 
     const PARAM_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
-    const PARAM_EXTERNAL_REPOSITORY = 'external_repository';
+    const PARAM_EXTERNAL_REPOSITORY = 'external_instance';
     const PARAM_QUERY = 'query';
     const PARAM_RENDERER = 'renderer';
     const PARAM_FOLDER = 'folder';
@@ -63,7 +63,7 @@ abstract class ExternalRepositoryManager extends SubManager
     function __construct($application)
     {
         parent :: __construct($application);
-        $this->external_repository = $application->get_external_repository();
+        $this->external_repository = $application->get_external_instance();
         $external_repository_manager_action = Request :: get(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
         if ($external_repository_manager_action)
         {
@@ -71,7 +71,7 @@ abstract class ExternalRepositoryManager extends SubManager
         }
 
         $this->set_optional_parameters();
-        if ($this->validate_settings())
+        if ($this->validate_settings($this->external_repository))
         {
             $this->initialize_external_repository($this);
         }
@@ -120,7 +120,8 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     static function launch($application)
     {
-        $type = $application->get_external_repository()->get_type();
+    	$external_repository = $application->get_external_instance();
+        $type = $external_repository->get_type();
 
         $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_external_repository_manager.class.php';
         if (! file_exists($file))
@@ -135,7 +136,7 @@ abstract class ExternalRepositoryManager extends SubManager
 
         $settings_validated = call_user_func(array(
                 $class,
-                'validate_settings'));
+                'validate_settings'), $external_repository);
 
         if (! $settings_validated)
         {
@@ -296,7 +297,7 @@ abstract class ExternalRepositoryManager extends SubManager
     /**
      * @return boolean
      */
-    abstract function validate_settings();
+    abstract function validate_settings($external_repository);
 
     /**
      * @return string

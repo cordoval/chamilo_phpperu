@@ -9,9 +9,9 @@ CKEDITOR.editorConfig = function( config )
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	
-    config.extraPlugins = 'chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo,latex,chamiloHandbookLink';
+    config.extraPlugins = 'chamiloflash,chamiloflashvideo,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo,latex,chamiloHandbookLink';
 	config.removePlugins = 'flash,elementspath,resize';
-	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo,latex';
+	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloflashvideo,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo,latex';
 	
 	config.toolbar_Full =
 		[
@@ -40,7 +40,7 @@ CKEDITOR.editorConfig = function( config )
 	
 	config.toolbar_Basic =
 		[
-		 	['Maximize','-','Styles','Format','Font','FontSize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Table','Image','Chamiloflash','Chamiloyoutube','Chamilovideo','Chamiloaudio','latex','-','Templates','SpecialChar','-','Source']
+		 	['Maximize','-','Styles','Format','Font','FontSize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Table','Image','Chamiloflash','Chamiloflashvideo','Chamiloyoutube','Chamilovideo','Chamiloaudio','latex','-','Templates','SpecialChar','-','Source']
 		];
 	
 	config.toolbar_BasicMarkup =
@@ -75,6 +75,7 @@ CKEDITOR.editorConfig = function( config )
 	
 	config.filebrowserImageBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=image&repoviewer_action=browser';
 	config.filebrowserChamiloflashBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=flash&repoviewer_action=browser';
+	config.filebrowserChamiloflashvideoBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=flash_video&repoviewer_action=browser';
 	config.filebrowserChamiloyoutubeBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=youtube&repoviewer_action=browser';
 	config.filebrowserChamilovideoBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=video&repoviewer_action=browser';
 	config.filebrowserChamiloaudioBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=audio&repoviewer_action=browser';

@@ -17,32 +17,31 @@ class RepositoryRights
 
     const TREE_TYPE_USER = 1;
     const TREE_TYPE_CONTENT_OBJECT = 2;
-    const TREE_TYPE_EXTERNAL_REPOSITORY = 3;
-    const TREE_TYPE_VIDEO_CONFERENCING = 4;
-    
+    const TREE_TYPE_EXTERNAL_INSTANCE = 3;
+
     const TYPE_CONTENT_OBJECT = 1;
     const TYPE_USER_CATEGORY = 2;
     const TYPE_USER_CONTENT_OBJECT = 3;
-    const TYPE_EXTERNAL_REPOSITORY = 4;
-    
+    const TYPE_EXTERNAL_INSTANCE = 4;
+
     function get_available_rights()
     {
         $reflect = new ReflectionClass('RepositoryRights');
         return $reflect->getConstants();
     }
-    
+
     static function get_available_rights_for_users_subtree()
     {
-    	return array('Search' => self :: SEARCH_RIGHT, 'View' => self :: VIEW_RIGHT, 
+    	return array('Search' => self :: SEARCH_RIGHT, 'View' => self :: VIEW_RIGHT,
     				 'Use' => self :: USE_RIGHT, 'Reuse' => self :: REUSE_RIGHT);
     }
-    
+
     static function get_available_rights_for_content_object_subtree()
     {
     	return array('View' => self :: VIEW_RIGHT, 'Add' => self :: ADD_RIGHT);
     }
-    
-    static function get_available_rights_for_external_repositories_substree()
+
+    static function get_available_rights_for_external_instances_substree()
     {
     	return array('Use' => self :: USE_RIGHT);
     }
@@ -73,7 +72,7 @@ class RepositoryRights
     }
 
     // User Subtree
-    
+
     function create_user_root($user)
     {
         return RightsUtilities :: create_subtree_root_location(RepositoryManager :: APPLICATION_NAME, $user->get_id(), self :: TREE_TYPE_USER);
@@ -88,17 +87,17 @@ class RepositoryRights
     {
         return RightsUtilities :: get_root_id(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_USER, $user_id);
     }
-    
+
 	static function get_user_root($user_id)
     {
         return RightsUtilities :: get_root(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_USER, $user_id);
     }
-    
+
 	static function get_location_id_by_identifier_from_user_subtree($type, $identifier, $user_id)
     {
     	return RightsUtilities :: get_location_id_by_identifier(RepositoryManager :: APPLICATION_NAME, $type, $identifier, $user_id, self :: TREE_TYPE_USER);
     }
-    
+
 	static function get_location_by_identifier_from_users_subtree($type, $identifier, $user_id)
     {
     	return RightsUtilities :: get_location_by_identifier(RepositoryManager :: APPLICATION_NAME, $type, $identifier, $user_id, self :: TREE_TYPE_USER);
@@ -108,116 +107,79 @@ class RepositoryRights
     {
     	 return RightsUtilities :: is_allowed($right, $location, $type, RepositoryManager :: APPLICATION_NAME, null, $user_id, self :: TREE_TYPE_USER);
     }
-    
+
     // Content Object Type subtree
-    
+
     static function create_location_in_content_objects_subtree($name, $identifier, $parent)
     {
     	return RightsUtilities :: create_location($name, RepositoryManager :: APPLICATION_NAME, self :: TYPE_CONTENT_OBJECT, $identifier, 1, $parent, 0, 0, self :: TREE_TYPE_CONTENT_OBJECT);
     }
-    
+
     static function get_content_objects_subtree_root()
     {
     	return RightsUtilities :: get_root(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_CONTENT_OBJECT, 0);
     }
-    
+
 	static function get_content_objects_subtree_root_id()
     {
     	return RightsUtilities :: get_root_id(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_CONTENT_OBJECT, 0);
     }
-    
+
     static function get_location_id_by_identifier_from_content_objects_subtree($identifier)
     {
     	return RightsUtilities :: get_location_id_by_identifier(RepositoryManager :: APPLICATION_NAME, self :: TYPE_CONTENT_OBJECT, $identifier, 0, self :: TREE_TYPE_CONTENT_OBJECT);
     }
-    
+
 	static function get_location_by_identifier_from_content_objects_subtree($identifier)
     {
     	return RightsUtilities :: get_location_by_identifier(RepositoryManager :: APPLICATION_NAME, self :: TYPE_CONTENT_OBJECT, $identifier, 0, self :: TREE_TYPE_CONTENT_OBJECT);
     }
-    
+
 	static function is_allowed_in_content_objects_subtree($right, $location)
     {
     	 return RightsUtilities :: is_allowed($right, $location, self :: TYPE_CONTENT_OBJECT, RepositoryManager :: APPLICATION_NAME, null, 0, self :: TREE_TYPE_CONTENT_OBJECT);
     }
-    
+
     static function create_content_objects_subtree_root_location()
     {
     	return RightsUtilities :: create_location('co_tree', RepositoryManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_CONTENT_OBJECT);
     }
-    
-	// External Repositories subtree
-    
-    static function create_location_in_external_repositories_subtree($name, $identifier, $parent)
+
+	// External Instances subtree
+
+    static function create_location_in_external_instances_subtree($name, $identifier, $parent)
     {
-    	return RightsUtilities :: create_location($name, RepositoryManager :: APPLICATION_NAME, self :: TYPE_CONTENT_OBJECT, $identifier, 1, $parent, 0, 0, self :: TREE_TYPE_EXTERNAL_REPOSITORY);
+    	return RightsUtilities :: create_location($name, RepositoryManager :: APPLICATION_NAME, self :: TYPE_EXTERNAL_INSTANCE, $identifier, 1, $parent, 0, 0, self :: TREE_TYPE_EXTERNAL_INSTANCE);
     }
-    
-    static function get_external_repositories_subtree_root()
+
+    static function get_external_instances_subtree_root()
     {
-    	return RightsUtilities :: get_root(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_EXTERNAL_REPOSITORY, 0);
+    	return RightsUtilities :: get_root(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_EXTERNAL_INSTANCE, 0);
     }
-    
-	static function get_external_repositories_subtree_root_id()
+
+	static function get_external_instances_subtree_root_id()
     {
-    	return RightsUtilities :: get_root_id(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_EXTERNAL_REPOSITORY, 0);
+    	return RightsUtilities :: get_root_id(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_EXTERNAL_INSTANCE, 0);
     }
-    
-    static function get_location_id_by_identifier_from_external_repositories_subtree($identifier)
+
+    static function get_location_id_by_identifier_from_external_instances_subtree($identifier)
     {
-    	return RightsUtilities :: get_location_id_by_identifier(RepositoryManager :: APPLICATION_NAME, self :: TYPE_CONTENT_OBJECT, $identifier, 0, self :: TREE_TYPE_EXTERNAL_REPOSITORY);
+    	return RightsUtilities :: get_location_id_by_identifier(RepositoryManager :: APPLICATION_NAME, self :: TYPE_EXTERNAL_INSTANCE, $identifier, 0, self :: TREE_TYPE_EXTERNAL_INSTANCE);
     }
-    
-	static function get_location_by_identifier_from_external_repositories_subtree($identifier)
+
+	static function get_location_by_identifier_from_external_instances_subtree($identifier)
     {
-    	return RightsUtilities :: get_location_by_identifier(RepositoryManager :: APPLICATION_NAME, self :: TYPE_CONTENT_OBJECT, $identifier, 0, self :: TREE_TYPE_EXTERNAL_REPOSITORY);
+    	return RightsUtilities :: get_location_by_identifier(RepositoryManager :: APPLICATION_NAME, self :: TYPE_EXTERNAL_INSTANCE, $identifier, 0, self :: TREE_TYPE_EXTERNAL_INSTANCE);
     }
-    
-	static function is_allowed_in_external_repositories_subtree($right, $location)
+
+	static function is_allowed_in_external_instances_subtree($right, $location)
     {
-    	 return RightsUtilities :: is_allowed($right, $location, self :: TYPE_CONTENT_OBJECT, RepositoryManager :: APPLICATION_NAME, null, 0, self :: TREE_TYPE_EXTERNAL_REPOSITORY);
+    	 return RightsUtilities :: is_allowed($right, $location, self :: TYPE_EXTERNAL_INSTANCE, RepositoryManager :: APPLICATION_NAME, null, 0, self :: TREE_TYPE_EXTERNAL_INSTANCE);
     }
-    
-    static function create_external_repositories_subtree_root_location()
+
+    static function create_external_instances_subtree_root_location()
     {
-    	return RightsUtilities :: create_location('ext_rep_tree', RepositoryManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_EXTERNAL_REPOSITORY);
-    }
-    
-    //Video conferencing subtreee
-    
-    static function create_location_in_videos_conferencing_subtree($name, $identifier, $parent)
-    {
-    	return RightsUtilities :: create_location($name, RepositoryManager :: APPLICATION_NAME, self :: TYPE_CONTENT_OBJECT, $identifier, 1, $parent, 0, 0, self :: TREE_TYPE_VIDEO_CONFERENCING);
-    }
-    
-    static function get_videos_conferencing_subtree_root()
-    {
-    	return RightsUtilities :: get_root(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_VIDEO_CONFERENCING, 0);
-    }
-    
-	static function get_videos_conferencing_subtree_root_id()
-    {
-    	return RightsUtilities :: get_root_id(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_VIDEO_CONFERENCING, 0);
-    }
-    
-    static function get_location_id_by_identifier_from_videos_conferencing_subtree($identifier)
-    {
-    	return RightsUtilities :: get_location_id_by_identifier(RepositoryManager :: APPLICATION_NAME, self :: TYPE_CONTENT_OBJECT, $identifier, 0, self :: TREE_TYPE_VIDEO_CONFERENCING);
-    }
-    
-	static function get_location_by_identifier_from_videos_conferencing_subtree($identifier)
-    {
-    	return RightsUtilities :: get_location_by_identifier(RepositoryManager :: APPLICATION_NAME, self :: TYPE_CONTENT_OBJECT, $identifier, 0, self :: TREE_TYPE_VIDEO_CONFERENCING);
-    }
-    
-	static function is_allowed_in_videos_conferencing_subtree($right, $location)
-    {
-    	 return RightsUtilities :: is_allowed($right, $location, self :: TYPE_CONTENT_OBJECT, RepositoryManager :: APPLICATION_NAME, null, 0, self :: TREE_TYPE_VIDEO_CONFERENCING);
-    }
-    
-    static function create_videos_conferencing_subtree_root_location()
-    {
-    	return RightsUtilities :: create_location('ext_rep_tree', RepositoryManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_VIDEO_CONFERENCING);
+    	return RightsUtilities :: create_location('ext_inst_tree', RepositoryManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_EXTERNAL_INSTANCE);
     }
 }
 ?>

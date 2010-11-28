@@ -38,7 +38,7 @@
 				var contentObjectId = $(this).attr('id').replace('lo_', ''),
 					imageProperties;
 				
-				imageProperties = doAjaxPost("./common/javascript/ajax/image_properties.php", { content_object: contentObjectId });
+				imageProperties = doAjaxPost("./common/libraries/php/ajax/image_properties.php", { content_object: contentObjectId });
 				imageProperties = eval('(' + imageProperties + ')');
 				setSelectedImage(imageProperties);
 			}

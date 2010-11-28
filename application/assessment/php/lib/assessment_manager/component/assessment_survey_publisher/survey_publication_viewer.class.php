@@ -12,6 +12,7 @@ use common\libraries\Translation;
 require_once dirname(__FILE__) . '/survey_user_table/survey_user_table.class.php';
 require_once dirname(__FILE__) . '/survey_publisher_component.class.php';
 
+
 class SurveyPublicationViewer extends SurveyPublisherComponent
 {
 

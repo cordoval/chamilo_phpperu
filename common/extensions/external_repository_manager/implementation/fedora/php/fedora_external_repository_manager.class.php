@@ -4,7 +4,7 @@ namespace common\extensions\external_repository_manager\implementation\fedora;
 use common\libraries\fedora_fs_store;
 use common\libraries\Path;
 
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
@@ -50,7 +50,7 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager
     /* (non-PHPdoc)
 	 * @see application/common/external_repository_manager/ExternalRepositoryManager#validate_settings()
 	 */
-    function validate_settings()
+    function validate_settings($external_repository)
     {
         return true;
     }
@@ -149,7 +149,7 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager
     {
         $connector = $this->get_external_repository_connector();
         $external_repository_id = $connector->get_external_repository_instance_id();
-        return ExternalRepositorySetting :: get('Api', $external_repository_id);
+        return ExternalSetting :: get('Api', $external_repository_id);
     }
 
     /**
