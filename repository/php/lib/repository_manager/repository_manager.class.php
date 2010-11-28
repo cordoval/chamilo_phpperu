@@ -25,6 +25,8 @@ use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\video_conferencing_manager\VideoConferencingManager;
 
 use user\UserDataManager;
+use rights\RightsDataManager;
+
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
 /**

@@ -56,6 +56,7 @@ class ObjectPublicationTableColumnModel extends ObjectTableColumnModel
         $wdm = WeblcmsDataManager :: get_instance();
 
         $columns = array();
+        $columns[] = new StaticTableColumn('Status');
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE, true, $wdm->get_alias(ContentObject :: get_table_name()));
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION, true, $wdm->get_alias(ContentObject :: get_table_name()));
         $columns[] = new ObjectTableColumn(ContentObjectPublication :: PROPERTY_PUBLICATION_DATE, true, $wdm->get_alias(ContentObjectPublication :: get_table_name()));

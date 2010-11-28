@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use common\libraries\StringUtilities;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) .'/qti_question_builder.class.php';
 require_once_all(dirname(__FILE__) .'/builder/*.class.php');
 

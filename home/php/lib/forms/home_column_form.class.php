@@ -58,7 +58,7 @@ class HomeColumnForm extends FormValidator
     {
         $this->build_basic_form();
         $this->addElement('hidden', HomeColumn :: PROPERTY_ID);
-        $this->addRule(HomeColumn :: PROPERTY_WIDTH, Translation :: get('MaxValue'), 'max_value', $this->exportValues());
+        $this->addRule(HomeColumn :: PROPERTY_WIDTH, Translation :: get('MaxColumnWidthValue'), 'max_value', $this->exportValues());
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
@@ -69,7 +69,7 @@ class HomeColumnForm extends FormValidator
     function build_creation_form()
     {
         $this->build_basic_form();
-        $this->addRule(HomeColumn :: PROPERTY_WIDTH, Translation :: get('MaxValue'), 'max_value', $this->exportValues());
+        $this->addRule(HomeColumn :: PROPERTY_WIDTH, Translation :: get('MaxColumnWidthValue'), 'max_value', $this->exportValues());
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));

@@ -1,12 +1,13 @@
 <?php
 namespace application\portfolio;
-use \HTML_Menu;
+
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\TreeMenuRenderer;
 
-
+use HTML_Menu_ArrayRenderer;
+use HTML_Menu;
 
 /**
  * This class provides a navigation menu to allow a user to browse through users
@@ -32,14 +33,14 @@ class UserMenu extends HTML_Menu
      * this menu.
      * @param int $current_category The ID of the current category in the menu.
      * @param string $url_format The format to use for the URL of a category.
-     *                           Passed to sprintf(). Defaults to the string
-     *                           "?category=%s".
+     * Passed to sprintf(). Defaults to the string
+     * "?category=%s".
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      */
     function __construct($firstletter, $url_format = '')
     {
-        $url_format = '?application=portfolio&go='. PortfolioManager::ACTION_BROWSE .'&firstletter=%s';
+        $url_format = '?application=portfolio&go=' . PortfolioManager :: ACTION_BROWSE . '&firstletter=%s';
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
         parent :: __construct($menu);
@@ -50,10 +51,10 @@ class UserMenu extends HTML_Menu
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_menu()
     {
@@ -129,7 +130,7 @@ class UserMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-	function render_as_tree()
+    function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
@@ -138,6 +139,6 @@ class UserMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-    	return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }
