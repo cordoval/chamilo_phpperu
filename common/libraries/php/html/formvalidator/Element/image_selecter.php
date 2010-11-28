@@ -3,6 +3,9 @@ use common\libraries\Translation;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\ImageManipulation;
+
+use repository\RepositoryDataManager;
 
 /**
  * $Id: element_finder.php 128 2009-11-09 13:13:20Z vanpouckesven $
@@ -187,19 +190,31 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
             $image_object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
 
             $dimensions = getimagesize($image_object->get_full_path());
-            $dimensions = ImageManipulation :: rescale($dimensions[ImageManipulation :: DIMENSION_WIDTH], $dimensions[ImageManipulation :: DIMENSION_HEIGHT], 500, 450, ImageManipulation :: SCALE_INSIDE);
 
-            $html[] = '<img id="selected_image" style="width: ' . $dimensions[ImageManipulation :: DIMENSION_WIDTH] . 'px; height: ' . $dimensions[ImageManipulation :: DIMENSION_HEIGHT] . 'px;" src="' . $image_object->get_url() . '" />';
+            $rescale_image = $this->options['rescale_image'];
+
+            if ($rescale_image)
+            {
+                $dimensions = ImageManipulation :: rescale($dimensions[ImageManipulation :: DIMENSION_WIDTH], $dimensions[ImageManipulation :: DIMENSION_HEIGHT], 500, 450, ImageManipulation :: SCALE_INSIDE);
+            }
+
+            $html[] = '<div id="selected_image" style="width: ' . $dimensions[ImageManipulation :: DIMENSION_WIDTH] . 'px; height: ' . $dimensions[ImageManipulation :: DIMENSION_HEIGHT] . 'px; background-image: url(' . $image_object->get_url() . ');"></div>';
         }
         else
         {
-            $html[] = '<img id="selected_image" />';
+            $html[] = '<div id="selected_image"></div>';
 
         }
 
         $html[] = '<div class="clear"></div>';
-        $html[] = '<button id="change_image" class="negative delete">' . htmlentities(Translation :: get('SelectAnotherImage')) . '</button>';
-        $html[] = '<div class="clear">&nbsp;</div>';
+
+        $allow_change = $this->options['allow_change'];
+        if ($allow_change)
+        {
+            $html[] = '<button id="change_image" class="negative delete">' . htmlentities(Translation :: get('SelectAnotherImage')) . '</button>';
+            $html[] = '<div class="clear">&nbsp;</div>';
+        }
+
         $html[] = '</div>';
 
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js');
@@ -223,13 +238,21 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
         $load_elements = $this->options['load_elements'];
         $load_elements = (isset($load_elements) && $load_elements == false ? ', loadElements: false' : ', loadElements: true');
 
+        $rescale_image = $this->options['rescale_image'];
+        $rescale_image = (isset($rescale_image) && $rescale_image == false ? ', rescaleImage: false' : ', rescaleImage: true');
+
         $default_query = $this->options['default_query'];
         $default_query = (isset($default_query) && ! empty($default_query) ? ', defaultQuery: "' . $default_query . '"' : '');
 
         $html[] = '$(function () {';
         $html[] = '	$(document).ready(function ()';
 		$html[] = '	{';
-        $html[] = '		$("#' . $id . '").elementselecter({ name: "' . $this->getName() . '", search: "' . $this->search_url . '"' . $load_elements . $default_query . ' });';
+        $html[] = '		$("#' . $id . '").elementselecter({
+        	name: "' . $this->getName() . '",
+        	search: "' . $this->search_url . '"' .
+            $load_elements .
+            $rescale_image .
+            $default_query . ' });';
         $html[] = '	});';
         $html[] = '});';
 

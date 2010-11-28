@@ -1,5 +1,4 @@
 <?php
-
 namespace common\libraries;
 
 use repository\content_object\document\Document;

@@ -12,6 +12,7 @@
 					search: '',
 					nodesSelectable: false,
 					loadElements: false,
+					rescaleImage: true,
 					defaultQuery: ''
 			};
 			
@@ -22,12 +23,22 @@
 			
 			function setSelectedImage(imageProperties)
 			{
-				imageProperties = scaleDimensions(600, 450, imageProperties);
-				
+			    if (settings.rescaleImage)
+			    {
+			        imageProperties = scaleDimensions(600, 450, imageProperties);
+			        var width = imageProperties.thumbnailWidth;
+			        var height = imageProperties.thumbnailHeight;
+			    }
+			    else
+			    {
+                    var width = imageProperties.width;
+                    var height = imageProperties.height;
+			    }
+			    
 				$('input[name="' + settings.name + '"]').val(imageProperties.id);
-				$('#selected_image').attr('src', imageProperties.webPath);
-				$('#selected_image').css('width', imageProperties.thumbnailWidth + 'px');
-				$('#selected_image').css('height', imageProperties.thumbnailHeight + 'px');
+				$('#selected_image').css('background-image', 'url(' + imageProperties.webPath + ')');
+				$('#selected_image').css('width', width + 'px');
+				$('#selected_image').css('height', height + 'px');
 				$('#image_container').show();
 				$('#image_select').hide();
 			}
@@ -261,10 +272,10 @@
 				
 				// Initialize the uploadify plugin
 				$('#' + settings.name + '_uploadify').uploadify ({
-					'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
-					'script': getPath('WEB_PATH') + 'common/javascript/ajax/upload_image.php',
-					'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/cancel.png',
-					'buttonText': getTranslation('Upload', 'repository').toUpperCase(),
+					'uploader': getPath('WEB_PATH') + 'common/libraries/resources/images/' + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
+					'script': getPath('WEB_PATH') + 'common/libraries/php/ajax/upload_image.php',
+					'cancelImg': getPath('WEB_PATH') + 'common/libraries/resources/images/' + getTheme() + '/plugin/jquery/uploadify2/cancel.png',
+					'buttonText': getTranslation('Upload', null, 'repository').toUpperCase(),
 					'folder': 'not_important',
 					'auto': true,
 					'scriptData': {'owner': getMemory('_uid')},
@@ -272,6 +283,7 @@
 					{
 						imageProperties = eval('(' + response + ')');
 						setSelectedImage(imageProperties);
+						$('input[name="' + settings.name + '"]').trigger('change');
 					}
 				});
 				
