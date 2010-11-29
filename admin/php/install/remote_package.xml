@@ -7,9 +7,9 @@
 		<property name="name" type="text" length="255" fixed="true" />
 		<property name="section" type="text" length="255" fixed="true" />
 		<property name="category" type="text" length="255" fixed="true" />
-		<property name="author" type="text" length="255" fixed="true" />
+		<property name="authors" type="text" />
 		<property name="version" type="text" length="255" fixed="true" />
-		<property name="release" type="text" />
+		<property name="release_type" type="text" />
 		<property name="filename" type="text" length="255" fixed="true" />
 		<property name="size" type="integer" notnull="1" default="0" />
 		<property name="md5" type="text" length="32" fixed="true" />

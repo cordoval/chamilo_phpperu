@@ -21,7 +21,7 @@ class RemotePackage extends DataClass
     const PROPERTY_NAME = 'name';
     const PROPERTY_SECTION = 'section';
     const PROPERTY_CATEGORY = 'category';
-    const PROPERTY_AUTHOR = 'author';
+    const PROPERTY_AUTHORS = 'authors';
     const PROPERTY_VERSION = 'version';
     const PROPERTY_RELEASE = 'release';
     const PROPERTY_FILENAME = 'filename';
@@ -57,7 +57,7 @@ class RemotePackage extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_CODE, self :: PROPERTY_NAME, self :: PROPERTY_SECTION, self :: PROPERTY_CATEGORY, self :: PROPERTY_AUTHOR, self :: PROPERTY_VERSION, self :: PROPERTY_RELEASE, self :: PROPERTY_FILENAME,
+                self :: PROPERTY_CODE, self :: PROPERTY_NAME, self :: PROPERTY_SECTION, self :: PROPERTY_CATEGORY, self :: PROPERTY_AUTHORS, self :: PROPERTY_VERSION, self :: PROPERTY_RELEASE, self :: PROPERTY_FILENAME,
                 self :: PROPERTY_SIZE, self :: PROPERTY_MD5, self :: PROPERTY_SHA1, self :: PROPERTY_SHA256, self :: PROPERTY_SHA512, self :: PROPERTY_TAGLINE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_HOMEPAGE,
                 self :: PROPERTY_DEPENDENCIES, self :: PROPERTY_EXTRA));
     }
@@ -143,21 +143,21 @@ class RemotePackage extends DataClass
     }
 
     /**
-     * Returns the author of this Package.
-     * @return the author.
+     * Returns the authors of this Package.
+     * @return the authors.
      */
-    function get_author()
+    function get_authors()
     {
-        return $this->get_default_property(self :: PROPERTY_AUTHOR);
+        return unserialize($this->get_default_property(self :: PROPERTY_AUTHORS));
     }
 
     /**
-     * Sets the author of this Package.
-     * @param author
+     * Sets the authors of this Package.
+     * @param authors
      */
-    function set_author($author)
+    function set_authors($authors)
     {
-        $this->set_default_property(self :: PROPERTY_AUTHOR, $author);
+        $this->set_default_property(self :: PROPERTY_AUTHORS, serialize($authors));
     }
 
     /**

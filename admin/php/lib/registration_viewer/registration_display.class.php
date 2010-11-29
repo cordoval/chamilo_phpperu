@@ -140,8 +140,8 @@ class RegistrationDisplay
         $html[] = '<h3>' . Translation :: get('ReleaseInformation') . '</h3>';
         $html[] = '<table class="data_table data_table_no_header">';
         $html[] = '<tr><td class="header">' . Translation :: get('Version') . '</td><td>' . $package_info->get_version() . '</td></tr>';
-        $html[] = '<tr><td class="header">' . Translation :: get('ReleasePhase') . '</td><td>' . Translation :: get('Phase' . Utilities :: underscores_to_camelcase($package_info->get_release_phase())) . '</td></tr>';
-        $html[] = '<tr><td class="header">' . Translation :: get('ReleaseRealm') . '</td><td>' . Translation :: get('Realm' . Utilities :: underscores_to_camelcase($package_info->get_release_realm())) . '</td></tr>';
+        $html[] = '<tr><td class="header">' . Translation :: get('ReleasePhase') . '</td><td>' . Translation :: get('ReleasePhase' . Utilities :: underscores_to_camelcase($package_info->get_release_phase())) . '</td></tr>';
+        $html[] = '<tr><td class="header">' . Translation :: get('ReleaseRealm') . '</td><td>' . Translation :: get('ReleaseRealm' . Utilities :: underscores_to_camelcase($package_info->get_release_realm())) . '</td></tr>';
 
         //        $hidden_properties = array(RemotePackage :: PROPERTY_RELEASE, RemotePackage :: PROPERTY_DEPENDENCIES, RemotePackage :: PROPERTY_EXTRA);
         //

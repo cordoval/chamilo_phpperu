@@ -38,6 +38,8 @@ class DefaultRemotePackageTableCellRenderer extends ObjectTableCellRenderer
                 return $remote_package->get_name();
             case RemotePackage :: PROPERTY_VERSION :
                 return $remote_package->get_version();
+            case RemotePackage :: PROPERTY_RELEASE_REALM :
+                return Translation :: get('ReleaseRealm' . $remote_package->get_release_realm());
             case RemotePackage :: PROPERTY_DESCRIPTION :
                 return $remote_package->get_description();
             default :
