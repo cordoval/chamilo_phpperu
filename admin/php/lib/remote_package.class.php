@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+
 use common\libraries\Utilities;
 use common\libraries\DataClass;
 /**
@@ -19,8 +20,10 @@ class RemotePackage extends DataClass
     const PROPERTY_CODE = 'code';
     const PROPERTY_NAME = 'name';
     const PROPERTY_SECTION = 'section';
+    const PROPERTY_CATEGORY = 'category';
     const PROPERTY_AUTHOR = 'author';
     const PROPERTY_VERSION = 'version';
+    const PROPERTY_RELEASE = 'release';
     const PROPERTY_FILENAME = 'filename';
     const PROPERTY_SIZE = 'size';
     const PROPERTY_MD5 = 'md5';
@@ -31,6 +34,21 @@ class RemotePackage extends DataClass
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_HOMEPAGE = 'homepage';
     const PROPERTY_DEPENDENCIES = 'dependencies';
+    const PROPERTY_EXTRA = 'extra';
+
+    // Sub-properties
+    const PROPERTY_RELEASE_PHASE = 'phase';
+    const PROPERTY_RELEASE_REALM = 'realm';
+
+    // Release phases
+    const PHASE_ALPHA = 'alpha';
+    const PHASE_BETA = 'beta';
+    const PHASE_RELEASE_CANDIDATE = 'release_candidate';
+    const PHASE_GENERAL_AVAILABILITY = 'general_availability';
+
+    // Release realm
+    const REALM_MAIN = 'main';
+    const REALM_UNIVERSE = 'universe';
 
     /**
      * Get the default properties
@@ -39,8 +57,9 @@ class RemotePackage extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_CODE, self :: PROPERTY_NAME, self :: PROPERTY_SECTION, self :: PROPERTY_AUTHOR, self :: PROPERTY_VERSION, self :: PROPERTY_FILENAME, self :: PROPERTY_SIZE, self :: PROPERTY_MD5, self :: PROPERTY_SHA1, self :: PROPERTY_SHA256, self :: PROPERTY_SHA512,
-                self :: PROPERTY_TAGLINE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_HOMEPAGE, self :: PROPERTY_DEPENDENCIES));
+                self :: PROPERTY_CODE, self :: PROPERTY_NAME, self :: PROPERTY_SECTION, self :: PROPERTY_CATEGORY, self :: PROPERTY_AUTHOR, self :: PROPERTY_VERSION, self :: PROPERTY_RELEASE, self :: PROPERTY_FILENAME,
+                self :: PROPERTY_SIZE, self :: PROPERTY_MD5, self :: PROPERTY_SHA1, self :: PROPERTY_SHA256, self :: PROPERTY_SHA512, self :: PROPERTY_TAGLINE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_HOMEPAGE,
+                self :: PROPERTY_DEPENDENCIES, self :: PROPERTY_EXTRA));
     }
 
     /**
@@ -106,6 +125,24 @@ class RemotePackage extends DataClass
     }
 
     /**
+     * Returns the category of this Package.
+     * @return the category.
+     */
+    function get_category()
+    {
+        return $this->get_default_property(self :: PROPERTY_CATEGORY);
+    }
+
+    /**
+     * Sets the category of this Package.
+     * @param category
+     */
+    function set_category($category)
+    {
+        $this->set_default_property(self :: PROPERTY_CATEGORY, $category);
+    }
+
+    /**
      * Returns the author of this Package.
      * @return the author.
      */
@@ -139,6 +176,44 @@ class RemotePackage extends DataClass
     function set_version($version)
     {
         $this->set_default_property(self :: PROPERTY_VERSION, $version);
+    }
+
+    /**
+     * Returns the release of this Package.
+     * @return the release.
+     */
+    function get_release()
+    {
+        return unserialize($this->get_default_property(self :: PROPERTY_RELEASE));
+    }
+
+    /**
+     * Sets the release of this Package.
+     * @param release
+     */
+    function set_release($release)
+    {
+        $this->set_default_property(self :: PROPERTY_RELEASE, serialize($release));
+    }
+
+    /**
+     * Returns the release phase of this Package.
+     * @return the release phase.
+     */
+    function get_release_phase()
+    {
+        $release = $this->get_release();
+        return $release[self :: PROPERTY_RELEASE_PHASE];
+    }
+
+    /**
+     * Returns the release realm of this Package.
+     * @return the release realm.
+     */
+    function get_release_realm()
+    {
+        $release = $this->get_release();
+        return $release[self :: PROPERTY_RELEASE_REALM];
     }
 
     /**
@@ -286,6 +361,24 @@ class RemotePackage extends DataClass
     }
 
     /**
+     * Returns the extras of this Package.
+     * @return the extras.
+     */
+    function get_extra()
+    {
+        return unserialize($this->get_default_property(self :: PROPERTY_EXTRA));
+    }
+
+    /**
+     * Sets the extras of this Package.
+     * @param extras
+     */
+    function set_extra($extra)
+    {
+        $this->set_default_property(self :: PROPERTY_EXTRA, serialize($extra));
+    }
+
+    /**
      * Returns the homepage of this Package.
      * @return the homepage.
      */
@@ -309,7 +402,7 @@ class RemotePackage extends DataClass
      */
     function get_dependencies()
     {
-        return $this->get_default_property(self :: PROPERTY_DEPENDENCIES);
+        return unserialize($this->get_default_property(self :: PROPERTY_DEPENDENCIES));
     }
 
     /**
@@ -318,12 +411,22 @@ class RemotePackage extends DataClass
      */
     function set_dependencies($dependencies)
     {
-        $this->set_default_property(self :: PROPERTY_DEPENDENCIES, $dependencies);
+        $this->set_default_property(self :: PROPERTY_DEPENDENCIES, serialize($dependencies));
     }
 
     static function get_table_name()
     {
         return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
+    }
+
+    function is_official()
+    {
+        return $this->get_release_realm() == self :: REALM_MAIN;
+    }
+
+    function is_stable()
+    {
+        return $this->get_release_phase() == self :: PHASE_GENERAL_AVAILABILITY;
     }
 }
 

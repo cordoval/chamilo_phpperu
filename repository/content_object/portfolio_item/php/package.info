@@ -8,7 +8,7 @@
 		<authors></authors>
 		<version>1.0.0</version>
 		<release>
-			<phase>GA</phase>
+			<phase>general_availability</phase>
 			<realm>main</realm>
 		</release>
 		<filename>pool/main/content_object/p/portfolio_item/portfolio_item-1.0.0.zip</filename>

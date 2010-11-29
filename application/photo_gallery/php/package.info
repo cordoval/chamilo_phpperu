@@ -14,7 +14,7 @@
 		</authors>
 		<version>1.0.0</version>
 		<release>
-			<phase>GA</phase>
+			<phase>general_availability</phase>
 			<realm>main</realm>
 		</release>
 		<filename>pool/main/application/p/photo_gallery/photo_gallery-1.0.0.zip</filename>

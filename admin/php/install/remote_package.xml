@@ -6,8 +6,10 @@
 		<property name="code" type="text" length="255" fixed="true" />
 		<property name="name" type="text" length="255" fixed="true" />
 		<property name="section" type="text" length="255" fixed="true" />
+		<property name="category" type="text" length="255" fixed="true" />
 		<property name="author" type="text" length="255" fixed="true" />
 		<property name="version" type="text" length="255" fixed="true" />
+		<property name="release" type="text" />
 		<property name="filename" type="text" length="255" fixed="true" />
 		<property name="size" type="integer" notnull="1" default="0" />
 		<property name="md5" type="text" length="32" fixed="true" />
@@ -18,11 +20,15 @@
 		<property name="description" type="text" />
 		<property name="homepage" type="text" length="255" fixed="true" />
 		<property name="dependencies" type="text" />
+		<property name="extra" type="text" />
 	</properties>
 	<index name="code" type="unique">
 		<indexproperty name="code" />
 	</index>
 	<index name="section">
 		<indexproperty name="section" />
+	</index>
+	<index name="category">
+		<indexproperty name="category" />
 	</index>
 </object>

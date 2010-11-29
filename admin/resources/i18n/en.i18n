@@ -261,3 +261,8 @@ ExtensionPackages = "Extensions"
 VideoConferencingManagerPackages = "Video conferencing"
 CurrentlyInstalled = "Currently installed"
 PackageManagerLocalComponent = "Local installation"
+
+WarningPackageUnofficialStable = "Please note that while this package is marked as stable, it is not officialy supported. Install it at your own risk."
+WarningPackageOfficialUnstable = "Please note that while this is an official package, it is still marked as unstable. Install it at your own risk."
+WarningPackageUnofficialUnstable = "Please note that this is an unofficial and unstable package. Install it at your own risk."
+InformationPackageOfficialStable = "This package is both marked as stable and officialy supported. Installing it should be safe, please consult the community if you do encounter problems."
