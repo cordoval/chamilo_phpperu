@@ -31,7 +31,7 @@ class BufferedObjectImport{
     	}else{
     		$cache->register($key, null);
     		$file_name = basename($path);
-    		$log->error(Translation :: get('ObjectNotImported', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES). ': ' .$file_name);
+    		$log->error(Translation::translate('ContentObjectNotImported'). ': ' .$file_name);
     		return null;
     	}
 	}

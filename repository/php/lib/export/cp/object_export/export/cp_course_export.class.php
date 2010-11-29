@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use application\weblcms\Course;
+use repository\ContentObjectExport;
+
 /**
  * Export course publications.
  *
@@ -11,8 +14,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use application\weblcms\Course;
-
 class CpCourseExport extends CpObjectExport
 {
 

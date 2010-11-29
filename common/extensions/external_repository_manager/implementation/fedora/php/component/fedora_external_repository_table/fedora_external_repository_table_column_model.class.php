@@ -8,7 +8,8 @@ use common\libraries\StaticTableColumn;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
-require_once Path::get_common_libraries_path() . 'php/html/table/object_table/object_table_column_model.class.php';
+
+require_once Path::get_common_libraries_class_path() . '/html/table/object_table/object_table_column_model.class.php';
 
 /**
  * Table column model for the repository browser table
@@ -25,7 +26,7 @@ class FedoraExternalRepositoryTableColumnModel extends ObjectTableColumnModel
      */
     function __construct()
     {
-        parent::__construct(self::get_default_columns(), 2);
+        parent::__construct(self::get_default_columns(), 2, SORT_DESC);
         //$this->set_default_order_column(1);
         $this->add_column(self::get_modification_column());
     }

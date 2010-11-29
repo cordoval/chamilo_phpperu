@@ -1,13 +1,15 @@
 <?php
 namespace repository;
+
+use repository\content_object\assessment_rating_question\AssessmentRatingQuestion;
+use repository\ContentObject;
+
 /**
  *
  * @copyright (c) 2010 University of Geneva
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\assessment_rating_question\AssessmentRatingQuestion;
-
 class QtiAssessmentRatingQuestionSerializer extends QtiQuestionSerializer
 {
 

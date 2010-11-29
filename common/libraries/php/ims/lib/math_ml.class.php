@@ -2,19 +2,19 @@
 namespace common\libraries;
 
 /**
- * 
+ *
  * MathML tags.
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
  */
 class MathML{
-	
+
 	private static $tags = null;
-	
+
 	public static function get_tags(){
 		if(empty(self::$tags)){
 			$result['abs'] = 'abs';
@@ -208,10 +208,10 @@ class MathML{
 			$result['xor'] = 'xor';
 			self::$tags = $result;
 		}
-		
+
 		return self::$tags;
 	}
-	
+
 }
 
 

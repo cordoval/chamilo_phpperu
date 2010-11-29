@@ -41,8 +41,6 @@ class UrlCpImport extends CpObjectImportBase{
     	return '';
     }
 
-
-
 }
 
 

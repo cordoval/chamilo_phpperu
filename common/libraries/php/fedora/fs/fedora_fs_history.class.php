@@ -28,7 +28,7 @@ class fedora_fs_history extends fedora_fs_folder{
 	}
 
 	public function get_thumbnail(){
-		$default = fedora_fs_resource('history.png');
+		$default = $default = self::$resource_base . 'history.png';
 		return $this->get(__FUNCTION__, $default);
 	}
 
@@ -72,8 +72,8 @@ class fedora_fs_history extends fedora_fs_folder{
 		if($limit){
 			$limit = min(self::$max_results, (int)$limit);
 		}
-		$objects = self::itql_find($fedora, $start, $end, $owner, $sort, $limit, $offset);
-		//$objects = self::sparql_find($fedora, '', 0, $start, $end, $owner, self::get_max_results());
+		$state_text = $this->get_state_text();
+		$objects = self::itql_find($fedora, $start, $end, $owner, $state_text, $sort, $limit, $offset);
 		foreach($objects as $object){
 			$pid = $object['pid'];
 			$label = $object['label'];

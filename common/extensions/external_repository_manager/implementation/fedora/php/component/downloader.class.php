@@ -4,6 +4,7 @@ namespace common\extensions\external_repository_manager\implementation\fedora;
 use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Session;
+use common\libraries\Filesystem;
 
 include_once Path::get_repository_path() . '/lib/import/content_object_import.class.php';
 
@@ -38,7 +39,7 @@ class FedoraExternalRepositoryManagerDownloaderComponent extends FedoraExternalR
 		$mime = $ds->get_mime_type();
 		$ext = $ds->get_extention();
 		$ext = $ext ? '.' . $ext : '';
-		$title = '"' . $ds->get_title() . '"' . $ext;
+		$title = '"' . $ds->get_title() . $ext . '"' ;
 
 		$content = $this->retrieve_datastream_content($pid, $dsID);
 		$path = Path::get_temp_path() . '/f' . sha1(Session::get_user_id() . time());

@@ -66,7 +66,7 @@ class Log{
 				$this->translate($m, $type);
 			}
 		}else{
-			$this->write(Translation::get($messages), $type);
+			$this->write(Translation::translate($messages), $type);
 		}
 	}
 

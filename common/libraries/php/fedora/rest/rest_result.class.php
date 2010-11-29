@@ -1,73 +1,73 @@
 <?php
 namespace common\libraries;
 
-class RestResult 
+class RestResult
 {
     /**
 	* the http method used for the request
 	*
 	* @var string
-	*/ 
+	*/
 	private $request_http_method;
-	
+
 	/**
 	* the request connexion mode
 	*
 	* @var string
-	*/ 
+	*/
 	private $request_connexion_mode;
-	
+
 	/**
 	* the data sent with the request
 	*
 	* @var string
-	*/ 
+	*/
 	private $request_sent_data;
-	
+
 	/**
 	* the request URL
 	*
 	* @var string
-	*/ 
+	*/
 	private $request_url;
-	
+
 	/**
 	* the request port number
 	*
 	* @var integer
-	*/ 
+	*/
 	private $request_port;
-	
+
     /**
 	* HTTP code returned
 	*
 	* @var integer
-	*/ 
+	*/
 	private $response_http_code;
-    
+
 	/**
 	* MIME type returned
 	*
 	* @var string
-	*/ 
+	*/
 	private $response_mime_type;
-	
+
 	/**
 	* the response content
 	*
 	* @var string
-	*/ 
+	*/
 	private $response_content;
-	
+
 	/**
 	* the response error
 	*
 	* @var string
-	*/ 
+	*/
 	private $response_error;
-	
+
 	/****************************************************************************************/
-	
+
 	/**
 	* Get HTTP code returned
 	*
@@ -77,7 +77,7 @@ class RestResult
 	{
 		return $this->response_http_code;
 	}
-	
+
 	/**
 	* Set HTTP code returned
 	*
@@ -88,9 +88,9 @@ class RestResult
 	{
 		$this->response_http_code = $response_http_code;
 	}
-	
+
 	/****************************************************************************************/
-	
+
 	/**
 	* Get MIME type returned
 	*
@@ -100,7 +100,7 @@ class RestResult
 	{
 		return $this->response_mime_type;
 	}
-	
+
 	/**
 	* Set MIME type returned
 	*
@@ -111,10 +111,10 @@ class RestResult
 	{
 		$this->response_mime_type = $response_mime_type;
 	}
-	
-	
+
+
 	/****************************************************************************************/
-	
+
 	/**
 	* Get the response content
 	*
@@ -124,7 +124,7 @@ class RestResult
 	{
 		return $this->response_content;
 	}
-	
+
 	/**
 	* Set the response content
 	*
@@ -135,10 +135,10 @@ class RestResult
 	{
 		$this->response_content = $response_content;
 	}
-	
-	
+
+
 	/****************************************************************************************/
-	
+
 	/**
 	* Get the response error
 	*
@@ -148,7 +148,7 @@ class RestResult
 	{
 		return $this->response_error;
 	}
-	
+
 	/**
 	* Set the response error
 	*
@@ -159,8 +159,8 @@ class RestResult
 	{
 		$this->response_error = $response_error;
 	}
-	
-	
+
+
 	/**
 	 * @return boolean Indicates if this response object contains an error
 	 */
@@ -169,9 +169,9 @@ class RestResult
 	    $error = $this->get_response_error();
 	    return isset($error) && strlen($error) > 0;
 	}
-	
+
 	/****************************************************************************************/
-	
+
 	/**
 	* Get the http method used for the request
 	*
@@ -181,7 +181,7 @@ class RestResult
 	{
 		return $this->request_http_method;
 	}
-	
+
 	/**
 	* Set the http method used for the request
 	*
@@ -192,10 +192,10 @@ class RestResult
 	{
 		$this->request_http_method = $request_http_method;
 	}
-	
-	
+
+
 	/****************************************************************************************/
-	
+
 	/**
 	* Get the request connexion mode
 	*
@@ -205,7 +205,7 @@ class RestResult
 	{
 		return $this->request_connexion_mode;
 	}
-	
+
 	/**
 	* Set the request connexion mode
 	*
@@ -216,10 +216,10 @@ class RestResult
 	{
 		$this->request_connexion_mode = $request_connexion_mode;
 	}
-	
-	
+
+
 	/****************************************************************************************/
-	
+
 	/**
 	* Get the data sent with the request
 	*
@@ -229,7 +229,7 @@ class RestResult
 	{
 		return $this->request_sent_data;
 	}
-	
+
 	/**
 	* Set the data sent with the request
 	*
@@ -240,10 +240,10 @@ class RestResult
 	{
 		$this->request_sent_data = $request_sent_data;
 	}
-	
-	
+
+
 	/****************************************************************************************/
-	
+
 	/**
 	* Get the request URL
 	*
@@ -253,7 +253,7 @@ class RestResult
 	{
 		return $this->request_url;
 	}
-	
+
 	/**
 	* Set the request URL
 	*
@@ -264,10 +264,10 @@ class RestResult
 	{
 		$this->request_url = $request_url;
 	}
-	
-	
+
+
 	/****************************************************************************************/
-	
+
 	/**
 	* Get the request port number
 	*
@@ -277,7 +277,7 @@ class RestResult
 	{
 		return $this->request_port;
 	}
-	
+
 	/**
 	* Set the request port number
 	*
@@ -288,10 +288,10 @@ class RestResult
 	{
 		$this->request_port = $request_port;
 	}
-	
-	
+
+
 	/****************************************************************************************/
-	
-	
+
+
 }
 ?>

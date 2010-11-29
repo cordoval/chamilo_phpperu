@@ -8,9 +8,12 @@ use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
+use repository\CpObjectExport;
+use application\weblcms\Tool;
 
 require_once dirname(__FILE__) . '/maintenance_wizard_page.class.php';
-require_once Path :: get_repository_path() . '/lib/export/cp/cp_export.class.php';
+
+//require_once Path :: get_repository_path() . '/lib/export/cp/cp_export.class.php';
 
 /**
  * This form can be used to let the user select publications in the course.
@@ -39,7 +42,7 @@ class CpExportSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 
         foreach ($publications as $tool => $tool_publications)
         {
-            $label = Translation :: get(ucfirst($tool) . 'ToolTitle');
+            $label = Translation :: get('TypeName', null, Tool :: get_tool_type_namespace($tool));
             foreach ($tool_publications as $index => $publication)
             {
                 $label = $index == 0 ? $label : '';

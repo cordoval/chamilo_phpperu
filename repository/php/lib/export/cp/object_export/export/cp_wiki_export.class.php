@@ -1,6 +1,12 @@
 <?php
 namespace repository;
 
+use repository\content_object\wiki\Wiki;
+use repository\ContentObject;
+use common\libraries\ImscpManifestWriter;
+use common\libraries\ObjectExportSettings;
+use common\libraries\Chamilo;
+
 /**
  * Export Wiki objects as a sub IMS CP package.
  *
@@ -10,8 +16,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\wiki\Wiki;
-
 class CpWikiExport extends CpObjectExport
 {
 
@@ -24,7 +28,7 @@ class CpWikiExport extends CpObjectExport
         }
         else
         {
-            return NULL;
+            return null;
         }
     }
 
@@ -41,6 +45,8 @@ class CpWikiExport extends CpObjectExport
     {
         $settings = $this->get_settings();
         $object = $settings->get_object();
+            debug($object);
+            die;
 
         //$safe_name = str_safe($object->get_title()). '.wiki';
         $safe_name = $this->get_file_name($object, 'wiki');

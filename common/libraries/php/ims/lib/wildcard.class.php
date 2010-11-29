@@ -4,10 +4,10 @@ namespace common\libraries;
 /**
  * Utility class to translate wildcard patterns (* = any character) to a regex and
  * the other way around.
- * 
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ *
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
@@ -37,18 +37,18 @@ class Wildcard{
 		$result = self::preg_unquote($result);
 		return $result;
 	}
-	
+
 	public static function preg_unquote($text){
 		$result = $text;
 		$chars = '. \\ + * ? [ ^ ] $ ( ) { } = ! < > | : -';
 		$chars = explode(' ', $chars);
 		foreach($chars as $char){
 			$pattern = '\\'.$char;
-			$result = str_replace($pattern, $char, $result); 
-		} 
+			$result = str_replace($pattern, $char, $result);
+		}
 		return $result;
 	}
-	
+
 	public static function to_regex($regex, $is_case_sensitive){
 		$result = $is_case_sensitive ? $regex : strtolower($regex);
 		$star_escape = '_aa_start_aa_';
@@ -67,7 +67,7 @@ class Wildcard{
 	public static function has_wildcard($text){
 		return strpos($text, '*') !== false;
 	}
-	
+
 	/**
 	 * Simple check. Mostly intended to reimport the export.
 	 * @param unknown_type $regex
@@ -79,16 +79,16 @@ class Wildcard{
 			$pattern = '['. strtolower($letter).strtoupper($letter) . ']';
 			$regex = str_ireplace($pattern, '', $regex);
 		}
-		
+
 		foreach($letters as $letter){
 			if(strpos($regex, $letter) !== false){
 				return true;
 			}
 		}
 		return false;
-		
+
 	}
-	
+
 }
 
 

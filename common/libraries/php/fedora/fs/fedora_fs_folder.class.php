@@ -37,7 +37,7 @@ class fedora_fs_folder extends fedora_fs_base{
 		return $query->count($fedora);
 	}
 
-	static function itql_find($fedora, $start_date = null, $end_date = null, $owner='', $sort=false, $hitPageSize=false, $offset=false){
+	static function itql_find($fedora, $start_date = null, $end_date = null, $owner='', $state_text = 'Active', $sort=false, $hitPageSize=false, $offset=false){
 		$query = new fedora_fs_itql_query();
 		$query->start_date = $start_date;
 		$query->end_date = $end_date;
@@ -45,6 +45,7 @@ class fedora_fs_folder extends fedora_fs_base{
 		$query->hitPageSize = $hitPageSize;
 		$query->offset = $offset;
 		$query->sort = $sort;
+		$query->state_text = $state_text;
 		return $query->query($fedora);
 	}
 
@@ -64,7 +65,7 @@ class fedora_fs_folder extends fedora_fs_base{
 	}
 
 	public function get_thumbnail(){
-		$default = fedora_fs_resource('folder.png');
+		$default = $default = self::$resource_base . 'folder.png';
 		return $this->get(__FUNCTION__, $default);
 	}
 
@@ -109,8 +110,8 @@ class fedora_fs_folder extends fedora_fs_base{
 		}else{
 			$result = ($wa > $wb) ? -1 : 1;
 		}
-		//echo($wa  .' : '. $wb . ' : '. $result); echo "<br/>\n";
 		return $result;
 	}
 }
+
 

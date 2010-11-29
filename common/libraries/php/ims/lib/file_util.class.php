@@ -3,9 +3,9 @@ namespace common\libraries;
 
 /**
  * Helper class for file management.
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
