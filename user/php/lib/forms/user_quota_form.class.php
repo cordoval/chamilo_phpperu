@@ -7,16 +7,19 @@ use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\FormValidator;
 use common\libraries\Utilities;
+use common\libraries\event;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
 
 use repository\ContentObject;
 use repository\RepositoryDataManager;
-use repository\ExternalRepositorySetting;
-use repository\ExternalRepository;
+use repository\ExternalSetting;
+use repository\ExternalInstance;
+use repository\ExternalRepositoryUserQuotum;
 
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 /**
  * $Id: user_quota_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms
@@ -226,14 +229,14 @@ class UserQuotaForm extends FormValidator
 
         foreach ($this->get_active_external_repositories() as $repository)
         {
-            if ($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['settings']->get_external_repository_id()))
+            if ($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['settings']->get_external_id()))
 
             {
-                $defaults[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['settings']->get_external_repository_id()] = $user_quotum->get_quotum();
+                $defaults[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['settings']->get_external_id()] = $user_quotum->get_quotum();
             }
             else
             {
-                $defaults[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['settings']->get_external_repository_id()] = $repository['settings']->get_value();
+                $defaults[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['settings']->get_external_id()] = $repository['settings']->get_value();
             }
         }
 
@@ -269,15 +272,15 @@ class UserQuotaForm extends FormValidator
         {
             $rdm = RepositoryDataManager :: get_instance();
 
-            $condition2 = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_VARIABLE, ExternalRepositoryManager :: PARAM_USER_QUOTUM);
-            $settings = $rdm->retrieve_external_repository_settings($condition2);
+            $condition2 = new EqualityCondition(ExternalSetting :: PROPERTY_VARIABLE, ExternalRepositoryManager :: PARAM_USER_QUOTUM);
+            $settings = $rdm->retrieve_external_settings($condition2);
             while ($setting = $settings->next_result())
             {
-                $tempSettings[$setting->get_external_repository_id()] = $setting;
+                $tempSettings[$setting->get_external_id()] = $setting;
             }
 
-            $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ENABLED, 1);
-            $active_external_repositories = $rdm->retrieve_external_repositories($condition);
+            $condition = new EqualityCondition(ExternalInstance :: PROPERTY_ENABLED, 1);
+            $active_external_repositories = $rdm->retrieve_external_instances($condition);
 
             while ($active_external_repository = $active_external_repositories->next_result())
             {

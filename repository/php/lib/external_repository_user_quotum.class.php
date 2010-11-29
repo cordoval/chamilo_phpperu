@@ -11,7 +11,7 @@ use common\libraries\DataClass;
  */
 class ExternalRepositoryUserQuotum extends DataClass {
 
-    const CLASS_NAME = 'ExternalRepositoryUserQuotum';
+    const CLASS_NAME = __CLASS__;
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PROPERTY_QUOTUM = 'quotum';
@@ -57,7 +57,7 @@ class ExternalRepositoryUserQuotum extends DataClass {
 
     static function get_table_name()
     {
-        return  Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
     }
 
     function get_data_manager(){

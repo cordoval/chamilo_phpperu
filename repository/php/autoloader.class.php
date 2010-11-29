@@ -158,7 +158,8 @@ class Autoloader
                 'default_content_object_table_cell_renderer' => 'content_object_table/default_content_object_table_cell_renderer.class.php',
                 'repository_block' => '../blocks/repository_block.class.php',
                 'database_repository_data_manager' => 'data_manager/database_repository_data_manager.class.php',
-        		'external_instance_manager' => 'external_instance_manager/external_instance_manager.class.php');
+                'external_instance_manager' => 'external_instance_manager/external_instance_manager.class.php',
+                'external_repository_user_quotum' => 'external_repository_user_quotum.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
