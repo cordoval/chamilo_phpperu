@@ -5,6 +5,8 @@ use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Request;
 
 
 require_once dirname(__FILE__) . '/table_data_provider.class.php';

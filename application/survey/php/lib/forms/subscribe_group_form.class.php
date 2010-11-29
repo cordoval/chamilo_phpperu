@@ -6,6 +6,7 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
 use group\GroupDataManager;
+use user\UserDataManager;
 
 
 use rights\RightsUtilities;

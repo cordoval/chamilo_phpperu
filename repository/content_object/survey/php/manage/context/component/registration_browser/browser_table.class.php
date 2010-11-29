@@ -1,4 +1,4 @@
-<?php namespace repository\content_object\survey;
+<?php
 namespace repository\content_object\survey;
 
 use common\libraries\Request;
@@ -27,7 +27,9 @@ class SurveyContextRegistrationBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
 
         $actions = new ObjectTableFormActions(__NAMESPACE__, SurveyContextManager :: PARAM_ACTION);
+        
         $actions->add_form_action(new ObjectTableFormAction(SurveyContextManager :: ACTION_DELETE_CONTEXT_REGISTRATION, Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES)));
+       
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
 
@@ -36,7 +38,7 @@ class SurveyContextRegistrationBrowserTable extends ObjectTable
     static function handle_table_action()
     {
         $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
-        $ids = self :: get_selected_ids($class);
+   		$ids = self :: get_selected_ids($class);
         Request :: set_get(SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID, $ids);
     }
 }

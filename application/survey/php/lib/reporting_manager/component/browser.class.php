@@ -1,6 +1,17 @@
-<?php namespace application\survey;
+<?php 
+namespace application\survey;
 
-
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\Breadcrumb;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicContentTab;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\InCondition;
 
 require_once dirname(__FILE__) . '/reporting_template_table/table.class.php';
 require_once dirname(__FILE__) . '/publication_rel_reporting_template_table/table.class.php';
