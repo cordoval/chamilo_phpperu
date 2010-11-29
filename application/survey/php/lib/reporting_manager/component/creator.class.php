@@ -1,10 +1,9 @@
-<?php 
+<?php
 namespace application\survey;
 
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\DynamicTabsRenderer;
-
 
 require_once dirname(__FILE__) . '/browser.class.php';
 
@@ -41,6 +40,21 @@ class SurveyReportingManagerCreatorComponent extends SurveyReportingManager
                 {
                     $message = 'SelectedReportingTemplateNotUpdated';
                 }
+                if ($success)
+                {
+                    
+                    $message = 'SelectedReportingTemplateActivated';
+                    
+                    $tab = SurveyReportingManagerBrowserComponent :: TAB_TEMPLATE_REGISTRATIONS;
+                }
+                else
+                {
+                    $message = 'SelectedReportingTemplateNotActivated';
+                    
+                    $tab = SurveyReportingManagerBrowserComponent :: TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS;
+                }
+                
+                $this->redirect(Translation :: get($message), ! $success, array(self :: PARAM_ACTION => self :: ACTION_BROWSE, SurveyManager :: PARAM_PUBLICATION_ID => $publication_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
             
             }
             else
@@ -51,21 +65,13 @@ class SurveyReportingManagerCreatorComponent extends SurveyReportingManager
             }
         
         }
-        if ($success)
-        {
-            
-            $message = 'SelectedReportingTemplateActivated';
-            
-            $tab = SurveyReportingManagerBrowserComponent :: TAB_TEMPLATE_REGISTRATIONS;
-        }
         else
         {
-            $message = 'SelectedReportingTemplateNotActivated';
-            
-            $tab = SurveyReportingManagerBrowserComponent :: TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS;
+            $this->display_header();
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
         }
-        
-        $this->redirect(Translation :: get($message), ! $success, array(self :: PARAM_ACTION => self :: ACTION_BROWSE, SurveyManager :: PARAM_PUBLICATION_ID => $publication_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
     
     }
 }

@@ -2,6 +2,7 @@
 namespace repository\content_object\survey;
 
 use common\libraries\Filesystem;
+use common\libraries\Utilities;
 
 abstract class SurveyAnalyzer
 {
@@ -67,7 +68,7 @@ abstract class SurveyAnalyzer
         
     	
     	$file = dirname(__FILE__) . '/' . $analyse_type . '/' . $analyse_type .'_analyzer.class.php';
-    	$class = 'Survey'.Utilities :: underscores_to_camelcase($analyse_type) . 'Analyzer';
+    	$class = __NAMESPACE__.'\\Survey'.Utilities :: underscores_to_camelcase($analyse_type) . 'Analyzer';
         
         if (file_exists($file))
         {

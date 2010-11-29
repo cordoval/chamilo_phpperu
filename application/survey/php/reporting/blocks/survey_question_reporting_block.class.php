@@ -2,7 +2,10 @@
 namespace application\survey;
 
 use repository\RepositoryDataManager;
-
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use tracking\Tracker;
+use repository\content_object\survey\SurveyAnalyzer;
 
 class SurveyQuestionReportingBlock extends SurveyReportingBlock
 {
@@ -56,7 +59,7 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_PUBLICATION_ID, $this->publication_id);
         $condition = new AndCondition($conditions);
         
-        $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
+        $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: CLASS_NAME, SurveyManager :: APPLICATION_NAME, $condition);
         
         $answers = array();
         

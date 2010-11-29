@@ -15,6 +15,8 @@ use common\libraries\InCondition;
 use common\libraries\EqualityCondition;
 use reporting\ReportingTemplateRegistration;
 use common\libraries\AndCondition;
+use common\libraries\NotCondition;
+
 
 require_once dirname(__FILE__) . '/reporting_template_table/table.class.php';
 require_once dirname(__FILE__) . '/publication_rel_reporting_template_table/table.class.php';
