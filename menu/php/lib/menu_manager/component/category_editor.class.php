@@ -1,8 +1,10 @@
 <?php
 namespace menu;
+
 use common\libraries\Translation;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 
 require_once dirname(__FILE__) . '/editor.class.php';
 
@@ -13,12 +15,12 @@ class MenuManagerCategoryEditorComponent extends MenuManagerEditorComponent impl
     	$breadcrumbtrail->add(new Breadcrumb($this->get_menu_home_url(), Translation :: get('MenuManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('menu_category_editor');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(MenuManager :: PARAM_ITEM);
     }
-    
+
 	function get_edit_form($item)
 	{
 		return new NavigationItemCategoryForm(NavigationItemCategoryForm :: TYPE_EDIT, $item, $this->get_url());
