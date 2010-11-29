@@ -2,8 +2,15 @@
 namespace repository\content_object\survey;
 
 use repository\RepositoryDataManager;
+use HTML_Menu;
+use common\libraries\EqualityCondition;
+use common\libraries\OptionsMenuRenderer;
+use HTML_Menu_ArrayRenderer;
+use common\libraries\TreeMenuRenderer;
+use common\libraries\Utilities;
 
-require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template.class.php';
+
+//require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template.class.php';
 
 class SurveyContextTemplateMenu extends HTML_Menu
 {
@@ -32,7 +39,7 @@ class SurveyContextTemplateMenu extends HTML_Menu
     //	private $hide_current_template;
 
 
-    function __construct($current_template_id, $survey_id, $url_format = '?go=content_object_manager&application=repository&action=context_browser&manage=context&content_object_type=survey&survey_id=%s&context_template_id=%s')
+    function __construct($current_template_id, $survey_id, $url_format = '?go=content_object_manager&application=repository&action=subscribe_page_browser&manage=context&content_object_type=survey&survey_id=%s&context_template_id=%s')
     {
 
         //		dump($current_template);

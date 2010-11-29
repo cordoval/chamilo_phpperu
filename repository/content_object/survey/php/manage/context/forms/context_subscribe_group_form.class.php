@@ -1,4 +1,16 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\ResourceManager;
+use common\libraries\Path;
+use user\UserDataManager;
+use group\GroupDataManager;
+
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 class SurveyContextSubscribeGroupForm extends FormValidator
 {
@@ -25,7 +37,7 @@ class SurveyContextSubscribeGroupForm extends FormValidator
         $context = $this->context;
         
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/php/xml_feeds/xml_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('ShareWith', null, Utilities::COMMON_LIBRARIES);
         $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);

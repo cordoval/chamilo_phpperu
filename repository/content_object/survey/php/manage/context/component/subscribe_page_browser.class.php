@@ -1,134 +1,195 @@
-<?php namespace repository\content_object\survey;
+<?php
+namespace repository\content_object\survey;
 
-require_once dirname(__FILE__) . '/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
-require_once Path :: get_repository_path() . '/lib/content_object/survey_page/survey_page.class.php';
-require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template_rel_page.class.php';
+use repository\RepositoryDataManager;
+use common\libraries\Path;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicContentTab;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use common\libraries\AndCondition;
+use common\libraries\InCondition;
+use repository\content_object\survey_page\SurveyPage;
 
-class SurveyContextManagerContextTemplateSubscribePageBrowserComponent extends SurveyContextManager
+
+require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/component/context_template_rel_page_table/table.class.php';
+require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/component/page_table/table.class.php';
+require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/component/context_template_menu.class.php';
+require_once Path :: get_repository_content_object_path() . '/survey/php/survey_context_template_rel_page.class.php';
+
+class SurveyContextManagerSubscribePageBrowserComponent extends SurveyContextManager
 {
-    	
-	private $context_template;
-    private $survey_id;
+
+    const TAB_CONTEXT_TEMPLATE_REL_PAGE = 1;
+    const TAB_ADD_PAGES = 2;
+
     private $ab;
+    private $contex_template_id;
+    private $survey_id;
 
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $context_template_id = Request :: get(SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID);
-        $this->context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
-        $this->survey_id = Request :: get(SurveyContextManager :: PARAM_SURVEY_ID);
-        
+
+        $this->context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
+        $this->survey_id = Request :: get(self :: PARAM_SURVEY_ID);
+
         $this->ab = $this->get_action_bar();
-        $output = $this->get_html();
-        
+
+        $output = $this->get_tabs_html();
+
         $this->display_header($trail);
         echo $this->ab->as_html() . '<br />';
+
+        $menu = $this->get_menu_html();
+        echo $menu;
+
         echo $output;
         $this->display_footer();
     }
 
-    function get_html()
+    function get_tabs_html()
     {
-        $parameters = $this->get_parameters();
-        $parameters[SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID] = $this->context_template->get_id();
-        $parameters[SurveyContextManager :: PARAM_SURVEY_ID] = $this->survey_id;
-        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
-        
-        $table = new SurveyContextTemplateSubscribePageBrowserTable($this, $parameters, $this->get_condition());
-        
+
         $html = array();
-        $html[] = $table->as_html();
-        
+        $html[] = '<div>';
+        $html[] = '<div style="float: right; width: 80%;">';
+
+        $renderer_name = Utilities :: get_classname_from_object($this, true);
+        $tabs = new DynamicTabsRenderer($renderer_name);
+
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
+        $parameters[self :: PARAM_CONTEXT_TEMPLATE_ID] = $this->context_template_id;
+
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_CONTEXT_TEMPLATE_REL_PAGE;
+
+        $table = new SurveyContextTemplateRelPageTable($this, $parameters, $this->get_context_template_rel_page_condition());
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_CONTEXT_TEMPLATE_REL_PAGE, Translation :: get('Pages'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_ADD_PAGES;
+        $table = new SurveyPageTable($this, $parameters, $this->get_survey_page_condition());
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_ADD_PAGES, Translation :: get('AddPages'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+
+        $html[] = $tabs->render();
+        $html[] = '</div>';
+        $html[] = '<div class="clear"></div>';
+
+        return implode($html, "\n");
+
+    }
+
+    function get_menu_html()
+    {
+        $template_menu = new SurveyContextTemplateMenu($this->contex_template_id, $this->survey_id);
+        $html = array();
+        $html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
+        $html[] = $template_menu->render_as_tree();
+        $html[] = '</div>';
+
         return implode($html, "\n");
     }
 
-    function get_condition()
+    function get_context_template_rel_page_condition()
     {
-        
-        $survey_id = $this->survey_id;
-        $root_conditions = array();
-        $root_conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, Request :: get(SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID));
-        $root_conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $survey_id);
-        $condition = new AndCondition($root_conditions);
-        $template_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition);
-        
-        $template_pages = array();
-        while ($template_rel_page = $template_rel_pages->next_result())
-        {
-            $template_pages[] = $template_rel_page->get_page_id();
-        }
-        
-        $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
-        
-        $pages = $survey->get_pages();
-        
-        $survey_pages = array();
-        foreach ($pages as $page)
-        {
-            $survey_pages[] = $page->get_id();
-        }
-        
-        $not_template_pages = array_diff($survey_pages, $template_pages);
-        
         $conditions = array();
-        
-        if (! count($not_template_pages))
-        {
-            $not_template_pages[] = 0;
-        }
-        $conditions[] = new InCondition(SurveyPage :: PROPERTY_ID, $not_template_pages, SurveyPage :: get_table_name());
-        
-        $query = $this->ab->get_query();
-        
-        if (isset($query) && $query != '')
-        {
-            $or_conditions[] = new PatternMatchCondition(SurveyPage :: PROPERTY_NAME, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(SurveyPage :: PROPERTY_DESCRIPTION, '*' . $query . '*');
-            $conditions[] = new OrCondition($or_conditions);
-        }
-        
-        if (count($conditions) == 0)
-        {
-            return null;
-        }
-        $condition = new AndCondition($conditions);
-        
-        return $condition;
+        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->context_template_id);
+        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->survey_id);
+
+        //        $query = $this->ab->get_query();
+        //        if (isset($query) && $query != '')
+        //        {
+        //            $or_conditions = array();
+        //            $or_conditions[] = new PatternMatchCondition(SurveyContextTemplate :: PROPERTY_NAME, '*' . $query . '*', SurveyContextTemplate :: get_table_name());
+        //            $or_conditions[] = new PatternMatchCondition(SurveyContextTemplate :: PROPERTY_DESCRIPTION, '*' . $query . '*', SurveyContextTemplate :: get_table_name());
+        //            $or_condition = new OrCondition($or_conditions);
+        //
+        //            $and_conditions = array();
+        //            $and_conditions[] = $condition;
+        //            $and_conditions[] = $or_condition;
+        //            $condition = new AndCondition($and_conditions);
+        //        }
+
+
+        return new AndCondition($conditions);
     }
 
-    function get_survey_context_template()
+    function get_survey_page_condition()
     {
-        return $this->context_template;
+
+        $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($this->survey_id);
+
+        $pages = $survey->get_pages();
+        $page_ids = array();
+        foreach ($pages as $page)
+        {
+            $page_ids[] = $page->get_id();
+        }
+
+        $conditions = array();
+        //        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->context_template_id);
+        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->survey_id);
+        $context_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages(new AndCondition($conditions));
+        $context_template_rel_page_ids = array();
+        while ($context_rel_page = $context_rel_pages->next_result())
+        {
+            $context_template_rel_page_ids = $context_rel_page->get_page_id();
+        }
+
+        $diff = array_diff($page_ids, $context_template_rel_page_ids);
+
+        $condition = new InCondition(SurveyPage :: PROPERTY_ID, $diff);
+        //
+        //        $query = $this->ab->get_query();
+        //        if (isset($query) && $query != '')
+        //        {
+        //            $or_conditions = array();
+        //            $or_conditions[] = new PatternMatchCondition(SurveyContextTemplate :: PROPERTY_NAME, '*' . $query . '*', SurveyContextTemplate :: get_table_name());
+        //            $or_conditions[] = new PatternMatchCondition(SurveyContextTemplate :: PROPERTY_DESCRIPTION, '*' . $query . '*', SurveyContextTemplate :: get_table_name());
+        //            $or_condition = new OrCondition($or_conditions);
+        //
+        //            $and_conditions = array();
+        //            $and_conditions[] = $condition;
+        //            $and_conditions[] = $or_condition;
+        //            $condition = new AndCondition($and_conditions);
+        //        }
+
+
+        return $condition;
     }
 
     function get_action_bar()
     {
-        $template = $this->context_template;
-        
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
-        //        $action_bar->set_search_url($this->get_template_suscribe_page_browser_url($template));
-        
 
-        //        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_template_suscribe_page_browser_url($template), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+        $action_bar->set_search_url($this->get_url(array(self :: PARAM_CONTEXT_TEMPLATE_ID => $this->contex_template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => Request :: get(DynamicTabsRenderer :: PARAM_SELECTED_TAB))));
 
         return $action_bar;
     }
-
-    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    
+function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_TEMPLATE)), Translation :: get('BrowseContextTemplates')));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewContextTemplate')));
-//        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => Request :: get(self :: PARAM_CONTEXT_ID), DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS)), Translation :: get('ViewSurveyContext')));
+
     }
 
     function get_additional_parameters()
     {
         return array(self :: PARAM_CONTEXT_TEMPLATE_ID, self :: PARAM_SURVEY_ID);
+        
     }
-
 }
 ?>

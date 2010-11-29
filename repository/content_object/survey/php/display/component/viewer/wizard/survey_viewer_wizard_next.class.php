@@ -2,6 +2,8 @@
 namespace repository\content_object\survey;
 
 use HTML_QuickForm_Action;
+use PEAR;
+use common\libraries\Security;
 
 class SurveyViewerWizardNext extends HTML_QuickForm_Action
 {
