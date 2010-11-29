@@ -2,7 +2,8 @@
 
 namespace common\libraries;
 
-require_once dirname(__FILE__) . '/rest_message.class.php';
+require_once dirname(__FILE__) . '/rest_message_renderer.class.php';
+require_once dirname(__FILE__) . '/success_rest_message.class.php';
 
 class RestServer
 {
@@ -71,19 +72,19 @@ class RestServer
                 switch ($format)
                 {
                     case self :: ACCEPTED_FORMAT_HTML :
-                        $this->format = RestMessage :: FORMAT_HTML;
+                        $this->format = RestMessageRenderer :: FORMAT_HTML;
                         return;
                         break;
                     case self :: ACCEPTED_FORMAT_JSON :
-                        $this->format = RestMessage :: FORMAT_JSON;
+                        $this->format = RestMessageRenderer :: FORMAT_JSON;
                         return;
                         break;
                     case self :: ACCEPTED_FORMAT_XML :
-                        $this->format = RestMessage :: FORMAT_XML;
+                        $this->format = RestMessageRenderer :: FORMAT_XML;
                         return;
                         break;
                     case self :: ACCEPTED_FORMAT_PLAIN :
-                        $this->format = RestMessage :: FORMAT_PLAIN;
+                        $this->format = RestMessageRenderer :: FORMAT_PLAIN;
                         return;
                         break;
                 }
@@ -91,13 +92,13 @@ class RestServer
         }
 
         $extension_method = explode('.', $this->get_url());
-        if (count($extension_method) == 2 && in_array($extension_method[1], $this->get_formats()))
+        if (count($extension_method) == 2 && in_array($extension_method[1], RestMessageRenderer :: get_formats()))
         {
             $this->format = $extension_method[1];
         }
         else
         {
-            $this->format = RestMessage :: FORMAT_HTML;
+            $this->format = RestMessageRenderer :: FORMAT_HTML;
         }
     }
 
@@ -145,40 +146,41 @@ class RestServer
                 {
                     if (method_exists($this->webservice_handler, 'get'))
                     {
-                        $message = call_user_func(array($this->webservice_handler, 'get'), array($id, $this->data));
+                        $object = call_user_func(array($this->webservice_handler, 'get'), array($id, $this->data));
                     }
                 }
                 else
                 {
                     if (method_exists($this->webservice_handler, 'get_list'))
                     {
-                        $message = call_user_func(array($this->webservice_handler, 'get_list'), array($this->data));
+                        $object = call_user_func(array($this->webservice_handler, 'get_list'), array($this->data));
                     }
                 }
                 break;
             case self :: METHOD_POST :
                 if (method_exists($this->webservice_handler, 'create'))
                 {
-                    $message = call_user_func(array($this->webservice_handler, 'create'), array($id, $this->data));
+                    $object = call_user_func(array($this->webservice_handler, 'create'), array($id, $this->data));
                 }
                 break;
             case self :: METHOD_PUT :
                 if (method_exists($this->webservice_handler, 'update'))
                 {
-                    $message = call_user_func(array($this->webservice_handler, 'update'), array($id, $this->data));
+                    $object = call_user_func(array($this->webservice_handler, 'update'), array($id, $this->data));
                 }
                 break;
             case self :: METHOD_DELETE :
                 if (method_exists($this->webservice_handler, 'delete'))
                 {
-                    $message = call_user_func(array($this->webservice_handler, 'delete'), array($id, $this->data));
+                    $object = call_user_func(array($this->webservice_handler, 'delete'), array($id, $this->data));
                 }
                 break;
         }
 
-        if($message instanceof RestMessage)
+        if($object instanceof DataClass)
         {
-            $message->render($this->format);
+            $renderer = RestMessageRenderer :: factory($this->format);
+            $renderer->render($object);
         }
     }
 
@@ -251,10 +253,7 @@ class RestServer
         return array(self :: ACCEPTED_FORMAT_JSON, self :: ACCEPTED_FORMAT_XML, self :: ACCEPTED_FORMAT_HTML, self :: ACCEPTED_FORMAT_PLAIN);
     }
 
-    public function get_formats()
-    {
-        return array(RestMessage :: FORMAT_JSON, RestMessage :: FORMAT_XML, RestMessage :: FORMAT_HTML, RestMessage :: FORMAT_PLAIN);
-    }
+    
 
 }
 ?>
