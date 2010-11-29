@@ -43,6 +43,8 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     const FEED_TYPE_MY_VIDEOS = 4;
     const FEED_TYPE_ALL = 5;
 
+    const SETTING_SLAVE_APP_IDS = 'slave_app_ids';
+
     private static $server;
     private $server_selection_form;
 

@@ -53,7 +53,7 @@ class ExternalSetting extends DataClass
      */
     function get_external_id()
     {
-        return $this->get_default_property(self :: PROPERTY_REPOSITORY_ID);
+        return $this->get_default_property(self :: PROPERTY_EXTERNAL_ID);
     }
 
     /**

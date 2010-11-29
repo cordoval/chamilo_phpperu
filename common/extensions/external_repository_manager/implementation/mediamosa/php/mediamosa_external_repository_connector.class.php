@@ -258,10 +258,15 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
      * @param string count optional
      * @return array with MediamosaExternalRepositoryObject(s)
      */
-    function retrieve_external_repository_objects($condition, $order_property, $offset, $count) {
+    function retrieve_external_repository_objects($condition, $order_property, $offset, $count, $update_master_slave = false) {
 
         $feed_type = Request :: get(MediamosaExternalRepositoryManager :: PARAM_FEED_TYPE);
-        
+
+        if($update_master_slave == true)
+        {
+            $feedtype = MediamosaExternalRepositoryManager :: FEED_TYPE_ALL;
+        }
+
         switch($feed_type)
         {
             
@@ -324,7 +329,13 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                             $this->asset_cache[(string) $asset->asset_id] = $object;
                             $this->count++;
 
-                            if($update_master_slave) $this->update_asset_master_slave_settings($object);
+                            if($update_master_slave) 
+                            {
+                                if(!$this->update_asset_master_slave_settings($object))
+                                {
+                                    return false;
+                                }
+                            }
                         }
                         else
                         {
@@ -342,7 +353,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
      * @param $update_master_slave goes through all retrieved assets to update master slave settings
      * @return simplexmlobject $response
      */
-    function retrieve_mediamosa_assets($condition, $order_property, $offset, $count, $update_master_slave = false)
+    function retrieve_mediamosa_assets($condition, $order_property, $offset, $count)
     {
         $params = array();
         $acl = array();
@@ -745,7 +756,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
 
         if($ok != count($slaves)) {
             $rights['aut_app'] = $slaves;
-            $this->set_mediamosa_asset_rights($asset->get_id(), $rights, $asset->get_owner_id());
+            return $this->set_mediamosa_asset_rights($asset->get_id(), $rights, $asset->get_owner_id());
         }
     }
 
@@ -1237,7 +1248,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                                     foreach ($asset->get_mediafiles() as $mediafile) {
                                         $this->set_mediamosa_mediafile_rights($mediafile->get_id(), $rights, $owner_id);
                                     }
-
+                                    return true;
                                 }
                             }
                         }
