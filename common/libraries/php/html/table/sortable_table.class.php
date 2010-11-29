@@ -388,7 +388,7 @@ class SortableTable extends HTML_Table
     function get_page_select_form()
     {
         $total_number_of_items = $this->total_number_of_items;
-        if ($total_number_of_items <= $this->per_page)
+        if ($total_number_of_items <= 10)
         {
             return '';
         }
@@ -698,8 +698,19 @@ class SortableTable extends HTML_Table
             {
                 $v = urlencode($v);
             }
-            $k = urlencode($key . '[' . $k . ']');
-            $out[] = ($as_query_string ? $k . '=' . $v : '<input type="hidden" name="' . $k . '" value="' . $v . '"/>');
+                   
+            if($as_query_string)
+            {
+            	$k = urlencode($key . '[' . $k . ']');
+            	$out[] = $k . '=' . $v;
+            }
+            else
+            {
+            	$k = $key . '[' . $k . ']';
+            	$out[] = '<input type="hidden" name="' . $k . '" value="' . $v . '"/>';
+            }
+            //$k = urlencode($key . '[' . $k . ']');
+            //$out[] = ($as_query_string ? $k . '=' . $v : '<input type="hidden" name="' . $k . '" value="' . $v . '"/>');
         }
         return $out;
     }
