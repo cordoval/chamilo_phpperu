@@ -237,7 +237,18 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         return false;
     }
 
+    function basic_cql()
+    {
+        $owner['name'] = 'owner_id';
+         $owner['value'] = '^' . Session :: get_user_id() . '^';
+         $this->cql['OR'][] = $owner;
 
+         $aut_user['name'] = 'aut_user';
+         $aut_user['value'] = '^' . Session :: get_user_id() . '^';
+         $this->cql['OR'][] = $aut_user;
+
+         $this->get_user_groups(true);
+    }
 
     /**
      * searchable retrieve assets on a mediamosa server
@@ -255,7 +266,9 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             
             case MediamosaExternalRepositoryManager :: FEED_TYPE_MOST_RECENT:
-                
+
+                $this->basic_cql();
+
                 $this->cql['sortby']['name'] = 'date';
                 $this->cql['sortby']['order']='descending';
                 $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, 9);
@@ -267,25 +280,18 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                         );
                 $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, $count, $cql);
                 break;
+            //feed type all is only for admins
             case MediamosaExternalRepositoryManager :: FEED_TYPE_ALL:
-                 if($this->retrieve_chamilo_user(Session :: get_user_id())->is_platform_admin())
+                if($this->retrieve_chamilo_user(Session :: get_user_id())->is_platform_admin())
                  {
                     $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, $count);
                  }
             break;
             case MediamosaExternalRepositoryManager :: FEED_TYPE_GENERAL:
             default:
-                 $owner['name'] = 'owner_id';
-                 $owner['value'] = '^' . Session :: get_user_id() . '^';
-                 $this->cql['OR'][] = $owner;
+                 $this->basic_cql();
 
-                 $aut_user['name'] = 'aut_user';
-                 $aut_user['value'] = '^' . Session :: get_user_id() . '^';
-                 $this->cql['OR'][] = $aut_user;
-
-                 $this->get_user_groups(true);
-
-                 $app_id = $this->get_app_id();
+                $app_id = $this->get_app_id();
                  if(!empty($app_id))
                  {
                     $aut_app['name'] = 'aut_app';
@@ -371,8 +377,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         if($this->cql_error)$params['limit'] = 0;
 
         $params['cql'] = urlencode($cql);
-       
-        if ($response = $this->request(self :: METHOD_GET, '/asset', $params)) {
+       if ($response = $this->request(self :: METHOD_GET, '/asset', $params)) {
             return $response;
         }
     }
@@ -437,7 +442,6 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         }
 
         $this->cql = array();
-        //echo $string;
         return $string;
     }
 
