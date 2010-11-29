@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\wiki_page\WikiPage;
+use repository\ContentObject;
+
 /**
  * Export wiki page objects.
  *
@@ -9,8 +12,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\wiki_page\WikiPage;
-
 class CpWikiPageExport extends CpObjectExport
 {
 

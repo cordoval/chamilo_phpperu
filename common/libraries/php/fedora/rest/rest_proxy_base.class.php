@@ -3,6 +3,8 @@ namespace common\libraries;
 
 use Exception;
 use DOMDocument;
+use DateTimeZone;
+use DateTime;
 
 require_once dirname(__FILE__) . '/rest_config.class.php';
 require_once dirname(__FILE__) . '/rest_client.class.php';

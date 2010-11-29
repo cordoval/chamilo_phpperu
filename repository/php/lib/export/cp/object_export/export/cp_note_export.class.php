@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\note\Note;
+use repository\ContentObject;
+
 /**
  * Export note objects.
  *
@@ -10,8 +13,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\note\Note;
-
 class CpNoteExport extends CpObjectExport
 {
 

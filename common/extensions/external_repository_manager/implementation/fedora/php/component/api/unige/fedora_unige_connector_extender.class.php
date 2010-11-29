@@ -3,8 +3,15 @@ namespace common\extensions\external_repository_manager\implementation\fedora;
 
 use common\libraries\Translation;
 use common\libraries\Utilities;
-
-
+use common\libraries\TimeUtil;
+use common\libraries\fedora_fs_store;
+use common\libraries\fedora_fs_mystuff;
+use common\libraries\fedora_fs_history;
+use common\libraries\fedora_fs_lastobjects;
+use common\libraries\fedora_fs_datastream;
+use common\libraries\fedora_fs_search;
+use common\libraries\fedora_fs_access_right;
+use common\libraries\fedora_fs_subject;
 
 /**
  * Extender for FedoraExternalRepositoryConnector.
@@ -55,11 +62,11 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 	public function get_default_store(){
 		$owner = $this->get_connector()->get_owner_id();
 
-		$today = today();
-		$this_week = this_week();
-		$last_week = last_week();
-		$two_weeks_ago = last_week(2);
-		$three_weeks_ago = last_week(3);
+		$today = TimeUtil::today();
+		$this_week = TimeUtil::this_week();
+		$last_week = TimeUtil::last_week();
+		$two_weeks_ago = TimeUtil::last_week(2);
+		$three_weeks_ago = TimeUtil::last_week(3);
 
 		$result = new fedora_fs_store(Translation::get_instance()->translate('root'), 'root');
 
@@ -72,7 +79,7 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 		$rights->add(new fedora_fs_access_right('private', translation::get('Private'), $owner, 'red_light', self::DOCUMENTS_PRIVATE));
 
 		$mystuff->add($history = new fedora_fs_store(Translation::get_instance()->translate('history')));
-		$history->add(new fedora_fs_history(Translation::get('today'), today(), NULL, $owner, FedoraExternalRepositoryConnector::DOCUMENTS_TODAY));
+		$history->add(new fedora_fs_history(Translation::get('today'), TimeUtil::today(), NULL, $owner, FedoraExternalRepositoryConnector::DOCUMENTS_TODAY));
 		$history->add(new fedora_fs_history(Translation::get('this_week'), $this_week, NULL, $owner, FedoraExternalRepositoryConnector::DOCUMENTS_THIS_WEEK));
 		$history->add(new fedora_fs_history(Translation::get('last_week'), $last_week, $this_week, $owner, FedoraExternalRepositoryConnector::DOCUMENTS_LAST_WEEK));
 		$history->add(new fedora_fs_history(Translation::get('two_weeks_ago'), $two_weeks_ago, $last_week, $owner, FedoraExternalRepositoryConnector::DOCUMENTS_TWO_WEEKS_AGO));
@@ -164,7 +171,7 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 		if(empty($this->rights)){
 			$result = array();
 			$fedora = $this->get_fedora();
-			$rights = $fedora->SWITCH_get_rights($id);
+			$rights = $fedora->SWITCH_get_rights();
 			$lang = Translation::get_language();
 			foreach($rights as $key => $right){
 				$result[$key] = isset($right[$lang]) ? $right[$lang] : $right['eng'];
@@ -345,10 +352,10 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 		}
 
 		$rights = array();
-		$rights[ExternalRepositoryObject::RIGHT_USE] = true;
-		$rights[ExternalRepositoryObject::RIGHT_EDIT] = $can_edit;
-		$rights[ExternalRepositoryObject::RIGHT_DELETE] = $can_edit;
-		$rights[ExternalRepositoryObject::RIGHT_DOWNLOAD] = true;
+		$rights[FedoraExternalRepositoryObject::RIGHT_USE] = true;
+		$rights[FedoraExternalRepositoryObject::RIGHT_EDIT] = $can_edit;
+		$rights[FedoraExternalRepositoryObject::RIGHT_DELETE] = $can_edit;
+		$rights[FedoraExternalRepositoryObject::RIGHT_DOWNLOAD] = true;
 		return $rights;
 	}
 

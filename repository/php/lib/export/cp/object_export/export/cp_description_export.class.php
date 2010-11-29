@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\description\Description;
+use repository\ContentObjectExport;
+
 /**
  * Export description objects.
  *
@@ -9,8 +12,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\description\Description;
-
 class CpDescriptionExport extends CpObjectExport
 {
 

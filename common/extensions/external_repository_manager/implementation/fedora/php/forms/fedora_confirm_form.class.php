@@ -5,7 +5,8 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Redirect;
 use common\libraries\Utilities;
-
+use common\libraries\FormValidator;
+use common\libraries\PropertiesTable;
 
 /**
  * Default form to confirm the transmission of a file to Fedora. Display metadata.

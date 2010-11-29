@@ -6,6 +6,11 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Redirect;
 use common\libraries\Session;
+use common\libraries\Filesystem;
+use common\libraries\PlatformSetting;
+use common\libraries\fedora_object_meta;
+use common\libraries\switch_object_meta;
+use repository\content_object\document\Document;
 
 require_once dirname(__FILE__) . '/../forms/fedora_upload_file_form.class.php';
 require_once dirname(__FILE__) . '/../forms/fedora_metadata_form.class.php';
@@ -356,7 +361,7 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
 		$switch->collections = $data['collection'];
 		$switch->source = $this->get_external_repository_connector()->get_datastream_content_url($meta->pid, 'DS1');
 
-		return SWITCH_content_to_foxml($content, $meta, $switch);
+		return SWITCH_object_meta::content_to_foxml($content, $meta, $switch);
 	}
 
 }

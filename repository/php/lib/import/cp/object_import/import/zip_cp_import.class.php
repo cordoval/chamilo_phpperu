@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Filesystem;
+
 /**
  * Import zip files. Extract the file and call the root importer on the extracted folder.
  *

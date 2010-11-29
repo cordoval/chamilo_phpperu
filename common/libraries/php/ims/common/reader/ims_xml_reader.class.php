@@ -8,6 +8,8 @@ use DOMCharacterData;
 use DOMElement;
 use DOMText;
 use DOMAttr;
+use DOMDocument;
+use DOMXPath;
 
 /**
  * Helper class used to read an XML file.

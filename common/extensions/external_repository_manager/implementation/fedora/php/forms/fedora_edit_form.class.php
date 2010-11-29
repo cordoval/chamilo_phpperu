@@ -2,8 +2,14 @@
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
 use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\Redirect;
+use common\libraries\Utilities;
+use common\libraries\FormValidator;
+use application\weblcms\Course;
 
-require_once Path::get_application_path() .'/lib/weblcms/course/course.class.php';
+require_once Path::get_application_path() .'/weblcms/php/lib/course/course.class.php';
 require_once dirname(__FILE__) . '/fedora_tree.class.php';
 
 /**
@@ -82,7 +88,7 @@ class FedoraEditForm extends FormValidator{
 
 	public function set_external_repository_object(FedoraExternalRepositoryObject $external_repository_object){
 		$this->external_repository_object = $external_repository_object;
-		$this->addElement('hidden', ExternalRepositoryObject::PROPERTY_ID);
+		$this->addElement('hidden', FedoraExternalRepositoryObject::PROPERTY_ID);
 		$defaults[FedoraExternalRepositoryObject::PROPERTY_TITLE] = $external_repository_object->get_title();
 		$defaults[FedoraExternalRepositoryObject::PROPERTY_DESCRIPTION] = $external_repository_object->get_description();
 		$defaults[FedoraExternalRepositoryObject::PROPERTY_AUTHOR] = $external_repository_object->get_creator();

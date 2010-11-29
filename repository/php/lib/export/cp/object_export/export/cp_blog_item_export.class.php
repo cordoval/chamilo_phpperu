@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\blog_item\BlogItem;
+use repository\ContentObjectExport;
+
 /**
  * Export blog item objects.
  *
@@ -9,8 +12,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\blog_item\BlogItem;
-
 class CpBlogItemExport extends CpObjectExport
 {
 

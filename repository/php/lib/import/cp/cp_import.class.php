@@ -3,6 +3,9 @@ namespace repository;
 
 use common\libraries\Application;
 use common\libraries\ObjectImportSettings;
+use user\User;
+use application\weblcms\Tool;
+use application\weblcms\ContentObjectPublication;
 
 require_once 'main.php';
 
@@ -65,7 +68,7 @@ class CpImport extends ContentObjectImport
     public function publish(Course $course, $object)
     {
         $objects = is_array($object) ? $object : array($object);
-        //$settings = $this->get_settings();
+        $settings = $this->get_settings();
         $user = $settings->get_user();
         $application = Application :: factory('Weblcms', $user);
         foreach ($objects as $object)

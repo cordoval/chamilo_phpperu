@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use repository\content_object\assessment_match_text_question\AssessmentMatchTextQuestion;
+use repository\ContentObject;
+
 /**
  * Serializer for Assessment Match Text Questions.
  *
@@ -7,8 +11,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\assessment_match_text_question\AssessmentMatchTextQuestion;
-
 class QtiAssessmentMatchTextQuestionSerializer extends QtiQuestionSerializer
 {
 

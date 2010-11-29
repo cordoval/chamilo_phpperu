@@ -1,10 +1,18 @@
 <?php
 namespace repository;
 
+require_once dirname(__FILE__) . '/main.php';
+
+use common\libraries\FileUtil;
 use common\libraries\Path;
 use common\libraries\Session;
+use common\libraries\ImscpManifestWriter;
+use common\libraries\ObjectExportSettings;
+use common\libraries\EmptyObjectExport;
+use common\libraries\Filesystem;
+use common\libraries\Filecompression;
+use common\libraries\BufferedObjectExport;
 
-require_once dirname(__FILE__) . '/main.php';
 
 /**
  *
@@ -92,7 +100,7 @@ class CpExport extends ContentObjectExport
         return self :: get_object_name($object) . '.data.xml';
     }
 
-    public function export_content_object(){
+    public function export_content_object()
     {
         $manifest = new ImscpManifestWriter();
         $manifest = $manifest->add_manifest();

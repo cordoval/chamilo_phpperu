@@ -6,12 +6,17 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Redirect;
 use common\libraries\Session;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use repository\content_object\assessment\Assessment;
+use repository\content_object\document\Document;
+use common\extensions\external_repository_manager\ExportContentObjectTable;
 
 require_once dirname(__FILE__) . '/../forms/fedora_metadata_form.class.php';
 require_once dirname(__FILE__) . '/../forms/fedora_confirm_form.class.php';
 require_once Path::get_repository_path() . 'lib/export/qti/main.php';
 require_once Path::get_repository_path() . 'lib/export/cp/main.php';
-require_once Path::get_application_path() . '/common/external_repository_manager/component/export_content_object_table/export_content_object_table.class.php';
+require_once Path::get_common_extensions_path() . 'external_repository_manager/php/component/export_content_object_table/export_content_object_table.class.php';
 
 /**
  * Export a repository object to Fedora. Works only for Document/Assessment objects.
@@ -54,7 +59,7 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
 
 	function get_default_browser_actions(){
 		$browser_actions = array();
-		$browser_actions[] = new ToolbarItem(Translation::get('Export'), Theme::get_common_image_path() . 'action_export.png', $this->get_url(array_merge($this->get_parameters(), array(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID => '__ID__')), false), ToolbarItem::DISPLAY_ICON);
+		$browser_actions[] = new ToolbarItem(Translation::get('Export'), Theme::get_common_image_path() . 'action_export.png', $this->get_url(array_merge($this->get_parameters(), array(FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID => '__ID__')), false), ToolbarItem::DISPLAY_ICON);
 		return $browser_actions;
 	}
 
@@ -430,7 +435,7 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
 		$switch->description = $data['description'];
 		$switch->collections = $data['collection'];
 		$switch->source = $this->get_external_repository_connector()->get_datastream_content_url($meta->pid, 'DS1');
-		return SWITCH_content_to_foxml($content, $meta, $switch);
+		return SWITCH_object_meta::content_to_foxml($content, $meta, $switch);
 	}
 
 	protected function to_text($html){

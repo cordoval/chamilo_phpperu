@@ -4,6 +4,7 @@ namespace common\libraries;
 use DOMXPath;
 use DOMElement;
 use DOMCharacterData;
+use Exception;
 
 require_once dirname(__FILE__) . '/rest/rest_proxy_base.class.php';
 
@@ -942,7 +943,8 @@ class FedoraProxy extends RestProxyBase{
 	 */
 	public function update_datastream($pid, $dsID, $dsLabel, $content=false, $mimeType = false, $versionable=true, $dsState='A', $controlGroup = 'M', $dsLocation=false, $altIDs = false, $formatURI = false, $checksum = false, $logMessage = false, $ignoreContent = false, $lastModifiedDate = false){
 		try{
-			return $this->modify_datastream($pid, $dsID, $dsLabel, $content, $mimeType, $versionable, $dsState, $dsLocation, $altIDs, $formatURI, $checksum, $logMessage, $ignoreContent, $lastModifiedDate);
+			$result = $this->modify_datastream($pid, $dsID, $dsLabel, $content, $mimeType, $versionable, $dsState, $dsLocation, $altIDs, $formatURI, $checksum, $logMessage, $ignoreContent, $lastModifiedDate);
+			return $result;
 		}catch(Exception $e){
 			return $this->add_datastream($pid, $dsID, $dsLabel, $content, $mimeType, $versionable, $dsState, $controlGroup, $dsLocation, $altIDs, $formatURI, $checksum, $logMessage, $ignoreContent, $lastModifiedDate);
 		}

@@ -41,7 +41,7 @@ class CpContentObjectExport extends CpeObjectExportBase
         return ImscpObjectWriter :: get_format_full_name() . '#ContentObject';
 	}
 
-    protected function add_object(ImscpObjectWriter $writer, DataClass $object){
+    protected function add_object(ImscpObjectWriter $writer, DataClass $object)
     {
         $catalog = chamilo :: get_local_catalogue_name();
         $id = $object->get_id();

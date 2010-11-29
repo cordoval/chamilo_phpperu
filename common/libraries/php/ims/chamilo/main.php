@@ -1,6 +1,6 @@
 <?php
 
-if(! class_exists('Path')){
+if(! class_exists('common\libraries\Path')){
 	return false;
 }
 

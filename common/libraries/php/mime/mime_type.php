@@ -1,5 +1,12 @@
 <?php
-namespace common\libraries;
+
+/**
+ * No namespace on purpose.
+ * @todo: remove functions when refactoring is complete
+ *
+ */
+
+require_once dirname(__FILE__) . '/mime_util.class.php';
 
 function mimetype_to_ext($mime){
 	$key = strtolower($mime);

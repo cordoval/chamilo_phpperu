@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use repository\content_object\assessment_multiple_choice_question\AssessmentMultipleChoiceQuestion;
+use repository\ContentObject;
+
 /**
  * Serializer for MultipleChoice questions.
  *
@@ -7,8 +11,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\assessment_multiple_choice_question\AssessmentMultipleChoiceQuestion;
-
 class QtiAssessmentMultipleChoiceQuestionSerializer extends QtiQuestionSerializer
 {
 

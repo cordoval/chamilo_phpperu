@@ -4,6 +4,7 @@ namespace common\extensions\external_repository_manager\implementation\fedora;
 use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Session;
+use common\libraries\Filesystem;
 
 include_once Path::get_repository_path() . '/lib/import/content_object_import.class.php';
 

@@ -3,6 +3,7 @@ namespace repository;
 
 use repository\content_object\survey_page\SurveyPage;
 use repository\content_object\survey\Survey;
+use repository\ContentObject;
 
 /**
  * Qti serializer for survey questions.

@@ -376,7 +376,7 @@ class FedoraExternalRepositoryManagerCourseExporterComponent extends FedoraExter
 		$switch->collections = $data['collection'];
 		$switch->source = $this->get_external_repository_connector()->get_datastream_content_url($meta->pid, 'DS1');
 
-		return SWITCH_content_to_foxml($content, $meta, $switch);
+		return SWITCH_object_meta::content_to_foxml($content, $meta, $switch);
 	}
 
 }

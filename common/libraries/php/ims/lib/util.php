@@ -1,5 +1,5 @@
 <?php
-namespace common\libraries;
+//namespace common\libraries;
 
 /**
  * Utility functions used by the IMS formats - CP and QTI.

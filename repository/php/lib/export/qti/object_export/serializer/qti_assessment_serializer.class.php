@@ -1,12 +1,8 @@
 <?php
 namespace repository;
-/**
- *
- * @copyright (c) 2010 University of Geneva
- * @author laurent.opprecht@unige.ch
- *
- */
+
 use repository\content_object\assessment\Assessment;
+use repository\ContentObject;
 
 /**
  *

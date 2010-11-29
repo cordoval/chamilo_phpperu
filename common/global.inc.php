@@ -16,6 +16,7 @@ use user\User;
 use user\VisitTracker;
 
 use tracking\Event;
+use common\libraries\DebugUtilities;
 
 // $Id: global.inc.php 187 2009-11-13 10:31:25Z vanpouckesven $
 /**

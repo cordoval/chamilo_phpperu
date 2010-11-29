@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries;
 
+use user\User;
+
 class ObjectExportSettings
 {
 	private $object = null;

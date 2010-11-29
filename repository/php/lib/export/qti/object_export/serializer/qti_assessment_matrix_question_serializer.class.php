@@ -2,10 +2,10 @@
 namespace repository;
 
 use repository\content_object\assessment_matrix_question\AssessmentMatrixQuestion;
-
 use common\libraries\Path;
+use repository\ContentObject;
 
-require_once Path::get_repository_path(). 'lib/content_object/assessment_matrix_question/assessment_matrix_question_option.class.php';
+//require_once Path::get_repository_path(). 'lib/content_object/assessment_matrix_question/assessment_matrix_question_option.class.php';
 
 /**
  * Serializer for matrix questions.

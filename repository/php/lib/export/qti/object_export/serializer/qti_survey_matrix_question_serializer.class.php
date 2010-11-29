@@ -2,6 +2,7 @@
 namespace repository;
 
 use repository\content_object\survey_matrix_question\SurveyMatrixQuestion;
+use repository\ContentObject;
 
 /**
  * Serializer for matrix questions.

@@ -9,7 +9,7 @@ use common\libraries\StaticTableColumn;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 
-require_once Path::get_common_path() . '/html/table/object_table/object_table_column_model.class.php';
+require_once Path::get_common_libraries_class_path() . '/html/table/object_table/object_table_column_model.class.php';
 
 /**
  * Table column model for the repository browser table

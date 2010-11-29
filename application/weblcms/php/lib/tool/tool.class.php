@@ -20,6 +20,7 @@ use common\libraries\Translation;
 use repository\ContentObject;
 use repository\content_object\introduction\Introduction;
 use rights\RightsUtilities;
+use common\libraries\Path;
 
 /**
  * $Id: tool.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -541,7 +542,7 @@ abstract class Tool extends SubManager
 
     static function factory($tool_name, $parent)
     {
-        $file = dirname(__FILE__) . '/' . $tool_name . '/' . $tool_name . '_tool.class.php';
+        $file = Path::get_application_path() . 'weblcms/tool/' . $tool_name . '/php/' . $tool_name . '_tool.class.php';
         if (!file_exists($file))
         {
             throw new Exception(Translation :: get('ToolDoesNotExist', array('toolname' => $tool_name)));

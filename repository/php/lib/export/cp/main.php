@@ -2,6 +2,7 @@
 use common\libraries\Path;
 
 require_once Path :: get_common_libraries_path() . 'php/ims/main.php';
+require_once Path :: get_common_libraries_path() . 'php/ims/chamilo/main.php';
 require_once dirname(__FILE__) . '/../qti/main.php';
 require_once Path :: get_application_path() . 'weblcms/php/lib/course/course.class.php';
 

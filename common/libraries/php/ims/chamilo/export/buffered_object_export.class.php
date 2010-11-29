@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries;
 
+use repository\CpExport;
+
 class BufferedObjectExport{
 
 	private $export = null;

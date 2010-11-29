@@ -1,6 +1,9 @@
 <?php
 namespace common\libraries;
 
+use repository\ContentObjectMetadata;
+use repository\RepositoryDataManager;
+
 //require_once Path::get_application_path() . 'lib/weblcms/content_object_publication.class.php';
 //require_once Path::get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
 
@@ -48,7 +51,8 @@ class Chamilo{
     	$id = $co->get_id();
         $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $id);
     	$rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_content_object_metadata($condition);
+        $result = $rdm->retrieve_content_object_metadata($condition);
+        return $result;
     }
 
     public static function retrieve_identifiers($co){

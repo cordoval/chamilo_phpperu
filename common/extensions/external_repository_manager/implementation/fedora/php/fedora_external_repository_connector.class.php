@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
+use common\libraries\TimeUtil;
 use common\libraries\fedora_fs_object;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -10,19 +11,22 @@ use common\libraries\fedora_fs_store;
 use common\libraries\fedora_fs_mystuff;
 use common\libraries\fedora_fs_history;
 use common\libraries\fedora_fs_lastobjects;
+use common\libraries\fedora_fs_datastream;
+use common\libraries\fedora_fs_search;
 use common\libraries\FedoraProxy;
 use common\libraries\RestConfig;
 use common\libraries\ArrayResultSet;
 use common\libraries\Utilities;
+use common\libraries\ImageManipulation;
+use common\libraries\Filesystem;
+use common\libraries\FoxmlReader;
 
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
-
 use repository\ExternalRepositorySetting;
 use user\UserDataManager;
 
-
 require_once dirname(__FILE__) . '/fedora_external_repository_object.class.php';
-require_once Path::get_common_path() . '/fedora/lib.php';
+require_once Path::get_common_libraries_class_path() . '/fedora/lib.php';
 
 /**
  * Main object to connect Chamilo to the Fedora repository.
@@ -92,16 +96,16 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	public function get_default_store(){
 		$owner = self::get_owner_id();
 
-		$today = today();
-		$this_week = this_week();
-		$last_week = last_week();
-		$two_weeks_ago = last_week(2);
-		$three_weeks_ago = last_week(3);
+		$today = TimeUtil::today();
+		$this_week = TimeUtil::this_week();
+		$last_week = TimeUtil::last_week();
+		$two_weeks_ago = TimeUtil::last_week(2);
+		$three_weeks_ago = TimeUtil::last_week(3);
 
 		$result = new fedora_fs_store(Translation::get_instance()->translate('root'));
 		$result->add(new fedora_fs_mystuff(self::DOCUMENTS_MY_STUFF, $owner));
 		$result->add($history = new fedora_fs_store(Translation::get_instance()->translate('history')));
-		$history->add(new fedora_fs_history(Translation::get('today'), today(), NULL, $owner, self::DOCUMENTS_TODAY));
+		$history->add(new fedora_fs_history(Translation::get('today'), TimeUtil::today(), NULL, $owner, self::DOCUMENTS_TODAY));
 		$history->add(new fedora_fs_history(Translation::get('this_week'), $this_week, NULL, $owner, self::DOCUMENTS_THIS_WEEK));
 		$history->add(new fedora_fs_history(Translation::get('last_week'), $last_week, $this_week, $owner, self::DOCUMENTS_LAST_WEEK));
 		$history->add(new fedora_fs_history(Translation::get('two_weeks_ago'), $two_weeks_ago, $last_week, $owner, self::DOCUMENTS_TWO_WEEKS_AGO));
@@ -178,7 +182,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 			$path = dirname(__FILE__) .'/component/api/' . $api_name . '/fedora_' . $api_name . '_connector_extender.class.php';
 			require_once $path;
 
-			$class = 'Fedora'.$api_name.'ExternalRepositoryConnectorExtender';
+			$class = __NAMESPACE__ . '\Fedora'. ucfirst($api_name).'ExternalRepositoryConnectorExtender';
 			return $this->_api = new $class($this);
 		}else{
 			return $this->_api = null;
@@ -563,10 +567,10 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 
 		$can_edit = $item->get_owner() == $this->get_owner_id();
 		$rights = array();
-		$rights[ExternalRepositoryObject::RIGHT_USE] = true;
-		$rights[ExternalRepositoryObject::RIGHT_EDIT] = $can_edit;
-		$rights[ExternalRepositoryObject::RIGHT_DELETE] = $can_edit;
-		$rights[ExternalRepositoryObject::RIGHT_DOWNLOAD] = true;
+		$rights[FedoraExternalRepositoryObject::RIGHT_USE] = true;
+		$rights[FedoraExternalRepositoryObject::RIGHT_EDIT] = $can_edit;
+		$rights[FedoraExternalRepositoryObject::RIGHT_DELETE] = $can_edit;
+		$rights[FedoraExternalRepositoryObject::RIGHT_DOWNLOAD] = true;
 		return $rights;
 	}
 
@@ -649,10 +653,10 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 		$can_edit = ($owner == $this->get_owner_id()) || $edit_right == 'public' || $edit_right == 'institution';
 
 		$rights = array();
-		$rights[ExternalRepositoryObject::RIGHT_USE] = true;
-		$rights[ExternalRepositoryObject::RIGHT_EDIT] = $can_edit;
-		$rights[ExternalRepositoryObject::RIGHT_DELETE] = $can_edit;
-		$rights[ExternalRepositoryObject::RIGHT_DOWNLOAD] = true;
+		$rights[FedoraExternalRepositoryObject::RIGHT_USE] = true;
+		$rights[FedoraExternalRepositoryObject::RIGHT_EDIT] = $can_edit;
+		$rights[FedoraExternalRepositoryObject::RIGHT_DELETE] = $can_edit;
+		$rights[FedoraExternalRepositoryObject::RIGHT_DOWNLOAD] = true;
 
 		$result->set_created($created);
 		$result->set_id($pid);

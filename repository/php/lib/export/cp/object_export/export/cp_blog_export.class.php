@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\blog\Blog;
+use repository\ContentObjectExport;
+
 /**
  * Export Blog objects as a sub IMS CP package.
  *
@@ -10,8 +13,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\blog\Blog;
-
 class CpBlogExport extends CpObjectExport
 {
 

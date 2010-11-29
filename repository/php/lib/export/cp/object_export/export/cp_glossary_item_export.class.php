@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\glossary_item\GlossaryItem;
+use repository\ContentObject;
+
 /**
  * Export glossary item objects.
  *
@@ -11,8 +14,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\glossary_item\GlossaryItem;
-
 class CpGlossaryItemExport extends CpObjectExport
 {
 

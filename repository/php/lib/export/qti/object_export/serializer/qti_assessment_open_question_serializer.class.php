@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
+use repository\ContentObject;
+
 /**
  * Serializer for open questions.
  *
@@ -7,8 +11,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
-
 class QtiAssessmentOpenQuestionSerializer extends QtiQuestionSerializer
 {
 

@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\wiki\Wiki;
+use repository\ContentObject;
+
 /**
  * Export Wiki objects as a sub IMS CP package.
  *
@@ -10,8 +13,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\wiki\Wiki;
-
 class CpWikiExport extends CpObjectExport
 {
 

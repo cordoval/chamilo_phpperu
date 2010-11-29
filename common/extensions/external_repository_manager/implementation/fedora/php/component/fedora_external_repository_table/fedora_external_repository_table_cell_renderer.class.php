@@ -1,8 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
+use common\libraries\DatetimeUtilities;
 use common\libraries\Path;
-
+use common\libraries\Utilities;
+use common\libraries\Toolbar;
 use common\extensions\external_repository_manager\DefaultExternalRepositoryObjectTableCellRenderer;
 
 require_once dirname(__FILE__) . '/fedora_external_repository_table_column_model.class.php';
@@ -38,7 +40,7 @@ class FedoraExternalRepositoryTableCellRenderer extends DefaultExternalRepositor
 
 		switch ($column->get_name())
 		{
-			case ExternalRepositoryObject :: PROPERTY_TITLE :
+			case FedoraExternalRepositoryObject :: PROPERTY_TITLE :
 				$title = parent :: render_cell($column, $external_object);
 				$title_short = Utilities :: truncate_string($title, 50, false);
 				return '<a href="' . htmlentities($this->browser->get_external_repository_object_viewing_url($external_object)) . '" title="' . $title . '">' . $title_short . '</a>';

@@ -1,10 +1,16 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
+use common\libraries\Filesystem;
+
+use common\libraries\SWITCH_object_meta;
+use repository\content_object\document\Document;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Utilities;
+use common\libraries\fedora_object_meta;
+use common\libraries\PlatformSetting;
 
 require_once dirname(__FILE__) . '/../forms/fedora_edit_form.class.php';
 
@@ -48,8 +54,8 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
 			}
 
 			$parameters = $this->get_parameters();
-			$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager::ACTION_VIEW_EXTERNAL_REPOSITORY;
-			$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
+			$parameters[FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = FedoraExternalRepositoryManager::ACTION_VIEW_EXTERNAL_REPOSITORY;
+			$parameters[FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
 
 			$this->redirect('', '', $parameters);
 		}else{
@@ -58,7 +64,7 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
 	}
 
 	function get_external_repository_id(){
-		return Request::get(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
+		return Request::get(FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
 	}
 
 	/**
@@ -82,7 +88,7 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
 	}
 
 	function update_repository_object($data){
-		$pid = Request::get(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
+		$pid = Request::get(FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
 		$label = $data['title'];
 
 		if(isset($_FILES['thumbnail']) && !empty($_FILES['thumbnail']['tmp_name'])){
@@ -148,9 +154,9 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
 		$switch->source = $this->get_external_repository_connector()->get_datastream_content_url($meta->pid, 'DS1');
 
 		$fedora = $this->get_external_repository_connector()->get_fedora();
-		$content = SWITCH_get_rels_ext($meta, $switch);
+		$content = SWITCH_object_meta::get_rels_ext($meta, $switch);
 		$fedora->modify_datastream($pid, 'RELS-EXT', 'Relationships to other objects', $content, 'application/rdf+xml');
-		$content = SWITCH_get_chor_dc($meta, $switch);
+		$content = SWITCH_object_meta::get_chor_dc($meta, $switch);
 		$fedora->update_datastream($pid, 'CHOR_DC', 'SWITCH CHOR_DC record for this object', $content, 'text/xml');
 	}
 

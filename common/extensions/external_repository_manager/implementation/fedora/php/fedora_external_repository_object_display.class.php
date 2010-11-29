@@ -1,13 +1,20 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
+use common\libraries\FileUtil;
+
+use common\libraries\Theme;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Redirect;
 use common\libraries\Utilities;
-
-require_once dirname(__FILE__) . '/../../external_repository_object_display.class.php';
+use common\libraries\Application;
+use common\libraries\Filesystem;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+use repository\ExternalRepositorySetting;
 
 /**
  * Provides a readonly interface that display thumbail, metadata and datastream.
@@ -120,7 +127,8 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 	protected function format_datastream(fedora_fs_datastream $ds){
 
 		$title = $ds->get_title();
-		$image_url = Theme::get_common_image_path().'external_repository/fedora/types/datastream.png';
+
+		$image_url = Theme::get_image_path(FedoraExternalRepositoryManager::get_namespace(FedoraExternalRepositoryManager::REPOSITORY_TYPE)) . '/types/datastream.png';
 
 		$result = array();
 		$result[] = '<div class="create_block" style="width:130px; height:52px; background-image: url(' . $image_url. ');">';
@@ -141,7 +149,6 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 
 		$result[] = $bar->as_html();
 
-
 		$result[] = '</div>';
 		return implode('', $result);
 
@@ -150,10 +157,10 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 	protected function get_import_datastream_url($dsID = false){
 		$object = $this->get_object();
 		$parameters = array();
-		$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager::ACTION_IMPORT_EXTERNAL_REPOSITORY;
-		$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
-		$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY] = $object->get_external_repository_id();
-		$parameters[ExternalRepositoryManager::PARAM_RENDERER] = Request::get(ExternalRepositoryManager::PARAM_RENDERER);
+		$parameters[FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = FedoraExternalRepositoryManager::ACTION_IMPORT_EXTERNAL_REPOSITORY;
+		$parameters[FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
+		$parameters[FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY] = $object->get_external_repository_id();
+		$parameters[FedoraExternalRepositoryManager::PARAM_RENDERER] = Request::get(FedoraExternalRepositoryManager::PARAM_RENDERER);
 		$parameters[Application::PARAM_APPLICATION] = Request::get(Application::PARAM_APPLICATION);
 		$parameters[Application::PARAM_ACTION] = Request::get(Application::PARAM_ACTION);
 		if($dsID){
@@ -168,10 +175,10 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 		$parameters = array();
 		$parameters[Application::PARAM_APPLICATION] = Request::get(Application::PARAM_APPLICATION);
 		$parameters[Application::PARAM_ACTION] = Request::get(Application::PARAM_ACTION);
-		$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager::ACTION_DOWNLOAD_EXTERNAL_REPOSITORY;
-		$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
-		$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY] = $object->get_external_repository_id();
-		$parameters[ExternalRepositoryManager::PARAM_RENDERER] = Request::get(ExternalRepositoryManager::PARAM_RENDERER);
+		$parameters[FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = FedoraExternalRepositoryManager::ACTION_DOWNLOAD_EXTERNAL_REPOSITORY;
+		$parameters[FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
+		$parameters[FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY] = $object->get_external_repository_id();
+		$parameters[FedoraExternalRepositoryManager::PARAM_RENDERER] = Request::get(FedoraExternalRepositoryManager::PARAM_RENDERER);
 		$parameters[FedoraExternalRepositoryManager::PARAM_DATASTREAM_ID] = $dsID;
 		$result = Redirect::get_url($parameters);
 		return $result;

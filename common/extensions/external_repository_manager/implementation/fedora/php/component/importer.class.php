@@ -7,6 +7,7 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Session;
 use common\libraries\Utilities;
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 
 
 require_once Path::get_repository_path() . '/lib/import/content_object_import.class.php';

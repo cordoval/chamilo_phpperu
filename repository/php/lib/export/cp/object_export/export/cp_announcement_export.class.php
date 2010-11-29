@@ -1,6 +1,10 @@
 <?php
 namespace repository;
 
+use repository\ContentObjectExport;
+use repository\content_object\announcement\Announcement;
+use common\libraries\Filesystem;
+
 /**
  * Export announcement objects.
  *
@@ -9,7 +13,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\announcement\Announcement;
 
 class CpAnnouncementExport extends CpObjectExport
 {

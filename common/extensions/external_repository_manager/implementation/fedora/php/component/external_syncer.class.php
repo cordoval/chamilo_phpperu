@@ -121,9 +121,9 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
 		$connector = $this->get_external_repository_connector();
 		$fedora = $connector->get_fedora();
 
-		$content = SWITCH_get_rels_ext($meta, $switch);
+		$content = SWITCH_object_meta::get_rels_ext($meta, $switch);
 		$fedora->modify_datastream($pid, 'RELS-EXT', 'Relationships to other objects', $content, 'application/rdf+xml');
-		$content = SWITCH_get_chor_dc($meta, $switch);
+		$content = SWITCH_object_meta::get_chor_dc($meta, $switch);
 		$fedora->modify_datastream($pid, 'CHOR_DC', 'SWITCH CHOR_DC record for this object', $content, 'text/xml');
 	}
 

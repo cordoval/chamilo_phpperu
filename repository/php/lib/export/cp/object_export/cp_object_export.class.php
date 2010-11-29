@@ -3,6 +3,8 @@ namespace repository;
 
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\LomWriter;
+use common\libraries\Chamilo;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
@@ -30,13 +32,13 @@ class CpObjectExport{
 		$files = array_diff($files, array('.', '..'));
 		foreach($files as $file){
 			$class = str_replace('.class.php', '', $file);
-			$class = Utilities::underscores_to_camelcase($class);
+			$class = __NAMESPACE__ . '\\' . Utilities::underscores_to_camelcase($class);
 			include_once("$directory/$file");
 			if($result = call_user_func(array($class, 'factory'), $settings)){
 				return $result;
 			}
 		}
-		return NULL;
+		return null;
 	}
 
 	public static function accept($object){
@@ -44,9 +46,9 @@ class CpObjectExport{
 		$files = scandir($directory);
 		$files = array_diff($files, array('.', '..'));
 		foreach($files as $file){
-			$class = str_replace('.class.php', '', $file);
+			$class = __NAMESPACE__ . '\\' .  ucfirst(str_replace('.class.php', '', $file));
 			$class = Utilities::underscores_to_camelcase($class);
-			include_once("$directory/$file");
+			require_once("$directory/$file");
 			if($result = call_user_func(array($class, 'accept'), $object)){
 				return $result;
 			}

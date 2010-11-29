@@ -2,6 +2,8 @@
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use repository\ExternalRepository;
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 
 /**
  * Describes a Fedora object located in the Fedora repository.

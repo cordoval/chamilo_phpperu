@@ -2,6 +2,7 @@
 namespace repository;
 
 use repository\content_object\hotspot_question\HotspotQuestion;
+use repository\ContentObject;
 
 /**
  * Serializer for hotspot questions.

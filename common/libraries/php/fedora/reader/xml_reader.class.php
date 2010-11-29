@@ -9,6 +9,9 @@ use DOMText;
 use DOMCharacterData;
 use DOMElement;
 use DOMAttr;
+use DOMXPath;
+use DateTimeZone;
+use DateTime;
 
 /**
  * Helper class used to read an XML file.

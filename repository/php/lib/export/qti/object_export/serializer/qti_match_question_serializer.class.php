@@ -2,6 +2,7 @@
 namespace repository;
 
 use repository\content_object\match_question\MatchQuestion;
+use repository\ContentObject;
 
 /**
  * Serializer for match questions.

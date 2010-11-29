@@ -3,6 +3,7 @@ namespace common\extensions\external_repository_manager\implementation\fedora;
 
 use common\libraries\fedora_fs_store;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 use repository\ExternalRepositorySetting;
 
@@ -158,7 +159,7 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager
 			return false;
 		}else{
 			require_once $file;
-			$class = 'Fedora' . ucfirst($this->get_api()) . Utilities::underscores_to_camelcase($action) . 'Component';
+			$class = __NAMESPACE__ . '\Fedora' . ucfirst($this->get_api()) . Utilities::underscores_to_camelcase($action) . 'Component';
 			$result = new $class( $application->get_parent(), $application->get_external_repository());
 
 			return $result;
