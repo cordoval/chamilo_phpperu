@@ -2,6 +2,9 @@
 namespace application\survey;
 
 use reporting\ReportingBlock;
+use reporting\ReportingFormatter;
+use reporting\ReportingChartFormatter;
+use common\libraries\Translation;
 
 //require_once PATH :: get_reporting_path() . '/lib/reporting_block.class.php';
 

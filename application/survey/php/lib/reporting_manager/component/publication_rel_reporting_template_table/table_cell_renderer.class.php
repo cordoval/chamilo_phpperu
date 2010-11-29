@@ -1,6 +1,12 @@
 <?php 
 namespace application\survey;
+
 use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Utilities;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';
 

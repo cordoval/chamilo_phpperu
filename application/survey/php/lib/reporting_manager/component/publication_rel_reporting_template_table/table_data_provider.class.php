@@ -1,5 +1,4 @@
 <?php
-
 namespace application\survey;
 
 use common\libraries\ObjectTableDataProvider;

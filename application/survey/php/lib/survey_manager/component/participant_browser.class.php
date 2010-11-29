@@ -15,8 +15,9 @@ use common\libraries\AndCondition;
 use common\libraries\DynamicContentTab;
 use user\User;
 use common\libraries\InCondition;
-
-
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use user\UserDataManager;
 
 class SurveyManagerParticipantBrowserComponent extends SurveyManager
 {

@@ -1,7 +1,8 @@
 <?php
-
 namespace application\survey;
+
 use common\libraries\ObjectTableDataProvider;
+use reporting\ReportingDataManager;
 
 class SurveyReportingTemplateTableDataProvider extends ObjectTableDataProvider
 {

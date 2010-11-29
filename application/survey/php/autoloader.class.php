@@ -23,6 +23,7 @@ class Autoloader
             'survey_subscribe_user_form' => 'forms/subscribe_user_form.class.php',
             'survey_publication_form' => 'forms/survey_publication_form.class.php',
             'survey_publication_mailer_form' => 'forms/survey_publication_mailer_form.class.php',
+         	'survey_publication_rel_reporting_template_registration_form' => 'forms/publication_rel_reporting_template_form.class.php',
             'survey_manager' => 'survey_manager/survey_manager.class.php',
             'survey_publication_browser_table' => 'survey_manager/component/publication_browser/publication_browser_table.class.php',
             'default_survey_publication_table_cell_renderer' => 'tables/publication_table/default_survey_publication_table_cell_renderer.class.php',
@@ -50,7 +51,8 @@ class Autoloader
             'default_participant_table_column_model' => 'tables/participant_table/default_participant_table_column_model.class.php',
          	'survey_user_browser_table' => 'survey_manager/component/user_browser/user_browser_table.class.php',
          	'default_survey_user_table_cell_renderer' => 'tables/user_table/default_user_table_cell_renderer.class.php',
-            'default_survey_user_table_column_model' => 'tables/user_table/default_user_table_column_model.class.php');
+            'default_survey_user_table_column_model' => 'tables/user_table/default_user_table_column_model.class.php',
+        	'survey_reporting_filter_wizard' => 'wizards/survey_reporting_filter_wizard.class.php');
 
 
 

@@ -137,20 +137,23 @@ class SurveyContextManagerSubscribePageBrowserComponent extends SurveyContextMan
         {
             $page_ids[] = $page->get_id();
         }
-
-        $conditions = array();
-        //        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->context_template_id);
-        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->survey_id);
-        $context_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages(new AndCondition($conditions));
+		        
+        $condition = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->survey_id);
+        $context_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition);
         $context_template_rel_page_ids = array();
         while ($context_rel_page = $context_rel_pages->next_result())
         {
-            $context_template_rel_page_ids = $context_rel_page->get_page_id();
+            $context_template_rel_page_ids[] = $context_rel_page->get_page_id();
         }
-
+	 
         $diff = array_diff($page_ids, $context_template_rel_page_ids);
-
-        $condition = new InCondition(SurveyPage :: PROPERTY_ID, $diff);
+		if($diff){
+			$condition = new InCondition(SurveyPage :: PROPERTY_ID, $diff);
+		}else{
+			$condition = new EqualityCondition(SurveyPage :: PROPERTY_ID, 0);
+			
+		}
+        
         //
         //        $query = $this->ab->get_query();
         //        if (isset($query) && $query != '')
