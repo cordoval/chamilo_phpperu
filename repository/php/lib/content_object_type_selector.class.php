@@ -1,6 +1,10 @@
 <?php
 namespace repository;
 
+use admin;
+
+use common\libraries;
+
 use common\libraries\PlatformSetting;
 use common\libraries\Utilities;
 use common\libraries\Translation;
@@ -11,9 +15,11 @@ use common\libraries\DynamicContentTab;
 use common\libraries\EqualityCondition;
 use common\libraries\FormValidator;
 use common\libraries\ResourceManager;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
 
 use admin\Registration;
-use admin\PackageInfo;
+use admin\AdminDataManager;
 
 require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
 
@@ -158,22 +164,26 @@ class ContentObjectTypeSelector
             $condition = null;
         }
 
-        foreach ($this->content_object_types as $type)
+        $registration_conditions = array();
+        $registration_conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
+        $registration_conditions[] = new InCondition(Registration :: PROPERTY_NAME, $this->content_object_types);
+        $registration_condition = new AndCondition($registration_conditions);
+        $registrations = AdminDataManager :: get_instance()->retrieve_registrations($registration_condition);
+
+        while ($registration = $registrations->next_result())
         {
-            if (! $this->get_parent()->is_allowed_to_create($type))
+            if (! $this->get_parent()->is_allowed_to_create($registration->get_name()))
             {
                 continue;
             }
 
-            $setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
+            $setting = PlatformSetting :: get('allow_' . $registration->get_name() . '_creation', 'repository');
             if (! $setting)
             {
                 continue;
             }
 
-            $package_info = PackageInfo :: factory(Registration :: TYPE_CONTENT_OBJECT, $type);
-            $package_info = $package_info->get_package_info();
-            $category = $package_info['package']['category'];
+            $category = $registration->get_category();
             $category_name = Translation :: get(Utilities :: underscores_to_camelcase($category));
 
             if (! in_array($category, array_keys($this->categories)))
@@ -186,17 +196,9 @@ class ContentObjectTypeSelector
                 $this->content_object_type_categories[$category] = array();
             }
 
-            $this->content_object_type_categories[$category][Translation :: get('TypeName', array(), ContentObject :: get_content_object_type_namespace($type))] = $type;
-
-            $count = RepositoryDataManager :: get_instance()->count_type_content_objects($type, $condition);
-            $this->content_object_type_counts[$type] = $count;
-            if ($count > $this->most_used_type_count)
-            {
-                $this->most_used_type_count = $count;
-            }
+            $this->content_object_type_categories[$category][Translation :: get('TypeName', array(), ContentObject :: get_content_object_type_namespace($registration->get_name()))] = $registration->get_name();
         }
 
-        arsort($this->content_object_type_counts, SORT_STRING);
         asort($this->categories);
 
         $this->form = new FormValidator('select_content_object_type', 'post', $this->parent->get_url());
@@ -213,6 +215,30 @@ class ContentObjectTypeSelector
 
     function render_most_used()
     {
+        if (! $this->use_general_statistics)
+        {
+            $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_parent()->get_user_id());
+        }
+        else
+        {
+            $condition = null;
+        }
+
+        foreach ($this->content_object_type_categories as $category => $types)
+        {
+            foreach ($types as $type)
+            {
+                $count = RepositoryDataManager :: get_instance()->count_type_content_objects($type, $condition);
+                $this->content_object_type_counts[$type] = $count;
+                if ($count > $this->most_used_type_count)
+                {
+                    $this->most_used_type_count = $count;
+                }
+            }
+        }
+
+        arsort($this->content_object_type_counts, SORT_STRING);
+
         $limit = round($this->most_used_type_count / 2);
         $type_counts = array_slice($this->content_object_type_counts, 0, 10);
 

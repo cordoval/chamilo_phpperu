@@ -217,7 +217,7 @@ class Registration extends DataClass
 
     static function get_types()
     {
-        return array(self :: TYPE_APPLICATION, self :: TYPE_CONTENT_OBJECT, self :: TYPE_LANGUAGE, self :: TYPE_EXTERNAL_REPOSITORY_MANAGER, self :: TYPE_VIDEO_CONFERENCING_MANAGER,self :: TYPE_EXTENSION);
+        return array(self :: TYPE_CORE, self :: TYPE_APPLICATION, self :: TYPE_CONTENT_OBJECT, self :: TYPE_LANGUAGE, self :: TYPE_EXTERNAL_REPOSITORY_MANAGER, self :: TYPE_VIDEO_CONFERENCING_MANAGER,self :: TYPE_EXTENSION);
     }
 }
 ?>
