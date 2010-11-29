@@ -154,6 +154,8 @@ class MediamosaRestClient extends RestClient{
      */
     function request($method, $url, $data = null)
     {
+        //echo $url . "<br/>";
+
         $this->set_http_method($method);
 
         $this->set_data_to_send('');
