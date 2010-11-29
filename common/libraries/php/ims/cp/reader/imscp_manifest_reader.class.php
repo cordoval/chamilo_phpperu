@@ -3,24 +3,24 @@ namespace common\libraries;
 
 /**
  * Used to read a IMS CP manifest file.
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
  */
 class ImscpManifestReader extends ImsXmlReader{
-    
+
 	public function __construct($item='', $return_null=false){
     	parent::__construct($item, $return_null);
     }
-    
+
     public function get_by_id($id){
 		$path = '//*[@identifier="'. $id .'"]';
 		return  $this->first($path);
-    } 
-    
+    }
+
     /**
      * @return ImscpManifestReader
      */
@@ -28,7 +28,7 @@ class ImscpManifestReader extends ImsXmlReader{
     	$id = $this->identifierref;
     	return $this->get_by_id($id);
     }
-  
+
     /**
      * @return ImscpManifestReader
      */
@@ -38,7 +38,7 @@ class ImscpManifestReader extends ImsXmlReader{
         $path = '//def:organization[@identifier="'. $default_name .'"]';
         return $this->first($path);
     }
-    
+
     /**
      * @return ImscpManifestReader
      */
@@ -55,7 +55,7 @@ class ImscpManifestReader extends ImsXmlReader{
     	$result = empty($result) ? $this->get_first_organization() : $result;
     	return $result;
     }
- 
+
     /**
      * @return ImscpManifestReader
      */
@@ -67,7 +67,7 @@ class ImscpManifestReader extends ImsXmlReader{
     		if(strtolower($href) == strtolower($file->get_href())){
     			return $file;
     		}
-    	}	
+    	}
     	return null;
     }
 
@@ -78,7 +78,7 @@ class ImscpManifestReader extends ImsXmlReader{
         $path ='./*[*[name() !="schemaversion"] and *[name() !="schema"]]';
     	return $this->first($path);
     }
-    
+
     /*
     public function get_schema_lom($for){
     	$for = $this->get($for);

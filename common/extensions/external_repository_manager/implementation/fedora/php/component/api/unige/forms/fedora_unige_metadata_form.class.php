@@ -3,6 +3,7 @@ namespace common\extensions\external_repository_manager\implementation\fedora;
 
 use common\libraries\Translation;
 
+
 require_once dirname(__FILE__) . '/../../../../forms/fedora_metadata_form.class.php';
 
 /**
@@ -106,7 +107,6 @@ class FedoraUnigeMetadataForm extends FedoraMetadataForm{
 		$result = $connector->retrieve_collections();
 		return $result;
 	}
-
 
 }
 

@@ -74,30 +74,4 @@ class FoxmlReader extends FedoraXmlReader
         return self::parse_date($item->VALUE);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

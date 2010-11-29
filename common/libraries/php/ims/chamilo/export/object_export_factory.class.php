@@ -2,31 +2,31 @@
 namespace common\libraries;
 
 class ObjectExportFactory {
-	
+
 	private $failover = null;
     private $directory = '';
     private $function = 'factory';
     private $file_trailer = '.class.php';
-    
+
     public function __construct($failover, $directory = '', $function = '', $file_trailer = ''){
     	$this->failover = $failover;
     	$this->directory = empty($directory) ? dirname(__FILE__) . '/builder/' : $directory;
     	$this->function = empty($function) ? 'factory' : $function;
-    	$this->file_trailer = empty($file_trailer) ? '.class.php' : $file_trailer;  
+    	$this->file_trailer = empty($file_trailer) ? '.class.php' : $file_trailer;
     }
-    
+
     public function get_directory(){
     	return $this->directory;
     }
-    
+
     public function get_function(){
     	return $this->function;
     }
-    
+
     public function get_file_trailer(){
     	return $this->file_trailer;
     }
-    
+
     public function get_failover(){
     	return $failover;
     }
@@ -42,12 +42,12 @@ class ObjectExportFactory {
         		return new BufferedObjectExport($settings, $import);
         	}
     	}
-    		
+
     	$file_name = basename($settings->get_path());
-    	$settings->get_log()->error(Translation :: get('ObjectNotExported', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES). ': ' .$file_name);
+    	$settings->get_log()->error(Translation::translate('ContentObjectNotExported'). ': ' .$file_name);
     	return EmptyObjectImport::get_instance();
 	}
-	
+
 	protected function create_from_directory(ObjectImportSettings $settings){
 		$file_trailer = $this->file_trailer;
 		$directory = $this->directory;
@@ -67,7 +67,7 @@ class ObjectExportFactory {
 		}
 		return null;
 	}
-    
+
 
 }
 

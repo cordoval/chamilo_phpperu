@@ -2,9 +2,9 @@
 namespace repository;
 
 use repository\content_object\physical_location\PhysicalLocation;
-
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use repository\ContentObject;
 
 include_once Path :: get_repository_path() . '/lib/content_object/physical_location/physical_location_display.class.php';
 
@@ -46,7 +46,7 @@ class CpPhysicalLocationExport extends CpObjectExport
         $settings = $this->get_settings();
         $object = $settings->get_object();
         $content = $this->format($object);
-        //$href = str_safe($object->get_title()).'.location.html';
+		//$href = str_safe($object->get_title()).'.location.html';
         $href = $this->get_file_name($object, 'location.html');
         $directory = $settings->get_directory();
         $path = $directory . $href;
@@ -71,6 +71,7 @@ class CpPhysicalLocationExport extends CpObjectExport
         $css = $this->get_main_css();
         $title = $object->get_title();
         $description = $object->get_description();
+		$description = $this->translate_text($description);
         $location = $object->get_location();
 
         $html = array();

@@ -333,8 +333,8 @@ class Qti{
 		return isset($tags[$name]);
 	}
 
-	public static function get_tool_name(){
-		return 'imsqti:unige:chamilo';
+	public static function get_tool_name($name = ''){
+		return 'imsqti:unige' . (empty($name) ? '' : ':' . $name);
 	}
 
 	public static function get_tool_version(){

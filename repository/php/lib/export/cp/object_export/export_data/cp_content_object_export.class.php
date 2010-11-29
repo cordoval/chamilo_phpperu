@@ -34,12 +34,12 @@ class CpContentObjectExport extends CpeObjectExportBase
         {
             return null;
         }
-    }
+	}
 
     public function get_type()
     {
         return ImscpObjectWriter :: get_format_full_name() . '#ContentObject';
-    }
+	}
 
     protected function add_object(ImscpObjectWriter $writer, DataClass $object)
     {
@@ -130,8 +130,7 @@ class CpContentObjectExport extends CpeObjectExportBase
         {
             $id = $include->get_id();
             //force reloads by passing id instead of object
-            //@todo: get_included_content_objects do not return proper object type - i.e. document
-            $href = $this->export_child($id);
+	    	$href = $this->export_child($id);
             $writer->add_includes($href, $id);
         }
     }

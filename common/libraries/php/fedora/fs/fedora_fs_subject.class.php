@@ -64,6 +64,9 @@ class fedora_fs_subject extends fedora_fs_folder{
 		$result .= 'and $pid <fedora-model:label> $label ';
 		$result .= 'and $pid <fedora-model:ownerId> $ownerId ';
 		$result .= 'and $pid <fedora-model:createdDate> $created ';
+		if($state = $this->get_state_text()){
+			$result .= 'and $pid <fedora-model:state> <fedora-model:'. $state. '>';
+		}
 		if($key){
 			$result .= 'and $pid <http://purl.org/dc/terms/subject> \''. $key . '\' ';
 		}

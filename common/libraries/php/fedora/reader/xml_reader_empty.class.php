@@ -156,11 +156,4 @@ class IteratorEmpty implements Iterator
 
 }
 
-
-
-
-
-
-
-
 ?>

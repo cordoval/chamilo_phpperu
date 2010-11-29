@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\document\Document;
+use repository\ContentObject;
+
 /**
  * Export Document objects. Write the attached document. Do not export Document's properties.
  *
@@ -10,8 +13,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\document\Document;
-
 class CpDocumentExport extends CpObjectExport
 {
 
@@ -34,7 +35,8 @@ class CpDocumentExport extends CpObjectExport
         {
             return false;
         }
-        return $object instanceof Document || $object->get_type() == Document :: get_type_name();
+        $result = $object instanceof Document || $object->get_type() == Document :: get_type_name();
+        return $result;
     }
 
     public function export_content_object()

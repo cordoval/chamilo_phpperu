@@ -150,3 +150,4 @@ $mimetypes['odf'] = 'application/vnd.oasis.opendocument.formula' ;
 $mimetypes['odb'] = 'application/vnd.oasis.opendocument.database' ;
 $mimetypes['odi'] = 'application/vnd.oasis.opendocument.image' ;
 $mimetypes['oxt'] = 'application/vnd.openofficeorg.extension' ;
+$mimetypes['rdf'] = 'application/rdf+xml';

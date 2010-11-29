@@ -22,7 +22,7 @@ class QtiSerializerBase
     /**
      * @return SerializerBase
      */
-    static function factory($question, $target_root, $directory, $manifest, $toc)
+	public static function factory($question, $target_root, $directory, $manifest, $toc){
     {
         $dir = dirname(__FILE__) . '/serializer/';
         $files = scandir($dir);
@@ -55,7 +55,7 @@ class QtiSerializerBase
         return $result;
     }
 
-    static function get_identifier($object)
+	public static function get_identifier($object){
     {
         $id = $object->get_id();
         $id = str_pad($id, 8, '0', STR_PAD_LEFT);
@@ -63,6 +63,14 @@ class QtiSerializerBase
         $result = "chamilo:$server_name:ID_$id";
         return $result;
     }
+
+	/**
+	 * Returns the tool name used to generate qti files.
+	 * Mostly used to identify if a file is a reimport.
+	 */
+	public static function get_tool_name(){
+		return Qti::get_tool_name('chamilo');
+	}
 
     private $resources = array();
     private $manifest = null;

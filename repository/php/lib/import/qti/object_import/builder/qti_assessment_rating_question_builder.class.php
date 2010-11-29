@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+
 /**
  * Question builder for Rating questions.
  *
@@ -29,9 +30,9 @@ class QtiAssessmentRatingQuestionBuilder extends QtiQuestionBuilder{
         return $result;
 	}
 
-	protected function eval_answer($answer){
+	protected function eval_answer($item, $answer){
 		if($this->is_formula($answer)){
-			return $this->execute_formula($answer);
+			return $this->execute_formula($item, $answer);
 		}else{
 			return $answer;
 		}
@@ -48,11 +49,13 @@ class QtiAssessmentRatingQuestionBuilder extends QtiQuestionBuilder{
         $result->set_high($interaction->upperBound);
         $answers = $this->get_correct_responses($item, $interaction);
         $answer = reset($answers);
-        $answer = $this->eval_answer($answer);
+        $answer = $this->eval_answer($item, $answer);
         $result->set_correct($answer);
 		return $result;
 	}
 }
+
+
 
 
 

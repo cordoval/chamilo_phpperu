@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use repository\content_object\survey_select_question\SurveySelectQuestion;
+use repository\ContentObject;
+
 /**
  * Serializer for Select questions
  *
@@ -7,8 +11,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\survey_select_question\SurveySelectQuestion;
-
 class QtiSurveySelectQuestionSerializer extends QtiQuestionSerializer
 {
 

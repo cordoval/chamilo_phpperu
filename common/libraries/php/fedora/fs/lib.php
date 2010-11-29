@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries;
+
 /**
  * Main entry point to use the library.
  */
@@ -18,10 +19,6 @@ require_once(dirname(__FILE__) . '/fedora_fs_sparql_query.class.php');
 require_once(dirname(__FILE__) . '/fedora_fs_itql_query.class.php');
 require_once(dirname(__FILE__) . '/fedora_fs_subject.class.php');
 require_once(dirname(__FILE__) . '/fedora_fs_access_right.class.php');
-
-function fedora_fs_translate($key, $module){
-	return Translation::get_instance()->Translate($key);
-}
 
 function fedora_fs_resource($file){
 	return Path::get_home_path() .  '/common/fedora/resource/' . $file;

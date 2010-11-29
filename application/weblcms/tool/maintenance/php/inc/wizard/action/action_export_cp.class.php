@@ -7,6 +7,7 @@ use common\libraries\Session;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use repository\ContentObjectExport;
 
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
 require_once Path :: get_repository_path() . 'lib/export/content_object_export.class.php';

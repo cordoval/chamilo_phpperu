@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\note\Note;
+use repository\ContentObject;
+
 /**
  * Export note objects.
  *
@@ -10,8 +13,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\note\Note;
-
 class CpNoteExport extends CpObjectExport
 {
 
@@ -62,6 +63,7 @@ class CpNoteExport extends CpObjectExport
         $css = $this->get_main_css();
         $title = $object->get_title();
         $description = $object->get_description();
+		$description = $this->translate_text($description);
         $result = "<html><head>$css<title>$title</title></head><body>";
         $result .= '<div class="title">' . $title . '</div>';
         $result .= '<div class="description">' . $description . '</div>';

@@ -16,6 +16,9 @@
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>
 			</setting>
+			
+			<setting name="ContentAccessUrl" field="text" default="https://localhost/fedora/objects/$pid/datastreams/$dsId/content">
+			</setting>
 
 			<setting name="ClientCertificateFile" field="text" default="">
 			</setting>
@@ -31,7 +34,7 @@
 			<setting name="CheckTargetCertificate" field="checkbox"
 				default="0">
 				<options type="static">
-					<option name="CheckTargetCertificate" value="1" />
+					<option name="CheckTargetCertificate" value="True" />
 				</options>
 			</setting>
 
@@ -42,6 +45,11 @@
 			</setting>
 
 			<setting name="Password" field="password" default="">
+			</setting>
+			<setting name="ViewSystemDatastreams" field="checkbox" default="0">
+				<options type="static">
+					<option name="ViewSystemDatastreams" value="True" />
+				</options>
 			</setting>
 		</category>
 	</settings>

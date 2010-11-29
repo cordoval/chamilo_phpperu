@@ -1,5 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\fedora;
+
+use common\libraries\TreeMenuRenderer;
+use common\libraries\ResourceManager;
+use common\libraries\Path;
+
 /**
  * $Id: tree_menu_renderer.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.menu

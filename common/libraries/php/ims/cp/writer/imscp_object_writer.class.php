@@ -4,31 +4,31 @@ namespace common\libraries;
 /**
  * Used to write object's to the CEO format.
  * One object per file.
- * 
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ *
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
  */
 class ImscpObjectWriter extends ImsXmlWriter
 {
-    
+
     private $objects=null;
 
     public function get_format_name(){
     	return Ceo::get_format_name();
-    } 
-    
+    }
+
     public function get_format_version(){
     	return Ceo::get_format_version();
     }
-    
+
     public function get_format_full_name(){
     	return Ceo::get_format_full_name();
     }
-    
+
     public function get_export(){
     	$result = $this->get_root();
     	if(empty($result)){
@@ -38,19 +38,19 @@ class ImscpObjectWriter extends ImsXmlWriter
     	}
     	return $result;
     }
-    
+
     public function add_export(){
     	$result = $this->add('export');
         $result->set_attribute('formatname', $this->get_format_name());
         $result->set_attribute('formatversion', $this->get_format_version());
-        $result->set_attribute('identifier', $this->create_unique_id()); 
+        $result->set_attribute('identifier', $this->create_unique_id());
         $result->set_attribute('created', self::format_datetime());
         $result->set_attribute('source', $_SERVER['SERVER_NAME']);
     	$result->set_attribute('xmlns', 'http://www.chamilo.org/xsd/ceo_v1p0');
         return $result;
     }
-    
- 
+
+
     public function get_objects(){
     	if(empty($this->objects)){
     		$this->objects = $this->get_export()->add_objects();
@@ -59,15 +59,15 @@ class ImscpObjectWriter extends ImsXmlWriter
     }
 
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_objects(){
     	return $this->add('objects');
     }
-    
+
     /**
-     * 
+     *
      * @param $id
      * @param $is_complex
      * @return ImscpObjectWriter
@@ -81,15 +81,15 @@ class ImscpObjectWriter extends ImsXmlWriter
     }
 
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_general(){
     	return $this->add('general');
     }
-  
+
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_identifiers(){
@@ -97,7 +97,7 @@ class ImscpObjectWriter extends ImsXmlWriter
     }
 
     /**
-     * 
+     *
      * @param $catalog
      * @param $entry
      * @return ImscpObjectWriter
@@ -108,26 +108,26 @@ class ImscpObjectWriter extends ImsXmlWriter
     	$result->add_entry($entry);
     	return $result;
     }
-    
+
     /**
-     * 
+     *
      * @param $catalog
      * @return ImscpObjectWriter
      */
     public function add_catalog($catalog){
-    	$result = $this->add('catalog', $catalog);	
+    	$result = $this->add('catalog', $catalog);
     }
-    
+
     /**
      * @param unknown_type $entry
      * @return ImscpObjectWriter
      */
     public function add_entry($entry){
-    	$result = $this->add('entry', $entry);	
+    	$result = $this->add('entry', $entry);
     }
 
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_extended(){
@@ -135,16 +135,16 @@ class ImscpObjectWriter extends ImsXmlWriter
     }
 
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_attachments(){
     	$result = $this->add('attachments');
     	return $result;
     }
-    
+
     /**
-     * 
+     *
      * @param $idref
      * @return ImscpObjectWriter
      */
@@ -154,18 +154,18 @@ class ImscpObjectWriter extends ImsXmlWriter
         $result->set_attribute('idref', $idref);
         return $result;
     }
-    
+
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_includes(){
     	$result = $this->add('includes');
     	return $result;
     }
-    
+
     /**
-     * 
+     *
      * @param string $idref
      * @return ImscpObjectWriter
      */
@@ -177,15 +177,15 @@ class ImscpObjectWriter extends ImsXmlWriter
     }
 
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_subItems(){
     	return $this->add('subItems');
     }
-    
+
     /**
-     * 
+     *
      * @param unknown_type $idref
      * @param unknown_type $id
      * @return ImscpObjectWriter
@@ -197,17 +197,17 @@ class ImscpObjectWriter extends ImsXmlWriter
         $result->set_attribute('id', $id);
         return $result;
     }
-    
+
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_publications(){
     	return $this->add('publications');
     }
-    
+
     /**
-     * 
+     *
      * @param unknown_type $idref
      * @param unknown_type $id
      * @return ImscpObjectWriter
@@ -219,17 +219,17 @@ class ImscpObjectWriter extends ImsXmlWriter
         $result->set_attribute('idref', $object_id);
         return $result;
     }
-    
+
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_categories(){
     	return $this->add('categories');
     }
-    
+
     /**
-     * 
+     *
      * @param $id
      * @param $name
      * @param $parent_id
@@ -241,27 +241,27 @@ class ImscpObjectWriter extends ImsXmlWriter
     	$result->add('name', $name);
         return $result;
     }
-    
+
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      * @param $value
      */
     public function add_parent($value){
     	return $this->add('parent', $value);
     }
-    
+
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_user_relations(){
     	$result = $this->add('user_relations');
         return $result;
     }
-    
+
  	/**
-     * 
+     *
      * @param string $id
      * @param string $idref
      * @return ImscpObjectWriter
@@ -274,9 +274,9 @@ class ImscpObjectWriter extends ImsXmlWriter
         $result->set_attribute('user_code', $user_code);
         return $result;
     }
-    
+
     /**
-     * 
+     *
      * @param string $id
      * @param string $idref
      * @return ImscpObjectWriter
@@ -286,18 +286,18 @@ class ImscpObjectWriter extends ImsXmlWriter
         $result->set_attribute('id', $id);
         return $result;
     }
-    
+
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_sections(){
     	$result = $this->add('sections');
         return $result;
     }
-    
+
     /**
-     * 
+     *
      * @param $id
      * @return ImscpObjectWriter
      */
@@ -306,18 +306,18 @@ class ImscpObjectWriter extends ImsXmlWriter
         $result->set_attribute('id', $id);
         return $result;
     }
-    
+
 	/**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_modules(){
     	$result = $this->add('modules');
         return $result;
-    } 
-    
+    }
+
     /**
-     * 
+     *
      * @param $id
      * @return ImscpObjectWriter
      */
@@ -327,18 +327,18 @@ class ImscpObjectWriter extends ImsXmlWriter
         $result->set_attribute('name', $name, false);
         return $result;
     }
-    
+
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
 	public function add_groups(){
     	$result = $this->add('groups');
         return $result;
     }
-    
+
     /**
-     * 
+     *
      * @param $id
      * @return ImscpObjectWriter
      */
@@ -349,35 +349,35 @@ class ImscpObjectWriter extends ImsXmlWriter
     }
 
  /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_settings(){
     	$result = $this->add('settings');
         return $result;
-    } 
-    
+    }
+
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_layout_settings(){
     	$result = $this->add('layout_settings');
         return $result;
     }
-    
+
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_rights(){
     	$result = $this->add('rights');
         return $result;
-    	
+
     }
-    
+
      /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_introduction($xml){
@@ -385,9 +385,9 @@ class ImscpObjectWriter extends ImsXmlWriter
     	$result->add_xml($xml);
         return $result;
     }
-    
+
     /**
-     * 
+     *
      * @return ImscpObjectWriter
      */
     public function add_type($id, $name){
@@ -396,7 +396,7 @@ class ImscpObjectWriter extends ImsXmlWriter
         $result->set_attribute('name', $name);
         return $result;
     }
-    
+
 }
 
 

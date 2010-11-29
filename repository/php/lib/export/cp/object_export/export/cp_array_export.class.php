@@ -1,12 +1,14 @@
 <?php
 namespace repository;
 
+use repository\ContentObjectExport;
+
 /**
- * Export an array of objects. 
- * 
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ * Export an array of objects.
+ *
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
@@ -21,11 +23,11 @@ class CpArrayExport extends CpObjectExport{
 			return NULL;
 		}
 	}
-	
+
 	public static function accept($object){
 		return is_array($object);;
-	}	
-	
+	}
+
 	public function export_content_object(){
 		$settings = $this->get_settings();
 		$items = $settings->get_object();

@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\glossary\Glossary;
+use repository\ContentObject;
+
 /**
  * Export Glossary objects as a sub IMS CP package.
  *
@@ -10,8 +13,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\glossary\Glossary;
-
 class CpGlossaryExport extends CpObjectExport
 {
 
