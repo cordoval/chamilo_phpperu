@@ -15,17 +15,17 @@ abstract class Updater
     const TYPE_ERROR = '4';
     const UPDATE_SUCCESS = 'success';
     const UPDATE_MESSAGE = 'message';
-    
+
     /**
      * The datamanager which can be used by the installer of the application
      */
     private $data_manager;
-    
+
     /**
      * Message to be displayed upon completion of the installation procedure
      */
     private $message;
-    
+
     private $application;
 
     /**
@@ -57,7 +57,7 @@ abstract class Updater
     {
         $dir = $this->get_install_path();
         $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
-        
+
         foreach ($files as $file)
         {
             if ((substr($file, - 3) == 'xml'))
@@ -77,16 +77,16 @@ abstract class Updater
                     $file = Path :: get_temp_path() . 'backup/' . $this->get_application() . '_' . time() . '.backup';
                     Filesystem::write_to_file($file, $output, true);
                 	$this->add_message(self :: TYPE_WARNING, 'Xml file needed with changes');
-                    
+
                 }
             }
         }
-        
+
         if (! $this->configure_application())
         {
             return false;
         }
-        
+
         return $this->update_successful();
     }
 
@@ -115,7 +115,7 @@ abstract class Updater
         $name = '';
         $properties = array();
         $indexes = array();
-        
+
         $doc = new DOMDocument();
         $doc->load($file);
         $object = $doc->getElementsByTagname('object')->item(0);
@@ -150,7 +150,7 @@ abstract class Updater
         $result['name'] = $name;
         $result['properties'] = $properties;
         $result['indexes'] = $indexes;
-        
+
         return $result;
     }
 
@@ -239,34 +239,34 @@ abstract class Updater
     }
 
     // TODO: It's probably a good idea to write some kind of XML-parsing class that automatically converts the entire thing to a uniform array or object.
-    
+
 
     function parse_application_events($file)
     {
         $doc = new DOMDocument();
         $result = array();
-        
+
         $doc->load($file);
         $object = $doc->getElementsByTagname('application')->item(0);
         $result['name'] = $object->getAttribute('name');
-        
+
         // Get events
         $events = $doc->getElementsByTagname('event');
         $trackers = array();
-        
+
         foreach ($events as $index => $event)
         {
             $event_name = $event->getAttribute('name');
             $trackers = array();
-            
+
             // Get trackers in event
             $event_trackers = $event->getElementsByTagname('tracker');
             $attributes = array('name', 'active');
-            
+
             foreach ($event_trackers as $index => $event_tracker)
             {
                 $property_info = array();
-                
+
                 foreach ($attributes as $index => $attribute)
                 {
                     if ($event_tracker->hasAttribute($attribute))
@@ -276,89 +276,89 @@ abstract class Updater
                 }
                 $trackers[$event_tracker->getAttribute('name')] = $property_info;
             }
-            
+
             $result['events'][$event_name]['name'] = $event_name;
             $result['events'][$event_name]['trackers'] = $trackers;
         }
-        
+
         return $result;
     }
 
 	function parse_application_rights($file)
     {
         $doc = new DOMDocument();
-        
+
         $doc->load($file);
         $object = $doc->getElementsByTagname('application')->item(0);
-        
+
         // Get events
         $events = $doc->getElementsByTagname('right');
         $rights = array();
-        
+
         foreach ($events as $index => $event)
         {
             $rights[$event->getAttribute('name')] = array('identifier' => $event->getAttribute('identifier'), 'tree_identifier' => $event->getAttribute('tree_identifier'), 'type' => $event->getAttribute('type'), 'tree_type' => $event->getAttribute('tree_type'), 'update_type' => $event->getAttribute('update_type'), 'parent_identifier' => $event->getAttribute('parent_identifier'), 'parent_tree_identifier' => $event->getAttribute('parent_tree_identifier'), 'parent_type' => $event->getAttribute('parent_type'), 'parent_tree_type' => $event->getAttribute('parent_tree_type'));
         }
-        
+
         return $rights;
     }
-    
+
     function parse_application_settings($file)
     {
         $doc = new DOMDocument();
-        
+
         $doc->load($file);
         $object = $doc->getElementsByTagname('application')->item(0);
-        
+
         // Get events
         $events = $doc->getElementsByTagname('setting');
         $settings = array();
-        
+
         foreach ($events as $index => $event)
         {
             $settings[$event->getAttribute('name')] = array('default' => $event->getAttribute('default'), 'user_setting' => $event->getAttribute('user_setting'), 'type' => $event->getAttribute('type'));
         }
-        
+
         return $settings;
     }
 
     function parse_application_reporting($file)
     {
         $doc = new DOMDocument();
-        
+
         $doc->load($file);
         $object = $doc->getElementsByTagname('application')->item(0);
-        
+
         // Get events
         $events = $doc->getElementsByTagname('block');
         $reporting = array();
-        
+
         foreach ($events as $index => $event)
         {
             $reporting['block'][$event->getAttribute('name')] = array('type' => $event->getAttribute('type'));
         }
-        
+
         $events = $doc->getElementsByTagname('template');
-        
+
         foreach ($events as $index => $event)
         {
             $reporting['template'][$event->getAttribute('name')] = array('platform' => $event->getAttribute('platform'), 'type' => $event->getAttribute('type'));
         }
-        
+
         return $reporting;
     }
 
     function parse_application_webservices($file)
     {
         $doc = new DOMDocument();
-        
+
         $doc->load($file);
         $object = $doc->getElementsByTagname('application')->item(0);
-        
+
         // Get events
         $events = $doc->getElementsByTagname('webservice');
         $webservice = array();
-        
+
         foreach ($events as $index => $event)
         {
             $webservice[$event->getAttribute('name')] = array('type' => $event->getAttribute('type'), 'category' => $event->getAttribute('category'));
@@ -379,7 +379,7 @@ abstract class Updater
         {
             return false;
         }
-        
+
         return $tracker;
     }
 
@@ -418,13 +418,13 @@ abstract class Updater
     function register_reporting()
     {
         $application = $this->get_application();
-        
+
         $reporting_file = $this->get_path() . 'reporting.xml';
-        
+
         if (file_exists($reporting_file))
         {
             $xml = $this->parse_application_reporting($reporting_file);
-            
+
             foreach ($xml['block'] as $name => $parameters)
             {
                 $type = $parameters['type'];
@@ -441,7 +441,7 @@ abstract class Updater
                     {
                         $this->update_failed(Translation :: get('ReportingBlockRegistrationFailed') . ': <em>' . $props[ReportingBlockRegistration :: PROPERTY_BLOCK] . '</em>');
                     }
-                
+
                 }
                 else
                 {
@@ -449,7 +449,7 @@ abstract class Updater
                     $conditions[] = new EqualityCondition(ReportingBlockRegistration :: PROPERTY_APPLICATION, $application);
                     $conditions[] = new EqualityCondition(ReportingBlockRegistration :: PROPERTY_BLOCK, $name);
                     $condition = new AndCondition($conditions);
-                    
+
                     if (! ReportingDataManager :: get_instance()->delete_reporting_block_registrations($condition))
                     {
                         $this->update_failed(Translation :: get('DeleteReportingBlockRegistrationFailed') . ': <em>' . $name . '</em>');
@@ -480,7 +480,7 @@ abstract class Updater
                     $conditions[] = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_APPLICATION, $application);
                     $conditions[] = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_TEMPLATE, $name);
                     $condition = new AndCondition($conditions);
-                    
+
                     if (! ReportingDataManager :: get_instance()->delete_reporting_template_registrations($condition))
                     {
                         $this->update_failed(Translation :: get('DeleteReportingTemplateRegistrationFailed') . ': <em>' . $name . '</em>');
@@ -491,7 +491,7 @@ abstract class Updater
         return true;
     } //register_reporting
 
-    
+
     /**
      * Registers the trackers, events and creates the storage units for the trackers
      */
@@ -504,13 +504,13 @@ abstract class Updater
     function configure_application()
     {
         $application = $this->get_application();
-        
+
         $settings_file = $this->get_path() . 'settings.xml';
-        
+
         if (file_exists($settings_file))
         {
             $xml = $this->parse_application_settings($settings_file);
-            
+
             foreach ($xml as $name => $parameters)
             {
                 $type = $parameters['type'];
@@ -520,13 +520,13 @@ abstract class Updater
                     $setting->set_application($application);
                     $setting->set_variable($name);
                     $setting->set_value($parameters['default']);
-                    
+
                     $user_setting = $parameters['user_setting'];
                     if ($user_setting)
                         $setting->set_user_setting($user_setting);
                     else
                         $setting->set_user_setting(0);
-                    
+
                     if (! $setting->create())
                     {
                         $message = Translation :: get('ApplicationConfigurationFailed');
@@ -539,7 +539,7 @@ abstract class Updater
                     $conditions[] = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $application);
                     $conditions[] = new EqualityCondition(Setting :: PROPERTY_VARIABLE, $name);
                     $condition = new AndCondition($conditions);
-                    
+
                     $settings = AdminDataManager :: get_instance()->retrieve_settings($condition);
                     while ($setting = $settings->next_result())
                     {
@@ -556,18 +556,22 @@ abstract class Updater
 
     function register_application()
     {
-        
+
         $application = $this->get_application();
-        
+
         if (WebApplication :: is_application($application))
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('RegisteringApplication'));
-            
+
+            $package_info = PackageInfo :: factory(Registration :: TYPE_APPLICATION, $application);
+            $package_info = $package_info->get_package();
+
             $application_registration = new Registration();
             $application_registration->set_type(Registration :: TYPE_APPLICATION);
-            $application_registration->set_name($application);
+            $application_registration->set_name($package_info->get_code());
+            $application_registration->set_category($package_info->get_category());
             $application_registration->set_status(Registration :: STATUS_ACTIVE);
-            
+
             if (! $application_registration->create())
             {
                 return $this->update_failed(Translation :: get('ApplicationRegistrationFailed'));
@@ -589,16 +593,16 @@ abstract class Updater
     function register_webservices()
     {
         $application = $this->get_application();
-        
+
         $webservice_file = $this->get_path() . 'webservices.xml';
-        
+
         if (file_exists($webservice_file))
         {
             $webservices = $this->parse_application_webservices($webservice_file); //contains a list of webservices for this application
             foreach ($webservices as $name => $parameters)
             {
                 $condition = new EqualityCondition(WebserviceCategory :: PROPERTY_NAME, $parameters['category']);
-                
+
                 $categories = WebserviceDataManager :: get_instance()->retrieve_webservice_categories($condition, null, 1);
                 $type = $parameters['type'];
                 if ($categories->size() == 0 && $type == 1)
@@ -616,7 +620,7 @@ abstract class Updater
                 {
                     $webservice_category = $categories->next_result();
                 }
-                
+
                 if ($type == 1)
                 {
                     $webservice = new WebserviceRegistration();
@@ -636,7 +640,7 @@ abstract class Updater
                 	$conditions[] = new EqualityCondition(WebserviceRegistration::PROPERTY_APPLICATION, $application);
                 	$conditions[] = new EqualityCondition(WebserviceRegistration::PROPERTY_NAME, $name);
                 	$condition = new AndCondition($conditions);
-                	
+
                 	if (! WebserviceDataManager::get_instance()->delete_webservices($condition))
                 	{
                 		return $this->update_failed(Translation :: get('DeleteWebserviceRegistrationFailed') . ' : <em>' . $name . '</em>');
@@ -644,19 +648,19 @@ abstract class Updater
                 }
             }
         }
-        return true;    
+        return true;
     }
-    
+
     function register_location()
     {
     	$application = $this->get_application();
-        
+
         $rights_file = $this->get_path() . 'rights_locations.xml';
-        
+
         if (file_exists($rights_file))
         {
             $xml = $this->parse_application_rights($rights_file);
-            
+
             foreach ($xml as $name => $parameters)
             {
                 $type = $parameters['update_type'];
@@ -669,9 +673,9 @@ abstract class Updater
                     $location->set_tree_identifier($parameters['tree_identifier']);
                     $location->set_type($parameters['type']);
                     $location->set_tree_type($parameters['tree_type']);
-                    
+
                     $parent = RightsUtilities::get_location_by_identifier($application, $parameters['parent_type'], $parameters['parent_identifier'], $parameters['parent_tree_identifier'], $parameters['parent_tree_type']);
-				 	$location->set_parent($parent->get_id()); 
+				 	$location->set_parent($parent->get_id());
 
                    	if (! $location->create())
                     {
@@ -680,7 +684,7 @@ abstract class Updater
                     }
                 }
                 else
-                {                  
+                {
                     $location = RightsUtilities::get_location_by_identifier($application, $parameters['type'], $parameters['identifier'], $parameters['tree_identifier'], $parameters['tree_type']);
                     $location->delete();
                 }
@@ -692,7 +696,7 @@ abstract class Updater
     function post_process()
     {
         $application = $this->get_application();
-        
+
         // Parse the Locations XML of the application
         $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Rights', null, 'rights') . '</span>');
         if (! $this->register_location())
@@ -704,10 +708,10 @@ abstract class Updater
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('LocationsAdded'));
         }
         $this->add_message(self :: TYPE_NORMAL, '');
-        
+
         // Handle any and every other thing that needs to happen after
         // the entire kernel was installed
-        
+
 
         // VARIOUS #1: Tracking
         $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Tracking', null, 'tracking') . '</span>');
@@ -720,7 +724,7 @@ abstract class Updater
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackingAdded'));
         }
         $this->add_message(self :: TYPE_NORMAL, '');
-        
+
         // VARIOUS #2: Reporting
         $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Reporting', null, 'reporting') . '</span>');
         if (! $this->register_reporting())
@@ -732,7 +736,7 @@ abstract class Updater
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ReportingAdded'));
         }
         $this->add_message(self :: TYPE_NORMAL, '');
-        
+
         // VARIOUS #3: Webservices
         $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Webservice', null, 'webservice') . '</span>');
         if (! $this->register_webservices())
@@ -744,7 +748,7 @@ abstract class Updater
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceSucces'));
         }
         $this->add_message(self :: TYPE_NORMAL, '');
-        
+
         // VARIOUS #4: The rest
         if (method_exists($this, 'update_extra'))
         {
@@ -786,7 +790,7 @@ abstract class Updater
         $version_string = str_replace('.', '', $version);
         $class = Application :: application_to_class($application) . $version_string . 'Updater';
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
-        
+
         require_once ($base_path . $application . '/update/' . $version . '/' . $application . '_' . $version_string . '_updater.class.php');
         return new $class($application);
     }

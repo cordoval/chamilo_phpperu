@@ -53,6 +53,7 @@ class PackageInstallerExternalRepositoryManagerType extends PackageInstallerType
         $registration = new Registration();
         $registration->set_name($attributes->get_code());
         $registration->set_type(Registration :: TYPE_EXTERNAL_REPOSITORY_MANAGER);
+        $registration->set_category($attributes->get_category());
         $registration->set_version($attributes->get_version());
         $registration->set_status(Registration :: STATUS_ACTIVE);
 

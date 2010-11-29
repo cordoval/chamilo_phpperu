@@ -153,7 +153,7 @@ class RegistrationDisplay
         $html[] = '<table class="data_table data_table_no_header">';
         $properties = $package_info->get_default_property_names();
 
-        $hidden_properties = array(RemotePackage :: PROPERTY_VERSION, RemotePackage :: PROPERTY_CYCLE, RemotePackage :: PROPERTY_DEPENDENCIES, RemotePackage :: PROPERTY_EXTRA);
+        $hidden_properties = array(RemotePackage :: PROPERTY_AUTHORS, RemotePackage :: PROPERTY_VERSION, RemotePackage :: PROPERTY_CYCLE, RemotePackage :: PROPERTY_DEPENDENCIES, RemotePackage :: PROPERTY_EXTRA);
 
         foreach ($properties as $property)
         {
@@ -163,6 +163,18 @@ class RegistrationDisplay
                 $html[] = '<tr><td class="header">' . Translation :: get(Utilities :: underscores_to_camelcase($property)) . '</td><td>' . $value . '</td></tr>';
             }
         }
+
+        $authors = $package_info->get_authors();
+        foreach($authors as $key => $author)
+        {
+            $html[] = '<tr><td class="header">';
+            if ($key == 0)
+            {
+                $html[] = Translation :: get('Authors');
+            }
+            $html[] = '</td><td>' . Display :: encrypted_mailto_link($author['email'], $author['name']) . ' - ' . $author['company'] . '</td></tr>';
+        }
+
         $html[] = '</table><br/>';
 
         return implode("\n", $html);

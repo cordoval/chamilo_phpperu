@@ -132,6 +132,7 @@ class Language extends DataClass
         $registration = new Registration();
         $registration->set_name($this->get_isocode());
         $registration->set_type(Registration :: TYPE_LANGUAGE);
+        $registration->set_category(Registration :: TYPE_LANGUAGE);
         $registration->set_version('1.0.0');
         $registration->set_status(Registration :: STATUS_ACTIVE);
         return $registration->create();
