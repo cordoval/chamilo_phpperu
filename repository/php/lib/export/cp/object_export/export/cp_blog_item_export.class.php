@@ -3,6 +3,7 @@ namespace repository;
 
 use repository\content_object\blog_item\BlogItem;
 use repository\ContentObjectExport;
+use common\libraries\Filesystem;
 
 /**
  * Export blog item objects.

@@ -24,7 +24,7 @@ class CpWikiPageExport extends CpObjectExport
         }
         else
         {
-            return NULL;
+            return null;
         }
     }
 

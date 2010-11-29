@@ -3,6 +3,7 @@ namespace repository;
 
 use repository\content_object\glossary_item\GlossaryItem;
 use repository\ContentObject;
+use common\libraries\Filesystem;
 
 /**
  * Export glossary item objects.

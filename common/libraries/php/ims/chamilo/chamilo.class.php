@@ -3,6 +3,8 @@ namespace common\libraries;
 
 use repository\ContentObjectMetadata;
 use repository\RepositoryDataManager;
+use application\metadata\MetadataPropertyValue;
+use repository\ComplexContentObjectItem;
 
 //require_once Path::get_application_path() . 'lib/weblcms/content_object_publication.class.php';
 //require_once Path::get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
@@ -55,10 +57,22 @@ class Chamilo{
         return $result;
     }
 
-    public static function retrieve_identifiers($co){
+    public static function retrieve_identifiers(ContentObject $co){
     	$result = array();
     	$ids = array();
-    	$metas = self::retrieve_metadata($co);
+
+        $result = array(self::get_local_catalogue_name() => $co->get_id());
+        return $result;
+
+        //@todo: return all identifiers
+
+        /*
+    	$id = $co->get_id();
+        $rdm = MetadataPropertyValue::get_data_manager();
+
+        $result = $rdm->retrieve_content_object_metadata_property_value($id);
+        debug($result);die;
+
     	while($meta = $metas->next_result()){
     		$property = $meta->get_property();
     		$value = $meta->get_value();
@@ -78,7 +92,7 @@ class Chamilo{
     	}
     	$result[self::get_local_catalogue_name()]=$co->get_id();
 
-    	return $result;
+    	return $result;*/
     }
 
     public static function retrieve_content_object($id){

@@ -5,8 +5,9 @@ use repository\content_object\physical_location\PhysicalLocation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 use repository\ContentObject;
+use common\libraries\Filesystem;
 
-include_once Path :: get_repository_path() . '/lib/content_object/physical_location/physical_location_display.class.php';
+//include_once Path :: get_repository_path() . '/lib/content_object/physical_location/physical_location_display.class.php';
 
 /**
  * Export PhysicalLocation objects.

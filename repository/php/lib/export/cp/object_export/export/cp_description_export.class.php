@@ -3,6 +3,7 @@ namespace repository;
 
 use repository\content_object\description\Description;
 use repository\ContentObjectExport;
+use common\libraries\Filesystem;
 
 /**
  * Export description objects.

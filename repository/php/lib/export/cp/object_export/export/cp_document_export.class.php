@@ -3,6 +3,7 @@ namespace repository;
 
 use repository\content_object\document\Document;
 use repository\ContentObject;
+use common\libraries\Filesystem;
 
 /**
  * Export Document objects. Write the attached document. Do not export Document's properties.

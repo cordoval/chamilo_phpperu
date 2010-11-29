@@ -3,6 +3,7 @@ namespace repository;
 
 use repository\content_object\note\Note;
 use repository\ContentObject;
+use common\libraries\Filesystem;
 
 /**
  * Export note objects.

@@ -3,6 +3,9 @@ namespace repository;
 
 use repository\content_object\blog\Blog;
 use repository\ContentObjectExport;
+use common\libraries\ImscpManifestWriter;
+use common\libraries\ObjectExportSettings;
+use common\libraries\Chamilo;
 
 /**
  * Export Blog objects as a sub IMS CP package.
@@ -52,7 +55,7 @@ class CpBlogExport extends CpObjectExport
         $blog_toc = $blog_manifest->add_organizations()->add_organization();
         $blog_settings = new ObjectExportSettings($object, $directory, $blog_manifest, $blog_toc);
 
-        $children = chamilo :: retrieve_children($object);
+        $children = Chamilo :: retrieve_children($object);
         while ($child = $children->next_result())
         {
             $child_object = Chamilo :: retrieve_content_object($child->get_ref());

@@ -3,6 +3,9 @@ namespace repository;
 
 use repository\content_object\glossary\Glossary;
 use repository\ContentObject;
+use common\libraries\ImscpManifestWriter;
+use common\libraries\ObjectExportSettings;
+use common\libraries\Chamilo;
 
 /**
  * Export Glossary objects as a sub IMS CP package.
@@ -25,7 +28,7 @@ class CpGlossaryExport extends CpObjectExport
         }
         else
         {
-            return NULL;
+            return null;
         }
     }
 
@@ -52,7 +55,7 @@ class CpGlossaryExport extends CpObjectExport
         $glossary_toc = $glossary_manifest->add_organizations()->add_organization();
         $glossary_settings = new ObjectExportSettings($object, $directory, $glossary_manifest, $glossary_toc);
 
-        $children = chamilo :: retrieve_children($object);
+        $children = Chamilo :: retrieve_children($object);
         while ($child = $children->next_result())
         {
             $child_object = Chamilo :: retrieve_content_object($child->get_ref());
