@@ -63,8 +63,8 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator
             /*$connector_cookie = $this->connector->get_connector_cookie();
             $this->addElement('hidden', $connector_cookie['name'],$connector_cookie['value']);
 
-            $link = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'plugin/jquery/uploadify2/jquery.uploadify.v2.1.0.min.js');
-            $link .= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'plugin/jquery/uploadify2/swfobject.js');
+            $link = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/libraries/plugin/jquery/uploadify2/jquery.uploadify.v2.1.0.min.js');
+            $link .= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/libraries/plugin/jquery/uploadify2/swfobject.js');
             $link .= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/external_repository_manager/type/mediamosa/javascript/handle_form.js');
             $this->addElement('static', 'uploadify', Translation :: get('UploadVideo'), $link . '<div id="uploadify"></div>');*/
 

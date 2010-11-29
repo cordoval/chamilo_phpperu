@@ -120,9 +120,9 @@ class Path
             case SYS_LIB_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_PATH) . 'common/';
             case WEB_PLUGIN_PATH :
-                return self :: $path[$path_type] = self :: get(WEB_PATH) . 'plugin/';
+                return self :: $path[$path_type] = self :: get(WEB_PATH) . 'common/libraries/plugin/';
             case SYS_PLUGIN_PATH :
-                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'plugin/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'common/libraries/plugin/';
             case WEB_FILE_PATH :
                 return self :: $path[$path_type] = self :: get(WEB_PATH) . 'files/';
             case SYS_FILE_PATH :
@@ -298,12 +298,10 @@ class Path
     {
         if (! $context)
         {
-            return self :: get(SYS_PLUGIN_PATH);
+            $context = __NAMESPACE__;
         }
-        else
-        {
-            return self :: get(SYS_PATH) . self :: namespace_to_path($context) . '/plugin/';
-        }
+
+        return self :: get(SYS_PATH) . self :: namespace_to_path($context) . '/plugin/';
     }
 
     public static function get_language_path()

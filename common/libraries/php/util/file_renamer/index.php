@@ -1,5 +1,5 @@
 <?php
-ini_set('include_path', realpath(dirname(__FILE__) . '/../../../plugin/pear'));
+ini_set('include_path', realpath(dirname(__FILE__) . '/../../../common/libraries/plugin/pear'));
 ini_set('max_execution_time', - 1);
 require_once dirname(__FILE__) . '/../../filesystem/path.class.php';
 
@@ -16,7 +16,7 @@ foreach ($files as $file)
     if (strpos($file, $SEARCH) !== false && strpos($file, '.svn') === false)
     {
         $new_file = str_replace($SEARCH, $REPLACE, $file);
-        
+
         if (is_dir($file))
         {
             mkdir($new_file);
@@ -26,7 +26,7 @@ foreach ($files as $file)
         {
             rename($file, $new_file);
         }
-        
+
         echo 'Renamed ' . $file . ' to ' . $new_file . '<br />';
     }
 }

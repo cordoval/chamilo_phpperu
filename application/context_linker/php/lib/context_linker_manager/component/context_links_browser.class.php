@@ -60,7 +60,7 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
     {
         if(Request :: get(self :: PARAM_VIEW) == self :: VIEW_GRAPHIC)
         {
-            
+
             $cdm = ContextLinkerDataManager :: get_instance();
             $content_object_id = Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID);
             $result = $cdm->retrieve_full_context_links_recursive($content_object_id, null, null, null,  parent :: ARRAY_TYPE_RECURSIVE);
@@ -85,10 +85,10 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
             fwrite($mindmap_file, $xml);
             fclose($mindmap_file);
 
-            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'plugin/mindmap/freemind_flash_browser/flashobject.js');
+            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/libraries/plugin/mindmap/freemind_flash_browser/flashobject.js');
 
             $html[] = '<div id="flashcontent">Flash plugin or Javascript are turned off.Activate both  and reload to view the mindmap</div>';
-            $html[] = '<script type="text/javascript">var fo = new FlashObject("' . Path :: get(WEB_PATH) . 'plugin/mindmap/freemind_flash_browser/visorFreemind.swf", "visorFreeMind", "100%", "100%", 6, "#9999ff");
+            $html[] = '<script type="text/javascript">var fo = new FlashObject("' . Path :: get(WEB_PATH) . 'common/libraries/plugin/mindmap/freemind_flash_browser/visorFreemind.swf", "visorFreeMind", "100%", "100%", 6, "#9999ff");
 		fo.addParam("quality", "high");
 		fo.addParam("bgcolor", "#ffffff");
 		fo.addVariable("openUrl", "_blank");
@@ -97,7 +97,7 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
 		fo.write("flashcontent");</script>';
 
             return implode("\n", $html);
-            
+
         }
         else
         {
@@ -111,14 +111,14 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
     /*
      * recursively assign child nodes
      * @param FreemindNode parent_node to assign children to
-     * @param array the child context links 
+     * @param array the child context links
      */
     function get_children(FreemindNode $parent_node, array $context_link_children, $mode ,$position = FreemindNode :: POSITION_LEFT)
     {
         foreach($context_link_children as $id => $content_object)
         {
-            
-            
+
+
             if($mode == ContextLinkerManager :: RECURSIVE_DIRECTION_DOWN)
             {
                $node = new FreemindNode($id, $content_object[ContextLinkerManager :: PROPERTY_ALT_TITLE]);
@@ -127,7 +127,7 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
 
                if(isset($content_object['children']))$this->get_children(&$node, $content_object['children'], $mode, FreemindNode :: POSITION_RIGHT);
             }
-            
+
             if($mode == ContextLinkerManager :: RECURSIVE_DIRECTION_UP)
             {
                 $node = new FreemindNode($id, $content_object[ContextLinkerManager :: PROPERTY_ORIG_TITLE]);
@@ -163,14 +163,14 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
         $actions[] = new ToolbarItem(Translation :: get('TableView', null, Utilities :: COMMON_LIBRARIES) , Theme :: get_common_image_path() . 'view_table.png', $this->get_url(array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID), ContextLinkerManager :: PARAM_VIEW => ContextLinkerManager :: VIEW_TABLE)));
         $actions[] = new ToolbarItem(Translation :: get('GraphicView', null, Utilities :: COMMON_LIBRARIES) , Theme :: get_common_image_path() . 'view_table.png', $this->get_url(array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID), ContextLinkerManager :: PARAM_VIEW => ContextLinkerManager :: VIEW_GRAPHIC)));
         $action_bar->set_tool_actions($actions);
-        
+
         $action_bar->set_search_url($this->get_url());
 
         return $action_bar->as_html();
     }
 
-    
 
-    
+
+
 }
 ?>

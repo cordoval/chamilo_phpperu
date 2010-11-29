@@ -158,7 +158,7 @@ class Hotpotatoes extends ContentObject implements Versionable
         $posthref = "<!-- BeginTopNavButtons --><!-- edited by Chamilo -->";
         $newcontent = str_replace($prehref, $posthref, $newcontent);
 
-        $jquery_content = "<head>\n<script src='" . Path :: get(WEB_PATH) . "plugin/jquery/jquery.min.js' type='text/javascript'></script>";
+        $jquery_content = "<head>\n<script src='" . Path :: get(WEB_PATH) . "common/libraries/plugin/jquery/jquery.min.js' type='text/javascript'></script>";
         $add_to = '<head>';
         $newcontent = str_replace($add_to, $jquery_content, $newcontent);
 

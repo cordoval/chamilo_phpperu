@@ -8,7 +8,7 @@ namespace migration;
  * Script to see which courses are still in the database but not on the filesystem
  */
 
-ini_set('include_path', realpath(dirname(__FILE__) . '/../plugin/pear'));
+ini_set('include_path', realpath(dirname(__FILE__) . '/../common/libraries/plugin/pear'));
 require_once dirname(__FILE__) . '/../common/global.inc.php';
 
 $conf = Configuration :: get_instance();

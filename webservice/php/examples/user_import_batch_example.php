@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
+require_once dirname(__FILE__) . '/../../common/libraries/plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', - 1);
 ini_set('memory_limit', - 1);
 $time_start = microtime(true);
@@ -27,7 +27,7 @@ function parse_csv($file)
     {
         $keys = fgetcsv($fp, 1000, ";");
         $users = array();
-        
+
         while ($user_data = fgetcsv($fp, 1000, ";"))
         {
             $user = array();
@@ -43,7 +43,7 @@ function parse_csv($file)
     {
         log("ERROR: Can't open file ($file)");
     }
-    
+
     return $users;
 }
 
@@ -53,7 +53,7 @@ function create_users(&$users)
     log_message('Creating users ');
     if ($hash == '')
         $hash = login();
-    
+
     $result = $client->call('WebServicesUser.create_users', array('input' => $users, 'hash' => $hash));
     if ($result == 1)
     {
@@ -67,7 +67,7 @@ function create_users(&$users)
 function login()
 {
     global $client;
-    
+
     /* Change the username and password to the ones corresponding to  your database.
      * The password for the login service is :
      * IP = the ip from where the call to the webservice is made
@@ -75,23 +75,23 @@ function login()
      *
      * $password = Hash(IP+PW) ;
      */
-    
+
     $username = 'Samumon';
     //$username = 'Soliber';
 
-    
+
 
     /*
      * change location to server location for the wsdl
      */
-    
+
     $login_client = new nusoap_client('http://demo2.chamilo.org/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
     //$login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
     $result = $login_client->call('LoginWebservice.login', array('input' => array('username' => $username, 'password' => $password), 'hash' => ''));
     log_message(print_r($result, true));
     if (is_array($result) && array_key_exists('hash', $result))
         return $result['hash']; //hash 3
-    
+
 
     return '';
 
