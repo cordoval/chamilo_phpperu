@@ -12,7 +12,23 @@ abstract class RestMessageRenderer
     const FORMAT_JSON = 'json';
     const FORMAT_XML = 'xml';
 
-    abstract function render(DataClass $object);
+    abstract function render_object(DataClass $object);
+    abstract function render_multiple_objects(array $objects);
+
+    function render($object)
+    {
+        if($object instanceof DataClass)
+        {
+            $this->render_object($object);
+        }
+        else
+        {
+            if(is_array($object) && count($object) > 0 && $object[1] instanceof DataClass)
+            {
+               $this->render_multiple_objects($object);
+            }
+        }
+    }
 
     static function get_formats()
     {

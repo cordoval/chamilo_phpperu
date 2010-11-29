@@ -43,7 +43,7 @@ class RestServer
         $this->determine_method();
         $this->determine_format();
         $this->determine_data();
-        $this->determine_webservice_handler();
+        $this->call_webservice_handler();
     }
 
     public function determine_path()
@@ -126,7 +126,7 @@ class RestServer
         }
     }
 
-    public function determine_webservice_handler()
+    public function call_webservice_handler()
     {
         $application = Request :: get(self :: PARAM_APPLICATION);
         $object = Request :: get(self :: PARAM_OBJECT);
@@ -146,21 +146,21 @@ class RestServer
                 {
                     if (method_exists($this->webservice_handler, 'get'))
                     {
-                        $object = call_user_func(array($this->webservice_handler, 'get'), array($id, $this->data));
+                        $object = call_user_func(array($this->webservice_handler, 'get'), array($id));
                     }
                 }
                 else
                 {
                     if (method_exists($this->webservice_handler, 'get_list'))
                     {
-                        $object = call_user_func(array($this->webservice_handler, 'get_list'), array($this->data));
+                        $object = call_user_func(array($this->webservice_handler, 'get_list'));
                     }
                 }
                 break;
             case self :: METHOD_POST :
                 if (method_exists($this->webservice_handler, 'create'))
                 {
-                    $object = call_user_func(array($this->webservice_handler, 'create'), array($id, $this->data));
+                    $object = call_user_func(array($this->webservice_handler, 'create'), array($this->data));
                 }
                 break;
             case self :: METHOD_PUT :
@@ -172,16 +172,13 @@ class RestServer
             case self :: METHOD_DELETE :
                 if (method_exists($this->webservice_handler, 'delete'))
                 {
-                    $object = call_user_func(array($this->webservice_handler, 'delete'), array($id, $this->data));
+                    $object = call_user_func(array($this->webservice_handler, 'delete'), array($id));
                 }
                 break;
         }
 
-        if($object instanceof DataClass)
-        {
-            $renderer = RestMessageRenderer :: factory($this->format);
-            $renderer->render($object);
-        }
+        $renderer = RestMessageRenderer :: factory($this->format);
+        $renderer->render($object);
     }
 
     /**
