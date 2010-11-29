@@ -34,8 +34,11 @@ class LocalRepositorySearchSource extends SearchSource
 
     private function get_condition($query, $user = null)
     {
-        $search_condition = Utilities :: query_to_condition($query);
-        ;
+        $search_conditions[] = Utilities :: query_to_condition($query);
+        
+        $search_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL); //Dont show recycled results
+        $search_condition = new AndCondition($search_conditions);
+        
         $all_objects_searchable = PlatformSetting :: get('all_objects_searchable', RepositoryManager :: APPLICATION_NAME);
 
         if ($all_objects_searchable == 1 || is_null($user) || $user->is_platform_admin())
