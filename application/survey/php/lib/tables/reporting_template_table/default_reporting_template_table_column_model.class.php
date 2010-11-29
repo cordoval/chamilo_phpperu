@@ -3,6 +3,7 @@ namespace application\survey;
 
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
+use reporting\ReportingTemplateRegistration;
 
 /**
  * TODO: Add comment

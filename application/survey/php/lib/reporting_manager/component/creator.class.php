@@ -1,4 +1,10 @@
-<?php namespace application\survey;
+<?php 
+namespace application\survey;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\DynamicTabsRenderer;
+
 
 require_once dirname(__FILE__) . '/browser.class.php';
 

@@ -12,6 +12,9 @@ use common\libraries\DynamicTabsRenderer;
 use common\libraries\DynamicContentTab;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\InCondition;
+use common\libraries\EqualityCondition;
+use reporting\ReportingTemplateRegistration;
+use common\libraries\AndCondition;
 
 require_once dirname(__FILE__) . '/reporting_template_table/table.class.php';
 require_once dirname(__FILE__) . '/publication_rel_reporting_template_table/table.class.php';

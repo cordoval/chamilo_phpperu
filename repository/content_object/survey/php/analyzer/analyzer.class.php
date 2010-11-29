@@ -1,4 +1,7 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\Filesystem;
 
 abstract class SurveyAnalyzer
 {

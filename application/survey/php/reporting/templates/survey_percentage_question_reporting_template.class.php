@@ -2,6 +2,8 @@
 namespace application\survey;
 
 use reporting\ReportingTemplate;
+use common\libraries\Request;
+use repository\content_object\survey\SurveyAnalyzer;
 
 //
 //require_once PATH :: get_reporting_path() . '/lib/reporting_template.class.php';

@@ -2,6 +2,8 @@
 namespace application\survey;
 
 use reporting\ReportingTemplate;
+use common\libraries\Request;
+use common\libraries\DynamicFormTabsRenderer;
 
 
 class SurveyContextQuestionReportingTemplate extends ReportingTemplate implements SurveyLevelReportingTemplateInterface

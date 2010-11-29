@@ -17,6 +17,7 @@ class Autoloader
         $list = array('survey' => 'survey',
         'survey_builder' => 'builder/survey_builder',
         'survey_display' => 'display/survey_display',
+        'survey_analyzer' => 'analyzer/analyzer',
         'survey_context_registration_browser_table' => 'manage/context/component/registration_browser/browser_table',
         'survey_context_rel_group_table' => 'manage/context/component/registration_browser/browser_table',
         'survey_context_rel_user_browser_table' => 'manage/context/component/registration_browser/browser_table',

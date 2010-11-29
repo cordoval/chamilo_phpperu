@@ -1,7 +1,9 @@
 <?php 
 namespace application\survey;
+
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
+use common\libraries\StaticTableColumn;
 
 class SurveyReportingTemplateTableColumnModel extends DefaultSurveyReportingTemplateTableColumnModel
 {
