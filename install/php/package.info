@@ -7,10 +7,10 @@
 		<category>core</category>
 		<authors></authors>
 		<version>1.0.0</version>
-		<release>
+		<cycle>
 			<phase>general_availability</phase>
 			<realm>main</realm>
-		</release>
+		</cycle>
 		<filename>pool/main/core/i/install/install-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>

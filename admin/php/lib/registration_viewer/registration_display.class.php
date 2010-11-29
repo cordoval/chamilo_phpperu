@@ -57,7 +57,7 @@ class RegistrationDisplay
         }
 
         $html[] = $this->get_properties_table($package_info);
-        $html[] = $this->get_release_table($package_info);
+        $html[] = $this->get_cycle_table($package_info);
         $html[] = $this->get_dependencies_table($package_info);
         $html[] = $this->get_update_problems();
 
@@ -134,25 +134,14 @@ class RegistrationDisplay
         }
     }
 
-    function get_release_table($package_info)
+    function get_cycle_table($package_info)
     {
         $html = array();
         $html[] = '<h3>' . Translation :: get('ReleaseInformation') . '</h3>';
         $html[] = '<table class="data_table data_table_no_header">';
         $html[] = '<tr><td class="header">' . Translation :: get('Version') . '</td><td>' . $package_info->get_version() . '</td></tr>';
-        $html[] = '<tr><td class="header">' . Translation :: get('ReleasePhase') . '</td><td>' . Translation :: get('ReleasePhase' . Utilities :: underscores_to_camelcase($package_info->get_release_phase())) . '</td></tr>';
-        $html[] = '<tr><td class="header">' . Translation :: get('ReleaseRealm') . '</td><td>' . Translation :: get('ReleaseRealm' . Utilities :: underscores_to_camelcase($package_info->get_release_realm())) . '</td></tr>';
-
-        //        $hidden_properties = array(RemotePackage :: PROPERTY_RELEASE, RemotePackage :: PROPERTY_DEPENDENCIES, RemotePackage :: PROPERTY_EXTRA);
-        //
-        //        foreach ($properties as $property)
-        //        {
-        //            $value = $package_info->get_default_property($property);
-        //            if (! empty($value) && !in_array($property, $hidden_properties))
-        //            {
-        //                $html[] = '<tr><td class="header">' . Translation :: get(Utilities :: underscores_to_camelcase($property)) . '</td><td>' . $value . '</td></tr>';
-        //            }
-        //        }
+        $html[] = '<tr><td class="header">' . Translation :: get('CyclePhase') . '</td><td>' . Translation :: get('CyclePhase' . Utilities :: underscores_to_camelcase($package_info->get_cycle_phase())) . '</td></tr>';
+        $html[] = '<tr><td class="header">' . Translation :: get('CycleRealm') . '</td><td>' . Translation :: get('CycleRealm' . Utilities :: underscores_to_camelcase($package_info->get_cycle_realm())) . '</td></tr>';
         $html[] = '</table><br/>';
 
         return implode("\n", $html);
@@ -164,7 +153,7 @@ class RegistrationDisplay
         $html[] = '<table class="data_table data_table_no_header">';
         $properties = $package_info->get_default_property_names();
 
-        $hidden_properties = array(RemotePackage :: PROPERTY_VERSION, RemotePackage :: PROPERTY_RELEASE, RemotePackage :: PROPERTY_DEPENDENCIES, RemotePackage :: PROPERTY_EXTRA);
+        $hidden_properties = array(RemotePackage :: PROPERTY_VERSION, RemotePackage :: PROPERTY_CYCLE, RemotePackage :: PROPERTY_DEPENDENCIES, RemotePackage :: PROPERTY_EXTRA);
 
         foreach ($properties as $property)
         {

@@ -6,10 +6,10 @@
 		<section>content_object</section>
 		<authors></authors>
 		<version>1.0.0</version>
-		<release>
+		<cycle>
 			<phase>general_availability</phase>
 			<realm>main</realm>
-		</release>
+		</cycle>
 		<filename>pool/main/objects/m/matrix_question/matrix_question-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>

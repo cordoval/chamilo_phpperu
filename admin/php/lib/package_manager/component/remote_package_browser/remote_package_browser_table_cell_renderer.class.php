@@ -62,8 +62,7 @@ class RemotePackageBrowserTableCellRenderer extends DefaultRemotePackageTableCel
     {
         $toolbar = new Toolbar();
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_install.png',
-					$this->browser->get_remote_package_installation_url($remote_package), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'action_install.png', $this->browser->get_remote_package_installation_url($remote_package), ToolbarItem :: DISPLAY_ICON));
 
         return $toolbar->as_html();
     }

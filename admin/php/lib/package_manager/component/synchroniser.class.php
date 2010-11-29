@@ -108,7 +108,7 @@ class PackageManagerSynchroniserComponent extends PackageManager
             $conditions [] = new AndCondition($package_conditions);
 
             $package['authors'] = serialize($package['authors']);
-            $package['release'] = serialize($package['release']);
+            $package['cycle'] = serialize($package['cycle']);
         	$package['dependencies'] = serialize($package['dependencies']);
         	$package['extra'] = serialize($package['extra']);
 

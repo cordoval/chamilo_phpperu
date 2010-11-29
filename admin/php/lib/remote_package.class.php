@@ -23,7 +23,7 @@ class RemotePackage extends DataClass
     const PROPERTY_CATEGORY = 'category';
     const PROPERTY_AUTHORS = 'authors';
     const PROPERTY_VERSION = 'version';
-    const PROPERTY_RELEASE = 'release';
+    const PROPERTY_CYCLE = 'cycle';
     const PROPERTY_FILENAME = 'filename';
     const PROPERTY_SIZE = 'size';
     const PROPERTY_MD5 = 'md5';
@@ -37,8 +37,8 @@ class RemotePackage extends DataClass
     const PROPERTY_EXTRA = 'extra';
 
     // Sub-properties
-    const PROPERTY_RELEASE_PHASE = 'phase';
-    const PROPERTY_RELEASE_REALM = 'realm';
+    const PROPERTY_CYCLE_PHASE = 'phase';
+    const PROPERTY_CYCLE_REALM = 'realm';
 
     // Release phases
     const PHASE_ALPHA = 'alpha';
@@ -57,7 +57,7 @@ class RemotePackage extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_CODE, self :: PROPERTY_NAME, self :: PROPERTY_SECTION, self :: PROPERTY_CATEGORY, self :: PROPERTY_AUTHORS, self :: PROPERTY_VERSION, self :: PROPERTY_RELEASE, self :: PROPERTY_FILENAME,
+                self :: PROPERTY_CODE, self :: PROPERTY_NAME, self :: PROPERTY_SECTION, self :: PROPERTY_CATEGORY, self :: PROPERTY_AUTHORS, self :: PROPERTY_VERSION, self :: PROPERTY_CYCLE, self :: PROPERTY_FILENAME,
                 self :: PROPERTY_SIZE, self :: PROPERTY_MD5, self :: PROPERTY_SHA1, self :: PROPERTY_SHA256, self :: PROPERTY_SHA512, self :: PROPERTY_TAGLINE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_HOMEPAGE,
                 self :: PROPERTY_DEPENDENCIES, self :: PROPERTY_EXTRA));
     }
@@ -179,41 +179,41 @@ class RemotePackage extends DataClass
     }
 
     /**
-     * Returns the release of this Package.
-     * @return the release.
+     * Returns the cycle of this Package.
+     * @return the cycle.
      */
-    function get_release()
+    function get_cycle()
     {
-        return unserialize($this->get_default_property(self :: PROPERTY_RELEASE));
+        return unserialize($this->get_default_property(self :: PROPERTY_CYCLE));
     }
 
     /**
-     * Sets the release of this Package.
-     * @param release
+     * Sets the cycle of this Package.
+     * @param cycle
      */
-    function set_release($release)
+    function set_cycle($cycle)
     {
-        $this->set_default_property(self :: PROPERTY_RELEASE, serialize($release));
+        $this->set_default_property(self :: PROPERTY_CYCLE, serialize($cycle));
     }
 
     /**
-     * Returns the release phase of this Package.
-     * @return the release phase.
+     * Returns the cycle phase of this Package.
+     * @return the cycle phase.
      */
-    function get_release_phase()
+    function get_cycle_phase()
     {
-        $release = $this->get_release();
-        return $release[self :: PROPERTY_RELEASE_PHASE];
+        $cycle = $this->get_cycle();
+        return $cycle[self :: PROPERTY_CYCLE_PHASE];
     }
 
     /**
-     * Returns the release realm of this Package.
-     * @return the release realm.
+     * Returns the cycle realm of this Package.
+     * @return the cycle realm.
      */
-    function get_release_realm()
+    function get_cycle_realm()
     {
-        $release = $this->get_release();
-        return $release[self :: PROPERTY_RELEASE_REALM];
+        $cycle = $this->get_cycle();
+        return $cycle[self :: PROPERTY_CYCLE_REALM];
     }
 
     /**
@@ -421,12 +421,12 @@ class RemotePackage extends DataClass
 
     function is_official()
     {
-        return $this->get_release_realm() == self :: REALM_MAIN;
+        return $this->get_cycle_realm() == self :: REALM_MAIN;
     }
 
     function is_stable()
     {
-        return $this->get_release_phase() == self :: PHASE_GENERAL_AVAILABILITY;
+        return $this->get_cycle_phase() == self :: PHASE_GENERAL_AVAILABILITY;
     }
 }
 
