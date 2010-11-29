@@ -2,6 +2,8 @@
 namespace repository\content_object\survey;
 
 use HTML_QuickForm_Action;
+use common\libraries\Security;
+use common\libraries\Translation;
 
 
 class SurveyViewerWizardProcess extends HTML_QuickForm_Action

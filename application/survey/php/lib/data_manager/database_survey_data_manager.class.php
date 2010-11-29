@@ -1,6 +1,8 @@
 <?php
 namespace application\survey;
 
+
+use common\libraries\Translation;
 use common\libraries\InequalityCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
@@ -11,7 +13,7 @@ use common\libraries\InCondition;
 use common\libraries\WebApplication;
 use repository\RepositoryDataManager;
 use repository\ContentObject;
-
+use repository\ContentObjectPublicationAttributes;
 use rights\RightsDataManager;
 use rights\Location;
 use rights\UserRightLocation;

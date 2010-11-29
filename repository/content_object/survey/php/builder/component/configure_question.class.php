@@ -10,7 +10,7 @@ use repository\ComplexContentObjectItem;
 use common\libraries\Translation;
 use common\libraries\Request;
 
-//require_once Path :: get_repository_path() . 'lib/content_object/survey_page/survey_page.class.php';
+//require_once Path :: get_repository_content_object_path() . '/survey/php_page/survey_page.class.php';
 require_once dirname(__FILE__) . '/page_question_browser/question_browser_table.class.php';
 require_once dirname(__FILE__) . '/../forms/configure_question_form.class.php';
 

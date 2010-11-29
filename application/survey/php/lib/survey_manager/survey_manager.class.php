@@ -3,7 +3,6 @@ namespace application\survey;
 
 use common\libraries\WebApplication;
 
-
 //require_once Path :: get_application_path() . 'lib/survey/survey_data_manager.class.php';
 //require_once Path :: get_application_path() . 'lib/survey/survey_rights.class.php';
 //require_once Path :: get_application_path() . 'lib/survey/reporting_manager/reporting_manager.class.php';
@@ -83,7 +82,7 @@ class SurveyManager extends WebApplication
 
     function get_browse_survey_publications_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE), array(self :: PARAM_PUBLICATION_ID, ComplexBuilder :: PARAM_BUILDER_ACTION));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE), array(self :: PARAM_PUBLICATION_ID));
     }
 
     function get_browse_survey_pages_url($survey_publication)

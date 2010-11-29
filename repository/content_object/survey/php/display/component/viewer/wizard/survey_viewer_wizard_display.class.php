@@ -3,6 +3,8 @@ namespace repository\content_object\survey;
 
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\ResourceManager;
+
 use HTML_QuickForm_Action_Display;
 
 require_once Path :: get_repository_content_object_path() . '/survey/php/display/component/survey_menu.class.php';

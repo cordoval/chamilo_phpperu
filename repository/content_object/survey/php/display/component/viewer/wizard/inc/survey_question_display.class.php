@@ -2,6 +2,7 @@
 namespace repository\content_object\survey;
 
 use repository\RepositoryDataManager;
+use common\libraries\Utilities;
 
 
 abstract class SurveyQuestionDisplay
@@ -176,7 +177,7 @@ abstract class SurveyQuestionDisplay
         
         require_once $file;
         
-        $class = Utilities :: underscores_to_camelcase($type) . 'Display';
+        $class = __NAMESPACE__.'\\'.Utilities :: underscores_to_camelcase($type) . 'Display';
         $question_display = new $class($formvalidator, $complex_question, $question, $answer, $context_path, $survey);
         return $question_display;
     }

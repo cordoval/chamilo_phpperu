@@ -33,7 +33,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     {
         $this->parent = $parent;
         $survey_id = Request :: get(self :: PARAM_SURVEY_ID);
-
+	        
         parent :: __construct('SurveyViewerWizard_' . $survey_id, true);
 
         $invitee_id = Request :: get(self :: PARAM_INVITEE_ID);

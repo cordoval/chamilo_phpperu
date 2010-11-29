@@ -1,6 +1,10 @@
 <?php 
 namespace repository\content_object\survey;
 
+use common\libraries\Translation;
+use common\libraries\Utilities;
+
+
 require_once dirname(__FILE__) . '/inc/survey_question_display.class.php';
 
 class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage

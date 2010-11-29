@@ -1,9 +1,20 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
 
-require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template_rel_page.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_browser.class.php';
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
-class SurveyContextManagerPageSubscriberComponent extends SurveyContextManager
+
+//require_once Path :: get_repository_content_object_path() . '/survey/php/survey_context_template_rel_page.class.php';
+require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/component/subscribe_page_browser.class.php';
+
+class SurveyContextManagerSubscribePageComponent extends SurveyContextManager
 {
 
     /**
@@ -85,7 +96,7 @@ class SurveyContextManagerPageSubscriberComponent extends SurveyContextManager
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_PAGE_BROWSER, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, self :: PARAM_SURVEY_ID => $survey_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextBrowserComponent :: TAB_CONTEXT_TEMPLATE_REL_PAGE));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_PAGE_BROWSER, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, self :: PARAM_SURVEY_ID => $survey_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerSubscribePageBrowserComponent:: TAB_CONTEXT_TEMPLATE_REL_PAGE));
         
         }
         else

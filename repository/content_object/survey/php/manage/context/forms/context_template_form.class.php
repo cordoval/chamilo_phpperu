@@ -8,7 +8,10 @@ use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
-
+use common\libraries\EqualityCondition;
+use common\libraries\Filesystem;
+use DOMElement;
+use DOMDocument;
 
 class SurveyContextTemplateForm extends FormValidator
 {
@@ -20,7 +23,7 @@ class SurveyContextTemplateForm extends FormValidator
 
     const CONTEXT_REGISTRATIONS = 'registrations_';
 
-    const ROOT_DIR = 'lib/content_object/survey/';
+    const ROOT_DIR = 'survey/php/';
     const TEMPLATE = 'template';
 
     private $context_template;
@@ -299,9 +302,9 @@ class SurveyContextTemplateForm extends FormValidator
 
         $result = false;
         $filename = $type;
-        $repository_directory = Path :: get_repository_path();
-
+ 		$repository_directory = Path :: get_repository_content_object_path();
         $path = $repository_directory . self :: ROOT_DIR;
+
         $new_dir = $path . self :: TEMPLATE . '/' . $type;
 
         $result = Filesystem :: create_dir($new_dir);
@@ -331,7 +334,8 @@ class SurveyContextTemplateForm extends FormValidator
         $context_class = array();
 
         $context_class[] = '<?php namespace repository\content_object\survey;';
-        $context_class[] = 'require_once (Path :: get_repository_path().' . '\'' . '/lib/content_object/survey/survey_template.class.php\');';
+        $context_class[] = 'use common\libraries\Path;';
+        $context_class[] = 'require_once (Path :: get_repository_content_object_path().' . '\'' . 'survey/php/survey_template.class.php\');';
 
         $context_class[] = 'class ' . Utilities :: underscores_to_camelcase($type) . ' extends SurveyTemplate';
         $context_class[] = '{';
