@@ -2,9 +2,6 @@
 
 namespace common\libraries;
 
-require_once dirname(__FILE__) . '/rest_message_renderer.class.php';
-require_once dirname(__FILE__) . '/success_rest_message.class.php';
-
 class RestServer
 {
     const ACCEPTED_FORMAT_PLAIN = 'text/plain';
@@ -17,33 +14,17 @@ class RestServer
     const METHOD_PUT = 'PUT';
     const METHOD_DELETE = 'DELETE';
 
-    const PARAM_ID = 'id';
-    const PARAM_APPLICATION = 'application';
-    const PARAM_OBJECT = 'object';
-
     public $url;
     public $method;
     public $format;
     public $data;
-    public $webservice_handler;
-
-    function __construct()
-    {
-
-    }
-
-    function handle()
-    {
-        $this->process_request();
-    }
-
+    
     public function process_request()
     {
         $this->determine_path();
         $this->determine_method();
         $this->determine_format();
         $this->determine_data();
-        $this->call_webservice_handler();
     }
 
     public function determine_path()
@@ -108,9 +89,6 @@ class RestServer
         {
             case self :: METHOD_GET :
                 $this->data = $_GET;
-                unset($this->data[self :: PARAM_APPLICATION]);
-                unset($this->data[self :: PARAM_OBJECT]);
-                unset($this->data[self :: PARAM_ID]);
                 break;
             case self :: METHOD_POST :
                 $this->data = $_POST;
@@ -124,61 +102,6 @@ class RestServer
                 $this->data = $_DELETE;
                 break;
         }
-    }
-
-    public function call_webservice_handler()
-    {
-        $application = Request :: get(self :: PARAM_APPLICATION);
-        $object = Request :: get(self :: PARAM_OBJECT);
-        $id = Request :: get(self :: PARAM_ID);
-
-        $type = Application :: get_type($application);
-        $path = $type :: get_application_path($application) . 'php/webservices/' . $object . '/webservice_handler.class.php';
-        require_once($path);
-        $class = Application :: determine_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($object) . 'WebserviceHandler';
-
-        $this->webservice_handler = new $class();
-
-        switch ($this->get_method())
-        {
-            case self :: METHOD_GET :
-                if ($id)
-                {
-                    if (method_exists($this->webservice_handler, 'get'))
-                    {
-                        $object = call_user_func(array($this->webservice_handler, 'get'), array($id));
-                    }
-                }
-                else
-                {
-                    if (method_exists($this->webservice_handler, 'get_list'))
-                    {
-                        $object = call_user_func(array($this->webservice_handler, 'get_list'));
-                    }
-                }
-                break;
-            case self :: METHOD_POST :
-                if (method_exists($this->webservice_handler, 'create'))
-                {
-                    $object = call_user_func(array($this->webservice_handler, 'create'), array($this->data));
-                }
-                break;
-            case self :: METHOD_PUT :
-                if (method_exists($this->webservice_handler, 'update'))
-                {
-                    $object = call_user_func(array($this->webservice_handler, 'update'), array($id, $this->data));
-                }
-                break;
-            case self :: METHOD_DELETE :
-                if (method_exists($this->webservice_handler, 'delete'))
-                {
-                    $object = call_user_func(array($this->webservice_handler, 'delete'), array($id));
-                }
-                break;
-        }
-
-        $renderer = RestMessageRenderer :: factory($this->format);
-        $renderer->render($object);
     }
 
     /**

@@ -17,24 +17,6 @@ class UserWebserviceHandler
     {
         return UserDataManager :: get_instance()->retrieve_user($id);
     }
-
-    function create($data)
-    {
-        $message = new SuccessRestMessage();
-        $message->set_success(false);
-        $message->set_message(Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES));
-        return $message;
-    }
-
-    function update($id, $data)
-    {
-
-    }
-
-    function delete($id)
-    {
-
-    }
 }
 
 ?>
