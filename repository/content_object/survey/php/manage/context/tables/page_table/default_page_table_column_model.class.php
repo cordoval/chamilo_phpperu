@@ -1,4 +1,11 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\Path;
+use common\libraries\ObjectTableColumn;
+use common\libraries\ObjectTableColumnModel;
+use repository\content_object\survey_page\SurveyPage;
+
 
 class DefaultSurveyPageTableColumnModel extends ObjectTableColumnModel {
 	

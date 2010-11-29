@@ -6,7 +6,7 @@ use common\libraries\Path;
 use rights\RightsUtilities;
 
 //require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
-//require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/survey_context_manager.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/survey_context_manager.class.php';
 
 class SurveyContextManagerRights
 {

@@ -4,6 +4,7 @@ namespace repository\content_object\survey;
 use common\libraries\Path;
 use common\libraries\SubManager;
 use common\libraries\Application;
+use common\libraries\Request;
 
 
 require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/context_data_manager.class.php';
@@ -62,11 +63,10 @@ class SurveyContextManager extends SubManager
     const ACTION_CONTEXT_TEMPLATE_RIGHTS_EDITOR = 'context_template_rights_editor';
     
     const ACTION_SUBSCRIBE_CONTEXT_TEMPLATE = 'subscribe_context_template';
-    //    const ACTION_SUBSCRIBE_PAGE_BROWSER = 'context_template_subscribe_page_browser';
-    const ACTION_SUBSCRIBE_PAGE_BROWSER = 'context_browser';
+    const ACTION_SUBSCRIBE_PAGE_BROWSER = 'subscribe_page_browser';
     
-    const ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE = 'page_unsubscriber';
-    const ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE = 'page_subscriber';
+    const ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE = 'unsubscribe_page';
+    const ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE = 'subscribe_page';
     const ACTION_TRUNCATE_TEMPLATE = 'context_template_truncater';
     
     const ACTION_CREATE_CONTEXT = 'context_creator';
@@ -90,7 +90,7 @@ class SurveyContextManager extends SubManager
 
     function __construct($repository_manager)
     {
-        parent :: __construct($repository_manager);
+       parent :: __construct($repository_manager);
     }
 
     function get_application_component_path()

@@ -2,6 +2,22 @@
 namespace repository\content_object\survey;
 
 use common\libraries\Path;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicContentTab;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use common\libraries\AndCondition;
+
 
 require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_rel_user_table/table.class.php';
 require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_rel_group_table/table.class.php';
@@ -22,8 +38,10 @@ class SurveyContextManagerContextViewerComponent extends SurveyContextManager
      */
     function run()
     {
-        $context_id = Request :: get(SurveyContextManager :: PARAM_CONTEXT_ID);
-        $this->context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
+   	
+    	$context_id = Request :: get(self :: PARAM_CONTEXT_ID);
+          	
+    	$this->context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
 
         $this->ab = $this->get_action_bar();
 

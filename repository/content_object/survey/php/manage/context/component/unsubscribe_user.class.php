@@ -1,6 +1,14 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_viewer.class.php';
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\DynamicTabsRenderer;
+
+require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/component/context_viewer.class.php';
 
 class SurveyContextManagerUnsubscribeUserComponent extends SurveyContextManager
 {
@@ -10,7 +18,9 @@ class SurveyContextManagerUnsubscribeUserComponent extends SurveyContextManager
      */
     function run()
     {
-        $ids = Request :: get(self :: PARAM_CONTEXT_REL_USER_ID);
+          	
+    	$context_registration_id = Request :: get(self :: PARAM_CONTEXT_REGISTRATION_ID);
+    	$ids = Request :: get(self :: PARAM_CONTEXT_REL_USER_ID);
         
         $failures = 0;
         
@@ -66,7 +76,7 @@ class SurveyContextManagerUnsubscribeUserComponent extends SurveyContextManager
                     $message = 'SelectedSurveyContextRelUsersDeleted';
                 }
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context_rel_user_ids[0], DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context_rel_user_ids[0], self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS));
         }
         else
         {

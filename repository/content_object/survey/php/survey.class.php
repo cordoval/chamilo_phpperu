@@ -11,6 +11,7 @@ use common\libraries\InCondition;
 use repository\content_object\survey_page\SurveyPage;
 use repository\RepositoryDataManager;
 use repository\ComplexContentObjectItem;
+use user\UserDataManager;
 
 /**
  * $Id: survey.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -362,9 +363,9 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
 
         if ($this->has_context())
         {
-            $context_template = $this->get_context_template(1);
-
-            $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $this->invitee_id, SurveyTemplate :: get_table_name());
+            
+        	$context_template = $this->get_context_template(1);
+			$condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $this->invitee_id, SurveyTemplate :: get_table_name());
             $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($context_template->get_type(), $condition);
 
             while ($template = $templates->next_result())
@@ -469,7 +470,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
 
     private function create_page_context_paths($path, $pages_context_as_tree)
     {
-        //        dump($pages_context_as_tree);
+//        dump($pages_context_as_tree);
         foreach ($pages_context_as_tree as $page_context_as_tree)
         {
             $page_id = $page_context_as_tree[0];
@@ -532,7 +533,9 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         {
             $this->question_nr = 1;
         }
-
+		
+//        dump($this->context_path_tree);
+        
         foreach ($this->context_path_tree[$level][$parent_id] as $id => $pages)
         {
             if (is_int($id))
@@ -574,7 +577,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                 }
 
                 $this->create_page_context_paths($path, $pages);
-
+				
                 if ($level < ($this->count_levels()))
                 {
                     $this->create_context_paths($level + 1, $id, $path);
