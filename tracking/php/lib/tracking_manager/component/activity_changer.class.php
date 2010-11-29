@@ -5,6 +5,8 @@ use common\libraries\Request;
 use common\libraries\Display;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Translation;
+use common\libraries\Application;
 
 use admin\AdminDataManager;
 
