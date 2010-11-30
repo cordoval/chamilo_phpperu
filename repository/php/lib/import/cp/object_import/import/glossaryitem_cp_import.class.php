@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use repository\content_object\glossary_item\GlossaryItem;
+
 /**
  * Import glossary entries html files as GlossaryItem objects.
  *

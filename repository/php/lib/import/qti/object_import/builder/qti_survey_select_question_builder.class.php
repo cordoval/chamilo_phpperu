@@ -1,78 +1,75 @@
 <?php
+
 namespace repository;
+
+use repository\content_object\survey_select_question\SurveySelectQuestion;
+use repository\content_object\survey_select_question\SurveySelectQuestionOption;
 
 /**
  * Question builder for Survey Select Questions.
  *
  * @copyright (c) 2010 University of Geneva
+ * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
  */
-class QtiSurveySelectQuestionBuilder extends QtiQuestionBuilder{
+class QtiSurveySelectQuestionBuilder extends QtiQuestionBuilder {
 
-	static function factory($item, $settings){
-		if(	!class_exists('SurveySelectQuestion') ||
-			$item->has_templateDeclaration() ||
-			count($item->list_interactions())!=1 ||
-			self::has_score($item)){
-			return null;
-		}
-		$main = self::get_main_interaction($item);
-		if(! $main->is_choiceInteraction()){
-			return null;
-		}
+    static function factory($item, $settings) {
+        if (!class_exists('repository\content_object\survey_select_question\SurveySelectQuestion') ||
+                $item->has_templateDeclaration() ||
+                count($item->list_interactions()) != 1 ||
+                self::has_score($item)) {
+            return null;
+        }
+        $main = self::get_main_interaction($item);
+        if (!$main->is_choiceInteraction()) {
+            return null;
+        }
 
-		$label = $main->label;
-		$pairs = explode(';', $label);
-		foreach($pairs as $pair){
-			$entry = explode('=', $pair);
-			if(count($entry)==2){
-				$key = reset($entry);
-				$value = trim($entry[1]);
-				if($key=='display' && $value !='listbox'){
-					return false;
-				}
-			}
-		}
+        $label = $main->label;
+        $pairs = explode(';', $label);
+        foreach ($pairs as $pair) {
+            $entry = explode('=', $pair);
+            if (count($entry) == 2) {
+                $key = reset($entry);
+                $value = trim($entry[1]);
+                if ($key == 'display' && $value != 'listbox') {
+                    return false;
+                }
+            }
+        }
 
-		return new self($settings);
-	}
+        return new self($settings);
+    }
 
-	public function create_question(){
-		$result = new SurveySelectQuestion();
+    public function create_question() {
+        $result = new SurveySelectQuestion();
         return $result;
-	}
+    }
 
-	protected function get_answer_type($item){
-		$interaction = self::get_main_interaction($item);
-		$result = $interaction->maxChoices == 1 ? 'radio' : 'checkbox';
-		return $result;
-	}
+    protected function get_answer_type($item) {
+        $interaction = self::get_main_interaction($item);
+        $result = $interaction->maxChoices == 1 ? 'radio' : 'checkbox';
+        return $result;
+    }
 
-	public function build(ImsXmlReader $item){
-		$result = $this->create_question();
+    public function build(ImsXmlReader $item) {
+        $result = $this->create_question();
         $result->set_title($item->get_title());
         $result->set_description($this->get_question_text($item));
         $result->set_answer_type($this->get_answer_type($item));
 
-		$interaction = self::get_main_interaction($item);
+        $interaction = self::get_main_interaction($item);
 
-		$choices = $interaction->list_simpleChoice();
-    	foreach($choices as $choice){
-    		$value = $this->to_text($choice);
-    		$option = new SurveySelectQuestionOption($value);
+        $choices = $interaction->list_simpleChoice();
+        foreach ($choices as $choice) {
+            $value = $this->to_text($choice);
+            $option = new SurveySelectQuestionOption($value);
             $result->add_option($option);
-    	}
-		return $result;
-	}
+        }
+        return $result;
+    }
+
 }
-
-
-
-
-
-
-
-
-
 

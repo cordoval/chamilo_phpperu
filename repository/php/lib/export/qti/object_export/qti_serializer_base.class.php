@@ -7,6 +7,7 @@ use common\libraries\QtiExportResourceManager;
 use common\libraries\LomWriter;
 use common\libraries\Chamilo;
 use common\libraries\Filesystem;
+use common\libraries\Qti;
 use DOMDocument;
 
 /**
@@ -64,6 +65,10 @@ class QtiSerializerBase {
      */
     public static function get_tool_name() {
         return Qti::get_tool_name('chamilo');
+    }
+
+    public static function get_tool_version(){
+        return Qti::get_tool_version();
     }
 
     private $resources = array();

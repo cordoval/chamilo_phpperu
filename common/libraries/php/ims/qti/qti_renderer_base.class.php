@@ -5,6 +5,7 @@ use DOMElement;
 use DOMAttr;
 use DOMText;
 use DOMCharacterData;
+use DOMDocument;
 
 require_once dirname(dirname(__FILE__)) .'/main.php';
 

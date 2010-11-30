@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use repository\content_object\physical_location\PhysicalLocation;
+
 /**
  * Import location files as PhysicalLocation objects.
  *

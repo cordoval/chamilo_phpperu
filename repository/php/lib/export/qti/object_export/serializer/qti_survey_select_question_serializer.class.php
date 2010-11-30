@@ -3,6 +3,7 @@ namespace repository;
 
 use repository\content_object\survey_select_question\SurveySelectQuestion;
 use repository\ContentObject;
+use common\libraries\Qti;
 
 /**
  * Serializer for Select questions

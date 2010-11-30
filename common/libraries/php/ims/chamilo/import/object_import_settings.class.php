@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries;
 
+use DOMDocument;
+
 /**
  * Store import settings. File path, category, log, etc.
  *

@@ -3,6 +3,7 @@ namespace repository;
 
 use repository\content_object\survey_rating_question\SurveyRatingQuestion;
 use repository\ContentObject;
+use common\libraries\Qti;
 
 /**
  *

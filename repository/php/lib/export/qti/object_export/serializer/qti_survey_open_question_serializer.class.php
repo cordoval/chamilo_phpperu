@@ -3,6 +3,7 @@ namespace repository;
 
 use repository\content_object\survey_open_question\SurveyOpenQuestion;
 use repository\ContentObject;
+use common\libraries\Qti;
 
 /**
  * Serializer for open questions.

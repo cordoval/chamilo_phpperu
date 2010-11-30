@@ -3,6 +3,7 @@ namespace repository;
 
 use repository\content_object\link\Link;
 use repository\ContentObject;
+use common\libraries\Filesystem;
 
 /**
  * Export Link objects.

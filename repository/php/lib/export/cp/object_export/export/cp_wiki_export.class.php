@@ -45,8 +45,6 @@ class CpWikiExport extends CpObjectExport
     {
         $settings = $this->get_settings();
         $object = $settings->get_object();
-            debug($object);
-            die;
 
         //$safe_name = str_safe($object->get_title()). '.wiki';
         $safe_name = $this->get_file_name($object, 'wiki');

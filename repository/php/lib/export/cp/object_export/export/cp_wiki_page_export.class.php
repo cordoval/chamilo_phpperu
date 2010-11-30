@@ -3,6 +3,7 @@ namespace repository;
 
 use repository\content_object\wiki_page\WikiPage;
 use repository\ContentObject;
+use common\libraries\Filesystem;
 
 /**
  * Export wiki page objects.
