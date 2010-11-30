@@ -22,6 +22,8 @@ class BbbVideoConferencingConnector extends VideoConferencingConnector
     private $attendee_pw;
     private $moderator_pw;
     
+    
+    
 
     /**
      * @param ExternalRepository $external_repository_instance
@@ -32,9 +34,17 @@ class BbbVideoConferencingConnector extends VideoConferencingConnector
         
         $this->account = ExternalSetting :: get('account', $this->get_video_conferencing_instance_id());
         $this->password = ExternalSetting :: get('password', $this->get_video_conferencing_instance_id());
+        $server = ExternalSetting :: get('server', $this->get_video_conferencing_instance_id());
+        $security_salt = ExternalSetting :: get('security_salt', $this->get_video_conferencing_instance_id());
         
-        $this->bbb = new phpBbb('devbuild.bigbluebutton.org', '639259d4-9dd8-4b25-bf01-95f9567eaf4b');
-        $this->bbb->authenticate('BBB Example Meeting', 'test123', '123456', '234567', 'hello');
+        $this->bbb = new phpBbb($server, $security_salt);
+
+        $this->bbb->create_meeting('BBB Example Meeting', 'test123', '123456', '234567', 'hello');
+		//$this->bbb->is_meeting_running('test123');
+		//$this->bbb->join_meeting('Gillard Magali', 'test');
+		//$this->bbb->get_metting_info('test');
+        
+        
 //        
 //        $this->vimeo = new phpVimeo($this->consumer_key, $this->consumer_secret);
 //        $oauth_token = ExternalRepositoryUserSetting :: get('oauth_token', $this->get_external_repository_instance_id());
