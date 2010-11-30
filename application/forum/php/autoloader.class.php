@@ -26,6 +26,7 @@ class Autoloader
             'forum_publication_publisher' => 'publisher/forum_publication_publisher.class.php',
             'forum_publication_category_manager' => 'category_manager/forum_publication_category_manager.class.php',
             'forum_publication_category' => 'category_manager/forum_publication_category.class.php',
+			'forum_topic_view_tracker' => '../trackers/forum_topic_view_tracker.class.php'        
         );
 
         $lower_case = Utilities :: camelcase_to_underscores($classname);

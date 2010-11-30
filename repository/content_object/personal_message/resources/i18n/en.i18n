@@ -1,1 +1,3 @@
 TypeName = "Personal message"
+PersonalMessengerManagerBrowserComponent = "Browse"
+PersonalMessengerManagerViewerComponent = "View"

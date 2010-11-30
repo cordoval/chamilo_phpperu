@@ -1,5 +1,5 @@
 TypeName = "Search portal"
-ResultsThroughOfFrom = ""
+ResultsThroughOfFrom = "Search results"
 SearchPortal = "Search portal"
 Emailer = ""
 SearchPortalManagerSearcherComponent = "Search"
