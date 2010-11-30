@@ -8,6 +8,9 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\PlatformSetting;
+
+use repository\RepositoryManager;
+
 /**
  * $Id: external_repository_manager_registration_browser_table_cell_renderer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.package_manager.component.registration_browser
@@ -42,12 +45,19 @@ class ExternalRepositoryManagerRegistrationBrowserTableCellRenderer extends Defa
             return $this->get_modification_links($registration);
         }
 
+        switch ($column->get_name())
+        {
+            case Registration :: PROPERTY_CATEGORY :
+                return Translation :: get(Utilities :: underscores_to_camelcase($registration->get_category()), null, RepositoryManager :: APPLICATION_NAME);
+                break;
+        }
+
         return parent :: render_cell($column, $registration);
     }
 
     function get_browser()
     {
-    	return $this->browser;
+        return $this->browser;
     }
 
     /**
@@ -60,34 +70,30 @@ class ExternalRepositoryManagerRegistrationBrowserTableCellRenderer extends Defa
     {
         $toolbar = new Toolbar();
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewRegistration'), Theme :: get_common_image_path().'action_details.png',
-					$this->browser->get_registration_view_url($registration), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewRegistration'), Theme :: get_common_image_path() . 'action_details.png', $this->browser->get_registration_view_url($registration), ToolbarItem :: DISPLAY_ICON));
 
         if (! $registration->is_up_to_date())
         {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('Update', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_update.png',
-					$this->browser->get_registration_update_url($registration), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Update', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_update.png', $this->browser->get_registration_update_url($registration), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('PackageIsAlreadyUpToDate'), Theme :: get_common_image_path().'action_update_na.png',
-					'', ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('PackageIsAlreadyUpToDate'), Theme :: get_common_image_path() . 'action_update_na.png', '', ToolbarItem :: DISPLAY_ICON));
         }
 
         if ($registration->is_active())
         {
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('Deactivate', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_deactivate.png',
-					$this->browser->get_registration_deactivation_url($registration), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Deactivate', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_deactivate.png', $this->browser->get_registration_deactivation_url($registration), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-			$toolbar->add_item(new ToolbarItem(Translation :: get('Activate', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_activate.png',
-					$this->browser->get_registration_activation_url($registration), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Activate', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_activate.png', $this->browser->get_registration_activation_url($registration), ToolbarItem :: DISPLAY_ICON));
 
         }
 
-//		$toolbar->add_item(new ToolbarItem(Translation :: get('Deinstall', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_deinstall.png',
-//					$this->browser->get_registration_removal_url($registration), ToolbarItem :: DISPLAY_ICON,true));
+        //		$toolbar->add_item(new ToolbarItem(Translation :: get('Deinstall', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_deinstall.png',
+        //					$this->browser->get_registration_removal_url($registration), ToolbarItem :: DISPLAY_ICON,true));
+
 
         return $toolbar->as_html();
     }

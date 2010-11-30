@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+
+use common\libraries\ObjectTableColumn;
 use common\libraries\Path;
 use common\libraries\StaticTableColumn;
 /**
@@ -24,6 +26,7 @@ class ContentObjectRegistrationBrowserTableColumnModel extends DefaultRegistrati
     {
         parent :: __construct();
         $this->set_default_order_column(1);
+        $this->add_column(new ObjectTableColumn(Registration :: PROPERTY_CATEGORY));
         $this->add_column(self :: get_modification_column());
     }
 

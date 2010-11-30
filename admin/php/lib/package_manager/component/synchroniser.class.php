@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+
 use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Path;
@@ -8,7 +9,12 @@ use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\PlatformSetting;
+use common\libraries\Breadcrumb;
+use common\libraries\NotCondition;
+use common\libraries\OrCondition;
 
+use PEAR;
+use XML_Unserializer;
 
 /**
  * $Id: synchroniser.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
@@ -101,7 +107,10 @@ class PackageManagerSynchroniserComponent extends PackageManager
             $package_conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_SECTION, $package['section']);
             $conditions [] = new AndCondition($package_conditions);
 
+            $package['authors'] = serialize($package['authors']);
+            $package['cycle'] = serialize($package['cycle']);
         	$package['dependencies'] = serialize($package['dependencies']);
+        	$package['extra'] = serialize($package['extra']);
 
             $condition = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $package['code']);
             $remote_packages = $adm->retrieve_remote_packages($condition, array(), 0);

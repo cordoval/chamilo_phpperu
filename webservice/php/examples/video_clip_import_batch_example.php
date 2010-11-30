@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
+require_once dirname(__FILE__) . '/../../common/libraries/plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', - 1);
 ini_set('memory_limit', - 1);
 $time_start = microtime(true);
@@ -27,7 +27,7 @@ function parse_csv($file)
     {
         $keys = fgetcsv($fp, 1000, ";");
         $users = array();
-        
+
         while ($video_data = fgetcsv($fp, 1000, ";"))
         {
             $video = array();
@@ -43,7 +43,7 @@ function parse_csv($file)
     {
         log("ERROR: Can't open file ($file)");
     }
-    
+
     return $videos;
 }
 
@@ -53,7 +53,7 @@ function create_videos(&$videos)
     log_message('Creating videos ');
     if ($hash == '')
         $hash = login();
-    
+
     $result = $client->call('WebservicesVideoClip.create_clips', array('input' => $videos, 'hash' => $hash));
     if ($result == 1)
     {
@@ -67,7 +67,7 @@ function create_videos(&$videos)
 function login()
 {
     global $client;
-    
+
     /* Change the username and password to the ones corresponding to  your database.
      * The password for the login service is :
      * IP = the ip from where the call to the webservice is made
@@ -75,26 +75,26 @@ function login()
      *
      * $password = Hash(IP+PW) ;
      */
-    
+
     $username = 'admin';
     //$username = 'Soliber';
-    
+
     $password = '010b832bca63fd107d75ed119788c508f63dee6f';
     //$password = hash('sha1', '192.168.1.101' . hash('sha1', '60d9efdb7c'));
     //$password = hash('sha1','127.0.0.1'.hash('sha1','werk'));
-    
+
 
     /*
      * change location to server location for the wsdl
      */
-    
+
     //$login_client = new nusoap_client('http://demo2.chamilo.org/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
     $login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
     $result = $login_client->call('LoginWebservice.login', array('input' => array('username' => $username, 'password' => $password), 'hash' => ''));
     log_message(print_r($result, true));
     if (is_array($result) && array_key_exists('hash', $result))
         return $result['hash']; //hash 3
-    
+
 
     return '';
 

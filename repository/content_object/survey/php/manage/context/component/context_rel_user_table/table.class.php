@@ -2,6 +2,12 @@
 namespace repository\content_object\survey;
 
 use common\libraries\ObjectTable;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Request;
+
 
 require_once dirname(__FILE__) . '/table_data_provider.class.php';
 require_once dirname(__FILE__) . '/table_column_model.class.php';
@@ -21,6 +27,7 @@ class SurveyContextRelUserBrowserTable extends ObjectTable
         $renderer = new SurveyContextRelUserBrowserTableCellRenderer($browser);
         $data_provider = new SurveyContextRelUserBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, SurveyContextRelUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
+            
         $actions = new ObjectTableFormActions(__NAMESPACE__, SurveyContextManager :: PARAM_ACTION);
 
 //        if (SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: SUBSCRIBE_AGREEMENT_USER_RIGHT, $browser->get_context()->get_id(), SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION))

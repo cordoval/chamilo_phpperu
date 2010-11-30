@@ -153,8 +153,8 @@ class AccountForm extends FormValidator
             $this->addElement('password', self :: NEW_PASSWORD_CONFIRMATION, Translation :: get('PasswordConfirmation'), array('size' => 40, 'autocomplete' => 'off'));
             $this->addRule(array(self :: NEW_PASSWORD, self :: NEW_PASSWORD_CONFIRMATION), Translation :: get('PassTwo'), 'compare');
 
-            $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'plugin/jquery/jquery.jpassword.js'));
-            $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/password.js'));
+            $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/libraries/plugin/jquery/jquery.jpassword.js'));
+            $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/libraries/resources/javascript/password.js'));
             $this->addElement('category');
         }
 

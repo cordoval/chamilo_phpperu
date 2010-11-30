@@ -3,6 +3,16 @@ namespace application\survey;
 
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use repository\RepositoryDataManager;
+use common\libraries\EqualityCondition;
+use tracking\Tracker;
+use tracking\Event;
+use common\libraries\Theme;
+use user\UserDataManager;
+use common\libraries\path;
+use common\libraries\Mail;
 
 class SurveyManagerMailerComponent extends SurveyManager
 {
@@ -44,7 +54,7 @@ class SurveyManagerMailerComponent extends SurveyManager
         
         $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->publication_id);
         
-        $trackers = Tracker :: get_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
+        $trackers = Tracker :: get_data(SurveyParticipantTracker :: CLASS_NAME, SurveyManager :: APPLICATION_NAME, $condition);
         
         while ($tracker = $trackers->next_result())
         {

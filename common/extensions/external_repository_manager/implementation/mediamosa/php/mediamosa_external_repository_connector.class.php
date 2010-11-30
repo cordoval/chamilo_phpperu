@@ -237,7 +237,18 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         return false;
     }
 
+    function basic_cql()
+    {
+        $owner['name'] = 'owner_id';
+         $owner['value'] = '^' . Session :: get_user_id() . '^';
+         $this->cql['OR'][] = $owner;
 
+         $aut_user['name'] = 'aut_user';
+         $aut_user['value'] = '^' . Session :: get_user_id() . '^';
+         $this->cql['OR'][] = $aut_user;
+
+         $this->get_user_groups(true);
+    }
 
     /**
      * searchable retrieve assets on a mediamosa server
@@ -247,15 +258,22 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
      * @param string count optional
      * @return array with MediamosaExternalRepositoryObject(s)
      */
-    function retrieve_external_repository_objects($condition, $order_property, $offset, $count) {
+    function retrieve_external_repository_objects($condition, $order_property, $offset, $count, $update_master_slave = false) {
 
         $feed_type = Request :: get(MediamosaExternalRepositoryManager :: PARAM_FEED_TYPE);
-        
+
+        if($update_master_slave == true)
+        {
+            $feedtype = MediamosaExternalRepositoryManager :: FEED_TYPE_ALL;
+        }
+
         switch($feed_type)
         {
             
             case MediamosaExternalRepositoryManager :: FEED_TYPE_MOST_RECENT:
-                
+
+                $this->basic_cql();
+
                 $this->cql['sortby']['name'] = 'date';
                 $this->cql['sortby']['order']='descending';
                 $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, 9);
@@ -267,25 +285,18 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                         );
                 $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, $count, $cql);
                 break;
+            //feed type all is only for admins
             case MediamosaExternalRepositoryManager :: FEED_TYPE_ALL:
-                 if($this->retrieve_chamilo_user(Session :: get_user_id())->is_platform_admin())
+                if($this->retrieve_chamilo_user(Session :: get_user_id())->is_platform_admin())
                  {
                     $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, $count);
                  }
             break;
             case MediamosaExternalRepositoryManager :: FEED_TYPE_GENERAL:
             default:
-                 $owner['name'] = 'owner_id';
-                 $owner['value'] = '^' . Session :: get_user_id() . '^';
-                 $this->cql['OR'][] = $owner;
+                 $this->basic_cql();
 
-                 $aut_user['name'] = 'aut_user';
-                 $aut_user['value'] = '^' . Session :: get_user_id() . '^';
-                 $this->cql['OR'][] = $aut_user;
-
-                 $this->get_user_groups(true);
-
-                 $app_id = $this->get_app_id();
+                $app_id = $this->get_app_id();
                  if(!empty($app_id))
                  {
                     $aut_app['name'] = 'aut_app';
@@ -309,7 +320,8 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                     {
                         if(!isset($this->asset_cache[(string) $asset->asset_id]))
                         {
-                            $object = $this->create_mediamosa_external_repository_object($asset);
+                            //populate objects and don't look for acl (use will be true)
+                            $object = $this->create_mediamosa_external_repository_object($asset, false);
 
                             $asset_rights = $object->get_rights();
 
@@ -317,7 +329,13 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                             $this->asset_cache[(string) $asset->asset_id] = $object;
                             $this->count++;
 
-                            if($update_master_slave) $this->update_asset_master_slave_settings($object);
+                            if($update_master_slave) 
+                            {
+                                if(!$this->update_asset_master_slave_settings($object))
+                                {
+                                    return false;
+                                }
+                            }
                         }
                         else
                         {
@@ -330,7 +348,12 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         }
     }
 
-    function retrieve_mediamosa_assets($condition, $order_property, $offset, $count, $update_master_slave = false)
+    /*
+     * gets mediamosa asset xml
+     * @param $update_master_slave goes through all retrieved assets to update master slave settings
+     * @return simplexmlobject $response
+     */
+    function retrieve_mediamosa_assets($condition, $order_property, $offset, $count)
     {
         $params = array();
         $acl = array();
@@ -365,8 +388,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         if($this->cql_error)$params['limit'] = 0;
 
         $params['cql'] = urlencode($cql);
-       
-        if ($response = $this->request(self :: METHOD_GET, '/asset', $params)) {
+       if ($response = $this->request(self :: METHOD_GET, '/asset', $params)) {
             return $response;
         }
     }
@@ -431,7 +453,6 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         }
 
         $this->cql = array();
-        //echo $string;
         return $string;
     }
 
@@ -488,9 +509,10 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     /*
      * creates and populates a MediamosaExternalRepositoryObject with xml data
      * @param object simple xml element
+     * @param $get_acl : see $this->determine_rights
      * @return MediamosaExternalRepositoryObject
     */
-    function create_mediamosa_external_repository_object($asset) {
+    function create_mediamosa_external_repository_object($asset, $get_acl = true) {
         if ($asset) {
             $mediamosa_asset = new MediamosaExternalRepositoryObject();
 
@@ -584,7 +606,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             
             //if($mediafile_count != $not_downloadable) $this->update_mediafile_downloadableness($mediamosa_asset);
 
-            $mediamosa_asset->set_rights($this->determine_rights($mediamosa_asset));
+            $mediamosa_asset->set_rights($this->determine_rights($mediamosa_asset, $get_acl));
 
             return $mediamosa_asset;
         }
@@ -624,9 +646,10 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
      * no mediamosa rights means no rights in chamilo;
      *
      * @param MediamosaExternalRepositoryObject $asset
+     * @param $get_acl - true : check for acl rights of mediafiles, false: don't check acl and use right is assigned default (false is used for browser)
      * @return array asset_rights
      */
-    function determine_rights(MediamosaExternalRepositoryObject $asset) {
+    function determine_rights(MediamosaExternalRepositoryObject $asset, $get_acl = true) {
 
         $asset_rights = array();
 
@@ -641,48 +664,56 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = false;
         }
 
-        if ((string) $asset->get_protected() != 'FALSE')
+        if($get_acl == true)
         {
-            //if no group or user rights are set --> use right
-            $rights = $this->retrieve_mediamosa_asset_rights($asset->get_id(), $asset->get_owner_id());
-
-            //if(!count($rights['aut_user']) && !count($rights['aut_group'])) $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
-
-            //check users
-            if (count($rights['aut_user'])) {
-                foreach ($rights['aut_user'] as $n => $aut_user) {
-                    if ($aut_user == Session :: get_user_id()) {
-                        $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
-                    }
-                }
-            }
-
-            //check groups
-            if (count($rights['aut_group']))
+            if ((string) $asset->get_protected() != 'FALSE')
             {
-                $groups =$this->get_user_groups();
-                
-                if (count($groups)) {
-                    foreach ($rights['aut_group'] as $n => $aut_group) {
-                        if (isset($groups[$aut_group])) {
+                //if no group or user rights are set --> use right
+                $rights = $this->retrieve_mediamosa_asset_rights($asset->get_id(), $asset->get_owner_id());
+
+                //if(!count($rights['aut_user']) && !count($rights['aut_group'])) $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+
+                //check users
+                if (count($rights['aut_user'])) {
+                    foreach ($rights['aut_user'] as $n => $aut_user) {
+                        if ($aut_user == Session :: get_user_id()) {
                             $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
                         }
                     }
                 }
-            }
 
-            //check aut_apps
-            if(count($rights['aut_app']))
-            {
-                $this_app = $this->get_app_id() . '^';
-
-                foreach($rights['aut_app'] as $n => $aut_app)
+                //check groups
+                if (count($rights['aut_group']))
                 {
-                    if($aut_app == $this_app) $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+                    $groups =$this->get_user_groups();
+
+                    if (count($groups)) {
+                        foreach ($rights['aut_group'] as $n => $aut_group) {
+                            if (isset($groups[$aut_group])) {
+                                $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+                            }
+                        }
+                    }
+                }
+
+                //check aut_apps
+                if(count($rights['aut_app']))
+                {
+                    $this_app = $this->get_app_id() . '^';
+
+                    foreach($rights['aut_app'] as $n => $aut_app)
+                    {
+                        if($aut_app == $this_app) $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+                    }
                 }
             }
         }
-
+        else
+        {
+            //use right is assigned default
+            $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+        }
+        
         if ($chamilo_user->is_platform_admin() || ($asset->get_owner_id() == $chamilo_user->get_id())) {
             $asset_rights[ExternalRepositoryObject :: RIGHT_EDIT] = true;
             $asset_rights[ExternalRepositoryObject :: RIGHT_DELETE] = true;
@@ -725,7 +756,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
 
         if($ok != count($slaves)) {
             $rights['aut_app'] = $slaves;
-            $this->set_mediamosa_asset_rights($asset->get_id(), $rights, $asset->get_owner_id());
+            return $this->set_mediamosa_asset_rights($asset->get_id(), $rights, $asset->get_owner_id());
         }
     }
 
@@ -1217,7 +1248,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                                     foreach ($asset->get_mediafiles() as $mediafile) {
                                         $this->set_mediamosa_mediafile_rights($mediafile->get_id(), $rights, $owner_id);
                                     }
-
+                                    return true;
                                 }
                             }
                         }

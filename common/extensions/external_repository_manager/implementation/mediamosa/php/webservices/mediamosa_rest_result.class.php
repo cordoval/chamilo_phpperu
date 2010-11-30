@@ -4,7 +4,7 @@ use common\libraries\Path;
 use RestResult;
 use SimpleXMLElement;
 
-//require_once dirname(__FILE__) . '/../../../../../../../plugin/webservices/rest/client/rest_result.class.php';
+//require_once dirname(__FILE__) . '/../../../../../../../common/libraries/plugin/webservices/rest/client/rest_result.class.php';
 require_once Path :: get_plugin_path().'/webservices/rest/client/rest_result.class.php';
 /**
  * Description of mediamosa_rest_resultclass
@@ -25,7 +25,7 @@ class MediamosaRestResult extends RestResult {
             }
         }
     }
-    
+
     /**
      * overrides parent
      * Get the response content and turns it into object
@@ -38,7 +38,7 @@ class MediamosaRestResult extends RestResult {
 
     }
 
-    
+
 
     //verifies if request has succeeded
     function check_result($error = false, $ok = false)

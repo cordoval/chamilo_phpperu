@@ -33,11 +33,13 @@ class DefaultRemotePackageTableCellRenderer extends ObjectTableCellRenderer
         switch ($column->get_name())
         {
             case RemotePackage :: PROPERTY_SECTION :
-            	return Translation :: get(Utilities::underscores_to_camelcase($remote_package->get_section()));
+                return Translation :: get(Utilities :: underscores_to_camelcase($remote_package->get_section()));
             case RemotePackage :: PROPERTY_NAME :
                 return $remote_package->get_name();
             case RemotePackage :: PROPERTY_VERSION :
-                return $remote_package->get_version();
+                return $remote_package->get_version() . ' ' . Translation :: get('CyclePhase' . Utilities :: underscores_to_camelcase($remote_package->get_cycle_phase()) . 'Short');
+            case RemotePackage :: PROPERTY_CYCLE_REALM :
+                return Translation :: get('CycleRealm' . Utilities :: underscores_to_camelcase($remote_package->get_cycle_realm()));
             case RemotePackage :: PROPERTY_DESCRIPTION :
                 return $remote_package->get_description();
             default :

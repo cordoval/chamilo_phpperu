@@ -1,6 +1,14 @@
-<?php namespace application\survey;
+<?php 
+namespace application\survey;
 
 use common\libraries\DelegateComponent;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\extensions\reporting_viewer\ReportingViewer;
+
 
 class SurveyReportingManagerReportingComponent extends SurveyReportingManager implements DelegateComponent
 {

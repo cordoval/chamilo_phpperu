@@ -4,8 +4,10 @@
 		<property name="id" type="integer" unsigned="1" notnull="1"
 			autoincrement="true" />
 		<property name="type" type="text" length="255" fixed="true" />
+		<property name="category" type="text" length="255" fixed="true" />
 		<property name="name" type="text" length="255" fixed="true" />
-		<property name="status" type="integer" length="1" unsigned="1" notnull="1" />
+		<property name="status" type="integer" length="1" unsigned="1"
+			notnull="1" />
 		<property name="version" type="text" length="255" fixed="true" />
 	</properties>
 	<index name="type">

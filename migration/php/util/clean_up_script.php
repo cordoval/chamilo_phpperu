@@ -9,7 +9,7 @@ namespace migration;
  * Cleanupscript to clean the lcms database
  */
 
-ini_set('include_path', realpath(dirname(__FILE__) . '/../../plugin/pear'));
+ini_set('include_path', realpath(dirname(__FILE__) . '/../../common/libraries/plugin/pear'));
 require_once dirname(__FILE__) . '/../../common/global.inc.php';
 
 $conf = Configuration :: get_instance();
@@ -39,7 +39,7 @@ foreach ($tablenames as $tablename)
     {
         continue;
     }
-    
+
     echo ('Cleaning table ' . $tablename);
     $query = 'TRUNCATE ' . $tablename;
     $db_lcms->query($query);

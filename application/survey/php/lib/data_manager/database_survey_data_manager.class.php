@@ -1,6 +1,7 @@
 <?php
 namespace application\survey;
 
+use common\libraries\Translation;
 use common\libraries\InequalityCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
@@ -11,11 +12,13 @@ use common\libraries\InCondition;
 use common\libraries\WebApplication;
 use repository\RepositoryDataManager;
 use repository\ContentObject;
-
+use repository\ContentObjectPublicationAttributes;
 use rights\RightsDataManager;
 use rights\Location;
 use rights\UserRightLocation;
 use common\libraries\Session;
+use reporting\ReportingDataManager;
+use reporting\ReportingTemplateRegistration;
 
 //require_once WebApplication :: get_application_class_lib_path('survey') . 'survey_publication.class.php';
 //require_once WebApplication :: get_application_class_lib_path('survey') . 'survey_publication_rel_reporting_template_registration.class.php';

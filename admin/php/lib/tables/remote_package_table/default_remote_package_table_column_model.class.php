@@ -32,6 +32,7 @@ class DefaultRemotePackageTableColumnModel extends ObjectTableColumnModel
         $columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_SECTION);
         $columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_NAME);
         $columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_VERSION);
+        $columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_CYCLE_REALM);
         $columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_DESCRIPTION);
         return $columns;
     }

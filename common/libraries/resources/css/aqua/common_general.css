@@ -2218,7 +2218,7 @@ div.question div.answer div.caption {
 	margin-left: 20px;
 }
 
-#hotspot_image,.hotspot_image {
+#selected_image,.selected_image,#hotspot_image,.hotspot_image {
 	position: relative;
 }
 

@@ -1,9 +1,12 @@
 <?php
+namespace application\survey;
 
 //require_once Path :: get_application_path() . 'lib/survey/trackers/survey_question_answer_tracker.class.php';
 //require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/database.class.php';
 
 use tracking\SimpleTracker;
+use common\libraries\Utilities;
+
 
 class SurveyParticipantMailTracker extends SimpleTracker
 {

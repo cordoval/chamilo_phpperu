@@ -2,6 +2,8 @@
 namespace application\survey;
 
 use common\libraries\SubManager;
+use common\libraries\Path;
+
 
 class SurveyReportingManager extends SubManager
 {
@@ -34,7 +36,7 @@ class SurveyReportingManager extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_application_path() . 'lib/survey/reporting_manager/component/';
+        return Path :: get_application_path() . 'survey/php/lib/reporting_manager/component/';
     }
 
     //url

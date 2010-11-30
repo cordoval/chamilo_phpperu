@@ -6,6 +6,7 @@ use common\libraries\Theme;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: reporting_template_registration_browser_table_cell_renderer.class.php 215 2009-11-13 14:07:59Z vanpouckesven $

@@ -13,10 +13,10 @@
 			</author>
 		</authors>
 		<version>1.0.0</version>
-		<release>
-			<phase>GA</phase>
+		<cycle>
+			<phase>general_availability</phase>
 			<realm>main</realm>
-		</release>
+		</cycle>
 		<filename>pool/main/application/p/photo_gallery/photo_gallery-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>

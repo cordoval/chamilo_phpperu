@@ -1,4 +1,9 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use repository\content_object\survey_matrix_question\SurveyMatrixQuestion;
+use common\libraries\Translation;
+
 /**
  * $Id: survey_matrix_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.survey.component.viewer.wizard.inc.question_display
@@ -47,7 +52,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
             
             foreach ($matches as $j => $match)
             {
-                if ($type == MatrixQuestion :: MATRIX_TYPE_RADIO)
+                if ($type == SurveyMatrixQuestion :: MATRIX_TYPE_RADIO)
                 {
                     $option_name = $question_id . '_' . $i . '_0';
                     
@@ -62,7 +67,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
                     
                     $group[] = $radio;
                 }
-                elseif ($type == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)
+                elseif ($type == SurveyMatrixQuestion :: MATRIX_TYPE_CHECKBOX)
                 {
                     $option_name = $question_id . '_' . $i . '_' . $j;
                     

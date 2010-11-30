@@ -7,6 +7,7 @@ use common\libraries\Display;
 use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\SimpleTable;
 
 /**
  * $Id: admin_event_viewer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $

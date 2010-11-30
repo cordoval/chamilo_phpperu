@@ -47,6 +47,8 @@ class PackageManagerBrowserComponent extends PackageManager
         $this->current_type = Request :: get(PackageManager :: PARAM_REGISTRATION_TYPE);
         $this->current_type = $this->current_type ? $this->current_type : Registration :: TYPE_APPLICATION;
 
+        $this->set_parameter(PackageManager :: PARAM_REGISTRATION_TYPE, $this->current_type);
+
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $table = RegistrationBrowser :: factory($this, $parameters, $this->get_condition());

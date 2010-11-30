@@ -1,4 +1,8 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\ObjectTableCellRenderer;
+use repository\content_object\survey_page\SurveyPage;
 
 class DefaultSurveyPageTableCellRenderer extends ObjectTableCellRenderer
 {

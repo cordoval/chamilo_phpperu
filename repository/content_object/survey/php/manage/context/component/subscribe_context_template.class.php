@@ -1,6 +1,14 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_template_viewer.class.php';
+use repository\RepositoryDataManager;
+use common\libraries\Translation;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\Path;
+use common\libraries\Request;
+
+
+require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/component/context_template_viewer.class.php';
 
 class SurveyContextManagerSubscribeContextTemplateComponent extends SurveyContextManager
 {

@@ -1,4 +1,9 @@
-<?php namespace application\survey;
+<?php 
+namespace application\survey;
+
+use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/table_data_provider.class.php';
 require_once dirname(__FILE__) . '/table_column_model.class.php';

@@ -316,10 +316,12 @@ abstract class ContentObjectInstaller
         $content_object_registration->set_status(Registration :: STATUS_ACTIVE);
 
         $package_info = PackageInfo :: factory(Registration :: TYPE_CONTENT_OBJECT, $this->get_content_object());
+        $package_info = $package_info->get_package();
 
         if ($package_info)
         {
-            $content_object_registration->set_version($package_info->get_package()->get_version());
+            $content_object_registration->set_version($package_info->get_version());
+            $content_object_registration->set_category($package_info->get_category());
         }
 
         if (! $content_object_registration->create())

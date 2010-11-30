@@ -1,5 +1,10 @@
-<?php namespace repository\content_object\survey;
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/template_rel_page_table/default_template_rel_page_table_column_model.class.php';
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\Path;
+use common\libraries\StaticTableColumn;
+
+require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/tables/template_rel_page_table/default_template_rel_page_table_column_model.class.php';
 
 class SurveyContextTemplateRelPageTableColumnModel extends DefaultSurveyContextTemplateRelPageTableColumnModel
 {

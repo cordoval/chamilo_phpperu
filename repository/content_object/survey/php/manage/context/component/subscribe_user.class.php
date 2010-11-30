@@ -1,7 +1,15 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/forms/context_subscribe_user_form.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_viewer.class.php';
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\DynamicTabsRenderer;
+
+require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/forms/context_subscribe_user_form.class.php';
+require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/component/context_viewer.class.php';
 
 class SurveyContextManagerSubscribeUserComponent extends SurveyContextManager
 {
@@ -12,7 +20,8 @@ class SurveyContextManagerSubscribeUserComponent extends SurveyContextManager
     function run()
     {
         
-        $context_id = Request :: get(self :: PARAM_CONTEXT_ID);
+        $context_registration_id = Request :: get(self :: PARAM_CONTEXT_REGISTRATION_ID);
+    	$context_id = Request :: get(self :: PARAM_CONTEXT_ID);
         
         //        if (! SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: SUBSCRIBE_USER_RIGHT, $context_id, SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION))
         //        {
@@ -32,11 +41,11 @@ class SurveyContextManagerSubscribeUserComponent extends SurveyContextManager
             $success = $form->create_context_rel_users();
             if ($success)
             {
-                $this->redirect(Translation :: get('SurveyContextRelUsersCreated'), (false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS));
+                $this->redirect(Translation :: get('SurveyContextRelUsersCreated'), (false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context_id,  self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id,DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS));
             }
             else
             {
-                $this->redirect(Translation :: get('SurveyContextRelUsersNotCreated'), (true), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS));
+                $this->redirect(Translation :: get('SurveyContextRelUsersNotCreated'), (true), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context_id,  self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id,DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS));
             }
         }
         else

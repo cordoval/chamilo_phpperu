@@ -32,8 +32,8 @@ class ChatToolViewerComponent extends ChatTool
         if (($course_rel_user && $course_rel_user->get_status() == 1) || $user->is_platform_admin())
             $params["isadmin"] = true;
 
-        $params["data_public_url"] = Path :: get(WEB_PATH) . 'plugin/phpfreechat/data/public';
-        $params["data_public_path"] = Path :: get(SYS_PATH) . 'plugin/phpfreechat/data/public';
+        $params["data_public_url"] = Path :: get(WEB_PATH) . 'common/libraries/plugin/phpfreechat/data/public';
+        $params["data_public_path"] = Path :: get(SYS_PATH) . 'common/libraries/plugin/phpfreechat/data/public';
         $params["server_script_url"] = $_SERVER['REQUEST_URI'];
         $params["serverid"] = $course->get_id();
         $params["title"] = $course->get_name();

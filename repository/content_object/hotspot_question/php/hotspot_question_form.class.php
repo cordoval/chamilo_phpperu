@@ -32,8 +32,24 @@ class HotspotQuestionForm extends ContentObjectForm
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/hotspot_question/resources/javascript/hotspot_question_form.js'));
-        //$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
-        //$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js'));
+
+        $this->add_warning_message('hotspot_javascript', Translation :: get('HotspotJavascriptWarning'), Translation :: get('HotspotJavascriptRequired'), true);
+
+        $this->addElement('html', '<div id="hotspot_options" style="display: none;">');
+        $this->addElement('category', Translation :: get('Hotspots'));
+        $this->add_options();
+        $this->addElement('category');
+        $this->addElement('html', '</div>');
+
+        $this->addElement('html', '<div id="hotspot_select">');
+        $this->addElement('category', Translation :: get('Image'));
+
+        $html = array();
+        $html[] = '<div id="hotspot_marking" style="display: none;"><div class="colour_box_label">' . Translation :: get('CurrentlyMarking') . '</div><div class="colour_box"></div></div>';
+        $html[] = '<div class="clear"></div>';
+        $html[] = '<br />';
+        $html[] = '<div class="clear"></div>';
+        $this->addElement('html', implode("\n", $html));
 
         $url = $this->get_path(WEB_PATH) . 'repository/php/xml_feeds/xml_image_feed.php';
         $locale = array();
@@ -42,24 +58,12 @@ class HotspotQuestionForm extends ContentObjectForm
         $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
         $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
 
-        $this->add_warning_message('hotspot_javascript', Translation :: get('HotspotJavascriptWarning'), Translation :: get('HotspotJavascriptRequired'), true);
+        $image_selecter_options = array();
+        $image_selecter_options['rescale_image'] = false;
+        $image_selecter_options['allow_change'] = false;
 
-        $this->addElement('html', '<a>Blabla</a>');
-        $this->addElement('html', '<div id="hotspot_select" style="display: none;">');
-        $this->addElement('category', Translation :: get('Hotspots'));
-        $this->addElement('static', 'uploadify', Translation :: get('UploadImage'), '<div id="uploadify"></div>');
-        //$this->addElement('image_selecter', 'image', Translation :: get('SelectImage'), $url, $locale, array());
-        $this->addElement('element_finder', 'image', Translation :: get('SelectImage'), $url, $locale, array(), array('load_elements' => true));
+        $this->addElement('image_selecter', 'image', Translation :: get('SelectImage'), $url, $locale, array(), $image_selecter_options);
         $this->addElement('category');
-        $this->addElement('html', '</div>');
-
-        $this->addElement('html', '<div id="hotspot_options" style="display: none;">');
-        $this->addElement('category', Translation :: get('Hotspots'));
-        $this->add_options();
-        $this->addElement('hidden', 'image_object', 'image_object');
-        $this->addElement('category');
-
-        $this->add_image();
         $this->addElement('html', '</div>');
 
         $this->set_session_answers();
@@ -73,14 +77,29 @@ class HotspotQuestionForm extends ContentObjectForm
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/hotspot_question/resources/javascript/hotspot_question_form.js'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js'));
         $this->add_options();
-        $this->addElement('hidden', 'image_object', 'image_object');
+
+        $html = array();
+        $html[] = '<div id="hotspot_marking"><div class="colour_box_label">' . Translation :: get('CurrentlyMarking') . '</div><div class="colour_box"></div></div>';
+        $html[] = '<div class="clear"></div>';
+        $html[] = '<br />';
+        $html[] = '<div class="clear"></div>';
+        $this->addElement('html', implode("\n", $html));
+
+        $url = $this->get_path(WEB_PATH) . 'repository/php/xml_feeds/xml_image_feed.php';
+        $locale = array();
+        $locale['Display'] = Translation :: get('AddAttachments');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
+
+        $image_selecter_options = array();
+        $image_selecter_options['rescale_image'] = false;
+        $image_selecter_options['allow_change'] = false;
+
+        $this->addElement('image_selecter', 'image', Translation :: get('SelectImage'), $url, $locale, array(), $image_selecter_options);
 
         $this->addElement('category');
-
-        $this->add_image();
         $this->set_session_answers();
     }
 
@@ -105,7 +124,7 @@ class HotspotQuestionForm extends ContentObjectForm
                     $defaults['option_weight'][$i] = 1;
                 }
 
-                $defaults['image_object'] = $object->get_image();
+                $defaults['image'] = $object->get_image();
                 $this->set_session_answers($defaults);
             }
 	        else
@@ -125,20 +144,20 @@ class HotspotQuestionForm extends ContentObjectForm
     {
         $values = $this->exportValues();
 
-        if ($values['image_object'] == 'image_object')
+        if ($values['image'] == '')
         {
             return false;
         }
 
         $object = new HotspotQuestion();
-        $object->set_image($values['image_object']);
+        $object->set_image($values['image']);
         $this->set_content_object($object);
         $this->add_options_to_object();
         $success = parent :: create_content_object();
 
         if ($success)
         {
-            $object->attach_content_object($values['image_object']);
+            $object->attach_content_object($values['image']);
         }
 
         return $object;

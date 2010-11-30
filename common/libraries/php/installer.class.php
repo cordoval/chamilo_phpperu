@@ -17,7 +17,9 @@ use reporting\ReportingTemplateRegistration;
 use reporting\Reporting;
 use webservice\WebserviceCategory;
 use webservice\WebserviceRegistration;
+
 use admin\Registration;
+use admin\PackageInfo;
 /**
  * $Id: installer.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package common
@@ -501,13 +503,13 @@ abstract class Installer
             elseif (count($files) > 0)
             {
                 //$warning_message = Translation :: get('UnlinkedTrackers', null, 'install') . ': <em>' . Translation :: get('CheckUnlinkedTrackers', null, TrackingManager :: APPLICATION_NAME) . ' ' . $path . '</em>';
-                //$this->add_message(self :: TYPE_WARNING, $warning_message);
+            //$this->add_message(self :: TYPE_WARNING, $warning_message);
             }
         }
         elseif (count($files) > 0)
         {
             //$warning_message = Translation :: get('UnlinkedTrackers', null, 'install') . ': <em>' . Translation :: get('CheckUnlinkedTrackers', null, TrackingManager :: APPLICATION_NAME) . ' ' . $path . '</em>';
-            //$this->add_message(self :: TYPE_WARNING, $warning_message);
+        //$this->add_message(self :: TYPE_WARNING, $warning_message);
         }
 
         return true;
@@ -535,9 +537,13 @@ abstract class Installer
 
                 $user_setting = $parameters['user_setting'];
                 if ($user_setting)
+                {
                     $setting->set_user_setting($user_setting);
+                }
                 else
+                {
                     $setting->set_user_setting(0);
+                }
 
                 if (! $setting->create())
                 {
@@ -552,26 +558,30 @@ abstract class Installer
 
     function register_application()
     {
-
         $application = $this->get_application();
+
+        $this->add_message(self :: TYPE_NORMAL, Translation :: get('RegisteringApplication', null, 'install'));
 
         if (WebApplication :: is_application($application))
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('RegisteringApplication', null, 'install'));
+            $package_info = PackageInfo :: factory(Registration :: TYPE_APPLICATION, $application);
+        }
+        else
+        {
+            $package_info = PackageInfo :: factory(Registration :: TYPE_CORE, $application);
+        }
+        $package_info = $package_info->get_package();
 
-            $application_registration = new Registration();
-            $application_registration->set_type(Registration :: TYPE_APPLICATION);
-            $application_registration->set_name($application);
-            $application_registration->set_status(Registration :: STATUS_ACTIVE);
+        $application_registration = new Registration();
+        $application_registration->set_type($package_info->get_section());
+        $application_registration->set_name($package_info->get_code());
+        $application_registration->set_category($package_info->get_category());
+        $application_registration->set_version($package_info->get_version());
+        $application_registration->set_status(Registration :: STATUS_ACTIVE);
 
-            if (! $application_registration->create())
-            {
-                return $this->installation_failed(Translation :: get('ApplicationRegistrationFailed', null, 'install'));
-            }
-            else
-            {
-                return true;
-            }
+        if (! $application_registration->create())
+        {
+            return $this->installation_failed(Translation :: get('ApplicationRegistrationFailed', null, 'install'));
         }
         else
         {

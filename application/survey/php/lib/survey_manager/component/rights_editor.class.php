@@ -1,6 +1,13 @@
-<?php namespace application\survey;
+<?php 
+namespace application\survey;
 
 use common\libraries\DelegateComponent;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\extensions\rights_editor_manager\RightsEditorManager;
+
 
 class SurveyManagerRightsEditorComponent extends SurveyManager implements DelegateComponent
 {

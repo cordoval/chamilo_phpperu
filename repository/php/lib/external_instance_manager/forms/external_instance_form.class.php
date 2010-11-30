@@ -141,7 +141,7 @@ class ExternalInstanceForm extends FormValidator
                     if ($options_type == 'dynamic')
                     {
                         $options_source = $setting['options']['source'];
-                        $class = 'ExternalRepositorySettings' . Utilities :: underscores_to_camelcase($external_repository->get_type()) . 'Connector';
+                        $class = 'ExternalRepositorySettings' . Utilities :: underscores_to_camelcase($external_instance->get_type()) . 'Connector';
                         $options = call_user_func(array($class, $options_source));
                     }
                     else

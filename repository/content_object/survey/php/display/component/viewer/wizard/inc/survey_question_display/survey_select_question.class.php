@@ -1,8 +1,8 @@
-<?php namespace repository\content_object\survey;
-/**
- * $Id: survey_select_question.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_display.survey.component.viewer.wizard.inc.question_display
- */
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../survey_question_display.class.php';
 
 class SurveySelectQuestionDisplay extends SurveyQuestionDisplay
@@ -38,7 +38,7 @@ class SurveySelectQuestionDisplay extends SurveyQuestionDisplay
         
         if ($type == 'checkbox')
         {
-            $advanced_select = $formvalidator->createElement('advmultiselect', $question_name, '', $answer_options, array('style' => 'width: 200px;', 'class' => 'advanced_select_question'));
+            $advanced_select = $formvalidator->createElement('multiselect', $question_name, '', $answer_options, array('style' => 'width: 200px;', 'class' => 'advanced_select_question'));
             $advanced_select->setButtonAttributes('add', 'class="add"');
             $advanced_select->setButtonAttributes('remove', 'class="remove"');
             $formvalidator->addElement($advanced_select);

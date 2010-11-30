@@ -1,11 +1,11 @@
-<?php namespace repository\content_object\survey;
+<?php 
 namespace repository\content_object\survey;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
-
+use common\libraries\Utilities;
 use user\UserDataManager;
 
 class SurveyTemplateForm extends FormValidator
@@ -97,8 +97,8 @@ class SurveyTemplateForm extends FormValidator
         {
             $labels = explode('_', $property_name);
             $label = $labels[0] . ' ' . $labels[1];
-            $url = Path :: get(WEB_PATH) . 'repository/lib/content_object/survey/xml_feeds/xml_context_feed.php?context_type=' . $type;
-
+            $url = Path :: get_repository_content_object_path(true) . 'survey/php/xml_feeds/xml_context_feed.php?context_type=' . $type;
+		            
             $locale = array();
             $locale['Display'] = Translation :: get('Choose');
             $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
