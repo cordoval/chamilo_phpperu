@@ -222,7 +222,7 @@ class ExternalRepositorySync extends RepositoryDataClass
     {
         if (! isset($this->external_repository))
         {
-            $this->external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($this->get_external_repository_id());
+            $this->external_repository = RepositoryDataManager :: get_instance()->retrieve_external_instance($this->get_external_repository_id());
         }
         return $this->external_repository;
     }

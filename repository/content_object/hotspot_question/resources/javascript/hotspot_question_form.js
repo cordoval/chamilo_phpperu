@@ -15,11 +15,11 @@ $(function ()
 
 	function redrawPolygon()
 	{
-		$('.polygon_fill_' + currentPolygon, $('#hotspot_image')).remove();
-		$('.polygon_line_' + currentPolygon, $('#hotspot_image')).remove();
+		$('.polygon_fill_' + currentPolygon, $('#selected_image')).remove();
+		$('.polygon_line_' + currentPolygon, $('#selected_image')).remove();
 
-		$('#hotspot_image').fillPolygon(positions[currentPolygon].X, positions[currentPolygon].Y, {clss: 'polygon_fill_' + currentPolygon, color: colours[currentPolygon], alpha: 0.5});
-		$('#hotspot_image').drawPolygon(positions[currentPolygon].X, positions[currentPolygon].Y, {clss: 'polygon_line_' + currentPolygon, color: colours[currentPolygon], stroke: 1, alpha: 0.9});
+		$('#selected_image').fillPolygon(positions[currentPolygon].X, positions[currentPolygon].Y, {clss: 'polygon_fill_' + currentPolygon, color: colours[currentPolygon], alpha: 0.5});
+		$('#selected_image').drawPolygon(positions[currentPolygon].X, positions[currentPolygon].Y, {clss: 'polygon_line_' + currentPolygon, color: colours[currentPolygon], stroke: 1, alpha: 0.9});
 	}
 	
 	function setCoordinates()
@@ -39,10 +39,10 @@ $(function ()
 	function getCoordinates(ev, ui)
 	{
 		if (currentPolygon !== null)
-		{
+		{		    
 			var pX, pY;
 	
-			offset = $('#hotspot_image').offset();
+			offset = $('#selected_image').offset();
 			
 			pX = ev.pageX - offset.left;
 			pY = ev.pageY - offset.top;
@@ -64,8 +64,8 @@ $(function ()
 		positions[currentPolygon].X = [];
 		positions[currentPolygon].Y = [];
 		
-		$('.polygon_fill_' + currentPolygon, $('#hotspot_image')).remove();
-		$('.polygon_line_' + currentPolygon, $('#hotspot_image')).remove();
+		$('.polygon_fill_' + currentPolygon, $('#selected_image')).remove();
+		$('.polygon_line_' + currentPolygon, $('#selected_image')).remove();
 	}
 	
 	function resetPolygon(ev, ui)
@@ -186,8 +186,8 @@ $(function ()
 		processOptions();
 		
 		// Delete the hotspots visually on the image
-		$('.polygon_fill_' + id, $('#hotspot_image')).remove();
-		$('.polygon_line_' + id, $('#hotspot_image')).remove();
+		$('.polygon_fill_' + id, $('#selected_image')).remove();
+		$('.polygon_line_' + id, $('#selected_image')).remove();
 	}
 	
 	function addOption(ev, ui)
@@ -233,20 +233,21 @@ $(function ()
 	}
 	
 	function setHotspotImage(ev, ui)
-	{0
-		var learningObjectId = $(this).attr('id').replace('lo_', ''),
-			imageProperties;
-		$('input[name="image_object"]').val(learningObjectId);
+	{
+	    $('div.label', $('#selected_image').closest('div.row')).remove();
+	    $('div.formw', $('#selected_image').closest('div.row')).css('float', 'left').css('width', '100%');
+//		$('input[name="image_object"]').val(learningObjectId);
+//		
+//		imageProperties = doAjaxPost("./common/libraries/php/ajax/image_properties.php", { content_object: learningObjectId });
+//		imageProperties = eval('(' + imageProperties + ')');
+//		
+//		$('#hotspot_image').css('width', imageProperties.width + 'px');
+//		$('#hotspot_image').css('height', imageProperties.height + 'px');
+//		$('#hotspot_image').css('background-image', 'url(' + imageProperties.webPath + ')');
 		
-		imageProperties = doAjaxPost("./common/libraries/php/ajax/image_properties.php", { content_object: learningObjectId });
-		imageProperties = eval('(' + imageProperties + ')');
-		
-		$('#hotspot_image').css('width', imageProperties.width + 'px');
-		$('#hotspot_image').css('height', imageProperties.height + 'px');
-		$('#hotspot_image').css('background-image', 'url(' + imageProperties.webPath + ')');
-		
-		$('#hotspot_select').hide();
+//		$('#hotspot_select').hide();
 		$('#hotspot_options').show();
+		$('#hotspot_marking').show();
 	}
 	
 //	function resetImage(ev, ui)
@@ -261,46 +262,8 @@ $(function ()
 	{
 		// We've got JavaScript so we hide the warning message
 		$('#hotspot_javascript').hide();
-		$('#hotspot_select').show();
+		//$('#image_select').show();
 
-		// Initialize the uploadify plugin
-		$('#uploadify').uploadify ({
-			'uploader': getPath('WEB_PATH') + '/common/libraries/resources/images/' + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
-			'script': getPath('WEB_PATH') + 'common/libraries/php/ajax/upload_image.php',
-			'cancelImg': getPath('WEB_PATH') + '/common/libraries/resources/images/' + getTheme() + '/plugin/jquery/uploadify2/cancel.png',
-			'buttonText': getTranslation('Browse', 'repository').toUpperCase(),
-			'folder': 'not_important',
-			'auto': true,
-			'scriptData': {'owner': getMemory('_uid')},
-			onComplete: function (evt, queueID, fileObj, response, data)
-			{				
-				imageProperties = eval('(' + response + ')');
-				
-				$('input[name="image_object"]').val(imageProperties.id);
-				
-				$('#hotspot_image').css('width', imageProperties.width + 'px');
-				$('#hotspot_image').css('height', imageProperties.height + 'px');
-				$('#hotspot_image').css('background-image', 'url(' + imageProperties.webPath + ')');
-				
-				$('#hotspot_select').hide();
-				$('#hotspot_options').show();
-			}
-		});
-		
-		var value = $('input[name="image_object"]').val();
-		if(value != 'image_object')
-		{
-			imageProperties = doAjaxPost("./common/libraries/php/ajax/image_properties.php", { content_object: value });
-			imageProperties = eval('(' + imageProperties + ')');
-			
-			$('#hotspot_image').css('width', imageProperties.width + 'px');
-			$('#hotspot_image').css('height', imageProperties.height + 'px');
-			$('#hotspot_image').css('background-image', 'url(' + imageProperties.webPath + ')');
-			
-			$('#hotspot_select').hide();
-			$('#hotspot_options').show();
-		}
-		
 		// Initialize possible existing polygons
 		initializePolygons();
 		
@@ -309,17 +272,25 @@ $(function ()
 		$('input[name*="reset"]').live('click', resetPolygon);
 
 		// Bind clicks on the image
-		$('#hotspot_image').click(getCoordinates);
+		$('#selected_image').live('click', getCoordinates);
 		
 		// Bind actions to option management buttons
 		$('.remove_option').live('click', removeOption);
 		$('.add_option').live('click', addOption);
+		
+        var value = $('input[name="image"]').val();
+        if(value != '')
+        {
+            $('div.label', $('#selected_image').closest('div.row')).remove();
+            $('div.formw', $('#selected_image').closest('div.row')).css('float', 'left').css('width', '100%');
+        }
+        
+        $('input[name="image"]').change(function(){
+            setHotspotImage();
+        });
 
 		// Process image selection
-		$('.inactive_elements a:not(.disabled, .category)').live('click', setHotspotImage);
-		
-		// Allow selection of a different image
-//		$("#change_image").bind('click', resetImage);
+		$('.element_finder_inactive a:not(.disabled, .category)').live('click', setHotspotImage);
 	});
 
 });

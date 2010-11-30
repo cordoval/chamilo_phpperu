@@ -29,13 +29,6 @@ class MediamosaRestClient extends RestClient{
         parent::__construct();
 
         $this->mediamosa_url = $mediamosa_url;
-
-        //check if connector cookie is set
-        $cookie = new Cookie();
-        if($the_cookie = $cookie->retrieve(self :: PARAM_CONNECTOR_COOKIE))
-        {
-            $this->set_connector_cookie($the_cookie);
-        }
     }
 
     /*
@@ -90,8 +83,6 @@ class MediamosaRestClient extends RestClient{
     private function set_connector_cookie($name, $value)
     {
         $this->connector_cookie = array('name' => $name, 'value' => $value);
-        $cookie = new Cookie();
-        $cookie->register(self :: PARAM_CONNECTOR_COOKIE, $this->connector_cookie); //expire
     }
 
     /*
@@ -105,17 +96,7 @@ class MediamosaRestClient extends RestClient{
         {
             return $this->connector_cookie;
         }
-        else
-        {
-            $cookie = new Cookie();
-            $tmp_cookie = $cookie->retrieve(self :: PARAM_CONNECTOR_COOKIE);
-
-            if($tmp_cookie)
-            {
-                $this->connector_cookie = $tmp_cookie;
-                return $this->connector_cookie;
-            }
-        }
+        
         return false;
     }
 
@@ -154,6 +135,8 @@ class MediamosaRestClient extends RestClient{
      */
     function request($method, $url, $data = null)
     {
+        //echo $url . "<br/>";
+
         $this->set_http_method($method);
 
         $this->set_data_to_send('');

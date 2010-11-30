@@ -3,11 +3,11 @@
 	<settings>
 		<category name="general">
 			<setting name="last_time_archived" field="text" default="" locked="true"/>
-			<setting name="enable_tracking" field="checkbox" default="1">
-				<options type="static">
+			<setting name="enable_tracking" field="text" default="1" locked="true" />
+				<!--<options type="static">
 					<option name="enable_tracking" value="1" />
 				</options>
-			</setting>
+			</setting>-->
 		</category>
 	</settings>
 </application>

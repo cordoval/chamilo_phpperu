@@ -48,7 +48,7 @@ class AdminManagerImporterComponent extends AdminManager implements Administrati
     	{
 	    	$html[] = '<div class="vertical_action"' . ($count == 0 ? ' style="border-top: 0px solid #FAFCFC;"' : '') . '>';
 	        $html[] = '<div class="icon">';
-	        $html[] = '<a href="' . $link['url'] . '"><img src="' . Theme :: get_image_path() . 'browse_import.png" alt="' . $link['name'] . '" title="' . $link['name'] . '"/></a>';
+	        $html[] = '<a href="' . $link['url'] . '"><img src="' . Theme :: get_image_path() . 'admin/import.png" alt="' . $link['name'] . '" title="' . $link['name'] . '"/></a>';
 	        $html[] = '</div>';
 	        $html[] = '<div class="description">';
 	        $html[] = '<h4><a href="' . $link['url'] . '">' . $link['name'] . '</a></h4>';

@@ -1,8 +1,12 @@
 <?php
 namespace admin;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 /**
  * $Id: remote_package_browser_table_cell_renderer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.package_manager.component.remote_package_browser
@@ -58,8 +62,7 @@ class RemotePackageBrowserTableCellRenderer extends DefaultRemotePackageTableCel
     {
         $toolbar = new Toolbar();
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_install.png',
-					$this->browser->get_remote_package_installation_url($remote_package), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'action_install.png', $this->browser->get_remote_package_installation_url($remote_package), ToolbarItem :: DISPLAY_ICON));
 
         return $toolbar->as_html();
     }

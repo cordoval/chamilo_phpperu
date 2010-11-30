@@ -314,7 +314,8 @@ class Autoloader
                 'chamilo_test_suite' => 'test/chamilo_test_suite.class.php',
                 'file_logger' => 'filesystem/file_logger.class.php',
                 'timer' => 'datetime/timer.class.php',
-                'publication_r_s_s' => 'rss/publication_rss.class.php');
+                'publication_r_s_s' => 'rss/publication_rss.class.php',
+                'chamilo_rest_server' => 'webservice/rest/chamilo_rest_server.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

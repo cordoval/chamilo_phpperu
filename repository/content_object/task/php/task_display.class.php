@@ -21,7 +21,7 @@ class TaskDisplay extends ContentObjectDisplay
     {
         $description = parent :: get_description();
         $object = $this->get_content_object();
-        $date_format = Translation :: get('dateTimeFormatLong');
+        $date_format = Translation :: get('DateTimeFormatLong', null, Utilities :: COMMON_LIBRARIES);
 
         $prepend = array();
         $repeats = $object->repeats();

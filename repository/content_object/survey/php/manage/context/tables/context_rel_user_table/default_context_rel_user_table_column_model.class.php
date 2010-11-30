@@ -1,4 +1,11 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use user\UserDataManager;
+use user\User;
+
 
 class DefaultSurveyContextRelUserTableColumnModel extends ObjectTableColumnModel
 {

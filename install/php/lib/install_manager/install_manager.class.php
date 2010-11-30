@@ -93,25 +93,25 @@ class InstallManager extends CoreApplication
         $output[] = '<title>-- ' . $chamilo_version . ' Installation --</title>';
         $output[] = '<link rel="stylesheet" href="../common/libraries/resources/css/aqua/aqua.css" type="text/css"/>';
         $output[] = '<link rel="stylesheet" href="resources/css/aqua/aqua.css" type="text/css"/>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.min.js"></script>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.dimensions.min.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.min.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.dimensions.min.js"></script>';
 
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.tabula.js"></script>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.tablednd.js"></script>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.ui.min.js"></script>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.ui.tabs.paging.js"></script>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.simplemodal.js"></script>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.treeview.pack.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.tabula.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.tablednd.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.ui.min.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.ui.tabs.paging.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.simplemodal.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.treeview.pack.js"></script>';
 
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.treeview.async.js"></script>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.timeout.interval.idle.js"></script>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.mousewheel.min.js"></script>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.scrollable.pack.js"></script>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.xml2json.pack.js"></script>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.json.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.treeview.async.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.timeout.interval.idle.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.mousewheel.min.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.scrollable.pack.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.xml2json.pack.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.json.js"></script>';
 
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.iphone.checkboxes.js"></script>';
-        $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.textarearesizer.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.iphone.checkboxes.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/libraries/plugin/jquery/jquery.textarearesizer.js"></script>';
 
 
         $output[] = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';

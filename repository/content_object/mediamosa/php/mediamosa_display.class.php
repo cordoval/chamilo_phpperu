@@ -34,7 +34,7 @@ class MediamosaDisplay extends ContentObjectDisplay
 //        if(!$this->mediamosa_external_repository_connector)
 //        {
 //            $object = $this->get_content_object();
-//            $external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($object->get_server_id());
+//            $external_repository = RepositoryDataManager :: get_instance()->retrieve_external_instance($object->get_server_id());
 //            $this->mediamosa_external_repository_connector = MediamosaExternalRepositoryConnector :: get_instance($external_repository);
 //        }
 //

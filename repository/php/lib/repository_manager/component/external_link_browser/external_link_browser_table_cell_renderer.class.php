@@ -56,7 +56,7 @@ class ExternalLinkBrowserTableCellRenderer extends DefaultExternalLinkTableCellR
         $toolbar->add_item(new ToolbarItem(
         			Translation :: get('View', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_details.png',
-					$this->browser->get_external_repository_object_viewing_url($object),
+					$this->browser->get_external_instance_viewing_url($object),
 				 	ToolbarItem :: DISPLAY_ICON
 		));
         return $toolbar->as_html();

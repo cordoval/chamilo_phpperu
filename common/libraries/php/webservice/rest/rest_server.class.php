@@ -1,15 +1,13 @@
 <?php
+
+namespace common\libraries;
+
 class RestServer
 {
     const ACCEPTED_FORMAT_PLAIN = 'text/plain';
     const ACCEPTED_FORMAT_HTML = 'text/html; charset=UTF-8';
     const ACCEPTED_FORMAT_JSON = 'application/json';
     const ACCEPTED_FORMAT_XML = 'application/xml';
-
-    const FORMAT_PLAIN = 'plain';
-    const FORMAT_HTML = 'html';
-    const FORMAT_JSON = 'json';
-    const FORMAT_XML = 'xml';
 
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
@@ -20,16 +18,7 @@ class RestServer
     public $method;
     public $format;
     public $data;
-
-    function __construct()
-    {
-    }
-
-    function handle()
-    {
-        $this->process_request();
-    }
-
+    
     public function process_request()
     {
         $this->determine_path();
@@ -64,19 +53,19 @@ class RestServer
                 switch ($format)
                 {
                     case self :: ACCEPTED_FORMAT_HTML :
-                        $this->format = self :: FORMAT_HTML;
+                        $this->format = RestMessageRenderer :: FORMAT_HTML;
                         return;
                         break;
                     case self :: ACCEPTED_FORMAT_JSON :
-                        $this->format = self :: FORMAT_JSON;
+                        $this->format = RestMessageRenderer :: FORMAT_JSON;
                         return;
                         break;
                     case self :: ACCEPTED_FORMAT_XML :
-                        $this->format = self :: FORMAT_XML;
+                        $this->format = RestMessageRenderer :: FORMAT_XML;
                         return;
                         break;
                     case self :: ACCEPTED_FORMAT_PLAIN :
-                        $this->format = self :: FORMAT_PLAIN;
+                        $this->format = RestMessageRenderer :: FORMAT_PLAIN;
                         return;
                         break;
                 }
@@ -84,13 +73,13 @@ class RestServer
         }
 
         $extension_method = explode('.', $this->get_url());
-        if (count($extension_method) == 2 && in_array($extension_method[1], $this->get_formats()))
+        if (count($extension_method) == 2 && in_array($extension_method[1], RestMessageRenderer :: get_formats()))
         {
             $this->format = $extension_method[1];
         }
         else
         {
-            $this->format = self :: FORMAT_PLAIN;
+            $this->format = RestMessageRenderer :: FORMAT_HTML;
         }
     }
 
@@ -107,6 +96,7 @@ class RestServer
             case self :: METHOD_PUT :
                 parse_str(file_get_contents('php://input'), $_PUT);
                 $this->data = $_PUT;
+                break;
             case self :: METHOD_DELETE :
                 parse_str(file_get_contents('php://input'), $_DELETE);
                 $this->data = $_DELETE;
@@ -183,17 +173,7 @@ class RestServer
         return array(self :: ACCEPTED_FORMAT_JSON, self :: ACCEPTED_FORMAT_XML, self :: ACCEPTED_FORMAT_HTML, self :: ACCEPTED_FORMAT_PLAIN);
     }
 
-    public function get_formats()
-    {
-        return array(self :: FORMAT_JSON, self :: FORMAT_XML, self :: FORMAT_HTML, self :: FORMAT_PLAIN);
-    }
+    
 
 }
-
-// TEST SCRIPT
-//include_once ('../../global.inc.php');
-//
-//$rest_server = new RestServer();
-//$rest_server->handle();
-//dump($rest_server);
 ?>

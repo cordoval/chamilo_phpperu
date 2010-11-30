@@ -77,8 +77,8 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
 							</script>';
 
             $html[] = '<div style="text-align: right;">';
-            $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES ) . '</a>';
-            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnselectAll', null, Utilities :: COMMON_LIBRARIES ) . '</a><br />';
+            $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>';
+            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnselectAll', null, Utilities :: COMMON_LIBRARIES) . '</a><br />';
             $html[] = '<select id="tool_actions" name="' . $table_name . '_action_value">';
             foreach ($this->get_actions()->get_form_actions() as $form_action)
             {
@@ -87,7 +87,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             $html[] = '</select>';
             $html[] = '<input type="hidden" name="' . $table_name . '_action_name" value="' . $this->get_actions()->get_action() . '"/>';
             $html[] = '<input type="hidden" name="table_name" value="' . $table_name . '"/>';
-            $html[] = ' <input type="submit" value="' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES ) . '"/>';
+            $html[] = ' <input type="submit" value="' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES) . '"/>';
             $html[] = '</div>';
             $html[] = '</form>';
             $html[] = '</div>';
@@ -106,7 +106,8 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         }
         elseif (! is_array($selected_ids))
         {
-            $selected_ids = array($selected_ids);
+            $selected_ids = array(
+                    $selected_ids);
         }
         Request :: set_get(Tool :: PARAM_PUBLICATION_ID, $selected_ids);
     }
@@ -160,17 +161,21 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
                 $level = 'level_2';
                 break;
 
-     //case 2: $level = 'level_3'; break;
+        //case 2: $level = 'level_3'; break;
         //case 3: $level = 'level_4'; break;
         }
 
         if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
         {
-            $title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
+            $title_url = $this->get_url(array(
+                    Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
+                    Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
         }
         else
         {
-            $title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW), array(), true);
+            $title_url = $this->get_url(array(
+                    Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
+                    Tool :: PARAM_ACTION => Tool :: ACTION_VIEW), array(), true);
         }
 
         $html[] = '<div class="announcements ' . $level . '" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($publication->get_content_object()->get_type())) . 'logo/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';

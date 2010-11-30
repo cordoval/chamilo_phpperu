@@ -5,6 +5,11 @@ use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\Utilities;
 
+use repository\RepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
+
 class YoutubeExternalRepositoryManagerExternalSyncerComponent extends YoutubeExternalRepositoryManager
 {
 
@@ -19,9 +24,9 @@ class YoutubeExternalRepositoryManagerExternalSyncerComponent extends YoutubeExt
         $content_object = $synchronization_data->get_content_object();
 
         $values = array();
-        $values[ExternalRepository :: PROPERTY_ID] = $external_object->get_id();
-        $values[ExternalRepository :: PROPERTY_TITLE] = trim(html_entity_decode(strip_tags($content_object->get_title())));
-        $values[ExternalRepository :: PROPERTY_DESCRIPTION] = trim(html_entity_decode(strip_tags($content_object->get_description())));
+        $values[ExternalRepositoryObject :: PROPERTY_ID] = $external_object->get_id();
+        $values[ExternalRepositoryObject :: PROPERTY_TITLE] = trim(html_entity_decode(strip_tags($content_object->get_title())));
+        $values[ExternalRepositoryObject :: PROPERTY_DESCRIPTION] = trim(html_entity_decode(strip_tags($content_object->get_description())));
         $values[YoutubeExternalRepositoryObject :: PROPERTY_CATEGORY] = $external_object->get_category();
         $values[YoutubeExternalRepositoryObject :: PROPERTY_TAGS] = $external_object->get_tags();
 

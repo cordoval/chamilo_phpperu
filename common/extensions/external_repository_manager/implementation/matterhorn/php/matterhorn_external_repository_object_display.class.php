@@ -5,7 +5,7 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
 use common\extensions\external_repository_manager\StreamingMediaExternalRepositoryObjectDisplay;
@@ -45,7 +45,7 @@ class MatterhornExternalRepositoryObjectDisplay extends StreamingMediaExternalRe
     function get_preview($is_thumbnail = false)
     {
     	$object = $this->get_object();
-    	$settings = ExternalRepositorySetting :: get('url', $object->get_external_repository_id());
+    	$settings = ExternalSetting :: get('url', $object->get_external_repository_id());
 		
         $html = array();
 

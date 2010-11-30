@@ -49,14 +49,19 @@ class Feedback extends ContentObject implements Versionable, AttachmentSupport
         {
             case self :: ICON_THUMBS_UP :
                 $icon = 'thumbs_up';
+                break;
             case self :: ICON_THUMBS_DOWN :
                 $icon = 'thumbs_down';
+                break;
             case self :: ICON_RIGHT :
                 $icon = 'right';
+                break;
             case self :: ICON_WRONG :
                 $icon = 'wrong';
+                break;
             case self :: ICON_INFORMATIVE :
                 $icon = 'informative';
+                break;
         }
 
         return $size . '_' . $icon;

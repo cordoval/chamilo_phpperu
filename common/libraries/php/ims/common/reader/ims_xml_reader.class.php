@@ -8,6 +8,8 @@ use DOMCharacterData;
 use DOMElement;
 use DOMText;
 use DOMAttr;
+use DOMDocument;
+use DOMXPath;
 
 //require_once dirname(dirname(__FILE__)) .'/main.php';
 

@@ -8,7 +8,7 @@ class ExternalInstanceBrowserTableDataProvider extends ObjectTableDataProvider
 
     /**
      * Constructor
-     * @param ExternalRepositoryInstanceManager $browser
+     * @param ExternalInstanceManager $browser
      * @param Condition $condition
      */
     function __construct($browser, $condition)
@@ -25,12 +25,12 @@ class ExternalInstanceBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        return $this->get_browser()->retrieve_videos_conferencing($this->get_condition(), $offset, $count, $order_property);
+        return $this->get_browser()->retrieve_external_instances($this->get_condition(), $offset, $count, $order_property);
     }
 
     function get_object_count()
     {
-        return $this->get_browser()->count_videos_conferencing($this->get_condition());
+        return $this->get_browser()->count_external_instances($this->get_condition());
     }
 }
 ?>

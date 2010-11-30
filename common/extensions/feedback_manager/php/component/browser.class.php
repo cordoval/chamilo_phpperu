@@ -154,7 +154,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
     function render_create_action()
     {
         $create_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_CREATE_FEEDBACK));
-        $item = new ToolbarItem(Translation :: get('Create', array('OBJECT' => Translation :: get('Feedback')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_create.png', $create_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+        $item = new ToolbarItem(Translation :: get('AddFeedback', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_create.png', $create_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         $this->get_parent()->add_actionbar_item($item);
     }
 
@@ -171,7 +171,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
 
     function format_date($date)
     {
-        $date_format = Translation :: get('dateTimeFormatLong', null, Utilities :: COMMON_LIBRARIES);
+        $date_format = Translation :: get('DateTimeFormatLong', null, Utilities :: COMMON_LIBRARIES);
         return DatetimeUtilities :: format_locale_date($date_format, $date);
     }
 

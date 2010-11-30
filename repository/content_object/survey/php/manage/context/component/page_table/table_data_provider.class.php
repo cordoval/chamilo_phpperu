@@ -1,4 +1,10 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\ObjectTableDataProvider;
+use repository\RepositoryDataManager;
+use repository\content_object\survey_page\SurveyPage;
+
 
 class SurveyPageTableDataProvider extends ObjectTableDataProvider
 {

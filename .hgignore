@@ -111,3 +111,15 @@ syntax: regexp
 ^common/libraries/php/authentication/cas/cas_proxy\.php$
 syntax: regexp
 ^common/libraries/php/authentication/cas/cas_store_pgt\.php$
+syntax: regexp
+^repository/content_object/survey/php/template$
+syntax: regexp
+^repository/content_object/survey/php/context$
+syntax: regexp
+^repository/content_object/survey/php/template$
+syntax: regexp
+^repository/content_object/survey/php/template$
+syntax: regexp
+^repository/php/lib/content_object$
+syntax: regexp
+^repository/content_object/survey/php/template$

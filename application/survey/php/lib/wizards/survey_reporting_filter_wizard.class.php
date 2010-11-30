@@ -4,6 +4,12 @@ namespace application\survey;
 use repository\content_object\survey_description\SurveyDescription;
 use common\libraries\Path;
 use common\libraries\WizardPageValidator;
+use common\libraries\DynamicFormTabsRenderer;
+use common\libraries\DynamicFormTab;
+use common\libraries\Translation;
+use repository\content_object\survey\SurveyAnalyzer;
+use common\libraries\Request;
+
 
 require_once Path :: get_repository_content_object_path() . 'survey/php/analyzer/analyzer.class.php';
 

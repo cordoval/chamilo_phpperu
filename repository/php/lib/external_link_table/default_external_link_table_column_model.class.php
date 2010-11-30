@@ -31,9 +31,9 @@ class DefaultExternalLinkTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $columns = array();
-        $columns[] = new ObjectTableColumn(ExternalRepository :: PROPERTY_TYPE, false);
-        $columns[] = new ObjectTableColumn(ExternalRepository :: PROPERTY_TITLE, false);
-        $columns[] = new ObjectTableColumn(ExternalRepository :: PROPERTY_DESCRIPTION, false);
+        $columns[] = new ObjectTableColumn(ExternalInstance :: PROPERTY_TYPE, false);
+        $columns[] = new ObjectTableColumn(ExternalInstance :: PROPERTY_TITLE, false);
+        $columns[] = new ObjectTableColumn(ExternalInstance :: PROPERTY_DESCRIPTION, false);
         return $columns;
     }
 }

@@ -23,7 +23,7 @@ class ExternalInstanceBrowserTableCellRenderer extends DefaultExternalInstanceTa
 
     /**
      * Constructor
-     * @param ExternalRepositoryInstanceManager $browser
+     * @param ExternalInstanceManager $browser
      */
     function __construct($browser)
     {

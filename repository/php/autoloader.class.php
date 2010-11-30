@@ -57,8 +57,6 @@ class Autoloader
                 'content_object_import_form',
                 'content_object_include_parser',
                 'content_object_installer',
-                'content_object_metadata_catalog',
-                'content_object_metadata',
                 'content_object_pub_feedback',
                 'content_object_publication_attributes',
                 'content_object',
@@ -67,9 +65,6 @@ class Autoloader
         		'external_instance',
         		'external_setting',
         		'external_user_setting',
-                'external_repository',
-                'external_repository_setting',
-                'external_repository_user_setting',
                 'external_repository_sync_info',
                 'external_repository_sync',
                 'quota_manager',
@@ -99,12 +94,6 @@ class Autoloader
     static function check_for_form_files()
     {
         $list = array(
-                'external_repository_browser_form',
-                'external_repository_export_form',
-                'external_repository_object_browser_form',
-                'external_repository_import_form',
-                'metadata_lom_edit_form',
-                'metadata_lom_export_form',
                 'repository_filter_form',
                 'user_view_form',
                 'content_object_share_form');
@@ -161,18 +150,6 @@ class Autoloader
                 'repository_category' => 'category_manager/repository_category.class.php',
                 'content_object_export' => 'export/content_object_export.class.php',
                 'content_object_import' => 'import/content_object_import.class.php',
-                'metadata_mapper' => 'metadata/metadata_mapper.class.php',
-                'base_external_repository_connector' => 'export/external_export/base_external_repository_connector.class.php',
-                'rest_external_repository_connector' => 'export/external_export/rest_external_repository_connector.class.php',
-                'fedora_external_repository_connector' => 'export/external_export/fedora/fedora_external_repository_connector.class.php',
-                'repository_manager_external_repository_component' => 'repository_manager/component/external_repository_component.class.php',
-                'repository_manager_external_repository_browser_component' => 'repository_manager/component/external_repository_browser.class.php',
-                'repository_manager_external_repository_export_component' => 'repository_manager/component/external_repository_export.class.php',
-                'repository_manager_external_repository_import_component' => 'repository_manager/component/external_repository_import.class.php',
-                'repository_manager_external_repository_list_objects_component' => 'repository_manager/component/external_repository_list_objects.class.php',
-                'repository_manager_metadata_component' => 'repository_manager/component/metadata_component.class.php',
-                'external_repository_fedora' => 'external/external_repository_fedora.class.php',
-                'external_repository_google_docs' => 'external/external_repository_google_docs.class.php',
                 'repository_manager' => 'repository_manager/repository_manager.class.php',
                 'repository_manager_component' => 'repository_manager/repository_manager_component.class.php',
                 'repository_search_form' => 'repository_manager/repository_search_form.class.php',
@@ -181,8 +158,8 @@ class Autoloader
                 'default_content_object_table_cell_renderer' => 'content_object_table/default_content_object_table_cell_renderer.class.php',
                 'repository_block' => '../blocks/repository_block.class.php',
                 'database_repository_data_manager' => 'data_manager/database_repository_data_manager.class.php',
-                'external_repository_instance_manager' => 'external_repository_instance_manager/external_repository_instance_manager.class.php',
-        		'external_instance_manager' => 'external_instance_manager/external_instance_manager.class.php');
+                'external_instance_manager' => 'external_instance_manager/external_instance_manager.class.php',
+                'external_repository_user_quotum' => 'external_repository_user_quotum.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

@@ -14,6 +14,7 @@ use common\extensions\rights_editor_manager\RightsEditorManager;
  */
 class ExternalInstanceManagerRightsEditorComponent extends ExternalInstanceManager
 {
+
     /**
      * Runs this component and displays its output.
      */
@@ -24,10 +25,10 @@ class ExternalInstanceManagerRightsEditorComponent extends ExternalInstanceManag
 
         $locations = array();
 
-    	if(!$identifiers)
-		{
-        	$locations[] = RepositoryRights :: get_videos_conferencing_subtree_root();
-		}
+        if (! $identifiers)
+        {
+            $locations[] = RepositoryRights :: get_external_instances_subtree_root();
+        }
 
         if ($identifiers && ! is_array($identifiers))
         {
@@ -36,7 +37,7 @@ class ExternalInstanceManagerRightsEditorComponent extends ExternalInstanceManag
 
         foreach ($identifiers as $identifier)
         {
-        	$locations[] = RepositoryRights :: get_location_by_identifier_from_videos_conferencing_subtree($identifier);
+            $locations[] = RepositoryRights :: get_location_by_identifier_from_external_instances_subtree($identifier);
         }
 
         $manager = new RightsEditorManager($this, $locations);
@@ -46,7 +47,7 @@ class ExternalInstanceManagerRightsEditorComponent extends ExternalInstanceManag
 
     function get_available_rights()
     {
-		return RepositoryRights :: get_available_rights_for_external_repositories_substree();
+        return RepositoryRights :: get_available_rights_for_external_instances_substree();
     }
 
 }

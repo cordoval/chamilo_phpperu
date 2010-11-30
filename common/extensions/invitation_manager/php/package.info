@@ -13,6 +13,10 @@
 			</author>
 		</authors>
 		<version>1.0.0</version>
+		<cycle>
+			<phase>general_availability</phase>
+			<realm>main</realm>
+		</cycle>
 		<filename>pool/main/extension/i/invitation_manager/invitation_manager-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>

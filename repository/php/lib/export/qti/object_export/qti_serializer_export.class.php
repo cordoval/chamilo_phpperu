@@ -7,41 +7,44 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-class QtiSerializerExport extends QtiExport{
+class QtiSerializerExport extends QtiExport
+{
 
-	public static function factory($object, $directory, $manifest, $toc){
-    	if($serializer = QtiSerializerBase::factory($object, '', $directory, $manifest, $toc)){
-	        return new self($object, $serializer, $directory, $manifest, $toc);
-    	}else{
-    		return null;
-    	}
-	}
+    public static function factory($object, $directory, $manifest, $toc)
+    {
+        if ($serializer = QtiSerializerBase :: factory($object, '', $directory, $manifest, $toc))
+        {
+            return new self($object, $serializer, $directory, $manifest, $toc);
+        }
+        else
+        {
+            return null;
+        }
+    }
 
-	private $serializer = null;
+    private $serializer = null;
 
-	public function __construct($object, $serializer, $directory, $manifest, $toc){
-		parent::__construct($object, $directory, $manifest, $toc);
-		$this->serializer = $serializer;
-	}
+    public function __construct($object, $serializer, $directory, $manifest, $toc)
+    {
+        parent :: __construct($object, $directory, $manifest, $toc);
+        $this->serializer = $serializer;
+    }
 
-	public function get_serializer(){
-		return $this->serializer;
-	}
+    public function get_serializer()
+    {
+        return $this->serializer;
+    }
 
-    public function export_content_object(){
-    	$object = $this->get_content_object();
-    	$directory = $this->get_temp_directory();
-    	$manifest = $this->get_manifest();
-    	$toc = $this->get_toc();
-   		$serializer = $this->get_serializer();
-   		return $serializer->save($object, $directory, $manifest, $toc);
+    public function export_content_object()
+    {
+        $object = $this->get_content_object();
+        $directory = $this->get_temp_directory();
+        $manifest = $this->get_manifest();
+        $toc = $this->get_toc();
+        $serializer = $this->get_serializer();
+        return $serializer->save($object, $directory, $manifest, $toc);
     }
 
 }
-
-
-
-
-
 
 ?>

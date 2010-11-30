@@ -70,13 +70,13 @@ class FormValidatorTinymceHtmlEditorOptions extends FormValidatorHtmlEditorOptio
 	{
 	    parent :: set_defaults();
 
-	    $this->set_option(self :: OPTION_SCRIPT_URL, Path :: get(WEB_PATH) . 'plugin/html_editor/tinymce/tiny_mce.js');
+	    $this->set_option(self :: OPTION_SCRIPT_URL, Path :: get(WEB_PATH) . 'common/libraries/plugin/html_editor/tinymce/tiny_mce.js');
 	    $this->set_option(self :: OPTION_THEME, 'advanced');
 	    $this->set_option(self :: OPTION_TOOLBAR_LOCATION, 'top');
 	    $this->set_option(self :: OPTION_TOOLBAR_ALIGN, 'left');
 	    $this->set_option(self :: OPTION_BROWSER, 'myFileBrowser');
 	    $this->set_option(self :: OPTION_PLUGIN, 'template,media');
-	    $this->set_option(self :: OPTION_TEMPLATES, Path :: get(REL_PATH) . 'common/html/formvalidator/form_validator_html_editor_templates_instance.php');
+	    $this->set_option(self :: OPTION_TEMPLATES, Path :: get(REL_PATH) . 'common/libraries/php/html/formvalidator/form_validator_html_editor_templates_instance.php');
 
 	    $formats = $this->get_toolbar_format($this->get_option(self :: OPTION_TOOLBAR));
 	    foreach ($formats as $key => $format)

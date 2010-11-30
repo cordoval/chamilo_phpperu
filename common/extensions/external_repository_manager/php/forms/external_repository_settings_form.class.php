@@ -10,7 +10,7 @@ use DOMDocument;
 
 use repository\RepositoryDataManager;
 
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 
 /**
  * A form to configure external repository settings.
@@ -43,7 +43,7 @@ class ExternalRepositorySettingsForm extends FormValidator
 
         $this->configurer = $configurer;
         $this->is_user_setting_form = $is_user_setting_form;
-        $this->external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($external_repository_id);
+        $this->external_repository = RepositoryDataManager :: get_instance()->retrieve_external_instance($external_repository_id);
         $this->configuration = $this->parse_settings();
         $this->build_form();
         $this->setDefaults();
@@ -282,12 +282,12 @@ class ExternalRepositorySettingsForm extends FormValidator
             {
                 if ($setting['user_setting'] && $this->is_user_setting_form)
                 {
-                    $configuration_value = ExternalRepositoryUserSetting :: get($name, $this->configurer->get_external_repository()->get_id());
+                    $configuration_value = ExternalUserSetting :: get($name, $this->configurer->get_external_repository()->get_id());
                     //                    $configuration_value = LocalSetting :: get($name, $application);
                 }
                 else
                 {
-                    $configuration_value = ExternalRepositorySetting :: get($name, $this->configurer->get_external_repository()->get_id());
+                    $configuration_value = ExternalSetting :: get($name, $this->configurer->get_external_repository()->get_id());
                 }
 
                 if (isset($configuration_value))
@@ -321,8 +321,8 @@ class ExternalRepositorySettingsForm extends FormValidator
             {
                 if ($setting['locked'] != 'true')
                 {
-                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name($name, $external_repository->get_id());
-                    if ($setting instanceof ExternalRepositorySetting)
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name($name, $external_repository->get_id());
+                    if ($setting instanceof ExternalSetting)
                     {
                         if (isset($values[$name]))
                         {
@@ -340,7 +340,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                     }
                     else
                     {
-                        $setting = new ExternalRepositorySetting();
+                        $setting = new ExternalSetting();
                         $setting->set_external_repository_id($external_repository->get_id());
                         $setting->set_variable($name);
 

@@ -1,6 +1,14 @@
 <?php 
 namespace repository\content_object\survey;
 
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\DynamicTabsRenderer;
+
+
 require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/forms/template_form.class.php';
 require_once Path :: get_repository_content_object_path() . 'survey/php/survey_template.class.php';
 require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_template_viewer.class.php';

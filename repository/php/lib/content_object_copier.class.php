@@ -139,9 +139,10 @@ class ContentObjectCopier
         	}
         }
 
-        // Retrieve includes and attachments
+        // Retrieve includes, attachments and sync data
         $includes = $co->get_included_content_objects();
         $attachments = $co->get_attached_content_objects();
+        $synchronization_data = $co->get_synchronization_data();
 
         // Replace some properties
         $co->set_owner_id($this->target_repository);
@@ -179,9 +180,10 @@ class ContentObjectCopier
             $this->copy_complex_children($old_co_id, $co->get_id());
         }
 
-        // Process the included items and the attachments
+        // Process the included items, attachments and sync data
         $this->copy_includes($co, $includes);
         $this->copy_attachments($co, $attachments);
+        $this->copy_synchronization_data($co, $synchronization_data);
 
         // Process the physical files
         $this->copy_files($co, $old_user_id);
@@ -253,6 +255,21 @@ class ContentObjectCopier
             $object = $this->rdm->retrieve_content_object($attachment->get_id());
         	$new_attachment_id = $this->create_content_object($object);
             $co->attach_content_object($new_attachment_id);
+        }
+    }
+
+    /**
+     * Copy the synchronization data
+     *
+     * @param ContentObject $co
+     * @param ExternalRepositorySync
+     */
+    private function copy_synchronization_data($co, $synchonization_data)
+    {
+        if (!is_null($synchonization_data))
+        {
+            $synchonization_data->set_content_object_id($co->get_id());
+            $synchonization_data->create();
         }
     }
 
@@ -388,7 +405,7 @@ class ContentObjectCopier
         $pattern = '/core\.php\?go=document_downloader&display=1&object=[0-9]*&application=repository/';
         foreach ($fields as $field)
         {
-            $value = $co->get_default_property($field); dump($value);
+            $value = $co->get_default_property($field);
             $value = preg_replace_callback($pattern, array($this, 'fix_link_matches'), $value);
             $co->set_default_property($field, $value);
         }

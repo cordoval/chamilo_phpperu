@@ -109,7 +109,7 @@ use common\libraries\ArrayResultSet;
     function retrieve_full_context_links($condition = null, $offset = null, $count = null, $order_property = null, $array_type = self :: ARRAY_TYPE_FLAT)
     {
         //return ContextLinkerDataManager :: get_instance()->retrieve_full_context_links_recursive($condition, $offset, $count, $order_property, array(), $array_type);
-        return new ArrayResultSet(ContextLinkerDataManager :: get_instance()->retrieve_full_context_links_recursive($condition, $offset, $count, $order_property, array(), $array_type));
+        return new ArrayResultSet(ContextLinkerDataManager :: get_instance()->retrieve_full_context_links_recursive($condition, $offset, $count, $order_property,  $array_type));
     }
 
     function retrieve_context_link($id)

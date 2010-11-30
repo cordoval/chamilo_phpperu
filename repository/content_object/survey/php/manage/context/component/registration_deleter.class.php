@@ -1,4 +1,4 @@
-<?php namespace repository\content_object\survey;
+<?php 
 namespace repository\content_object\survey;
 
 use common\libraries\Translation;
@@ -16,7 +16,7 @@ class SurveyContextManagerRegistrationDeleterComponent extends SurveyContextMana
     {
         $ids = $_GET[SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID];
         $failures = 0;
-
+		        
         if (! empty($ids))
         {
             if (! is_array($ids))

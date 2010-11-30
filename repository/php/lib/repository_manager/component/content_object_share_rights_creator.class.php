@@ -44,7 +44,7 @@ class RepositoryManagerContentObjectShareRightsCreatorComponent extends Reposito
             {
                 $succes = $share_form->create_content_object_share();
                 $message = $succes ? Translation :: get('ObjectShared') : Translation :: get('ObjectNotShared', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
-                $this->redirect($message, ! $succes, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
+                $this->redirect($message, ! $succes, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS, RepositoryManager :: PARAM_SHARED_VIEW => RepositoryManager :: SHARED_VIEW_OWN_OBJECTS));
             }
             else
             {

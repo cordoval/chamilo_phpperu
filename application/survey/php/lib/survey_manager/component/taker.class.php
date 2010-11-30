@@ -4,7 +4,7 @@ namespace application\survey;
 use common\libraries\Path;
 use repository\content_object\survey\SurveyViewerWizard;
 use repository\content_object\survey\Survey;
-
+use repository\RepositoryDataManager;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Theme;
@@ -66,7 +66,7 @@ class SurveyManagerTakerComponent extends SurveyManager
         $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->invitee_id);
         $condition = new AndCondition($conditions);
         
-        $tracker_count = Tracker :: count_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
+        $tracker_count = Tracker :: count_data(SurveyParticipantTracker :: CLASS_NAME, SurveyManager :: APPLICATION_NAME, $condition);
         
         if ($tracker_count == 0)
         {
@@ -85,7 +85,7 @@ class SurveyManagerTakerComponent extends SurveyManager
         }
         else
         {
-            $this->participant_tracker = Tracker :: get_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition, 0, 1)->next_result();
+            $this->participant_tracker = Tracker :: get_data(SurveyParticipantTracker :: CLASS_NAME, SurveyManager :: APPLICATION_NAME, $condition, 0, 1)->next_result();
         }
     }
 
@@ -114,7 +114,7 @@ class SurveyManagerTakerComponent extends SurveyManager
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $complex_question_id);
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_PATH, $context_path);
         $condition = new AndCondition($conditions);
-        $tracker = $trackers = tracker :: get_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition, 0, 1)->next_result();
+        $tracker = $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: CLASS_NAME, SurveyManager :: APPLICATION_NAME, $condition, 0, 1)->next_result();
         
         if ($tracker)
         {
@@ -161,7 +161,8 @@ class SurveyManagerTakerComponent extends SurveyManager
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $complex_question_id);
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_PATH, $context_path);
         $condition = new AndCondition($conditions);
-        $tracker = $trackers = tracker :: get_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition, 0, 1)->next_result();
+             
+        $tracker = $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: CLASS_NAME, SurveyManager :: APPLICATION_NAME, $condition, 0, 1)->next_result();
         
         if ($tracker)
         {

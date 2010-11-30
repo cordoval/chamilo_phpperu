@@ -12,8 +12,8 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 
 use repository\RepositoryDataManager;
-use repository\ExternalRepositorySetting;
-use repository\ExternalRepositoryUserSetting;
+use repository\ExternalSetting;
+use repository\ExternalUserSetting;
 
 use php23;
 
@@ -59,12 +59,12 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
 
         parent :: __construct($external_repository_instance);
 
-        $this->key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
-        $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
+        $this->key = ExternalSetting :: get('key', $this->get_external_repository_instance_id());
+        $this->secret = ExternalSetting :: get('secret', $this->get_external_repository_instance_id());
         $this->hq23 = new php23($this->key, $this->secret);
         $uri = Redirect :: current_url();
 
-        $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
+        $session_token = ExternalUserSetting :: get('session_token', $this->get_external_repository_instance_id());
 
         if (! $session_token)
         {
@@ -89,8 +89,8 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
 
                 if ($token['token'])
                 {
-                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
-                    $user_setting = new ExternalRepositoryUserSetting();
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
+                    $user_setting = new ExternalUserSetting();
                     $user_setting->set_setting_id($setting->get_id());
                     $user_setting->set_user_id(Session :: get_user_id());
                     $user_setting->set_value($token['token']);

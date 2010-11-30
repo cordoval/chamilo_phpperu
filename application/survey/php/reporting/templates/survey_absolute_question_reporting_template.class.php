@@ -2,9 +2,11 @@
 namespace application\survey;
 
 use reporting\ReportingTemplate;
+use common\libraries\Request;
+use repository\content_object\survey\SurveyAnalyzer;
 
 //require_once PATH :: get_reporting_path() . '/lib/reporting_template.class.php';
-//require_once dirname(__FILE__) . '/../blocks/survey_question_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/survey_question_reporting_block.class.php';
 
 class SurveyAbsoluteQuestionReportingTemplate extends ReportingTemplate 
 {

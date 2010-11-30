@@ -3,6 +3,7 @@ namespace application\weblcms\tool\assessment;
 
 use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
+
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\FormValidator;
@@ -12,6 +13,8 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+
+use repository\ContentObjectImport;
 
 /**
  * $Id: assessment_qti_import.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -75,6 +78,7 @@ class AssessmentToolQtiImporterComponent extends AssessmentTool
 
         $importer = ContentObjectImport :: factory('qti', $file, $user, $category);
         $result = $importer->import_content_object();
+        var_dump($result);
         return $result->get_id();
     }
 

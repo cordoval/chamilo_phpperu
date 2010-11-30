@@ -77,7 +77,10 @@ class PackageInfo
     function get_package()
     {
         $package_info = $this->get_package_info();
+        $package_info['package']['authors'] = serialize($package_info['package']['authors']);
+        $package_info['package']['cycle'] = serialize($package_info['package']['cycle']);
         $package_info['package']['dependencies'] = serialize($package_info['package']['dependencies']);
+        $package_info['package']['extra'] = serialize($package_info['package']['extra']);
 
         $package = new RemotePackage();
         $package->set_default_properties($package_info['package']);

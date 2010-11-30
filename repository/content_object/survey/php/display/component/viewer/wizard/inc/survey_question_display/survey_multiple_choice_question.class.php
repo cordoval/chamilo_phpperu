@@ -1,8 +1,8 @@
 <?php namespace repository\content_object\survey;
-/**
- * $Id: survey_multiple_choice_question.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_display.survey.component.viewer.wizard.inc.question_display
- */
+
+use repository\content_object\survey_multiple_choice_question\SurveyMultipleChoiceQuestion;
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../survey_question_display.class.php';
 
 class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
@@ -37,7 +37,7 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
         {
             $group = array();
             
-            if ($type == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO)
+            if ($type == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_RADIO)
             {
                 $option_name = $question_id . '_0';
                 
@@ -56,7 +56,7 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
                 $group[] = $radio_button;
                 $group[] = $formvalidator->createElement('static', null, null, $option->get_value());
             }
-            elseif ($type == MultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
+            elseif ($type == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
             {
                 $option_name = $question_id . '_' . ($i);
                 
@@ -92,11 +92,11 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
         $question = $this->get_question();
         $type = $question->get_answer_type();
         
-        if ($type == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO && $question->has_description())
+        if ($type == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_RADIO && $question->has_description())
         {
             $title = Translation :: get('SelectYourChoice');
         }
-        elseif ($type == MultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX && $question->has_description())
+        elseif ($type == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX && $question->has_description())
         {
             $title = Translation :: get('SelectYourChoices');
         }

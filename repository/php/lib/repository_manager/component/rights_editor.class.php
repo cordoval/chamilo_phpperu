@@ -43,12 +43,12 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager implement
         			$locations[] = RepositoryRights :: get_content_objects_subtree_root();
         		}
         		break;
-        	case RepositoryRights :: TYPE_EXTERNAL_REPOSITORY:
-        		$tree = RepositoryRights :: TREE_TYPE_EXTERNAL_REPOSITORY;
+        	case RepositoryRights :: TYPE_EXTERNAL_INSTANCE:
+        		$tree = RepositoryRights :: TREE_TYPE_EXTERNAL_INSTANCE;
         		$tree_identifier = 0;
         		if(!$identifiers)
         		{
-        			$locations[] = RepositoryRights :: get_external_repositories_subtree_root();
+        			$locations[] = RepositoryRights :: get_external_instances_subtree_root();
         		}
         		break;
         	default:
@@ -88,7 +88,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager implement
         {
         	case RepositoryRights :: TREE_TYPE_CONTENT_OBJECT:
         		return RepositoryRights :: get_available_rights_for_content_object_subtree();
-        	case RepositoryRights :: TREE_TYPE_EXTERNAL_REPOSITORY:
+        	case RepositoryRights :: TREE_TYPE_EXTERNAL_INSTANCE:
         		return RepositoryRights :: get_available_rights_for_external_repositories_substree();
         	default:
         		return RepositoryRights :: get_available_rights_for_users_subtree();

@@ -8,7 +8,6 @@ use common\libraries\EqualityCondition;
 use common\libraries\Session;
 use common\libraries\AndCondition;
 use common\libraries\DataClass;
-use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 /**
  * $Id: external_repository_user_setting.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -36,7 +35,7 @@ class ExternalUserSetting extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_USER_ID, self :: PROPERTY_SETTING_ID, self :: PROPERTY_VALUE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID, self :: PROPERTY_SETTING_ID, self :: PROPERTY_VALUE));
     }
 
     /**
@@ -55,16 +54,6 @@ class ExternalUserSetting extends DataClass
     function set_user_id($user_id)
     {
         $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-    }
-    
-	function get_type()
-    {
-        return $this->get_default_property(self :: PROPERTY_TYPE);
-    }
-
-    function set_type($type)
-    {
-        $this->set_default_property(self :: PROPERTY_TYPE, $type);
     }
 
     function get_setting_id()

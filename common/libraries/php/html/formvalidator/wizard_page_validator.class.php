@@ -37,7 +37,7 @@ class WizardPageValidator extends FormValidator
      */
     function __construct($formName, $method = 'post', $action = '', $target = '', $attributes = null)
     {
-        $this->FormValidator($formName, $method, $action, $target, $attributes);
+        parent :: __construct($formName, $method, $action, $target, $attributes);
     }
 
     /**

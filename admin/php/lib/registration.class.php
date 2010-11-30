@@ -17,11 +17,13 @@ class Registration extends DataClass
     const CLASS_NAME = __CLASS__;
 
     const PROPERTY_TYPE = 'type';
+    const PROPERTY_CATEGORY = 'category';
     const PROPERTY_NAME = 'name';
     const PROPERTY_STATUS = 'status';
     const PROPERTY_VERSION = 'version';
 
     const TYPE_CONTENT_OBJECT = 'content_object';
+    const TYPE_CORE = 'core';
     const TYPE_APPLICATION = 'application';
     const TYPE_LANGUAGE = 'language';
     const TYPE_EXTENSION = 'extension';
@@ -37,7 +39,7 @@ class Registration extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_ID, self :: PROPERTY_TYPE, self :: PROPERTY_NAME, self :: PROPERTY_STATUS, self :: PROPERTY_VERSION));
+        return parent :: get_default_property_names(array(self :: PROPERTY_ID, self :: PROPERTY_TYPE, self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_STATUS, self :: PROPERTY_VERSION));
     }
 
     /**
@@ -55,6 +57,15 @@ class Registration extends DataClass
     function get_type()
     {
         return $this->get_default_property(self :: PROPERTY_TYPE);
+    }
+
+    /**
+     * Returns the category of this registration.
+     * @return string the category
+     */
+    function get_category()
+    {
+        return $this->get_default_property(self :: PROPERTY_CATEGORY);
     }
 
     /**
@@ -91,6 +102,15 @@ class Registration extends DataClass
     function set_type($type)
     {
         $this->set_default_property(self :: PROPERTY_TYPE, $type);
+    }
+
+    /**
+     * Sets the category of this registration.
+     * @param string $category the registration category.
+     */
+    function set_category($category)
+    {
+        $this->set_default_property(self :: PROPERTY_CATEGORY, $category);
     }
 
     /**
@@ -155,6 +175,7 @@ class Registration extends DataClass
         $conditions = array();
         $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $this->get_name());
         $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_SECTION, $this->get_type());
+        $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CATEGORY, $this->get_category());
         $condition = new AndCondition($conditions);
 
         $remote_package = $this->get_data_manager()->retrieve_remote_packages($condition, array(), null, 1);
@@ -196,7 +217,7 @@ class Registration extends DataClass
 
     static function get_types()
     {
-        return array(self :: TYPE_APPLICATION, self :: TYPE_CONTENT_OBJECT, self :: TYPE_LANGUAGE, self :: TYPE_EXTERNAL_REPOSITORY_MANAGER, self :: TYPE_VIDEO_CONFERENCING_MANAGER,self :: TYPE_EXTENSION);
+        return array(self :: TYPE_CORE, self :: TYPE_APPLICATION, self :: TYPE_CONTENT_OBJECT, self :: TYPE_LANGUAGE, self :: TYPE_EXTERNAL_REPOSITORY_MANAGER, self :: TYPE_VIDEO_CONFERENCING_MANAGER,self :: TYPE_EXTENSION);
     }
 }
 ?>

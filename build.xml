@@ -20,6 +20,7 @@
     <property name="phpunit-coverage-config-file" value="${test-dir}/phpunit-coverage.xml" />
     <property name="phpunit-config-file" value="${test-dir}/phpunit.xml" />
     <property name="pdepend-report-file" value="${build-logs-dir}/pdepend.xml" />
+    <property name="pdepend-summary-report-file" value="${build-logs-dir}/pdepend-summary.xml" />
 
 
     <!-- ============================================  -->
@@ -139,7 +140,7 @@
     <target name="pdepend" depends="setcommands, clean, prepare"  >
         <echo message="Computing dependency report" />
         <exec   dir="${basedir}"
-                command="${pdependCmd} --summary-xml=${pdepend-report-file} ${classes-dirs}"
+                command="${pdependCmd} --jdepend-xml=${pdepend-report-file} --summary-xml=${pdepend-summary-report-file} ${classes-dirs}"
                 checkreturn="true"
 		passthru="true"
         />
@@ -156,6 +157,11 @@
 		passthru="true"
         />
     </target>
+
+    <!-- ============================================  -->
+    <!-- Target: generate-report                       -->
+    <!-- ============================================  -->
+    <target name="generate-reports" depends="phpunit-coverage, pdepend, phpcb"  />
 
     <!-- ============================================  -->
     <!-- (DEFAULT)  Target: build                      -->

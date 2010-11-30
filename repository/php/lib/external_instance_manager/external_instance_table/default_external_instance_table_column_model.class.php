@@ -25,6 +25,7 @@ class DefaultExternalInstanceTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $columns = array();
+        $columns[] = new ObjectTableColumn(ExternalInstance :: PROPERTY_INSTANCE_TYPE);
         $columns[] = new ObjectTableColumn(ExternalInstance :: PROPERTY_TYPE);
         $columns[] = new ObjectTableColumn(ExternalInstance :: PROPERTY_TITLE);
         $columns[] = new ObjectTableColumn(ExternalInstance :: PROPERTY_DESCRIPTION);

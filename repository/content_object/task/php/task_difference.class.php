@@ -20,7 +20,7 @@ class TaskDifference extends ContentObjectDifference
 
     function get_difference()
     {
-        $date_format = Translation :: get('dateTimeFormatLong');
+        $date_format = Translation :: get('DateTimeFormatLong', null, Utilities :: COMMON_LIBRARIES);
 
         $object = $this->get_object();
         $version = $this->get_version();

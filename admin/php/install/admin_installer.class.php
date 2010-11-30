@@ -63,27 +63,6 @@ class AdminInstaller extends Installer
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('Extensions', null, ExternalRepositoryManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
         }
 
-        // Register the external repository manager implementations
-        if (! $this->register_external_repository_managers())
-        {
-            return false;
-        }
-        else
-        {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
-        }
-
-        // Register the video conferencing manager implementations
-        if (! $this->register_video_conferencing_managers())
-        {
-            return false;
-        }
-        else
-        {
-
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation :: get('VideosConferencing', null, VideoConferencingManager :: get_namespace())), Utilities :: COMMON_LIBRARIES));
-        }
-        
         return true;
     }
 
@@ -167,58 +146,13 @@ class AdminInstaller extends Installer
 
         foreach ($folders as $folder)
         {
+            $package_info = PackageInfo :: factory(Registration :: TYPE_EXTENSION, $folder);
+            $package_info = $package_info->get_package();
             $registration = new Registration();
             $registration->set_name($folder);
             $registration->set_type(Registration :: TYPE_EXTENSION);
-            $registration->set_version('1.0.0');
-            $registration->set_status(Registration :: STATUS_ACTIVE);
-            if (! $registration->create())
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * @return boolean
-     */
-    function register_external_repository_managers()
-    {
-        $external_repository_manager_path = Path :: get_common_extensions_path() . 'external_repository_manager/implementation/';
-        $folders = Filesystem :: get_directory_content($external_repository_manager_path, Filesystem :: LIST_DIRECTORIES, false);
-
-        foreach ($folders as $folder)
-        {
-            $registration = new Registration();
-            $registration->set_name($folder);
-            $registration->set_type(Registration :: TYPE_EXTERNAL_REPOSITORY_MANAGER);
-            $registration->set_version('1.0.0');
-            $registration->set_status(Registration :: STATUS_ACTIVE);
-            if (! $registration->create())
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-    
-	/**
-     * @return boolean
-     */
-    function register_video_conferencing_managers()
-    {
-        $video_conferencing_manager_path = Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/';
-        $folders = Filesystem :: get_directory_content($video_conferencing_manager_path, Filesystem :: LIST_DIRECTORIES, false);
-
-        foreach ($folders as $folder)
-        {
-            $registration = new Registration();
-            $registration->set_name($folder);
-            $registration->set_type(Registration :: TYPE_VIDEO_CONFERENCING_MANAGER);
-            $registration->set_version('1.0.0');
+            $registration->set_category($package_info->get_category());
+            $registration->set_version($package_info->get_version());
             $registration->set_status(Registration :: STATUS_ACTIVE);
             if (! $registration->create())
             {

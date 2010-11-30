@@ -2,8 +2,19 @@
 namespace repository\content_object\survey;
 
 use repository\DatabaseRepositoryDataManager;
+use user\UserDataManager;
+use user\User;
+use group\GroupDataManager;
+use group\Group;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
+use common\libraries\DataClass;
+use common\libraries\Utilities;
+use common\libraries\AndCondition;
+use common\libraries\InCondition;
+use repository\content_object\survey_page\SurveyPage;
+
+
 
 require_once (dirname(__FILE__) . '/../survey_context_template.class.php');
 require_once (dirname(__FILE__) . '/../survey_template.class.php');

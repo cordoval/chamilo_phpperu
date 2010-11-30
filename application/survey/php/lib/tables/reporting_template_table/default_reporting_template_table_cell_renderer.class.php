@@ -2,6 +2,7 @@
 namespace application\survey;
 
 use common\libraries\ObjectTableCellRenderer;
+use reporting\ReportingTemplateRegistration;
 
 class DefaultSurveyReportingTemplateTableCellRenderer extends ObjectTableCellRenderer
 {

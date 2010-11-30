@@ -34,7 +34,15 @@ class ImageContentObjectTableDataProvider extends ContentObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         $dm = RepositoryDataManager :: get_instance();
-        return $dm->retrieve_type_content_objects(Document :: get_type_name(), $this->get_condition(), $order_property, $offset, $count);
+
+        if (! $this->get_parent()->is_shared_object_browser())
+        {
+            return $dm->retrieve_type_content_objects(Document :: get_type_name(), $this->get_condition(), $order_property, $offset, $count);
+        }
+        else
+        {
+            return $dm->retrieve_shared_type_content_objects(Document :: get_type_name(), $this->get_condition(), $offset, $count, $order_property);
+        }
     }
 
     /*
@@ -43,7 +51,15 @@ class ImageContentObjectTableDataProvider extends ContentObjectTableDataProvider
     function get_object_count()
     {
         $dm = RepositoryDataManager :: get_instance();
-        return $dm->count_type_content_objects(Document :: get_type_name(), $this->get_condition());
+
+        if (! $this->get_parent()->is_shared_object_browser())
+        {
+            return $dm->count_type_content_objects(Document :: get_type_name(), $this->get_condition());
+        }
+        else
+        {
+            return $dm->count_shared_type_content_objects(Document :: get_type_name(), $this->get_condition());
+        }
     }
 
     function get_type_conditions()

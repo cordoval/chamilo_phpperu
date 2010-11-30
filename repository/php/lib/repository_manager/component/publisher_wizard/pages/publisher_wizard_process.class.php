@@ -103,6 +103,8 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
         $url = $this->parent->get_url(array(RepositoryManager :: PARAM_ACTION => null));
         echo '<a href="' . $url . '">' . Translation :: get('GoBack', null, Utilities :: COMMON_LIBRARIES) . '</a>';
 
+        $page->controller->container(true);
+
         // Display the page footer
         $this->parent->display_footer();
     }

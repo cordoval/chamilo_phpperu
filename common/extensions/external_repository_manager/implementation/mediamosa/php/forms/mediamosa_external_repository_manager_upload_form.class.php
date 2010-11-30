@@ -3,7 +3,7 @@ namespace common\extensions\external_repository_manager\implementation\mediamosa
 
 use common\libraries\Utilities;
 use common\libraries\FormValidator;
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -26,7 +26,7 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator
         $this->upload_ticket = $upload_ticket;
 
         $this->connector = $this->application->get_external_repository_connector();
-        $this->method = ExternalRepositorySetting :: get('upload_method', $this->connector->get_external_repository_instance_id());
+        $this->method = ExternalSetting :: get('upload_method', $this->connector->get_external_repository_instance_id());
 
         parent :: __construct('mediamosa_upload', $this->method, $this->upload_ticket['action']);
 
@@ -63,8 +63,8 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator
             /*$connector_cookie = $this->connector->get_connector_cookie();
             $this->addElement('hidden', $connector_cookie['name'],$connector_cookie['value']);
 
-            $link = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'plugin/jquery/uploadify2/jquery.uploadify.v2.1.0.min.js');
-            $link .= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'plugin/jquery/uploadify2/swfobject.js');
+            $link = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/libraries/plugin/jquery/uploadify2/jquery.uploadify.v2.1.0.min.js');
+            $link .= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/libraries/plugin/jquery/uploadify2/swfobject.js');
             $link .= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/external_repository_manager/type/mediamosa/javascript/handle_form.js');
             $this->addElement('static', 'uploadify', Translation :: get('UploadVideo'), $link . '<div id="uploadify"></div>');*/
 

@@ -7,7 +7,6 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\DataClass;
-use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 use DOMDocument;
 /**
@@ -17,13 +16,12 @@ use DOMDocument;
 class ExternalSetting extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
-    const PROPERTY_TYPE = 'type';
+
     const PROPERTY_EXTERNAL_ID = 'external_id';
     const PROPERTY_VARIABLE = 'variable';
     const PROPERTY_VALUE = 'value';
     const PROPERTY_USER_SETTING = 'user_setting';
-    
+
     /**
      * A static array containing all settings of external repository instances
      * @var array
@@ -39,7 +37,7 @@ class ExternalSetting extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_EXTERNAL_ID, self :: PROPERTY_VARIABLE, self :: PROPERTY_VALUE, self :: PROPERTY_USER_SETTING));
+        return parent :: get_default_property_names(array(self :: PROPERTY_EXTERNAL_ID, self :: PROPERTY_VARIABLE, self :: PROPERTY_VALUE, self :: PROPERTY_USER_SETTING));
     }
 
     /**
@@ -55,7 +53,7 @@ class ExternalSetting extends DataClass
      */
     function get_external_id()
     {
-        return $this->get_default_property(self :: PROPERTY_REPOSITORY_ID);
+        return $this->get_default_property(self :: PROPERTY_EXTERNAL_ID);
     }
 
     /**
@@ -120,16 +118,6 @@ class ExternalSetting extends DataClass
         $this->set_default_property(self :: PROPERTY_USER_SETTING, $user_setting);
     }
 
-    function get_type()
-    {
-        return $this->get_default_property(self :: PROPERTY_TYPE);
-    }
-
-    function set_type($type)
-    {
-        $this->set_default_property(self :: PROPERTY_TYPE, $type);
-    }
-
     /**
      * @return string
      */
@@ -143,23 +131,23 @@ class ExternalSetting extends DataClass
         return self :: CLASS_NAME;
     }
 
-    static function initialize(VideoConferencing $video_conferencing)
+    static function initialize(ExternalInstance $external_instance)
     {
-        $settings_file = Path :: get_common_extensions_path() . $video_conferencing->get_instance_type() . '/implementation/' . $video_conferencing->get_type() . '/php/settings/settings_' . $video_conferencing->get_type() . '.xml';
-        
+        $settings_file = Path :: get_common_extensions_path() . $external_instance->get_instance_type() . '/implementation/' . $external_instance->get_type() . '/php/settings/settings_' . $external_instance->get_type() . '.xml';
+
         $doc = new DOMDocument();
-        
+
         $doc->load($settings_file);
         $object = $doc->getElementsByTagname('application')->item(0);
         $settings = $doc->getElementsByTagname('setting');
-        
+
         foreach ($settings as $index => $setting)
         {
             $external_setting = new ExternalSetting();
-            $external_setting->set_external_id($video_conferencing->get_id());
+            $external_setting->set_external_id($external_instance->get_id());
             $external_setting->set_variable($setting->getAttribute('name'));
             $external_setting->set_value($setting->getAttribute('default'));
-            
+
             $user_setting = $setting->getAttribute('user_setting');
             if ($user_setting)
             {
@@ -169,13 +157,13 @@ class ExternalSetting extends DataClass
             {
                 $external_setting->set_user_setting(0);
             }
-            
+
             if (! $external_setting->create())
             {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -217,7 +205,7 @@ class ExternalSetting extends DataClass
         {
             self :: load($external_id);
         }
-        
+
         return (isset(self :: $settings[$external_id][$variable]) ? self :: $settings[$external_id][$variable] : null);
     }
 
@@ -227,7 +215,7 @@ class ExternalSetting extends DataClass
         {
             self :: load($external_id);
         }
-        
+
         return self :: $settings[$external_id];
     }
 
@@ -238,7 +226,7 @@ class ExternalSetting extends DataClass
     {
         $condition = new EqualityCondition(self :: PROPERTY_EXTERNAL_ID, $external_id);
         $settings = RepositoryDataManager :: get_instance()->retrieve_external_settings($condition);
-        
+
         while ($setting = $settings->next_result())
         {
             self :: $settings[$external_id][$setting->get_variable()] = $setting->get_value();

@@ -5,8 +5,8 @@ use common\libraries\Path;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_template.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/context_data_manager.class.php';
+require_once Path :: get_repository_content_object_path() . '/survey/php/survey_template.class.php';
+require_once Path :: get_repository_content_object_path() . '/survey/php/context_data_manager/context_data_manager.class.php';
 
 class DefaultSurveyTemplateTableColumnModel extends ObjectTableColumnModel
 {

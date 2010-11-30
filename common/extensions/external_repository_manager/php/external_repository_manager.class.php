@@ -43,7 +43,7 @@ abstract class ExternalRepositoryManager extends SubManager
     const DEFAULT_ACTION = self :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
 
     const PARAM_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
-    const PARAM_EXTERNAL_REPOSITORY = 'external_repository';
+    const PARAM_EXTERNAL_REPOSITORY = 'external_instance';
     const PARAM_QUERY = 'query';
     const PARAM_RENDERER = 'renderer';
     const PARAM_FOLDER = 'folder';
@@ -63,7 +63,7 @@ abstract class ExternalRepositoryManager extends SubManager
     function __construct($application)
     {
         parent :: __construct($application);
-        $this->external_repository = $application->get_external_repository();
+        $this->external_repository = $application->get_external_instance();
         $external_repository_manager_action = Request :: get(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
         if ($external_repository_manager_action)
         {
@@ -120,7 +120,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     static function launch($application)
     {
-    	$external_repository = $application->get_external_repository();
+    	$external_repository = $application->get_external_instance();
         $type = $external_repository->get_type();
 
         $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_external_repository_manager.class.php';

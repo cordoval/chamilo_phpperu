@@ -1,4 +1,24 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\Path;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicContentTab;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use common\libraries\AndCondition;
+use repository\ContentObject;
+
 
 require_once dirname(__FILE__) . '/template_table/table.class.php';
 require_once dirname(__FILE__) . '/survey_table/table.class.php';
@@ -125,5 +145,18 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
 
         return $action_bar;
     }
+    
+function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_TEMPLATE)), Translation :: get('BrowseContextTemplates')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewContextTemplate')));
+
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_CONTEXT_TEMPLATE_ID);
+    }
+    
 }
 ?>

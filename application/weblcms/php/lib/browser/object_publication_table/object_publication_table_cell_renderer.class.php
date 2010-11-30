@@ -11,6 +11,7 @@ use repository\DefaultContentObjectTableCellRenderer;
 use common\libraries\Translation;
 use common\libraries\ComplexContentObjectSupport;
 use common\libraries\Utilities;
+use admin\AdminDataManager;
 
 /**
  * $Id: object_publication_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -53,19 +54,52 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 
         switch ($column->get_name())
         {
+            case Translation :: get('Status', null, Utilities :: COMMON_LIBRARIES) :
+                $last_visit_date = $this->table_renderer->get_tool_browser()->get_last_visit_date();
+                $icon_suffix = '';
+                if ($publication->is_hidden())
+                {
+                    $icon_suffix = '_na';
+                }
+                else
+                {
+                    if ($publication->get_publication_date() >= $last_visit_date)
+                    {
+                        $icon_suffix = '_new';
+                    }
+                    else
+                    {
+                        $feedbacks = AdminDataManager :: get_instance()->retrieve_feedback_publications($publication->get_id(), null, WeblcmsManager :: APPLICATION_NAME);
+                        while ($feedback = $feedbacks->next_result())
+                        {
+                            if ($feedback->get_modification_date() >= $last_visit_date)
+                            {
+                                $icon_suffix = '_new';
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                return '<img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($publication->get_content_object()->get_type())) . 'logo/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png" />';
+                break;
             case ContentObject :: PROPERTY_TITLE :
 
                 if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
                 {
-                    $details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
+                    $details_url = $this->table_renderer->get_url(array(
+                            Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
+                            Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
                     return '<a href="' . $details_url . '">' . DefaultContentObjectTableCellRenderer :: render_cell($column, $publication->get_content_object()) . '</a>';
                 }
 
-                $details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
+                $details_url = $this->table_renderer->get_url(array(
+                        Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
+                        Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
                 return '<a href="' . $details_url . '">' . parent :: render_cell($column, $publication->get_content_object()) . '</a>';
                 break;
             case ContentObjectPublication :: PROPERTY_PUBLICATION_DATE :
-                $date_format = Translation :: get('DateTimeFormatLong', null ,Utilities:: COMMON_LIBRARIES);
+                $date_format = Translation :: get('DateTimeFormatLong', null, Utilities :: COMMON_LIBRARIES);
                 $data = DatetimeUtilities :: format_locale_date($date_format, $publication->get_publication_date());
                 break;
             case ContentObjectPublication :: PROPERTY_PUBLISHER_ID :
@@ -103,7 +137,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         }
         if ($publication->is_for_everybody())
         {
-            return htmlentities(Translation :: get('Everybody', null ,Utilities:: COMMON_LIBRARIES)) . $email_suffix;
+            return htmlentities(Translation :: get('Everybody', null, Utilities :: COMMON_LIBRARIES)) . $email_suffix;
         }
         else
         {

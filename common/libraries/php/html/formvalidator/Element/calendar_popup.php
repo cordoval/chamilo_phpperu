@@ -67,7 +67,7 @@ echo $iso_lang;
 /* ]]> */
 </script>
 <script type="text/javascript" src="tbl_change.js"></script>
-<script type="text/javascript" src="<?php  echo Path :: get(WEB_PATH); ?>plugin/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="<?php  echo Path :: get(WEB_PATH); ?>common/libraries/plugin/jquery/jquery.min.js"></script>
 <script type="text/javascript">
 /* <![CDATA[ */
 var month_names = new Array(

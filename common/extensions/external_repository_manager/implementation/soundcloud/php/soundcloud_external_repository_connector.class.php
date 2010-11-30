@@ -10,8 +10,8 @@ use common\libraries\ActionBarSearchForm;
 use common\libraries\ArrayResultSet;
 use common\libraries\Session;
 
-use repository\ExternalRepositoryUserSetting;
-use repository\ExternalRepositorySetting;
+use repository\ExternalUserSetting;
+use repository\ExternalSetting;
 use repository\RepositoryDataManager;
 
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
@@ -66,13 +66,13 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         parent :: __construct($external_repository_instance);
 
-        $this->key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
-        $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
+        $this->key = ExternalSetting :: get('key', $this->get_external_repository_instance_id());
+        $this->secret = ExternalSetting :: get('secret', $this->get_external_repository_instance_id());
 
         $this->soundcloud = new Soundcloud($this->key, $this->secret);
 
-        $outh_token = ExternalRepositoryUserSetting :: get('oauth_token', $this->get_external_repository_instance_id());
-        $outh_token_secret = ExternalRepositoryUserSetting :: get('oauth_token_secret', $this->get_external_repository_instance_id());
+        $outh_token = ExternalUserSetting :: get('oauth_token', $this->get_external_repository_instance_id());
+        $outh_token_secret = ExternalUserSetting :: get('oauth_token_secret', $this->get_external_repository_instance_id());
 
         if (! $outh_token || ! $outh_token_secret)
         {
@@ -98,15 +98,15 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
 
                 if ($access_token)
                 {
-                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token', $this->get_external_repository_instance_id());
-                    $user_setting = new ExternalRepositoryUserSetting();
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name('oauth_token', $this->get_external_repository_instance_id());
+                    $user_setting = new ExternalUserSetting();
                     $user_setting->set_setting_id($setting->get_id());
                     $user_setting->set_user_id(Session :: get_user_id());
                     $user_setting->set_value($access_token['oauth_token']);
                     $user_setting->create();
 
-                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token_secret', $this->get_external_repository_instance_id());
-                    $user_setting = new ExternalRepositoryUserSetting();
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name('oauth_token_secret', $this->get_external_repository_instance_id());
+                    $user_setting = new ExternalUserSetting();
                     $user_setting->set_setting_id($setting->get_id());
                     $user_setting->set_user_id(Session :: get_user_id());
                     $user_setting->set_value($access_token['oauth_token_secret']);

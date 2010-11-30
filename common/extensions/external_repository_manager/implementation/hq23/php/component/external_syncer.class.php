@@ -1,8 +1,9 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
 
-use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use repository\RepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 
 use common\libraries\Translation;
@@ -22,9 +23,9 @@ class Hq23ExternalRepositoryManagerExternalSyncerComponent extends Hq23ExternalR
         $content_object = $synchronization_data->get_content_object();
 
         $values = array();
-        $values[ExternalRepository :: PROPERTY_ID] = $external_object->get_id();
-        $values[ExternalRepository :: PROPERTY_TITLE] = trim(html_entity_decode(strip_tags($content_object->get_title())));
-        $values[ExternalRepository :: PROPERTY_DESCRIPTION] = trim(html_entity_decode(strip_tags($content_object->get_description())));
+        $values[ExternalRepositoryObject :: PROPERTY_ID] = $external_object->get_id();
+        $values[ExternalRepositoryObject :: PROPERTY_TITLE] = trim(html_entity_decode(strip_tags($content_object->get_title())));
+        $values[ExternalRepositoryObject :: PROPERTY_DESCRIPTION] = trim(html_entity_decode(strip_tags($content_object->get_description())));
         $values[Hq23ExternalRepositoryObject :: PROPERTY_TAGS] = $external_object->get_tags_string(false);
 
         if ($this->get_external_repository_connector()->update_external_repository_object($values))

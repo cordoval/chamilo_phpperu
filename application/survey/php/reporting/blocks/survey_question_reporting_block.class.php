@@ -1,11 +1,11 @@
 <?php 
 namespace application\survey;
 
-//require_once dirname(__FILE__) . '/../survey_reporting_block.class.php';
-//require_once dirname(__FILE__) . '/../../survey_manager/survey_manager.class.php';
-//require_once (dirname(__FILE__) . '/../../trackers/survey_question_answer_tracker.class.php');
-//require_once (dirname(__FILE__) . '/../../trackers/survey_participant_tracker.class.php');
-//require_once Path :: get_repository_path() . 'lib/content_object/survey/analyzer/analyzer.class.php';
+use repository\RepositoryDataManager;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use tracking\Tracker;
+use repository\content_object\survey\SurveyAnalyzer;
 
 class SurveyQuestionReportingBlock extends SurveyReportingBlock
 {
@@ -59,7 +59,7 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_PUBLICATION_ID, $this->publication_id);
         $condition = new AndCondition($conditions);
         
-        $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
+        $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: CLASS_NAME, SurveyManager :: APPLICATION_NAME, $condition);
         
         $answers = array();
         

@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\ImsQtiWriter;
+use common\libraries\Qti;
+use common\libraries\Translation;
 /**
  * Base class for question serializers.
  *

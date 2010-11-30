@@ -5,7 +5,7 @@ use common\libraries\Path;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 
 use repository\content_object\document\Document;
 
@@ -56,8 +56,8 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
      */
     function validate_settings($external_repository)
     {
-        //        $login = ExternalRepositorySetting:: get('login');
-        //        $password = ExternalRepositorySetting:: get('password');
+        //        $login = ExternalSetting:: get('login');
+        //        $password = ExternalSetting:: get('password');
         //
         //        if (! $login || ! $password)
         //		{
@@ -112,7 +112,7 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
 
-        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all($this->get_external_repository()->get_id())) > 0);
+        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalSetting :: get_all($this->get_external_repository()->get_id())) > 0);
 
         if ($is_platform)
         {
