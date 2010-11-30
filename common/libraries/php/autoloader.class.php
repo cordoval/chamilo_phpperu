@@ -62,6 +62,27 @@ class Autoloader
             return true;
         }
 
+        if (self :: check_for_database_files())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    static function check_for_database_files()
+    {
+        $list = array(
+            'result_set',
+        );
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
+
+        if (in_array($lower_case, $list))
+        {
+            require_once dirname(__FILE__) . '/database/' . $lower_case . '.class.php';
+            return true;
+        }
+
         return false;
     }
 
@@ -315,7 +336,8 @@ class Autoloader
                 'file_logger' => 'filesystem/file_logger.class.php',
                 'timer' => 'datetime/timer.class.php',
                 'publication_r_s_s' => 'rss/publication_rss.class.php',
-                'chamilo_rest_server' => 'webservice/rest/chamilo_rest_server.class.php');
+                'chamilo_rest_server' => 'webservice/rest/chamilo_rest_server.class.php',
+                'webservice_authentication' => 'webservice/authentication/webservice_authentication.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

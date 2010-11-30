@@ -6,7 +6,6 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
 
-require_once Path::get_repository_path () . 'lib/content_object/survey/survey_context_template.class.php';
 
 class SubscribeContextTemplateForm extends FormValidator
 {

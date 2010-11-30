@@ -586,7 +586,7 @@ class Document extends ContentObject implements Versionable
         $showable_types[] = 'TXT';
         $showable_types[] = 'PDF';
 
-        return $audio_types;
+        return $showable_types;
     }
 
     function send_as_download()
