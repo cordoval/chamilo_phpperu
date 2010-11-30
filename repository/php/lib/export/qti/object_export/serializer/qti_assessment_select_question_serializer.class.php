@@ -4,7 +4,7 @@ namespace repository;
 use repository\content_object\assessment_select_question\AssessmentSelectQuestion;
 use common\libraries\Path;
 
-require_once Path :: get_repository_content_object_path() . 'assessment_select_question/php/assessment_select_question_option.class.php';
+//require_once Path :: get_repository_content_object_path() . 'assessment_select_question/php/assessment_select_question_option.class.php';
 
 /**
  *

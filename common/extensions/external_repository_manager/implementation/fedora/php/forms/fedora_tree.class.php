@@ -1,13 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\fedora;
-/**
- * $Id: category_menu.class.php 191 2009-11-13 11:50:28Z chellee $
- * @package application.common.category_manager
- */
 use HTML_Menu;
 use HTML_Menu_ArrayRenderer;
 
+
 require_once dirname(__FILE__) . '/fedora_tree_menu_renderer.class.php';
+
+use HTML_Menu;
+use common\libraries\Utilities;
 
 /**
  * Tree with items collapsed by default.

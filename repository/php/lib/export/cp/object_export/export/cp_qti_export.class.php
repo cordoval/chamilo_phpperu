@@ -1,6 +1,11 @@
 <?php
 namespace repository;
 
+use repository\content_object\survey\Survey;
+use repository\content_object\assessment\Assessment;
+use repository\ContentObject;
+use common\libraries\Filesystem;
+
 /**
  * Qti Export. Delegate works to the QTI module.
  *
@@ -11,9 +16,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\survey\Survey;
-use repository\content_object\assessment\Assessment;
-
 class CpQtiExport extends CpObjectExport
 {
 

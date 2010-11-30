@@ -3,16 +3,16 @@ namespace common\libraries;
 
 /**
  * Ceo object's format. XML. One object per file.
- * 
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ *
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
  */
 class Ceo{
-	
+
 	public static function is_ceo_file($path, $n1 = 'http://www.chamilo.org/xsd/ceo_v1p0'){
 		if(strtolower(pathinfo($path, PATHINFO_EXTENSION)) != 'xml'){
 			return false;
@@ -37,14 +37,14 @@ class Ceo{
 				return true;
 			}
 		}
-		return false;	
+		return false;
 	}
-	
+
 	public static function is_ceo_content_object_file($path, $n1 = 'http://www.chamilo.org/xsd/ceo_v1p0'){
 		if(!self::is_ceo_file($path, $n1)){
 			return false;
 		}
-		
+
 		$reader = new ImscpObjectReader($path, false);
 		$type = strtolower($reader->get_objects()->get_object()->type);
 		return $type != 'course';
@@ -54,7 +54,7 @@ class Ceo{
 			if(!self::is_ceo_file($path, $n1)){
 			return false;
 		}
-		
+
 		$reader = new ImscpObjectReader($path, false);
 		$type = strtolower($reader->get_objects()->get_object()->type);
 		return $type == 'course';
@@ -62,12 +62,12 @@ class Ceo{
 
     public function get_format_name(){
     	return 'ceo';
-    } 
-    
+    }
+
     public function get_format_version(){
     	return '1.0';
     }
-    
+
     public function get_format_full_name(){
     	return 'ceo_v1p0';
     }

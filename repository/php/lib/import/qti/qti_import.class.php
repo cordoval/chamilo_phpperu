@@ -10,6 +10,14 @@ use common\libraries\BufferedObjectImport;
 
 require_once dirname(__FILE__) . '/main.php';
 
+/**
+ * Import questions from the IMS QTI format.
+ *
+ * @copyright (c) 2010 University of Geneva
+ * @license GNU General Public License
+ * @author laurent.opprecht@unige.ch
+ *
+ */
 class QtiImport extends ContentObjectImport
 {
 

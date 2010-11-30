@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use repository\ContentObject;
+use repository\content_object\ordering_question\OrderingQuestion;
+
 /**
  * Serializer for match questions.
  *
@@ -7,8 +11,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\ordering_question\OrderingQuestion;
-
 class QtiOrderingQuestionSerializer extends QtiQuestionSerializer
 {
 

@@ -150,8 +150,6 @@ class CpImportCourse extends CpObjectImportBase{
         $condition = new EqualityCondition(CourseType::PROPERTY_NAME, $item->name);
         if($type = CourseType::get_data_manager()->retrieve_object(CourseType::get_table_name(), $condition)){
         	$object->set_course_type_id($type->get_id());
-        }else{
-        	//@todo:create a new type?
         }
     }
 
@@ -239,10 +237,6 @@ class CpImportCourse extends CpObjectImportBase{
 		    	$pub->set_publication_date($time);
 		    	$pub->set_modified_date($time);
 		    	$pub->save();
-    		}else{
-    			//debug($item->get_current());
-    			//debug($co_settings);
-    			//die;
     		}
     	}
     }
@@ -359,50 +353,6 @@ class CpImportCourse extends CpObjectImportBase{
     	$result->save();
     	return $result;
     }
-
-
-    /*
-
-    protected function set_system_id($file_id, $system_id){
-    	$this->objects[$file_id] = $system_id;
-    	return $system_id;
-    }
-
-    protected function has_system_id($file_id){
-    	return isset($this->objects[$file_id]);
-    }
-
-    protected function get_system_id($file_id){
-    	if(isset($this->objects[$file_id])){
-    		return $this->objects[$file_id];
-    	}else{
-    		return 0;
-    	}
-    }
-
-    public function get_identifiers($item){
-    	$result = array();
-    	$ids = $item->get_identifiers()->list_identifier();
-    	foreach($ids as $id){
-    		$catalog = $id->catalog;
-    		$entry = $id->entry;
-    		$result[$catalog] = $entry;
-    	}
-    	return $result;
-    }
-
-    /*
-    protected function node_to_object($item){
-    	$result = $item->node_to_object($item);
-    	$result->general->created = $this->parse_date($result->general->created);
-    	$result->general->modified = $this->parse_date($result->general->modified);
-    	return $result;
-    }
-*/
-    /*
-    public static function retrieve_content_object($id){
-        return RepositoryDataManager :: get_instance()->retrieve_content_object($id);
-    }*/
 
 }
 

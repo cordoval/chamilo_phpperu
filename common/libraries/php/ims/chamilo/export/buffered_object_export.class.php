@@ -1,27 +1,29 @@
 <?php
 namespace common\libraries;
 
+use repository\CpExport;
+
 class BufferedObjectExport{
-	
+
 	private $export = null;
 	private $settings = null;
-	
+
 	public function __construct($settings, $export){
 		$this->settings = $settings;
 		$this->export = $export;
 	}
-	
+
 	public function get_export(){
 		return $this->export;
 	}
-	
+
 	/**
 	 * @return ObjectExportSettings
 	 */
 	public function get_settings(){
 		return $this->settings;
 	}
-	
+
 	public function export_content_object(){
 		$export = $this->get_export();
 		$settings = $this->get_settings();
@@ -38,15 +40,15 @@ class BufferedObjectExport{
 	    		return $result;
 	    	}else{
     			$object_name = CpExport::get_object_name($object);
-    			$message = Translation :: get('ObjectNotExported', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES). ': ' .$object_name;
+    			$message = Translation::translate('ContentObjectNotExported'). ': ' .$object_name;
     			$log = $settings->get_log();
 	    		$log->error($message);
 	    		return null;
 	    	}
     	}
 	}
-	
-	
+
+
 }
 
 

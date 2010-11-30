@@ -1,6 +1,12 @@
 <?php
 namespace repository;
 
+use repository\content_object\vimeo\Vimeo;
+use repository\content_object\dailymotion\Dailymotion;
+use repository\content_object\youtube\Youtube;
+use repository\ContentObject;
+use common\libraries\Filesystem;
+
 /**
  * Export streaming video clip objects.
  *
@@ -10,10 +16,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\vimeo\Vimeo;
-use repository\content_object\dailymotion\Dailymotion;
-use repository\content_object\youtube\Youtube;
-
 class CpStreamingExport extends CpObjectExport
 {
 

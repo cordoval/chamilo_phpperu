@@ -3,8 +3,9 @@ namespace repository;
 
 use repository\content_object\survey_matching_question\SurveyMatchingQuestion;
 use common\libraries\Path;
+use repository\ContentObject;
 
-require_once Path :: get_repository_content_object_path() . 'assessment_matching_question/php/assessment_matching_question_option.class.php';
+//require_once Path :: get_repository_content_object_path() . 'assessment_matching_question/php/assessment_matching_question_option.class.php';
 
 /**
  * Serializer for matching questions.

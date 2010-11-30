@@ -2,11 +2,11 @@
 namespace common\libraries;
 
 /**
- * Used to read a CEO object's file. 
- * 
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ * Used to read a CEO object's file.
+ *
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *

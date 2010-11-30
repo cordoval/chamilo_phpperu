@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use repository\content_object\survey_description\SurveyDescription;
+use repository\ContentObject;
+
 /**
  * Serializer for description "questions".
  *
@@ -7,8 +11,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\survey_description\SurveyDescription;
-
 class QtiSurveyDescriptionSerializer extends QtiQuestionSerializer
 {
 
