@@ -1,106 +1,130 @@
 <?php
 namespace test\acceptance;
 
-class TheCodeIsLoadableTest extends \PHPUnit_Framework_TestCase
+require_once __DIR__ . '/__file/RequirerTestCase.php';
+
+class TheCodeIsLoadableTest extends \PHPUnit_Framework_TestSuite
 {
 
-    private function checkAllClassesInside($path)
+    public static function suite()
+    {
+        return new self();
+    }
+
+    public function __construct()
+    {
+        parent:: __construct();
+        $this->addAdminClasses();
+        $this->addApplicationAppzClasses();
+        $this->addCommonClasses();
+        $this->addGroupCoreAppClasses();
+        $this->addHelpCoreAppClasses();
+        $this->addHomeCoreAppClasses();
+        $this->addInstallCoreAppClasses();
+        $this->addMenuCoreAppClasses();
+        $this->addMigrationCoreAppClasses();
+        $this->addReportingCoreAppClasses();
+        $this->addRepositoryCoreAppClasses();
+        $this->addRightsCoreAppClasses();
+        $this->addTrackingCoreAppClasses();
+        $this->addUserCoreAppClasses();
+        $this->addWebserviceCoreAppClasses();
+    }
+
+
+    private function addTestForAllClassesInside($path)
     {
         $directory = new \RecursiveDirectoryIterator($path);
         $iterator = new \RecursiveIteratorIterator($directory);
         $regex = new \RegexIterator($iterator, '/^.+\.class\.php$/i', \RecursiveRegexIterator::GET_MATCH);
 
 
-        $requirer_file = __DIR__ . '/__file/requirer.php';
         foreach ($regex as $matches)
         {
             $class_file = $matches[0];
-            $command_string = "php {$requirer_file} {$class_file} 2>&1";
-            $output_array = null;
-            $output_result;//255 is bad 0 is good
-            exec($command_string, $output_array, $output_result);
-            $this->assertEmpty($output_array, implode($output_array, "\n"));
+            $test = new RequirerTestCase($class_file);
+            $this->addTest($test);
         }
 
     }
 
-	public function test_loadAdminCoreApp() {
+	public function addAdminClasses() {
         $path =  __DIR__ . '/../../admin/';
-        $this->checkAllClassesInside($path);
+        $this->addTestForAllClassesInside($path);
 	}
 
-    public function test_loadApplicationAppz() {
+    public function addApplicationAppzClasses() {
         $path =  __DIR__ . '/../../application/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
-    public function test_loadCommon() {
+    public function addCommonClasses() {
         $path =  __DIR__ . '/../../common/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
-    public function test_loadGroupCoreApp() {
+    public function addGroupCoreAppClasses() {
         $path =  __DIR__ . '/../../group/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
 
-    public function test_loadHelpCoreApp() {
+    public function addHelpCoreAppClasses() {
         $path =  __DIR__ . '/../../help/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
 
-    public function test_loadHomeCoreApp() {
+    public function addHomeCoreAppClasses() {
         $path =  __DIR__ . '/../../install/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
 
-    public function test_loadInstallCoreApp() {
+    public function addInstallCoreAppClasses() {
         $path =  __DIR__ . '/../../group/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
 
-    public function test_loadMenuCoreApp() {
+    public function addMenuCoreAppClasses() {
         $path =  __DIR__ . '/../../menu/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
-    public function test_loadMigrationCoreApp() {
+    public function addMigrationCoreAppClasses() {
         $path =  __DIR__ . '/../../migration/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
-    public function test_loadReportingCoreApp() {
+    public function addReportingCoreAppClasses() {
         $path =  __DIR__ . '/../../reporting/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
-    public function test_loadRepositoryCoreApp() {
+    public function addRepositoryCoreAppClasses() {
         $path =  __DIR__ . '/../../repository/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
-    public function test_loadRightsCoreApp() {
+    public function addRightsCoreAppClasses() {
         $path =  __DIR__ . '/../../rights/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
-    public function test_loadTrackingCoreApp() {
+    public function addTrackingCoreAppClasses() {
         $path =  __DIR__ . '/../../tracking/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
-    public function test_loadUserCoreApp() {
+    public function addUserCoreAppClasses() {
         $path =  __DIR__ . '/../../user/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
-    public function test_loadWebserviceCoreApp() {
+    public function addWebserviceCoreAppClasses() {
         $path =  __DIR__ . '/../../webservice/';
-		$this->checkAllClassesInside($path);
+		$this->addTestForAllClassesInside($path);
 	}
 
 	

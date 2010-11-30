@@ -62,6 +62,27 @@ class Autoloader
             return true;
         }
 
+        if (self :: check_for_database_files())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    static function check_for_database_files()
+    {
+        $list = array(
+            'result_set' => 'result_set.class.php',
+        );
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
+
+        if (in_array($lower_case, $list))
+        {
+            require_once dirname(__FILE__) . '/database/' . $lower_case . '.class.php';
+            return true;
+        }
+
         return false;
     }
 
