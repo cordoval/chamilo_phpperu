@@ -61,6 +61,7 @@ class Autoloader
                 'content_object_publication_attributes',
                 'content_object',
                 'content_object_attachment',
+                'content_object_updater',
                 'difference_engine',
         		'external_instance',
         		'external_setting',
