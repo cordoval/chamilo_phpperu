@@ -73,7 +73,7 @@ class Autoloader
     static function check_for_database_files()
     {
         $list = array(
-            'result_set' => 'result_set.class.php',
+            'result_set',
         );
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

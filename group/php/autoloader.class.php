@@ -72,8 +72,11 @@ class Autoloader
     static function check_for_tables()
     {
         $list = array(
-                'group_browser_table' => 'group_browser/group_browser_table.class.php', 'group_rel_user_browser_table' => 'group_rel_user_browser/group_rel_user_browser_table.class.php',
-                'subscribe_user_browser_table' => 'subscribe_user_browser/subscribe_user_browser_table.class.php');
+                'group_browser_table' => 'group_browser/group_browser_table.class.php',
+                'group_rel_user_browser_table' => 'group_rel_user_browser/group_rel_user_browser_table.class.php',
+                'subscribe_user_browser_table' => 'subscribe_user_browser/subscribe_user_browser_table.class.php',
+
+            );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -89,7 +92,11 @@ class Autoloader
 
     static function check_for_special_files()
     {
-        $list = array('group_manager' => 'group_manager/group_manager.class.php', 'group_validator' => '../validator/group_validator.class.php', 'subscribe_wizard' => 'group_manager/component/wizards/subscribe_wizard.class.php');
+        $list = array(
+            'group_manager' => 'group_manager/group_manager.class.php',
+            'group_validator' => '../validator/group_validator.class.php',
+            'subscribe_wizard' => 'group_manager/component/wizards/subscribe_wizard.class.php',
+            'default_group_table_column_model' => 'group_table/default_group_table_column_model.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
