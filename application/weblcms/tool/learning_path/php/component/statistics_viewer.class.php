@@ -15,6 +15,8 @@ use common\libraries\Path;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use application\weblcms\WeblcmsLpAttemptTracker;
+use application\weblcms\WeblcmsLpiAttemptTracker;
 
 /**
  * $Id: learning_path_statistics_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
