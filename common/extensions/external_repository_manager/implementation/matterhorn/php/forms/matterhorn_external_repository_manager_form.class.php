@@ -113,7 +113,7 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
 
     function update_video_entry()
     {
-        $matterhorn = $this->application->get_external_repository_connector();
+        $matterhorn = $this->application->get_external_repository_manager_connector();
         $values = $this->exportValues();
 
         return $matterhorn->update_matterhorn_video($values);
@@ -124,7 +124,7 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
     {
         if (StringUtilities :: has_value(($_FILES['track']['name'])))
         {
-            return $this->application->get_external_repository_connector()->create_external_repository_object($this->exportValues(), $_FILES['track']['tmp_name']);
+            return $this->application->get_external_repository_manager_connector()->create_external_repository_object($this->exportValues(), $_FILES['track']['tmp_name']);
         }
         else
         {
@@ -136,7 +136,7 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
 //    {
 //        $values = $this->exportValues();
 //
-//        $connector = $this->application->get_external_repository_connector();
+//        $connector = $this->application->get_external_repository_manager_connector();
 //        return $connector->get_upload_token($values);
 //    }
 

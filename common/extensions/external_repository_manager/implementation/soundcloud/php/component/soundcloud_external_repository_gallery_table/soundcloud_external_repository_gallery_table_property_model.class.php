@@ -10,9 +10,9 @@ class SoundcloudExternalRepositoryGalleryTablePropertyModel extends DefaultExter
     {
         parent :: __construct();
 
-        $soundcloud_properties = SoundcloudExternalRepositoryConnector :: get_sort_properties();
+        $soundcloud_properties = SoundcloudExternalRepositoryManagerConnector :: get_sort_properties();
 
-        foreach (SoundcloudExternalRepositoryConnector :: get_sort_properties() as $property)
+        foreach (SoundcloudExternalRepositoryManagerConnector :: get_sort_properties() as $property)
         {
             $this->add_property(new GalleryObjectTableProperty($property));
         }

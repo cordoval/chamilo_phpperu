@@ -25,7 +25,7 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator
         $this->application = $application;
         $this->upload_ticket = $upload_ticket;
 
-        $this->connector = $this->application->get_external_repository_connector();
+        $this->connector = $this->application->get_external_repository_manager_connector();
         $this->method = ExternalSetting :: get('upload_method', $this->connector->get_external_repository_instance_id());
 
         parent :: __construct('mediamosa_upload', $this->method, $this->upload_ticket['action']);
@@ -58,7 +58,7 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator
         $this->addElement('hidden', 'create_still', 'TRUE');
         $this->addElement('file', 'file', sprintf(Translation :: get('FileName'), '2Gb'));
 
-        if ($this->method == MediamosaExternalRepositoryConnector :: METHOD_PUT)
+        if ($this->method == MediamosaExternalRepositoryManagerConnector :: METHOD_PUT)
         {
             /*$connector_cookie = $this->connector->get_connector_cookie();
             $this->addElement('hidden', $connector_cookie['name'],$connector_cookie['value']);

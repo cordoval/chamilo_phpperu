@@ -262,7 +262,7 @@ class ContentObjectCopier
      * Copy the synchronization data
      *
      * @param ContentObject $co
-     * @param ExternalRepositorySync
+     * @param ExternalSync
      */
     private function copy_synchronization_data($co, $synchonization_data)
     {

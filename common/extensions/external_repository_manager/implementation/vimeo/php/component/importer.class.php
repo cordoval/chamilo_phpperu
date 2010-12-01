@@ -14,7 +14,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use repository\ContentObject;
 use repository\content_object\document\Document;
 use repository\content_object\vimeo\Vimeo;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use repository\RepositoryManager;
 
 class VimeoExternalRepositoryManagerImporterComponent extends VimeoExternalRepositoryManager
@@ -34,7 +34,7 @@ class VimeoExternalRepositoryManagerImporterComponent extends VimeoExternalRepos
         
         if ($vimeo->create())
         {
-            ExternalRepositorySync :: quicksave($vimeo, $object, $this->get_external_repository()->get_id());
+            ExternalSync :: quicksave($vimeo, $object, $this->get_external()->get_id());
             
             $parameters = $this->get_parameters();
             $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;

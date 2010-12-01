@@ -1,0 +1,303 @@
+<?php
+namespace common\extensions\external_repository_manager\implementation\dropbox;
+
+use common\libraries\Redirect;
+
+use common\libraries\Request;
+use common\libraries\Path;
+use common\libraries\Session;
+use common\libraries\Utilities;
+use common\libraries\ArrayResultSet;
+use common\libraries\ActionBarSearchForm;
+
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+
+use repository\RepositoryDataManager;
+use repository\ExternalSetting;
+use repository\ExternalUserSetting;
+
+use Dropbox_OAuth_PEAR;
+use Dropbox_API;
+use HTTP_OAuth;
+require_once 'OAuth/Request.php';
+
+require_once Path :: get_plugin_path() . 'dropbox-api/API.php';
+require_once dirname(__FILE__) . '/dropbox_external_repository_object.class.php';
+
+
+class DropboxExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector
+{
+    private $dropbox;
+    private $consumer;
+    private $key;
+    private $secret;
+    private $tokens;
+    private $oauth;    
+
+    const SORT_DATE_CREATED = 'date-modified';    
+
+    function DropboxExternalRepositoryManagerConnector($external_repository_instance)
+    {
+        parent :: __construct($external_repository_instance);
+        
+        $this->key = ExternalSetting :: get('key', $this->get_external_repository_instance_id());
+        $this->secret = ExternalSetting :: get('secret', $this->get_external_repository_instance_id());
+        
+        $this->oauth = new Dropbox_OAuth_PEAR($this->key, $this->secret);
+        
+    	if (isset($_SESSION['state'])) {
+		    $state = $_SESSION['state'];
+		} else {
+		    $state = 1;
+		}
+		
+		switch($state) 
+		{
+			case 1 :
+		        $this->tokens = $this->oauth->getRequestToken();
+		        $url = $this->oauth->getAuthorizeUrl(Redirect:: current_url());		        
+		        $_SESSION['state'] = 2;
+		        $_SESSION['oauth_tokens'] = $this->tokens;
+		        header('Location: ' . $url);
+		        die();
+		    case 2 :
+		        $this->oauth->setToken($_SESSION['oauth_tokens']);
+		        $this->tokens = $this->oauth->getAccessToken();
+		        $_SESSION['state'] = 3;
+		        $_SESSION['oauth_tokens'] = $this->tokens;		
+		    case 3 :		    	
+		        $this->oauth->setToken($_SESSION['oauth_tokens']);		        
+		        break;
+		}   	 	
+		$this->dropbox = new Dropbox_API($this->oauth);	        
+	}      
+	
+    /**
+     * @return string
+     */
+    function retrieve_user_id()
+    {
+        if (! isset($this->user_id))
+        {
+            $hidden = $this->dropbox->prefs_getHidden();
+            $this->user_id = $hidden['nsid'];
+        }
+        return $this->user_id;
+    }
+
+    /**
+     * @param mixed $condition
+     * @param ObjectTableOrder $order_property
+     * @param int $offset
+     * @param int $count
+     * @return array
+     */
+    function retrieve_files($condition = null, $order_property, $offset, $count)
+    {    	
+        $folder = Request::get('folder');    	
+        $files = $this->dropbox->getMetaData('/'.$folder);
+        return $files;
+    }
+    
+	function retrieve_parent_folder($condition = null, $order_property, $offset, $count)
+    {    	
+        $files = $this->dropbox->getMetaData('/');    	
+        return $files;
+    }
+
+    /**
+     * @param mixed $condition
+     * @param ObjectTableOrder $order_property
+     * @param int $offset
+     * @param int $count
+     * @return ArrayResultSet
+     */
+    function retrieve_external_repository_objects($condition = null, $order_property, $offset, $count)
+    {
+        $files = $this->retrieve_files($condition, $order_property, $offset, $count);
+        
+        $objects = array();
+        
+        foreach ($files['contents'] as $file)
+        {
+            if($file['is_dir']!=1)
+            {
+            	$object = new DropboxExternalRepositoryObject();            
+            	$object->set_id(substr($file['path'], 1));
+            	$object->set_external_repository_id($this->get_external_repository_instance_id());
+            	$object->set_title(substr($file['path'], strripos($file['path'], '/')+1));
+            	$object->set_modified($file['modified']);
+            	$object->set_type($file['icon']);
+            	$object->set_description($file['size']);
+            	$object->set_rights($this->determine_rights());
+            	$objects[] = $object;
+            }	
+        }
+        return new ArrayResultSet($objects);
+    }
+    
+    function retrieve_folders($folder_url)
+    {
+    	$folders = array();
+    	$files = $this->retrieve_files($condition, $order_property, $offset, $count);
+    	
+    	$test = $this->retrieve_parent_folder($order_property, $offset, $count); 
+    	foreach ($test['contents'] as $file)
+        {
+        	if($file['is_dir'] == 1)            
+		    	if($files['path']!= '')
+		    	{
+		    		$folder[] = array();    	
+		        	$folder['title'] = substr($file['path'], strripos($file['path'], '/')+1);
+		        	$folder['url'] = str_replace('__PLACEHOLDER__', substr($file['path'], strripos($file['path'], '/')+1), $folder_url);
+		       		$folder['class'] = 'category';             	
+			        $folders[] = $folder;   	
+		    	}                
+        }   	
+    	
+        foreach ($files['contents'] as $file)
+        {
+            if($file['is_dir'] == 1)
+            {
+            	$folder[] = array();
+            	$folder['title'] = substr($file['path'], strripos($file['path'], '/')+1);
+            	$folder['url'] = str_replace('__PLACEHOLDER__', substr($file['path'], 1), $folder_url);            	
+            	$folder['class'] = 'category';             	
+            	$folders[] = $folder;   	
+            }            
+        }
+        return $folders;
+    }	
+
+    /**
+     * @param mixed $condition
+     * @return int
+     */
+    function count_external_repository_objects($condition)
+    {
+        $files = $this->retrieve_files($condition, $order_property, 1, 1);
+        return $files['total'];
+    }
+
+    /**
+     * @param string $query
+     * @return string
+     */
+    static function translate_search_query($query)
+    {
+        return $query;
+    }
+
+    /**
+     * @param ObjectTableOrder $order_properties
+     * @return string|null
+     */
+    function convert_order_property($order_properties)
+    {
+        if (count($order_properties) > 0)
+        {
+            $order_property = $order_properties[0]->get_property();
+            if ($order_property == self :: SORT_RELEVANCE)
+            {
+                return $order_property;
+            }
+            else
+            {
+                $sorting_direction = $order_properties[0]->get_direction();
+
+                if ($sorting_direction == SORT_ASC)
+                {
+                    return $order_property . '-asc';
+                }
+                elseif ($sorting_direction == SORT_DESC)
+                {
+                    return $order_property . '-desc';
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return array
+     */
+    static function get_sort_properties()
+    {
+        $feed_type = Request :: get(DropboxExternalRepositoryManager :: PARAM_FEED_TYPE);
+        $query = ActionBarSearchForm :: get_query();
+
+        if (($feed_type == DropboxExternalRepositoryManager :: FEED_TYPE_GENERAL && $query))
+        {
+            return array(self :: SORT_DATE_CREATED);
+        }
+        else
+        {
+            return array();
+        }
+
+    }
+
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManagerConnector#retrieve_external_repository_object()
+     */
+    function retrieve_external_repository_object($id)
+    {
+        $file = $this->dropbox->getMetaData('/'.$id);
+        
+    	$object = new DropboxExternalRepositoryObject();
+        $object->set_external_repository_id($this->get_external_repository_instance_id());
+        $object->set_id($id);
+        $object->set_title(substr($file['path'], 1));
+        $object->set_modified($file['modified']);
+        $object->set_type($file['icon']);
+        $object->set_description($file['size']);
+        $object->set_rights($this->determine_rights());        
+        return $object;
+    }    
+
+    function determine_rights()
+    {
+        $rights = array();
+        $rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = false;
+        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = true;
+        $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = true;
+        return $rights;
+    }
+
+    /**
+     * @param array $values
+     * @param string $file_path
+     * @return mixed
+     */
+    function create_external_repository_object($file, $file_path)
+    {
+        return $this->dropbox->putFile($file, $file_path);
+    }
+
+    /**
+     * @param ContentObject $content_object
+     * @return mixed
+     */
+    function export_external_repository_object($content_object)
+    {
+        return $this->dropbox->putFile($content_object->get_title(), $content_object->get_full_path());
+    }    
+
+    /**
+     * @param string $id
+     * @return mixed
+     */
+    function delete_external_repository_object($id)
+    {
+        return $this->dropbox->delete($id);
+    }	 
+
+    function download_external_repository_object($id)
+    {
+    	return $this->dropbox->getFile($id);
+    }
+}
+?>

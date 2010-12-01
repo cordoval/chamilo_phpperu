@@ -418,11 +418,11 @@ interface RepositoryDataManagerInterface
 
     function retrieve_last_post($forum_id);
 
-    function create_external_repository_sync_info($external_repository_sync_info);
+    function create_external_sync_info($external_sync_info);
 
-    function update_external_repository_sync_info($external_repository_sync_info);
+    function update_external_sync_info($external_sync_info);
 
-    function delete_external_repository_sync_info($external_repository_sync_info);
+    function delete_external_sync_info($external_sync_info);
 
     function retrieve_doubles_in_repository($condition, $order_property, $offset, $count);
 
