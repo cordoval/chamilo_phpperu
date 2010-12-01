@@ -109,7 +109,8 @@ class PersonalCalendarPublicationForm extends FormValidator
     {
         $shares = array();
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/xml_feeds/xml_user_group_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
+        echo $attributes['search_url'];
         $locale = array();
         $locale['Display'] = Translation :: get('ShareWith', null , Utilities :: COMMON_LIBRARIES);
         $locale['Searching'] = Translation :: get('Searching', null , Utilities :: COMMON_LIBRARIES);

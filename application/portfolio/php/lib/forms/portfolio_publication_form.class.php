@@ -252,7 +252,7 @@ class PortfolioPublicationForm extends FormValidator
     function build_system_defaults_form()
     {
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/xml_feeds/xml_user_group_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients', null, Utilities::COMMON_LIBRARIES);
         $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
