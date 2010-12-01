@@ -81,7 +81,7 @@ class WikiManagerWikiPublicationDeleterComponent extends WikiManager
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS));
+            $this->redirect($message, ($failures ? true : false), array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS));
         }
         else
         {
