@@ -19,13 +19,13 @@ use repository\ExternalInstance;
 use repository\ExternalRepositoryUserQuotum;
 
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 /**
  * $Id: user_quota_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms
  */
 require_once Path :: get_repository_path() . 'lib/external_repository_user_quotum.class.php';
-require_once Path :: get_common_extensions_path() . 'external_repository_manager/php/external_repository_connector.class.php';
+require_once Path :: get_common_extensions_path() . 'external_repository_manager/php/external_repository_manager_connector.class.php';
 
 class UserQuotaForm extends FormValidator
 {
@@ -146,7 +146,7 @@ class UserQuotaForm extends FormValidator
         {
             if ($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()] != $repository['settings']->get_value())
             {
-                $connector = ExternalRepositoryConnector :: get_instance($repository['data']);
+                $connector = ExternalRepositoryManagerConnector :: get_instance($repository['data']);
 
                 if ($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['data']->get_id()))
                 {

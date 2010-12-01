@@ -19,7 +19,7 @@ class Autoloader
             'external_repository_object' => 'external_repository_object.class.php',
             'external_repository_object_display' => 'external_repository_object_display.class.php',
             'external_repository_component' => 'external_repository_component.class.php',
-            'external_repository_connector' => 'external_repository_connector.class.php',
+            'external_repository_manager_connector' => 'external_repository_manager_connector.class.php',
             'external_repository_menu' => 'external_repository_menu.class.php',
             'external_repository_object_renderer' => 'external_repository_object_renderer.class.php',
             'default_external_repository_object_table_data_provider' => 'table/default_external_repository_object_table_data_provider.class.php',

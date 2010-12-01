@@ -23,7 +23,7 @@ class Youtube extends ContentObject implements Versionable
 
     function get_video_url()
     {
-        return sprintf(self :: YOUTUBE_PLAYER_URI, $this->get_synchronization_data()->get_external_repository_object_id());
+        return sprintf(self :: YOUTUBE_PLAYER_URI, $this->get_synchronization_data()->get_external_object_id());
     }
 }
 ?>

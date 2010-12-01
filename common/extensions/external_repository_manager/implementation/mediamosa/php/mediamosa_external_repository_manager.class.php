@@ -19,7 +19,7 @@ use common\libraries\Utilities;
  * @author jevdheyd
  */
 require_once dirname(__FILE__) . '/mediamosa_external_repository_object.class.php';
-require_once dirname(__FILE__) . '/mediamosa_external_repository_connector.class.php';
+require_once dirname(__FILE__) . '/mediamosa_external_repository_manager_connector.class.php';
 
 class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 {
@@ -74,7 +74,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function retrieve_external_repository_asset($asset_id)
     {
-        return $this->get_external_repository_connector()->retrieve_mediamosa_asset($id);
+        return $this->get_external_repository_manager_connector()->retrieve_mediamosa_asset($id);
     }
 
     function get_menu_items()

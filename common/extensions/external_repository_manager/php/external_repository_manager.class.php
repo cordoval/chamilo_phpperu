@@ -17,7 +17,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use repository\RepositoryManager;
 
 use admin\Registration;
@@ -94,11 +94,11 @@ abstract class ExternalRepositoryManager extends SubManager
     }
 
     /**
-     * @return ExternalRepositoryConnector
+     * @return ExternalRepositoryManagerConnector
      */
-    function get_external_repository_connector()
+    function get_external_repository_manager_connector()
     {
-        return ExternalRepositoryConnector :: get_instance($this->get_external_repository());
+        return ExternalRepositoryManagerConnector :: get_instance($this->get_external_repository());
     }
 
     function set_optional_parameters()
@@ -271,7 +271,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function count_external_repository_objects($condition)
     {
-        return $this->get_external_repository_connector()->count_external_repository_objects($condition);
+        return $this->get_external_repository_manager_connector()->count_external_repository_objects($condition);
     }
 
     /**
@@ -283,7 +283,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-        return $this->get_external_repository_connector()->retrieve_external_repository_objects($condition, $order_property, $offset, $count);
+        return $this->get_external_repository_manager_connector()->retrieve_external_repository_objects($condition, $order_property, $offset, $count);
     }
 
     /**
@@ -291,7 +291,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function initialize_external_repository(ExternalRepositoryManager $external_repository_manager)
     {
-        $this->get_external_repository_connector();
+        $this->get_external_repository_manager_connector();
     }
 
     /**
@@ -312,7 +312,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function translate_search_query($query)
     {
-        return $this->get_external_repository_connector()->translate_search_query($query);
+        return $this->get_external_repository_manager_connector()->translate_search_query($query);
     }
 
     /**
@@ -332,7 +332,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function retrieve_external_repository_object($id)
     {
-        return $this->get_external_repository_connector()->retrieve_external_repository_object($id);
+        return $this->get_external_repository_manager_connector()->retrieve_external_repository_object($id);
     }
 
     /**
@@ -341,7 +341,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function delete_external_repository_object($id)
     {
-        return $this->get_external_repository_connector()->delete_external_repository_object($id);
+        return $this->get_external_repository_manager_connector()->delete_external_repository_object($id);
     }
 
     /**
@@ -350,7 +350,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function export_external_repository_object($id)
     {
-        return $this->get_external_repository_connector()->export_external_repository_object($id);
+        return $this->get_external_repository_manager_connector()->export_external_repository_object($id);
     }
 
     /**
@@ -394,13 +394,13 @@ abstract class ExternalRepositoryManager extends SubManager
                 {
                     switch ($object->get_synchronization_status())
                     {
-                        case ExternalRepositorySync :: SYNC_STATUS_INTERNAL :
+                        case ExternalSync :: SYNC_STATUS_INTERNAL :
                             $toolbar_items[self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array(
                                     'OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(
                                     self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY,
                                     self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                             break;
-                        case ExternalRepositorySync :: SYNC_STATUS_EXTERNAL :
+                        case ExternalSync :: SYNC_STATUS_EXTERNAL :
                             if ($object->is_editable())
                             {
                                 $toolbar_items[self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array(
@@ -409,7 +409,7 @@ abstract class ExternalRepositoryManager extends SubManager
                                         self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                             }
                             break;
-                        case ExternalRepositorySync :: SYNC_STATUS_CONFLICT :
+                        case ExternalSync :: SYNC_STATUS_CONFLICT :
                             $toolbar_items[self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array(
                                     'OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(
                                     self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY,

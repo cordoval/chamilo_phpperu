@@ -61,7 +61,7 @@ class DropboxExternalRepositoryTableCellRenderer extends DefaultExternalReposito
     private function get_modification_links($external_repository_object)
     {
         $toolbar = new Toolbar();        
-        $toolbar->add_items($this->browser->get_external_repository_object_actions($external_repository_object));
+        $toolbar->add_items($this->browser->get_external_object_actions($external_repository_object));
         return $toolbar->as_html();
     }
 }

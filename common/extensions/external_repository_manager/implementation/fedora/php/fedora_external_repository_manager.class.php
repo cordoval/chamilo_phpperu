@@ -9,7 +9,7 @@ use repository\ExternalSetting;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
-require_once dirname(__FILE__) . '/fedora_external_repository_connector.class.php';
+require_once dirname(__FILE__) . '/fedora_external_repository_manager_connector.class.php';
 
 /**
  * Manager of the Fedora repository action.
@@ -80,7 +80,7 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_menu_items($parent = null)
     {
-        $connector = $this->get_external_repository_connector();
+        $connector = $this->get_external_repository_manager_connector();
         if (is_array($parent))
         {
             $result = array();
@@ -147,7 +147,7 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_api()
     {
-        $connector = $this->get_external_repository_connector();
+        $connector = $this->get_external_repository_manager_connector();
         $external_repository_id = $connector->get_external_repository_instance_id();
         return ExternalSetting :: get('Api', $external_repository_id);
     }

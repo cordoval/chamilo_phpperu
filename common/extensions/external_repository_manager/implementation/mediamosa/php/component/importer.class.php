@@ -3,7 +3,7 @@ namespace common\extensions\external_repository_manager\implementation\mediamosa
 
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 use repository\ContentObject;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use common\libraries\Application;
 use common\libraries\Translation;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
@@ -36,7 +36,7 @@ class MediamosaExternalRepositoryManagerImporterComponent extends MediamosaExter
 
             if ($streaming_video_clip->create())
             {
-                ExternalRepositorySync :: quicksave($streaming_video_clip, $object, $this->get_external_repository()->get_id());
+                ExternalSync :: quicksave($streaming_video_clip, $object, $this->get_external()->get_id());
                 $parameters = $this->get_parameters();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                 $this->redirect(Translation :: get('Succes', null, Utilities :: COMMON_LIBRARIES), false, $parameters, array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
