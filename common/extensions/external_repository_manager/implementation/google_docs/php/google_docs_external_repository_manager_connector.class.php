@@ -9,7 +9,7 @@ use common\libraries\Translation;
 use common\libraries\ArrayResultSet;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 
 use repository\ExternalUserSetting;
 use repository\RepositoryDataManager;
@@ -24,7 +24,7 @@ use \Zend_Gdata_App_Extension_Link;
 require_once dirname(__FILE__) . '/google_docs_external_repository_object.class.php';
 require_once dirname(__FILE__) . '/google_docs_external_repository_object_acl.class.php';
 
-class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
+class GoogleDocsExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector
 {
     /**
      * @var Zend_Gdata_Docs
@@ -200,7 +200,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
     }
 
     /* (non-PHPdoc)
-     * @see application/common/external_repository_manager/ExternalRepositoryConnector#count_external_repository_objects()
+     * @see application/common/external_repository_manager/ExternalRepositoryManagerConnector#count_external_repository_objects()
      */
     function count_external_repository_objects($condition)
     {
@@ -260,7 +260,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
     }
 
     /* (non-PHPdoc)
-     * @see application/common/external_repository_manager/ExternalRepositoryConnector#retrieve_external_repository_objects()
+     * @see application/common/external_repository_manager/ExternalRepositoryManagerConnector#retrieve_external_repository_objects()
      */
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {

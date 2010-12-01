@@ -7,7 +7,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Session;
 use common\libraries\AndCondition;
 use common\extensions\rights_editor_manager\RightsEditorManager;
-use common\extensions\external_repository_manager\implementation\mediamosa\MediamosaExternalRepositoryConnector;
+use common\extensions\external_repository_manager\implementation\mediamosa\MediamosaExternalRepositoryManagerConnector;
 use user\UserDataManager;
 use repository\ExternalSetting;
 use repository\RepositoryDataManager;
@@ -16,7 +16,7 @@ use rights\RightsDataManager;
 use rights\UserRightLocation;
 
 
-require_once Path :: get_common_extensions_path() . 'external_repository_manager/implementation/mediamosa/php/mediamosa_external_repository_connector.class.php';
+require_once Path :: get_common_extensions_path() . 'external_repository_manager/implementation/mediamosa/php/mediamosa_external_repository_manager_connector.class.php';
 
 class MediamosaRightsEditorManager extends RightsEditorManager
 {
@@ -63,7 +63,7 @@ class MediamosaRightsEditorManager extends RightsEditorManager
             $rdm = RightsDataManager :: get_instance();
 
             $external_repository = $sync->get_external();
-            $mmc = MediamosaExternalRepositoryConnector :: get_instance($external_repository);
+            $mmc = MediamosaExternalRepositoryManagerConnector :: get_instance($external_repository);
 
             $rights = array();
 

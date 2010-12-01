@@ -35,7 +35,7 @@ class FedoraExternalRepositoryObject extends ExternalRepositoryObject
 
 		$repository_id = $this->get_external_repository_id();
 		$repository = ExternalRepository::get_data_manager()->retrieve_content_object($repository_id);
-		$this->_connector = ExternalRepositoryConnector::get_instance($repository);
+		$this->_connector = ExternalRepositoryManagerConnector::get_instance($repository);
 		return $this->_connector;
 	}
 
@@ -124,7 +124,7 @@ class FedoraExternalRepositoryObject extends ExternalRepositoryObject
 		}
 
 		$external_repository = RepositoryDataManager :: get_instance()->retrieve_external_instance($this->get_external_repository_id());
-		return GoogleDocsExternalRepositoryConnector :: get_instance($external_repository)->download_external_repository_object($url);
+		return GoogleDocsExternalRepositoryManagerConnector :: get_instance($external_repository)->download_external_repository_object($url);
 	}
 
 	protected $metadata = false;

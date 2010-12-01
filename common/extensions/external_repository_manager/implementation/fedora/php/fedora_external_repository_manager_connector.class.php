@@ -15,7 +15,7 @@ use common\libraries\RestConfig;
 use common\libraries\ArrayResultSet;
 use common\libraries\Utilities;
 
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 
 use repository\ExternalSetting;
 use user\UserDataManager;
@@ -33,7 +33,7 @@ require_once Path :: get_common_libraries_path() . 'php/fedora/lib.php';
  * @author laurent.opprecht@unige.ch
  *
  */
-class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector
+class FedoraExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector
 {
 
     const DOCUMENTS_MY_STUFF = 'my_stuff';
@@ -199,7 +199,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector
             $path = dirname(__FILE__) . '/component/api/' . $api_name . '/fedora_' . $api_name . '_connector_extender.class.php';
             require_once $path;
 
-            $class = 'Fedora' . $api_name . 'ExternalRepositoryConnectorExtender';
+            $class = 'Fedora' . $api_name . 'ExternalRepositoryManagerConnectorExtender';
             return $this->_api = new $class($this);
         }
         else
@@ -403,7 +403,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector
     }
 
     /* (non-PHPdoc)
-	 * @see application/common/external_repository_manager/ExternalRepositoryConnector#count_external_repository_objects()
+	 * @see application/common/external_repository_manager/ExternalRepositoryManagerConnector#count_external_repository_objects()
 	 */
     function count_external_repository_objects($condition)
     {
@@ -438,7 +438,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector
     }
 
     /* (non-PHPdoc)
-	 * @see application/common/external_repository_manager/ExternalRepositoryConnector#retrieve_external_repository_objects()
+	 * @see application/common/external_repository_manager/ExternalRepositoryManagerConnector#retrieve_external_repository_objects()
 	 */
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {

@@ -10,7 +10,7 @@ use common\libraries\PlatformSetting;
 use common\libraries\ArrayResultSet;
 use common\libraries\Translation;
 
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use repository\ExternalUserSetting;
@@ -28,7 +28,7 @@ require_once Path :: get_plugin_path() . 'getid3/getid3.php';
 require_once dirname(__FILE__) . '/youtube_external_repository_manager.class.php';
 
 //YoutubeKey : AI39si4OLUsiI2mK0_k8HxqOtv0ctON-PzekhP_56JDkdph6wZ9tW2XqzDD7iVYY0GXKdMKlPSJyYZotNQGleVfRPDZih41Tug
-class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
+class YoutubeExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector
 {
     private $youtube;
 

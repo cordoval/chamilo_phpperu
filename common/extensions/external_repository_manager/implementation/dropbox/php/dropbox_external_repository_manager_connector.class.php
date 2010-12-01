@@ -10,7 +10,7 @@ use common\libraries\Utilities;
 use common\libraries\ArrayResultSet;
 use common\libraries\ActionBarSearchForm;
 
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use repository\RepositoryDataManager;
@@ -26,7 +26,7 @@ require_once Path :: get_plugin_path() . 'dropbox-api/API.php';
 require_once dirname(__FILE__) . '/dropbox_external_repository_object.class.php';
 
 
-class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
+class DropboxExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector
 {
     private $dropbox;
     private $consumer;
@@ -37,7 +37,7 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
 
     const SORT_DATE_CREATED = 'date-modified';    
 
-    function DropboxExternalRepositoryConnector($external_repository_instance)
+    function DropboxExternalRepositoryManagerConnector($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
         
@@ -240,7 +240,7 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
     }
 
     /* (non-PHPdoc)
-     * @see application/common/external_repository_manager/ExternalRepositoryConnector#retrieve_external_repository_object()
+     * @see application/common/external_repository_manager/ExternalRepositoryManagerConnector#retrieve_external_repository_object()
      */
     function retrieve_external_repository_object($id)
     {

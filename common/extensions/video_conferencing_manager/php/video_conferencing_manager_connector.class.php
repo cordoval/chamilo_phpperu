@@ -4,7 +4,7 @@ namespace common\extensions\video_conferencing_manager;
 use common\libraries\Utilities;
 use Exception;
 
-abstract class VideoConferencingConnector
+abstract class VideoConferencingManagerConnector
 {
 
     private static $instances = array();
@@ -45,27 +45,27 @@ abstract class VideoConferencingConnector
     
     /**
      * @param VideoConferencing $video_conferencing_instance
-     * @return VideoConferencingConnector
+     * @return VideoConferencingManagerConnector
      */
     static function factory($video_conferencing_instance)
     {
         $type = $video_conferencing_instance->get_type();
         
-        $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_video_conferencing_connector.class.php';
+        $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_video_conferencing_manager_connector.class.php';
         if (! file_exists($file))
         {
-            throw new Exception(Translation :: get('VideoConferencingConnectorTypeDoesNotExist', array('type' => $type)));
+            throw new Exception(Translation :: get('VideoConferencingManagerConnectorTypeDoesNotExist', array('type' => $type)));
         }
         
         require_once $file;
         
-        $class ='common\extensions\video_conferencing_manager\implementation\\' . $type .'\\'  . Utilities :: underscores_to_camelcase($type) . 'VideoConferencingConnector';
+        $class ='common\extensions\video_conferencing_manager\implementation\\' . $type .'\\'  . Utilities :: underscores_to_camelcase($type) . 'VideoConferencingManagerConnector';
         return new $class($video_conferencing_instance);
     }
     
     /**
      * @param VideoConferencing $video_conferencing_instance
-     * @return VideoConferencingConnector
+     * @return VideoConferencingManagerConnector
      */
     static function get_instance($video_conferencing_instance)
     {
@@ -81,6 +81,10 @@ abstract class VideoConferencingConnector
      */
     abstract function retrieve_video_conferencing_object($id);
 
+    function retrieve_external_object($id)
+    {
+    	return $this->retrieve_video_conferencing_object($id);
+    }
     /**
      * @param mixed $condition
      * @param ObjectTableOrder $order_property

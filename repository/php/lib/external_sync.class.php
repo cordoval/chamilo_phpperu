@@ -5,7 +5,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\StringUtilities;
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 
 /**
  * @author Hans De Bisschop
@@ -211,17 +211,8 @@ class ExternalSync extends RepositoryDataClass
         {
             $external_instance = $this->get_external();
             $type = $external_instance->get_instance_type();
-            switch ($type)
-            {
-                case 'external_repository_manager' :
-                    $class = ExternalInstanceManager :: get_namespace($type) . '\\ExternalRepositoryConnector';
-                    $this->external_object = $class :: get_connector()->retrieve_external_repository_object($this->get_external_object_id());
-                    break;
-                case 'video_conferencing_manager' :
-                    $class = ExternalInstanceManager :: get_namespace($type) . '\\VideoConferencingConnector';
-                    $this->external_object = $class :: get_connector()->retrieve_video_conferencing_object($this->get_external_object_id());
-                    break;
-            }            
+            $class = ExternalInstanceManager :: get_manager_connector_class($type);
+            $this->external_object = $class :: get_connector()->retrieve_external_object($this->get_external_object_id());         
         }
         return $this->external_object;
     }

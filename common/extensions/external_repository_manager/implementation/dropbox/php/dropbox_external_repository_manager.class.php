@@ -90,7 +90,7 @@ class DropboxExternalRepositoryManager extends ExternalRepositoryManager
         $general['class'] = 'home';
         $menu_items[] = $general;
 
-        $folders = $this->get_external_repository_connector()->retrieve_folders($this->get_url(array(self :: PARAM_FOLDER => '__PLACEHOLDER__')));
+        $folders = $this->get_external_repository_manager_connector()->retrieve_folders($this->get_url(array(self :: PARAM_FOLDER => '__PLACEHOLDER__')));
         $menu_items = array_merge($menu_items, $folders);
         return $menu_items;
     }

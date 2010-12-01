@@ -6,7 +6,7 @@ use common\libraries\ArrayResultSet;
 
 use repository\ExternalSetting;
 
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use DOMDocument;
@@ -26,7 +26,7 @@ require_once dirname(__FILE__) . '/webservices/matterhorn_rest_client.class.php'
  * Test login for Matterhorn : admin
  * Teste password for Matterhorn : opencast
  */
-class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
+class MatterhornExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector
 {
     private $matterhorn;
     private $login;

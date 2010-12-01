@@ -270,7 +270,7 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
     {
         if ($label = isset($data['title']) ? $data['title'] : false)
         {
-            $connector = $this->get_external_repository_connector();
+            $connector = $this->get_external_repository_manager_connector();
             $object = $connector->get_object_by_label($label);
             $data['pid'] = $object['pid'];
 
@@ -331,7 +331,7 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      */
     protected function send($data)
     {
-        $connector = $this->get_external_repository_connector();
+        $connector = $this->get_external_repository_manager_connector();
 
         $pid = isset($data['pid']) ? $data['pid'] : false;
         $isnew = empty($pid);

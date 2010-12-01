@@ -18,11 +18,11 @@ class MediamosaExternalRepositoryManagerConfigurerComponent extends MediamosaExt
         //check one asset (all have same aut_app settings)
         $ok = false;
 
-        $check_assets = $this->get_external_repository_connector()->retrieve_external_repository_objects('', '', '', 1);
+        $check_assets = $this->get_external_repository_manager_connector()->retrieve_external_repository_objects('', '', '', 1);
         $check_asset = $check_assets->next_result();
         $id = $check_asset->get_id();
         $owner = $check_asset->get_owner_id();
-        $acl = $this->get_external_repository_connector()->retrieve_mediamosa_asset_rights($id,$owner);
+        $acl = $this->get_external_repository_manager_connector()->retrieve_mediamosa_asset_rights($id,$owner);
 
         if(count($acl['aut_app'])){
 
@@ -48,7 +48,7 @@ class MediamosaExternalRepositoryManagerConfigurerComponent extends MediamosaExt
             //keep on iterating till all assets are covered
             $offset = 0;
             do{
-                if(!$assets = $this->get_external_repository_connector()->retrieve_external_repository_objects('', '', $offset, '', true))
+                if(!$assets = $this->get_external_repository_manager_connector()->retrieve_external_repository_objects('', '', $offset, '', true))
                 {
                     $this->redirect(Translation :: get('SlaveAppIdsNotUpdated'), true);
                 }

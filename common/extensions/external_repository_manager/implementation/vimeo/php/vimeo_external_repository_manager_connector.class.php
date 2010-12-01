@@ -14,7 +14,7 @@ use repository\ExternalUserSetting;
 use repository\ExternalSetting;
 use repository\RepositoryDataManager;
 
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use phpVimeo;
@@ -27,7 +27,7 @@ require_once dirname(__FILE__) . '/vimeo_external_repository_object.class.php';
  * Consumer Secret: a84782d0ca686c59
  */
 
-class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
+class VimeoExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector
 {
     const SORT_DATE_POSTED = 'date-posted';
     const SORT_DATE_TAKEN = 'date-taken';
@@ -88,13 +88,13 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
 
     /**
      * @param int $instance_id
-     * @return VimeoExternalRepositoryConnector:
+     * @return VimeoExternalRepositoryManagerConnector:
      */
     static function get_instance($instance_id)
     {
         if (! isset(self :: $instance[$instance_id]))
         {
-            self :: $instance[$instance_id] = new VimeoExternalRepositoryConnector($instance_id);
+            self :: $instance[$instance_id] = new VimeoExternalRepositoryManagerConnector($instance_id);
         }
         return self :: $instance[$instance_id];
     }
@@ -332,7 +332,7 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
     }
 
     /* (non-PHPdoc)
-     * @see application/common/external_repository_manager/ExternalRepositoryConnector#retrieve_external_repository_object()
+     * @see application/common/external_repository_manager/ExternalRepositoryManagerConnector#retrieve_external_repository_object()
      */
     function retrieve_external_repository_object($id)
     {

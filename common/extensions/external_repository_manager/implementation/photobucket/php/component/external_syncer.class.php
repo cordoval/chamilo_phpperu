@@ -27,9 +27,9 @@ class PhotobucketExternalRepositoryManagerExternalSyncerComponent extends Photob
         $values[ExternalRepositoryObject :: PROPERTY_DESCRIPTION] = trim(html_entity_decode(strip_tags($content_object->get_description())));
         $values[PhotobucketExternalRepositoryObject :: PROPERTY_TAGS] = $external_object->get_tags_string(false);
 
-        if ($this->get_external_repository_connector()->update_external_repository_object($values))
+        if ($this->get_external_repository_manager_connector()->update_external_repository_object($values))
         {
-            $external_object = $this->get_external_repository_connector()->retrieve_external_repository_object($external_object->get_id());
+            $external_object = $this->get_external_repository_manager_connector()->retrieve_external_repository_object($external_object->get_id());
 
             $synchronization_data->set_content_object_timestamp($content_object->get_modification_date());
             $synchronization_data->set_external_object_timestamp($external_object->get_modified());

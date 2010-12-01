@@ -7,7 +7,7 @@ use common\libraries\Path;
 use common\libraries\Session;
 use common\libraries\PlatformSetting;
 
-use common\extensions\video_conferencing_manager\VideoConferencingConnector;
+use common\extensions\video_conferencing_manager\VideoConferencingManagerConnector;
 use common\extensions\video_conferencing_manager\VideoConferencingObject;
 
 use repository\ExternalSetting;
@@ -18,7 +18,7 @@ use phpBbb;
 
 require_once Path :: get_plugin_path(__NAMESPACE__) . 'phpbbb/bbb.php';
 
-class BbbVideoConferencingConnector extends VideoConferencingConnector
+class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConnector
 {  
     private $bbb;
 
@@ -97,13 +97,13 @@ class BbbVideoConferencingConnector extends VideoConferencingConnector
     }
     /**
      * @param int $instance_id
-     * @return VimeoExternalRepositoryConnector:
+     * @return VimeoExternalRepositoryManagerConnector:
      */
     static function get_instance($instance_id)
     {
         if (! isset(self :: $instance[$instance_id]))
         {
-            self :: $instance[$instance_id] = new VimeoExternalRepositoryConnector($instance_id);
+            self :: $instance[$instance_id] = new VimeoExternalRepositoryManagerConnector($instance_id);
         }
         return self :: $instance[$instance_id];
     }

@@ -275,7 +275,7 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
     {
         if ($label = isset($data['title']) ? $data['title'] : false)
         {
-            $connector = $this->get_external_repository_connector();
+            $connector = $this->get_external_repository_manager_connector();
             $object = $connector->get_object_by_label($label);
             $data['pid'] = $object['pid'];
 
@@ -338,7 +338,7 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
      */
     protected function send($data)
     {
-        $connector = $this->get_external_repository_connector();
+        $connector = $this->get_external_repository_manager_connector();
 
         $pid = isset($data['pid']) ? $data['pid'] : false;
         $isnew = empty($pid);
@@ -376,7 +376,7 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
             $id = Request :: get(self :: PARAM_EXTERNAL_REPOSITORY_ID);
             $co = RepositoryDataManager :: get_instance()->retrieve_content_object($id);
 
-            $connector = $this->get_external_repository_connector();
+            $connector = $this->get_external_repository_manager_connector();
             $ext = $connector->retrieve_external_repository_object($meta->pid);
             ExternalSync :: quicksave($co, $ext, $this->get_external()->get_id());
         }

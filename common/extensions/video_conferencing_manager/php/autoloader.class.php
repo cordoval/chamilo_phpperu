@@ -17,7 +17,7 @@ class Autoloader
     {
     	$list = array(
             'video_conferencing_object' => 'video_conferencing_object.class.php', 'video_conferencing_object_display' => 'video_conferencing_object_display.class.php',
-            'video_conferencing_component' => 'video_conferencing_component.class.php', 'video_conferencing_connector' => 'video_conferencing_connector.class.php',
+            'video_conferencing_component' => 'video_conferencing_component.class.php', 'video_conferencing_manager_connector' => 'video_conferencing_manager_connector.class.php',
             'video_conferencing_menu' => 'video_conferencing_menu.class.php', 'video_conferencing_object_renderer' => 'video_conferencing_object_renderer.class.php',
             /*'default_video_conferencing_object_table_data_provider' => 'table/default_video_conferencing_object_table_data_provider.class.php',
             'default_video_conferencing_object_table_column_model' => 'table/default_video_conferencing_object_table_column_model.class.php',

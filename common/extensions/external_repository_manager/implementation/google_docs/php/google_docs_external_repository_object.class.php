@@ -111,7 +111,7 @@ class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
         }
 
         $external_repository = RepositoryDataManager :: get_instance()->retrieve_external_instance($this->get_external_repository_id());
-        return GoogleDocsExternalRepositoryConnector :: get_instance($external_repository)->download_external_repository_object($url);
+        return GoogleDocsExternalRepositoryManagerConnector :: get_instance($external_repository)->download_external_repository_object($url);
     }
 }
 ?>

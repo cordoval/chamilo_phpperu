@@ -32,7 +32,7 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
 
         if ($this->update_document($external_object, $content_object))
         {
-            $external_object = $this->get_external_repository_connector()->retrieve_external_repository_object($external_object->get_id());
+            $external_object = $this->get_external_repository_manager_connector()->retrieve_external_repository_object($external_object->get_id());
 
             $synchronization_data->set_content_object_timestamp($content_object->get_modification_date());
             $synchronization_data->set_external_object_timestamp($external_object->get_modified());
@@ -91,14 +91,14 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
 
     function update_label($pid, $label)
     {
-        $fedora = $this->get_external_repository_connector()->get_fedora();
+        $fedora = $this->get_external_repository_manager_connector()->get_fedora();
         $fedora->modify_object($pid, $label);
         $fedora->modify_datastream($pid, 'DS1', $label);
     }
 
     function update_thumbnail($pid, $name, $path, $mime_type)
     {
-        $connector = $this->get_external_repository_connector();
+        $connector = $this->get_external_repository_manager_connector();
         $connector->update_thumbnail($pid, $name, $path, $mime_type);
     }
 
@@ -118,7 +118,7 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
         $switch->creator = isset($data['creator']) ? $data['creator'] : $this->get_user()->get_fullname();
         $switch->description = $description;
 
-        $connector = $this->get_external_repository_connector();
+        $connector = $this->get_external_repository_manager_connector();
         $fedora = $connector->get_fedora();
 
         $content = SWITCH_get_rels_int($meta, $switch);
@@ -129,7 +129,7 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
 
     function update_data($pid, $name, $path, $mime_type)
     {
-        $fedora = $this->get_external_repository_connector()->get_fedora();
+        $fedora = $this->get_external_repository_manager_connector()->get_fedora();
         $content = file_get_contents($path);
         //try{
         $fedora->modify_datastream($pid, 'DS1', $name, $content, $mime_type, false);

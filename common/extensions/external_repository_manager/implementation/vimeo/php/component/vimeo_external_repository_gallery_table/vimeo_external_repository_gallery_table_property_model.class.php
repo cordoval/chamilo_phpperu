@@ -10,9 +10,9 @@ class VimeoExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRe
     {
         parent :: __construct();
 
-        $flickr_properties = VimeoExternalRepositoryConnector :: get_sort_properties();
+        $flickr_properties = VimeoExternalRepositoryManagerConnector :: get_sort_properties();
 
-        foreach (VimeoExternalRepositoryConnector :: get_sort_properties() as $property)
+        foreach (VimeoExternalRepositoryManagerConnector :: get_sort_properties() as $property)
         {
             $this->add_property(new GalleryObjectTableProperty($property));
         }

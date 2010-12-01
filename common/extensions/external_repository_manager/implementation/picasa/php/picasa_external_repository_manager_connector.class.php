@@ -9,7 +9,7 @@ use common\libraries\Translation;
 use common\libraries\ArrayResultSet;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 use repository\ExternalUserSetting;
@@ -27,7 +27,7 @@ use \Zend_Gdata_Photos_PhotoEntry;
 
 require_once dirname(__FILE__) . '/picasa_external_repository_object.class.php';
 
-class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
+class PicasaExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector
 {
     /**
      * @var Zend_Gdata_Photos
@@ -216,7 +216,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
     }
 
     /* (non-PHPdoc)
-     * @see application/common/external_repository_manager/ExternalRepositoryConnector#count_external_repository_objects()
+     * @see application/common/external_repository_manager/ExternalRepositoryManagerConnector#count_external_repository_objects()
      */
     function count_external_repository_objects($condition)
     {
@@ -293,7 +293,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
     }
 
     /* (non-PHPdoc)
-     * @see application/common/external_repository_manager/ExternalRepositoryConnector#retrieve_external_repository_objects()
+     * @see application/common/external_repository_manager/ExternalRepositoryManagerConnector#retrieve_external_repository_objects()
      */
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {

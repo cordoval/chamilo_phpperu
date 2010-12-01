@@ -82,16 +82,16 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
      */
     function get_fedora()
     {
-        return $this->get_external_repository_connector()->get_fedora();
+        return $this->get_external_repository_manager_connector()->get_fedora();
     }
 
     /**
-     * @return FedoraExternalRepositoryConnector
+     * @return FedoraExternalRepositoryManagerConnector
      *
      */
     function get_connector()
     {
-        return $this->get_external_repository_connector();
+        return $this->get_external_repository_manager_connector();
     }
 
     function create_form($object_external_id)
@@ -173,7 +173,7 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
         $switch->rights = $data['edit_rights'];
         $switch->accessRights = $data['access_rights'];
 
-        $fedora = $this->get_external_repository_connector()->get_fedora();
+        $fedora = $this->get_external_repository_manager_connector()->get_fedora();
         $content = SWITCH_get_rels_int($meta, $switch);
         $fedora->modify_datastream($pid, 'RELS-EXT', 'Relationships to other objects', $content, 'application/rdf+xml');
         $content = SWITCH_get_chor_dc($meta, $switch);

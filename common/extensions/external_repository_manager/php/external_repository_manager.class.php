@@ -94,11 +94,11 @@ abstract class ExternalRepositoryManager extends SubManager
     }
 
     /**
-     * @return ExternalRepositoryConnector
+     * @return ExternalRepositoryManagerConnector
      */
-    function get_external_repository_connector()
+    function get_external_repository_manager_connector()
     {
-        return ExternalRepositoryConnector :: get_instance($this->get_external_repository());
+        return ExternalRepositoryManagerConnector :: get_instance($this->get_external_repository());
     }
 
     function set_optional_parameters()
@@ -271,7 +271,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function count_external_repository_objects($condition)
     {
-        return $this->get_external_repository_connector()->count_external_repository_objects($condition);
+        return $this->get_external_repository_manager_connector()->count_external_repository_objects($condition);
     }
 
     /**
@@ -283,7 +283,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-        return $this->get_external_repository_connector()->retrieve_external_repository_objects($condition, $order_property, $offset, $count);
+        return $this->get_external_repository_manager_connector()->retrieve_external_repository_objects($condition, $order_property, $offset, $count);
     }
 
     /**
@@ -291,7 +291,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function initialize_external_repository(ExternalRepositoryManager $external_repository_manager)
     {
-        $this->get_external_repository_connector();
+        $this->get_external_repository_manager_connector();
     }
 
     /**
@@ -312,7 +312,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function translate_search_query($query)
     {
-        return $this->get_external_repository_connector()->translate_search_query($query);
+        return $this->get_external_repository_manager_connector()->translate_search_query($query);
     }
 
     /**
@@ -332,7 +332,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function retrieve_external_repository_object($id)
     {
-        return $this->get_external_repository_connector()->retrieve_external_repository_object($id);
+        return $this->get_external_repository_manager_connector()->retrieve_external_repository_object($id);
     }
 
     /**
@@ -341,7 +341,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function delete_external_repository_object($id)
     {
-        return $this->get_external_repository_connector()->delete_external_repository_object($id);
+        return $this->get_external_repository_manager_connector()->delete_external_repository_object($id);
     }
 
     /**
@@ -350,7 +350,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function export_external_repository_object($id)
     {
-        return $this->get_external_repository_connector()->export_external_repository_object($id);
+        return $this->get_external_repository_manager_connector()->export_external_repository_object($id);
     }
 
     /**

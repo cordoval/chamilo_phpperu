@@ -77,11 +77,11 @@ abstract class VideoConferencingManager extends SubManager
     }
 
     /**
-     * @return VideoConferencingConnector
+     * @return VideoConferencingManagerConnector
      */
-    function get_video_conferencing_connector()
+    function get_video_conferencing_manager_connector()
     {
-        return VideoConferencingConnector :: get_instance($this->get_video_conferencing());
+        return VideoConferencingManagerConnector :: get_instance($this->get_video_conferencing());
     }
 
     function set_optional_parameters()
@@ -234,7 +234,7 @@ abstract class VideoConferencingManager extends SubManager
      */
     function count_video_conferencing_objects($condition)
     {
-        return $this->get_video_conferencing_connector()->count_video_conferencing_objects($condition);
+        return $this->get_video_conferencing_manager_connector()->count_video_conferencing_objects($condition);
     }
 
     /**
@@ -246,7 +246,7 @@ abstract class VideoConferencingManager extends SubManager
      */
     function retrieve_video_conferencing_objects($condition, $order_property, $offset, $count)
     {
-        return $this->get_video_conferencing_connector()->retrieve_video_conferencing_objects($condition, $order_property, $offset, $count);
+        return $this->get_video_conferencing_manager_connector()->retrieve_video_conferencing_objects($condition, $order_property, $offset, $count);
     }
 
     /**
@@ -254,7 +254,7 @@ abstract class VideoConferencingManager extends SubManager
      */
     function initialize_video_conferencing(VideoConferencingManager $video_conferencing_manager)
     {
-        $this->get_video_conferencing_connector();
+        $this->get_video_conferencing_manager_connector();
     }
 
     /**
@@ -275,7 +275,7 @@ abstract class VideoConferencingManager extends SubManager
      */
     function translate_search_query($query)
     {
-        return $this->get_video_conferencing_connector()->translate_search_query($query);
+        return $this->get_video_conferencing_manager_connector()->translate_search_query($query);
     }
 
     /**
@@ -295,7 +295,7 @@ abstract class VideoConferencingManager extends SubManager
      */
     function retrieve_video_conferencing_object($id)
     {
-        return $this->get_video_conferencing_connector()->retrieve_video_conferencing_object($id);
+        return $this->get_video_conferencing_manager_connector()->retrieve_video_conferencing_object($id);
     }
 
     /**
@@ -304,7 +304,7 @@ abstract class VideoConferencingManager extends SubManager
      */
     function delete_video_conferencing_object($id)
     {
-        return $this->get_video_conferencing_connector()->delete_video_conferencing_object($id);
+        return $this->get_video_conferencing_manager_connector()->delete_video_conferencing_object($id);
     }
 
     //    /**
@@ -313,7 +313,7 @@ abstract class VideoConferencingManager extends SubManager
     //     */
     //    function export_external_repository_object($id)
     //    {
-    //        return $this->get_external_repository_connector()->export_external_repository_object($id);
+    //        return $this->get_external_repository_manager_connector()->export_external_repository_object($id);
     //    }
 
 

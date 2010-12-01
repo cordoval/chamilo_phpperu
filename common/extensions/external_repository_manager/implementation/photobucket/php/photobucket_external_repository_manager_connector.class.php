@@ -8,7 +8,7 @@ use common\libraries\Utilities;
 use common\libraries\Redirect;
 use common\libraries\ArrayResultSet;
 
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use repository\RepositoryDataManager;
@@ -26,7 +26,7 @@ require_once Path :: get_plugin_path(__NAMESPACE__) . 'PBAPI/PBAPI.php';
  * key : 149830482
  * secret : 410277f61d5fc4b01a9b9e763bf2e97b
  */
-class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
+class PhotobucketExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector
 {
     private $photobucket;
     private $consumer;

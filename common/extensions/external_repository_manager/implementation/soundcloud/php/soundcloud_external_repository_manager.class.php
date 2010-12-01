@@ -16,7 +16,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use repository\ExternalSetting;
 
-require_once dirname(__FILE__) . '/soundcloud_external_repository_connector.class.php';
+require_once dirname(__FILE__) . '/soundcloud_external_repository_manager_connector.class.php';
 
 /**
  * @author Hans De Bisschop

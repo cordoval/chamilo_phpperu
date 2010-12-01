@@ -8,7 +8,7 @@ use common\libraries\EqualityCondition;
 use repository\ContentObjectDisplay;
 use repository\RepositoryDataManager;
 use repository\ExternalSync;
-use common\extensions\external_repository_manager\implementation\mediamosa\MediamosaExternalRepositoryConnector;
+use common\extensions\external_repository_manager\implementation\mediamosa\MediamosaExternalRepositoryManagerConnector;
 use common\extensions\external_repository_manager\implementation\mediamosa\MediamosaExternalRepositoryObject;
 
 /**
@@ -18,28 +18,28 @@ use common\extensions\external_repository_manager\implementation\mediamosa\Media
  */
 //require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_server_object.class.php';
 //require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_data_manager.class.php';
-require_once Path :: get_common_extensions_path() . '/external_repository_manager/implementation/mediamosa/php/mediamosa_external_repository_connector.class.php';
+require_once Path :: get_common_extensions_path() . '/external_repository_manager/implementation/mediamosa/php/mediamosa_external_repository_manager_connector.class.php';
 //require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_object.class.php';
 
 class MediamosaDisplay extends ContentObjectDisplay
 {
     private $mediamosa_object;
-    private $mediamosa_external_repository_connector;
+    private $mediamosa_external_repository_manager_connector;
     private $connection_lost;
 
     const PARAM_MEDIAFILE = 'mediafile_id';
 
     function set_mediamosa_object()
     {
-//        if(!$this->mediamosa_external_repository_connector)
+//        if(!$this->mediamosa_external_repository_manager_connector)
 //        {
 //            $object = $this->get_content_object();
 //            $external_repository = RepositoryDataManager :: get_instance()->retrieve_external_instance($object->get_server_id());
-//            $this->mediamosa_external_repository_connector = MediamosaExternalRepositoryConnector :: get_instance($external_repository);
+//            $this->mediamosa_external_repository_manager_connector = MediamosaExternalRepositoryManagerConnector :: get_instance($external_repository);
 //        }
 //
 
-        if(!$this->mediamosa_external_repository_connector)
+        if(!$this->mediamosa_external_repository_manager_connector)
         {
             $object = $this->get_content_object();
 
@@ -48,12 +48,12 @@ class MediamosaDisplay extends ContentObjectDisplay
             $sync = $rdm->retrieve_external_sync($condition);
 
             $external_repository = $sync->get_external();
-            $this->mediamosa_external_repository_connector = MediamosaExternalRepositoryConnector :: get_instance($external_repository);
+            $this->mediamosa_external_repository_manager_connector = MediamosaExternalRepositoryManagerConnector :: get_instance($external_repository);
         }
 
         if(!$this->mediamosa_object)
         {
-            if(!$this->mediamosa_object = $this->mediamosa_external_repository_connector->retrieve_mediamosa_asset($sync->get_external_object_id())){
+            if(!$this->mediamosa_object = $this->mediamosa_external_repository_manager_connector->retrieve_mediamosa_asset($sync->get_external_object_id())){
                 $this->connection_lost = true;
             }
         }
@@ -78,7 +78,7 @@ class MediamosaDisplay extends ContentObjectDisplay
                 if($mediafile_id)
                 {
                     //get player
-                    $output = $this->mediamosa_external_repository_connector->mediamosa_play_proxy_request($this->mediamosa_object->get_id(), $mediafile_id);
+                    $output = $this->mediamosa_external_repository_manager_connector->mediamosa_play_proxy_request($this->mediamosa_object->get_id(), $mediafile_id);
                 }
                 else{
                     $output = '';

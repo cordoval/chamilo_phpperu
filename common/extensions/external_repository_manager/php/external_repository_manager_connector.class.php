@@ -6,7 +6,7 @@ use common\libraries\Translation;
 /**
  * @author Hans De Bisschop
  */
-abstract class ExternalRepositoryConnector
+abstract class ExternalRepositoryManagerConnector
 {
     /**
      * @var array
@@ -52,27 +52,27 @@ abstract class ExternalRepositoryConnector
     
     /**
      * @param ExternalRepository $external_repository
-     * @return ExternalRepositoryConnector
+     * @return ExternalRepositoryManagerConnector
      */
     static function factory($external_repository_instance)
     {
         $type = $external_repository_instance->get_type();
         
-        $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_external_repository_connector.class.php';
+        $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_external_repository_manager_connector.class.php';
         if (! file_exists($file))
         {
-            throw new Exception(Translation :: get('ExternalRepositoryConnectorTypeDoesNotExist', array('type' => $type)));
+            throw new Exception(Translation :: get('ExternalRepositoryManagerConnectorTypeDoesNotExist', array('type' => $type)));
         }
         
         require_once $file;
         
-        $class = 'common\extensions\external_repository_manager\implementation\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryConnector';
+        $class = 'common\extensions\external_repository_manager\implementation\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryManagerConnector';
         return new $class($external_repository_instance);
     }
     
     /**
      * @param ExternalRepository $external_repository_instance
-     * @return ExternalRepositoryConnector
+     * @return ExternalRepositoryManagerConnector
      */
     static function get_instance($external_repository_instance)
     {
@@ -88,6 +88,11 @@ abstract class ExternalRepositoryConnector
      */
     abstract function retrieve_external_repository_object($id);
 
+    function retrieve_external_object($id)
+    {
+    	return $this->retrieve_external_repository_object($id);
+    }
+    
     /**
      * @param mixed $condition
      * @param ObjectTableOrder $order_property

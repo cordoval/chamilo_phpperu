@@ -10,9 +10,9 @@ class YoutubeExternalRepositoryGalleryTablePropertyModel extends DefaultExternal
     {
         parent :: __construct();
 
-        $youtube_properties = YoutubeExternalRepositoryConnector :: get_sort_properties();
+        $youtube_properties = YoutubeExternalRepositoryManagerConnector :: get_sort_properties();
 
-        foreach (YoutubeExternalRepositoryConnector :: get_sort_properties() as $property)
+        foreach (YoutubeExternalRepositoryManagerConnector :: get_sort_properties() as $property)
         {
             $this->add_property(new GalleryObjectTableProperty($property));
         }

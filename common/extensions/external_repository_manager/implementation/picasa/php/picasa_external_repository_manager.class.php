@@ -13,7 +13,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
 
-require_once dirname(__FILE__) . '/picasa_external_repository_connector.class.php';
+require_once dirname(__FILE__) . '/picasa_external_repository_manager_connector.class.php';
 
 /**
  * @author Hans De Bisschop
@@ -84,13 +84,13 @@ class PicasaExternalRepositoryManager extends ExternalRepositoryManager
 
         $my_photos = array();
         $my_photos['title'] = Translation :: get('MyPhotos');
-        $my_photos['url'] = $this->get_url(array(self :: PARAM_FOLDER => PicasaExternalRepositoryConnector :: PHOTOS_MINE), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $my_photos['url'] = $this->get_url(array(self :: PARAM_FOLDER => PicasaExternalRepositoryManagerConnector :: PHOTOS_MINE), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $my_photos['class'] = 'user';
         $menu_items[] = $my_photos;
 
         $general = array();
         $general['title'] = Translation :: get('Public');
-        $general['url'] = $this->get_url(array(self :: PARAM_FOLDER => PicasaExternalRepositoryConnector :: PHOTOS_PUBLIC), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $general['url'] = $this->get_url(array(self :: PARAM_FOLDER => PicasaExternalRepositoryManagerConnector :: PHOTOS_PUBLIC), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $general['class'] = 'home';
         $menu_items[] = $general;
 

@@ -14,7 +14,7 @@ use repository\ExternalUserSetting;
 use repository\ExternalSetting;
 use repository\RepositoryDataManager;
 
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use Soundcloud;
@@ -31,7 +31,7 @@ require_once dirname(__FILE__) . '/soundcloud_external_repository_object.class.p
  * Test developer secret for Soundcloud: e267cbf5b7a1ad23
  */
 
-class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
+class SoundcloudExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector
 {
     /**
      * @var phpSoundcloud
@@ -125,13 +125,13 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
 
     /**
      * @param int $instance_id
-     * @return SoundcloudExternalRepositoryConnector:
+     * @return SoundcloudExternalRepositoryManagerConnector:
      */
     static function get_instance($instance_id)
     {
         if (! isset(self :: $instance[$instance_id]))
         {
-            self :: $instance[$instance_id] = new SoundcloudExternalRepositoryConnector($instance_id);
+            self :: $instance[$instance_id] = new SoundcloudExternalRepositoryManagerConnector($instance_id);
         }
         return self :: $instance[$instance_id];
     }
@@ -266,7 +266,7 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
     }
 
     /* (non-PHPdoc)
-     * @see application/common/external_repository_manager/ExternalRepositoryConnector#retrieve_external_repository_object()
+     * @see application/common/external_repository_manager/ExternalRepositoryManagerConnector#retrieve_external_repository_object()
      */
     function retrieve_external_repository_object($id)
     {

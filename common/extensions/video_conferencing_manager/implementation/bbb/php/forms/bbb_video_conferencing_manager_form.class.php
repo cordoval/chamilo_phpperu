@@ -106,7 +106,7 @@ class BbbVideoConferencingManagerForm extends FormValidator
         $this->video_conferencing_object->set_logout_url($values[BbbVideoConferencingObject :: PROPERTY_LOGOUT_URL]);
         $this->video_conferencing_object->set_max_participants($values[BbbVideoConferencingObject :: PROPERTY_MAX_PARTICIPANTS]);
         
-    	return $this->application->get_video_conferencing_connector()->create_video_conferencing_object($this->video_conferencing_object);
+    	return $this->application->get_video_conferencing_manager_connector()->create_video_conferencing_object($this->video_conferencing_object);
     }
 
     function build_creation_form()
