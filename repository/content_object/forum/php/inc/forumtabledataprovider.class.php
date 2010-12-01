@@ -4,14 +4,14 @@ namespace repository\content_object\forum;
 use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableDataProvider;
+use common\extensions\repo_viewer\ContentObjectTableDataProvider;
 
 /**
  * $Id: forumtabledataprovider.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.forum.inc
  */
-require_once dirname(__FILE__) . '/../../../content_object_table/content_object_table_data_provider.class.php';
 
-class ForumTableDataProvider implements ContentObjectTableDataProvider
+class ForumTableDataProvider extends ContentObjectTableDataProvider
 {
     private $forum;
 

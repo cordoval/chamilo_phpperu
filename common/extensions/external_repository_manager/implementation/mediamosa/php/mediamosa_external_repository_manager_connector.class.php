@@ -5,9 +5,6 @@ use common\extensions\external_repository_manager\implementation\mediamosa\Media
 use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
-use common\libraries\Request;
-use common\libraries\PlatformSetting;
-use common\libraries\Session;
 use common\libraries\PlatformSetting;
 use common\libraries\Request;
 use common\libraries\Session;

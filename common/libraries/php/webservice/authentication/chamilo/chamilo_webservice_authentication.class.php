@@ -24,8 +24,7 @@ namespace common\libraries;
  */
 class ChamiloWebserviceAuthentication extends WebserviceAuthentication
 {
-
+    public function is_valid() {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
 }
-
-?>
-

@@ -24,7 +24,7 @@
 // |   $au = new AudioInfo();                                             |
 // |   print_r($au->Info('file.flac');                                    |
 // +----------------------------------------------------------------------+
-// | Authors: Allan Hansen <ahØartemis*dk>                                |
+// | Authors: Allan Hansen <ahï¿½artemis*dk>                                |
 // +----------------------------------------------------------------------+
 //
 
@@ -34,7 +34,9 @@
 * getID3() settings
 */
 
-require_once('../getid3/getid3.php');
+// Updated By systho in order to make the file
+//require_once('../getid3/getid3.php');
+require_once(dirname(__FILE__) .'/../getid3.php');
 
 
 

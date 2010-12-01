@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\competence;
+
+use repository\ComplexBuilder;
+use common\libraries\ComplexMenuSupport;
 /**
  * $Id: competence_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.competence
