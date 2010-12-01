@@ -88,9 +88,9 @@ abstract class ExternalRepositoryManagerConnector
      */
     abstract function retrieve_external_repository_object($id);
 
-    function retrieve_external_object($id)
+    function retrieve_external_object(ExternalSync $external_sync)
     {
-    	return $this->retrieve_external_repository_object($id);
+    	return $this->retrieve_external_repository_object($external_sync->get_external_object_id());
     }
     
     /**

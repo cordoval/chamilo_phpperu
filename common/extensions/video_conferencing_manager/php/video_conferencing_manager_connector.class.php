@@ -79,12 +79,13 @@ abstract class VideoConferencingManagerConnector
     /**
      * @param string $id
      */
-    abstract function retrieve_video_conferencing_object($id);
+    abstract function retrieve_video_conferencing_object($external_sync);
 
-    function retrieve_external_object($id)
+    function retrieve_external_object(ExternalSync $external_sync)
     {
-    	return $this->retrieve_video_conferencing_object($id);
+    	return $this->retrieve_video_conferencing_object($external_sync);
     }
+
     /**
      * @param mixed $condition
      * @param ObjectTableOrder $order_property

@@ -35,7 +35,8 @@ class phpBbb
         
         $construct_url = http_build_query($parameters);
         $checksum = sha1('create' . $construct_url . $this->security_salt);
-        $create_url = 'http://' . $this->ip . self :: API_CREATE . $construct_url . '&checksum=' . $checksum;
+        $create_url = $this->ip . self :: API_CREATE . $construct_url . '&checksum=' . $checksum;
+        
         $response = file_get_contents($create_url);
         
         $doc = new DOMDocument();
@@ -43,22 +44,23 @@ class phpBbb
         $returnCodeNode = $doc->getElementsByTagName("returncode");
         $returnCode = $returnCodeNode->item(0)->nodeValue;
         
-        if ($returnCode == "SUCCESS")
+        $unserializer = new XML_Unserializer();
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
+        
+        // userialize the document
+        $status = $unserializer->unserialize($response);
+        
+        if (PEAR :: isError($status))
         {
-            $response = array();
-            $response['meeting_id'] = $doc->getElementsByTagName("meetingID")->item(0)->nodeValue;
-            $response['attendee_pw'] = $doc->getElementsByTagName("attendeePw")->item(0)->nodeValue;
-            $response['moderator_pw'] = $doc->getElementsByTagName("moderatorPw")->item(0)->nodeValue;
-            $response['result'] = true;
+            $this->display_error_page($status->getMessage());
         }
         else
         {
-            $response = array();
-            $response['result'] = false;
-            $response['message'] = $doc->getElementsByTagName("messageKey")->item(0)->nodeValue;
-        
+            return $unserializer->getUnserializedData();
         }
-        return $response;
         //        }
     }
 
@@ -67,7 +69,7 @@ class phpBbb
         $construct_url = 'meetingID=' . $meeting_id;
         $checksum = sha1('isMeetingRunning' . $construct_url . $this->security_salt);
         
-        $is_running_url = 'http://' . $this->ip . self :: API_IS_MEETING_RUNNING . $construct_url . '&checksum=' . $checksum;
+        $is_running_url = $this->ip . self :: API_IS_MEETING_RUNNING . $construct_url . '&checksum=' . $checksum;
         $response = file_get_contents($is_running_url);
         
         $doc = new DOMDocument();
@@ -93,7 +95,7 @@ class phpBbb
         $construct_url = 'fullName=' . urlencode($name) . '&meetingID=' . $this->meeting_id . '&password=' . $password;
         $checksum = sha1('join' . $construct_url . $this->security_salt);
         
-        $is_running_url = 'http://' . $this->ip . self :: API_JOIN_MEETING . '&checksum=' . $checksum;
+        $is_running_url = $this->ip . self :: API_JOIN_MEETING . '&checksum=' . $checksum;
         $response = file_get_contents($is_running_url);
     
     }
@@ -104,7 +106,7 @@ class phpBbb
         $construct_url = 'random=' . $random;
         $checksum = sha1('getMeetings' . $construct_url . $this->security_salt);
         
-        $get_meetings_url = 'http://' . $this->ip . self :: API_GET_MEETINGS . $construct_url . '&checksum=' . $checksum;
+        $get_meetings_url = $this->ip . self :: API_GET_MEETINGS . $construct_url . '&checksum=' . $checksum;
         $response = file_get_contents($get_meetings_url);
         
         $doc = new DOMDocument();
@@ -131,29 +133,35 @@ class phpBbb
         return $response;
     }
 
-    function get_metting_info($password)
+    function get_meeting_info($meeting_id, $password)
     {
-        $construct_url = 'meetingID=' . $this->meeting_id . '&password=' . $password;
+        $parameters = array();
+        $parameters['meetingID'] = $meeting_id;
+        $parameters['password'] = $password;
+        $construct_url = http_build_query($parameters);
+        
         $checksum = sha1('getMeetingInfo' . $construct_url . $this->security_salt);
         
-        $is_running_url = 'http://' . $this->ip . self :: API_GET_MEETING_INFO . '&checksum=' . $checksum;
+        $is_running_url = $this->ip . self :: API_GET_MEETING_INFO . $construct_url . '&checksum=' . $checksum;
         $response = file_get_contents($is_running_url);
         
-        $doc = new DOMDocument();
-        $doc->loadXML($response);
+        $unserializer = new XML_Unserializer();
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('attendee'));
         
-        $returnCodeNode = $doc->getElementsByTagName("returncode");
-        $returnCode = $returnCodeNode->item(0)->nodeValue;
+        // userialize the document
+        $status = $unserializer->unserialize($response);
         
-        if ($returnCode == "SUCCESS")
+        if (PEAR :: isError($status))
         {
-            return $returnCode;
+            $this->display_error_page($status->getMessage());
         }
         else
         {
-            $messageKeyNode = $doc->getElementsByTagName("messageKey");
-            $messageKey = $messageKeyNode->item(0)->nodeValue;
-            return $messageKey;
+            return $unserializer->getUnserializedData();
         }
     }
 

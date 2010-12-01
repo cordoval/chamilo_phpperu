@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\video_conferencing_manager\implementation\bbb;
 
+use repository\content_object\bbb_meeting;
+
 use common\extensions\video_conferencing_manager;
 
 use common\libraries\Path;
@@ -18,8 +20,13 @@ use phpBbb;
 
 require_once Path :: get_plugin_path(__NAMESPACE__) . 'phpbbb/bbb.php';
 
+/**
+ * ip : http://192.168.0.162
+ * $security_salt : 6343dabde830897ffefdf2e9ac3e0a9c
+ */
+
 class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConnector
-{  
+{
     private $bbb;
 
     /**
@@ -28,73 +35,105 @@ class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConne
     function __construct($video_conferencing_instance)
     {
         parent :: __construct($video_conferencing_instance);
-
+        
         $server = ExternalSetting :: get('server', $this->get_video_conferencing_instance_id());
         $security_salt = ExternalSetting :: get('security_salt', $this->get_video_conferencing_instance_id());
         
         $this->bbb = new phpBbb($server, $security_salt);
-
         
-        
-		//$this->bbb->is_meeting_running('test123');
-		
-		//$this->bbb->get_metting_info('test');
-  
-    }
+    //$this->bbb->is_meeting_running('test123');
     
+
+    //$this->bbb->get_metting_info('test');
+    
+
+    }
+
     function create_video_conferencing_object(VideoConferencingObject $video_conferencing_object)
     {
-    	$meeting_id = uniqid();
-    	$response = $this->bbb->create_meeting($video_conferencing_object->get_title(), $meeting_id , $video_conferencing_object->get_attendee_pw(), $video_conferencing_object->get_moderator_pw(), $video_conferencing_object->get_welcome(), $video_conferencing_object->get_logout_url(), $video_conferencing_object->get_max_participants());
-    	if ($response['result'] === true)
-    	{
-    		$video_conferencing_object->set_id($reponse['meeting_id']);
-    		$video_conferencing_object->set_attendee_pw($reponse['attendee_pw']);
-    		$video_conferencing_object->set_moderator_pw($reponse['moderator_pw']);
-
-    		$bbb_meeting = new BbbMeeting();
-    		$bbb_meeting->set_title($video_conferencing_object->get_title());
-    		
-    		$bbb_meeting->set_owner_id(Session :: get_user_id());
-    		
-    		if (PlatformSetting :: get('description_required', 'repository'))
+        $meeting_id = uniqid();
+        $response = $this->bbb->create_meeting($video_conferencing_object->get_title(), $meeting_id, $video_conferencing_object->get_attendee_pw(), $video_conferencing_object->get_moderator_pw(), $video_conferencing_object->get_welcome(), $video_conferencing_object->get_logout_url(), $video_conferencing_object->get_max_participants());
+        
+        if ($response['returncode'] === 'SUCCESS')
+        {
+            $video_conferencing_object->set_id($response['meetingID']);
+            $video_conferencing_object->set_attendee_pw($response['attendeePW']);
+            $video_conferencing_object->set_moderator_pw($response['moderatorPW']);
+            
+            $bbb_meeting = new BbbMeeting();
+            $bbb_meeting->set_title($video_conferencing_object->get_title());
+            $bbb_meeting->set_moderator_pw($video_conferencing_object->get_moderator_pw());
+            
+            $bbb_meeting->set_owner_id(Session :: get_user_id());
+            
+            if (PlatformSetting :: get('description_required', 'repository'))
             {
                 $bbb_meeting->set_description('-');
             }
-
-    		if (! $bbb_meeting->create())
-    		{
-    			return false;	
-    		}
-    		else 
-    		{
-    			ExternalSync :: quicksave($bbb_meeting, $video_conferencing_object, $this->get_video_conferencing_instance()->get_id());
-    		}
-    		
-    		return $video_conferencing_object;
-    	}
-    	else 
-    	{
-    		return $response['message'];
-    	}	
+            
+            if (! $bbb_meeting->create())
+            {
+                return false;
+            }
+            else
+            {
+                ExternalSync :: quicksave($bbb_meeting, $video_conferencing_object, $this->get_video_conferencing_instance()->get_id());
+            }
+            
+            return $bbb_meeting;
+        }
+        else
+        {
+            return $response['message'];
+        }
     }
-    
+
     function retrieve_video_conferencing_objects($condition, $order_property, $offset, $count)
     {
-    	$response = $this->bbb->get_meetings();
-    	    	
-    }
+        $response = $this->bbb->get_meetings();
     
-	function retrieve_video_conferencing_object($video_conferencing_object)
+    }
+
+    function retrieve_video_conferencing_object($external_sync)
     {
-    	$response = $this->bbb->get_metting_info($video_conferencing_object->get_id(), $video_conferencing->get_moderator_pw());
+        
+        $response = $this->bbb->get_meeting_info($external_sync->get_external_object_id(), $external_sync->get_content_object()->get_moderator_pw());
+        
+        if ($response['returncode'] === 'SUCCESS')
+        {
+            
+            $video_conferencing_object = new BbbVideoConferencingObject();
+            $video_conferencing_object->set_title($response['meetingID']);
+            $video_conferencing_object->set_id($response['meetingID']);
+            $video_conferencing_object->set_attendee_pw($response['attendeePW']);
+            $video_conferencing_object->set_moderator_pw($response['moderatorPW']);
+            $video_conferencing_object->set_running($response['running']);
+            $video_conferencing_object->set_start_time($response['startTime']);
+            $video_conferencing_object->set_end_time($response['endTime']);
+            foreach ($response['attendees'] as $attendee)
+            {
+                if ($attendee['role'] === 'MODERATOR')
+                {
+                    $video_conferencing_object->add_moderator($attendee);
+                }
+                else
+                {
+                    $video_conferencing_object->add_viewer($attendee);
+                }
+            
+            }
+            
+            return $video_conferencing_object;
+        }
+        return false;
     }
-    
+
     function join_video_conferencing_object(VideoConferencingObject $video_conferencing_object)
     {
-    	
-    	$this->bbb->join_meeting('Gillard Magali', $video_conferencing_object->meeting_id, 'test');
+        
+        $this->bbb->join_meeting('Gillard Magali', $video_conferencing_object->meeting_id, 'test');
     }
+
     /**
      * @param int $instance_id
      * @return VimeoExternalRepositoryManagerConnector:
@@ -107,8 +146,6 @@ class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConne
         }
         return self :: $instance[$instance_id];
     }
-
-   
 
     /**
      * @param string $query
@@ -169,12 +206,11 @@ class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConne
     
     }
 
-
     /**
      * @param int $license
      * @param string $photo_user_id
      * @return boolean
-     */    
+     */
     function determine_rights($video_entry)
     {
         $rights = array();
@@ -185,32 +221,34 @@ class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConne
         return $rights;
     }
 
-//    public function retrieve_video_conferencing_object($id) {
-//        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
-//    }
-//    public function retrieve_video_conferencing_objects($condition, $order_property, $offset, $count) {
-//        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
-//    }
-//    public function count_video_conferencing_objects($condition) {
-//        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
-//    }
-//    public function delete_video_conferencing_object($id) {
-//        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
-//    }
-//    public function export_video_conferencing_object($id) {
-//        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
-//    }
-
+    //    public function retrieve_video_conferencing_object($id) {
+    //        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    //    }
+    //    public function retrieve_video_conferencing_objects($condition, $order_property, $offset, $count) {
+    //        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    //    }
+    //    public function count_video_conferencing_objects($condition) {
+    //        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    //    }
+    //    public function delete_video_conferencing_object($id) {
+    //        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    //    }
+    //    public function export_video_conferencing_object($id) {
+    //        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    //    }
     
 
     function count_video_conferencing_objects($condition)
-    {}
+    {
+    }
 
     function delete_video_conferencing_object($id)
-    {}
+    {
+    }
 
-	function export_video_conferencing_object($id)
-	{}
+    function export_video_conferencing_object($id)
+    {
+    }
 
 }
 ?>

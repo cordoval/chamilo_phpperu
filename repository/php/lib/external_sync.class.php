@@ -212,7 +212,7 @@ class ExternalSync extends RepositoryDataClass
             $external_instance = $this->get_external();
             $type = $external_instance->get_instance_type();
             $class = ExternalInstanceManager :: get_manager_connector_class($type);
-            $this->external_object = $class :: get_connector()->retrieve_external_object($this->get_external_object_id());         
+            $this->external_object = $class :: get_instance($external_instance)->retrieve_external_object($this);         
         }
         return $this->external_object;
     }
