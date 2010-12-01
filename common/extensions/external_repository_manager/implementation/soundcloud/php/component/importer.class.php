@@ -8,7 +8,7 @@ use repository\RepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 use repository\ContentObject;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use repository\content_object\soundcloud\Soundcloud;
 
 class SoundcloudExternalRepositoryManagerImporterComponent extends SoundcloudExternalRepositoryManager
@@ -28,7 +28,7 @@ class SoundcloudExternalRepositoryManagerImporterComponent extends SoundcloudExt
 
         if ($soundcloud->create())
         {
-            ExternalRepositorySync :: quicksave($soundcloud, $object, $this->get_external_repository()->get_id());
+            ExternalSync :: quicksave($soundcloud, $object, $this->get_external()->get_id());
             $parameters = $this->get_parameters();
             $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
             $this->redirect(Translation :: get('ObjectImported', null, Utilities :: COMMON_LIBRARIES), false, $parameters, array(

@@ -8,7 +8,7 @@ abstract class VideoConferencingParticipantObject
     private $default_properties;
 
     /**
-     * @var ExternalRepositorySync
+     * @var ExternalSync
      */
 //    private $synchronization_data;
 

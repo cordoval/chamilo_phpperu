@@ -11,42 +11,42 @@ use common\extensions\external_repository_manager\ExternalRepositoryConnector;
  * @author Hans De Bisschop
  *
  */
-class ExternalRepositorySync extends RepositoryDataClass
+class ExternalSync extends RepositoryDataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_CONTENT_OBJECT_TIMESTAMP = 'content_object_timestamp';
-
-    const PROPERTY_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
-    const PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID = 'external_repository_object_id';
-    const PROPERTY_EXTERNAL_REPOSITORY_OBJECT_TIMESTAMP = 'external_repository_object_timestamp';
-
+    
+    const PROPERTY_EXTERNAL_ID = 'external_id';
+    const PROPERTY_EXTERNAL_OBJECT_ID = 'external_object_id';
+    const PROPERTY_EXTERNAL_OBJECT_TIMESTAMP = 'external_object_timestamp';
+    
     const SYNC_STATUS_ERROR = 0;
     const SYNC_STATUS_EXTERNAL = 1;
     const SYNC_STATUS_INTERNAL = 2;
     const SYNC_STATUS_IDENTICAL = 3;
     const SYNC_STATUS_CONFLICT = 4;
-
+    
     /**
      * @var ContentObject
      */
     private $content_object;
-
+    
     /**
      * @var ExternalRepositoryObject
      */
-    private $external_repository_object;
-
+    private $external_object;
+    
     /**
      * @var int
      */
     private $synchronization_status;
-
+    
     /**
      * @var ExternalRepository
      */
-    private $external_repository;
+    private $external;
 
     /**
      * @param int $content_object_id
@@ -68,22 +68,22 @@ class ExternalRepositorySync extends RepositoryDataClass
     }
 
     /**
-     * @param string $external_repository_object_id
+     * @param string $external_object_id
      */
-    function set_external_repository_object_id($external_repository_object_id)
+    function set_external_object_id($external_object_id)
     {
-        if (StringUtilities :: has_value($external_repository_object_id))
+        if (StringUtilities :: has_value($external_object_id))
         {
-            $this->set_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID, $external_repository_object_id);
+            $this->set_default_property(self :: PROPERTY_EXTERNAL_OBJECT_ID, $external_object_id);
         }
     }
 
     /**
      * @return string
      */
-    function get_external_repository_object_id()
+    function get_external_object_id()
     {
-        return $this->get_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID);
+        return $this->get_default_property(self :: PROPERTY_EXTERNAL_OBJECT_ID);
     }
 
     /**
@@ -108,39 +108,39 @@ class ExternalRepositorySync extends RepositoryDataClass
     /**
      * @param int $datetime
      */
-    function set_external_repository_object_timestamp($datetime)
+    function set_external_object_timestamp($datetime)
     {
         if (isset($datetime) && is_numeric($datetime))
         {
-            $this->set_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_TIMESTAMP, $datetime);
+            $this->set_default_property(self :: PROPERTY_EXTERNAL_OBJECT_TIMESTAMP, $datetime);
         }
     }
 
     /**
      * @return int
      */
-    function get_external_repository_object_timestamp()
+    function get_external_object_timestamp()
     {
-        return $this->get_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_TIMESTAMP);
+        return $this->get_default_property(self :: PROPERTY_EXTERNAL_OBJECT_TIMESTAMP);
     }
 
     /**
-     * @param int $external_repository_id
+     * @param int $external_id
      */
-    function set_external_repository_id($external_repository_id)
+    function set_external_id($external_id)
     {
-        if (isset($external_repository_id) && is_numeric($external_repository_id))
+        if (isset($external_id) && is_numeric($external_id))
         {
-            $this->set_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
+            $this->set_default_property(self :: PROPERTY_EXTERNAL_ID, $external_id);
         }
     }
 
     /**
      * @return int
      */
-    function get_external_repository_id()
+    function get_external_id()
     {
-        return $this->get_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY_ID);
+        return $this->get_default_property(self :: PROPERTY_EXTERNAL_ID);
     }
 
     /**
@@ -150,10 +150,10 @@ class ExternalRepositorySync extends RepositoryDataClass
     {
         $extended_property_names[] = self :: PROPERTY_CONTENT_OBJECT_ID;
         $extended_property_names[] = self :: PROPERTY_CONTENT_OBJECT_TIMESTAMP;
-        $extended_property_names[] = self :: PROPERTY_EXTERNAL_REPOSITORY_ID;
-        $extended_property_names[] = self :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID;
-        $extended_property_names[] = self :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_TIMESTAMP;
-
+        $extended_property_names[] = self :: PROPERTY_EXTERNAL_ID;
+        $extended_property_names[] = self :: PROPERTY_EXTERNAL_OBJECT_ID;
+        $extended_property_names[] = self :: PROPERTY_EXTERNAL_OBJECT_TIMESTAMP;
+        
         return parent :: get_default_property_names($extended_property_names);
     }
 
@@ -183,9 +183,9 @@ class ExternalRepositorySync extends RepositoryDataClass
     {
         if (! $this->is_identified())
         {
-            throw new Exception('ExternalRepositorySync object could not be saved as its identity is not set');
+            throw new Exception('ExternalSync object could not be saved as its identity is not set');
         }
-
+        
         $this->set_modification_date(time());
         return parent :: update();
     }
@@ -203,28 +203,39 @@ class ExternalRepositorySync extends RepositoryDataClass
     }
 
     /**
-     * @return ExternalRepositoryObject
+     * @return ExternalObject
      */
-    function get_external_repository_object()
+    function get_external_object()
     {
-        if (! isset($this->external_repository_object))
+        if (! isset($this->external_object))
         {
-            $external_repository_instance = $this->get_external_repository();
-            $this->external_repository_object = ExternalRepositoryConnector :: get_instance($external_repository_instance)->retrieve_external_repository_object($this->get_external_repository_object_id());
+            $external_instance = $this->get_external();
+            $type = $external_instance->get_instance_type();
+            switch ($type)
+            {
+                case 'external_repository_manager' :
+                    $class = ExternalInstanceManager :: get_namespace($type) . '\\ExternalRepositoryConnector';
+                    $this->external_object = $class :: get_connector()->retrieve_external_repository_object($this->get_external_object_id());
+                    break;
+                case 'video_conferencing_manager' :
+                    $class = ExternalInstanceManager :: get_namespace($type) . '\\VideoConferencingConnector';
+                    $this->external_object = $class :: get_connector()->retrieve_video_conferencing_object($this->get_external_object_id());
+                    break;
+            }            
         }
-        return $this->external_repository_object;
+        return $this->external_object;
     }
 
     /**
      * @return ExternalRepository
      */
-    function get_external_repository()
+    function get_external()
     {
-        if (! isset($this->external_repository))
+        if (! isset($this->external))
         {
-            $this->external_repository = RepositoryDataManager :: get_instance()->retrieve_external_instance($this->get_external_repository_id());
+            $this->external = RepositoryDataManager :: get_instance()->retrieve_external_instance($this->get_external_id());
         }
-        return $this->external_repository;
+        return $this->external;
     }
 
     function get_synchronization_status($content_object_date = null, $external_object_date = null)
@@ -235,19 +246,19 @@ class ExternalRepositorySync extends RepositoryDataClass
             {
                 $content_object_date = $this->get_content_object()->get_modification_date();
             }
-
+            
             if (is_null($external_object_date))
             {
-                $external_object_date = $this->get_external_repository_object()->get_created();
+                $external_object_date = $this->get_external_object()->get_created();
             }
-
+            
             if ($content_object_date > $this->get_content_object_timestamp())
             {
-                if ($external_object_date > $this->get_external_repository_object_timestamp())
+                if ($external_object_date > $this->get_external_object_timestamp())
                 {
                     $this->synchronization_status = self :: SYNC_STATUS_CONFLICT;
                 }
-                elseif ($external_object_date == $this->get_external_repository_object_timestamp())
+                elseif ($external_object_date == $this->get_external_object_timestamp())
                 {
                     $this->synchronization_status = self :: SYNC_STATUS_EXTERNAL;
                 }
@@ -258,11 +269,11 @@ class ExternalRepositorySync extends RepositoryDataClass
             }
             elseif ($content_object_date == $this->get_content_object_timestamp())
             {
-                if ($external_object_date > $this->get_external_repository_object_timestamp())
+                if ($external_object_date > $this->get_external_object_timestamp())
                 {
                     $this->synchronization_status = self :: SYNC_STATUS_INTERNAL;
                 }
-                elseif ($external_object_date == $this->get_external_repository_object_timestamp())
+                elseif ($external_object_date == $this->get_external_object_timestamp())
                 {
                     $this->synchronization_status = self :: SYNC_STATUS_IDENTICAL;
                 }
@@ -276,66 +287,66 @@ class ExternalRepositorySync extends RepositoryDataClass
                 $this->synchronization_status = self :: SYNC_STATUS_ERROR;
             }
         }
-
+        
         return $this->synchronization_status;
     }
 
     /*************************************************************************
      * Fat model methods
      *************************************************************************/
-
+    
     /**
      * @param int $content_object_id
-     * @return ExternalRepositorySync
+     * @return ExternalSync
      */
     public static function get_by_content_object_id($content_object_id)
     {
         $conditions = new EqualityCondition(self :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
-        return $this->get_data_manager()->retrieve_external_repository_sync($conditions);
+        return $this->get_data_manager()->retrieve_external_sync($conditions);
     }
 
     /**
      * @param int $content_object_id
-     * @param int $external_repository_id
-     * @return ExternalRepositorySync
+     * @param int $external_id
+     * @return ExternalSync
      */
-    public static function get_by_content_object_id_and_external_repository_id($content_object_id, $external_repository_id)
+    public static function get_by_content_object_id_and_external_id($content_object_id, $external_id)
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(self :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
-        $conditions[] = new EqualityCondition(self :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
+        $conditions[] = new EqualityCondition(self :: PROPERTY_EXTERNAL_ID, $external_id);
         $condition = new AndCondition($conditions);
-        return $this->get_data_manager()->retrieve_external_repository_sync($condition);
+        return $this->get_data_manager()->retrieve_external_sync($condition);
     }
 
     /**
-     * @param int $external_repository_object_id
-     * @param int $external_repository_id
-     * @return ExternalRepositorySync
+     * @param int $external_object_id
+     * @param int $external_id
+     * @return ExternalSync
      */
-    public static function get_by_external_repository_object_id_and_external_repository_id($external_repository_object_id, $external_repository_id)
+    public static function get_by_external_object_id_and_external_id($external_object_id, $external_id)
     {
         $conditions = array();
-        $conditions[] = new EqualityCondition(self :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID, $external_repository_object_id);
-        $conditions[] = new EqualityCondition(self :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
+        $conditions[] = new EqualityCondition(self :: PROPERTY_EXTERNAL_OBJECT_ID, $external_object_id);
+        $conditions[] = new EqualityCondition(self :: PROPERTY_EXTERNAL_ID, $external_id);
         $condition = new AndCondition($conditions);
-        return $this->get_data_manager()->retrieve_external_repository_sync($conditions);
+        return $this->get_data_manager()->retrieve_external_sync($conditions);
     }
 
     /**
      * @param ContentObject $content_object
-     * @param ExternalRepositoryObject $external_repository_object
-     * @param int $external_repository_id
+     * @param ExternalObject $external_object
+     * @param int $external_id
      * @return boolean
      */
-    public static function quicksave(ContentObject $content_object, ExternalRepositoryObject $external_repository_object, $external_repository_id)
+    public static function quicksave(ContentObject $content_object, $external_object, $external_id)
     {
-        $sync = new ExternalRepositorySync();
+        $sync = new ExternalSync();
         $sync->set_content_object_id($content_object->get_id());
         $sync->set_content_object_timestamp($content_object->get_modification_date());
-        $sync->set_external_repository_id((int) $external_repository_id);
-        $sync->set_external_repository_object_id((string) $external_repository_object->get_id());
-        $sync->set_external_repository_object_timestamp($external_repository_object->get_modified());
+        $sync->set_external_id((int) $external_id);
+        $sync->set_external_object_id((string) $external_object->get_id());
+        $sync->set_external_object_timestamp($external_object->get_modified());
         return $sync->create();
     }
 

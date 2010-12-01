@@ -27,7 +27,7 @@ class MatterhornDisplay extends ContentObjectDisplay
 
     function get_thumbnail()
     {
-        $external_object = $this->get_content_object()->get_synchronization_data()->get_external_repository_object();
+        $external_object = $this->get_content_object()->get_synchronization_data()->get_external_object();
         $attachments = $external_object->get_attachments();
 
         return '<img class="thumbnail" src="' . $attachments['search+preview']->get_url() . '" />';

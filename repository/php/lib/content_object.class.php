@@ -15,7 +15,7 @@ use common\libraries\AndCondition;
 use common\libraries\AttachmentSupport;
 use common\libraries\ComplexContentObjectSupport;
 
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use admin\AdminDataManager;
 
 use user\UserDataManager;
@@ -1215,11 +1215,11 @@ class ContentObject extends DataClass
         if (! isset($this->synchronization_data))
         {
             $sync_conditions = array();
-            $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
+            $sync_conditions[] = new EqualityCondition(ExternalSync :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
             //$sync_conditions[] = new EqualityCondition(self :: PROPERTY_OWNER_ID, Session :: get_user_id(), self :: get_table_name());
             $sync_condition = new AndCondition($sync_conditions);
 
-            $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_syncs($sync_condition)->next_result();
+            $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_syncs($sync_condition)->next_result();
         }
 
         return $this->synchronization_data;

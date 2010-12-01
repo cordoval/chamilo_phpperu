@@ -2,12 +2,8 @@
 <application name="bbb">
 	<settings>
 		<category name="credentials">
-			<setting name="account_id" field="text" default=""/>
-			<setting name="account_pw" field="text" default=""/>
 			<setting name="server" field="text" default="192.168.0.162"/>
-			<setting name="secutiry_salt" field="text" default="6343dabde830897ffefdf2e9ac3e0a9c"/>
-			
-			<setting name="oauth_token" field="text" default="" user_setting="1"/>		
+			<setting name="security_salt" field="text" default="6343dabde830897ffefdf2e9ac3e0a9c"/>
 		</category>
 	</settings>
 </application>

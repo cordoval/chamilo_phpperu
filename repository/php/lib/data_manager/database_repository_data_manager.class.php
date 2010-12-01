@@ -403,8 +403,8 @@ class DatabaseRepositoryDataManager extends Database implements
         }
 
         //Delete synchronization with external repositories infos
-        $condition = new EqualityCondition(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
-        $this->delete_objects(ExternalRepositorySync :: get_table_name(), $condition);
+        $condition = new EqualityCondition(ExternalSync :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
+        $this->delete_objects(ExternalSync :: get_table_name(), $condition);
 
         // Delete object
         $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
@@ -1568,69 +1568,69 @@ class DatabaseRepositoryDataManager extends Database implements
         return $this->retrieve_object_set($query, $table_name, $condition, $offset, $max_objects, $order_by);
     }
 
-    function create_external_repository_sync_info($external_repository_sync_info)
+    function create_external_sync_info($external_sync_info)
     {
-        $created = $external_repository_sync_info->get_creation_date();
+        $created = $external_sync_info->get_creation_date();
         if (is_numeric($created))
         {
-            $external_repository_sync_info->set_creation_date($external_repository_sync_info->get_creation_date());
+            $external_sync_info->set_creation_date($external_sync_info->get_creation_date());
         }
 
-        return $this->create($external_repository_sync_info);
+        return $this->create($external_sync_info);
     }
 
-    function create_external_repository_sync($external_repository_sync)
+    function create_external_sync($external_sync)
     {
-        return $this->create($external_repository_sync);
+        return $this->create($external_sync);
     }
 
-    function update_external_repository_sync_info($external_repository_sync_info)
+    function update_external_sync_info($external_sync_info)
     {
-        $condition = new EqualityCondition(ExternalRepositorySyncInfo :: PROPERTY_ID, $external_repository_sync_info->get_id());
+        $condition = new EqualityCondition(ExternalSyncInfo :: PROPERTY_ID, $external_sync_info->get_id());
 
-        $date = $external_repository_sync_info->get_modification_date();
+        $date = $external_sync_info->get_modification_date();
         if (is_numeric($date))
         {
-            $external_repository_sync_info->set_modification_date($external_repository_sync_info->get_modification_date());
+            $external_sync_info->set_modification_date($external_sync_info->get_modification_date());
         }
 
-        return $this->update($external_repository_sync_info, $condition);
+        return $this->update($external_sync_info, $condition);
     }
 
-    function update_external_repository_sync($external_repository_sync)
+    function update_external_sync($external_sync)
     {
-        $condition = new EqualityCondition(ExternalRepositorySync :: PROPERTY_ID, $external_repository_sync->get_id());
-        return $this->update($external_repository_sync, $condition);
+        $condition = new EqualityCondition(ExternalSync :: PROPERTY_ID, $external_sync->get_id());
+        return $this->update($external_sync, $condition);
     }
 
-    function delete_external_repository_sync_info($external_repository_sync_info)
+    function delete_external_sync_info($external_sync_info)
     {
-        $condition = new EqualityCondition(ExternalRepositorySyncInfo :: PROPERTY_ID, $external_repository_sync_info->get_id());
-        return $this->delete($external_repository_sync_info->get_table_name(), $condition);
+        $condition = new EqualityCondition(ExternalSyncInfo :: PROPERTY_ID, $external_sync_info->get_id());
+        return $this->delete($external_sync_info->get_table_name(), $condition);
     }
 
-    function delete_external_repository_sync($external_repository_sync)
+    function delete_external_sync($external_sync)
     {
-        $condition = new EqualityCondition(ExternalRepositorySync :: PROPERTY_ID, $external_repository_sync->get_id());
-        return $this->delete($external_repository_sync->get_table_name(), $condition);
+        $condition = new EqualityCondition(ExternalSync :: PROPERTY_ID, $external_sync->get_id());
+        return $this->delete($external_sync->get_table_name(), $condition);
     }
 
-    function retrieve_external_repository_sync_info($conditions)
+    function retrieve_external_sync_info($conditions)
     {
-        return $this->retrieve_object(ExternalRepositorySyncInfo :: get_table_name(), $conditions, array(), ExternalRepositorySyncInfo :: CLASS_NAME);
+        return $this->retrieve_object(ExternalSyncInfo :: get_table_name(), $conditions, array(), ExternalSyncInfo :: CLASS_NAME);
     }
 
-    function retrieve_external_repository_sync($condition)
+    function retrieve_external_sync($condition)
     {
         $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
-        $synchronization_alias = $this->get_alias(ExternalRepositorySync :: get_table_name());
+        $synchronization_alias = $this->get_alias(ExternalSync :: get_table_name());
 
-        $query = 'SELECT ' . $synchronization_alias . '.* FROM ' . $this->escape_table_name(ExternalRepositorySync :: get_table_name()) . ' AS ' . $synchronization_alias . ' JOIN ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias . ' ON ' . $this->escape_column_name(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $synchronization_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias);
-        $record = $this->retrieve_row($query, ExternalRepositorySync :: get_table_name(), $condition);
+        $query = 'SELECT ' . $synchronization_alias . '.* FROM ' . $this->escape_table_name(ExternalSync :: get_table_name()) . ' AS ' . $synchronization_alias . ' JOIN ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias . ' ON ' . $this->escape_column_name(ExternalSync :: PROPERTY_CONTENT_OBJECT_ID, $synchronization_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias);
+        $record = $this->retrieve_row($query, ExternalSync :: get_table_name(), $condition);
 
         if ($record)
         {
-            return self :: record_to_object($record, ExternalRepositorySync :: CLASS_NAME);
+            return self :: record_to_object($record, ExternalSync :: CLASS_NAME);
         }
         else
         {
@@ -1638,13 +1638,13 @@ class DatabaseRepositoryDataManager extends Database implements
         }
     }
 
-    function retrieve_external_repository_syncs($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    function retrieve_external_syncs($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
-        $synchronization_alias = $this->get_alias(ExternalRepositorySync :: get_table_name());
+        $synchronization_alias = $this->get_alias(ExternalSync :: get_table_name());
 
-        $query = 'SELECT ' . $synchronization_alias . '.* FROM ' . $this->escape_table_name(ExternalRepositorySync :: get_table_name()) . ' AS ' . $synchronization_alias . ' JOIN ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias . ' ON ' . $this->escape_column_name(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $synchronization_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias);
-        return $this->retrieve_object_set($query, ExternalRepositorySync :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalRepositorySync :: CLASS_NAME);
+        $query = 'SELECT ' . $synchronization_alias . '.* FROM ' . $this->escape_table_name(ExternalSync :: get_table_name()) . ' AS ' . $synchronization_alias . ' JOIN ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias . ' ON ' . $this->escape_column_name(ExternalSync :: PROPERTY_CONTENT_OBJECT_ID, $synchronization_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias);
+        return $this->retrieve_object_set($query, ExternalSync :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalSync :: CLASS_NAME);
     }
 
     function delete_content_object_includes($object)

@@ -35,7 +35,7 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
             $external_object = $this->get_external_repository_connector()->retrieve_external_repository_object($external_object->get_id());
 
             $synchronization_data->set_content_object_timestamp($content_object->get_modification_date());
-            $synchronization_data->set_external_repository_object_timestamp($external_object->get_modified());
+            $synchronization_data->set_external_object_timestamp($external_object->get_modified());
             if ($synchronization_data->update())
             {
                 $parameters = $this->get_parameters();

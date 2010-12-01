@@ -17,7 +17,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use repository\RepositoryManager;
 
 use admin\Registration;
@@ -394,13 +394,13 @@ abstract class ExternalRepositoryManager extends SubManager
                 {
                     switch ($object->get_synchronization_status())
                     {
-                        case ExternalRepositorySync :: SYNC_STATUS_INTERNAL :
+                        case ExternalSync :: SYNC_STATUS_INTERNAL :
                             $toolbar_items[self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array(
                                     'OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(
                                     self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY,
                                     self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                             break;
-                        case ExternalRepositorySync :: SYNC_STATUS_EXTERNAL :
+                        case ExternalSync :: SYNC_STATUS_EXTERNAL :
                             if ($object->is_editable())
                             {
                                 $toolbar_items[self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array(
@@ -409,7 +409,7 @@ abstract class ExternalRepositoryManager extends SubManager
                                         self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                             }
                             break;
-                        case ExternalRepositorySync :: SYNC_STATUS_CONFLICT :
+                        case ExternalSync :: SYNC_STATUS_CONFLICT :
                             $toolbar_items[self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('ObjectUpdated', array(
                                     'OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(
                                     self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY,

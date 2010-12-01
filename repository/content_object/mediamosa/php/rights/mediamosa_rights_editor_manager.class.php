@@ -11,7 +11,7 @@ use common\extensions\external_repository_manager\implementation\mediamosa\Media
 use user\UserDataManager;
 use repository\ExternalSetting;
 use repository\RepositoryDataManager;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use rights\RightsDataManager;
 use rights\UserRightLocation;
 
@@ -57,12 +57,12 @@ class MediamosaRightsEditorManager extends RightsEditorManager
 
         foreach($locations as $location)
         {
-            $condition = new EqualityCondition(ExternalRepositorySync:: PROPERTY_CONTENT_OBJECT_ID, $location->get_identifier());
-            $sync = $redm->retrieve_external_repository_sync($condition);
+            $condition = new EqualityCondition(ExternalSync:: PROPERTY_CONTENT_OBJECT_ID, $location->get_identifier());
+            $sync = $redm->retrieve_external_sync($condition);
 
             $rdm = RightsDataManager :: get_instance();
 
-            $external_repository = $sync->get_external_repository();
+            $external_repository = $sync->get_external();
             $mmc = MediamosaExternalRepositoryConnector :: get_instance($external_repository);
 
             $rights = array();
@@ -99,7 +99,7 @@ class MediamosaRightsEditorManager extends RightsEditorManager
                     else
                     {
                         //master_slave
-                        $slaves = explode('|', ExternalSetting :: get('slave_app_ids', $sync->get_external_repository_id()));
+                        $slaves = explode('|', ExternalSetting :: get('slave_app_ids', $sync->get_external_id()));
 
                         foreach($slaves as $slave)
                         {
@@ -126,7 +126,7 @@ class MediamosaRightsEditorManager extends RightsEditorManager
 
             if($user->is_platform_admin())
             {
-                $asset = $mmc->retrieve_mediamosa_asset($sync->get_external_repository_object_id());
+                $asset = $mmc->retrieve_mediamosa_asset($sync->get_external_object_id());
                 $owner_id = $asset->get_owner_id();
             }
             else
@@ -136,8 +136,8 @@ class MediamosaRightsEditorManager extends RightsEditorManager
             }
 
             //update mediamosa
-            if ($update) $mmc->set_mediamosa_asset_rights($sync->get_external_repository_object_id(), $rights, $owner_id);
-            //$mmc->set_mediamosa_mediafile_rights($sync->get_external_repository_object_id(), $rights, $owner_id);
+            if ($update) $mmc->set_mediamosa_asset_rights($sync->get_external_object_id(), $rights, $owner_id);
+            //$mmc->set_mediamosa_mediafile_rights($sync->get_external_object_id(), $rights, $owner_id);
         }
 
 

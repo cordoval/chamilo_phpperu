@@ -5,7 +5,7 @@ use repository;
 
 use common\libraries\Request;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 
 class VimeoExternalRepositoryManagerSelecterComponent extends VimeoExternalRepositoryManager
 {
@@ -18,8 +18,8 @@ class VimeoExternalRepositoryManagerSelecterComponent extends VimeoExternalRepos
 
         $html = array();
         $html[] = '<script type="text/javascript">';
-        $html[] = 'window.opener.$("input[name=' . ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_ID . ']").val("' . $this->get_external_repository()->get_id() . '");';
-        $html[] = 'window.opener.$("input[name=' . ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID . ']").val("' . $object->get_id() . '");';
+        $html[] = 'window.opener.$("input[name=' . ExternalSync :: PROPERTY_EXTERNAL_ID . ']").val("' . $this->get_external_repository()->get_id() . '");';
+        $html[] = 'window.opener.$("input[name=' . ExternalSync :: PROPERTY_EXTERNAL_OBJECT_ID . ']").val("' . $object->get_id() . '");';
         $html[] = 'window.opener.$("input#title").val("' . addslashes($object->get_title()) . '");';
         $description = preg_replace('/((\\\\n)+)/', "$1\"+\n\"", preg_replace("/(\r\n|\n)/", '\\n', addslashes(nl2br($object->get_description()))));
         $html[] = 'window.opener.$("textarea[name=description]").val("' . $description . '");';

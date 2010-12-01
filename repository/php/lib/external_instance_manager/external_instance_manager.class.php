@@ -138,7 +138,7 @@ class ExternalInstanceManager extends SubManager
     {
         return self :: get_namespace($type) . '\\' . Utilities :: underscores_to_camelcase($type);
     }
-
+    
     static function exists($instance_type, $type)
     {
         $manager_class = self :: get_manager_class($instance_type);

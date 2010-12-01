@@ -81,6 +81,14 @@ abstract class VideoConferencingObject
     {
         return $this->default_properties;
     }
+    
+ 	/**
+     * @return string
+     */
+    public function get_modified()
+    {
+        return time();
+    }
 
     /**
      * @return string
@@ -138,15 +146,15 @@ abstract class VideoConferencingObject
 //        if (! isset($this->synchronization_data))
 //        {
 //            $sync_conditions = array();
-//            $sync_conditions[] = new EqualityCondition(VideoConferencingSync :: PROPERTY_VIDEO_CONFERENCING_OBJECT_ID, $this->get_id());
-//            $sync_conditions[] = new EqualityCondition(VideoConferencingSync :: PROPERTY_VIDEO_CONFERENCING_ID, $this->get_video_conferencing_id());            $sync_condition = new AndCondition($sync_conditions);
+//            $sync_conditions[] = new EqualityCondition(ExternalSync :: PROPERTY_EXTERNAL_OBJECT_ID, $this->get_id());
+//            $sync_conditions[] = new EqualityCondition(ExternalSync :: PROPERTY_EXTERNAL_ID, $this->get_video_conferencing_id());            $sync_condition = new AndCondition($sync_conditions);
 //
 //            $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_video_conferencing_sync($sync_condition);
 //        }
 //
 //        return $this->synchronization_data;
 //    }
-//
+
 //    /**
 //     * @return int
 //     */
@@ -154,13 +162,13 @@ abstract class VideoConferencingObject
 //    {
 //        return $this->get_synchronization_data()->get_synchronization_status(null, $this->get_modified());
 //    }
-//
+
 //    /**
 //     * @return boolean
 //     */
 //    function is_importable()
 //    {
-//        return ! $this->get_synchronization_data() instanceof ExternalRepositorySync;
+//        return ! $this->get_synchronization_data() instanceof ExternalSync;
 //    }
 }
 ?>

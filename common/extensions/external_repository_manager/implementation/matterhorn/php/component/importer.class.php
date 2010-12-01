@@ -8,7 +8,7 @@ use common\libraries\Utilities;
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use repository\ContentObject;
 use repository\RepositoryManager;
 use repository\content_object\matterhorn\Matterhorn;
@@ -33,7 +33,7 @@ class MatterhornExternalRepositoryManagerImporterComponent extends MatterhornExt
 
             if ($streaming_video_clip->create())
             {
-                ExternalRepositorySync :: quicksave($streaming_video_clip, $object, $this->get_external_repository()->get_id());
+                ExternalSync :: quicksave($streaming_video_clip, $object, $this->get_external_repository()->get_id());
                 $parameters = $this->get_parameters();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                 $this->redirect(Translation :: get('ObjectImported', null, Utilities :: COMMON_LIBRARIES), false, $parameters, array(
