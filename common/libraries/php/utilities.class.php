@@ -649,7 +649,6 @@ class Utilities
             'HTML_QuickForm_select' => 'HTML/QuickForm/select.php',
             'HTML_QuickForm_text' => 'HTML/QuickForm/text.php',
             'HTML_QuickForm_textarea' => 'HTML/QuickForm/textarea.php',
-            'RestResult' => 'webservices/rest/client/rest_result.class.php',
         );
 
 

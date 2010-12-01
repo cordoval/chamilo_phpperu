@@ -13,7 +13,7 @@ require_once Path :: get_repository_path() . '/question_types/rating_question/ra
 /**
  * This class can be used to display the difference between open question
  */
-class RatingQuestionDifferenceDisplay extends RatingQuestionDifferenceDisplay
+class AssessmentRatingQuestionDifferenceDisplay extends RatingQuestionDifferenceDisplay
 {
 }
 ?>
