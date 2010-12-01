@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment_select_question;
 
 use common\libraries\Path;
+use repository\SelectQuestionDisplay;
 
 /**
  * $Id: assessment_select_question_display.class.php $

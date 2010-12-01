@@ -15,8 +15,9 @@ class Autoloader
     static function load($classname)
     {
         $list = array(
-                'competence' => 'competence',
-                'competence_builder' => 'builder/competence_builder');
+            'competence' => 'competence',
+            'competence_builder' => 'builder/competence_builder',
+        );
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

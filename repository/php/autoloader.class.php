@@ -167,6 +167,9 @@ class Autoloader
                 'qti_builder_base' => 'import/qti/object_import/qti_builder_base.class.php',
                 'cp_object_import_base' => 'import/cp/object_import/cp_object_import_base.class.php',
                 'cp_object_import_aggregate' => 'import/cp/object_import/cp_object_import_aggregate.class.php',
+                'complex_browser_table_column_model' => 'repository_manager/component/complex_browser/complex_browser_table_column_model.class.php',
+                'open_question_difference' => '../question_types/open_question/open_question.class.php',
+                'select_question_display' => '../question_types/select_question/select_question_display.class.php',
             );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
