@@ -1,13 +1,17 @@
 <?php
 namespace common\libraries;
 
+use common\libraries\Request;
 use repository\RepositoryDataManager;
+use repository\RepositoryManager;
 use common\extensions\video_conferencing_manager\VideoConferencingManager;
 
 class VideoConferencingLauncher extends LauncherApplication
 {
-    const APPLICATION_NAME = 'external_repository';
+    const APPLICATION_NAME = 'video_conferencing';
 
+    private $external_instance;
+    
     function __construct($user)
     {
         parent :: __construct($user);
@@ -16,7 +20,7 @@ class VideoConferencingLauncher extends LauncherApplication
     function run()
     {
         $type = $this->get_type();
-        $this->external_repository = RepositoryDataManager :: get_instance()->retrieve_video_conferencing($type);
+        $this->external_instance = RepositoryDataManager :: get_instance()->retrieve_external_instance($type);
         $this->set_parameter(VideoConferencingManager :: PARAM_VIDEO_CONFERENCING, $type);
 
         VideoConferencingManager :: launch($this);
@@ -24,7 +28,7 @@ class VideoConferencingLauncher extends LauncherApplication
 
     function get_type()
     {
-        return Request :: get(VideoConferencingManager :: PARAM_VIDEO_CONFERENCING);
+        return Request :: get(RepositoryManager :: PARAM_EXTERNAL_INSTANCE);
     }
 
     public function get_link($parameters = array (), $filter = array(), $encode_entities = false, $application_type = Redirect :: TYPE_APPLICATION)
@@ -41,9 +45,9 @@ class VideoConferencingLauncher extends LauncherApplication
         return self :: APPLICATION_NAME;
     }
 
-    function get_video_conferencing()
+    function get_external_instance()
     {
-        return $this->video_conferencing;
+        return $this->external_instance;
     }
 }
 ?>

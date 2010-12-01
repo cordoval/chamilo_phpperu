@@ -2,6 +2,8 @@
 namespace common\extensions\video_conferencing_manager;
 
 use common\libraries\Utilities;
+
+use repository\ExternalSync;
 use Exception;
 
 abstract class VideoConferencingManagerConnector
@@ -96,7 +98,7 @@ abstract class VideoConferencingManagerConnector
 
     abstract function create_video_conferencing_object(VideoConferencingObject $video_conferencing_object);
     
-    abstract function join_video_conferencing_object(VideoConferencingObject $video_conferencing_object);
+    abstract function join_video_conferencing_object(ExternalSync $external_sync);
     
     /**
      * @param mixed $condition

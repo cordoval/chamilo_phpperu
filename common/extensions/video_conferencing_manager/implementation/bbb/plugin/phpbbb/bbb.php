@@ -90,14 +90,16 @@ class phpBbb
     
     }
 
-    function join_meeting($name, $password)
+    function join_meeting($name, $meeting_id, $password)
     {
-        $construct_url = 'fullName=' . urlencode($name) . '&meetingID=' . $this->meeting_id . '&password=' . $password;
+    	$parameters = array();
+        $parameters['fullName'] = $name;
+        $parameters['meetingID'] = $meeting_id;
+        $parameters['password'] = $password;
+        $construct_url = http_build_query($parameters);
         $checksum = sha1('join' . $construct_url . $this->security_salt);
         
-        $is_running_url = $this->ip . self :: API_JOIN_MEETING . '&checksum=' . $checksum;
-        $response = file_get_contents($is_running_url);
-    
+        return $this->ip . self :: API_JOIN_MEETING . $construct_url .'&checksum=' . $checksum;
     }
 
     function get_meetings()

@@ -1,6 +1,12 @@
 <?php
 namespace common\extensions\video_conferencing_manager\implementation\bbb;
 
+use common\libraries;
+
+use user;
+
+use repository;
+
 use repository\content_object\bbb_meeting;
 
 use common\extensions\video_conferencing_manager;
@@ -16,13 +22,15 @@ use repository\ExternalSetting;
 use repository\ExternalSync;
 use repository\content_object\bbb_meeting\BbbMeeting;
 
+use user\UserDataManager;
+
 use phpBbb;
 
 require_once Path :: get_plugin_path(__NAMESPACE__) . 'phpbbb/bbb.php';
 
 /**
- * ip : http://192.168.0.162
- * $security_salt : 6343dabde830897ffefdf2e9ac3e0a9c
+ * server : http://192.168.0.162
+ * security_salt : 6343dabde830897ffefdf2e9ac3e0a9c
  */
 
 class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConnector
@@ -40,13 +48,6 @@ class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConne
         $security_salt = ExternalSetting :: get('security_salt', $this->get_video_conferencing_instance_id());
         
         $this->bbb = new phpBbb($server, $security_salt);
-        
-    //$this->bbb->is_meeting_running('test123');
-    
-
-    //$this->bbb->get_metting_info('test');
-    
-
     }
 
     function create_video_conferencing_object(VideoConferencingObject $video_conferencing_object)
@@ -56,6 +57,7 @@ class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConne
         
         if ($response['returncode'] === 'SUCCESS')
         {
+        	$video_conferencing_object->set_video_conferencing_id($this->get_video_conferencing_instance_id());
             $video_conferencing_object->set_id($response['meetingID']);
             $video_conferencing_object->set_attendee_pw($response['attendeePW']);
             $video_conferencing_object->set_moderator_pw($response['moderatorPW']);
@@ -103,6 +105,7 @@ class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConne
         {
             
             $video_conferencing_object = new BbbVideoConferencingObject();
+            $video_conferencing_object->set_video_conferencing_id($this->get_video_conferencing_instance_id());
             $video_conferencing_object->set_title($response['meetingID']);
             $video_conferencing_object->set_id($response['meetingID']);
             $video_conferencing_object->set_attendee_pw($response['attendeePW']);
@@ -127,11 +130,12 @@ class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConne
         }
         return false;
     }
-
-    function join_video_conferencing_object(VideoConferencingObject $video_conferencing_object)
-    {
-        
-        $this->bbb->join_meeting('Gillard Magali', $video_conferencing_object->meeting_id, 'test');
+    
+    function join_video_conferencing_object(ExternalSync $external_sync)
+    { 
+    	$object = $external_sync->get_external_object();
+    	$user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+        return $this->bbb->join_meeting($user->get_fullname(), $object->get_id(), $object->get_moderator_pw());
     }
 
     /**

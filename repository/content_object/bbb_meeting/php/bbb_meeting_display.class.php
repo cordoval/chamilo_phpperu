@@ -16,11 +16,14 @@ class BbbMeetingDisplay extends ContentObjectDisplay
     	$object = $this->get_content_object();
     	$external_sync = $object->get_synchronization_data();
     	$display = VideoConferencingObjectDisplay :: factory($external_sync->get_external_object());
+    	$html = array();
+    	$html[] = $display->get_properties_table();
+    	$html[] = $display->get_join_button();
     	
-    	$html = parent :: get_description();
+    	$description = parent :: get_description();
         $object = $this->get_content_object();
 
-        return str_replace(self :: DESCRIPTION_MARKER, $display->get_properties_table() . self :: DESCRIPTION_MARKER, $html);   	
+        return str_replace(self :: DESCRIPTION_MARKER, implode('<br/>', $html) . self :: DESCRIPTION_MARKER, $description);   	
     }
     
     
