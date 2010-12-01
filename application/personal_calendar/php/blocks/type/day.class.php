@@ -1,7 +1,7 @@
 <?php
 namespace application\personal_calendar;
 
-use common\libraries\Webapplication;
+use common\libraries\WebApplication;
 use common\libraries\Utilities;
 use common\libraries\Request;
 

@@ -12,7 +12,6 @@ use rights\RightsManager;
  * $Id: registration_browser_table_cell_renderer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.package_manager.component.registration_browser
  */
-require_once Path :: get_admin_path() . 'lib/package_manager/component/registration_browser/registration_browser_table_column_model.class.php';
 /**
  * Cell rendere for the learning object browser table
  */

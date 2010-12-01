@@ -67,8 +67,31 @@ class Autoloader
             return true;
         }
 
+        if (self :: check_for_ims_files()){
+            return true;
+        }
+
         return false;
     }
+
+
+    static function check_for_ims_files()
+    {
+        $list = array(
+            'ims_xml_reader' => 'common/reader/ims_xml_reader.class.php',
+        );
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
+
+        if (array_key_exists($lower_case, $list))
+        {
+            $url = $list[$lower_case];
+            require_once dirname(__FILE__) . '/ims/' . $url;
+            return true;
+        }
+
+        return false;
+    }
+
 
     static function check_for_database_files()
     {
@@ -318,26 +341,28 @@ class Autoloader
     static function check_for_special_files()
     {
         $list = array(
-                'platform_setting' => 'configuration/platform_setting.class.php',
-                'local_setting' => 'configuration/local_setting.class.php',
-                'array_result_set' => 'database/array_result_set.class.php',
-                'connection' => 'database/connection.class.php',
-                'object_result_set' => 'database/object_result_set.class.php',
-                'record_result_set' => 'database/record_result_set.class.php',
-                'database_alias_generator' => 'database/database_alias_generator.class.php',
-                'data_manager_interface' => 'database/data_manager_interface.class.php',
-                'data_class' => 'database/data_class.class.php',
-                'nested_tree_node' => 'database/nested_tree_node.class.php',
-                'nested_tree_database' => 'database/nested_tree_database.class.php',
-                'cookie' => 'session/cookie.class.php',
-                'request' => 'session/request.class.php',
-                'rss_icon_generator' => 'util/rss_icon_generator/rss_icon_generator.class.php',
-                'chamilo_test_suite' => 'test/chamilo_test_suite.class.php',
-                'file_logger' => 'filesystem/file_logger.class.php',
-                'timer' => 'datetime/timer.class.php',
-                'publication_r_s_s' => 'rss/publication_rss.class.php',
-                'chamilo_rest_server' => 'webservice/rest/chamilo_rest_server.class.php',
-                'webservice_authentication' => 'webservice/authentication/webservice_authentication.class.php');
+            'platform_setting' => 'configuration/platform_setting.class.php',
+            'local_setting' => 'configuration/local_setting.class.php',
+            'array_result_set' => 'database/array_result_set.class.php',
+            'connection' => 'database/connection.class.php',
+            'object_result_set' => 'database/object_result_set.class.php',
+            'record_result_set' => 'database/record_result_set.class.php',
+            'database_alias_generator' => 'database/database_alias_generator.class.php',
+            'data_manager_interface' => 'database/data_manager_interface.class.php',
+            'data_class' => 'database/data_class.class.php',
+            'nested_tree_node' => 'database/nested_tree_node.class.php',
+            'nested_tree_database' => 'database/nested_tree_database.class.php',
+            'cookie' => 'session/cookie.class.php',
+            'request' => 'session/request.class.php',
+            'rss_icon_generator' => 'util/rss_icon_generator/rss_icon_generator.class.php',
+            'chamilo_test_suite' => 'test/chamilo_test_suite.class.php',
+            'file_logger' => 'filesystem/file_logger.class.php',
+            'timer' => 'datetime/timer.class.php',
+            'publication_r_s_s' => 'rss/publication_rss.class.php',
+            'chamilo_rest_server' => 'webservice/rest/chamilo_rest_server.class.php',
+            'database_backup' => 'database/backup/database_backup.class.php',
+            'webservice_authentication' => 'webservice/authentication/webservice_authentication.class.php',
+            );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

@@ -24,6 +24,7 @@ class Autoloader
 		'variable' => 'variable.class.php',
 		'translator_application' => 'translator_application.class.php',
         'translation_exporter' => 'cda_manager/component/translation_exporter/translation_exporter.class.php',
+        'translation_importer' => 'cda_manager/component/translation_importer/translation_importer.class.php',
 		'language_pack' => 'language_pack.class.php',
 		'cda_language' => 'cda_language.class.php',
 		'cda_manager' => 'cda_manager/cda_manager.class.php',

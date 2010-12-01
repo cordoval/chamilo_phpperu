@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\BreadcrumbTrail;
+use common\extensions\repo_viewer\RepoViewerInterface;
 
 /**
  * $Id: repo_viewer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

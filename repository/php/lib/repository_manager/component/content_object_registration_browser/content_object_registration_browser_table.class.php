@@ -9,13 +9,9 @@ use common\libraries\Utilities;
  * $Id: registration_browser_table.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_manager.component.registration_browser
  */
-require_once Path :: get_admin_path() . 'lib/package_manager/component/registration_browser/registration_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/content_object_registration_browser_table_data_provider.class.php';
-require_once Path :: get_admin_path() . 'lib/package_manager/component/registration_browser/registration_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/content_object_registration_browser_table_column_model.class.php';
-require_once Path :: get_admin_path() . 'lib/package_manager/component/registration_browser/registration_browser_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/content_object_registration_browser_table_cell_renderer.class.php';
-require_once Path :: get_admin_path() . 'lib/package_manager/component/registration_browser/registration_browser_table.class.php';
 
 /**
  * Table to display a set of learning objects.
