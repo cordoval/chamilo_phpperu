@@ -134,7 +134,7 @@ class CreateExternalItemForm extends FormValidator
         if (!Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID))
         {
             $attributes = array();
-            $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+            $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/xml_feeds/xml_user_group_feed.php';
             $locale = array();
             $locale['Display'] = Translation :: get('SelectRecipients');
             $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
