@@ -608,12 +608,64 @@ class Utilities
 
     static function autoload_plugin($classname)
     {
-        // PEAR or ZEND class?
-        $classes = array('Zend_Loader' => 'Zend/Loader.php', 'phpCAS' => 'CAS.php', 'MDB2' => 'MDB2.php', 'PEAR' => 'PEAR.php', 'Contact_Vcard_Build' => 'File/Contact_Vcard_Build.php', 'Contact_Vcard_Parse' => 'File/Contact_Vcard_Parse.php', 'HTTP_Request' => 'HTTP/Request.php', 'Net_LDAP2' => 'Net/LDAP2.php', 'Net_LDAP2_Filter' => 'Net/LDAP2/Filter.php', 'Pager' => 'Pager/Pager.php', 'Pager_Sliding' => 'Pager/Sliding.php', 'XML_Unserializer' => 'XML/Unserializer.php', 'XML_Serializer' => 'XML/Serializer.php', 'HTML_Table' => 'HTML/Table.php', 'HTML_QuickForm' => 'HTML/QuickForm.php', 'HTML_Menu' => 'HTML/Menu.php', 'HTML_Menu_ArrayRenderer' => 'HTML/Menu/ArrayRenderer.php', 'HTML_Menu_DirectTreeRenderer' => 'HTML/Menu/DirectTreeRenderer.php', 'HTML_QuickForm_Controller' => 'HTML/QuickForm/Controller.php', 'HTML_QuickForm_Rule' => 'HTML/QuickForm/Rule.php', 'HTML_QuickForm_Page' => 'HTML/QuickForm/Page.php', 'HTML_QuickForm_Action' => 'HTML/QuickForm/Action.php', 'HTML_QuickForm_RuleRegistry' => 'HTML/QuickForm/RuleRegistry.php', 'HTML_QuickForm_Action_Display' => 'HTML/QuickForm/Action/Display.php', 'HTML_QuickForm_Rule_Compare' => 'HTML/QuickForm/Rule/Compare.php', 'HTML_QuickForm_advmultiselect' => 'HTML/QuickForm/advmultiselect.php', 'HTML_QuickForm_button' => 'HTML/QuickForm/button.php', 'HTML_QuickForm_checkbox' => 'HTML/QuickForm/checkbox.php', 'HTML_QuickForm_date' => 'HTML/QuickForm/date.php', 'HTML_QuickForm_element' => 'HTML/QuickForm/element.php', 'HTML_QuickForm_file' => 'HTML/QuickForm/file.php', 'HTML_QuickForm_group' => 'HTML/QuickForm/group.php', 'HTML_QuickForm_hidden' => 'HTML/QuickForm/hidden.php', 'HTML_QuickForm_html' => 'HTML/QuickForm/html.php', 'HTML_QuickForm_radio' => 'HTML/QuickForm/radio.php', 'HTML_QuickForm_select' => 'HTML/QuickForm/select.php', 'HTML_QuickForm_text' => 'HTML/QuickForm/text.php', 'HTML_QuickForm_textarea' => 'HTML/QuickForm/textarea.php');
+        // Zend or Google
+        $classes = array(
+            'Zend_Loader' => 'Zend/Loader.php',
+            'phpCAS' => 'CAS.php',
+            'MDB2' => 'MDB2.php',
+            'PEAR' => 'PEAR.php',
+            'Contact_Vcard_Build' => 'File/Contact_Vcard_Build.php',
+            'Contact_Vcard_Parse' => 'File/Contact_Vcard_Parse.php',
+            'HTTP_Request' => 'HTTP/Request.php',
+            'Net_LDAP2' => 'Net/LDAP2.php',
+            'Net_LDAP2_Filter' => 'Net/LDAP2/Filter.php',
+            'Pager' => 'Pager/Pager.php',
+            'Pager_Sliding' => 'Pager/Sliding.php',
+            'XML_Unserializer' => 'XML/Unserializer.php',
+            'XML_Serializer' => 'XML/Serializer.php',
+            'HTML_Table' => 'HTML/Table.php',
+            'HTML_QuickForm' => 'HTML/QuickForm.php',
+            'HTML_Menu' => 'HTML/Menu.php',
+            'HTML_Menu_ArrayRenderer' =>
+            'HTML/Menu/ArrayRenderer.php',
+            'HTML_Menu_DirectTreeRenderer' => 'HTML/Menu/DirectTreeRenderer.php',
+            'HTML_QuickForm_Controller' => 'HTML/QuickForm/Controller.php',
+            'HTML_QuickForm_Rule' => 'HTML/QuickForm/Rule.php',
+            'HTML_QuickForm_Page' => 'HTML/QuickForm/Page.php',
+            'HTML_QuickForm_Action' => 'HTML/QuickForm/Action.php',
+            'HTML_QuickForm_RuleRegistry' => 'HTML/QuickForm/RuleRegistry.php',
+            'HTML_QuickForm_Action_Display' => 'HTML/QuickForm/Action/Display.php',
+            'HTML_QuickForm_Rule_Compare' => 'HTML/QuickForm/Rule/Compare.php',
+            'HTML_QuickForm_advmultiselect' => 'HTML/QuickForm/advmultiselect.php',
+            'HTML_QuickForm_button' => 'HTML/QuickForm/button.php',
+            'HTML_QuickForm_checkbox' => 'HTML/QuickForm/checkbox.php',
+            'HTML_QuickForm_date' => 'HTML/QuickForm/date.php',
+            'HTML_QuickForm_element' => 'HTML/QuickForm/element.php',
+            'HTML_QuickForm_file' => 'HTML/QuickForm/file.php',
+            'HTML_QuickForm_group' => 'HTML/QuickForm/group.php',
+            'HTML_QuickForm_hidden' => 'HTML/QuickForm/hidden.php',
+            'HTML_QuickForm_html' => 'HTML/QuickForm/html.php',
+            'HTML_QuickForm_radio' => 'HTML/QuickForm/radio.php',
+            'HTML_QuickForm_select' => 'HTML/QuickForm/select.php',
+            'HTML_QuickForm_text' => 'HTML/QuickForm/text.php',
+            'HTML_QuickForm_textarea' => 'HTML/QuickForm/textarea.php',
+            'RestResult' => 'webservices/rest/client/rest_result.class.php',
+        );
+
 
         if (array_key_exists($classname, $classes))
         {
             require_once $classes[$classname];
+            return class_exists($classname);
+        }
+
+
+        $other_plugin_classes = array(
+            'RestResult' => 'webservices/rest/client/rest_result.class.php',
+        );
+        if (array_key_exists($classname, $other_plugin_classes))
+        {
+            require_once Path :: get_plugin_path() . '/' .$other_plugin_classes[$classname];
             return class_exists($classname);
         }
 

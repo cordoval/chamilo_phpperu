@@ -83,6 +83,11 @@ class Autoloader
             'package_manager' => 'package_manager/package_manager.class.php',
             'package_remover' => 'package_remover/package_remover.class.php',
             'package_info' => 'package_installer/source/package_info/package_info.class.php',
+            'content_object_registration_browser_table_data_provider' => 'package_manager/component/registration_browser/content_object/content_object_registration_browser_table_data_provider.class.php',
+            'content_object_registration_browser_table_column_model' => 'package_manager/component/registration_browser/content_object/content_object_registration_browser_table_column_model.class.php',
+            'content_object_registration_browser_table_cell_renderer' => 'package_manager/component/registration_browser/content_object/content_object_registration_browser_table_cell_renderer.class.php',
+            'content_object_registration_browser_table' => 'package_manager/component/registration_browser/content_object/content_object_registration_browser_table.class.php',
+            'package_dependency' => 'package_manager/package_dependency.class.php',
         );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
