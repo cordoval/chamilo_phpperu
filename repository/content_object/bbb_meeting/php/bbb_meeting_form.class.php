@@ -17,12 +17,13 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use repository\ContentObjectForm;
 use repository\ExternalSync;
 use common\libraries\Utilities;
+use repository\content_object\soundcloud\Soundcloud;
 
 /**
  * $Id: bbb_meeting_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.soundcloud
  */
-require_once dirname(__FILE__) . '/soundcloud.class.php';
+
 
 class BbbMeetingForm extends ContentObjectForm
 {
