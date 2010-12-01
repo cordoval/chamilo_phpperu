@@ -106,7 +106,7 @@ class FedoraExternalRepositoryManagerImporterComponent extends FedoraExternalRep
             }
             if ($result instanceof Document)
             {
-                ExternalRepositorySync :: quicksave($result, $external_object, $this->get_external_repository()->get_id());
+                ExternalSync :: quicksave($result, $external_object, $this->get_external_repository()->get_id());
             }
         }
 

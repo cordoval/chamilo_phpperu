@@ -378,7 +378,7 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
 
             $connector = $this->get_external_repository_connector();
             $ext = $connector->retrieve_external_repository_object($meta->pid);
-            ExternalRepositorySync :: quicksave($co, $ext, $this->get_external_repository()->get_id());
+            ExternalSync :: quicksave($co, $ext, $this->get_external()->get_id());
         }
 
         return $result;

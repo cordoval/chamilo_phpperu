@@ -24,11 +24,11 @@ class Matterhorn extends ContentObject implements Versionable
 
         $conditions = array();
         $conditions[] = new EqualityCondition(ExternalSetting :: PROPERTY_VARIABLE, 'url');
-        $conditions[] = new EqualityCondition(ExternalSetting :: PROPERTY_EXTERNAL_ID, $synchronization_data->get_external_repository_id());
+        $conditions[] = new EqualityCondition(ExternalSetting :: PROPERTY_EXTERNAL_ID, $synchronization_data->get_external_id());
         $condition = new AndCondition($conditions);
         $settings = $this->get_data_manager()->retrieve_external_settings($condition)->next_result();
 
-        return $settings->get_value() . '/engage/ui/embed.html?id=' . $synchronization_data->get_external_repository_object_id();
+        return $settings->get_value() . '/engage/ui/embed.html?id=' . $synchronization_data->get_external_object_id();
     }
 }
 ?>

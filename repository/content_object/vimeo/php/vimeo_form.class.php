@@ -2,7 +2,7 @@
 namespace repository\content_object\vimeo;
 
 use repository\ContentObjectForm;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 
 use common\libraries\Translation;
 use common\libraries\ExternalRepositoryLauncher;
@@ -29,8 +29,8 @@ class VimeoForm extends ContentObjectForm
             $this->addElement('static', null, null, $external_repositories);
         }
 
-        $this->addElement('hidden', ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_ID);
-        $this->addElement('hidden', ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID);
+        $this->addElement('hidden', ExternalSync :: PROPERTY_EXTERNAL_ID);
+        $this->addElement('hidden', ExternalSync :: PROPERTY_EXTERNAL_OBJECT_ID);
         $this->addElement('category');
     }
 
@@ -55,14 +55,14 @@ class VimeoForm extends ContentObjectForm
 
         if ($success)
         {
-            $external_repository_id = (int) $this->exportValue(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_ID);
+            $external_repository_id = (int) $this->exportValue(ExternalSync :: PROPERTY_EXTERNAL_ID);
 
-            $external_respository_sync = new ExternalRepositorySync();
-            $external_respository_sync->set_external_repository_id($external_repository_id);
-            $external_respository_sync->set_external_repository_object_id((string) $this->exportValue(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID));
-            $external_object = $external_respository_sync->get_external_repository_object();
+            $external_respository_sync = new ExternalSync();
+            $external_respository_sync->set_external_id($external_repository_id);
+            $external_respository_sync->set_external_object_id((string) $this->exportValue(ExternalSync :: PROPERTY_EXTERNAL_OBJECT_ID));
+            $external_object = $external_respository_sync->get_external_object();
 
-            ExternalRepositorySync :: quicksave($object, $external_object, $external_repository_id);
+            ExternalSync :: quicksave($object, $external_object, $external_repository_id);
         }
 
         return $success;

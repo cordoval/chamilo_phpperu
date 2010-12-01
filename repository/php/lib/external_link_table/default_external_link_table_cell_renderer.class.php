@@ -36,7 +36,7 @@ class DefaultExternalLinkTableCellRenderer extends ObjectTableCellRenderer
      */
     function render_cell($column, $object)
     {
-        $external_instance = $object->get_external_repository();
+        $external_instance = $object->get_external();
         switch ($column->get_name())
         {
             case ExternalInstance :: PROPERTY_TYPE :

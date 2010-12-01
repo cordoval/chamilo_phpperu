@@ -7,7 +7,7 @@ use common\libraries\Path;
 use common\libraries\EqualityCondition;
 use repository\ContentObjectDisplay;
 use repository\RepositoryDataManager;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use common\extensions\external_repository_manager\implementation\mediamosa\MediamosaExternalRepositoryConnector;
 use common\extensions\external_repository_manager\implementation\mediamosa\MediamosaExternalRepositoryObject;
 
@@ -44,16 +44,16 @@ class MediamosaDisplay extends ContentObjectDisplay
             $object = $this->get_content_object();
 
             $rdm = RepositoryDataManager :: get_instance();
-            $condition = new EqualityCondition(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
-            $sync = $rdm->retrieve_external_repository_sync($condition);
+            $condition = new EqualityCondition(ExternalSync :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
+            $sync = $rdm->retrieve_external_sync($condition);
 
-            $external_repository = $sync->get_external_repository();
+            $external_repository = $sync->get_external();
             $this->mediamosa_external_repository_connector = MediamosaExternalRepositoryConnector :: get_instance($external_repository);
         }
 
         if(!$this->mediamosa_object)
         {
-            if(!$this->mediamosa_object = $this->mediamosa_external_repository_connector->retrieve_mediamosa_asset($sync->get_external_repository_object_id())){
+            if(!$this->mediamosa_object = $this->mediamosa_external_repository_connector->retrieve_mediamosa_asset($sync->get_external_object_id())){
                 $this->connection_lost = true;
             }
         }

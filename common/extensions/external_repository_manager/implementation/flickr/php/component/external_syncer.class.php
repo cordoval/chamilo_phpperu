@@ -3,6 +3,8 @@ namespace common\extensions\external_repository_manager\implementation\flickr;
 
 use common\libraries\Redirect;
 use common\libraries\Utilities;
+use common\libraries\Application;
+use common\libraries\Translation;
 
 use repository\RepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
@@ -33,7 +35,7 @@ class FlickrExternalRepositoryManagerExternalSyncerComponent extends FlickrExter
             $external_object = $this->get_external_repository_connector()->retrieve_external_repository_object($external_object->get_id());
 
             $synchronization_data->set_content_object_timestamp($content_object->get_modification_date());
-            $synchronization_data->set_external_repository_object_timestamp($external_object->get_modified());
+            $synchronization_data->set_external_object_timestamp($external_object->get_modified());
             if ($synchronization_data->update())
             {
                 $parameters = $this->get_parameters();

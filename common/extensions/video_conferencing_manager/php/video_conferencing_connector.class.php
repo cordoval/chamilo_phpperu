@@ -89,6 +89,10 @@ abstract class VideoConferencingConnector
      */
     abstract function retrieve_video_conferencing_objects($condition, $order_property, $offset, $count);
 
+    abstract function create_video_conferencing_object(VideoConferencingObject $video_conferencing_object);
+    
+    abstract function join_video_conferencing_object(VideoConferencingObject $video_conferencing_object);
+    
     /**
      * @param mixed $condition
      */
