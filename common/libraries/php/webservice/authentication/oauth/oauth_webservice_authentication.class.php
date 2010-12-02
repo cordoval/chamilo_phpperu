@@ -7,7 +7,8 @@ namespace common\libraries;
  */
 class OauthWebserviceAuthentication extends WebserviceAuthentication
 {
-    public function is_valid() {
+    public function is_valid()
+    {
         throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
     }
 }
