@@ -376,7 +376,7 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
         $cql = $this->create_cql_query();
 
         if($this->cql_error)$params['limit'] = 0;
-
+echo $cql;
         $params['cql'] = urlencode($cql);
        if ($response = $this->request(self :: METHOD_GET, '/asset', $params)) {
             return $response;

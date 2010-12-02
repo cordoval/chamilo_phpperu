@@ -26,6 +26,9 @@ abstract class VideoConferencingManager extends SubManager
     const ACTION_CREATE_MEETING = 'creator';
     const ACTION_JOIN_MEETING = 'joiner';
     const ACTION_CONFIGURE_VIDEO_CONFERENCING = 'configurer';
+    const ACTION_BROWSER_VIDEO_CONFERENCING = 'browser';
+    const ACTION_VIEW_VIDEO_CONFERENCING = 'viewer';
+    const ACTION_END_VIDEO_CONFERENCING = 'ender';
 
     const DEFAULT_ACTION = self :: ACTION_CREATE_MEETING;
 
@@ -191,7 +194,7 @@ abstract class VideoConferencingManager extends SubManager
             $parameters[self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION] = $video_conferencing_action;
 
             $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($video_conferencing_action) . 'Title'));
-            $link = $this->get_url($parameters, true);
+            $link = $this->get_url($parameters);
 
             $tabs->add_tab(new DynamicVisualTab($video_conferencing_action, $label, Theme :: get_common_image_path() . 'place_tab_' . $video_conferencing_action . '.png', $link, $selected));
         }

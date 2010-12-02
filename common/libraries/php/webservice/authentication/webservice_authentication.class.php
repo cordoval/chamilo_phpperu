@@ -9,7 +9,7 @@ abstract class WebserviceAuthentication
 {
     static function factory()
     {
-        $type = 'digest';
+        $type = 'chamilo';
         
         $path = dirname(__FILE__) . '/' . $type . '/' . $type . '_webservice_authentication.class.php';
         if(!file_exists($path))

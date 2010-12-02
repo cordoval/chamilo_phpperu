@@ -1,7 +1,5 @@
-TypeName = "Soundcloud"
+TypeName = "Bigbluebutton Meeting"
 Properties = "Properties"
-BrowseSoundcloud = "Browse Soundcloud"
-TrackId = "Track id"
 
 Title = ""
 Description = ""

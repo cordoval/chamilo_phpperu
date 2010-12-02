@@ -24,7 +24,23 @@ namespace common\libraries;
  */
 class ChamiloWebserviceAuthentication extends WebserviceAuthentication
 {
-    public function is_valid() {
+    const PARAM_AUTHORIZATION = 'authorization';
+    const PARAM_USERNAME = 'username';
+    const PARAM_SIGNATURE_METHOD = 'signature_method';
+    const PARAM_TIMESTAMP = 'timestamp';
+    const PARAM_NONCE = 'nonce';
+    const PARAM_SIGNATURE = 'signature';
+
+    public function is_valid()
+    {
+        $headers = apache_request_headers();
+        $authorization = explode(',', $headers[self :: PARAM_AUTHORIZATION]);
+        
         throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    private function calculate_signature($authorization)
+    {
+        
     }
 }

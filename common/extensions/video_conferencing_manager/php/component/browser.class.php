@@ -1,0 +1,134 @@
+<?php
+namespace common\extensions\video_conferencing_manager;
+
+use common\libraries\Utilities;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Request;
+use common\libraries\ActionBarSearchForm;
+
+require_once dirname(__FILE__) . '/video_conferencing_browser_table/video_conferencing_browser_table.class.php';
+
+class VideoConferencingComponentBrowserComponent extends VideoConferencingComponent
+{
+    private $action_bar;
+    private $menu;
+
+    function get_menu()
+    {
+        return $this->menu;
+    }
+
+    function set_menu($menu)
+    {
+        $this->menu = $menu;
+    }
+
+    function render_menu()
+    {
+        $extra = $this->get_menu_items();
+        if ($this->action_bar->get_query())
+        {
+            $search_url = '#';
+            $search = array();
+
+            $search['title'] = Translation :: get('SearchResults');
+
+            $search['url'] = $search_url;
+            $search['class'] = 'search_results';
+            $extra[] = $search;
+        }
+        else
+        {
+            $search_url = null;
+        }
+
+        $this->menu = new VideoConferencingMenu(Request :: get(VideoConferencingManager :: PARAM_VIDEO_CONFERENCING_ID), $this->get_parent(), $extra);
+
+        if ($search_url)
+        {
+            $this->menu->forceCurrentUrl($search_url);
+        }
+
+        $html = array();
+        if ($this->menu->count_menu_items() > 0)
+        {
+            $html[] = '<div style=" width: 20%; overflow: auto; float: left;">';
+            $html[] = $this->menu->render_as_tree();
+            $html[] = '</div>';
+        }
+        return implode("\n", $html);
+    }
+
+    function run()
+    {
+        $this->action_bar = $this->get_action_bar();
+        $query = $this->action_bar->get_query();
+        $html = array();
+
+        if (isset($query) && $query != '')
+        {
+            $this->set_parameter(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY, $query);
+        }
+
+        $this->display_header();
+
+        $html[] = $this->action_bar->as_html();
+        $html[] = '<div id="action_bar_browser">';
+
+        if ($this->get_menu() == null)
+        {
+            $html[] = $this->render_menu();
+        }
+        if ($this->menu->count_menu_items() > 0)
+        {
+            $html[] = '<div style=" width: 80%; overflow: auto; float: left;">';
+        }
+
+        $renderer = VideoConferencingObjectRenderer :: factory($this->get_parent()->get_renderer(), $this);
+        $html[] = $renderer->as_html();
+
+        if ($this->menu->count_menu_items() > 0)
+        {
+            $html[] = '</div>';
+        }
+        $html[] = '</div>';
+
+        echo (implode("\n", $html));
+        $this->display_footer();
+    }
+
+    function get_condition()
+    {
+        $query = $this->action_bar->get_query();
+        if (isset($query) && $query != '')
+        {
+            return $this->translate_search_query($query);
+        }
+        return null;
+    }
+
+    function get_action_bar()
+    {
+        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+        $action_bar->set_search_url($this->get_url());
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
+        $renderers = $this->get_parent()->get_available_renderers();
+
+        if (count($renderers) > 1)
+        {
+            foreach ($renderers as $renderer)
+            {
+                $action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($renderer) . 'View', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'view_' . $renderer . '.png', $this->get_url(array(
+                        VideoConferencingManager :: PARAM_RENDERER => $renderer)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            }
+        }
+
+        return $action_bar;
+    }
+}
+?>

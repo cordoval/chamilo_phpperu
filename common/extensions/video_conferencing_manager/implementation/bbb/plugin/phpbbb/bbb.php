@@ -20,7 +20,7 @@ class phpBbb
 
     function create_meeting($meeting_name, $meeting_id, $attendee_pw = null, $moderator_pw = null, $welcome_message = null, $logout_url = null, $max_participants = null)
     {
-        //        if (! $this->is_meeting_running($meeting_id))
+        //        if ($this->is_meeting_running($meeting_id))
         //        {
         $this->meeting_id = $meeting_id;
         
@@ -61,12 +61,15 @@ class phpBbb
         {
             return $unserializer->getUnserializedData();
         }
-        //        }
+        //    }
     }
 
     function is_meeting_running($meeting_id)
     {
-        $construct_url = 'meetingID=' . $meeting_id;
+        $parameters = array();
+        $parameters['meetingID'] = $meeting_id;
+        $construct_url = http_build_query($parameters);
+        
         $checksum = sha1('isMeetingRunning' . $construct_url . $this->security_salt);
         
         $is_running_url = $this->ip . self :: API_IS_MEETING_RUNNING . $construct_url . '&checksum=' . $checksum;
@@ -74,65 +77,78 @@ class phpBbb
         
         $doc = new DOMDocument();
         $doc->loadXML($response);
-        $returnCodeNode = $doc->getElementsByTagName("returncode");
-        $returnCode = $returnCodeNode->item(0)->nodeValue;
+        $return_code_node = $doc->getElementsByTagName("returncode");
         
-        if ($returnCode == "SUCCESS")
+        $return_code = $return_code_node->item(0)->nodeValue;
+        if ($return_code === 'SUCCESS')
         {
-            return $returnCode;
-        }
-        else
-        {
-            $messageKeyNode = $doc->getElementsByTagName("messageKey");
-            $messageKey = $messageKeyNode->item(0)->nodeValue;
-            return $messageKey;
+            $running_node = $doc->getElementsByTagName("running");
+            $is_running = $running_node->item(0)->nodeValue;
+            if ($is_running === 'false')
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     
     }
 
     function join_meeting($name, $meeting_id, $password)
     {
-    	$parameters = array();
+        $parameters = array();
         $parameters['fullName'] = $name;
         $parameters['meetingID'] = $meeting_id;
         $parameters['password'] = $password;
         $construct_url = http_build_query($parameters);
         $checksum = sha1('join' . $construct_url . $this->security_salt);
+        $join_meeting_url = $this->ip . self :: API_JOIN_MEETING . $construct_url . '&checksum=' . $checksum;
+        $response = file_get_contents($join_meeting_url);
         
-        return $this->ip . self :: API_JOIN_MEETING . $construct_url .'&checksum=' . $checksum;
+        $doc = new DOMDocument();
+        $doc->loadXML($response);
+        $return_code_node = $doc->getElementsByTagName("returncode");
+        
+        $return_code = $return_code_node->item(0)->nodeValue;
+        if ($return_code === 'FAILED')
+        {
+        	return false;
+        }
+        
+        return $join_meeting_url;
     }
 
     function get_meetings()
     {
         $random = rand();
-        $construct_url = 'random=' . $random;
+        $parameters = array();
+        $parameters['random'] = $random;
+        $construct_url = http_build_query($parameters);
         $checksum = sha1('getMeetings' . $construct_url . $this->security_salt);
         
         $get_meetings_url = $this->ip . self :: API_GET_MEETINGS . $construct_url . '&checksum=' . $checksum;
         $response = file_get_contents($get_meetings_url);
         
-        $doc = new DOMDocument();
-        $doc->loadXML($response);
-        $returnCodeNode = $doc->getElementsByTagName("returncode");
-        $returnCode = $returnCodeNode->item(0)->nodeValue;
+        $unserializer = new XML_Unserializer();
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
+        $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('meeting'));
         
-        if ($returnCode == "SUCCESS")
+        // userialize the document
+        $status = $unserializer->unserialize($response);
+        
+        if (PEAR :: isError($status))
         {
-            $response = array();
-            $response['meeting_id'] = $doc->getElementsByTagName("meetingID")->item(0)->nodeValue;
-            $response['attendee_pw'] = $doc->getElementsByTagName("attendeePw")->item(0)->nodeValue;
-            $response['moderator_pw'] = $doc->getElementsByTagName("moderatorPw")->item(0)->nodeValue;
-            $response['status'] = $doc->getElementsByTagName("running")->item(0)->nodeValue;
-            $response['result'] = true;
+            $this->display_error_page($status->getMessage());
         }
         else
         {
-            $response = array();
-            $response['result'] = false;
-            $response['message'] = $doc->getElementsByTagName("messageKey")->item(0)->nodeValue;
-        
+            return $unserializer->getUnserializedData();
         }
-        return $response;
     }
 
     function get_meeting_info($meeting_id, $password)
@@ -167,8 +183,30 @@ class phpBbb
         }
     }
 
-    function end_meeting()
+    function end_meeting($meeting_id, $password)
     {
+        $parameters = array();
+        $parameters['meetingID'] = $meeting_id;
+        $parameters['password'] = $password;
+        $construct_url = http_build_query($parameters);
+        $checksum = sha1('end' . $construct_url . $this->security_salt);
+        
+        $end_meeting = $this->ip . self :: API_END_MEETING . $construct_url . '&checksum=' . $checksum;
+        $response = file_get_contents($end_meeting);
+        
+        $doc = new DOMDocument();
+        $doc->loadXML($response);
+        $return_code_node = $doc->getElementsByTagName("returncode");
+        
+        $return_code = $return_code_node->item(0)->nodeValue;
+        if ($return_code === 'SUCCESS')
+        {  
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     
     }
 
