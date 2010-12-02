@@ -11,6 +11,7 @@ use common\libraries\Utilities;
 
 use common\extensions\video_conferencing_manager\VideoConferencingObjectRenderer;
 use common\extensions\video_conferencing_manager\VideoConferencingManager;
+use common\extensions\video_conferencing_manager\VideoConferencingManagerConnector;
 use common\extensions\video_conferencing_manager\VideoConferencingObject;
 
 use repository\ExternalSetting;
@@ -20,7 +21,7 @@ use repository\content_object\document\Document;
  * @author Hans De Bisschop
  */
 class BbbVideoConferencingManager extends VideoConferencingManager
-{
+{	
     const VIDEO_CONFERENCING_TYPE = 'bbb';
 
     /* (non-PHPdoc)
@@ -36,13 +37,13 @@ class BbbVideoConferencingManager extends VideoConferencingManager
      */
     function validate_settings($video_conferencing)
     {
-     	$account_id = ExternalSetting :: get('account_id', $video_conferencing->get_id());
-        $account_pw = ExternalSetting :: get('account_pw', $video_conferencing->get_id());
-
-        if (! $account_id || ! $account_pw)
-        {
-            return false;
-        }
+//     	$account_id = ExternalSetting :: get('account_id', $video_conferencing->get_id());
+//        $account_pw = ExternalSetting :: get('account_pw', $video_conferencing->get_id());
+//
+//        if (! $account_id || ! $account_pw)
+//        {
+//            return false;
+//        }
         return true;
     }
 
@@ -77,7 +78,8 @@ class BbbVideoConferencingManager extends VideoConferencingManager
      */
     function get_external_repository_actions()
     {
-        $actions = array(self :: ACTION_CREATE_MEETING);
+        $actions = array(self :: ACTION_CREATE_MEETING, self :: ACTION_JOIN_MEETING);
+        
 
         $is_platform = $this->get_user()->is_platform_admin() && (count(VideoConferencingSetting :: get_all($this->get_video_conferencing()->get_id())) > 0);
 
@@ -85,8 +87,17 @@ class BbbVideoConferencingManager extends VideoConferencingManager
         {
             $actions[] = self :: ACTION_CONFIGURE_VIDEO_CONFERENCING;
         }
+        
 
         return $actions;
+    }
+    
+    /**
+     * @return VideoConferencingManagerConnector
+     */
+    function get_video_conferencing_manager_connector()
+    {
+        return VideoConferencingManagerConnector :: get_instance($this->get_video_conferencing());
     }
 
     /* (non-PHPdoc)

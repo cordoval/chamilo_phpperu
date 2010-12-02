@@ -96,7 +96,9 @@ class Autoloader
             'group_manager' => 'group_manager/group_manager.class.php',
             'group_validator' => '../validator/group_validator.class.php',
             'subscribe_wizard' => 'group_manager/component/wizards/subscribe_wizard.class.php',
-            'default_group_table_column_model' => 'group_table/default_group_table_column_model.class.php');
+            'default_group_table_column_model' => 'group_table/default_group_table_column_model.class.php',
+            'default_group_table_cell_renderer' => 'group_table/default_group_table_cell_renderer.class.php',
+        );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

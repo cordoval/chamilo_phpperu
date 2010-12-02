@@ -73,7 +73,7 @@ class DropboxExternalRepositoryManagerForm extends FormValidator
         $this->addElement('text', DropboxExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title', null, Utilities :: COMMON_LIBRARIES), array('size' => '50'));
         $this->addRule(DropboxExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
-        //$albums = $this->application->get_external_repository_connector()->get_authenticated_user_albums();
+        //$albums = $this->application->get_external_repository_manager_connector()->get_authenticated_user_albums();
 
         if ($this->form_type == self :: TYPE_EDIT)
         {
@@ -106,14 +106,14 @@ class DropboxExternalRepositoryManagerForm extends FormValidator
 
     function update_file()
     {
-        return $this->application->get_external_repository_connector()->update_external_repository_object($this->exportValues());
+        return $this->application->get_external_repository_manager_connector()->update_external_repository_object($this->exportValues());
     }
 
     function upload_file()
     {
         if (StringUtilities :: has_value(($_FILES[self :: FILE]['name'])))
         {
-            if($this->application->get_external_repository_connector()->create_external_repository_object($_FILES[self :: FILE]['name'], $_FILES[self :: FILE]['tmp_name']))
+            if($this->application->get_external_repository_manager_connector()->create_external_repository_object($_FILES[self :: FILE]['name'], $_FILES[self :: FILE]['tmp_name']))
             	return $_FILES[self :: FILE]['name'];
         }
         else

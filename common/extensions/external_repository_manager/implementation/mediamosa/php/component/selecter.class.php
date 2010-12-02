@@ -24,7 +24,7 @@ class MediamosaExternalRepositoryManagerSelecterComponent extends MediamosaExter
         $html = array();
 
         $html[] = '<script type="text/javascript">';
-        $connector = $this->get_external_repository_connector();
+        $connector = $this->get_external_repository_manager_connector();
         $html[] = 'window.opener.$("input[name=' . MediamosaExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID. ']").val("'.Request :: get(MediamosaExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY).'");';
         $html[] = 'window.opener.$("input[name=' . MediamosaExternalRepositoryObject :: PROPERTY_ID . ']").val("'.$object->get_id().'");';
         $html[] = 'window.opener.$("input#' . MediamosaExternalRepositoryObject :: PROPERTY_TITLE . '").val("'. addslashes($object->get_title()) .'");';

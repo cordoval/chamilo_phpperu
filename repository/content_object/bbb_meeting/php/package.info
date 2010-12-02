@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<packages>
+	<package>
+		<name>BbbMeeting</name>
+		<code>bbb_meeting</code>
+		<section>content_object</section>
+		<category>video_conferencing</category>
+		<authors>
+			<author>
+				<name>Gillard Magali</name>
+				<email>magali.gillard@ehb.be</email>
+				<company>Erasmushogeschool Brussel</company>
+			</author>
+		</authors>
+		<version>1.0.0</version>
+		<cycle>
+			<phase>general_availability</phase>
+			<realm>main</realm>
+		</cycle>
+		<filename>pool/main/content_object/s/bbb_meeting/bbb_meeting-1.0.0.zip</filename>
+		<size></size>
+		<md5></md5>
+		<sha1></sha1>
+		<sha256></sha256>
+		<sha512></sha512>
+		<tagline></tagline>
+		<description></description>
+		<homepage></homepage>
+		<dependencies>
+			<server>
+				<dependency>
+					<id>php</id>
+					<version type="4">5.3.0</version>
+					<severity>1</severity>
+				</dependency>
+			</server>
+		</dependencies>
+	</package>
+</packages>

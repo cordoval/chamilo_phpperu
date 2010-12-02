@@ -13,7 +13,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 use repository\ContentObject;
 use repository\content_object\document\Document;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use repository\RepositoryManager;
 
 class FlickrExternalRepositoryManagerImporterComponent extends FlickrExternalRepositoryManager
@@ -48,7 +48,7 @@ class FlickrExternalRepositoryManagerImporterComponent extends FlickrExternalRep
 
             if ($image->create())
             {
-                ExternalRepositorySync :: quicksave($image, $external_object, $this->get_external_repository()->get_id());
+                ExternalSync :: quicksave($image, $external_object, $this->get_external_repository()->get_id());
 
                 $parameters = $this->get_parameters();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;

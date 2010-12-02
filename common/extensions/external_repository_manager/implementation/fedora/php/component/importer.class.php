@@ -106,7 +106,7 @@ class FedoraExternalRepositoryManagerImporterComponent extends FedoraExternalRep
             }
             if ($result instanceof Document)
             {
-                ExternalRepositorySync :: quicksave($result, $external_object, $this->get_external_repository()->get_id());
+                ExternalSync :: quicksave($result, $external_object, $this->get_external_repository()->get_id());
             }
         }
 
@@ -212,7 +212,7 @@ class FedoraExternalRepositoryManagerImporterComponent extends FedoraExternalRep
      */
     protected function retrieve_datastream_content($pid, $dsID)
     {
-        $connector = $this->get_external_repository_connector();
+        $connector = $this->get_external_repository_manager_connector();
         $result = $connector->retrieve_datastream_content($pid, $dsID);
         return $result;
     }

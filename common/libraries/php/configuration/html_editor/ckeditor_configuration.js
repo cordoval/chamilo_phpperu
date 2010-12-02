@@ -81,7 +81,7 @@ CKEDITOR.editorConfig = function( config )
 	config.filebrowserChamiloaudioBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=audio&repoviewer_action=browser';
 	config.filebrowserChamilodailymotionBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=dailymotion&repoviewer_action=browser';
 	config.filebrowserChamilovimeoBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=vimeo&repoviewer_action=browser';
-	config.latexDialogUrl = web_path + 'plugin/html_editor/ckeditor/plugins/latex/dialogs/latex.html?a=b';
+	config.latexDialogUrl = web_path + 'common/libraries/plugin/html_editor/ckeditor/plugins/latex/dialogs/latex.html?a=b';
 	
 	
 };

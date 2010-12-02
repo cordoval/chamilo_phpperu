@@ -4,7 +4,6 @@ namespace repository\content_object\forum;
  * $Id: forumtablecellrenderer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.forum.inc
  */
-require_once dirname(__FILE__) . '/../../../content_object_table/default_content_object_table_cell_renderer.class.php';
 
 class ForumTableCellRenderer extends DefaultContentObjectTableCellRenderer
 {

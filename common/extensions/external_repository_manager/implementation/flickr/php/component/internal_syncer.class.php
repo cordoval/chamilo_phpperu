@@ -6,6 +6,7 @@ use common\libraries\Redirect;
 use common\libraries\Translation;
 use common\libraries\PlatformSetting;
 use common\libraries\StringUtilities;
+use common\libraries\Application;
 
 use repository\RepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
@@ -39,7 +40,7 @@ class FlickrExternalRepositoryManagerInternalSyncerComponent extends FlickrExter
         if ($content_object->update())
         {
             $synchronization_data->set_content_object_timestamp($content_object->get_modification_date());
-            $synchronization_data->set_external_repository_object_timestamp($external_object->get_modified());
+            $synchronization_data->set_external_object_timestamp($external_object->get_modified());
             if ($synchronization_data->update())
             {
                 $parameters = $this->get_parameters();

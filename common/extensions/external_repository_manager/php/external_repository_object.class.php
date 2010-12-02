@@ -10,7 +10,7 @@ use common\libraries\Theme;
 
 use repository\RepositoryDataManager;
 use repository\ContentObject;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 
 abstract class ExternalRepositoryObject
 {
@@ -20,7 +20,7 @@ abstract class ExternalRepositoryObject
     private $default_properties;
 
     /**
-     * @var ExternalRepositorySync
+     * @var ExternalSync
      */
     private $synchronization_data;
 
@@ -331,19 +331,19 @@ abstract class ExternalRepositoryObject
     }
 
     /**
-     * @return ExternalRepositorySync
+     * @return ExternalSync
      */
     function get_synchronization_data()
     {
         if (! isset($this->synchronization_data))
         {
             $sync_conditions = array();
-            $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID, $this->get_id());
-            $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_external_repository_id());
+            $sync_conditions[] = new EqualityCondition(ExternalSync :: PROPERTY_EXTERNAL_OBJECT_ID, $this->get_id());
+            $sync_conditions[] = new EqualityCondition(ExternalSync :: PROPERTY_EXTERNAL_ID, $this->get_external_repository_id());
             $sync_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id(), ContentObject :: get_table_name());
             $sync_condition = new AndCondition($sync_conditions);
 
-            $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_sync($sync_condition);
+            $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_sync($sync_condition);
         }
 
         return $this->synchronization_data;
@@ -362,7 +362,7 @@ abstract class ExternalRepositoryObject
      */
     function is_importable()
     {
-        return ! $this->get_synchronization_data() instanceof ExternalRepositorySync;
+        return ! $this->get_synchronization_data() instanceof ExternalSync;
     }
 }
 ?>

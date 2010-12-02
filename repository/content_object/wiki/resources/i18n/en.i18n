@@ -43,3 +43,7 @@ BackToTop = "Back to top"
 Properties = "Properties"
 WikiLocked = "Locked"
 WikiToolBoxLinks = "Toolbox links"
+WikiDisplayWikiPageCreatorComponent = "Wikipage creator"
+WikiDisplayWikiHistoryComponent = "Wiki history"
+WikiDisplayReportingTemplateViewerComponent = "Wiki reporting"
+

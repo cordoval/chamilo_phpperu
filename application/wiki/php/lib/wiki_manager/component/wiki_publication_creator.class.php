@@ -57,7 +57,12 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManager implements 
                     if (! $form->create_wiki_publication($object, $values))
                         $failures ++;
                 }
-                $message = $this->get_result($failures, count($objects), 'WikiPublicationNotCreated', 'WikiPublicationsNotCreated', 'WikiPublicationCreated', 'WikiPublicationsCreated');
+                $message = $this->get_result($failures, count($objects), 
+                	Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('WikiPublication')), Utilities :: COMMON_LIBRARIES),
+                	Translation :: get('ObjectsNotCreated', array('OBJECT' => Translation :: get('WikiPublications')), Utilities :: COMMON_LIBRARIES),
+                	Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('WikiPublication')), Utilities :: COMMON_LIBRARIES),
+                	Translation :: get('ObjectsCreated', array('OBJECT' => Translation :: get('WikiPublications')), Utilities :: COMMON_LIBRARIES));
+                 
                 $this->redirect($message, $failures, array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS));
             }
             else

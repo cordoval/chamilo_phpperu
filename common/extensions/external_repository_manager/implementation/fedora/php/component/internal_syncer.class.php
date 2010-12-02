@@ -49,7 +49,7 @@ class FedoraExternalRepositoryManagerInternalSyncerComponent extends FedoraExter
         if ($content_object->update())
         {
             $synchronization_data->set_content_object_timestamp($content_object->get_modification_date());
-            $synchronization_data->set_external_repository_object_timestamp($external_object->get_modified());
+            $synchronization_data->set_external_object_timestamp($external_object->get_modified());
             if ($synchronization_data->update())
             {
                 $parameters = $this->get_parameters();
@@ -149,7 +149,7 @@ class FedoraExternalRepositoryManagerInternalSyncerComponent extends FedoraExter
      */
     protected function retrieve_datastream_content($pid, $dsID)
     {
-        $connector = $this->get_external_repository_connector();
+        $connector = $this->get_external_repository_manager_connector();
         $result = $connector->retrieve_datastream_content($pid, $dsID);
         return $result;
     }
