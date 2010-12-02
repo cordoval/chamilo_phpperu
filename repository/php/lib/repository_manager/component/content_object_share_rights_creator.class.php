@@ -38,7 +38,7 @@ class RepositoryManagerContentObjectShareRightsCreatorComponent extends Reposito
                 $ids = array($ids);
             }
 
-            $share_form = new ContentObjectShareForm(ContentObjectShareForm :: TYPE_CREATE, $ids, $this->get_user(), $this->get_url());
+            $share_form = ContentObjectShareForm :: factory(ContentObjectShareForm :: TYPE_CREATE, $ids, $this->get_user(), $this->get_url());
 
             if ($share_form->validate())
             {

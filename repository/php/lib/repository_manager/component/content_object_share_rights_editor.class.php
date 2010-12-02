@@ -43,7 +43,7 @@ class RepositoryManagerContentObjectShareRightsEditorComponent extends Repositor
 	        	$target_groups = array($target_groups);
 	        }
 
-        	$share_form = new ContentObjectShareForm(ContentObjectShareForm :: TYPE_EDIT, $ids, $this->get_user(), $this->get_url());
+        	$share_form = ContentObjectShareForm :: factory(ContentObjectShareForm :: TYPE_EDIT, $ids, $this->get_user(), $this->get_url());
 
         	if(count($target_users) + count($target_groups) == 1 && count($ids) == 1)
         	{
