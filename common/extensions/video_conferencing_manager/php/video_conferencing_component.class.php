@@ -6,7 +6,8 @@ use common\libraries\SubManager;
 
 abstract class VideoConferencingComponent extends SubManager
 {
-	static function factory($type, $application)
+
+    static function factory($type, $application)
     {
         $file = dirname(__FILE__) . '/component/' . $type . '.class.php';
         if (! file_exists($file))
@@ -25,26 +26,31 @@ abstract class VideoConferencingComponent extends SubManager
         return Path :: get_common_extensions_path() . 'video_conferencing_manager/php/component/';
     }
 
-    function count_video_conferencing_meeting_objects($condition)
+    function count_video_conferencing_objects($condition)
     {
-        return $this->get_parent()->count_video_conferencing_meeting_objects($condition);
+        return $this->get_parent()->count_video_conferencing_objects($condition);
     }
 
-    function retrieve_video_conferencing_meeting_objects($condition, $order_property, $offset, $count)
+    function retrieve_video_conferencing_objects($condition, $order_property, $offset, $count)
     {
-        return $this->get_parent()->retrieve_video_conferencing_meeting_objects($condition, $order_property, $offset, $count);
+        return $this->get_parent()->retrieve_video_conferencing_objects($condition, $order_property, $offset, $count);
     }
 
-    function import_video_conferencing_meeting_object(VideoConferencingMeetingObject $object)
+    function retrieve_video_conferencing_object(ExternalSync $external_sync)
     {
-        return $this->get_parent()->import_video_conferencing_meeting_object($object);
+        return $this->get_parent()->retrieve_video_conferencing_object($external_sync);
     }
-    
-        function get_video_conferencing_meeting_object_actions(VideoConferencingMeetingObject $object)
+
+    function import_video_conferencing_object(VideoConferencingObject $object)
     {
-        return $this->get_parent()->get_video_conferencing_meeting_object_actions($object);
-    }    
-    
+        return $this->get_parent()->import_video_conferencing_object($object);
+    }
+
+    function get_video_conferencing_object_actions(VideoConferencingObject $object)
+    {
+        return $this->get_parent()->get_video_conferencing_object_actions($object);
+    }
+
     function get_video_conferencing()
     {
         return $this->get_parent()->get_video_conferencing();
@@ -70,9 +76,9 @@ abstract class VideoConferencingComponent extends SubManager
         return $this->get_parent()->get_menu_items();
     }
 
-    function get_conferencing_type()
+    function get_video_conferencing_type()
     {
-        return $this->get_parent()->get_conferencing_type();
+        return $this->get_parent()->get_video_conferencing_type();
     }
 
     function get_setting($variable)
@@ -84,7 +90,12 @@ abstract class VideoConferencingComponent extends SubManager
     {
         return $this->get_parent()->get_user_setting($variable);
     }
-    
+
+    function get_video_conferencing_object_viewing_url($object)
+    {
+        return $this->get_parent()->get_video_conferencing_object_viewing_url($object);
+    }
+
     /**
      * Helper function for the SubManager class,
      * pending access to class constants via variables in PHP 5.3

@@ -75,7 +75,7 @@ class BbbVideoConferencingObjectDisplay extends VideoConferencingObjectDisplay
     	$parameters = array();
     	$parameters[Application :: PARAM_APPLICATION] = VideoConferencingLauncher :: APPLICATION_NAME; 
     	$parameters[RepositoryManager :: PARAM_EXTERNAL_INSTANCE] = $external_sync->get_external_id();
-    	$parameters['id'] = $external_sync->get_id();
+    	$parameters[VideoConferencingManager::PARAM_VIDEO_CONFERENCING_ID] = $external_sync->get_id();
     	$parameters[VideoConferencingManager :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION] = VideoConferencingManager :: ACTION_JOIN_MEETING;
     	$link = Path :: get_launcher_application_path(true) . 'index.php?' . http_build_query($parameters);
     	
