@@ -8,16 +8,14 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
 use repository\ContentObject;
+use application\weblcms\ContentObjectPubFeedbackBrowser;
+use application\weblcms\ListContentObjectPublicationListRenderer;
 
 /**
  * $Id: wiki_discuss_browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.wiki.component.wiki_discuss
  */
 
-require_once dirname(__FILE__) . '/../../../../content_object_pub_feedback_browser.class.php';
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/announcement/announcement.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/description/description.class.php';
 
 /**
  * Browser to allow the user to view the published feedback on a wiki page

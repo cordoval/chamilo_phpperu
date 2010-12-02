@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\peer_assessment;
 
+use \HTML_QuickForm_Action_Display;
 /**
  * @author Nick Van Loocke
  */

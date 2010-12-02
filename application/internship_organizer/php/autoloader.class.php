@@ -26,6 +26,7 @@ class Autoloader
             'default_internship_organizer_category_rel_location_table_cell_renderer' => 'lib/tables/category_rel_location_table/default_category_rel_location_table_cell_renderer.class.php',
             'default_internship_organizer_location_table_column_model' => 'lib/tables/location_table/default_location_table_column_model.class.php',
             'default_internship_organizer_location_table_cell_renderer' => 'lib/tables/location_table/default_location_table_cell_renderer.class.php',
+            'internship_organizer_category_form' => 'lib/forms/category_form.class.php',
         );
 
 

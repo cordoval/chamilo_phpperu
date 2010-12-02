@@ -1,6 +1,5 @@
 <?php namespace repository\content_object\survey;
 
-require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/tables/page_table/default_page_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/subscribe_page_browser_table_column_model.class.php';
 
 class SurveyContextTemplateSubscribePageBrowserTableCellRenderer extends DefaultSurveyPageTableCellRenderer

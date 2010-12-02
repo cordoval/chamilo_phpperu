@@ -6,7 +6,7 @@ use common\libraries\Display;
 use repository\RepositoryDataManager;
 use repository\ComplexDisplay;
 
-require_once dirname(__FILE__) . '/../learning_path_content_object_display.class.php';
+require_once dirname(__FILE__) . '/../learning_path_display_embedder.class.php';
 
 class LearningPathDisplayEmbedderComplexContentObjectComponent extends LearningPathDisplayEmbedder
 {

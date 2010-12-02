@@ -1,4 +1,8 @@
-<?php namespace repository\content_object\survey;
+<?php
+
+namespace repository\content_object\survey;
+
+use common\libraries\ObjectTableDataProvider;
 
 class SurveyContextTemplateSubscribePageBrowserTableDataProvider extends ObjectTableDataProvider {
 
@@ -14,4 +18,3 @@ class SurveyContextTemplateSubscribePageBrowserTableDataProvider extends ObjectT
 		return RepositoryDataManager :: get_instance()->count_content_objects($this->get_condition());
 	}
 }
-?>

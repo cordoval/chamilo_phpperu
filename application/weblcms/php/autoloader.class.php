@@ -74,6 +74,10 @@ class Autoloader
             'weblcms_rights' => 'weblcms_rights.class.php',
             'course_group_unsubscribe_right' => 'course/course_group_unsubscribe_right.class.php',
             'course_group_subscribe_right' => 'course/course_group_subscribe_right.class.php',
+            'course_group_subscribe_right' => 'course/course_group_subscribe_right.class.php',
+            'course_group_subscribe_right' => 'course/course_group_subscribe_right.class.php',
+            'content_object_pub_feedback_browser' => 'content_object_pub_feedback_browser.class.php',
+            'list_content_object_publication_list_renderer' => 'browser/list_renderer/list_content_object_publication_list_renderer.class.php',
             );
 
         $lower_case = Utilities :: camelcase_to_underscores($classname);

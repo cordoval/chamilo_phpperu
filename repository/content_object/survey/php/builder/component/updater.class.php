@@ -16,5 +16,3 @@ class SurveyBuilderUpdaterComponent extends SurveyBuilder
         ComplexBuilderComponent :: launch($this);
     }
 }
-
-?>

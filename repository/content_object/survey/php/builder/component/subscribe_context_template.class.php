@@ -1,11 +1,11 @@
-<?php namespace repository\content_object\survey;
+<?php 
 namespace repository\content_object\survey;
 
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
 
-require_once Path::get_repository_path () . 'lib/content_object/survey/builder/forms/subscribe_context_template_form.class.php';
+require_once __DIR__  . '/../forms/subscribe_context_template_form.class.php';
 
 
 class SurveyBuilderSubscribeContextTemplateComponent extends SurveyBuilder

@@ -7,6 +7,7 @@ use common\libraries\Session;
 use common\libraries\Theme;
 use common\libraries\DatetimeUtilities;
 use common\libraries\Utilities;
+use repository\content_object\peer_assessment\PeerAssessmentViewerWizardPage;
 
 /*
  *	@author Nick Van Loocke
