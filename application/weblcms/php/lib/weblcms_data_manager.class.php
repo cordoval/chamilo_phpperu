@@ -6,6 +6,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\DataManagerInterface;
 use common\libraries\Configuration;
 use DOMDocument;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
 
 /**
  * $Id: weblcms_data_manager.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -201,6 +203,18 @@ class WeblcmsDataManager implements DataManagerInterface
         }
 
         return false;
+    }
+
+    static function is_teacher_through_platform_groups(Course $course, User $user)
+    {
+        $group_ids = $user->get_groups(true);
+        
+        $conditions = array();
+        $conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $group_ids);
+        $conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_STATUS, CourseGroupRelation :: STATUS_TEACHER);
+        $condition = new AndCondition($conditions);
+
+        return (self :: get_instance()->count_course_group_relations($condition) > 0);
     }
 
 }

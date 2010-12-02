@@ -25,6 +25,10 @@ class CourseGroupRelation extends DataClass
 
     const PROPERTY_COURSE_ID = 'course_id';
     const PROPERTY_GROUP_ID = 'group_id';
+    const PROPERTY_STATUS = 'status';
+
+    const STATUS_TEACHER = 1;
+    const STATUS_STUDENT = 5;
 
     /**
      * Get the default properties of all course group relations.
@@ -80,6 +84,24 @@ class CourseGroupRelation extends DataClass
     }
 
     /**
+     * Returns the status of this course group relation object
+     * @return int
+     */
+    function get_status()
+    {
+        return $this->get_default_property(self :: PROPERTY_STATUS);
+    }
+
+    /**
+     * Sets the status of this course group relation object
+     * @param int $status
+     */
+    function set_status($status)
+    {
+        $this->set_default_property(self :: PROPERTY_STATUS, $status);
+    }
+
+    /**
      * Gets the group
      * @return Group
      */
@@ -87,22 +109,6 @@ class CourseGroupRelation extends DataClass
     {
         $gdm = GroupDataManager :: get_instance();
         return $gdm->retrieve_group($this->get_group_id());
-    }
-
-    /**
-     * Creates the course group relation object in persistent storage
-     * @return boolean
-     */
-    function create()
-    {
-        $wdm = WeblcmsDataManager :: get_instance();
-        $success = $wdm->create_course_group_relation($this);
-
-        if (! $success)
-        {
-            return false;
-        }
-        return true;
     }
 
     static function get_table_name()
