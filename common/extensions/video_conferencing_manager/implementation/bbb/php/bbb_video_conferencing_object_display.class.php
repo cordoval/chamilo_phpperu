@@ -14,6 +14,7 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\Application;
+use common\libraries\Session;
 
 class BbbVideoConferencingObjectDisplay extends VideoConferencingObjectDisplay
 {
@@ -23,9 +24,13 @@ class BbbVideoConferencingObjectDisplay extends VideoConferencingObjectDisplay
         $object = $this->get_object();
         
         $properties = parent :: get_display_properties();
-        $properties[Translation :: get('AttendeePw')] = $object->get_attendee_pw();
-        $properties[Translation :: get('ModeratorPw')] = $object->get_moderator_pw();
         
+        if ($object->get_synchronization_data()->get_content_object()->get_owner_id() == Session :: get_user_id())
+        {
+        	$properties[Translation :: get('AttendeePw')] = $object->get_attendee_pw();
+        	$properties[Translation :: get('ModeratorPw')] = $object->get_moderator_pw();
+        }
+                
         if ($object->get_start_time() !== 'null')
         {
             $properties[Translation :: get('StartTime')] = $object->get_start_time();
@@ -68,7 +73,7 @@ class BbbVideoConferencingObjectDisplay extends VideoConferencingObjectDisplay
         return $properties;
     }
 
-    function get_join_button()
+    function get_join_button($is_moderator)
     {
     	$object = $this->get_object();
     	$external_sync = $object->get_synchronization_data();

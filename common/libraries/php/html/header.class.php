@@ -66,6 +66,8 @@ class Header
         $this->add_css_file_header(Path :: get_repository_path(true) . 'css_content_object.inc.php');
         $this->add_css_file_header(Path :: get_common_extensions_path(true) . 'external_repository_manager/php/css_external_repository_manager.inc.php');
         //$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
+        $this->add_css_file_header(Path :: get_common_extensions_path(true) . 'video_conferencing_manager/php/css_video_conferencing_manager.inc.php');
+        
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.min.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.dimensions.min.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.tabula.js');
