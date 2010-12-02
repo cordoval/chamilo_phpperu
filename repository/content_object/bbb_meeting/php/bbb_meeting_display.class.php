@@ -15,6 +15,7 @@ class BbbMeetingDisplay extends ContentObjectDisplay
     {
     	$object = $this->get_content_object();
     	$external_sync = $object->get_synchronization_data();
+
     	$display = VideoConferencingObjectDisplay :: factory($external_sync->get_external_object());
     	$html = array();
     	$html[] = $display->get_properties_table();

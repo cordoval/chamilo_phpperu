@@ -90,7 +90,7 @@ class BbbVideoConferencingManager extends VideoConferencingManager
      */
     function get_video_conferencing_actions()
     {
-        $actions = array(self :: ACTION_CREATE_MEETING, self :: ACTION_JOIN_MEETING);
+        $actions = array(self :: ACTION_CREATE_MEETING);
         
         $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalSetting :: get_all($this->get_video_conferencing()->get_id())) > 0);
         
