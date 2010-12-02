@@ -8,6 +8,11 @@ use common\libraries\QtiImportStrategyBase;
 use common\libraries\QtiImportResourceManager;
 use common\libraries\QtiPartialRenderer;
 use common\libraries\Text;
+use repository\content_object\document\Document;
+use common\libraries\Filesystem;
+use common\libraries\Qti;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 /**
  * Base class for all object builders.

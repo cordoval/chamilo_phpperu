@@ -8,7 +8,6 @@ use common\libraries\Redirect;
 use common\libraries\Utilities;
 use common\libraries\FormValidator;
 use application\weblcms\Course;
-use common\libraries\FormValidator;
 
 require_once Path::get_application_path() .'/weblcms/php/lib/course/course.class.php';
 require_once dirname(__FILE__) . '/fedora_tree.class.php';

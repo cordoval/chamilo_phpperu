@@ -8,6 +8,15 @@ use common\libraries\Utilities;
 use repository\ExternalSetting;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\libraries\DatetimeUtilities;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use repository\ExternalRepositorySync;
+use repository\ContentObject;
+use common\libraries\Session;
+use common\libraries\AndCondition;
+use repository\RepositoryDataManager;
+use common\libraries\Request;
 
 require_once dirname(__FILE__) . '/fedora_external_repository_connector.class.php';
 
@@ -20,6 +29,7 @@ require_once dirname(__FILE__) . '/fedora_external_repository_connector.class.ph
  *
  */
 class FedoraExternalRepositoryManager extends ExternalRepositoryManager {
+
     const REPOSITORY_TYPE = 'fedora';
 
     const ACTION_EXPORT_COURSE = 'course_exporter';
@@ -28,6 +38,52 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager {
     const PARAM_EXPORT_FORMAT = 'export_format';
     const PARAM_COURSE_ID = 'course_id';
     const PARAM_WIZARD_ACTION = 'wizard_action';
+    /**
+     * If datetime format is not specified for the current language default to d.m.y, H:M.
+     *
+     * @return string
+     */
+    public static function get_date_time_format() {
+        $date_format = Translation :: get('DateFormatShort');
+        $date_format = $date_format == 'DateFormatShort' ? '%d.%m.%Y' : $date_format;
+        $time_format = Translation :: get('TimeNoSecFormat');
+        $time_format = $time_format == 'TimeNoSecFormat' ? '%H:%M' : $time_format;
+        $result = $date_format . ', ' . $time_format;
+        return $result;
+    }
+
+    /**
+     * Format a date value to a local string based on the use language. If no date time format is provided for the language defaults to d.m.y, H:M.
+     * @param <type> $value
+     * @return <type>
+     */
+    public static function format_locale_date($value) {
+        return DatetimeUtilities::format_locale_date(self::get_date_time_format(), $value);
+    }
+
+    /**
+     * Delete the synchronization data for an external object with an id of $id.
+     * This typically happens if the object is deleted in the external repository.
+     *
+     * @param string $id object id
+     * @param string|bool $external_instance the instance id of the external repository. If false defaults to the request's value.
+     * @return bool
+     */
+    public static function delete_synchronization_data($id, $external_instance = false) {
+        if (empty($external_instance)) {
+            $external_instance = Request::get(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY);
+        }
+
+        $sync_conditions = array();
+        $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID, $id);
+        $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_instance);
+        $sync_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id(), ContentObject :: get_table_name());
+        $sync_condition = new AndCondition($sync_conditions);
+
+        $synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_sync($sync_condition);
+        $result = $synchronization_data ? $synchronization_data->delete() : false;
+        return $result;
+    }
 
     /**
      * @param Application $application
@@ -39,7 +95,6 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager {
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#get_application_component_path()
      */
-
     function get_application_component_path() {
         $result = dirname(__FILE__) . '/component/';
         return $result;
@@ -48,7 +103,6 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager {
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#validate_settings()
      */
-
     function validate_settings($external_repository) {
         return true;
     }
@@ -56,7 +110,6 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager {
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#support_sorting_direction()
      */
-
     function support_sorting_direction() {
         return false;
     }
@@ -104,7 +157,6 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager {
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#is_ready_to_be_used()
      */
-
     function is_ready_to_be_used() {
         return false;
     }
@@ -112,7 +164,6 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager {
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#get_external_repository_actions()
      */
-
     function get_external_repository_actions() {
         $result = array(self::ACTION_BROWSE_EXTERNAL_REPOSITORY, self::ACTION_EXPORT_COURSE, self::ACTION_EXPORT_EXTERNAL_REPOSITORY, self::ACTION_UPLOAD_EXTERNAL_REPOSITORY);
         return $result;
@@ -169,7 +220,6 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager {
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#get_content_object_type_conditions()
      */
-
     function get_content_object_type_conditions() {
         return null;
     }

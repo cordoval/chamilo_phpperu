@@ -4,6 +4,9 @@ namespace repository;
 
 use common\libraries\ImsQtiReader;
 use repository\content_object\hotspot_question\HotspotQuestion;
+use common\libraries\Qti;
+use common\libraries\shape;
+use repository\content_object\hotspot_question\HotspotQuestionAnswer;
 
 /**
  * Question builder for hotspot questions.

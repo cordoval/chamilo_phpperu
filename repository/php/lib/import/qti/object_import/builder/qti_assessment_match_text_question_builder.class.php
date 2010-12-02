@@ -4,6 +4,7 @@ namespace repository;
 
 use repository\QtiQuestionBuilder;
 use repository\content_object\assessment_match_text_question\AssessmentMatchTextQuestion;
+use repository\content_object\assessment_match_text_question\AssessmentMatchTextQuestionOption;
 
 /**
  * Question builder for match text questions.

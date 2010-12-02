@@ -3,6 +3,7 @@
 namespace repository;
 
 use repository\content_object\assessment_multiple_choice_question\AssessmentMultipleChoiceQuestion;
+use repository\content_object\assessment_multiple_choice_question\AssessmentMultipleChoiceQuestionOption;
 
 /**
  * Question builder for Assessment Multiple Choice Questions.

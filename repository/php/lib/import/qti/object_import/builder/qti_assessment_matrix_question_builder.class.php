@@ -3,6 +3,7 @@
 namespace repository;
 
 use repository\content_object\assessment_matrix_question\AssessmentMatrixQuestion;
+use repository\content_object\assessment_matrix_question\AssessmentMatrixQuestionOption;
 
 /**
  * Question builder for Assessment Matrix Questions.

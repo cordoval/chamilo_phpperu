@@ -51,7 +51,8 @@ class ExportContentObjectTableDataProvider extends ContentObjectTableDataProvide
 
     function get_type_conditions()
     {
-        return $this->get_parent()->get_parent()->get_content_object_type_conditions();
+        //@todo: check if this fix really works for all repositories
+        return $this->get_parent()->get_content_object_type_conditions();
     }
 }
 ?>

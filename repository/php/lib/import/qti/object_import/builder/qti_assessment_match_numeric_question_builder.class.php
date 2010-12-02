@@ -3,6 +3,8 @@
 namespace repository;
 
 use repository\content_object\assessment_match_numeric_question\AssessmentMatchNumericQuestion;
+use repository\content_object\assessment_match_numeric_question\AssessmentMatchNumericQuestionOption;
+use common\libraries\Qti;
 
 /**
  * Question builder for match numeric questions.

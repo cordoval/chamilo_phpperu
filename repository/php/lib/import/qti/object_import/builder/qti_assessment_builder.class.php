@@ -4,6 +4,8 @@ namespace repository;
 
 use common\libraries\Path;
 use repository\content_object\assessment\Assessment;
+use common\libraries\ImsQtiReader;
+use common\libraries\Utilities;
 
 //require_once Path :: get_repository_path() . 'lib/content_object/assessment/assessment.class.php';
 
@@ -18,7 +20,7 @@ use repository\content_object\assessment\Assessment;
 class QtiAssessmentBuilder extends QtiBuilderBase {
 
     public static function factory($item, $settings) {
-        if (!class_exists('Assessment') ||
+        if (!class_exists('repository\content_object\assessment\Assessment') ||
                 !$item->is_assessmentTest()) {
             return null;
         }
@@ -90,8 +92,13 @@ class QtiAssessmentBuilder extends QtiBuilderBase {
 
     function create_complex_question($assessment, $question, $weight) {
         $type = $question->get_type();
-        require_once Path::get_repository_path() . "lib/content_object/$type/complex_$type.class.php";
-        $complextype = Utilities::underscores_to_camelcase("complex_$type");
+
+        require_once Path::get_repository_content_object_path(). "$type/php/complex_$type.class.php";
+        $namespace = 'repository\content_object\\' . $type. '\\';
+        $complextype = $namespace .Utilities::underscores_to_camelcase('complex_'. $type);
+
+        //require_once Path::get_repository_path() . "lib/content_object/$type/complex_$type.class.php";
+        //$complextype = Utilities::underscores_to_camelcase("complex_$type");
         $question_co = new $complextype();
         $question_co->set_ref($question->get_id());
         $question_co->set_parent($assessment->get_id());

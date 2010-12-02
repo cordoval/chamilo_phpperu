@@ -1,4 +1,5 @@
 <?php
+
 namespace repository;
 
 use common\libraries\ObjectImportSettings;
@@ -7,6 +8,7 @@ use common\libraries\Filesystem;
 use common\libraries\Qti;
 use common\libraries\EmptyObjectImport;
 use common\libraries\BufferedObjectImport;
+use common\libraries\Log;
 
 require_once dirname(__FILE__) . '/main.php';
 
@@ -18,30 +20,23 @@ require_once dirname(__FILE__) . '/main.php';
  * @author laurent.opprecht@unige.ch
  *
  */
-class QtiImport extends ContentObjectImport
-{
+class QtiImport extends ContentObjectImport {
 
     /**
      * Return single file importer. If no importers are found returns a buffered empty importer.
      *
      * @param ObjectImportSettings $settings
      */
-    public static function object_factory(ObjectImportSettings $settings)
-    {
-        if (! file_exists($settings->get_path()))
-        {
+    public static function object_factory(ObjectImportSettings $settings) {
+        if (!file_exists($settings->get_path())) {
             //builders may delete the file after import and cicular reference may force this function to be called twice on the same file.
             $result = EmptyObjectImport :: get_instance();
+        } else
+        if ($import = QtiBuilderImport :: factory($settings)) {
+            $result = $import;
+        } else {
+            $result = EmptyObjectImport :: get_instance();
         }
-        else
-            if ($import = QtiBuilderImport :: factory($settings))
-            {
-                $result = $import;
-            }
-            else
-            {
-                $result = EmptyObjectImport :: get_instance();
-            }
 
         //Note: even if we don't have a valid importer we want to record in the buffer that the import failed.
         //Otherwise we may try to reprocess the same file several times due to circular references.
@@ -51,8 +46,7 @@ class QtiImport extends ContentObjectImport
 
     private $settings = null;
 
-    public function __construct($content_object_file, $user, $category, $log = null)
-    {
+    public function __construct($content_object_file, $user, $category, $log = null) {
         parent :: __construct($content_object_file, $user, $category);
         $this->settings = new ObjectImportSettings($content_object_file, '', '', $user, $category, $log);
     }
@@ -60,13 +54,11 @@ class QtiImport extends ContentObjectImport
     /**
      * @return ObjectImportSettings
      */
-    public function get_settings()
-    {
+    public function get_settings() {
         return $this->settings;
     }
 
-    public function import_content_object()
-    {
+    public function import_content_object() {
         $result = array();
         $zipper = Filecompression :: factory();
         $temp = $zipper->extract_file($this->get_content_object_file_property('tmp_name'));
@@ -74,29 +66,24 @@ class QtiImport extends ContentObjectImport
         $directory = $temp . '/';
 
         //$this->set_directory($directory);
-        if (! file_exists($directory))
-        {
+        if (!file_exists($directory)) {
             return false;
         }
 
         $files = $this->get_files($directory);
 
-        foreach ($files as $path)
-        {
+        foreach ($files as $path) {
             $object_settings = $this->get_settings()->copy($path);
-            if ($import_result = self :: object_factory($object_settings)->import_content_object())
-            {
+            if ($import_result = self :: object_factory($object_settings)->import_content_object()) {
                 $result[] = $import_result;
             }
         }
 
-        if ($temp)
-        {
+        if ($temp) {
             Filesystem :: remove($temp);
         }
         $log = $this->get_log();
-        if ($result)
-        {
+        if ($result) {
             $log->translate('QtiImportWarning', Log :: TYPE_WARNING);
         }
         $this->add_messages($log->get_messages());
@@ -107,32 +94,26 @@ class QtiImport extends ContentObjectImport
         return $result;
     }
 
-    protected function get_files($directory)
-    {
+    protected function get_files($directory) {
         $files = Filesystem :: get_directory_content($directory, Filesystem :: LIST_FILES, false);
         $assessments = array();
         $questions = array();
-        foreach ($files as $file)
-        {
-            if (Qti :: is_test_file($directory . $file))
-            {
+        foreach ($files as $file) {
+            if (Qti :: is_test_file($directory . $file)) {
                 $assessments[] = $directory . $file;
+            } else
+            if (Qti :: is_question_file($directory . $file)) {
+                $questions[] = $directory . $file;
             }
-            else
-                if (Qti :: is_question_file($directory . $file))
-                {
-                    $questions[] = $directory . $file;
-                }
         }
         //assessments should be imported first
         return array_merge($assessments, $questions);
     }
 
-    public function __call($name, $arguments)
-    {
+    public function __call($name, $arguments) {
         return call_user_func_array(array(
-                $this->settings,
-                $name), $arguments);
+            $this->settings,
+            $name), $arguments);
     }
 
 }

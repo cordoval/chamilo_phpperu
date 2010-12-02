@@ -3,6 +3,7 @@
 namespace repository;
 
 use repository\content_object\ordering_question\OrderingQuestion;
+use repository\content_object\ordering_question\OrderingQuestionOption;
 
 /**
  * Question builder for ordering questions.

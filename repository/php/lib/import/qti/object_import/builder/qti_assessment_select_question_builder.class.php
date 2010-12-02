@@ -3,6 +3,7 @@
 namespace repository;
 
 use repository\content_object\assessment_select_question\AssessmentSelectQuestion;
+use repository\content_object\assessment_select_question\AssessmentSelectQuestionOption;
 
 /**
  * Question builder for Assessment Select Questions.

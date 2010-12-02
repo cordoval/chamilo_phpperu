@@ -3,6 +3,7 @@
 namespace repository;
 
 use repository\content_object\match_question\MatchQuestion;
+use repository\content_object\match_question\MatchQuestionOption;
 
 /**
  * Question builder for match questions.

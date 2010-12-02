@@ -1,7 +1,0 @@
-# Follow symbolic links in this directory.
-Options +FollowSymLinks
-
-<IfModule mod_rewrite.c>
-  RewriteEngine on
-  RewriteRule ^rest/(.*)$ common/webservice/rest/rest_server.class.php?%{QUERY_STRING} [L,QSA]
-</IfModule>

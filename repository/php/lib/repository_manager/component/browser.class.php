@@ -73,7 +73,6 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
         }
 
         $this->display_header($trail, false, true);
-
         echo $this->get_action_bar()->as_html();
         echo '<br />' . $this->form->display() . '<br />';
         echo $output;

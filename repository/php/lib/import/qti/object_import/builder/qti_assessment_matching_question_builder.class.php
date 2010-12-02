@@ -3,6 +3,7 @@
 namespace repository;
 
 use repository\content_object\assessment_matching_question\AssessmentMatchingQuestion;
+use repository\content_object\assessment_matching_question\AssessmentMatchingQuestionOption;
 
 /**
  * Question builder for Assessment Matching Questions.

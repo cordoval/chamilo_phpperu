@@ -49,11 +49,11 @@ class ActionImportCp extends MaintenanceWizardProcess
 
         if ($result)
         {
-            $messages[] = Translation :: translate('ContentObjectImported');
+            $messages[] = Translation :: get('ContentObjectImported');
         }
         else
         {
-            $errors[] = Translation :: translate('ContentObjectNotImported');
+            $errors[] = Translation :: get('ContentObjectNotImported');
         }
 
         if (count($messages) > 0)
