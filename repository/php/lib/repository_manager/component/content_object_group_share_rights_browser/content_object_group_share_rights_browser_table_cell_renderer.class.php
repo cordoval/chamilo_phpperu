@@ -9,6 +9,7 @@ use common\libraries\Theme;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Request;
 
 use group\GroupDataManager;
 use group\Group;

@@ -1302,7 +1302,13 @@ class WeblcmsManager extends WebApplication
             $relation = $this->retrieve_course_user_relation($course->get_id(), $user->get_id());
 
             if (($relation && $relation->get_status() == 1) || $user->is_platform_admin())
+            {
                 return true;
+            }
+            else
+            {
+                return WeblcmsDataManager :: is_teacher_through_platform_groups($course, $user);
+            }
 
         }
 
