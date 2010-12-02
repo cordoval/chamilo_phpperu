@@ -23,11 +23,12 @@ class MetadataForm extends FormValidator
         parent :: __construct($name, $method, $action);
     }
 
+    //sets the type of metadata to edit
     function set_parent_type($parent_type)
     {
         $this->parent_type = $parent_type;
     }
-
+    //sets...
     function get_parent_type()
     {
         return $this->parent_type;
