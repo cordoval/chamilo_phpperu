@@ -8,7 +8,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 
 require_once dirname(__FILE__) . '/../external_repository_object_display.class.php';
 
@@ -28,19 +28,19 @@ class ExternalRepositoryComponentViewerComponent extends ExternalRepositoryCompo
             {
                 switch ($object->get_synchronization_status())
                 {
-                    case ExternalRepositorySync :: SYNC_STATUS_INTERNAL :
+                    case ExternalSync :: SYNC_STATUS_INTERNAL :
                         $this->display_warning_message(Translation :: get('ExternalObjectSynchronizationUpdateInternal'));
                         break;
-                    case ExternalRepositorySync :: SYNC_STATUS_EXTERNAL :
+                    case ExternalSync :: SYNC_STATUS_EXTERNAL :
                         $this->display_warning_message(Translation :: get('ExternalObjectSynchronizationUpdateExternal'));
                         break;
-                    case ExternalRepositorySync :: SYNC_STATUS_CONFLICT :
+                    case ExternalSync :: SYNC_STATUS_CONFLICT :
                         $this->display_warning_message(Translation :: get('ExternalObjectSynchronizationConflict'));
                         break;
-                    case ExternalRepositorySync :: SYNC_STATUS_IDENTICAL :
+                    case ExternalSync :: SYNC_STATUS_IDENTICAL :
                         $this->display_message(Translation :: get('ExternalObjectSynchronizationIdentical'));
                         break;
-                    case ExternalRepositorySync :: SYNC_STATUS_ERROR :
+                    case ExternalSync :: SYNC_STATUS_ERROR :
                         $this->display_warning_message(Translation :: get('ExternalObjectSynchronizationError'));
                         break;
                 }

@@ -44,7 +44,7 @@ class RepositoryManagerViewerComponent extends RepositoryManager
 
             $object = $this->retrieve_content_object($id);
             $this->object = $object;
-            // TODO: Use Roles & Rights here.
+//             TODO: Use Roles & Rights here.
             if ($object->get_owner_id() != $this->get_user_id() && ! $this->has_right($object, $this->get_user_id(), RepositoryRights :: VIEW_RIGHT))
             {
                 $this->not_allowed();

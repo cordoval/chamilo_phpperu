@@ -240,7 +240,7 @@ class FedoraExternalRepositoryManagerCourseExporterComponent extends FedoraExter
      */
     protected function action_metadata($data) {
         if ($label = isset($data['title']) ? $data['title'] : false) {
-            $connector = $this->get_external_repository_connector();
+            $connector = $this->get_external_repository_manager_connector();
             $object = $connector->get_object_by_label($label);
             $data['pid'] = $object['pid'];
 
@@ -326,7 +326,7 @@ class FedoraExternalRepositoryManagerCourseExporterComponent extends FedoraExter
      * @param array $data array containing the path to the file as well as metadata used to export.
      */
     protected function send($data) {
-        $connector = $this->get_external_repository_connector();
+        $connector = $this->get_external_repository_manager_connector();
 
         $pid = isset($data['pid']) ? $data['pid'] : false;
         $isnew = empty($pid);

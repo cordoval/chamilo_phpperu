@@ -8,12 +8,16 @@ use common\libraries\ActionBarSearchForm;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\Utilities;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 
 use common\extensions\video_conferencing_manager\VideoConferencingObjectRenderer;
 use common\extensions\video_conferencing_manager\VideoConferencingManager;
+use common\extensions\video_conferencing_manager\VideoConferencingManagerConnector;
 use common\extensions\video_conferencing_manager\VideoConferencingObject;
 
 use repository\ExternalSetting;
+use repository\ExternalSync;
 use repository\content_object\document\Document;
 
 /**
@@ -36,14 +40,23 @@ class BbbVideoConferencingManager extends VideoConferencingManager
      */
     function validate_settings($video_conferencing)
     {
-     	$account_id = ExternalSetting :: get('account_id', $video_conferencing->get_id());
-        $account_pw = ExternalSetting :: get('account_pw', $video_conferencing->get_id());
-
-        if (! $account_id || ! $account_pw)
-        {
-            return false;
-        }
+        //     	$account_id = ExternalSetting :: get('account_id', $video_conferencing->get_id());
+        //        $account_pw = ExternalSetting :: get('account_pw', $video_conferencing->get_id());
+        //
+        //        if (! $account_id || ! $account_pw)
+        //        {
+        //            return false;
+        //        }
         return true;
+    }
+
+    function get_video_conferencing_object_viewing_url(VideoConferencingObject $object)
+    {
+        $parameters = array();
+        //        $parameters[self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
+        $parameters[self :: PARAM_VIDEO_CONFERENCING_ID] = $object->get_id();
+        
+        return $this->get_url($parameters);
     }
 
     /* (non-PHPdoc)
@@ -60,7 +73,7 @@ class BbbVideoConferencingManager extends VideoConferencingManager
     function get_menu_items()
     {
         $menu_items = array();
-
+        
         return $menu_items;
     }
 
@@ -75,18 +88,31 @@ class BbbVideoConferencingManager extends VideoConferencingManager
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#get_external_repository_actions()
      */
-    function get_external_repository_actions()
+    function get_video_conferencing_actions()
     {
         $actions = array(self :: ACTION_CREATE_MEETING);
-
-        $is_platform = $this->get_user()->is_platform_admin() && (count(VideoConferencingSetting :: get_all($this->get_video_conferencing()->get_id())) > 0);
-
+        
+        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalSetting :: get_all($this->get_video_conferencing()->get_id())) > 0);
+        
         if ($is_platform)
         {
             $actions[] = self :: ACTION_CONFIGURE_VIDEO_CONFERENCING;
         }
-
+        
+        if ($this->get_user()->is_platform_admin())
+        {
+            $actions[] = self :: ACTION_BROWSER_VIDEO_CONFERENCING;
+        }
+        
         return $actions;
+    }
+
+    /**
+     * @return VideoConferencingManagerConnector
+     */
+    function get_video_conferencing_manager_connector()
+    {
+        return VideoConferencingManagerConnector :: get_instance($this->get_video_conferencing());
     }
 
     /* (non-PHPdoc)
@@ -95,6 +121,26 @@ class BbbVideoConferencingManager extends VideoConferencingManager
     function get_available_renderers()
     {
         return array(VideoConferencingObjectRenderer :: TYPE_TABLE);
+    }
+
+    function get_video_conferencing_object_actions(ExternalSync $external_sync)
+    {
+        $toolbar_items = array();
+        if ($external_sync instanceof ExternalSync)
+        {
+            $object = $external_sync->get_content_object();
+            
+            if ($this->get_user()->is_platform_admin() || $object->get_owner_id() == $this->get_user()->get_id())
+            {
+                $toolbar_items[self :: ACTION_JOIN_MEETING] = new ToolbarItem(Translation :: get('JoinMeeting'), Theme :: get_image_path() . 'action_join.png', $this->get_url(array(
+                        self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_JOIN_MEETING, self :: PARAM_VIDEO_CONFERENCING_ID => $external_sync->get_id())), ToolbarItem :: DISPLAY_ICON);
+            
+            	$toolbar_items[self :: ACTION_END_VIDEO_CONFERENCING] = new ToolbarItem(Translation :: get('EndMeeting'), Theme :: get_image_path() . 'action_end.png', $this->get_url(array(
+                        self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_END_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $external_sync->get_id())), ToolbarItem :: DISPLAY_ICON);
+            
+            }
+        }
+        return $toolbar_items;
     }
 
     /**

@@ -112,7 +112,7 @@ class ChamiloRestServer extends RestServer
 
     private function is_allowed($application, $object, $function)
     {
-        return true;
+        return WebserviceAuthentication :: factory()->is_valid();
     }
 
     private function handle_result()

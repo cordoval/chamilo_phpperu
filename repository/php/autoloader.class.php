@@ -61,12 +61,13 @@ class Autoloader
                 'content_object_publication_attributes',
                 'content_object',
                 'content_object_attachment',
+                'content_object_updater',
                 'difference_engine',
         		'external_instance',
         		'external_setting',
         		'external_user_setting',
-                'external_repository_sync_info',
-                'external_repository_sync',
+                'external_sync_info',
+                'external_sync',
                 'quota_manager',
                 'repository_data_class',
                 'repository_data_manager',
@@ -123,7 +124,8 @@ class Autoloader
                 'user_view_browser_table' => 'user_view_browser/user_view_browser_table.class.php',
                 'link_browser_table' => 'link_browser/link_browser_table.class.php',
                 'external_link_browser_table' => 'external_link_browser/external_link_browser_table.class.php',
-                'content_object_registration_browser_table' => 'content_object_registration_browser/content_object_registration_browser_table.class.php');
+                'content_object_registration_browser_table' => 'content_object_registration_browser/content_object_registration_browser_table.class.php',
+            );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -159,7 +161,16 @@ class Autoloader
                 'repository_block' => '../blocks/repository_block.class.php',
                 'database_repository_data_manager' => 'data_manager/database_repository_data_manager.class.php',
                 'external_instance_manager' => 'external_instance_manager/external_instance_manager.class.php',
-                'external_repository_user_quotum' => 'external_repository_user_quotum.class.php');
+                'external_repository_user_quotum' => 'external_repository_user_quotum.class.php',
+                'qti_import' => 'import/qti/qti_import.class.php',
+                'qti_question_builder' => 'import/qti/object_import/qti_question_builder.class.php',
+                'qti_builder_base' => 'import/qti/object_import/qti_builder_base.class.php',
+                'cp_object_import_base' => 'import/cp/object_import/cp_object_import_base.class.php',
+                'cp_object_import_aggregate' => 'import/cp/object_import/cp_object_import_aggregate.class.php',
+                'complex_browser_table_column_model' => 'repository_manager/component/complex_browser/complex_browser_table_column_model.class.php',
+                'open_question_difference' => '../question_types/open_question/open_question.class.php',
+                'select_question_display' => '../question_types/select_question/select_question_display.class.php',
+            );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

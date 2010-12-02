@@ -49,7 +49,7 @@ class MediamosaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
         $i = 1;
 
         $external_repository_instance = RepositoryDataManager :: get_instance()->retrieve_external_instance(Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
-        $connector = MediamosaExternalRepositoryConnector :: get_instance($external_repository_instance);
+        $connector = MediamosaExternalRepositoryManagerConnector :: get_instance($external_repository_instance);
 
         if (is_array($mediafiles))
         {
@@ -89,7 +89,7 @@ class MediamosaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
     function get_preview($is_thumbnail = false)
     {
         $external_repository_instance = RepositoryDataManager :: get_instance()->retrieve_external_instance(Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
-        $connector = MediamosaExternalRepositoryConnector :: get_instance($external_repository_instance);
+        $connector = MediamosaExternalRepositoryManagerConnector :: get_instance($external_repository_instance);
 
         $object = $this->get_object();
 

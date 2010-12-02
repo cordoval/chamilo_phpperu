@@ -3,7 +3,7 @@
 namespace application\weblcms;
 
 use common\libraries\Utilities;
-use common\libraries\Webapplication;
+use common\libraries\WebApplication;
 
 /**
  * $Id: user_autoloader.class.php 167 2009-11-12 11:17:52Z vanpouckesven $
@@ -63,6 +63,8 @@ class Autoloader
             'list_content_object_publication_list_renderer' => 'browser/list_renderer/list_content_object_publication_list_renderer.class.php',
             'content_object_publication_category_tree' => 'browser/content_object_publication_category_tree.class.php',
             'object_publication_table' => 'browser/object_publication_table/object_publication_table.class.php',
+            'object_publication_table_cell_renderer' => 'browser/object_publication_table/object_publication_table_cell_renderer.class.php',
+            'object_publication_table_column_model' => 'browser/object_publication_table/object_publication_table_column_model.class.php',
             'weblcms_learning_path_question_attempts_tracker' => 'trackers/weblcms_learning_path_question_attempts_tracker.class.php',
             'weblcms_lpi_attempt_objective_tracker' => 'trackers/weblcms_lpi_attempt_objective_tracker.class.php',
             'weblcms_lpi_attempt_tracker' => 'trackers/weblcms_lpi_attempt_tracker.class.php',

@@ -1,5 +1,5 @@
-RightsEditorManagerBrowserComponent = ""
-BrowseRights = ""
+RightsEditorManagerBrowserComponent = "Browse rights"
+BrowseRights = "Browse"
 NoInherit = ""
 Inherit = ""
 Right = ""

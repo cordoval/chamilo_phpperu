@@ -72,10 +72,23 @@ class Autoloader
     static function check_for_special_files()
     {
         $list = array(
-                'admin_manager' => 'admin_manager/admin_manager.class.php', 'admin_manager_component' => 'admin_manager/admin_manager_component.class.php', 'admin_search_form' => 'admin_manager/admin_search_form.class.php',
-                'system_announcer_multipublisher' => 'announcer/system_announcement_multipublisher.class.php', 'admin_category_manager' => 'category_manager/admin_category_manager.class.php',
-                'package_installer' => 'package_installer/package_installer.class.php', 'package_updater' => 'package_updater/package_updater.class.php', 'package_manager' => 'package_manager/package_manager.class.php',
-                'package_remover' => 'package_remover/package_remover.class.php', 'package_info' => 'package_installer/source/package_info/package_info.class.php');
+            'admin_manager' => 'admin_manager/admin_manager.class.php',
+            'admin_manager_component' => 'admin_manager/admin_manager_component.class.php',
+            'admin_search_form' => 'admin_manager/admin_search_form.class.php',
+            'system_announcer_multipublisher' => 'announcer/system_announcement_multipublisher.class.php',
+            'admin_category_manager' => 'category_manager/admin_category_manager.class.php',
+            'package_installer' => 'package_installer/package_installer.class.php',
+            'package_installer_source' => 'package_installer/package_installer_source.class.php',
+            'package_updater' => 'package_updater/package_updater.class.php',
+            'package_manager' => 'package_manager/package_manager.class.php',
+            'package_remover' => 'package_remover/package_remover.class.php',
+            'package_info' => 'package_installer/source/package_info/package_info.class.php',
+            'content_object_registration_browser_table_data_provider' => 'package_manager/component/registration_browser/content_object/content_object_registration_browser_table_data_provider.class.php',
+            'content_object_registration_browser_table_column_model' => 'package_manager/component/registration_browser/content_object/content_object_registration_browser_table_column_model.class.php',
+            'content_object_registration_browser_table_cell_renderer' => 'package_manager/component/registration_browser/content_object/content_object_registration_browser_table_cell_renderer.class.php',
+            'content_object_registration_browser_table' => 'package_manager/component/registration_browser/content_object/content_object_registration_browser_table.class.php',
+            'package_dependency' => 'package_manager/package_dependency.class.php',
+        );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

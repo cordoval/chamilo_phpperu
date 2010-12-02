@@ -8,7 +8,7 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 use repository\ContentObjectCategoryMenu;
 
-//require_once dirname(__FILE__) . '/maintenance_wizard_page.class.php';
+require_once dirname(__FILE__) . '/maintenance_wizard_page.class.php';
 require_once Path :: get_repository_path() . '/lib/export/cp/cp_export.class.php';
 
 /**

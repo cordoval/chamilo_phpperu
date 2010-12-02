@@ -7,9 +7,10 @@ use common\libraries\Application;
 use repository\ContentObjectForm;
 use common\libraries\ExternalRepositoryLauncher;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use repository\RepositoryDataManager;
+use common\libraries\Utilities;
 
 /**
  * Description of MediamosaForm class
@@ -53,13 +54,13 @@ class MediamosaForm extends ContentObjectForm
         {
             $mediamosa = $this->get_content_object();
 
-            $external_respository_sync = new ExternalRepositorySync();
-            $external_respository_sync->set_external_repository_id($this->exportValue(ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID));
-            $external_respository_sync->set_external_repository_object_id($this->exportValue(ExternalRepositoryObject :: PROPERTY_ID));
+            $external_respository_sync = new ExternalSync();
+            $external_respository_sync->set_external_id($this->exportValue(ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID));
+            $external_respository_sync->set_external_object_id($this->exportValue(ExternalRepositoryObject :: PROPERTY_ID));
 
-            $object = $external_respository_sync->get_external_repository_object();
+            $object = $external_respository_sync->get_external_object();
 
-            ExternalRepositorySync :: quicksave($mediamosa, $object, $this->exportValue(ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID));
+            ExternalSync :: quicksave($mediamosa, $object, $this->exportValue(ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID));
 
             return $mediamosa;
         }

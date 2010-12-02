@@ -16,7 +16,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryObjectRender
 use repository\ExternalSetting;
 use repository\content_object\document\Document;
 
-require_once dirname(__FILE__) . '/hq23_external_repository_connector.class.php';
+require_once dirname(__FILE__) . '/hq23_external_repository_manager_connector.class.php';
 
 /**
  * @author Magali

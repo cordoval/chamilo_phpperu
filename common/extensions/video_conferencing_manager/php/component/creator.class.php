@@ -8,7 +8,7 @@ class VideoConferencingComponentCreatorComponent extends VideoConferencingCompon
 
     function run()
     {
-        echo('test');
+        
     }
 }
 ?>

@@ -38,7 +38,7 @@ class GroupManagerExporterComponent extends GroupManager implements Administrati
             $export = $form->exportValues();
             $file_type = $export['file_type'];
             $data['groups'] = $this->build_group_tree(0);
-            $this->export_groups($file_type, $data);
+            $this->export_groups($file_type, $data['groups'][0]);
         }
         else
         {

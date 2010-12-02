@@ -23,18 +23,24 @@ class MetadataManagerContentObjectMetadataEditorComponent extends MetadataManage
         $rdm =  RepositoryDataManager :: get_instance();
         $content_object = $rdm->retrieve_content_object(Request :: get(MetadataManager :: PARAM_CONTENT_OBJECT));
 
+        //fetches wich properties of the content object should automatically be converted to metadata
         $content_object_property_metadata = $this->get_content_object_property_metadata_values($content_object);
 
+        //fetches corresponding values
         $condition = new EqualityCondition(ContentObjectMetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $content_object->get_id());
         $content_object_metadata_property_values = $this->retrieve_content_object_metadata_property_values($condition);
         $content_object_metadata_property_values = $this->format_metadata_property_values($content_object_metadata_property_values);
 
+        //conditions to eventually find all attribute values (of the default values as well as the regular ones)
+        //search where the parent_id is teh current content object id and where the relation is contnet object property -> group with and
         $content_object_condition1 =  new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_PARENT_ID, Request :: get(MetadataManager :: PARAM_CONTENT_OBJECT));
         $content_object_condition2 = new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_RELATION, MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY);
         $content_object_condition = new AndCondition($content_object_condition1, $content_object_condition2);
 
         $property_value_conditions = array();
 
+        //elaborate
+        //wehere parent_id = metadataPropertyvalue
         foreach($content_object_metadata_property_values as $id => $metadata_property_value)
         {
             $property_value_conditions[] = new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_PARENT_ID, $metadata_property_value->get_id());

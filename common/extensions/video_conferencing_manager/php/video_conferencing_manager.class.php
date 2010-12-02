@@ -24,7 +24,11 @@ abstract class VideoConferencingManager extends SubManager
     const PARAM_VIDEO_CONFERENCING_MANAGER_ACTION = 'conferencing_action';
 
     const ACTION_CREATE_MEETING = 'creator';
+    const ACTION_JOIN_MEETING = 'joiner';
     const ACTION_CONFIGURE_VIDEO_CONFERENCING = 'configurer';
+    const ACTION_BROWSER_VIDEO_CONFERENCING = 'browser';
+    const ACTION_VIEW_VIDEO_CONFERENCING = 'viewer';
+    const ACTION_END_VIDEO_CONFERENCING = 'ender';
 
     const DEFAULT_ACTION = self :: ACTION_CREATE_MEETING;
 
@@ -77,11 +81,11 @@ abstract class VideoConferencingManager extends SubManager
     }
 
     /**
-     * @return VideoConferencingConnector
+     * @return VideoConferencingManagerConnector
      */
-    function get_video_conferencing_connector()
+    function get_video_conferencing_manager_connector()
     {
-        return VideoConferencingConnector :: get_instance($this->get_video_conferencing());
+        return VideoConferencingManagerConnector :: get_instance($this->get_video_conferencing());
     }
 
     function set_optional_parameters()
@@ -190,7 +194,7 @@ abstract class VideoConferencingManager extends SubManager
             $parameters[self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION] = $video_conferencing_action;
 
             $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($video_conferencing_action) . 'Title'));
-            $link = $this->get_url($parameters, true);
+            $link = $this->get_url($parameters);
 
             $tabs->add_tab(new DynamicVisualTab($video_conferencing_action, $label, Theme :: get_common_image_path() . 'place_tab_' . $video_conferencing_action . '.png', $link, $selected));
         }
@@ -234,7 +238,7 @@ abstract class VideoConferencingManager extends SubManager
      */
     function count_video_conferencing_objects($condition)
     {
-        return $this->get_video_conferencing_connector()->count_video_conferencing_objects($condition);
+        return $this->get_video_conferencing_manager_connector()->count_video_conferencing_objects($condition);
     }
 
     /**
@@ -246,7 +250,7 @@ abstract class VideoConferencingManager extends SubManager
      */
     function retrieve_video_conferencing_objects($condition, $order_property, $offset, $count)
     {
-        return $this->get_video_conferencing_connector()->retrieve_video_conferencing_objects($condition, $order_property, $offset, $count);
+        return $this->get_video_conferencing_manager_connector()->retrieve_video_conferencing_objects($condition, $order_property, $offset, $count);
     }
 
     /**
@@ -254,7 +258,7 @@ abstract class VideoConferencingManager extends SubManager
      */
     function initialize_video_conferencing(VideoConferencingManager $video_conferencing_manager)
     {
-        $this->get_video_conferencing_connector();
+        $this->get_video_conferencing_manager_connector();
     }
 
     /**
@@ -275,7 +279,7 @@ abstract class VideoConferencingManager extends SubManager
      */
     function translate_search_query($query)
     {
-        return $this->get_video_conferencing_connector()->translate_search_query($query);
+        return $this->get_video_conferencing_manager_connector()->translate_search_query($query);
     }
 
     /**
@@ -295,7 +299,7 @@ abstract class VideoConferencingManager extends SubManager
      */
     function retrieve_video_conferencing_object($id)
     {
-        return $this->get_video_conferencing_connector()->retrieve_video_conferencing_object($id);
+        return $this->get_video_conferencing_manager_connector()->retrieve_video_conferencing_object($id);
     }
 
     /**
@@ -304,7 +308,7 @@ abstract class VideoConferencingManager extends SubManager
      */
     function delete_video_conferencing_object($id)
     {
-        return $this->get_video_conferencing_connector()->delete_video_conferencing_object($id);
+        return $this->get_video_conferencing_manager_connector()->delete_video_conferencing_object($id);
     }
 
     //    /**
@@ -313,7 +317,7 @@ abstract class VideoConferencingManager extends SubManager
     //     */
     //    function export_external_repository_object($id)
     //    {
-    //        return $this->get_external_repository_connector()->export_external_repository_object($id);
+    //        return $this->get_external_repository_manager_connector()->export_external_repository_object($id);
     //    }
 
 

@@ -51,7 +51,13 @@ class Autoloader
 
     static function check_for_special_files()
     {
-        $list = array('migration_manager' => 'migration_manager/migration_manager.class.php', 'migration_form' => 'forms/migration_form.class.php');
+        $list = array(
+            'migration_manager' => 'migration_manager/migration_manager.class.php',
+            'migration_form' => 'forms/migration_form.class.php',
+            'dokeos185_migration_data_class' => 'platform/dokeos185/dokeos185_migration_data_class.class.php',
+            'dokeos185_course_data_migration_data_class' => 'platform/dokeos185/dokeos185_course_data_migration_data_class.class.php',
+            'dokeos185_text_field_parser' => 'platform/dokeos185/dokeos185_text_field_parser.class.php',
+            );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

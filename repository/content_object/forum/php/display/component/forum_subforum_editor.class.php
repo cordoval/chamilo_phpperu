@@ -6,13 +6,15 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
+use repository\ComplexDisplay;
+use repository\ContentObjectForm;
 
 /**
  * $Id: forum_subforum_editor.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.forum.component
  */
-require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
-require_once dirname(__FILE__) . '/../forum_display.class.php';
+//require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
+//require_once dirname(__FILE__) . '/../forum_display.class.php';
 
 class ForumDisplayForumSubforumEditorComponent extends ForumDisplay
 {

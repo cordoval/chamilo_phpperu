@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use ReflectionClass;
+
 use common\libraries;
 
 use common\libraries\ComplexDisplayPreviewLauncher;
@@ -496,9 +498,9 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), self :: PARAM_CATEGORY_ID => $content_object->get_parent_id()));
     }
 
-    function get_external_instance_viewing_url(ExternalRepositorySync $external_instance_sync)
+    function get_external_instance_viewing_url(ExternalSync $external_instance_sync)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXTERNAL_INSTANCE_MANAGER, self :: PARAM_EXTERNAL_INSTANCE => $external_instance_sync->get_external_repository_id(), ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $external_instance_sync->get_external_repository_object_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXTERNAL_INSTANCE_MANAGER, self :: PARAM_EXTERNAL_INSTANCE => $external_instance_sync->get_external_id(), ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $external_instance_sync->get_external_object_id()));
     }
 
     /**
@@ -538,10 +540,10 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_recycling_url($content_object, $force = false)
     {
-        if (! $this->content_object_deletion_allowed($content_object) || $content_object->get_state() == ContentObject :: STATE_RECYCLED)
-        {
-            return null;
-        }
+        //if (! $this->content_object_deletion_allowed($content_object) || $content_object->get_state() == ContentObject :: STATE_RECYCLED)
+        //{
+        //    return null;
+        //}
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), self :: PARAM_DELETE_RECYCLED => 1));
     }
 

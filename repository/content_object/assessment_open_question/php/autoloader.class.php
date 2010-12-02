@@ -15,7 +15,8 @@ class Autoloader
     static function load($classname)
     {
         $list = array(
-                'assessment_open_question' => 'assessment_open_question');
+            'assessment_open_question' => 'assessment_open_question',
+        );
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

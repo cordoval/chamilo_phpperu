@@ -12,7 +12,7 @@ use common\libraries\Utilities;
 
 use repository\ContentObject;
 use repository\RepositoryManager;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use repository\content_object\document\Document;
 
 class Hq23ExternalRepositoryManagerImporterComponent extends Hq23ExternalRepositoryManager
@@ -57,7 +57,7 @@ class Hq23ExternalRepositoryManagerImporterComponent extends Hq23ExternalReposit
 
             if ($image->create())
             {
-                ExternalRepositorySync :: quicksave($image, $external_object, $this->get_external_repository()->get_id());
+                ExternalSync :: quicksave($image, $external_object, $this->get_external()->get_id());
 
                 $parameters = $this->get_parameters();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;

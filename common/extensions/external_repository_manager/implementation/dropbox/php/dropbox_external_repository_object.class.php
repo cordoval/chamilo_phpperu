@@ -44,8 +44,8 @@ class DropboxExternalRepositoryObject extends ExternalRepositoryObject
 
 	function get_content_data($external_object)
 	{
-		$external_repository = RepositoryDataManager :: get_instance()->retrieve_external_instance($this->get_external_repository_id());
-		$test = DropboxExternalRepositoryConnector :: get_instance($external_repository)->download_external_repository_object($external_object);
+		$external_repository = RepositoryDataManager :: get_instance()->retrieve_external_instance($this->get_external_id());
+		$test = DropboxExternalRepositoryManagerConnector :: get_instance($external_repository)->download_external_repository_object($external_object);
 		//dump($test);
 		return $test;
 	}

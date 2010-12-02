@@ -26,7 +26,7 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
     {
         //check quota if user exists
         //otherwise create one and set quota
-        $connector = $this->get_external_repository_connector();
+        $connector = $this->get_external_repository_manager_connector();
         $user = Session :: get_user_id();
         $over_quota = true;
 

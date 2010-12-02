@@ -3,7 +3,7 @@
 namespace application\assessment;
 
 use common\libraries\Utilities;
-use common\libraries\Webapplication;
+use common\libraries\WebApplication;
 
 /**
  * $Id: user_autoloader.class.php 167 2009-11-12 11:17:52Z vanpouckesven $
@@ -20,7 +20,7 @@ class Autoloader
        self :: $class_name = $classname;
         $list = array(
             'assessment_manager' => 'assessment_manager/assessment_manager.class.php',
-            'results_export' => 'assessment_manager/component/assessment_results_export_form/export.class.php',
+            'results_export' => 'assessment_manager/component/results_export_form/export.class.php',
             );
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

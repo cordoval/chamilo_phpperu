@@ -189,7 +189,7 @@ class FedoraExternalRepositoryManagerImporterComponent extends FedoraExternalRep
      * @param unknown_type $dsID
      */
     protected function retrieve_datastream_content($pid, $dsID) {
-        $connector = $this->get_external_repository_connector();
+        $connector = $this->get_external_repository_manager_connector();
         $result = $connector->retrieve_datastream_content($pid, $dsID);
         return $result;
     }

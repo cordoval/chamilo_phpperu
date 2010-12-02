@@ -14,10 +14,12 @@ class Autoloader
     static function load($classname)
     {
         $list = array('blog' => 'blog',
-                'blog_builder' => 'builder/blog_builder',
-                'blog_complex_display_support' => 'display/blog_complex_display_support',
-                'blog_complex_display_preview' => 'display/blog_complex_display_preview',
-                'blog_display' => 'display/blog_display');
+            'blog_builder' => 'builder/blog_builder',
+            'blog_complex_display_support' => 'display/blog_complex_display_support',
+            'blog_complex_display_preview' => 'display/blog_complex_display_preview',
+            'blog_display' => 'display/blog_display',
+            'blog_layout' => 'display/component/viewer/blog_layout'
+        );
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

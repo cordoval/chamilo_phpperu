@@ -10,7 +10,7 @@ use common\libraries\Application;
 use common\libraries\Utilities;
 
 use repository\ContentObject;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use repository\RepositoryManager;
 use repository\content_object\document\Document;
 
@@ -52,11 +52,11 @@ class GoogleDocsExternalRepositoryManagerImporterComponent extends GoogleDocsExt
             $document->set_filename(Filesystem :: create_safe_name($external_object->get_title()) . '.' . $export_format);
 
             $document->set_in_memory_file($external_object->get_content_data($export_format));
-            //$document->set_in_memory_file($this->get_external_repository_connector()->download_external_repository_object($external_object, $export_format));
+            //$document->set_in_memory_file($this->get_external_repository_manager_connector()->download_external_repository_object($external_object, $export_format));
 
             if ($document->create())
             {
-                ExternalRepositorySync :: quicksave($document, $external_object, $this->get_external_repository()->get_id());
+                ExternalSync :: quicksave($document, $external_object, $this->get_external()->get_id());
 
                 $parameters = $this->get_parameters();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;

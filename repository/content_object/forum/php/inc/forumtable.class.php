@@ -9,7 +9,6 @@ use repository\ContentObject;
 require_once dirname(__FILE__) . '/forumtabledataprovider.class.php';
 require_once dirname(__FILE__) . '/forumtablecolumnmodel.class.php';
 require_once dirname(__FILE__) . '/forumtablecellrenderer.class.php';
-require_once dirname(__FILE__) . '/../../../content_object_table/content_object_table.class.php';
 
 class ForumTable extends ContentObjectTable
 {

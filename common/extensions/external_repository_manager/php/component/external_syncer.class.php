@@ -5,6 +5,8 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
+use repository\ExternalSync;
+
 class ExternalRepositoryComponentExternalSyncerComponent extends ExternalRepositoryComponent
 {
 
@@ -16,7 +18,7 @@ class ExternalRepositoryComponentExternalSyncerComponent extends ExternalReposit
         {
             $object = $this->retrieve_external_repository_object($id);
 
-            if (! $object->is_importable() && ($object->get_synchronization_status() == ExternalRepositorySync :: SYNC_STATUS_EXTERNAL || $object->get_synchronization_status() == ExternalRepositorySync :: SYNC_STATUS_CONFLICT))
+            if (! $object->is_importable() && ($object->get_synchronization_status() == ExternalSync :: SYNC_STATUS_EXTERNAL || $object->get_synchronization_status() == ExternalSync :: SYNC_STATUS_CONFLICT))
             {
                 $succes = $this->synchronize_external_repository_object($object);
 

@@ -1,0 +1,125 @@
+relre:.project
+
+syntax: regexp
+^common/configuration/configuration\.php$
+^files/
+
+syntax: glob
+.settings*
+.buildpath
+*~
+*.orig
+
+syntax: regexp
+^install/command_line_configuration\.inc\.php$
+
+syntax: regexp
+^install/preconfig\.php$
+syntax: regexp
+^test_users\.php$
+syntax: regexp
+^plugin/phpfreechat/data/private$
+syntax: glob
+.cache*
+syntax: regexp
+\.log$
+glob:layout/aqua/images/common/treemenu_types/Thumbs.db
+glob:layout/aqua/images/common/content_object/Thumbs.db
+glob:layout/aqua/images/common/Thumbs.db
+glob:layout/aqua/Thumbs.db
+glob:layout/aqua/images/common/treemenu/Thumbs.db
+
+syntax: regexp
+^layout/aqua/images/common/buttons/Thumbs\.db$
+syntax: regexp
+^youtube\.php$
+syntax: regexp
+^layout/ruby/images/common/background_header\.png$
+syntax: regexp
+^layout/ruby/images/common/background_footer\.png$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_vakken_context$
+syntax: regexp
+^layout/aqua/images/common/buttons/Thumbs\.db$
+syntax: regexp
+^layout/aqua/images/common/buttons/Thumbs\.db$
+syntax: regexp
+^layout/aqua/images/common/buttons/Thumbs\.db$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_opleiding_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_docenten_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_opleiding_jaar_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_vakken_jaar_context$
+syntax: regexp
+^layout/aqua/images/survey/Thumbs\.db$
+syntax: regexp
+\.db$
+syntax: regexp
+^repository/lib/content_object/survey/context/Copy of survey_opleiding_engels_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_opleiding_engels_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_vakken_engels_context$
+syntax: regexp
+^application/lib/sts$
+syntax: regexp
+^layout/aqua/css/sts\.css$
+syntax: regexp
+^layout/aqua/images/sts$
+syntax: regexp
+^languages/dutch/sts\.inc\.php$
+syntax: regexp
+^languages/english/sts\.inc\.php$
+syntax: regexp
+\.tmp$
+\.orig\..*$
+\.orig$
+\.chg\..*$
+\.rej$
+\.conflict\~$
+
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_context2$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_context3$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_context1$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_context4$
+syntax: regexp
+^repository/lib/content_object/survey/template/survey_template2$
+syntax: regexp
+^application/survey/php/survey_manager/component/survey_excel_percentage_exporter\.class\.php$
+syntax: regexp
+^repository/lib/content_object/survey/template/survey_template60$
+syntax: regexp
+^student_sync$
+syntax: regexp
+^repository/lib/content_object/survey/context$
+syntax: regexp
+^layout/ruby/images/common/logo_header\.png$
+syntax: regexp
+^repository/lib/content_object/survey/template$
+syntax: regexp
+^common/mail/phpmailer/phpmailer\.conf\.php$
+syntax: regexp
+^common/mail/phpmailer/phpmailer\.conf\.php$
+syntax: regexp
+^common/libraries/php/authentication/cas/cas_proxy\.php$
+syntax: regexp
+^common/libraries/php/authentication/cas/cas_store_pgt\.php$
+syntax: regexp
+^repository/content_object/survey/php/template$
+syntax: regexp
+^repository/content_object/survey/php/context$
+syntax: regexp
+^repository/content_object/survey/php/template$
+syntax: regexp
+^repository/content_object/survey/php/template$
+syntax: regexp
+^repository/php/lib/content_object$
+syntax: regexp
+^repository/content_object/survey/php/template$

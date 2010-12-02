@@ -8,6 +8,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
+use application\weblcms\WeblcmsQuestionAttemptsTracker;
 
 /**
  * $Id: assessment_results_deleter.class.php 216 2009-11-13 14:08:06Z kariboe $

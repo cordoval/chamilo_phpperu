@@ -56,7 +56,7 @@ class FedoraExternalRepositoryManagerDownloaderComponent extends FedoraExternalR
 	}
 
 	protected function get_datastream($pid, $dsID = false){
-		$connector = $this->get_external_repository_connector();
+		$connector = $this->get_external_repository_manager_connector();
 		$dss = $connector->retrieve_datastreams($pid);
 
 		if($dsID){
@@ -75,7 +75,7 @@ class FedoraExternalRepositoryManagerDownloaderComponent extends FedoraExternalR
 	}
 
 	protected function retrieve_datastream_content($pid, $dsID){
-		$connector = $this->get_external_repository_connector();
+		$connector = $this->get_external_repository_manager_connector();
 		return $connector->retrieve_datastream_content($pid, $dsID);
 	}
 

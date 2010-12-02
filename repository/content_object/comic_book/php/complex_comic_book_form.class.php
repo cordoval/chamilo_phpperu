@@ -8,8 +8,6 @@ use repository\ComplexContentObjectItemForm;
  * @author Hans De Bisschop
  */
 
-require_once dirname(__FILE__) . '/complex_announcement.class.php';
-
 class ComplexComicBookForm extends ComplexContentObjectItemForm
 {
 }

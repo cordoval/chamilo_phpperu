@@ -51,5 +51,11 @@ class GroupDataManager implements DataManagerInterface
     {
     	return self :: get_instance()->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, 0))->next_result();
     }
+
+    static function retrieve_group_by_code($code)
+    {
+        $condition = new EqualityCondition(Group :: PROPERTY_CODE, $code);
+        return self :: get_instance()->retrieve_groups($condition)->next_result();
+    }
 }
 ?>

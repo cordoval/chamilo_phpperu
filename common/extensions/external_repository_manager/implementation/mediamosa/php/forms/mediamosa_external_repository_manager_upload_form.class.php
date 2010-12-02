@@ -3,6 +3,8 @@ namespace common\extensions\external_repository_manager\implementation\mediamosa
 
 use common\libraries\Utilities;
 use common\libraries\FormValidator;
+use common\libraries\ResourceManager;
+
 use repository\ExternalSetting;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\libraries\Path;
@@ -25,7 +27,7 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator
         $this->application = $application;
         $this->upload_ticket = $upload_ticket;
 
-        $this->connector = $this->application->get_external_repository_connector();
+        $this->connector = $this->application->get_external_repository_manager_connector();
         $this->method = ExternalSetting :: get('upload_method', $this->connector->get_external_repository_instance_id());
 
         parent :: __construct('mediamosa_upload', $this->method, $this->upload_ticket['action']);
@@ -53,32 +55,18 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator
         }
 
         //$this->addElement('hidden', 'upload_ticket', $this->upload_ticket['upload_ticket']);
-        $this->addElement('hidden', 'XDEBUG_SESSION_START', 'netbeans-xdebug');
-        $this->addElement('hidden', 'redirect_uri', 'http://' . $_SERVER['SERVER_NAME'] . $this->application->get_url($this->params));
+        $this->addElement('hidden', 'redirect_uri', 'http://' . $_SERVER['SERVER_NAME'] . $this->application->get_url($this->params),array('id' => 'redirect_uri'));
         $this->addElement('hidden', 'create_still', 'TRUE');
+        //$apc_upload_progress_id = rand(0,10000);
+        //$this->addElement('hidden', 'APC_UPLOAD_PROGRESS', $apc_upload_progress_id);
         $this->addElement('file', 'file', sprintf(Translation :: get('FileName'), '2Gb'));
-
-        if ($this->method == MediamosaExternalRepositoryConnector :: METHOD_PUT)
-        {
-            /*$connector_cookie = $this->connector->get_connector_cookie();
-            $this->addElement('hidden', $connector_cookie['name'],$connector_cookie['value']);
-
-            $link = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/libraries/plugin/jquery/uploadify2/jquery.uploadify.v2.1.0.min.js');
-            $link .= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/libraries/plugin/jquery/uploadify2/swfobject.js');
-            $link .= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/external_repository_manager/type/mediamosa/javascript/handle_form.js');
-            $this->addElement('static', 'uploadify', Translation :: get('UploadVideo'), $link . '<div id="uploadify"></div>');*/
-
-            $params['create_still'] = 'TRUE';
-
-            if ($this->connector->mediamosa_put_upload(Path :: get(WEB_PATH) . 'application/common/external_repository_manager/type/mediamosa/test/mvi_5988.avi', $this->upload_ticket['action'], $params))
-            {
-                $this->application->redirect(Translation :: get('succes', null, Utilities :: COMMON_LIBRARIES), 0, $this->params);
-            }
-            else
-            {
-                $this->application->redirect(Translation :: get('failed', null, Utilities :: COMMON_LIBRARIES), 1, $this->params);
-            }
-        }
+        //$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
+        //$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/extensions/external_repository_manager/implementation/mediamosa/resources/javascript/handle_upload.js'));
+        //$this->addElement('static', 'uploadify', Translation :: get('UploadDocument'), '<div id="uploadify"></div>');
+        //$this->addElement('html', '<div id="uploadprogress"></div><script type="text/javascript">var apc_upload_progress_id = "' . $apc_upload_progress_id . '";
+                                    //var mediamosa_url = "' . ExternalSetting :: get(MediamosaExternalRepositoryManager :: SETTING_URL, $this->application->get_external_repository()->get_id()) . '";</script>');
+        //$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/extensions/external_repository_manager/implementation/mediamosa/resources/javascript/uploadprogress.js'));
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Upload', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
