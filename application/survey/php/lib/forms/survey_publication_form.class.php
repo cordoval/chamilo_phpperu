@@ -66,7 +66,7 @@ class SurveyPublicationForm extends FormValidator
         $checkbox = $this->createElement('checkbox', self :: PARAM_PARTICIPATE, '', Translation :: get('ParticipateYourself'), array());
         $this->addElement($checkbox);
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('ShareWith');
         $locale['Searching'] = Translation :: get('Searching');

@@ -174,7 +174,7 @@ class AlexiaPublicationForm extends FormValidator
         $targets = array();
 
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('ShareWith', null, Utilities::COMMON_LIBRARIES);
         $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);

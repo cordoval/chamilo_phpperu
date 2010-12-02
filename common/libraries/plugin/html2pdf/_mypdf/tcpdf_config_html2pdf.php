@@ -57,7 +57,9 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 	 * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
 	 */
 	define ('K_PATH_MAIN', $k_path_main);
-	
+
+    //bugfix by systho : undefined $k_path_url when $_SERVER is empty...
+    $k_path_url = '';
 	// Automatic calculation for the following K_PATH_URL constant
 	if (isset($_SERVER['HTTP_HOST']) AND (!empty($_SERVER['HTTP_HOST']))) {
 		if(isset($_SERVER['HTTPS']) AND (!empty($_SERVER['HTTPS'])) AND strtolower($_SERVER['HTTPS'])!='off') {

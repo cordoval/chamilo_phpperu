@@ -71,14 +71,36 @@ class Autoloader
             return true;
         }
 
+        if (self :: check_for_webservice_files()){
+            return true;
+        }
+
         return false;
     }
 
+    static function check_for_webservice_files()
+    {
+        $list = array(
+            'rest_message_renderer' => 'rest/rest_message_renderer.class.php',
+        );
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
+
+        if (array_key_exists($lower_case, $list))
+        {
+            $url = $list[$lower_case];
+            require_once dirname(__FILE__) . '/webservice/' . $url;
+            return true;
+        }
+
+        return false;
+    }
 
     static function check_for_ims_files()
     {
         $list = array(
             'ims_xml_reader' => 'common/reader/ims_xml_reader.class.php',
+            'ims_xml_writer' => 'common/writer/ims_xml_writer.class.php',
+            'qti_import_strategy_base' => 'qti/import_strategy/qti_import_strategy_base.class.php',
         );
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
