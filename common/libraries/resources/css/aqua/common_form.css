@@ -335,6 +335,10 @@ button.select,a.select_button {
 	background-image: url(../../images/aqua/buttons/button_select.png);
 }
 
+button.join,a.join_button {
+	background-image: url(../../images/aqua/buttons/button_join.png);
+}
+
 button.login,a.login_button {
 	background-image: url(../../images/aqua/buttons/button_login.png);
 	float: left;

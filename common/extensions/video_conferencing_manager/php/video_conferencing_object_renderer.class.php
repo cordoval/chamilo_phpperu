@@ -4,6 +4,8 @@ namespace common\extensions\video_conferencing_manager;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 
+use Exception;
+
 abstract class VideoConferencingObjectRenderer
 {
     const TYPE_TABLE = 'table';
