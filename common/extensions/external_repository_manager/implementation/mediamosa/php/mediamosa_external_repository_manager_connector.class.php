@@ -166,28 +166,45 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
     */
     function retrieve_mediamosa_user($chamilo_user_id) {
 
+
+
         $response = $this->request(self :: METHOD_GET, '/user/' . $this->get_mediamosa_user_id($chamilo_user_id));
         
+        
+        /*
+         * quota check
+         * if there is no special quotum for this user, use the default one
+         */
+        $rdm = RepositoryDataManager :: get_instance();
+
+        $special_quotum = $rdm->retrieve_external_repository_user_quotum($chamilo_user_id, $this->get_external_repository_instance_id());
+
+        if($special_quotum)
+        {
+            $quotum = $special_quotum->get_quotum();
+        }
+        else
+        {
+            $quotum = ExternalSetting :: get('default_user_quotum', $this->get_external_repository_instance_id());
+        }
+
         if ($response)
         {
+            //if user exists
             if ($response->check_result())
             {
+                //check if quota settings are still valid else update
+                if($quotum != (string)$response->items->item->user_quota_mb)
+                {
+                    $this->set_mediamosa_user_quotum($chamilo_user_id, $quotum);
+                }
+
+                //return user
                 return $response->get_response_content_xml()->items->item;
             }
+            //if user doesn't exist
             elseif((string) $response->get_response_content_xml()->header->request_result_description == 'Invalid username')
             {
-                $rdm = RepositoryDataManager :: get_instance();
-
-                $special_quotum = $rdm->retrieve_external_repository_user_quotum($chamilo_user_id, $this->get_external_repository_instance_id());
-                
-                if($special_quotum)
-                {
-                    $quotum = $special_quotum->get_quotum();
-                }
-                else
-                {
-                    $quotum = ExternalSetting :: get('default_user_quotum', $this->get_external_repository_instance_id());
-                }
                 return $this->create_mediamosa_user($chamilo_user_id, $quotum);
             }
         }

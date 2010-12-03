@@ -341,7 +341,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                     else
                     {
                         $setting = new ExternalSetting();
-                        $setting->set_external_repository_id($external_repository->get_id());
+                        $setting->set_external_id($external_repository->get_id());
                         $setting->set_variable($name);
 
                         if (isset($values[$name]))
