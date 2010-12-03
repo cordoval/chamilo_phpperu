@@ -12,8 +12,7 @@ use group\Group;
  * @package common.xml_feeds
  * @author Hans De Bisschop
  * @author Dieter De Neef
- */
-require_once dirname(__FILE__) . '/../../../global.inc.php';
+ */require_once dirname(__FILE__) . '/../../../global.inc.php';
 
 if (Authentication :: is_valid())
 {
