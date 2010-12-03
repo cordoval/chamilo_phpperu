@@ -1,46 +1,44 @@
 <?php
+
 namespace repository;
+
 use common\libraries\ImsQtiReader;
+use repository\content_object\hotspot_question\HotspotQuestion;
+use common\libraries\Qti;
+use common\libraries\shape;
+use repository\content_object\hotspot_question\HotspotQuestionAnswer;
+
 /**
  * Question builder for hotspot questions.
  *
  * @copyright (c) 2010 University of Geneva
+ * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
- *
  */
+class QtiHotspotQuestionBuilder extends QtiQuestionBuilder {
 
-class QtiHotspotQuestionBuilder extends QtiQuestionBuilder
-{
-
-    static function factory($item, $settings)
-    {
-        if (! class_exists('HotspotQuestion') || $item->has_templateDeclaration() || ! self :: has_score($item))
-        {
+    static function factory($item, $settings) {
+        if (!class_exists('repository\content_object\hotspot_question\HotspotQuestion') || $item->has_templateDeclaration() || !self :: has_score($item)) {
             return null;
         }
-        if (count($item->all_positionObjectStage()) != 1)
-        {
+        if (count($item->all_positionObjectStage()) != 1) {
             return null;
         }
         $interactions = $item->list_interactions();
-        foreach ($interactions as $interaction)
-        {
-            if (! $interaction->is_positionObjectInteraction() || ! self :: has_answers($item, $interaction))
-            {
+        foreach ($interactions as $interaction) {
+            if (!$interaction->is_positionObjectInteraction() || !self :: has_answers($item, $interaction)) {
                 return null;
             }
         }
         return new self($settings);
     }
 
-    public function create_question()
-    {
+    public function create_question() {
         $result = new HotspotQuestion();
         return $result;
     }
 
-    public function build(ImsXmlReader $item)
-    {
+    public function build(ImsXmlReader $item) {
         $result = $this->create_question();
         $result->set_title($item->get_title());
         $result->set_description($this->get_question_text($item));
@@ -53,13 +51,10 @@ class QtiHotspotQuestionBuilder extends QtiQuestionBuilder
 
 
         $interactions = $item->list_interactions();
-        foreach ($interactions as $interaction)
-        {
+        foreach ($interactions as $interaction) {
             $responses = $this->get_possible_responses($item, $interaction);
-            foreach ($responses as $response)
-            {
-	    		if(	$response instanceof ImsQtiReader && $response->shape == Qti::SHAPE_POLY)
-                {
+            foreach ($responses as $response) {
+                if ($response instanceof ImsQtiReader && $response->shape == Qti::SHAPE_POLY) {
                     $coords = $response->coords;
                     $coords = shape :: string_to_polygone($coords);
                     $answer = shape :: get_point_inside_polygon($coords);
@@ -78,4 +73,5 @@ class QtiHotspotQuestionBuilder extends QtiQuestionBuilder
     }
 
 }
+
 ?>

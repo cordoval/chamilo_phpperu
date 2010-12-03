@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Redirect;
 use common\libraries\Utilities;
 use common\libraries\FormValidator;
+
 /**
  * Fedora form for uploading a file.
  *

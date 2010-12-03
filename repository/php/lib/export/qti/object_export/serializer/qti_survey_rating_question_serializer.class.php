@@ -1,13 +1,16 @@
 <?php
 namespace repository;
+
+use repository\content_object\survey_rating_question\SurveyRatingQuestion;
+use repository\ContentObject;
+use common\libraries\Qti;
+
 /**
  *
  * @copyright (c) 2010 University of Geneva
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\survey_rating_question\SurveyRatingQuestion;
-
 class QtiSurveyRatingQuestionSerializer extends QtiQuestionSerializer
 {
 

@@ -448,6 +448,11 @@ abstract class VideoConferencingManager extends SubManager
             return __NAMESPACE__;
         }
     }
+    
+    static function get_object_viewing_parameters($external_instance_sync)
+    {
+    	return array(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_VIEW_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $external_instance_sync->get_id());
+    }
 
     static function get_registered_types($status = Registration :: STATUS_ACTIVE)
     {

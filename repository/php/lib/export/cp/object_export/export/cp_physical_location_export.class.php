@@ -6,7 +6,10 @@ use repository\content_object\physical_location\PhysicalLocationDisplay;
 
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use repository\ContentObject;
+use common\libraries\Filesystem;
 
+//include_once Path :: get_repository_path() . '/lib/content_object/physical_location/physical_location_display.class.php';
 
 /**
  * Export PhysicalLocation objects.
@@ -71,6 +74,7 @@ class CpPhysicalLocationExport extends CpObjectExport
         $css = $this->get_main_css();
         $title = $object->get_title();
         $description = $object->get_description();
+	$description = $this->translate_text($description);
         $location = $object->get_location();
 
         $html = array();

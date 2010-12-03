@@ -1,6 +1,10 @@
 <?php
 namespace repository;
 
+use repository\content_object\glossary_item\GlossaryItem;
+use repository\ContentObject;
+use common\libraries\Filesystem;
+
 /**
  * Export glossary item objects.
  *
@@ -11,8 +15,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\glossary_item\GlossaryItem;
-
 class CpGlossaryItemExport extends CpObjectExport
 {
 
@@ -63,6 +65,7 @@ class CpGlossaryItemExport extends CpObjectExport
         $css = $this->get_main_css();
         $title = $object->get_title();
         $description = $object->get_description();
+		$description = $this->translate_text($description);
 
         $result = "<html><head>$css<title>$title</title></head><body>";
         $result .= '<div class="title">' . $title . '</div>';

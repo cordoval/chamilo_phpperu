@@ -1,4 +1,5 @@
 <?php
+
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
 use common\libraries\Path;
@@ -6,6 +7,11 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Redirect;
 use common\libraries\Session;
+use common\libraries\Filesystem;
+use common\libraries\PlatformSetting;
+use common\libraries\fedora_object_meta;
+use common\libraries\switch_object_meta;
+use repository\content_object\document\Document;
 
 require_once dirname(__FILE__) . '/../forms/fedora_upload_file_form.class.php';
 require_once dirname(__FILE__) . '/../forms/fedora_metadata_form.class.php';
@@ -22,49 +28,38 @@ require_once dirname(__FILE__) . '/../forms/fedora_confirm_form.class.php';
  * @author laurent.opprecht@unige.ch
  *
  */
-class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRepositoryManager
-{
+class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRepositoryManager {
 
     const ACTION_UPLOAD_FILE = 'action_upload_file';
     const ACTION_METADATA = 'action_metadata';
     const ACTION_EXPORT = 'action_export';
     const ACTION_CONFIRM = 'action_confirm';
     const ACTION_SEND = 'action_send';
-
-    function run()
-    {
-        if (get_class($this) != __CLASS__)
-        {
+    function run() {
+        if (get_class($this) != __CLASS__) {
             $this->step();
+        } else if ($api = $this->create_api_component()) {
+            return $api->run();
+        } else {
+            return $this->step();
         }
-        else
-            if ($api = $this->create_api_component())
-            {
-                return $api->run();
-            }
-            else
-            {
-                return $this->step();
-            }
     }
 
     /**
      * Returns data from the previous step. Persit across redirection.
      */
-    protected function get_data()
-    {
+    protected function get_data() {
         $key = 'fedora_data';
-        $result = Session :: retrieve($key);
+        $result = Session::retrieve($key);
         return unserialize($result);
     }
 
     /**
      * Set data for the next step. Persist across redirection.
      */
-    protected function set_data($value)
-    {
+    protected function set_data($value) {
         $key = 'fedora_data';
-        Session :: register($key, Serialize($value));
+        Session::register($key, Serialize($value));
     }
 
     /**
@@ -72,15 +67,13 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      *
      * @param any $data data to be passed from one step to another
      */
-    protected function move_next($data = false)
-    {
-        if ($data)
-        {
+    protected function move_next($data=false) {
+        if ($data) {
             $this->set_data($data);
         }
         $next_action = $this->next_action();
         $parameters = $this->get_wizard_parameters($next_action);
-        Redirect :: url($parameters);
+        Redirect::url($parameters);
     }
 
     /**
@@ -92,32 +85,24 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      *
      * @param unknown_type $action
      */
-    protected function step($action = false)
-    {
+    protected function step($action=false) {
         $action = $action ? $action : $this->get_wizard_action();
         $data = $this->get_data();
 
         $form = $this->create_form($action, $data);
-        if ($form->validate())
-        {
+        if ($form->validate()) {
             $f = array($this, $action);
 
-            if (is_callable($f))
-            {
+            if (is_callable($f)) {
                 $data = $form->exportValues();
                 $result = call_user_func($f, $data);
 
                 $this->move_next($result);
-            }
-            else
-            {
+            } else {
                 $data = $form->exportValues();
                 $this->move_next($data);
-
             }
-        }
-        else
-        {
+        } else {
             $this->display($form);
         }
     }
@@ -127,8 +112,7 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      *
      * @param unknown_type $form
      */
-    protected function display($form = false)
-    {
+    protected function display($form=false) {
         $form = $form ? $form : $this->get_form();
         $this->display_header($trail = null, false);
         $form->display();
@@ -140,10 +124,9 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      *
      * @param string $action if not provided default to the current action
      */
-    protected function get_wizard_url($action = false)
-    {
+    protected function get_wizard_url($action=false) {
         $parameters = $this->get_wizard_parameters($action);
-        $result = Redirect :: get_url($parameters, $filter);
+        $result = Redirect::get_url($parameters, $filter);
         return $result;
     }
 
@@ -152,30 +135,23 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      *
      * @param string $action if not provided default to the current action
      */
-    protected function get_wizard_parameters($action = false)
-    {
+    protected function get_wizard_parameters($action=false) {
         $parameters = $_GET;
 
         $filter = array();
-        if ($action)
-        {
-            $parameters[self :: PARAM_WIZARD_ACTION] = $action;
+        if ($action) {
+            $parameters[self::PARAM_WIZARD_ACTION] = $action;
         }
 
-        if ($filter)
-        {
+        if ($filter) {
             $url_parameters = array();
-            foreach ($parameters as $key => $value)
-            {
-                if (! in_array($key, $filter))
-                {
+            foreach ($parameters as $key => $value) {
+                if (!in_array($key, $filter)) {
                     $url_parameters[$key] = $value;
                 }
             }
             $result = $url_parameters;
-        }
-        else
-        {
+        } else {
             $result = $parameters;
         }
         return $result;
@@ -185,10 +161,9 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      * Returns the current action for the component.
      *
      */
-    protected function get_wizard_action()
-    {
-        $result = Request :: get(self :: PARAM_WIZARD_ACTION);
-        $result = $result ? $result : self :: ACTION_UPLOAD_FILE;
+    protected function get_wizard_action() {
+        $result = Request::get(self::PARAM_WIZARD_ACTION);
+        $result = $result ? $result : self::ACTION_UPLOAD_FILE;
         return $result;
     }
 
@@ -198,13 +173,12 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      * @param string $action
      * @return string
      */
-    protected function next_action($action = false)
-    {
+    protected function next_action($action=false) {
         $action = $action ? $action : $this->get_wizard_action();
-        $steps[self :: ACTION_UPLOAD_FILE] = self :: ACTION_METADATA;
-        $steps[self :: ACTION_METADATA] = self :: ACTION_CONFIRM;
-        $steps[self :: ACTION_CONFIRM] = self :: ACTION_SEND;
-        $steps[self :: ACTION_SEND] = self :: ACTION_UPLOAD_FILE;
+        $steps[self::ACTION_UPLOAD_FILE] = self::ACTION_METADATA;
+        $steps[self::ACTION_METADATA] = self::ACTION_CONFIRM;
+        $steps[self::ACTION_CONFIRM] = self::ACTION_SEND;
+        $steps[self::ACTION_SEND] = self::ACTION_UPLOAD_FILE;
         return $steps[$action];
     }
 
@@ -214,26 +188,24 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      * @param string $action action for the step
      * @param any $p1 form constructor parameter
      */
-    protected function create_form($action = false, $p1 = null)
-    {
+    protected function create_form($action=false, $p1=null) {
         $action = $action ? $action : $this->get_wizard_action();
         $p1 = $p1 ? $p1 : $this->get_data();
         $parameters = $this->get_wizard_parameters($action);
-        switch ($action)
-        {
-            case self :: ACTION_UPLOAD_FILE :
+        switch ($action) {
+            case self::ACTION_UPLOAD_FILE:
                 $result = new FedoraUploadFileForm($this, $parameters, $p1);
                 return $result;
 
-            case self :: ACTION_METADATA :
+            case self::ACTION_METADATA:
                 $result = new FedoraMetadataForm($this, $parameters, $p1);
                 return $result;
 
-            case self :: ACTION_CONFIRM :
+            case self::ACTION_CONFIRM:
                 $result = new FedoraConfirmForm($this, $parameters, $p1);
                 return $result;
 
-            default :
+            default:
                 $result = new FedoraUploadFileForm($this, $parameters, $p1);
                 return $result;
         }
@@ -244,14 +216,13 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      *
      * @param array $data
      */
-    protected function action_upload_file($data)
-    {
+    protected function action_upload_file($data) {
         $file = $_FILES['file'];
 
         $name = basename($file['tmp_name']);
-        $path = Path :: get_temp_path() . $name;
-        $href = Path :: get(WEB_TEMP_PATH) . $name;
-        Filesystem :: move_file($file['tmp_name'], $path);
+        $path = Path::get_temp_path() . $name;
+        $href = Path::get(WEB_TEMP_PATH) . $name;
+        Filesystem::move_file($file['tmp_name'], $path);
         $file['tmp_name'] = $path;
         $file['path'] = $path;
         $file['href'] = $href;
@@ -266,29 +237,24 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      *
      * @param array $data
      */
-    protected function action_metadata($data)
-    {
-        if ($label = isset($data['title']) ? $data['title'] : false)
-        {
+    protected function action_metadata($data) {
+        if ($label = isset($data['title']) ? $data['title'] : false) {
             $connector = $this->get_external_repository_manager_connector();
             $object = $connector->get_object_by_label($label);
             $data['pid'] = $object['pid'];
 
-            $name = 'f' . sha1('fedora_temp_thumbnail' . Session :: get_user_id() . uniqid()) . '.tmp';
-            $path = Path :: get_temp_path() . $name;
-            $href = Path :: get(WEB_TEMP_PATH) . $name;
+            $name = 'f' . sha1('fedora_temp_thumbnail' . Session::get_user_id() . uniqid()) . '.tmp';
+            $path = Path::get_temp_path() . $name;
+            $href = Path::get(WEB_TEMP_PATH) . $name;
             $file = $_FILES['thumbnail'];
-            if ($file['tmp_name'])
-            {
-                Filesystem :: move_file($file['tmp_name'], $path);
+            if ($file['tmp_name']) {
+                Filesystem::move_file($file['tmp_name'], $path);
                 $file['tmp_name'] = $path;
                 $file['path'] = $path;
                 $file['href'] = $href;
 
                 $data['thumbnail'] = $file;
-            }
-            else
-            {
+            } else {
                 $data['thumbnail'] = false;
             }
         }
@@ -300,25 +266,21 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      *
      * @param array $data
      */
-    protected function action_confirm($data)
-    {
+    protected function action_confirm($data) {
         $result = $this->send($data);
-        Session :: unregister('fedora_data'); //avoid leaving unnecessary data in the session cache.
-        if ($result)
-        {
-            $message = $result = Translation :: get('ExternalRepositoryExportSuccess');
+        Session::unregister('fedora_data'); //avoid leaving unnecessary data in the session cache.
+        if ($result) {
+            $message = $result = Translation::get('ExternalRepositoryExportSuccess');
             $error = '';
-        }
-        else
-        {
-            $error = $result = Translation :: get('ExternalRepositoryExportFailure');
+        } else {
+            $error = $result = Translation::get('ExternalRepositoryExportFailure');
             $message = '';
         }
 
         $parameters = $this->get_wizard_parameters();
-        $parameters[self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
-        unset($parameters[self :: PARAM_COURSE_ID]);
-        unset($parameters[self :: PARAM_WIZARD_ACTION]);
+        $parameters[self::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self::ACTION_BROWSE_EXTERNAL_REPOSITORY;
+        unset($parameters[self::PARAM_COURSE_ID]);
+        unset($parameters[self::PARAM_WIZARD_ACTION]);
 
         $this->redirect($message, $error, $parameters);
         return $result;
@@ -329,8 +291,7 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      *
      * @param array $data array containing the path to the file as well as metadata used to export.
      */
-    protected function send($data)
-    {
+    protected function send($data) {
         $connector = $this->get_external_repository_manager_connector();
 
         $pid = isset($data['pid']) ? $data['pid'] : false;
@@ -344,32 +305,31 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
         $meta->mime = $mime;
         $meta->owner = $connector->get_owner_id();
         $content = file_get_contents($path);
-        Filesystem :: remove($path);
 
-        if ($thumbnail = @$data['thumbnail'])
-        {
+        if ($thumbnail = @$data['thumbnail']) {
             $meta->thumbnail_label = $thumbnail['name'];
             $meta->thumbnail_mime = $thumbnail['type'];
             $meta->thumbnail = file_get_contents($thumbnail['path']);
         }
-        if (empty($thumbnail) && $this->is_image($ext))
-        {
-            $connector->update_thumbnail($pid, $meta->label, $path, $mime);
+        if (empty($thumbnail) && $this->is_image($ext)) {
+            $meta->thumbnail_label = $meta->label;
+            $meta->thumbnail_mime = $mime;
+            $meta->thumbnail = $connector->get_thumbnail_content($path);
         }
 
-        if ($pid)
-        {
-            $connector->delete_external_repository_object($pid);
+        Filesystem::remove($path);
+
+        if ($pid) {
+            $connector->purge_external_repository_object($pid);
         }
         $foxml = $this->content_to_foxml($content, $meta, $data);
         $result = $connector->ingest($foxml, $meta->pid, $meta->label, $meta->owner);
-        Filesystem :: remove($path);
+        Filesystem::remove($path);
         return $result;
     }
 
-    protected function is_image($ext)
-    {
-        return in_array($ext, Document :: get_image_types());
+    protected function is_image($ext) {
+        return in_array($ext, Document::get_image_types());
     }
 
     /**
@@ -379,22 +339,28 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
      * @param $meta basic Fedora metadata
      * @param array $data additional metadata
      */
-    protected function content_to_foxml($content, $meta, $data)
-    {
+    protected function content_to_foxml($content, $meta, $data) {
         $switch = new switch_object_meta();
         $keys = array_keys($data);
-        foreach ($keys as $key)
-        {
-            if (isset($data[$key]))
-            {
+        foreach ($keys as $key) {
+            if (isset($data[$key])) {
                 $switch->{$key} = $data[$key];
             }
         }
+
+        $switch->aaiid = $meta->owner;
+        $switch->rights = isset($data['edit_rights']) ? $data['edit_rights'] : 'private';
+        $switch->accessRights = isset($data['access_rights']) ? $data['access_rights'] : 'private';
+        $switch->rightsHolder = $data['author'];
+        $switch->publisher = PlatformSetting::get('institution', 'admin');
         $switch->discipline = $data['subject'];
         $switch->discipline_text = $data['subject_dd']['subject_text'];
         $switch->creator = $data['author'];
         $switch->description = $data['description'];
-        return SWITCH_content_to_foxml($content, $meta, $switch);
+        $switch->collections = $data['collection'];
+        $switch->source = $this->get_external_repository_manager_connector()->get_datastream_content_url($meta->pid, 'DS1');
+
+        return SWITCH_object_meta::content_to_foxml($content, $meta, $switch);
     }
 
 }

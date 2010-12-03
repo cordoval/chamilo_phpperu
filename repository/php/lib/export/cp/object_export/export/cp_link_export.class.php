@@ -1,6 +1,10 @@
 <?php
 namespace repository;
 
+use repository\content_object\link\Link;
+use repository\ContentObject;
+use common\libraries\Filesystem;
+
 /**
  * Export Link objects.
  *
@@ -10,8 +14,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\link\Link;
-
 class CpLinkExport extends CpObjectExport
 {
 

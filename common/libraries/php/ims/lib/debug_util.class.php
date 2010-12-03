@@ -1,365 +1,333 @@
 <?php
 namespace common\libraries;
 
-if (! function_exists('debug'))
-{
-
-    function debug($value)
-    {
-        DebugUtil :: show($value, '', 1);
-    }
+if(! defined('E_DEPRECATED')){
+	define('E_DEPRECATED', 8192); //suppress notice messages for php < 5.3
 }
-//DebugUtil2::set_default_error_handler();
 
+if(!class_exists('DebugUtil2')){
 
-/**
- * Helper class used for debuging
- *
- * @copyright (c) 2010 University of Geneva
- * @author nicolas.rod@unige.ch
- *
- */
-class DebugUtil2
-{
+	/**
+	 * Helper class used for debuging
+	 *
+	 * University of Geneva
+	 * @author nicolas.rod@unige.ch
+	 *
+	 */
+	class DebugUtil2{
 
-    private static $filters = array();
-    private static $instance = null;
+		private static $filters=array();
+		private static $instance=null;
 
-    public static function add_filter($regex)
-    {
-        self :: $filters[] = $regex;
-    }
+		public static function add_filter($regex){
+			self::$filters[]=$regex;
+		}
 
-    public static function get_filters()
-    {
-        return self :: $filters;
-    }
+		public static function get_filters(){
+			return self::$filters;
+		}
 
-    /**
-     *
-     * @param int $errno
-     * @param string $errstr
-     * @param string $errfile
-     * @param int $errline
-     * @param array $errcontext
-     */
-    public static function default_error_handler($errno, $errstr, $errfile, $errline, $errcontext)
-    {
-        foreach (self :: $filters as $filter)
-        {
-            if (preg_match($filter, $errfile))
-            {
-                return;
-            }
+		/**
+		 *
+		 * @param int $errno
+		 * @param string $errstr
+		 * @param string $errfile
+		 * @param int $errline
+		 * @param array $errcontext
+		 */
+		public static function default_error_handler($errno, $errstr, $errfile, $errline, $errcontext){
+			foreach(self::$filters as $filter){
+				if(preg_match($filter, $errfile)){
+					return;
+				}
 
-        }
+			}
 
-        /*if($errno == E_DEPRECATED ){
-			return;
-		}*/
-        $err_name = self :: get_error_name($errno);
+			/*if($errno == E_DEPRECATED ){
+			 return;
+			 }*/
+			$err_name = self::get_error_name($errno);
 
-        echo ('<div style="background:#FFFF55;">');
-        echo ("<b>$err_name</b><br/>");
-        echo ($errstr);
-        echo ('<br/>');
-        echo ('<br/>');
-        echo ("File: $errfile ");
-        echo ('<br/>');
-        echo ("Line: $errline");
-        echo ('<br/>');
-        echo ('<br/>');
-        echo ("<b>Call</b><br/>");
-        echo (self :: get_call(2));
-        echo ('<br/>');
-        echo ('<br/>');
-        echo ('<b>Trace</b>');
-        echo ('<br/>');
-        echo (self :: print_backtrace_html(null, 3));
-        echo ('<br/>');
-        echo ("<b>Arguments</b><br/>");
-        echo ('</div>');
-        if (! ($errno == E_DEPRECATED || $errno == E_NOTICE || $errno == E_WARNING))
-        {
-            exit();
-        }
-    }
+			echo('<div style="background:#FFFF55;">');
+			echo("<b>$err_name</b><br/>");
+			echo($errstr);
+			echo('<br/>');
+			echo('<br/>');
+			echo("File: $errfile ");
+			echo('<br/>');
+			echo("Line: $errline");
+			echo('<br/>');
+			echo('<br/>');
+			echo("<b>Call</b><br/>");
+			echo(self::get_call(2));
+			echo('<br/>');
+			echo('<br/>');
+			echo('<b>Trace</b>');
+			echo('<br/>');
+			echo(self::print_backtrace_html(null, 3));
+			echo('<br/>');
+			echo("<b>Arguments</b><br/>");
+			echo('</div>');
+			if(!($errno == E_DEPRECATED || $errno == E_NOTICE || $errno == E_WARNING )){
+				exit;
+			}
+		}
 
-    /**
-     *
-     * @param Exception $exception
-     */
-    public static function default_exception_handler($exception)
-    {
-        $result = '';
-        $result .= '<div style="background:#FFFF55;">';
-        $result .= '<hr/>';
-        $result .= '<b>Exception:</b> ' . $exception->getCode() . '<br/>';
-        $result .= $exception->getMessage();
-        $result .= '<br/>';
-        $result .= '<br/>';
-        $result .= 'File: ' . $exception->getFile();
-        $result .= '<br/>';
-        $result .= 'Line: ' . $exception->getLine();
-        $result .= '<br/>';
-        $result .= '<br/>';
-        $result .= "<b>Call</b><br/>";
-        $result .= self :: call_to_text(reset($exception->getTrace()));
-        $result .= '<br/>';
-        $result .= '<br/>';
-        $result .= '<b>Trace</b>';
-        $result .= '<br/>';
-        $result .= self :: trace_to_html($exception->getTrace());
-        $result .= '<br/>';
-        $result .= '<br/>';
-        $result .= '<b>Exception handler trace</b>';
-        $result .= '<br/>';
-        $result .= self :: trace_to_html(null, 2);
-        $result .= '<hr/>';
-        $result .= '</div>';
-        $result .= '<br/>';
-        echo ($result);
-        //debug($exception);
-    }
+		/**
+		 *
+		 * @param Exception $exception
+		 */
+		public static function default_exception_handler($exception) {
+			$result = '';
+			$result .= '<div style="background:#FFFF55;">';
+			$result .= '<hr/>';
+			$result .= '<b>Exception:</b> '. $exception->getCode() . '<br/>';
+			$result .= $exception->getMessage();
+			$result .= '<br/>';
+			$result .= '<br/>';
+			$result .= 'File: ' . $exception->getFile();
+			$result .= '<br/>';
+			$result .= 'Line: ' . $exception->getLine();
+			$result .= '<br/>';
+			$result .= '<br/>';
+			$result .= "<b>Call</b><br/>";
+			$result .= self::call_to_text(reset($exception->getTrace()));
+			$result .= '<br/>';
+			$result .= '<br/>';
+			$result .= '<b>Trace</b>';
+			$result .= '<br/>';
+			$result .= self::trace_to_html($exception->getTrace());
+			$result .= '<br/>';
+			$result .= '<br/>';
+			$result .= '<b>Exception handler trace</b>';
+			$result .= '<br/>';
+			$result .= self::trace_to_html(null, 2);
+			$result .= '<hr/>';
+			$result .= '</div>';
+			$result .= '<br/>';
+			echo($result);
+			//debug($exception);
+		}
 
-    public static function print_exception($exception)
-    {
-        self :: default_exception_handler($exception);
-    }
+		public static function print_exception($exception){
+			self::default_exception_handler($exception);
+		}
 
-    public static function get_call($mixed)
-    {
-        if (is_int($mixed))
-        {
-            $backtrace = debug_backtrace();
-            for($i = 0; $i < $mixed; $i ++)
-            {
-                array_shift($backtrace);
-            }
-            $call = $backtrace[0];
-        }
-        else
-        {
-            $call = $mixed;
-        }
-        return self :: call_to_text($call);
-    }
+		public static function get_call($mixed){
+			if(is_int($mixed)){
+				$backtrace = debug_backtrace();
+				for($i=0; $i<$mixed; $i++){
+					array_shift($backtrace);
+				}
+				$call = $backtrace[0];
+			}else{
+				$call = $mixed;
+			}
+			return self::call_to_text($call);
+		}
 
-    public static function call_to_text($call)
-    {
-        $args = $call['args'];
-        $result = '';
-        if (isset($call['class']))
-        {
-            $result .= $call['class'] . '.';
-        }
-        $result .= $call['function'] . '(';
-        foreach ($args as $arg)
-        {
-            if (is_object($arg))
-            {
-                $result .= get_class($arg);
-            }
-            else
-            {
-                $result .= (string) $arg;
-            }
-            $result .= ', ';
-        }
-        $result = trim($result, ', ');
-        $result .= ')';
-        return $result;
-    }
+		public static function call_to_text($call){
+			$args = $call['args'];
+			$args = empty($args) ? array() : $args;
+			$result = '';
+			if(isset($call['class'])){
+				$result .= $call['class'].'.';
+			}
+			$result .= $call['function'].'(';
+			foreach($args as $arg){
+				if(is_object($arg)){
+					$result .= get_class($arg);
+				}else{
+					$result .= (string)$arg;
+				}
+				$result .= ', ';
+			}
+			$result = trim($result, ', ');
+			$result .= ')';
+			return $result;
+		}
 
-    public static function trace_to_html($trace = null, $skip = 0)
-    {
-        if (empty($trace))
-        {
-            $trace = debug_backtrace();
-        }
-        $result = '';
-        for($i = 0; $i < $skip; $i ++)
-        {
-            array_shift($trace);
-        }
-        $result .= '<table cellspacing="5px"><tbody>';
-        foreach ($trace as $call)
-        {
+		public static function trace_to_html($trace = null, $skip=0){
+			if(empty($trace)){
+				$trace = debug_backtrace();
+			}
+			$result = '';
+			for($i=0; $i<$skip; $i++){
+				array_shift($trace);
+			}
+			$result .= '<table cellspacing="5px"><tbody>';
+			foreach($trace as $call){
 
-            $args = $call['args'];
-            $arg_result = '(';
-            foreach ($args as $arg)
-            {
-                if (is_object($arg))
-                {
-                    $arg_result .= get_class($arg);
-                }
-                else
-                {
-                    $arg_result .= (string) $arg;
-                }
-                $arg_result .= ', ';
-            }
-            $arg_result = trim($arg_result, ', ');
-            $arg_result .= ')';
+				$args = $call['args'];
+				$arg_result = '(';
+				foreach($args as $arg){
+					if(is_object($arg)){
+						$arg_result .= get_class($arg);
+					}else{
+						$arg_result .= (string)$arg;
+					}
+					$arg_result .= ', ';
+				}
+				$arg_result = trim($arg_result, ', ');
+				$arg_result .= ')';
 
-            $result .= '<tr>';
-            $result .= '<td>';
-            if (isset($call['class']))
-            {
-                $result .= $call['class'];
-            }
-            $result .= '<td>';
-            $result .= '</td><td>';
-            $result .= $call['function'];
-            $result .= '</td><td>';
-            $result .= $arg_result;
-            $result .= '</td><td>';
-            $result .= isset($call['file']) ? basename($call['file'], '.php') : '';
-            $result .= '</td><td>';
-            $result .= isset($call['line']) ? $call['line'] : '';
-            $result .= '</td><td>';
-            $result .= isset($call['file']) ? basename(dirname($call['file'])) : '';
-            $result .= '</td>';
-            $result .= '</tr>';
-        }
-        $result .= '</table></tbody>';
-        return $result;
-    }
+				$result .= '<tr>';
+				$result .= '<td>';
+				if(isset($call['class'])){
+					$result .= $call['class'];
+				}
+				$result .= '<td>';
+				$result .= '</td><td>';
+				$result .= $call['function'];
+				$result .= '</td><td>';
+				$result .= $arg_result;
+				$result .= '</td><td>';
+				$result .= isset($call['file']) ? basename($call['file'], '.php') : '';
+				$result .= '</td><td>';
+				$result .= isset($call['line']) ? $call['line'] : '';
+				$result .= '</td><td>';
+				$result .= isset($call['file']) ? basename(dirname($call['file'])) : '';
+				$result .= '</td>';
+				$result .= '</tr>';
+			}
+			$result .= '</table></tbody>';
+			return $result;
+		}
 
-    public static function print_backtrace_html($trace = null, $skip = 1)
-    {
-        return self :: trace_to_html($backtrace, $skip);
-    }
+		public static function print_backtrace_html($trace = null, $skip=1){
+			return self::trace_to_html($trace, $skip);
+		}
 
-    public static function set_default_error_handler()
-    {
-        $filter = '#C:\wamp\www\chamilo\repository\lib\content_object.class.php.*#';
-        $filter = str_replace('\\', '\\\\', $filter);
-        self :: $filters[] = $filter;
+		public static function set_default_error_handler(){
+			$flag = (E_ALL) & ~(E_DEPRECATED);
+			$result = set_error_handler(array(__CLASS__, 'default_error_handler'), $flag);
+			$result = set_exception_handler(array(__CLASS__, 'default_exception_handler'));
+			return $result;
+		}
 
-        $filter = '#C:\wamp\www\chamilo\common\.*#';
-        $filter = str_replace('\\', '\\\\', $filter);
-        self :: $filters[] = $filter;
+		public static function get_error_name($error_number){
+			switch ($error_number) {
+				case E_USER_ERROR:
+					return 'User Error';
 
-        $flag = (E_ALL) & ~ (E_DEPRECATED);
-        $result = set_error_handler(array(__CLASS__, 'default_error_handler'), $flag);
-        $result = set_exception_handler(array(__CLASS__, 'default_exception_handler'));
-        return $result;
-    }
+				case E_USER_WARNING:
+					return 'User Warning';
 
-    public static function get_error_name($error_number)
-    {
-        switch ($error_number)
-        {
-            case E_USER_ERROR :
-                return 'User Error';
+				case E_USER_NOTICE:
+					return 'User Notice';
 
-            case E_USER_WARNING :
-                return 'User Warning';
+				case E_NOTICE:
+					return 'Notice';
 
-            case E_USER_NOTICE :
-                return 'User Notice';
+				case E_ERROR:
+				case E_CORE_ERROR:
+					return 'Error';
 
-            case E_NOTICE :
-                return 'Notice';
+				case E_PARSE:
+				case E_COMPILE_ERROR:
+					return 'Compile';
 
-            case E_ERROR :
-            case E_CORE_ERROR :
-                return 'Error';
+				case E_WARNING:
+				case E_CORE_WARNING:
+				case E_COMPILE_WARNING:
+					return 'Warning';
 
-            case E_PARSE :
-            case E_COMPILE_ERROR :
-                return 'Compile';
+				case E_STRICT:
+					return 'Strict';
 
-            case E_WARNING :
-            case E_CORE_WARNING :
-            case E_COMPILE_WARNING :
-                return 'Warning';
+				case E_DEPRECATED:
+					return 'Deprecated';
 
-            case E_STRICT :
-                return 'Strict';
+				default:
+					return "Unknown error type ($error_number)";
+			}
+		}
 
-            case E_DEPRECATED :
-                return 'Deprecated';
+		public static function show($object, $title = null, $backtrace_index = 0)
+		{
+			$f = array($object, 'debug');
+			if(is_callable($f)){
+				$object = call_user_func($f);
+			}
 
-            default :
-                return "Unknown error type ($error_number)";
-        }
-    }
+			echo '<div class="debug">';
 
-    public static function show($object, $title = null, $backtrace_index = 0)
-    {
-        $f = array($object, 'debug');
-        if (is_callable($f))
-        {
-            $object = call_user_func($f);
-        }
+			$calledFrom = debug_backtrace();
+			echo '<strong>' . $calledFrom[$backtrace_index]['file'] . '</strong>';
+			echo ' (line <strong>' . $calledFrom[$backtrace_index]['line'] . '</strong>)';
 
-        echo '<div class="debug">';
+			if (isset($title))
+			{
+				echo '<h3>' . $title . '</h3>';
+			}
 
-        $calledFrom = debug_backtrace();
-        echo '<strong>' . $calledFrom[$backtrace_index]['file'] . '</strong>';
-        echo ' (line <strong>' . $calledFrom[$backtrace_index]['line'] . '</strong>)';
+			echo ('<pre>');
+			if (is_array($object))
+			{
+				print_r($object);
+			}
+			elseif (is_a($object, 'DOMDocument'))
+			{
+				echo 'DOMDocument:<br/><br/>';
 
-        if (isset($title))
-        {
-            echo '<h3>' . $title . '</h3>';
-        }
+				$object->formatOutput = true;
+				$xml_string = $object->saveXML();
+				echo htmlentities($xml_string);
+			}
+			elseif (is_a($object, 'DOMNodeList') || is_a($object, 'DOMElement'))
+			{
+				$dom = new DOMDocument();
+				$debugElement = $dom->createElement('debug');
+				$dom->appendChild($debugElement);
 
-        echo ('<pre>');
-        if (is_array($object))
-        {
-            print_r($object);
-        }
-        elseif (is_a($object, 'DOMDocument'))
-        {
-            echo 'DOMDocument:<br/><br/>';
+				if (is_a($object, 'DOMNodeList'))
+				{
+					echo 'DOMNodeList:<br/><br/>';
 
-            $object->formatOutput = true;
-            $xml_string = $object->saveXML();
-            echo htmlentities($xml_string);
-        }
-        elseif (is_a($object, 'DOMNodeList') || is_a($object, 'DOMElement'))
-        {
-            $dom = new DOMDocument();
-            $debugElement = $dom->createElement('debug');
-            $dom->appendChild($debugElement);
+					foreach ($object as $node)
+					{
+						$node = $dom->importNode($node, true);
+						$debugElement->appendChild($node);
+					}
+				}
+				elseif (is_a($object, 'DOMElement'))
+				{
+					echo 'DOMElement:<br/><br/>';
 
-            if (is_a($object, 'DOMNodeList'))
-            {
-                echo 'DOMNodeList:<br/><br/>';
+					$node = $dom->importNode($object, true);
+					$debugElement->appendChild($node);
+				}
 
-                foreach ($object as $node)
-                {
-                    $node = $dom->importNode($node, true);
-                    $debugElement->appendChild($node);
-                }
-            }
-            elseif (is_a($object, 'DOMElement'))
-            {
-                echo 'DOMElement:<br/><br/>';
+				$dom->formatOutput = true;
+				$xml_string = $dom->saveXML();
+				echo htmlentities($xml_string);
+			}
+			elseif (is_object($object))
+			{
+				echo print_r($object);
+			}
+			else
+			{
+				echo $object;
+			}
 
-                $node = $dom->importNode($object, true);
-                $debugElement->appendChild($node);
-            }
+			echo ('</pre>');
+			echo '</div>';
+		}
+	}
 
-            $dom->formatOutput = true;
-            $xml_string = $dom->saveXML();
-            echo htmlentities($xml_string);
-        }
-        elseif (is_object($object))
-        {
-            echo print_r($object);
-        }
-        else
-        {
-            echo $object;
-        }
-
-        echo ('</pre>');
-        echo '</div>';
-    }
 }
+
+if(!function_exists('debug')){
+	function debug($value){
+		DebugUtil2::show($value, '', 1);
+	}
+}
+
+
+
+
+
+
 
 ?>

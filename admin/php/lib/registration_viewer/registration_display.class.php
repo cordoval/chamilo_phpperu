@@ -31,9 +31,9 @@ class RegistrationDisplay
         $object = $this->object;
         $package_info = PackageInfo :: factory($object->get_type(), $object->get_name());
         $package_info = $package_info->get_package();
-
+        
         $html = array();
-
+        
         if (! $package_info->is_official() || ! $package_info->is_stable())
         {
             if (! $package_info->is_official() && $package_info->is_stable())
@@ -48,19 +48,19 @@ class RegistrationDisplay
             {
                 $translation_variable = 'WarningPackageUnofficialUnstable';
             }
-
+            
             $html[] = Display :: warning_message(Translation :: get($translation_variable), true);
         }
         else
         {
             $html[] = Display :: normal_message(Translation :: get('InformationPackageOfficialStable'), true);
         }
-
+        
         $html[] = $this->get_properties_table($package_info);
         $html[] = $this->get_cycle_table($package_info);
         $html[] = $this->get_dependencies_table($package_info);
         $html[] = $this->get_update_problems();
-
+        
         return implode("\n", $html);
     }
 
@@ -85,7 +85,7 @@ class RegistrationDisplay
                     $html[] = '<td></td>';
                 }
                 $html[] = '<td>' . $package_dependency->as_html() . '</td>';
-
+                
                 $html[] = '</tr>';
                 $count ++;
             }
@@ -103,15 +103,15 @@ class RegistrationDisplay
         $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $this->get_object()->get_name());
         $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_SECTION, $this->get_object()->get_type());
         $condition = new AndCondition($conditions);
-
+        
         $admin = AdminDataManager :: get_instance();
         $order_by = new ObjectTableOrder(RemotePackage :: PROPERTY_VERSION, SORT_DESC);
-
+        
         $package_remote = $admin->retrieve_remote_packages($condition, $order_by, null, 1);
         if ($package_remote->size() == 1)
         {
             $package_remote = $package_remote->next_result();
-
+            
             $package_update_dependency = new PackageDependencyVerifier($package_remote);
             $success = $package_update_dependency->is_updatable();
             if ($success)
@@ -143,7 +143,7 @@ class RegistrationDisplay
         $html[] = '<tr><td class="header">' . Translation :: get('CyclePhase') . '</td><td>' . Translation :: get('CyclePhase' . Utilities :: underscores_to_camelcase($package_info->get_cycle_phase())) . '</td></tr>';
         $html[] = '<tr><td class="header">' . Translation :: get('CycleRealm') . '</td><td>' . Translation :: get('CycleRealm' . Utilities :: underscores_to_camelcase($package_info->get_cycle_realm())) . '</td></tr>';
         $html[] = '</table><br/>';
-
+        
         return implode("\n", $html);
     }
 
@@ -152,9 +152,9 @@ class RegistrationDisplay
         $html = array();
         $html[] = '<table class="data_table data_table_no_header">';
         $properties = $package_info->get_default_property_names();
-
+        
         $hidden_properties = array(RemotePackage :: PROPERTY_AUTHORS, RemotePackage :: PROPERTY_VERSION, RemotePackage :: PROPERTY_CYCLE, RemotePackage :: PROPERTY_DEPENDENCIES, RemotePackage :: PROPERTY_EXTRA);
-
+        
         foreach ($properties as $property)
         {
             $value = $package_info->get_default_property($property);
@@ -163,9 +163,9 @@ class RegistrationDisplay
                 $html[] = '<tr><td class="header">' . Translation :: get(Utilities :: underscores_to_camelcase($property)) . '</td><td>' . $value . '</td></tr>';
             }
         }
-
+        
         $authors = $package_info->get_authors();
-        foreach($authors as $key => $author)
+        foreach ($authors as $key => $author)
         {
             $html[] = '<tr><td class="header">';
             if ($key == 0)
@@ -174,11 +174,47 @@ class RegistrationDisplay
             }
             $html[] = '</td><td>' . Display :: encrypted_mailto_link($author['email'], $author['name']) . ' - ' . $author['company'] . '</td></tr>';
         }
-
+        
         $html[] = '</table><br/>';
-
+        
         return implode("\n", $html);
     }
 
+    function get_action_bar($registration)
+    {
+        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+        
+        if (! $registration->is_up_to_date())
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdatePackage'), Theme :: get_common_image_path() . 'action_update.png', $this->get_registration_update_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        else
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('PackageIsAlreadyUpToDate'), Theme :: get_common_image_path() . 'action_update_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
+        // TODO: Temporarily disabled archive option
+        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdatePackageFromArchive'), Theme :: get_image_path() . 'action_update_archive.png', $this->get_registration_update_archive_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+
+        //        if ($registration->get_type() == Registration :: TYPE_LANGUAGE && Utilities :: camelcase_to_underscores($registration->get_name()) == PlatformSetting :: get('platform_language'))
+        //        {
+        //            return;
+        //        }
+        
+
+        if ($registration->is_active())
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Deactivate', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_deactivate.png', $this->get_registration_deactivation_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        else
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Activate', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_activate.png', $this->get_registration_activation_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Deinstall', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_deinstall.png', $this->get_registration_removal_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+        
+        return $action_bar;
+    }
 }
 ?>

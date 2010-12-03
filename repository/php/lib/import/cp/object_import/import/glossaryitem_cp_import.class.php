@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use repository\content_object\glossary_item\GlossaryItem;
+
 /**
  * Import glossary entries html files as GlossaryItem objects.
  *
@@ -35,6 +37,7 @@ class GlossaryItemCpImport extends CpObjectImportBase{
 			foreach($list as $div){
 				if(strtolower($div->getAttribute('class')) == 'description'){
 					$result = $this->get_innerhtml($div);
+					$result = $this->translate_text($settings, $result);
 					return $result;
 				}
 			}
@@ -46,6 +49,8 @@ class GlossaryItemCpImport extends CpObjectImportBase{
 			}else{
 				$body = '';
 			}
+			$body = $this->translate_text($settings, $body);
+			return $body;
 		}
 		return $default;
 	}
