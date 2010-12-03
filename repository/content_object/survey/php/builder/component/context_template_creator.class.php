@@ -6,8 +6,8 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use application\internship_organizer\InternshipOrganizerCategoryForm;
 
-require_once Path :: get_application_path() . 'lib/internship_organizer/forms/category_form.class.php';
 
 class InternshipOrganizerCategoryManagerCreatorComponent extends SurveyBuilder
 {

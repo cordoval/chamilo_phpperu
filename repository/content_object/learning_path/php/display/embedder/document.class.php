@@ -4,7 +4,7 @@ namespace repository\content_object\learning_path;
 use common\libraries\Request;
 use repository\RepositoryDataManager;
 
-require_once dirname(__FILE__) . '/../learning_path_content_object_display.class.php';
+require_once dirname(__FILE__) . '/../learning_path_display_embedder.class.php';
 
 class LearningPathDisplayEmbedderDocumentComponent extends LearningPathDisplayEmbedder
 {

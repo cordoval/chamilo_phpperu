@@ -7,11 +7,11 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\extensions\repo_viewer\RepoViewer;
 /**
  * $Id: feedback_editor.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
  */
-require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
 
 class ComplexDisplayComponentFeedbackEditComponent extends ComplexDisplayComponent
 {

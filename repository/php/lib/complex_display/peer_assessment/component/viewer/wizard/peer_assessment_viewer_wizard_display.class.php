@@ -4,14 +4,13 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Translation;
 
-require_once dirname(__FILE__) . '/../../../../../../../application/peer_assessment/php/peer_assessment_publication_results.class.php';
 
 /**
  * @author Sven Vanpoucke
  * @author Nick Van Loocke
  */
 
-class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
+class PeerAssessmentViewerWizardDisplay extends \HTML_QuickForm_Action_Display
 {
     private $parent;
 

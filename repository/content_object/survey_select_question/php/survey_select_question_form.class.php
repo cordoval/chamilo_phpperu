@@ -9,7 +9,6 @@ use repository\SelectQuestionForm;
  * $Id: survey_select_question_form.class.php $
  * @package repository.lib.content_object.survey_select_question
  */
-require_once Path :: get_repository_path() . '/question_types/select_question/select_question_form.class.php';
 
 class SurveySelectQuestionForm extends SelectQuestionForm
 {
@@ -32,4 +31,3 @@ class SurveySelectQuestionForm extends SelectQuestionForm
         return parent :: create_content_object($object);
     }
 }
-?>

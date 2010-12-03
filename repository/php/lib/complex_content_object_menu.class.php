@@ -15,7 +15,7 @@ use common\libraries\OptionsMenuRenderer;
  * categories of learning objects.
  * @author Sven Vanpoucke
  */
-class ComplexContentObjectMenu extends HTML_Menu
+class ComplexContentObjectMenu extends \HTML_Menu
 {
     const TREE_NAME = __CLASS__;
 

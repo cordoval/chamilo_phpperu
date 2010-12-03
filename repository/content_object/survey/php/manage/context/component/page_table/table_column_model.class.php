@@ -4,7 +4,6 @@ namespace repository\content_object\survey;
 use common\libraries\Path;
 use common\libraries\StaticTableColumn;
 
-require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/tables/page_table/default_page_table_column_model.class.php';
 
 class SurveyPageTableColumnModel extends DefaultSurveyPageTableColumnModel
 {

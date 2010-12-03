@@ -1,6 +1,7 @@
 <?php
+namespace repository\content_object\glossary;
 
-require_once dirname(__FILE__) . '/complex_glossary.class.php';
+use repository\ComplexContentObjectItemForm;
 
 class ComplexGlossaryForm extends ComplexContentObjectItemForm
 {

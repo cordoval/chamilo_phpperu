@@ -7,6 +7,7 @@ use common\libraries\Session;
 use common\libraries\Theme;
 use common\libraries\DatetimeUtilities;
 
+require_once __DIR__ . '/../peer_assessment_viewer_wizard.class.php';
 /*
  *	@author Nick Van Loocke
  */

@@ -2,7 +2,6 @@
 namespace repository\content_object\survey;
 
 use common\libraries\Path;
-require_once (Path :: get_repository_path().'/lib/content_object/survey/survey_template.class.php');
 
 
 class SurveyTemplate3 extends SurveyTemplate

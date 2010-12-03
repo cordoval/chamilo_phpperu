@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\peer_assessment;
 
+require_once __DIR__ . '/../peer_assessment_result_viewer.class.php';
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
@@ -8,6 +10,7 @@ use common\libraries\Session;
 use common\libraries\Theme;
 use common\libraries\AndCondition;
 use common\libraries\DatetimeUtilities;
+
 
 /*
  *	@author Nick Van Loocke

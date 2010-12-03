@@ -31,7 +31,19 @@ class Autoloader
             'survey__table' => 'manage/context/component/registration_browser/browser_table',
             'survey_context_template_browser_table' => 'manage/context/component/registration_browser/browser_table',
             'survey_template_table' => 'manage/context/component/registration_browser/browser_table',
-            'survey_viewer_wizard_page' => 'display/component/viewer/browser_table/survey_viewer_wizard_page.class.php',
+            'survey_viewer_wizard_page' => 'display/component/viewer/wizard/survey_viewer_wizard_page',
+            'survey_context_manager' => 'manage/context/survey_context_manager',
+            'default_survey_page_table_column_model' => 'manage/context/tables/page_table/default_page_table_column_model',
+            'default_survey_page_table_cell_renderer' => 'manage/context/tables/page_table/default_page_table_cell_renderer',
+            'survey_context_form' => 'manage/context/forms/context_form.class.php',
+            'default_survey_context_table_column_model' => 'manage/context/tables/context_table/default_context_table_column_model',
+            'default_survey_context_table_cell_renderer' => 'manage/context/tables/context_table/default_context_table_cell_renderer',
+            'default_survey_context_template_table_column_model' => 'manage/context/tables/context_template_table/default_context_template_table_column_model',
+            'default_survey_context_template_table_cell_renderer' => 'manage/context/tables/context_template_table/default_context_template_table_cell_renderer',
+            'default_survey_table_column_model' => 'manage/context/tables/survey_table/default_survey_table_column_model',
+            'default_survey_table_cell_renderer' => 'manage/context/tables/survey_table/default_survey_table_cell_renderer',
+            'default_survey_template_table_column_model' => 'manage/context/tables/template_table/default_template_table_column_model',
+            'default_survey_template_table_cell_renderer' => 'manage/context/tables/template_table/default_template_table_cell_renderer',
         );
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 

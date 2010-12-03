@@ -7,12 +7,14 @@ use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Theme;
 use common\libraries\Utilities;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\content_object\feedback\Feedback;
+use common\extensions\repo_viewer\RepoViewerInterface;
 /**
  * $Id: complex_feedback.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
  */
-require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/feedback/feedback.class.php';
+
 
 class ComplexDisplayComponentComplexFeedbackComponent extends ComplexDisplayComponent implements RepoViewerInterface
 {

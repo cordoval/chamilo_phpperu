@@ -9,7 +9,6 @@ use repository\OpenQuestionDisplay;
  * $Id: survey_open_question_display.class.php $
  * @package repository.lib.content_object.survey_open_question
  */
-require_once Path :: get_repository_path() . '/question_types/open_question/open_question_display.class.php';
 /**
  * This class can be used to display open questions
  */
@@ -23,4 +22,3 @@ class SurveyOpenQuestionDisplay extends OpenQuestionDisplay
         return '<b>' . $description;
     }
 }
-?>

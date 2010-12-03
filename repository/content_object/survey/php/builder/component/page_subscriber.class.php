@@ -1,4 +1,5 @@
-<?php namespace repository\content_object\survey;
+<?php 
+
 namespace repository\content_object\survey;
 
 use common\libraries\Request;
@@ -7,7 +8,6 @@ use common\libraries\Path;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
-require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template_rel_page.class.php';
 
 class SurveyBuilderPageSubscriberComponent extends SurveyBuilder
 {
@@ -99,4 +99,3 @@ class SurveyBuilderPageSubscriberComponent extends SurveyBuilder
 		}
 	}
 }
-?>

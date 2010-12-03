@@ -9,7 +9,6 @@ use common\libraries\Toolbar;
 use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';
-require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/tables/survey_table/default_survey_table_cell_renderer.class.php';
 
 class SurveyTableCellRenderer extends DefaultSurveyTableCellRenderer
 {

@@ -1,7 +1,7 @@
 <?php
 namespace repository\content_object\forum;
 
-use common\libraries\ObjectTableColumnModel;
+use common\extensions\repo_viewer\ContentObjectTableColumnModel;
 
 use repository\ContentObject;
 /**
