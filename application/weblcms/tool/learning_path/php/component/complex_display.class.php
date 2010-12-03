@@ -13,7 +13,6 @@ use common\libraries\Display;
 
 use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
-use repository\content_object\learning_path\LearningPathContentObjectDisplay;
 use repository\content_object\learning_path\LearningPathComplexDisplaySupport;
 use repository\content_object\learning_path\LearningPathDisplay;
 use repository\content_object\assessment\AssessmentComplexDisplaySupport;
