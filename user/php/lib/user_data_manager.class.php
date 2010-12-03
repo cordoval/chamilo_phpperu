@@ -124,13 +124,13 @@ class UserDataManager
     //return true;
     }
 
-    function official_code_exists($official_code)
+    static function official_code_exists($official_code)
     {
         $condition = new EqualityCondition(User :: PROPERTY_OFFICIAL_CODE, $official_code);
         return (self :: get_instance()->count_users($condition) > 0);
     }
 
-    function retrieve_user_by_official_code($official_code)
+    static function retrieve_user_by_official_code($official_code)
     {
         $condition = new EqualityCondition(User :: PROPERTY_OFFICIAL_CODE, $official_code);
         return self :: get_instance()->retrieve_users($condition)->next_result();
