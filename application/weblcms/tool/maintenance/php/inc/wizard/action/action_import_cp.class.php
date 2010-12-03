@@ -6,11 +6,12 @@ use user\UserDataManager;
 use common\libraries\Session;
 use common\libraries\Translation;
 use common\libraries\Path;
+use repository\ContentObjectImport;
 
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
 require_once dirname(__FILE__) . '/../cp_import_selection_maintenance_wizard_page.class.php';
-require_once Path :: get_repository_path() . 'lib/import/content_object_import.class.php';
-require_once Path :: get_repository_path() . '/lib/import/cp/cp_import.class.php';
+//require_once Path :: get_repository_path() . 'lib/import/content_object_import.class.php';
+//require_once Path :: get_repository_path() . '/lib/import/cp/cp_import.class.php';
 
 /**
  * This class implements the action to take after the user has completed a
@@ -48,11 +49,11 @@ class ActionImportCp extends MaintenanceWizardProcess
 
         if ($result)
         {
-            $messages[] = Translation :: translate('ContentObjectImported');
+            $messages[] = Translation :: get('ContentObjectImported');
         }
         else
         {
-            $errors[] = Translation :: translate('ContentObjectNotImported');
+            $errors[] = Translation :: get('ContentObjectNotImported');
         }
 
         if (count($messages) > 0)

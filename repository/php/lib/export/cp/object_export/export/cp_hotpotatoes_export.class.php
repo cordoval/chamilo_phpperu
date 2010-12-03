@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\hotpotatoes\Hotpotatoes;
+use repository\ContentObject;
+
 /**
  * Export Hotpotatoes objects. Write attachment. Do not export object's properties.
  *
@@ -10,8 +13,6 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use repository\content_object\hotpotatoes\Hotpotatoes;
-
 class CpHotpotatoesExport extends CpObjectExport
 {
 

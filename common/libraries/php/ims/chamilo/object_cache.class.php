@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries;
 
+use repository\CpExport;
+
 /**
  * Object cache implemented as dictionary where the key can be an object.
  *

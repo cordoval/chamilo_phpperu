@@ -351,3 +351,6 @@ ExternalInstanceType = "Type"
 ExternalInstance = "External content"
 ExternalInstances = "External content"
 AddExternalInstance = "Add external connection"
+QtiImportWarning = "Due to differences between QTI and Chamilo, imported questions may not exactly reflect file's content. Please check imported questions." ;
+ContentObjectImported = "Object imported"
+ContentObjectNotImported = "Object not imported"

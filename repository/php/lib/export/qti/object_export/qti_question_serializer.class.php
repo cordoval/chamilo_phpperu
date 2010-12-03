@@ -38,7 +38,7 @@ class QtiQuestionSerializer extends QtiSerializerBase
         $title = $question->get_title();
         $adaptive = false;
         $time_dependent = false;
-        $tool_name = Qti :: get_tool_name();
+    	$tool_name = self::get_tool_name();
         $tool_version = Qti :: get_tool_version();
         $lang = Translation :: get_language();
         $lang = empty($lang) ? 'en' : $lang;
@@ -292,5 +292,6 @@ class QtiQuestionSerializer extends QtiSerializerBase
     }
 
 }
+
 
 ?>

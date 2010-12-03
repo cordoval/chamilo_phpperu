@@ -3,6 +3,8 @@ namespace repository;
 
 use common\libraries\Qti;
 use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
+use repository\ContentObject;
+
 /**
  * Serializer for open questions.
  *
@@ -10,7 +12,6 @@ use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
  * @author laurent.opprecht@unige.ch
  *
  */
-
 class QtiAssessmentOpenQuestionSerializer extends QtiQuestionSerializer
 {
 

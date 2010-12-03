@@ -54,8 +54,6 @@ class ScormCpImport extends CpObjectImportBase{
 		return $result;
 	}
 
-
-
 }
 
 

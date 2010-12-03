@@ -5,26 +5,26 @@ require_once  dirname(__FILE__) .'/ims_xml_writer.class.php';
 
 /**
  * Utility class used to generate LOM IEEE 1484.12.1 XML schemas.
- * Basic implementation. 
- * 
- * @copyright (c) 2010 University of Geneva 
+ * Basic implementation.
+ *
+ * @copyright (c) 2010 University of Geneva
  * @author laurent.opprecht@unige.ch
  *
  */
 class LomWriter extends ImsXmlWriter{
-	
+
     function __construct($writer=null, $prefix = ''){
     	parent::__construct($writer, $prefix);
     }
-    
+
     public function get_format_name(){
     	return 'LOM';
-    } 
-    
+    }
+
     public function get_format_version(){
     	return 'IEEE 1484.12.1';
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -32,7 +32,7 @@ class LomWriter extends ImsXmlWriter{
     	$result = $this->add_element('general');
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -41,7 +41,7 @@ class LomWriter extends ImsXmlWriter{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -50,7 +50,7 @@ class LomWriter extends ImsXmlWriter{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -59,7 +59,7 @@ class LomWriter extends ImsXmlWriter{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -68,7 +68,7 @@ class LomWriter extends ImsXmlWriter{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -77,7 +77,7 @@ class LomWriter extends ImsXmlWriter{
     	$result->set_attribute('xml:lang', $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -87,7 +87,7 @@ class LomWriter extends ImsXmlWriter{
     	$result->add_entry($entry, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -96,7 +96,7 @@ class LomWriter extends ImsXmlWriter{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -105,7 +105,7 @@ class LomWriter extends ImsXmlWriter{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -113,7 +113,7 @@ class LomWriter extends ImsXmlWriter{
     	$result = $this->add_element('lifecycle');
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -122,7 +122,7 @@ class LomWriter extends ImsXmlWriter{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -132,7 +132,7 @@ class LomWriter extends ImsXmlWriter{
     	$result->add_value($value, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -141,7 +141,7 @@ class LomWriter extends ImsXmlWriter{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
     /**
   	 * @return LomWriter
      */
@@ -150,7 +150,7 @@ class LomWriter extends ImsXmlWriter{
     	$result->add_langstring($text, $lang);
     	return $result;
     }
-    
+
 
 }
 

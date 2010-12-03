@@ -124,16 +124,28 @@ class UserDataManager
     //return true;
     }
 
-    function official_code_exists($official_code)
+    private static $official_code_exists_cache;
+    static function official_code_exists($official_code)
     {
-        $condition = new EqualityCondition(User :: PROPERTY_OFFICIAL_CODE, $official_code);
-        return (self :: get_instance()->count_users($condition) > 0);
+        if(!self :: $official_code_exists_cache[$official_code])
+        {
+            $condition = new EqualityCondition(User :: PROPERTY_OFFICIAL_CODE, $official_code);
+            self :: $official_code_exists_cache[$official_code] = (self :: get_instance()->count_users($condition) > 0);
+        }
+
+        return self :: $official_code_exists_cache[$official_code];
     }
 
-    function retrieve_user_by_official_code($official_code)
+    private static $user_cache;
+    static function retrieve_user_by_official_code($official_code)
     {
-        $condition = new EqualityCondition(User :: PROPERTY_OFFICIAL_CODE, $official_code);
-        return self :: get_instance()->retrieve_users($condition)->next_result();
+        if(!self :: $user_cache[$official_code])
+        {
+            $condition = new EqualityCondition(User :: PROPERTY_OFFICIAL_CODE, $official_code);
+            self :: $user_cache[$official_code] = self :: get_instance()->retrieve_users($condition)->next_result();
+        }
+        
+        return self :: $user_cache[$official_code];
     }
 }
 ?>

@@ -137,12 +137,12 @@ class BbbVideoConferencingManager extends VideoConferencingManager
                 if ($external_sync->get_external_object()->is_joinable())
                 {
                     $toolbar_items[self :: ACTION_JOIN_MEETING] = new ToolbarItem(Translation :: get('JoinMeeting'), Theme :: get_image_path() . 'action_join.png', $this->get_url(array(
-                            self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_JOIN_MEETING, self :: PARAM_VIDEO_CONFERENCING_ID => $external_sync->get_id())), ToolbarItem :: DISPLAY_ICON);
+                            self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_JOIN_MEETING, self :: PARAM_VIDEO_CONFERENCING_ID => $external_sync->get_id())), ToolbarItem :: DISPLAY_ICON, false, null, '_blank');
                 }
                 if ($external_sync->get_external_object()->is_endable())
                 {
                     $toolbar_items[self :: ACTION_END_VIDEO_CONFERENCING] = new ToolbarItem(Translation :: get('EndMeeting'), Theme :: get_image_path() . 'action_end.png', $this->get_url(array(
-                            self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_END_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $external_sync->get_id())), ToolbarItem :: DISPLAY_ICON);
+                            self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_END_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $external_sync->get_id())), ToolbarItem :: DISPLAY_ICON, true);
                 }
             }
         }

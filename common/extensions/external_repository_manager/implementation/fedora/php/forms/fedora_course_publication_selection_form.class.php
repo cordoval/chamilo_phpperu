@@ -1,4 +1,5 @@
 <?php
+
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
 use common\libraries\Path;
@@ -8,8 +9,15 @@ use common\libraries\Redirect;
 use common\libraries\Utilities;
 use repository\CpExport;
 use common\libraries\FormValidator;
+use application\weblcms\WeblcmsDataManager;
+use common\libraries\EqualityCondition;
+use application\weblcms\ContentObjectPublication;
+use common\libraries\ObjectTableOrder;
+use application\weblcms\Course;
+use repository\CpObjectExport;
 
 require_once dirname(__FILE__) . '/fedora_tree.class.php';
+require_once Path::get_repository_path() . 'lib/export/cp/object_export/cp_object_export.class.php';
 
 /**
  * Form used to select publications in a course.

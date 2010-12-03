@@ -1,8 +1,12 @@
 <?php
+
 namespace repository;
 
 use common\libraries\Application;
 use common\libraries\ObjectImportSettings;
+use user\User;
+use application\weblcms\Tool;
+use application\weblcms\ContentObjectPublication;
 
 require_once 'main.php';
 
@@ -14,22 +18,22 @@ require_once 'main.php';
  *
  *
  * @copyright (c) 2010 University of Geneva
- *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
  */
-class CpImport extends ContentObjectImport
-{
+class CpImport extends ContentObjectImport {
 
     private $settings = null;
 
-	public function __construct($file, $user=false, $category=0, $log = NULL)
-	{
-		$user = $user ? $user : UserDataManager::get_instance()->retrieve_user(Session::get_user_id());
+    public function __construct($file, $user=false, $category=0, $log = NULL) {
+        $user = $user ? $user : UserDataManager::get_instance()->retrieve_user(Session::get_user_id());
         parent :: __construct($file, $user, $category);
-        $ext = strpos(strtolower($file['type']), 'zip') !== false ? 'zip' : '';
+
         $path = $file['tmp_name'];
+        $ext = isset($file['type']) ? $file['type'] : '';
+        $ext = $ext ? $ext : end(explode('.', $path));
+        $ext = strpos(strtolower($ext), 'zip') !== false ? 'zip' : '';
         $name = str_replace(".$ext", '', $file['name']);
         $this->settings = new ObjectImportSettings($path, $name, $ext, $user, $category, $log);
     }
@@ -37,13 +41,11 @@ class CpImport extends ContentObjectImport
     /**
      * @return ObjectImportSettings
      */
-    public function get_settings()
-    {
+    public function get_settings() {
         return $this->settings;
     }
 
-    public function import_content_object()
-    {
+    public function import_content_object() {
         $settings = $this->get_settings();
 
         $importer = CpObjectImportBase :: factory();
@@ -62,16 +64,13 @@ class CpImport extends ContentObjectImport
      * @param Course $course
      * @param ContentObject $object
      */
-    public function publish(Course $course, $object)
-    {
+    public function publish(Course $course, $object) {
         $objects = is_array($object) ? $object : array($object);
-        //$settings = $this->get_settings();
+        $settings = $this->get_settings();
         $user = $settings->get_user();
         $application = Application :: factory('Weblcms', $user);
-        foreach ($objects as $object)
-        {
-            if ($tool = $this->get_tool_name($application, $course, $object))
-            {
+        foreach ($objects as $object) {
+            if ($tool = $this->get_tool_name($application, $course, $object)) {
                 $pub = new ContentObjectPublication();
                 $pub->set_course_id($course->get_id());
                 $pub->set_content_object_id($object->get_id());
@@ -97,15 +96,12 @@ class CpImport extends ContentObjectImport
      * @param Course $course
      * @param ContentObject $object
      */
-    protected function get_tool_name($application, Course $course, ContentObject $object)
-    {
+    protected function get_tool_name($application, Course $course, ContentObject $object) {
         $tools_properties = $course->get_tools();
-        foreach ($tools_properties as $tool_properties)
-        {
+        foreach ($tools_properties as $tool_properties) {
             $tool = Tool :: factory($tool_properties->name, $application);
             $allowed_types = $tool->get_allowed_types();
-            if (in_array($object->get_type(), $allowed_types))
-            {
+            if (in_array($object->get_type(), $allowed_types)) {
                 return $tool_properties->name;
             }
         }
@@ -113,31 +109,30 @@ class CpImport extends ContentObjectImport
     }
 
     /*
-	protected function import_resources($resources){
-		foreach($resources as $resource){
-			$this->import_resource($resource);
-		}
-	}
+      protected function import_resources($resources){
+      foreach($resources as $resource){
+      $this->import_resource($resource);
+      }
+      }
 
-	protected function import_resource(ImscpManifestReader $resource){
-		$resource->get_resources();
-		$type = $resource->get_type();
-		$metadata = $resource->has_metadata ? $resource->get_metadata() : null;
-		$href = $resource->href;
-		$href = empty($href) ? $resource->first_file()->href : $href;
-		$path = $this->get_directory() . $href;
-		$resource_settings = $this->settings->copy($path, $type, $metadata);
-		return self::object_factory($resource_settings)->import_content_object();
-	}
+      protected function import_resource(ImscpManifestReader $resource){
+      $resource->get_resources();
+      $type = $resource->get_type();
+      $metadata = $resource->has_metadata ? $resource->get_metadata() : null;
+      $href = $resource->href;
+      $href = empty($href) ? $resource->first_file()->href : $href;
+      $path = $this->get_directory() . $href;
+      $resource_settings = $this->settings->copy($path, $type, $metadata);
+      return self::object_factory($resource_settings)->import_content_object();
+      }
 
-	protected function import_organizations($organizations){
-		foreach($organizations as $organization){
-			CpOrganizationImport::factory($organization, $this->get_settings())->import_content_object();
-		}
-	}*/
+      protected function import_organizations($organizations){
+      foreach($organizations as $organization){
+      CpOrganizationImport::factory($organization, $this->get_settings())->import_content_object();
+      }
+      } */
 
-    public function __call($name, $arguments)
-    {
+    public function __call($name, $arguments) {
         return call_user_func_array(array($this->settings, $name), $arguments);
     }
 

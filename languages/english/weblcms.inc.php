@@ -564,6 +564,5 @@ $lang['weblcms']['ImportQti'] = 'Import QTI';
 $lang['weblcms']['NoToolsAvailable'] = 'No tools available';
 $lang['weblcms']['unableToImport'] = 'Unable to import';
 $lang['weblcms']['FileMissing'] = 'File is missing';
-$lang['weblcms']['QtiImportWarning'] = "Due to differences between QTI and Chamilo, imported questions may not exactly reflect file's content. Please check imported questions." ;
 
 ?>

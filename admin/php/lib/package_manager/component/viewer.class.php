@@ -13,7 +13,6 @@ require_once dirname(__FILE__) . '/../../registration_viewer/registration_displa
 
 class PackageManagerViewerComponent extends PackageManager
 {
-	private $action_bar;
     /**
      * Runs this component and displays its output.
      */
@@ -24,46 +23,9 @@ class PackageManagerViewerComponent extends PackageManager
 
        	$registration_display = new RegistrationDisplay($registration);
        	$this->display_header();
-       	$this->action_bar = $this->get_action_bar($registration);
-       	echo($this->action_bar->as_html());
-
+       	
        	echo($registration_display->as_html());
        	$this->display_footer();
-    }
-
-    function get_action_bar($registration)
-    {
-    	$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-
-        if (! $registration->is_up_to_date())
-        {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdatePackage'), Theme :: get_common_image_path() . 'action_update.png', $this->get_registration_update_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        }
-        else
-        {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('PackageIsAlreadyUpToDate'), Theme :: get_common_image_path() . 'action_update_na.png',null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        }
-
-        // TODO: Temporarily disabled archive option
-        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdatePackageFromArchive'), Theme :: get_image_path() . 'action_update_archive.png', $this->get_registration_update_archive_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
-//        if ($registration->get_type() == Registration :: TYPE_LANGUAGE && Utilities :: camelcase_to_underscores($registration->get_name()) == PlatformSetting :: get('platform_language'))
-//        {
-//            return;
-//        }
-
-        if ($registration->is_active())
-        {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Deactivate', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_deactivate.png', $this->get_registration_deactivation_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        }
-        else
-        {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Activate', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_activate.png', $this->get_registration_activation_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        }
-
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Deinstall', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_deinstall.png', $this->get_registration_removal_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
-
-        return $action_bar;
     }
 
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)

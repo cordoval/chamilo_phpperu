@@ -1,8 +1,8 @@
 <?php
+
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
 use common\libraries\Request;
-
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 
 /**
@@ -15,24 +15,21 @@ use common\extensions\external_repository_manager\ExternalRepositoryComponent;
  * @author laurent.opprecht@unige.ch
  *
  */
-class FedoraExternalRepositoryManagerBrowserComponent extends FedoraExternalRepositoryManager
-{
+class FedoraExternalRepositoryManagerBrowserComponent extends FedoraExternalRepositoryManager {
 
-	function run(){
-		if($api = $this->create_api_component()){
-			return $api->run();
-		}
+    function run() {
+        if ($api = $this->create_api_component()) {
+            return $api->run();
+        }
 
-		ExternalRepositoryComponent :: launch($this);
-	}
+        ExternalRepositoryComponent :: launch($this);
+    }
 
-	function get_parameters(){
-		$result = parent::get_parameters();
-		$result[self::PARAM_FOLDER] = Request::get(self::PARAM_FOLDER);
-		return $result;
-	}
-
-
+    function get_parameters() {
+        $result = parent::get_parameters();
+        $result[self::PARAM_FOLDER] = Request::get(self::PARAM_FOLDER);
+        return $result;
+    }
 
 }
 

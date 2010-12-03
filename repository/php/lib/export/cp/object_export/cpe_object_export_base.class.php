@@ -27,7 +27,7 @@ class CpeObjectExportBase extends CpObjectExport
     public function get_type()
     {
         return ImscpObjectWriter :: get_format_full_name();
-    }
+	}
 
     public function export_content_object()
     {
@@ -51,18 +51,16 @@ class CpeObjectExportBase extends CpObjectExport
     }
 
     /**
-     * Serialize object.
-     * @return object xml data
+	 * Serialize object.
+	 * @return object xml data
      */
     public function serialize()
     {
         $writer = new ImscpObjectWriter();
         $object = $this->get_object();
-        //@todo: uncomment that
-        //$writer->add_stylesheet('resources/object_view.xsl');
         $this->add_object($writer, $object);
         $this->object_data = $writer->saveXML();
-        $this->object_data = $this->process_images($this->object_data);
+    	$this->object_data = $this->translate_text($this->object_data);
         return $this->object_data;
     }
 
@@ -74,7 +72,7 @@ class CpeObjectExportBase extends CpObjectExport
      */
     protected function add_object(ImscpObjectWriter $writer, DataClass $object)
     {
-        return false;
+    	return false;
     }
 
     /**
@@ -84,7 +82,8 @@ class CpeObjectExportBase extends CpObjectExport
     public function format_properties($properties)
     {
         $result = $properties;
-        $names = array(ContentObject :: PROPERTY_CREATION_DATE, ContentObject :: PROPERTY_MODIFICATION_DATE, ComplexContentObjectItem :: PROPERTY_ADD_DATE, Course :: PROPERTY_CREATION_DATE, Course :: PROPERTY_EXPIRATION_DATE, Course :: PROPERTY_LAST_EDIT, Course :: PROPERTY_LAST_VISIT, ContentObjectPublication :: PROPERTY_PUBLICATION_DATE, User :: PROPERTY_ACTIVATION_DATE, User :: PROPERTY_EXPIRATION_DATE, User :: PROPERTY_REGISTRATION_DATE, CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE);
+    	$names = array(	ContentObject::PROPERTY_CREATION_DATE,
+    					User::PROPERTY_REGISTRATION_DATE,);
 
         foreach ($names as $name)
         {
@@ -92,7 +91,7 @@ class CpeObjectExportBase extends CpObjectExport
             {
                 $result[$name] = ImsXmlWriter :: format_datetime($result[$name]);
             }
-        }
+    	}
 
         $names = array(User :: PROPERTY_PASSWORD, User :: PROPERTY_SECURITY_TOKEN);
 
@@ -102,7 +101,7 @@ class CpeObjectExportBase extends CpObjectExport
             {
                 unset($result[$name]);
             }
-        }
+    	}
 
         return $result;
     }

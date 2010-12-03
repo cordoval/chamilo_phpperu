@@ -13,86 +13,73 @@ use DOMDocument;
  * @author laurent.opprecht@unige.ch
  *
  */
-class ImscpManifestWriter extends ImsXmlWriter
-{
+class ImscpManifestWriter extends ImsXmlWriter{
 
-    const MANIFEST_NAME = 'imsmanifest.xml';
+	const MANIFEST_NAME = 'imsmanifest.xml';
 
-    private $resources = null;
-    private $organizations = null;
+	private $resources = null;
+	private $organizations = null;
 
-    function __construct($doc = null)
-    {
-        parent :: __construct($doc);
+    function __construct($doc=null){
+    	parent::__construct($doc);
     }
 
-    public function get_format_name()
-    {
-        return 'IMS CP';
+    public function get_format_name(){
+    	return 'IMS CP';
     }
 
-    public function get_format_version()
-    {
-        return '1.1.4';
+    public function get_format_version(){
+    	return '1.1.4';
     }
 
     /**
      * @return ImscpManifestWriter
      */
-    public function get_manifest()
-    {
-        $result = $this->get_root();
-        if (empty($result))
-        {
-            $result = $this->add_manifest();
-        }
-        else
-        {
-            return $this->copy($result);
-        }
-        return $result;
+    public function get_manifest(){
+    	$result = $this->get_root();
+    	if(empty($result)){
+    		$result = $this->add_manifest();
+    	}else{
+    		return $this->copy($result);
+    	}
+    	return $result;
     }
 
     /**
      * @return ImscpManifestWriter
      */
-    public function get_resources()
-    {
-        if (empty($this->resources))
-        {
-            $this->resources = $this->get_manifest()->add_resources();
-        }
-        return $this->resources;
+    public function get_resources(){
+    	if(empty($this->resources)){
+    		$this->resources = $this->get_manifest()->add_resources();
+    	}
+    	return $this->resources;
     }
 
     /**
      * @return ImscpManifestWriter
      */
-    public function get_organizations()
-    {
-        if (empty($this->organizations))
-        {
-            $this->organizations = $this->add_organizations();
-        }
-        return $this->organizations;
+   public function get_organizations(){
+    	if(empty($this->organizations)){
+    		$this->organizations = $this->add_organizations();
+    	}
+    	return $this->organizations;
 
     }
 
     /**
      * @return string
      */
-    public function get_identifier($item = null)
-    {
-        if (is_null($item))
-            return $this->get_identifier($this->get_current());
+    public function get_identifier($item=null){
+    	if(is_null($item))
+    		return $this->get_identifier($this->get_current());
 
-        if (is_string($item))
-            return $item;
+    	if(is_string($item))
+    		return $item;
 
-        if ($item instanceof DOMElement)
-            return $item->getAttribute('identifier');
+    	if($item instanceof DOMElement)
+    		return $item->getAttribute('identifier');
 
-        return $item->get_identifier();
+    	return $item->get_identifier();
 
     }
 
@@ -104,19 +91,18 @@ class ImscpManifestWriter extends ImsXmlWriter
      * @param $base This provides a relative path offset for the content file(s). The usage of this element is defined in the XML Base Working Draft from the W3C. Data type = string.
      * @return ImscpManifestWriter
      */
-    public function add_manifest($identifier = '', $version = '', $base = '')
-    {
-        $result = $this->add_element('manifest');
-        $result->set_attribute('xmlns', 'http://www.imsglobal.org/xsd/imscp_v1p1');
-        $result->set_attribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-        $result->set_attribute('xmlns:imsmd', 'http://www.imsglobal.org/xsd/imsmd_v1p2');
-        $result->set_attribute('xmlns:imsqti', 'http://www.imsglobal.org/xsd/imsqti_v2p1');
-        $result->set_attribute('xmlns:lom', 'http://ltsc.ieee.org/xsd/LOM');
-        $result->set_attribute('xsi:schemaLocation', 'http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.imsglobal.org/xsd/imsmd_v1p2 imsmd_v1p2p4.xsd http://www.imsglobal.org/xsd/imsqti_v2p0 imsqti_v2p0.xsd');
-        $result->set_attribute('identifier', empty($identifier) ? $this->create_unique_id('MANIFEST_') : $identifier);
-        $result->set_attribute('version', $version, false);
-        $result->set_attribute('base', $base, false);
-        return $result;
+    public function add_manifest($identifier = '', $version = '', $base = ''){
+    	$result = $this->add_element('manifest');
+    	$result->set_attribute('xmlns', 'http://www.imsglobal.org/xsd/imscp_v1p1');
+    	$result->set_attribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+    	$result->set_attribute('xmlns:imsmd', 'http://www.imsglobal.org/xsd/imsmd_v1p2');
+    	$result->set_attribute('xmlns:imsqti', 'http://www.imsglobal.org/xsd/imsqti_v2p1');
+    	$result->set_attribute('xmlns:lom', 'http://ltsc.ieee.org/xsd/LOM');
+    	$result->set_attribute('xsi:schemaLocation', 'http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.imsglobal.org/xsd/imsmd_v1p2 imsmd_v1p2p4.xsd http://www.imsglobal.org/xsd/imsqti_v2p0 imsqti_v2p0.xsd');
+    	$result->set_attribute('identifier', empty($identifier) ? $this->create_unique_id('MANIFEST_') : $identifier);
+    	$result->set_attribute('version', $version, false);
+    	$result->set_attribute('base', $base, false);
+    	return $result;
     }
 
     /**
@@ -125,12 +111,11 @@ class ImscpManifestWriter extends ImsXmlWriter
      * @param $default Identifies the default organization to use. Data type = idref.
      * @return ImscpManifestWriter
      */
-    public function add_organizations($default = '')
-    {
-        $result = $this->add_element('organizations');
-        $result->set_attribute('default', $this->get_identifier($default), false);
-        $this->organizations = $result;
-        return $result;
+	public function add_organizations($default = ''){
+    	$result = $this->add_element('organizations');
+    	$result->set_attribute('default', $this->get_identifier($default), false);
+    	$this->organizations = $result;
+    	return $result;
     }
 
     /**
@@ -139,12 +124,11 @@ class ImscpManifestWriter extends ImsXmlWriter
      * @param $base This provides a relative path offset for the content file(s). The usage of this element is defined in the XML Base Working Draft from the W3C. Data type = string.
      * @return ImscpManifestWriter
      */
-    public function add_resources($base = '')
-    {
-        $result = $this->add_element('resources');
-        $result->set_attribute('xml:base', $base, false);
-        $this->resources = $result;
-        return $result;
+	public function add_resources($base=''){
+    	$result = $this->add_element('resources');
+    	$result->set_attribute('xml:base', $base, false);
+    	$this->resources = $result;
+    	return $result;
     }
 
     /**
@@ -154,20 +138,18 @@ class ImscpManifestWriter extends ImsXmlWriter
      * @param $schema_version Describes version of the above schema (e.g., 1,0, 1.1). If no version is present, it is assumed to be "1.1". Data type = string. Occurs zero or once within <metadata>.
      * @return ImscpManifestWriter
      */
-    public function add_metadata($schema = 'IMS Content', $schema_version = '1.1')
-    {
-        $result = $this->add_element('metadata');
-        $result->add_element('schema', $schema, false);
-        $result->add_element('schemaversion', $schema_version, false);
+    public function add_metadata($schema = 'IMS Content', $schema_version = '1.1'){
+    	$result = $this->add_element('metadata');
+    	$result->add_element('schema', $schema, false);
+    	$result->add_element('schemaversion', $schema_version, false);
 
-        if (! empty($data))
-        {
-            $data = $data instanceof DOMDocument ? $data->documentElement : $data;
+    	if(!empty($data)){
+    		$data = $data instanceof DOMDocument ? $data->documentElement : $data;
 
-            $data_node = $this->copy_node($data, $namespace, true);
-            $result->get_current()->appendChild($data_node);
-        }
-        return $result;
+    		$data_node = $this->copy_node($data, $namespace, true);
+    		$result->get_current()->appendChild($data_node);
+    	}
+    	return $result;
     }
 
     /**
@@ -177,14 +159,13 @@ class ImscpManifestWriter extends ImsXmlWriter
      * @param string $identifier An identifier, provided by an author or authoring tool, that is unique within the Manifest. Data type = id.
      * @return ImscpManifestWriter
      */
-    public function add_organization($structure = 'hierarchical', $identifier = '')
-    {
-        $identifier = empty($identifier) ? $this->create_local_id('ORGANIZATION') : $identifier;
+    public function add_organization($structure='hierarchical', $identifier=''){
+    	$identifier = empty($identifier) ? $this->create_local_id('ORGANIZATION') : $identifier;
 
-        $result = $this->add_element('organization');
-        $result->set_attribute('identifier', $identifier);
-        $result->set_attribute('structure', $structure, false);
-        return $result;
+    	$result = $this->add_element('organization');
+    	$result->set_attribute('identifier', $identifier);
+    	$result->set_attribute('structure', $structure, false);
+    	return $result;
     }
 
     /**
@@ -193,9 +174,8 @@ class ImscpManifestWriter extends ImsXmlWriter
      * @param string $title
      * @return ImscpManifestWriter
      */
-    public function add_title($title)
-    {
-        return $this->add_element('title', $title);
+    public function add_title($title){
+    	return $this->add_element('title', $title);
     }
 
     /**
@@ -207,16 +187,15 @@ class ImscpManifestWriter extends ImsXmlWriter
      * @param string $identifier An identifier that is unique within the Manifest. Data type = id.
      * @return ImscpManifestWriter
      */
-    public function add_item($identifierref = '', $isvisible = '', $parameters = '', $identifier = '')
-    {
-        $identifier = empty($identifier) ? $this->create_local_id('ITEM') : $identifier;
+    public function add_item($identifierref='', $isvisible='', $parameters='', $identifier=''){
+    	$identifier = empty($identifier) ? $this->create_local_id('ITEM') : $identifier;
 
-        $result = $this->add_element('item');
-        $result->set_attribute('identifier', $identifier);
-        $result->set_attribute('identifierref', $this->get_identifier($identifierref), false);
-        $result->set_attribute('isvisible', $isvisible, false);
-        $result->set_attribute('parameters', $parameters, false);
-        return $result;
+    	$result = $this->add_element('item');
+    	$result->set_attribute('identifier', $identifier);
+    	$result->set_attribute('identifierref', $this->get_identifier($identifierref), false);
+    	$result->set_attribute('isvisible', $isvisible, false);
+    	$result->set_attribute('parameters', $parameters, false);
+    	return $result;
     }
 
     /**
@@ -228,17 +207,16 @@ class ImscpManifestWriter extends ImsXmlWriter
      * @param string $identifier An identifier, provided by the author or authoring tool, that is unique within the Manifest.
      * @return ImscpManifestWriter
      */
-    public function add_resource($type = 'webcontent', $href = '', $identifier = '', $base = '')
-    {
-        $identifier = empty($identifier) ? $this->create_local_id('RESOURCE') : $identifier;
+    public function add_resource($type='webcontent', $href='', $identifier='', $base=''){
+    	$identifier = empty($identifier) ? $this->create_local_id('RESOURCE') : $identifier;
 
-        $result = $this->add_element('resource');
-        $result->set_attribute('identifier', $identifier);
-        $result->set_attribute('type', $type);
-        $result->set_attribute('href', $href, false);
-        $result->set_attribute('xml:base', $base, false);
+    	$result = $this->add_element('resource');
+    	$result->set_attribute('identifier', $identifier);
+    	$result->set_attribute('type', $type);
+    	$result->set_attribute('href', $href, false);
+    	$result->set_attribute('xml:base', $base, false);
 
-        return $result;
+    	return $result;
     }
 
     /**
@@ -247,11 +225,10 @@ class ImscpManifestWriter extends ImsXmlWriter
      * @param string $href URL of the file.
      * @return ImscpManifestWriter
      */
-    public function add_file($href)
-    {
-        $result = $this->add_element('file');
-        $result->set_attribute('href', $href);
-        return $result;
+    public function add_file($href){
+    	$result = $this->add_element('file');
+    	$result->set_attribute('href', $href);
+    	return $result;
     }
 
     /**
@@ -260,13 +237,18 @@ class ImscpManifestWriter extends ImsXmlWriter
      * @param string $identifier_ref An identifier for other resources to reference.
      * @return ImscpManifestWriter
      */
-    public function add_dependency($identifier_ref)
-    {
-        $result = $this->add_element('dependency');
-        $result->set_attribute('identifierref', $this->get_identifier($identifier_ref));
-        return $result;
+    public function add_dependency($identifier_ref){
+    	$result = $this->add_element('dependency');
+    	$result->set_attribute('identifierref', $this->get_identifier($identifier_ref));
+    	return $result;
     }
 
 }
+
+
+
+
+
+
 
 ?>
