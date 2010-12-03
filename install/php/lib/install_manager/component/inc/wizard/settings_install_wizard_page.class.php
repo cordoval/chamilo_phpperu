@@ -1,9 +1,14 @@
 <?php
 namespace install;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Filesystem;
+
+use admin\PackageInfo;
+use admin\Registration;
+
 /**
  * $Id: settings_install_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard
@@ -34,38 +39,38 @@ class SettingsInstallWizardPage extends InstallWizardPage
         $this->addElement('category', Translation :: get('GeneralProperties'));
         $this->addElement('select', 'platform_language', Translation :: get("MainLang"), $this->get_language_folder_list());
         $this->addElement('text', 'platform_url', Translation :: get("ChamiloURL"), array('size' => '40'));
-        $this->addRule('platform_url', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $this->addRule('platform_url', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addRule('platform_url', 'AddTrailingSlash', 'regex', '/^.*\/$/');
         $this->addElement('category');
 
         $this->addElement('category', Translation :: get('Administrator'));
         $this->addElement('text', 'admin_email', Translation :: get("AdminEmail"), array('size' => '40'));
-        $this->addRule('admin_email', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $this->addRule('admin_email', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addRule('admin_email', Translation :: get('WrongEmail'), 'email');
         $this->addElement('text', 'admin_surname', Translation :: get("AdminLastName"), array('size' => '40'));
-        $this->addRule('admin_surname', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $this->addRule('admin_surname', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addElement('text', 'admin_firstname', Translation :: get("AdminFirstName"), array('size' => '40'));
-        $this->addRule('admin_firstname', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $this->addRule('admin_firstname', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addElement('text', 'admin_phone', Translation :: get("AdminPhone"), array('size' => '40'));
         $this->addElement('text', 'admin_username', Translation :: get("AdminLogin"), array('size' => '40'));
-        $this->addRule('admin_username', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $this->addRule('admin_username', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addElement('text', 'admin_password', Translation :: get("AdminPass"), array('size' => '40'));
-        $this->addRule('admin_password', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $this->addRule('admin_password', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addElement('category');
 
         $this->addElement('category', Translation :: get('Platform'));
         $this->addElement('text', 'platform_name', Translation :: get("CampusName"), array('size' => '40'));
-        $this->addRule('platform_name', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $this->addRule('platform_name', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addElement('text', 'organization_name', Translation :: get("InstituteShortName"), array('size' => '40'));
-        $this->addRule('organization_name', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $this->addRule('organization_name', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addElement('text', 'organization_url', Translation :: get("InstituteURL"), array('size' => '40'));
-        $this->addRule('organization_url', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $this->addRule('organization_url', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addElement('category');
 
         $this->addElement('category', Translation :: get('Security'));
-        $self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('ConfirmYes', null, Utilities::COMMON_LIBRARIES), 1);
+        $self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES), 1);
         $self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('AfterApproval'), 2);
-        $self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('ConfirmNo', null, Utilities::COMMON_LIBRARIES), 0);
+        $self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('ConfirmNo', null, Utilities :: COMMON_LIBRARIES), 0);
         $this->addGroup($self_reg, 'self_reg', Translation :: get("AllowSelfReg"), '&nbsp;', false);
 
         $dir = Path :: get_library_path() . 'hashing';
@@ -83,8 +88,8 @@ class SettingsInstallWizardPage extends InstallWizardPage
         $this->addElement('category');
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal previous'));
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal next'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal previous'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal next'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->setDefaultAction($this->getButtonName('submit'));
         $this->set_form_defaults();
@@ -128,8 +133,8 @@ class SettingsInstallWizardPage extends InstallWizardPage
 
             if (file_exists($language_info_file))
             {
-                $xml_data = Utilities :: extract_xml_file($language_info_file);
-                $language_list[$xml_data['isocode']] = $xml_data['english'];
+                $package_info = PackageInfo :: factory(Registration :: TYPE_LANGUAGE, $file_info['filename'])->get_package_info();
+                $language_list[$package_info['package']['extra']['isocode']] = $package_info['package']['extra']['english'];
             }
         }
 

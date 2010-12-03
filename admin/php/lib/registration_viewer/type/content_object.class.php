@@ -8,7 +8,7 @@ use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 
-class ApplicationRegistrationDisplay extends RegistrationDisplay
+class ContentObjectRegistrationDisplay extends RegistrationDisplay
 {
 
     function get_action_bar()
@@ -24,9 +24,6 @@ class ApplicationRegistrationDisplay extends RegistrationDisplay
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PackageIsAlreadyUpToDate'), Theme :: get_common_image_path() . 'action_update_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-
-        // TODO: Temporarily disabled archive option
-        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdatePackageFromArchive'), Theme :: get_image_path() . 'action_update_archive.png', $this->get_component()->get_registration_update_archive_url($this->get_registration()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         if ($this->get_registration()->is_active())
         {

@@ -47,12 +47,12 @@ abstract class VideoConferencingRights
         }
         else
         {
-            require $file;
+            require_once $file;
             $class = $namespace . '\\' . Utilities :: underscores_to_camelcase($type) . 'VideoConferencingRights';
-            
+
             return new $class();
         }
-    
+
     }
 }
 ?>

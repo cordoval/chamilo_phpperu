@@ -7,8 +7,9 @@ use common\libraries\Translation;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
+use common\libraries\PlatformSetting;
 
-class ApplicationRegistrationDisplay extends RegistrationDisplay
+class LanguageRegistrationDisplay extends RegistrationDisplay
 {
 
     function get_action_bar()
@@ -25,8 +26,10 @@ class ApplicationRegistrationDisplay extends RegistrationDisplay
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PackageIsAlreadyUpToDate'), Theme :: get_common_image_path() . 'action_update_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        // TODO: Temporarily disabled archive option
-        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdatePackageFromArchive'), Theme :: get_image_path() . 'action_update_archive.png', $this->get_component()->get_registration_update_archive_url($this->get_registration()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        if (Utilities :: camelcase_to_underscores($registration->get_name()) == PlatformSetting :: get('platform_language'))
+        {
+            return $action_bar;
+        }
 
         if ($this->get_registration()->is_active())
         {

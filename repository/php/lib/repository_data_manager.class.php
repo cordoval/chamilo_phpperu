@@ -2,6 +2,8 @@
 
 namespace repository;
 
+use admin;
+
 use common\libraries\Configuration;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
@@ -56,6 +58,7 @@ class RepositoryDataManager
     private static $applications = array();
     private static $number_of_categories;
     private static $registered_types;
+    private static $helper_types;
 
     /**
      * Constructor.
@@ -73,7 +76,7 @@ class RepositoryDataManager
      */
     static function get_instance()
     {
-        if (!isset(self :: $instance))
+        if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_repository_data_manager.class.php';
@@ -90,7 +93,7 @@ class RepositoryDataManager
      */
     public static function get_registered_types($check_for_view_right = true)
     {
-        if (!(self :: $registered_types))
+        if (! (self :: $registered_types))
         {
             $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
 
@@ -109,7 +112,6 @@ class RepositoryDataManager
         return self :: $registered_types;
     }
 
-
     /**
      * Checks if a type name corresponds to an extended learning object type.
      * @param string $type The type name.
@@ -120,7 +122,7 @@ class RepositoryDataManager
     {
         $temp_class = ContentObject :: factory($type);
 
-        if (!$temp_class)
+        if (! $temp_class)
         {
             return false;
         }
@@ -193,14 +195,14 @@ class RepositoryDataManager
         foreach ($applications as $application_name)
         {
             $attributes = call_user_func(array(Webapplication :: determine_namespace($application_name) . '\\' . WebApplication :: get_application_class_name($application_name), 'get_content_object_publication_attributes'), $id, $type, $offset, $count, $order_property);
-            if (!is_null($attributes) && count($attributes) > 0)
+            if (! is_null($attributes) && count($attributes) > 0)
             {
                 $info = array_merge($info, $attributes);
             }
         }
 
         $attributes = AdminManager :: get_content_object_publication_attributes($id, $type, $offset, $count, $order_property);
-        if (!is_null($attributes) && count($attributes) > 0)
+        if (! is_null($attributes) && count($attributes) > 0)
         {
             $info = array_merge($info, $attributes);
         }
@@ -297,7 +299,7 @@ class RepositoryDataManager
             return false;
         }
 
-        return!self :: any_content_object_is_published($forbidden);
+        return ! self :: any_content_object_is_published($forbidden);
     }
 
     /**
@@ -340,7 +342,7 @@ class RepositoryDataManager
      */
     public static function content_object_revert_allowed($object)
     {
-        return!self :: get_instance()->is_latest_version($object);
+        return ! self :: get_instance()->is_latest_version($object);
     }
 
     /**
@@ -400,11 +402,11 @@ class RepositoryDataManager
         $content_object = self :: get_instance()->retrieve_content_object_by_user($user_id);
         while ($object = $content_object->next_result())
         {
-            if (!self :: delete_content_object_publications($object))
+            if (! self :: delete_content_object_publications($object))
             {
                 return false;
             }
-            if (!$object->delete())
+            if (! $object->delete())
             {
                 return false;
             }
@@ -448,7 +450,7 @@ class RepositoryDataManager
      */
     public static function get_registered_applications()
     {
-        if (!isset(self :: $applications) || count(self :: $applications) == 0)
+        if (! isset(self :: $applications) || count(self :: $applications) == 0)
         {
             self :: $applications = WebApplication :: load_all();
         }
@@ -472,7 +474,7 @@ class RepositoryDataManager
      */
     public static function get_number_of_categories($user_id)
     {
-        if (!isset(self :: $number_of_categories{$user_id}))
+        if (! isset(self :: $number_of_categories{$user_id}))
         {
             $condition = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $user_id);
             //self :: get_instance()->number_of_categories{$user_id} = self :: get_instance()->count_type_content_objects('category', $condition);
@@ -525,7 +527,7 @@ class RepositoryDataManager
         $condition = new AndCondition($conditions);
 
         $category = self :: get_instance()->retrieve_categories($condition)->next_result();
-        if (!$category)
+        if (! $category)
         {
             $category = new RepositoryCategory();
             $category->set_user_id($user_id);
@@ -555,6 +557,24 @@ class RepositoryDataManager
         return self :: get_instance()->retrieve_content_object_by_condition($condition, 'document');
     }
 
-}
+    static function get_active_helper_types()
+    {
+        if (! isset(self :: $helper_types))
+        {
+            $conditions = array();
+            $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
+            $conditions[] = new EqualityCondition(Registration :: PROPERTY_CATEGORY, 'helper');
+            $condition = new AndCondition($conditions);
 
+            $registrations = AdminDataManager :: get_instance()->retrieve_registrations();
+            self :: $helper_types = array();
+
+            while ($registration = $registrations->next_result())
+            {
+                self :: $helper_types[] = $registration->get_name();
+            }
+        }
+        return self :: $helper_types;
+    }
+}
 ?>

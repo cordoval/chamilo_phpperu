@@ -6,6 +6,8 @@ use common\libraries\DataClass;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
+use repository\RepositoryRights;
+
 /**
  * $Id: registration.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib

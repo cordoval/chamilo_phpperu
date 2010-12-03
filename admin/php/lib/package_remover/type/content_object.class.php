@@ -1,7 +1,16 @@
 <?php
 namespace admin;
+
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Database;
+use common\libraries\Filesystem;
+
+use repository\RepositoryManager;
+use repository\RepositoryDataManager;
+
+use DOMDocument;
+
 /**
  * $Id: content_object.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.package_remover.type
@@ -126,7 +135,7 @@ class PackageContentObjectRemover extends PackageRemover
         $database = new Database();
         $database->set_prefix(RepositoryManager :: APPLICATION_NAME . '_');
 
-        $path = Path :: get_repository_path() . 'lib/content_object/' . $registration->get_name() . '/';
+        $path = Path :: get_repository_content_object_path() . $registration->get_name() . '/php/install/';
         $files = Filesystem :: get_directory_content($path, Filesystem :: LIST_FILES);
 
         foreach ($files as $file)

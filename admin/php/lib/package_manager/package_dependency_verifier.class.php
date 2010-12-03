@@ -5,6 +5,8 @@ use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\MessageLogger;
+use common\libraries\NotCondition;
+use common\libraries\OrCondition;
 
 require_once dirname(__FILE__) . '/package_dependency.class.php';
 require_once dirname(__FILE__) . '/../package_installer/source/package_info/package_info.class.php';

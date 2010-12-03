@@ -79,7 +79,6 @@ abstract class PackageRemover
     static function factory($type, $parent)
     {
         $class = __NAMESPACE__ . '\\' . 'Package' . Utilities :: underscores_to_camelcase($type) . 'Remover';
-        dump($class);
         require_once dirname(__FILE__) . '/type/' . $type . '.class.php';
         return new $class($parent);
     }
