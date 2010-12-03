@@ -41,7 +41,8 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     const FEED_TYPE_MOST_INTERESTING = 2;
     const FEED_TYPE_MOST_RECENT = 3;
     const FEED_TYPE_MY_VIDEOS = 4;
-    const FEED_TYPE_ALL = 5;
+    const FEED_TYPE_EXTERNAL = 5;
+    const FEED_TYPE_ALL = 6;
 
     const SETTING_SLAVE_APP_IDS = 'slave_app_ids';
     const SETTING_URL = 'url';
@@ -97,6 +98,11 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         $my_videos['title'] = Translation :: get('MyVideos');
         $my_videos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_VIDEOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $menu_items[] = $my_videos;
+
+        $external = array();
+        $external['title'] = Translation :: get('External');
+        $external['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_EXTERNAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $menu_items[] = $external;
 
         if($this->get_user()->is_platform_admin())
         {
