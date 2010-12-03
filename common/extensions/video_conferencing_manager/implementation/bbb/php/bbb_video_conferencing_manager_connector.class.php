@@ -1,10 +1,6 @@
 <?php
 namespace common\extensions\video_conferencing_manager\implementation\bbb;
 
-use repository\content_object\bbb_meeting;
-
-use common\extensions\video_conferencing_manager;
-
 use common\libraries\Path;
 use common\libraries\Session;
 use common\libraries\PlatformSetting;
@@ -12,6 +8,7 @@ use common\libraries\ArrayResultSet;
 
 use common\extensions\video_conferencing_manager\VideoConferencingManagerConnector;
 use common\extensions\video_conferencing_manager\VideoConferencingObject;
+use common\extensions\video_conferencing_manager\VideoConferencingRights;
 
 use repository\ExternalSetting;
 use repository\ExternalSync;
@@ -113,20 +110,19 @@ class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConne
 
     function count_video_conferencing_objects($condition)
     {
-    	$response = $this->bbb->get_meetings();
-    	if ($response['returncode'] === 'SUCCESS')
+        $response = $this->bbb->get_meetings();
+        if ($response['returncode'] === 'SUCCESS')
         {
-        	return count($response['meetings']['meeting']);
+            return count($response['meetings']['meeting']);
         }
         else
         {
-        	return 0;
+            return 0;
         }
     }
 
     function retrieve_video_conferencing_object($external_sync)
     {
-        
         $response = $this->bbb->get_meeting_info($external_sync->get_external_object_id(), $external_sync->get_content_object()->get_moderator_pw());
         
         if ($response['returncode'] === 'SUCCESS')
@@ -141,6 +137,8 @@ class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConne
             $video_conferencing_object->set_running($response['running']);
             $video_conferencing_object->set_start_time($response['startTime']);
             $video_conferencing_object->set_end_time($response['endTime']);
+            $video_conferencing_object->set_forcibly_ended($response['hasBeenForciblyEnded']);
+            
             foreach ($response['attendees'] as $attendee)
             {
                 if ($attendee['role'] === 'MODERATOR')
@@ -159,13 +157,22 @@ class BbbVideoConferencingManagerConnector extends VideoConferencingManagerConne
         return false;
     }
 
-    function join_video_conferencing_object(ExternalSync $external_sync)
+    function join_video_conferencing_object(ExternalSync $external_sync, VideoConferencingRights $rights)
     {
         $object = $external_sync->get_external_object();
-        $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id()); 
-        return $this->bbb->join_meeting($user->get_fullname(), $object->get_id(), $object->get_moderator_pw());
+        $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+
+        if ($rights->is_moderator())
+        {
+            $password = $object->get_moderator_pw();
+        }
+        else
+        {
+        	$password = $object->get_attendee_pw();
+        }
+        return $this->bbb->join_meeting($user->get_fullname(), $object->get_id(), $password);
     }
-    
+
     function end_video_conferencing_object(ExternalSync $external_sync)
     {
         $object = $external_sync->get_external_object();

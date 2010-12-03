@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\video_conferencing_manager\implementation\bbb;
 
+use repository;
+
 use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Translation;
@@ -132,12 +134,16 @@ class BbbVideoConferencingManager extends VideoConferencingManager
             
             if ($this->get_user()->is_platform_admin() || $object->get_owner_id() == $this->get_user()->get_id())
             {
-                $toolbar_items[self :: ACTION_JOIN_MEETING] = new ToolbarItem(Translation :: get('JoinMeeting'), Theme :: get_image_path() . 'action_join.png', $this->get_url(array(
-                        self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_JOIN_MEETING, self :: PARAM_VIDEO_CONFERENCING_ID => $external_sync->get_id())), ToolbarItem :: DISPLAY_ICON);
-            
-            	$toolbar_items[self :: ACTION_END_VIDEO_CONFERENCING] = new ToolbarItem(Translation :: get('EndMeeting'), Theme :: get_image_path() . 'action_end.png', $this->get_url(array(
-                        self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_END_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $external_sync->get_id())), ToolbarItem :: DISPLAY_ICON);
-            
+                if ($external_sync->get_external_object()->is_joinable())
+                {
+                    $toolbar_items[self :: ACTION_JOIN_MEETING] = new ToolbarItem(Translation :: get('JoinMeeting'), Theme :: get_image_path() . 'action_join.png', $this->get_url(array(
+                            self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_JOIN_MEETING, self :: PARAM_VIDEO_CONFERENCING_ID => $external_sync->get_id())), ToolbarItem :: DISPLAY_ICON);
+                }
+                if ($external_sync->get_external_object()->is_endable())
+                {
+                    $toolbar_items[self :: ACTION_END_VIDEO_CONFERENCING] = new ToolbarItem(Translation :: get('EndMeeting'), Theme :: get_image_path() . 'action_end.png', $this->get_url(array(
+                            self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_END_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $external_sync->get_id())), ToolbarItem :: DISPLAY_ICON);
+                }
             }
         }
         return $toolbar_items;

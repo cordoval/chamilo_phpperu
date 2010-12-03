@@ -63,18 +63,21 @@
 	    			// If succeeded : change the icons and classes
 	    			//alert(data);
 	    			// Changes icons and classes
-	    			imgtag.attr('src', new_img);
+	    			var is_visible = imgtag.attr('src'); 
+//	    			imgtag.attr('src', new_img);
 	    	   		if(new_visible == 0)
 	    	   		{
 	    	   			tool_text.addClass('invisible');
 	    	   			var new_src = src.replace('.png', '_na.png');
 	    	   			var new_parent = $('div.disabledblock');
+	    	   			imgtag.attr('src', is_visible.replace('action_visible.png', 'action_invisible.png'));
 	    	   		}
 	    	   		else
 	    	   		{
 	    	   			tool_text.removeClass('invisible');
 	    	   			var new_src = src.replace('_na.png', '.png');
 	    	   			var new_parent = $('div.toolblock:first');
+	    	   			imgtag.attr('src', is_visible.replace('action_invisible.png', 'action_visible.png'));
 	    	   		}
 	    	   		
 	    	   		var disabled_block = $('div.disabledblock')

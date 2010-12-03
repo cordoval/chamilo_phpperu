@@ -98,7 +98,7 @@ abstract class VideoConferencingManagerConnector
 
     abstract function create_video_conferencing_object(VideoConferencingObject $video_conferencing_object);
     
-    abstract function join_video_conferencing_object(ExternalSync $external_sync);
+    abstract function join_video_conferencing_object(ExternalSync $external_sync, VideoConferencingRights $rights);
     
     /**
      * @param mixed $condition
