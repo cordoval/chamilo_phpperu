@@ -11,7 +11,6 @@ use application\weblcms\WeblcmsDataManager;
 use application\weblcms\Course;
 use application\weblcms\CourseCategory;
 use application\weblcms\CourseGroup;
-use application\weblcms\ContentObjectPublicationUser;
 
 /**
  * $Id: reporting_validator.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
