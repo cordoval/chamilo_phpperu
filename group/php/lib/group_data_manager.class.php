@@ -54,10 +54,16 @@ class GroupDataManager implements DataManagerInterface
     	return self :: get_instance()->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, 0))->next_result();
     }
 
+    private static $group_cache;
     static function retrieve_group_by_code($code)
     {
-        $condition = new EqualityCondition(Group :: PROPERTY_CODE, $code);
-        return self :: get_instance()->retrieve_groups($condition)->next_result();
+        if(!self :: $group_cache[$code])
+        {
+            $condition = new EqualityCondition(Group :: PROPERTY_CODE, $code);
+            self :: $group_cache[$code] = self :: get_instance()->retrieve_groups($condition)->next_result();
+        }
+
+        return self :: $group_cache[$code];
     }
 
     static function subscribe_user_to_group_by_official_code_and_group_code($official_code, $group_code)
@@ -84,21 +90,28 @@ class GroupDataManager implements DataManagerInterface
         return false;
     }
 
+    // cache to make subscribing users in batch more performant
+    private static $group_rel_user_cache;
+
     private static function make_group_rel_user_from_official_code_and_group_code($official_code, $group_code)
     {
-        $group = self :: retrieve_group_by_code($group_code);
-        $user = UserDataManager :: retrieve_user_by_official_code($official_code);
-
-        if(!$group || !$user)
+        if(!self :: $group_rel_user_cache[$group_code][$official_code])
         {
-            return false;
+            $group = self :: retrieve_group_by_code($group_code);
+            $user = UserDataManager :: retrieve_user_by_official_code($official_code);
+
+            if(!$group || !$user)
+            {
+                return false;
+            }
+
+            $group_rel_user = new GroupRelUser();
+            $group_rel_user->set_group_id($group->get_id());
+            $group_rel_user->set_user_id($user->get_id());
+            self :: $group_rel_user_cache[$group_code][$official_code] = $group_rel_user;
         }
 
-        $group_rel_user = new GroupRelUser();
-        $group_rel_user->set_group_id($group->get_id());
-        $group_rel_user->set_user_id($user->get_id());
-
-        return $group_rel_user;
+        return self :: $group_rel_user_cache[$group_code][$official_code];
     }
 }
 ?>
