@@ -43,7 +43,7 @@ class FedoraUnigeEditForm extends FedoraEditForm {
 
         $connector = $this->get_connector();
         $disciplines = $connector->retrieve_disciplines();
-        $lang = FedoraExternalRepositoryConnector::get_full_language();
+        $lang = FedoraExternalRepositoryManagerConnector::get_full_language();
 
         foreach ($disciplines as $key => &$discipline) {
             $discipline['pid'] = $key;
@@ -88,7 +88,7 @@ class FedoraUnigeEditForm extends FedoraEditForm {
     function get_licenses() {
         $connector = $this->get_connector();
         $licenses = $connector->retrieve_licenses();
-        $lang = FedoraExternalRepositoryConnector::get_full_language();
+        $lang = FedoraExternalRepositoryManagerConnector::get_full_language();
         $result = array();
         foreach ($licenses as $key => $license) {
             if (isset($license[$lang])) {

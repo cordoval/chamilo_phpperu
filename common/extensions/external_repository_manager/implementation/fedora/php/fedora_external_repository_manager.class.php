@@ -11,12 +11,12 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\libraries\DatetimeUtilities;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
-use repository\ExternalRepositorySync;
 use repository\ContentObject;
 use common\libraries\Session;
 use common\libraries\AndCondition;
 use repository\RepositoryDataManager;
 use common\libraries\Request;
+use repository\ExternalSync;
 
 require_once dirname(__FILE__) . '/fedora_external_repository_manager_connector.class.php';
 
@@ -75,12 +75,12 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager {
         }
 
         $sync_conditions = array();
-        $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID, $id);
-        $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_instance);
+        $sync_conditions[] = new EqualityCondition(ExternalSync :: PROPERTY_EXTERNAL_OBJECT_ID, $id);
+        $sync_conditions[] = new EqualityCondition(ExternalSync :: PROPERTY_EXTERNAL_ID, $external_instance);
         $sync_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id(), ContentObject :: get_table_name());
         $sync_condition = new AndCondition($sync_conditions);
 
-        $synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_sync($sync_condition);
+        $synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_sync($sync_condition);
         $result = $synchronization_data ? $synchronization_data->delete() : false;
         return $result;
     }

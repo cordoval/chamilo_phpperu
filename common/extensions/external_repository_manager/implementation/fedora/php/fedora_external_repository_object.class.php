@@ -6,6 +6,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use repository\ExternalRepository;
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use repository\RepositoryDataManager;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 
 /**
  * Describes a Fedora object located in the Fedora repository.
@@ -65,7 +66,7 @@ class FedoraExternalRepositoryObject extends ExternalRepositoryObject {
 
         $repository_id = $this->get_external_repository_id();
         $repository = RepositoryDataManager :: get_instance()->retrieve_content_object($repository_id);
-        $this->_connector = ExternalRepositoryConnector::get_instance($repository);
+        $this->_connector = ExternalRepositoryManagerConnector::get_instance($repository);
         return $this->_connector;
     }
 

@@ -15,7 +15,7 @@ use repository\RepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use common\libraries\Filesystem;
 
 /**
@@ -38,7 +38,7 @@ class FedoraExternalRepositoryManagerInternalSyncerComponent extends FedoraExter
         if ($id) {
             $object = $this->retrieve_external_repository_object($id);
 
-            if (!$object->is_importable() && ($object->get_synchronization_status() == ExternalRepositorySync::SYNC_STATUS_INTERNAL || $object->get_synchronization_status() == ExternalRepositorySync::SYNC_STATUS_CONFLICT)) {
+            if (!$object->is_importable() && ($object->get_synchronization_status() == ExternalSync::SYNC_STATUS_INTERNAL || $object->get_synchronization_status() == ExternalSync::SYNC_STATUS_CONFLICT)) {
                 $succes = $this->synchronize_internal_repository_object($object);
                 $params = $this->get_parameters();
                 $params[self::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self::ACTION_BROWSE_EXTERNAL_REPOSITORY;

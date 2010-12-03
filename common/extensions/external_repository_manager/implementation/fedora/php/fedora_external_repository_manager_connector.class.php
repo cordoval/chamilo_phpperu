@@ -24,9 +24,11 @@ use common\libraries\FoxmlReader;
 use repository\ExternalSetting;
 use user\UserDataManager;
 use Exception;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 
 require_once dirname(__FILE__) . '/fedora_external_repository_object.class.php';
 require_once Path::get_common_libraries_class_path() . '/fedora/lib.php';
+require_once Path::get_common_extensions_path() . '/external_repository_manager/php/external_repository_manager_connector.class.php';
 
 /**
  * Main object to connect Chamilo to the Fedora repository.
@@ -38,7 +40,7 @@ require_once Path::get_common_libraries_class_path() . '/fedora/lib.php';
  * @author laurent.opprecht@unige.ch
  *
  */
-class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector {
+class FedoraExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector {
 
     const DOCUMENTS_MY_STUFF = 'my_stuff';
     const DOCUMENTS_TODAY = 'today';

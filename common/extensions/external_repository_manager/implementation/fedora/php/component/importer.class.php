@@ -15,9 +15,9 @@ use application\weblcms\WeblcmsDataManager;
 use common\libraries\Application;
 use application\weblcms\Tool;
 use application\weblcms\ContentObjectPublication;
-use repository\ExternalRepositorySync;
 use repository\RepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use repository\ExternalSync;
 
 require_once Path::get_repository_path() . '/lib/import/content_object_import.class.php';
 require_once dirname(__FILE__) . '/../forms/fedora_import_form.class.php';
@@ -102,7 +102,7 @@ class FedoraExternalRepositoryManagerImporterComponent extends FedoraExternalRep
                 $this->publish($course, $result);
             }
             if ($result instanceof Document) {
-                $quicksave = ExternalRepositorySync::quicksave($result, $external_object, $this->get_external_repository()->get_id());
+                $quicksave = ExternalSync::quicksave($result, $external_object, $this->get_external_repository()->get_id());
             }
         }
 

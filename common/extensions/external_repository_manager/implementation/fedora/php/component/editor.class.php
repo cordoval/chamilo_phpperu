@@ -140,7 +140,11 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
     function update_label($pid, $label) {
         $fedora = $this->get_fedora();
         $fedora->modify_object($pid, $label);
-        $fedora->modify_datastream($pid, 'DS1', $label);
+        try{
+            $fedora->modify_datastream($pid, 'DS1', $label);
+        }catch(Exception $e){
+            //
+        }
     }
 
     function update_thumbnail($pid, $name, $path, $mime_type) {
@@ -159,7 +163,7 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
                 $switch->{$key} = $data[$key];
             }
         }
-        $switch->aaiid = FedoraExternalRepositoryConnector::get_owner_id();
+        $switch->aaiid = FedoraExternalRepositoryManagerConnector::get_owner_id();
         $switch->rights = isset($data['edit_rights']) ? $data['edit_rights'] : 'private';
         $switch->accessRights = isset($data['access_rights']) ? $data['access_rights'] : 'private';
         $switch->rightsHolder = $data['author'];
@@ -169,7 +173,7 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
         $switch->creator = $data['author'];
         $switch->description = $data['description'];
         $switch->collections = $data['collection'];
-        $switch->source = $this->get_external_repository_connector()->get_datastream_content_url($meta->pid, 'DS1');
+        $switch->source = $this->get_external_repository_manager_connector()->get_datastream_content_url($meta->pid, 'DS1');
 
         $fedora = $this->get_external_repository_manager_connector()->get_fedora();
         $content = SWITCH_object_meta::get_rels_ext($meta, $switch);

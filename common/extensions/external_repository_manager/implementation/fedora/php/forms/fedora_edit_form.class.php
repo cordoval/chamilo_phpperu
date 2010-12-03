@@ -80,10 +80,10 @@ class FedoraEditForm extends FormValidator{
 	}
 
 	/**
-	 * @return FedoraExternalRepositoryConnector
+	 * @return FedoraExternalRepositoryManagerConnector
 	 */
 	public function get_connector(){
-		return $this->get_application()->get_external_repository_connector();
+		return $this->get_application()->get_external_repository_manager_connector();
 	}
 
 	public function set_external_repository_object(FedoraExternalRepositoryObject $external_repository_object){

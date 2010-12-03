@@ -6,7 +6,7 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 use common\libraries\fedora_object_meta;
 use common\libraries\SWITCH_object_meta;
 use common\libraries\PlatformSetting;
@@ -41,8 +41,8 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
         if ($object == null) {
             $success = FedoraExternalRepositoryManager::delete_synchronization_data($id, $this->get_external_repository_id());
         } else if (!$object->is_importable() &&
-                        ($object->get_synchronization_status() == ExternalRepositorySync::SYNC_STATUS_EXTERNAL ||
-                        $object->get_synchronization_status() == ExternalRepositorySync::SYNC_STATUS_CONFLICT)) {
+                        ($object->get_synchronization_status() == ExternalSync::SYNC_STATUS_EXTERNAL ||
+                        $object->get_synchronization_status() == ExternalSync::SYNC_STATUS_CONFLICT)) {
             $success = $this->synchronize_external_repository_object($object);
         } else {
             $this->redirect_to_browser();
@@ -137,7 +137,7 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
         }
 
         $switch->title = $data['title'];
-        $switch->aaiid = FedoraExternalRepositoryConnector::get_owner_id();
+        $switch->aaiid = FedoraExternalRepositoryManagerConnector::get_owner_id();
         $switch->rights = isset($data['edit_rights']) ? $data['edit_rights'] : 'private';
         $switch->accessRights = isset($data['access_rights']) ? $data['access_rights'] : 'private';
         $switch->rightsHolder = $data['author'];
@@ -147,7 +147,7 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
         $switch->creator = isset($data['author']) ? $data['author'] : $this->get_user()->get_fullname();
         $switch->description = $description;
         $switch->collections = $data['collection'];
-        $switch->source = $this->get_external_repository_connector()->get_datastream_content_url($meta->pid, 'DS1');
+        $switch->source = $this->get_external_repository_manager_connector()->get_datastream_content_url($meta->pid, 'DS1');
 
         $connector = $this->get_external_repository_manager_connector();
         $fedora = $connector->get_fedora();

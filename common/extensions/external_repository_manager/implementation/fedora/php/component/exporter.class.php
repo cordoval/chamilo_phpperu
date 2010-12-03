@@ -16,7 +16,7 @@ use repository\RepositoryDataManager;
 use common\libraries\fedora_object_meta;
 use common\libraries\SWITCH_object_meta;
 use common\libraries\PlatformSetting;
-use repository\ExternalRepositorySync;
+use repository\ExternalSync;
 
 require_once dirname(__FILE__) . '/../forms/fedora_metadata_form.class.php';
 require_once dirname(__FILE__) . '/../forms/fedora_confirm_form.class.php';
@@ -400,7 +400,7 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
             $connector = $this->get_external_repository_manager_connector();
             $ext = $connector->retrieve_external_repository_object($meta->pid);
 
-            ExternalRepositorySync::quicksave($co, $ext, $this->get_external_repository()->get_id());
+            ExternalSync::quicksave($co, $ext, $this->get_external_repository()->get_id());
         }
 
         return $result;
@@ -435,7 +435,7 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
         $switch->creator = $data['author'];
         $switch->description = $data['description'];
         $switch->collections = $data['collection'];
-        $switch->source = $this->get_external_repository_connector()->get_datastream_content_url($meta->pid, 'DS1');
+        $switch->source = $this->get_external_repository_manager_connector()->get_datastream_content_url($meta->pid, 'DS1');
         return SWITCH_object_meta::content_to_foxml($content, $meta, $switch);
     }
 

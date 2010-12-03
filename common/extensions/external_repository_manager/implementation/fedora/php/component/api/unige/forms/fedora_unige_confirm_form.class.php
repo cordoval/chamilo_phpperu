@@ -18,7 +18,7 @@ class FedoraUnigeConfirmForm extends FedoraConfirmForm {
     function get_licences($key=false) {
         $connector = $this->get_connector();
         $licences = $connector->retrieve_licenses();
-        $lang = FedoraExternalRepositoryConnector::get_full_language();
+        $lang = FedoraExternalRepositoryManagerConnector::get_full_language();
         $result = array();
         foreach ($licences as $lkey => $licence) {
             $text = isset($licence[$lang]) ? $licence[$lang] : $licence['english'];
