@@ -9,6 +9,7 @@ use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use tracking\Event;
+use tracking\ChangesTracker;
 
 require_once dirname(__FILE__) ."/../../group_rights.class.php";
 /**
@@ -88,7 +89,7 @@ class GroupManagerDeleterComponent extends GroupManager implements Administratio
                 }
             }
 
-            $this->redirect($message, ($failures ? true : false), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+            $this->redirect($message, ($failures ? true : false), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS), array(self :: PARAM_GROUP_ID));
         }
         else
         {
