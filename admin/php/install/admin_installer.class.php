@@ -78,12 +78,13 @@ class AdminInstaller extends Installer
 
             if (file_exists($language_info_file) && $file_info['extension'] == 'info')
             {
-                $language = new Language();
-                $xml_data = Utilities :: extract_xml_file($language_info_file);
+                $package_info = PackageInfo :: factory(Registration :: TYPE_LANGUAGE, $file_info['filename'])->get_package_info();
 
-                $language->set_original_name($xml_data['original']);
-                $language->set_english_name($xml_data['english']);
-                $language->set_isocode($xml_data['isocode']);
+                $language = new Language();
+                $language->set_original_name($package_info['package']['name']);
+                $language->set_english_name($package_info['package']['extra']['english']);
+                $language->set_family($package_info['package']['category']);
+                $language->set_isocode($package_info['package']['extra']['isocode']);
                 $language->set_available('1');
 
                 if ($language->create())

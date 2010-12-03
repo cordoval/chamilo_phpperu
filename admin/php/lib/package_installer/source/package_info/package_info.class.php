@@ -6,14 +6,20 @@ use common\libraries\Utilities;
 use PEAR;
 use XML_Unserializer;
 
-class PackageInfo
+abstract class PackageInfo
 {
     private $package_name;
 
     function __construct($package_name)
     {
         $this->package_name = $package_name;
+    }
 
+    abstract function get_path();
+
+    function get_package_info_file_name()
+    {
+        return 'package.info';
     }
 
     /**
@@ -31,7 +37,7 @@ class PackageInfo
     function get_package_info()
     {
         $path = $this->get_path();
-        $file = $path . 'package.info';
+        $file = $path . $this->get_package_info_file_name();
 
         if (file_exists($file))
         {
@@ -43,8 +49,7 @@ class PackageInfo
                 $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
                 $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
                 $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-                $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array(
-                        'dependency'));
+                $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('dependency', 'author'));
 
                 // userialize the document
                 $status = $unserializer->unserialize($xml_data);

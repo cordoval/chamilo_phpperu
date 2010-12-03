@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+use common\libraries;
+
 use common\libraries\Path;
 require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_type.class.php';
 
@@ -10,10 +12,15 @@ require_once Path :: get_admin_path() . 'lib/package_installer/package_installer
 
 class LanguagePackageInfo extends PackageInfo
 {
-    
+
     function get_path()
     {
-    	return Path :: get_language_path() . $this->get_package_name() . '/';
+        return Path :: get_common_libraries_path() . 'resources/i18n/';
+    }
+
+    function get_package_info_file_name()
+    {
+        return $this->get_package_name() . '.info';
     }
 }
 ?>

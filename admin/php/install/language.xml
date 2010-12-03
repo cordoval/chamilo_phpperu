@@ -4,6 +4,7 @@
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="original_name" type="text" length="255" fixed="true" />
 		<property name="english_name" type="text" length="255" fixed="true" />
+		<property name="family" type="text" length="255" fixed="true" />
 		<property name="isocode" type="text" length="10" fixed="true" />
 		<property name="available" type="boolean" default="1" />
 	</properties>

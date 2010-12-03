@@ -6,6 +6,9 @@ use common\libraries\Translation;
 use common\libraries\Filesystem;
 use common\libraries\Path;
 
+use admin\PackageInfo;
+use admin\Registration;
+
 /**
  * $Id: language_install_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard
@@ -58,8 +61,8 @@ class LanguageInstallWizardPage extends InstallWizardPage
 
             if (file_exists($language_info_file))
             {
-                $xml_data = Utilities :: extract_xml_file($language_info_file);
-                $language_list[$xml_data['isocode']] = $xml_data['english'];
+                $package_info = PackageInfo :: factory(Registration :: TYPE_LANGUAGE, $file_info['filename'])->get_package_info();
+                $language_list[$package_info['package']['extra']['isocode']] = $package_info['package']['extra']['english'];
             }
         }
 
