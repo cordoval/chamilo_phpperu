@@ -12,7 +12,8 @@ use common\libraries\Filecompression;
  * $Id: qti_export.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.export.qti
  */
-require_once dirname(__FILE__) . '/main.php';
+//FIXME Do not require main as it causses a cyclic dependency
+//require_once dirname(__FILE__) . '/main.php';
 
 /**
  * Exports learning object to QTI format (xml)

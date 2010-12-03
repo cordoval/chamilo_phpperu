@@ -1,7 +1,7 @@
 <?php
 namespace repository;
 
-use DOMText;
+use \DOMText;
 
 class ImsLomReader extends ImsMetadataReader
 {

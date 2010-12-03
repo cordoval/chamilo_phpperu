@@ -4,8 +4,8 @@ namespace repository;
 
 use common\libraries\QtiImportStrategyBase;
 
-require_once dirname(__FILE__) . '/qti_builder_base.class.php';
-require_once_all(dirname(__FILE__) . '/builder/*.class.php');
+//require_once dirname(__FILE__) . '/qti_builder_base.class.php';
+//require_once_all(dirname(__FILE__) . '/builder/*.class.php');
 
 /**
  * Base class for questions' builders.
@@ -67,4 +67,3 @@ class QtiQuestionBuilder extends QtiBuilderBase {
 
 }
 
-?>

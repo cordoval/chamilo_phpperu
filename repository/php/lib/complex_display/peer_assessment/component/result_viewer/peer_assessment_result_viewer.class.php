@@ -10,11 +10,9 @@ use user\UserDataManager;
  */
 
 require_once dirname(__FILE__) . '/wizard/peer_assessment_result_viewer_wizard_display.class.php';
-require_once dirname(__FILE__) . '/wizard/peer_assessment_result_viewer_wizard_process.class.php';
-require_once dirname(__FILE__) . '/wizard/peer_assessment_result_viewer_wizard_page.class.php';
 require_once dirname(__FILE__) . '/wizard/competences_peer_assessment_result_viewer_wizard_page.class.php';
 
-class PeerAssessmentResultViewerWizard extends HTML_QuickForm_Controller
+class PeerAssessmentResultViewerWizard extends \HTML_QuickForm_Controller
 {
 	private $parent;
     private $peer_assessment;

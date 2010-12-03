@@ -15,9 +15,14 @@ class Autoloader
     static function load($classname)
     {
         $list = array(
-                'peer_assessment' => 'peer_assessment',
-                'peer_assessment_builder' => 'builder/peer_assessment_builder',
-                'peer_assessment_display' => 'display/peer_assessment_display');
+            'peer_assessment' => 'peer_assessment',
+            'peer_assessment_builder' => 'builder/peer_assessment_builder',
+            'peer_assessment_display' => 'display/peer_assessment_display',
+            'peer_assessment_result_viewer' => 'display/component/result_viewer/peer_assessment_result_viewer',
+            'peer_assessment_result_viewer_wizard_page' => 'display/component/result_viewer/wizard/peer_assessment_result_viewer_wizard_page',
+            'peer_assessment_viewer_wizard' => 'display/component/viewer/peer_assessment_viewer_wizard',
+            'peer_assessment_viewer_wizard_page' => 'display/component/viewer/wizard/peer_assessment_viewer_wizard_page',
+        );
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

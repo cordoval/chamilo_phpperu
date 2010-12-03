@@ -7,7 +7,6 @@ use common\libraries\Path;
  * $Id: scorm_export.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.export.scorm
  */
-require_once dirname(__FILE__) . '/learning_path/learning_path_scorm_export.class.php';
 
 /**
  * Exports learning object to the chamilo learning object format (xml)
@@ -47,4 +46,3 @@ class ScormExport extends ContentObjectExport
         return $exporter;
     }
 }
-?>

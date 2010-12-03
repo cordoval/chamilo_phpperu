@@ -101,6 +101,7 @@ class Autoloader
             'ims_xml_reader' => 'common/reader/ims_xml_reader.class.php',
             'ims_xml_writer' => 'common/writer/ims_xml_writer.class.php',
             'qti_import_strategy_base' => 'qti/import_strategy/qti_import_strategy_base.class.php',
+            'qti_renderer_base' => 'qti/qti_renderer_base.class.php',
         );
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
