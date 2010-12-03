@@ -106,6 +106,7 @@ class Autoloader
             'registration_browser_table_cell_renderer' => 'package_manager/component/registration_browser/registration_browser_table_cell_renderer.class.php',
             'registration_browser_table_column_model' => 'package_manager/component/registration_browser/registration_browser_table_column_model.class.php',
             'registration_browser_table' => 'package_manager/component/registration_browser/registration_browser_table.class.php',
+            'registration_display' => 'registration_viewer/registration_display.class.php',
         );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
