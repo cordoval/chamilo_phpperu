@@ -152,7 +152,7 @@ class CpoExport extends ContentObjectExport
             $this->scorm_files[] = $content_object->get_full_path();
         }
 
-        if ($content_object->get_type() == LearningPathItem :: get_type_name() || $content_object->get_type() == PortfolioItem :: get_type_name())
+        if (in_array($content_object->get_type(), RepositoryDataManager :: get_active_helper_types()))
         {
             $id = $content_object->get_reference();
             if ($id)

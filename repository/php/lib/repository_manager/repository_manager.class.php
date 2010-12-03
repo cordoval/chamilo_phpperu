@@ -865,31 +865,31 @@ class RepositoryManager extends CoreApplication
             //External instances
             $external_instance_item = $this->get_external_instance_menu_items();
 
-            $content_object_managers = RepositoryDataManager :: get_content_object_managers();
-
-            if (count($content_object_managers) > 0)
-            {
-                $content_object_manage_item = array();
-                $content_object_manage_item['title'] = Translation :: get('ManageContentObjects');
-                $content_object_manage_item['url'] = '#';
-                $content_object_manage_item['class'] = 'manage';
-
-                $content_object_manage_items = array();
-
-                foreach ($content_object_managers as $content_object_type => $managers)
-                {
-                    foreach ($managers as $manager)
-                    {
-                        $content_object_manage_sub_item = array();
-                        $content_object_manage_sub_item['title'] = Translation :: get(Utilities :: underscores_to_camelcase($content_object_type . '_' . $manager) . 'Manager', null, ContentObject :: get_content_object_type_namespace($content_object_type));
-                        $content_object_manage_sub_item['url'] = $this->get_content_object_manager_url($content_object_type, $manager);
-                        $content_object_manage_sub_item['class'] = 'type_' . $content_object_type;
-                        $content_object_manage_sub_items[] = $content_object_manage_sub_item;
-                    }
-                }
-
-                $content_object_manage_item['sub'] = $content_object_manage_sub_items;
-            }
+//            $content_object_managers = RepositoryDataManager :: get_content_object_managers();
+//
+//            if (count($content_object_managers) > 0)
+//            {
+//                $content_object_manage_item = array();
+//                $content_object_manage_item['title'] = Translation :: get('ManageContentObjects');
+//                $content_object_manage_item['url'] = '#';
+//                $content_object_manage_item['class'] = 'manage';
+//
+//                $content_object_manage_items = array();
+//
+//                foreach ($content_object_managers as $content_object_type => $managers)
+//                {
+//                    foreach ($managers as $manager)
+//                    {
+//                        $content_object_manage_sub_item = array();
+//                        $content_object_manage_sub_item['title'] = Translation :: get(Utilities :: underscores_to_camelcase($content_object_type . '_' . $manager) . 'Manager', null, ContentObject :: get_content_object_type_namespace($content_object_type));
+//                        $content_object_manage_sub_item['url'] = $this->get_content_object_manager_url($content_object_type, $manager);
+//                        $content_object_manage_sub_item['class'] = 'type_' . $content_object_type;
+//                        $content_object_manage_sub_items[] = $content_object_manage_sub_item;
+//                    }
+//                }
+//
+//                $content_object_manage_item['sub'] = $content_object_manage_sub_items;
+//            }
 
             $extra_items[] = $shared;
             $extra_items[] = $pub;
@@ -899,21 +899,16 @@ class RepositoryManager extends CoreApplication
                 $extra_items[] = $external_instance_item;
             }
 
-            if (isset($streaming_item) && count($streaming_item['sub']) > 0)
-            {
-                $extra_items[] = $streaming_item;
-            }
-
             $extra_items[] = $line;
 
             $extra_items[] = $create;
             $extra_items[] = $import;
             $extra_items[] = $templates;
 
-            if (isset($content_object_manage_item))
-            {
-                $extra_items[] = $content_object_manage_item;
-            }
+//            if (isset($content_object_manage_item))
+//            {
+//                $extra_items[] = $content_object_manage_item;
+//            }
 
             $extra_items[] = $line;
 
@@ -935,7 +930,7 @@ class RepositoryManager extends CoreApplication
             {
                 $search_url = null;
             }
-            $this->category_menu = new ContentObjectCategoryMenu($this->get_user_id(), $category, $url_format, $extra_items, null, array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name()));
+            $this->category_menu = new ContentObjectCategoryMenu($this->get_user_id(), $category, $url_format, $extra_items, null, RepositoryDataManager :: get_active_helper_types());
             if (isset($search_url))
             {
                 $this->category_menu->forceCurrentUrl($search_url, true);

@@ -252,7 +252,7 @@ class UserQuotaForm extends FormValidator
         $content_object_types = RepositoryDataManager :: get_registered_types();
         $filtered_object_types = array();
 
-        $hidden_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
+        $hidden_types = RepositoryDataManager :: get_active_helper_types();
 
         foreach ($content_object_types as $type)
         {

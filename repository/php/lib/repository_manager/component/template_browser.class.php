@@ -91,7 +91,7 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManager
             $conditions[] = new OrCondition($or_conditions);
         }
 
-        $types = array(HandbookItem :: get_type_name(), LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
+        $types = RepositoryDataManager :: get_active_helper_types();
 
         foreach ($types as $type)
         {

@@ -169,6 +169,8 @@ class ContentObjectTypeSelector
         $registration_conditions[] = new InCondition(Registration :: PROPERTY_NAME, $this->content_object_types);
         $registration_condition = new AndCondition($registration_conditions);
         $registrations = AdminDataManager :: get_instance()->retrieve_registrations($registration_condition);
+        
+        $helper_types = RepositoryDataManager::get_active_helper_types();
 
         while ($registration = $registrations->next_result())
         {
@@ -177,8 +179,7 @@ class ContentObjectTypeSelector
                 continue;
             }
 
-            $setting = PlatformSetting :: get('allow_' . $registration->get_name() . '_creation', 'repository');
-            if (! $setting)
+            if (in_array($registration->get_name(), $helper_types))
             {
                 continue;
             }

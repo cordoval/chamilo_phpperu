@@ -6,8 +6,12 @@ use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
+
 use HTML_Menu;
 use HTML_Menu_ArrayRenderer;
+
+use repository\RepositoryDataManager;
+
 /**
  * $Id: content_object_category_menu.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -21,7 +25,7 @@ use HTML_Menu_ArrayRenderer;
 class PhrasesPublicationMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-
+    
     /**
      * The owner of the categories
      */
@@ -34,7 +38,7 @@ class PhrasesPublicationMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-
+    
     private $data_manager;
 
     /**
@@ -54,11 +58,12 @@ class PhrasesPublicationMenu extends HTML_Menu
         $this->owner = $owner;
         $this->urlFmt = $url_format;
         $this->data_manager = PhrasesDataManager :: get_instance();
-
+        
         $menu = $this->get_menu_items($extra_items);
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
-        //        $this->forceCurrentUrl($this->get_category_url($current_category));
+    
+     //        $this->forceCurrentUrl($this->get_category_url($current_category));
     }
 
     /**
@@ -72,9 +77,9 @@ class PhrasesPublicationMenu extends HTML_Menu
     private function get_menu_items($extra_items)
     {
         $menu = array();
-
+        
         $languages = AdminDataManager :: get_languages(false);
-
+        
         foreach ($languages as $language_id => $language)
         {
             $menu_item = array();
@@ -83,9 +88,9 @@ class PhrasesPublicationMenu extends HTML_Menu
             $menu_item['url'] = '#';
             $menu_item['class'] = 'category';
             $menu_item[OptionsMenuRenderer :: KEY_ID] = $language_id;
-
+            
             $mastery_levels = $this->data_manager->retrieve_phrases_mastery_levels(null, new ObjectTableOrder(PhrasesMasteryLevel :: PROPERTY_DISPLAY_ORDER));
-
+            
             $sub_menu = array();
             while ($mastery_level = $mastery_levels->next_result())
             {
@@ -97,44 +102,14 @@ class PhrasesPublicationMenu extends HTML_Menu
                 $sub_menu_item[OptionsMenuRenderer :: KEY_ID] = $mastery_level->get_id();
                 $sub_menu[] = $sub_menu_item;
             }
-
+            
             $menu_item['sub'] = $sub_menu;
-
+            
             $menu[] = $menu_item;
         }
-
-        //        $menu_item = array();
-        //
-        //        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
-        //        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, 0);
-        //        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
-        //        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, LearningPathItem :: get_type_name()));
-        //        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, PortfolioItem :: get_type_name()));
-        //
-        //        if(count($this->filter_count_on_types))
-        //        {
-        //        	$conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
-        //        }
-        //
-        //        $condition = new AndCondition($conditions);
-        //        $count = $this->data_manager->count_content_objects($condition);
-        //
-        //        $menu_item['title'] = Translation :: get('MyRepository') . ' (' . $count . ')';
-        //        $menu_item['url'] = $this->get_category_url(0);
-        //        $sub_menu_items = $this->get_sub_menu_items(0);
-        //        if (count($sub_menu_items) > 0)
-        //        {
-        //            $menu_item['sub'] = $sub_menu_items;
-        //        }
-        //        $menu_item['class'] = 'category';
-        //        $menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
-        //        $menu[0] = $menu_item;
-        //        if (count($extra_items))
-        //        {
+        
         $menu = array_merge($menu, $extra_items);
-        //        }
-
-
+        
         return $menu;
     }
 
@@ -152,7 +127,7 @@ class PhrasesPublicationMenu extends HTML_Menu
         $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->owner);
         $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $parent);
         $condition = new AndCondition($conditions);
-
+        
         $objects = $this->data_manager->retrieve_categories($condition);
         $categories = array();
         while ($category = $objects->next_result())
@@ -161,18 +136,17 @@ class PhrasesPublicationMenu extends HTML_Menu
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category->get_id());
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
-            $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, LearningPathItem :: get_type_name()));
-            $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, PortfolioItem :: get_type_name()));
-
+            $conditions[] = new NotCondition(new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_active_helper_types()));
+            
             if (count($this->filter_count_on_types))
             {
                 $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
             }
-
+            
             $condition = new AndCondition($conditions);
-
+            
             $count = $this->data_manager->count_content_objects($condition);
-
+            
             $menu_item = array();
             $menu_item['title'] = $category->get_name() . ' (' . $count . ')';
             $menu_item['url'] = $this->get_category_url($category->get_id());
@@ -216,7 +190,7 @@ class PhrasesPublicationMenu extends HTML_Menu
                 continue;
             }
             $trail->add(new Breadcrumb($crumb['url'], substr($crumb['title'], 0, strpos($crumb['title'], '('))));
-
+        
         }
         return $trail;
     }

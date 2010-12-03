@@ -96,7 +96,6 @@ class RepositoryDataManager
         if (! (self :: $registered_types))
         {
             $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
-
             $order = new ObjectTableOrder(Registration :: PROPERTY_NAME, SORT_ASC);
 
             $registrations_result_set = AdminDataManager :: get_instance()->retrieve_registrations($condition, $order);
@@ -280,17 +279,16 @@ class RepositoryDataManager
         {
             return false;
         }
-
-        $count_portfolio_wrapper_items = self :: get_instance()->count_type_content_objects(PortfolioItem :: get_type_name(), new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $object->get_id(), PortfolioItem :: get_type_name()));
-        if ($count_portfolio_wrapper_items > 0)
+        
+        $wrapper_types = self :: get_active_helper_types();
+        
+        foreach($wrapper_types as $wrapper_type)
         {
-            return false;
-        }
-
-        $count_learning_path_wrapper_items = self :: get_instance()->count_type_content_objects(LearningPathItem :: get_type_name(), new EqualityCondition(LearningPathItem :: PROPERTY_REFERENCE, $object->get_id(), LearningPathItem :: get_type_name()));
-        if ($count_learning_path_wrapper_items > 0)
-        {
-            return false;
+            $count_wrapper_items = self :: get_instance()->count_type_content_objects($wrapper_type, new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $object->get_id(), $wrapper_type));
+            if ($count_wrapper_items > 0)
+            {
+                return false;
+            }            
         }
 
         $count_children = self :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexContentObjectItem :: get_table_name()));
@@ -566,7 +564,7 @@ class RepositoryDataManager
             $conditions[] = new EqualityCondition(Registration :: PROPERTY_CATEGORY, 'helper');
             $condition = new AndCondition($conditions);
 
-            $registrations = AdminDataManager :: get_instance()->retrieve_registrations();
+            $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition);
             self :: $helper_types = array();
 
             while ($registration = $registrations->next_result())

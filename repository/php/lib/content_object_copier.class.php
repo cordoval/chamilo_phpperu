@@ -372,17 +372,9 @@ class ContentObjectCopier
 
         $this->fix_links($co);
 
-        switch ($type)
+        if (in_array($type, RepositoryDataManager :: get_active_helper_types()))
         {
-            case LearningPathItem :: get_type_name() :
-                $this->fix_references($co);
-                return;
-            case PortfolioItem :: get_type_name() :
-                return $this->fix_references($co);
-            case HandbookItem :: get_type_name() :
-                return $this->fix_references($co);
-            default :
-                return;
+            $this->fix_references($co);
         }
     }
 

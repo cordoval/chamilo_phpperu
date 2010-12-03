@@ -123,8 +123,8 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $this->get_parent_id());
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
-
-        $types = array(HandbookItem :: get_type_name(), LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
+        
+        $types = RepositoryDataManager :: get_active_helper_types();
 
         foreach ($types as $type)
         {
