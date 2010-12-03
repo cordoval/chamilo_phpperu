@@ -1,4 +1,11 @@
 <?php
+
+namespace common\libraries;
+
+use application\survey\SurveyDataManager;
+use repository\RepositoryDataManager;
+use repository\content_object\survey_page\SurveyPage;
+
 require_once dirname(__FILE__) . '/../../../global.inc.php';
 require_once BasicApplication::get_application_class_path(SurveyManager :: APPLICATION_NAME). 'survey_data_manager.class.php';
 
