@@ -8,8 +8,6 @@ use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 
-require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
-require_once Path :: get_repository_path() . '/lib/content_object/survey/survey.class.php';
 
 class SurveyBuilderConfigureContextComponent extends SurveyBuilder
 {

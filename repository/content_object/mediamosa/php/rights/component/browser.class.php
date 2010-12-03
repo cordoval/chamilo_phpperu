@@ -3,8 +3,8 @@ namespace repository\content_object\mediamosa;
 
 use common\libraries\Translation;
 use common\libraries\Path;
-
-require_once Path :: get_application_path() . 'common/rights_editor_manager/component/browser.class.php';
+use common\extensions\rights_editor_manager\RightsEditorManagerBrowserComponent;
+require_once __DIR__ . '/../mediamosa_rights_editor_manager.class.php';
 
 class MediamosaRightsEditorManagerBrowserComponent extends MediamosaRightsEditorManager
 {
@@ -19,4 +19,3 @@ class MediamosaRightsEditorManagerBrowserComponent extends MediamosaRightsEditor
        $this->update_mediamosa_rights();
     }
 }
-?>

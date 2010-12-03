@@ -1,10 +1,15 @@
 <?php
 namespace application\weblcms\tool\video_conferencing;
 
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\extensions\video_conferencing_manager\VideoConferencingManager;
 use repository\content_object\bbb_meeting\BbbMeeting;
 
 use application\weblcms\ContentObjectPublicationListRenderer;
 use application\weblcms\Tool;
+use application\weblcms\WeblcmsRights;
 
 /**
  * $Id: announcement_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -17,10 +22,13 @@ use application\weblcms\Tool;
  */
 class VideoConferencingTool extends Tool
 {
+    const ACTION_JOIN = 'joiner';
+    const ACTION_END = 'ender';
 
     static function get_allowed_types()
     {
-        return array(BbbMeeting :: get_type_name());    }
+        return array(BbbMeeting :: get_type_name());
+    }
 
     function get_application_component_path()
     {
@@ -32,6 +40,41 @@ class VideoConferencingTool extends Tool
         $browser_types = array();
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
         return $browser_types;
+    }
+
+    function add_content_object_publication_actions($toolbar, $publication)
+    {
+        $has_edit_right = $this->is_allowed(WeblcmsRights :: EDIT_RIGHT, $publication->get_id());
+        $external_sync = $publication->get_content_object()->get_synchronization_data();
+        
+        if ($external_sync->get_external_object())
+        {
+            if ($has_edit_right)
+            {
+                if ($external_sync->get_external_object()->is_endable())
+                {
+                    $parameters = array();
+                    
+                    $parameters[VideoConferencingManager :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION] = VideoConferencingManager :: ACTION_END_VIDEO_CONFERENCING;
+                    $parameters[VideoConferencingManager :: PARAM_VIDEO_CONFERENCING_ID] = $external_sync->get_id();
+                    $parameters[self :: PARAM_ACTION] = self :: ACTION_END;
+                    $parameters[self :: PARAM_PUBLICATION_ID] = $publication->get_id();
+                    $toolbar->prepend_item(new ToolbarItem(Translation :: get('EndMeeting'), Theme :: get_image_path() . 'action_end.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON, true));
+                }
+            }
+            if ($external_sync->get_external_object()->is_joinable())
+            {
+                $parameters = array();
+                
+                $parameters[VideoConferencingManager :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION] = VideoConferencingManager :: ACTION_JOIN_MEETING;
+                $parameters[VideoConferencingManager :: PARAM_VIDEO_CONFERENCING_ID] = $external_sync->get_id();
+                $parameters[self :: PARAM_ACTION] = self :: ACTION_JOIN;
+                $parameters[self :: PARAM_PUBLICATION_ID] = $publication->get_id();
+                
+                $toolbar->prepend_item(new ToolbarItem(Translation :: get('JoinMeeting'), Theme :: get_image_path() . 'action_join.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON, false, null, '_blank'));
+            }
+        }
+    
     }
 
     /**

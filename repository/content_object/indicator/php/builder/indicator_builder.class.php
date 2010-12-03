@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\indicator;
+
+use repository\ComplexBuilder;
+use common\libraries\ComplexMenuSupport;
 /**
  * $Id: indicator_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.indicator

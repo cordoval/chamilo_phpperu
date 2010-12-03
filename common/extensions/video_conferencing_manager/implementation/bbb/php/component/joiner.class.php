@@ -31,9 +31,11 @@ class BbbVideoConferencingManagerJoinerComponent extends BbbVideoConferencingMan
         
         if ($id)
         {
+        	$rights = $this->get_parent()->get_video_conferencing_rights();
+
             $condition = new EqualityCondition(ExternalSync :: PROPERTY_ID, $id);
             $external_sync = RepositoryDataManager :: get_instance()->retrieve_external_sync($condition);
-            $result = $this->get_video_conferencing_manager_connector()->join_video_conferencing_object($external_sync);
+            $result = $this->get_video_conferencing_manager_connector()->join_video_conferencing_object($external_sync, $rights);
             if ($result)
             {
                 Redirect :: write_header($result);

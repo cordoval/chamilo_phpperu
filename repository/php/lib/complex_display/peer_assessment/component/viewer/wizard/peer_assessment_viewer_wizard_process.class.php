@@ -8,7 +8,7 @@ use common\libraries\Session;
  *	@author Nick Van Loocke
  */
 
-class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
+class PeerAssessmentViewerWizardProcess extends \HTML_QuickForm_Action
 {
     private $parent;
 

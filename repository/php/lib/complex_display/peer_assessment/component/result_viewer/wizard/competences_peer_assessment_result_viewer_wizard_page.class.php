@@ -9,6 +9,7 @@ use common\libraries\Theme;
 use common\libraries\AndCondition;
 use common\libraries\DatetimeUtilities;
 use common\libraries\Utilities;
+use repository\content_object\peer_assessment\PeerAssessmentResultViewerWizardPage;
 
 /*
  *	@author Nick Van Loocke

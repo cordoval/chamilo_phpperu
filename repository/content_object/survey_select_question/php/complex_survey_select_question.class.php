@@ -5,7 +5,6 @@ use common\libraries\Path;
 use repository\ComplexSelectQuestion;
 
 
-require_once PATH :: get_repository_path() . '/question_types/select_question/complex_select_question.class.php';
 
 /**
  * This class represents a complex assessment (used to create complex learning objects)

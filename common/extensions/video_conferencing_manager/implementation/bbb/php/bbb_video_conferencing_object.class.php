@@ -17,14 +17,35 @@ class BbbVideoConferencingObject extends VideoConferencingObject
     const PROPERTY_RUNNING = 'running';
     const PROPERTY_MODERATORS = 'moderators';
     const PROPERTY_VIEWERS = 'viewers';
+    const PROPERTY_FORCIBLY_ENDED = 'forcibly_ended';
 
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
                 self :: PROPERTY_RUNNING, self :: PROPERTY_MODERATORS, self :: PROPERTY_VIEWERS, self :: PROPERTY_END_TIME, self :: PROPERTY_START_TIME, self :: PROPERTY_ATTENDEE_PW, self :: PROPERTY_MODERATOR_PW, self :: PROPERTY_WELCOME, 
-                self :: PROPERTY_LOGOUT_URL, self :: PROPERTY_MAX_PARTICIPANTS));
+                self :: PROPERTY_LOGOUT_URL, self :: PROPERTY_MAX_PARTICIPANTS, self :: PROPERTY_FORCIBLY_ENDED));
+    }
+    
+	function set_forcibly_ended($forcibly_ended)
+    {
+        return $this->set_default_property(self :: PROPERTY_FORCIBLY_ENDED, $forcibly_ended);
     }
 
+    function get_forcibly_ended()
+    {
+        return $this->get_default_property(self :: PROPERTY_FORCIBLY_ENDED);
+    }  
+    
+    function is_joinable()
+    {
+    	return ! $this->get_forcibly_ended();
+    }
+    
+    function is_endable()
+    {
+    	return $this->is_joinable();
+    }
+    
     function set_start_time($start_time)
     {
         return $this->set_default_property(self :: PROPERTY_START_TIME, $start_time);

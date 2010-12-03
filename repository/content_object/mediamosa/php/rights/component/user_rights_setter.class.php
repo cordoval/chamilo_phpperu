@@ -3,7 +3,9 @@ namespace repository\content_object\mediamosa;
 
 use common\libraries\Path;
 
-require_once Path :: get_application_path() . 'common/rights_editor_manager/component/user_rights_setter.class.php';
+use common\extensions\rights_editor_manager\RightsEditorManagerUserRightsSetterComponent;
+
+require_once __DIR__ . '/../mediamosa_rights_editor_manager.class.php';
 
 
 class MediamosaRightsEditorManagerUserRightsSetterComponent extends MediamosaRightsEditormanager
@@ -17,4 +19,3 @@ class MediamosaRightsEditorManagerUserRightsSetterComponent extends MediamosaRig
 
 
 }
-?>

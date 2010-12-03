@@ -2,6 +2,7 @@
 namespace repository\content_object\survey_matrix_question;
 
 use common\libraries\Path;
+use repository\MatrixQuestionDifference;
 /**
  * $Id: survey_matrix_question_difference.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.survey_matrix_question

@@ -3,6 +3,7 @@ namespace repository\content_object\peer_assessment;
 /*
  *	@author Nick Van Loocke
  */
+use \HTML_QuickForm_Action;
 
 class PeerAssessmentResultViewerWizardProcess extends HTML_QuickForm_Action
 {

@@ -1,5 +1,5 @@
 <?php
-namespace application\weblcms\tool\learning_path;
+namespace repository\content_object\learning_path;
 
 use common\libraries\Path;
 

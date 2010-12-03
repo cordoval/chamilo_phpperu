@@ -1,7 +1,7 @@
 <?php
 namespace repository\content_object\survey_select_question;
 
-use repository\ContentObjectDifference;
+use repository\SelectQuestionDifference;
 
 /**
  * $Id: survey_select_question_difference.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -10,7 +10,6 @@ use repository\ContentObjectDifference;
 /**
  * This class can be used to get the difference between select questions
  */
-class SurveySelectQuestionDifference extends ContentObjectDifference
+class SurveySelectQuestionDifference extends SelectQuestionDifference
 {
 }
-?>

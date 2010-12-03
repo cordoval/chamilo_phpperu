@@ -15,6 +15,7 @@ use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\Application;
 use common\libraries\Session;
+use common\libraries\PropertiesTable;
 
 class BbbVideoConferencingObjectDisplay extends VideoConferencingObjectDisplay
 {
@@ -24,12 +25,6 @@ class BbbVideoConferencingObjectDisplay extends VideoConferencingObjectDisplay
         $object = $this->get_object();
         
         $properties = parent :: get_display_properties();
-        
-        if ($object->get_synchronization_data()->get_content_object()->get_owner_id() == Session :: get_user_id())
-        {
-        	$properties[Translation :: get('AttendeePw')] = $object->get_attendee_pw();
-        	$properties[Translation :: get('ModeratorPw')] = $object->get_moderator_pw();
-        }
                 
         if ($object->get_start_time() !== 'null')
         {
@@ -73,20 +68,32 @@ class BbbVideoConferencingObjectDisplay extends VideoConferencingObjectDisplay
         return $properties;
     }
 
-    function get_join_button($is_moderator)
+    function get_password_table()
     {
-    	$object = $this->get_object();
-    	$external_sync = $object->get_synchronization_data();
-    	$parameters = array();
-    	$parameters[Application :: PARAM_APPLICATION] = VideoConferencingLauncher :: APPLICATION_NAME; 
-    	$parameters[RepositoryManager :: PARAM_EXTERNAL_INSTANCE] = $external_sync->get_external_id();
-    	$parameters[VideoConferencingManager::PARAM_VIDEO_CONFERENCING_ID] = $external_sync->get_id();
-    	$parameters[VideoConferencingManager :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION] = VideoConferencingManager :: ACTION_JOIN_MEETING;
-    	$link = Path :: get_launcher_application_path(true) . 'index.php?' . http_build_query($parameters);
-    	
-        return '<a class="button normal_button join_button" onclick="javascript:openPopup(\''. $link . '\');"> ' . Translation :: get('JoinMeeting') . '</a>';
-    
+        $object = $this->get_object();
+        
+        $properties = array();
+        $properties[Translation :: get('AttendeePw')] = $object->get_attendee_pw();
+        $properties[Translation :: get('ModeratorPw')] = $object->get_moderator_pw();
+        
+        $table = new PropertiesTable($properties);
+        $table->setAttribute('style', 'margin-top: 1em; margin-bottom: 0;');
+        return $table->toHtml();
     }
 
+    function get_join_button($is_moderator)
+    {
+        $object = $this->get_object();
+        $external_sync = $object->get_synchronization_data();
+        $parameters = array();
+        $parameters[Application :: PARAM_APPLICATION] = VideoConferencingLauncher :: APPLICATION_NAME;
+        $parameters[RepositoryManager :: PARAM_EXTERNAL_INSTANCE] = $external_sync->get_external_id();
+        $parameters[VideoConferencingManager :: PARAM_VIDEO_CONFERENCING_ID] = $external_sync->get_id();
+        $parameters[VideoConferencingManager :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION] = VideoConferencingManager :: ACTION_JOIN_MEETING;
+        $link = Path :: get_launcher_application_path(true) . 'index.php?' . http_build_query($parameters);
+        
+        return '<a class="button normal_button join_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('JoinMeeting') . '</a>';
+    
+    }
 }
 ?>

@@ -11,7 +11,6 @@ use repository\MatrixQuestionForm;
  * @package repository.lib.content_object.survey_matrix_question
  */
 
-require_once Path :: get_repository_path() . '/question_types/matrix_question/matrix_question_form.class.php';
 
 class SurveyMatrixQuestionForm extends MatrixQuestionForm
 {

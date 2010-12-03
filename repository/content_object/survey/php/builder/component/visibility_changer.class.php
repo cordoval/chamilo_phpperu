@@ -38,4 +38,3 @@ class SurveyBuilderVisibilityChangerComponent extends SurveyBuilder
         }
     }
 }
-?>
