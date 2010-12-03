@@ -59,7 +59,7 @@ class VideoConferencingTool extends Tool
                     $parameters[VideoConferencingManager :: PARAM_VIDEO_CONFERENCING_ID] = $external_sync->get_id();
                     $parameters[self :: PARAM_ACTION] = self :: ACTION_END;
                     $parameters[self :: PARAM_PUBLICATION_ID] = $publication->get_id();
-                    $toolbar->prepend_item(new ToolbarItem(Translation :: get('EndMeeting'), Theme :: get_image_path() . 'action_end.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
+                    $toolbar->prepend_item(new ToolbarItem(Translation :: get('EndMeeting'), Theme :: get_image_path() . 'action_end.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON, true));
                 }
             }
             if ($external_sync->get_external_object()->is_joinable())

@@ -500,7 +500,13 @@ class RepositoryManager extends CoreApplication
 
     function get_external_instance_viewing_url(ExternalSync $external_instance_sync)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXTERNAL_INSTANCE_MANAGER, self :: PARAM_EXTERNAL_INSTANCE => $external_instance_sync->get_external_id(), ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $external_instance_sync->get_external_object_id()));
+    	$type = $external_instance_sync->get_external()->get_instance_type();
+    	$class = ExternalInstanceManager::get_manager_class($type);
+    	$parameters = $class :: get_object_viewing_parameters($external_instance_sync);
+    	$parameters[self :: PARAM_ACTION] = self :: ACTION_EXTERNAL_INSTANCE_MANAGER;
+    	$parameters[self :: PARAM_EXTERNAL_INSTANCE] = $external_instance_sync->get_external_id();
+
+        return $this->get_url($parameters);
     }
 
     /**
