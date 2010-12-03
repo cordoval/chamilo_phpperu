@@ -70,7 +70,7 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
             
             if($use)
             {
-                $this->user_id_prefix = $this->get_app_id() . '_';
+                $this->user_id_prefix = $this->get_app_id() . '-';
             }
             else
             {
@@ -448,7 +448,7 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
 
         if($condition) $this->create_cql_sets($condition);
         $cql = $this->create_cql_query();
-//echo $cql;
+echo $cql;
         if($this->cql_error)$params['limit'] = 0;
 
         $params['cql'] = urlencode($cql);
