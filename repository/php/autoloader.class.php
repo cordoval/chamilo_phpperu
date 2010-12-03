@@ -163,10 +163,20 @@ class Autoloader
                 'external_instance_manager' => 'external_instance_manager/external_instance_manager.class.php',
                 'external_repository_user_quotum' => 'external_repository_user_quotum.class.php',
                 'qti_import' => 'import/qti/qti_import.class.php',
+            'qti_serializer_base' => 'export/qti/object_export/qti_serializer_base.class.php',
+            'qti_serializer_export' => 'export/qti/object_export/qti_serializer_export.class.php',
+            'qti_question_serializer' => 'export/qti/object_export/qti_question_serializer.class.php',
+            'qti_export' => 'export/qti/qti_export.class.php',
+            'scorm_export' => 'export/scorm/scorm_export.class.php',
+            'learning_path_scorm_export' => 'export/scorm/learning_path/learning_path_scorm_export.class.php',
+            'ims_metadata_reader' => 'import/cp/metadata/ims_metadata_reader.class.php',
+            'imscp_manifest_cp_import' => 'import/cp/object_import/import/dir/imscp_manifest_cp_import.class.php',
                 'qti_question_builder' => 'import/qti/object_import/qti_question_builder.class.php',
                 'qti_builder_base' => 'import/qti/object_import/qti_builder_base.class.php',
+            'qti_renderer_base' => 'import/qti/object_import/qti_builder_base.class.php',
                 'cp_object_import_base' => 'import/cp/object_import/cp_object_import_base.class.php',
                 'cp_object_export' => 'export/cp/object_export/cp_object_export.class.php',
+                'cpe_object_export_base' => 'export/cp/object_export/cpe_object_export_base.class.php',
                 'cp_object_import_aggregate' => 'import/cp/object_import/cp_object_import_aggregate.class.php',
                 'complex_browser_table_column_model' => 'repository_manager/component/complex_browser/complex_browser_table_column_model.class.php',
                 'open_question_difference' => '../question_types/open_question/open_question.class.php',
@@ -212,5 +222,3 @@ class Autoloader
         return false;
     }
 }
-
-?>

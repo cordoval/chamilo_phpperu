@@ -15,7 +15,9 @@ class Autoloader
     static function load($classname)
     {
         $list = array(
-                'physical_location' => 'physical_location');
+            'physical_location' => 'physical_location',
+            'physical_location_display' => 'physical_location_display',
+        );
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

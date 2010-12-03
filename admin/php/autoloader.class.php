@@ -39,8 +39,19 @@ class Autoloader
     static function check_for_general_files()
     {
         $list = array(
-                'admin_block', 'admin_data_manager', 'admin_rights', 'configuration_form', 'feedback_publication', 'language_form', 'language', 'registration', 'remote_package', 'setting', 'system_announcement_publication_form',
-                'system_announcement_publication', 'validation');
+            'admin_block',
+            'admin_data_manager',
+            'admin_rights',
+            'configuration_form',
+            'feedback_publication',
+            'language_form', 'language',
+            'registration',
+            'remote_package',
+            'setting',
+            'system_announcement_publication_form',
+            'system_announcement_publication', 
+            'validation',
+        );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -55,7 +66,10 @@ class Autoloader
 
     static function check_for_tables()
     {
-        $list = array('system_announcement_publication_browser_table' => 'system_announcement_publication_browser/system_announcement_publication_browser_table.class.php', 'whois_online_table' => 'whois_online_table/whois_online_table.class.php');
+        $list = array(
+            'system_announcement_publication_browser_table' => 'system_announcement_publication_browser/system_announcement_publication_browser_table.class.php',
+            'whois_online_table' => 'whois_online_table/whois_online_table.class.php',
+            );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -88,6 +102,10 @@ class Autoloader
             'content_object_registration_browser_table_cell_renderer' => 'package_manager/component/registration_browser/content_object/content_object_registration_browser_table_cell_renderer.class.php',
             'content_object_registration_browser_table' => 'package_manager/component/registration_browser/content_object/content_object_registration_browser_table.class.php',
             'package_dependency' => 'package_manager/package_dependency.class.php',
+            'registration_browser_table_data_provider' => 'package_manager/component/registration_browser/registration_browser_table_data_provider.class.php',
+            'registration_browser_table_cell_renderer' => 'package_manager/component/registration_browser/registration_browser_table_cell_renderer.class.php',
+            'registration_browser_table_column_model' => 'package_manager/component/registration_browser/registration_browser_table_column_model.class.php',
+            'registration_browser_table' => 'package_manager/component/registration_browser/registration_browser_table.class.php',
         );
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);

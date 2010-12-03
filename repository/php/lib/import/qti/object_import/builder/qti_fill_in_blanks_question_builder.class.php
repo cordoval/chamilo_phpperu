@@ -2,7 +2,6 @@
 namespace repository;
 
 use repository\content_object\fill_in_blanks_question\FillInBlanksQuestion;
-
 use common\libraries\QtiRendererBase;
 /**
  * Question builder for Fillinblansk questions.
@@ -80,6 +79,7 @@ class QtiFillInBlanksQuestionBuilder extends QtiQuestionBuilder
  * @author laurent.opprecht@unige.ch
  *
  */
+//TODO one class per file
 class FillInBlanksQuestionRenderer extends QtiRendererBase
 {
 

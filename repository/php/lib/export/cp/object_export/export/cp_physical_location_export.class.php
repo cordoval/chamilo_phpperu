@@ -2,11 +2,11 @@
 namespace repository;
 
 use repository\content_object\physical_location\PhysicalLocation;
+use repository\content_object\physical_location\PhysicalLocationDisplay;
 
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 
-include_once Path :: get_repository_path() . '/lib/content_object/physical_location/physical_location_display.class.php';
 
 /**
  * Export PhysicalLocation objects.

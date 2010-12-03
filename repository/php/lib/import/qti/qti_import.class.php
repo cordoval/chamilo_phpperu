@@ -8,7 +8,9 @@ use common\libraries\Qti;
 use common\libraries\EmptyObjectImport;
 use common\libraries\BufferedObjectImport;
 
-require_once dirname(__FILE__) . '/main.php';
+
+//FIXME do not require main from here because it causes a cyclic dependence, use autoload instead
+//require_once dirname(__FILE__) . '/main.php';
 
 class QtiImport extends ContentObjectImport
 {
