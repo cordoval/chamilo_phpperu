@@ -65,8 +65,17 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
 
     function get_user_id_prefix() {
         if(!$this->user_id_prefix) {
-            //$this->user_id_prefix = $this->get_app_id() . '_';
-            $this->user_id_prefix = '';
+
+            $use = ExternalSetting :: get(MediamosaExternalRepositoryManager :: SETTING_USE_PREFIX, $this->get_external_repository_instance_id());
+            
+            if($use)
+            {
+                $this->user_id_prefix = $this->get_app_id() . '_';
+            }
+            else
+            {
+                $this->user_id_prefix = '';
+            }
         }
         return $this->user_id_prefix;
     }
@@ -100,7 +109,10 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
             if ($quotum) $data['quotum'] = $quotum;
             $data['user'] = $this->get_mediamosa_user_id($chamilo_user_id);
 
-            if ($response = $this->request(self :: METHOD_POST, '/user/create', $data)) {
+            $response = $this->request(self :: METHOD_POST, '/user/create', $data);
+
+            if ($response)
+            {
                 if ($response->check_result()) {
                     return true;
                 }
@@ -121,7 +133,9 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
             $data = array();
             $data['quotum'] = $quotum;
 
-            if ($response = $this->request(self :: METHOD_POST, '/user/' . $this->get_mediamosa_user_id($chamilo_user_id), $data)) {
+            $response = $this->request(self :: METHOD_POST, '/user/' . $this->get_mediamosa_user_id($chamilo_user_id), $data);
+
+            if ($response) {
                 if ($response->check_result())
                     return true;
 
@@ -151,14 +165,22 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
      * @return simplexmlobject user
     */
     function retrieve_mediamosa_user($chamilo_user_id) {
-        if ($response = $this->request(self :: METHOD_GET, '/user/' . $this->get_mediamosa_user_id($chamilo_user_id))) {
-            if ($response->check_result()) {
+
+        $response = $this->request(self :: METHOD_GET, '/user/' . $this->get_mediamosa_user_id($chamilo_user_id));
+        
+        if ($response)
+        {
+            if ($response->check_result())
+            {
                 return $response->get_response_content_xml()->items->item;
             }
             elseif((string) $response->get_response_content_xml()->header->request_result_description == 'Invalid username')
             {
                 $rdm = RepositoryDataManager :: get_instance();
-                if($special_quotum = $rdm->retrieve_external_repository_user_quotum($chamilo_user_id, $this->get_external_repository_instance_id()))
+
+                $special_quotum = $rdm->retrieve_external_repository_user_quotum($chamilo_user_id, $this->get_external_repository_instance_id());
+                
+                if($special_quotum)
                 {
                     $quotum = $special_quotum->get_quotum();
                 }
@@ -178,7 +200,11 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
      * @return string version
     */
     function retrieve_mediamosa_version() {
-        if ($response = $this->request(self :: METHOD_GET, '/version/')) {
+
+        $response = $this->request(self :: METHOD_GET, '/version/');
+
+        if ($response)
+        {
             if ($response->check_result()) {
                 $xml = $response->get_response_content_xml();
                 return $xml->items->item->version;
@@ -214,15 +240,25 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
      * @return $mediafile_id
     */
     function retrieve_mediamosa_asset_default_mediafile($asset_id) {
-        if ($profiles = $this->retrieve_mediamosa_transcoding_profiles()) {
-            foreach ($profiles as $profile_id => $profile) {
+        
+        $profiles = $this->retrieve_mediamosa_transcoding_profiles();
+        
+        if ($profiles)
+        {
+            foreach ($profiles as $profile_id => $profile)
+            {
                 if ($profile[MediamosaMediafileObject :: PROPERTY_IS_DEFAULT] == 'TRUE')
                     $default_transcode_profile_id = $profile_id;
             }
 
-            if ($asset = $this->retrieve_mediamosa_asset($asset_id, false)) {
-                foreach ($asset->items->item->mediafiles as $mediafile) {
-                    if ($mediafile->transcode_profile_id == $default_transcode_profile_id) {
+            $asset = $this->retrieve_mediamosa_asset($asset_id, false);
+
+            if ($asset)
+            {
+                foreach ($asset->items->item->mediafiles as $mediafile)
+                {
+                    if ($mediafile->transcode_profile_id == $default_transcode_profile_id)
+                    {
                         return $mediafile->mediafile_id;
                     }
                 }
@@ -395,11 +431,15 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
 
         if($condition) $this->create_cql_sets($condition);
         $cql = $this->create_cql_query();
-echo $cql;
+//echo $cql;
         if($this->cql_error)$params['limit'] = 0;
 
         $params['cql'] = urlencode($cql);
-       if ($response = $this->request(self :: METHOD_GET, '/asset', $params)) {
+
+        $response = $this->request(self :: METHOD_GET, '/asset', $params);
+        
+        if ($response)
+       {
             return $response;
         }
     }
@@ -626,7 +666,9 @@ echo $cql;
     
     function update_mediafile_downloadableness(MediamosaExtrenalRepositoryObject $mediamosa_asset)
     {
-        if($original_mediafile = $mediamosa_asset->get_original_mediafile())
+        $original_mediafile = $mediamosa_asset->get_original_mediafile();
+        
+        if($original_mediafile)
         {
             if($original_mediafile->get_is_downloadable())
             {
@@ -810,7 +852,9 @@ echo $cql;
         $data = array();
         $data['user_id'] = $owner_id;
 
-        if ($response = $this->request(self :: METHOD_GET, '/asset/' . $asset_id . '/acl', $data)) {
+        $response = $this->request(self :: METHOD_GET, '/asset/' . $asset_id . '/acl', $data);
+
+        if ($response) {
             if ($response->check_result($response)) {
                 $rights = array();
 

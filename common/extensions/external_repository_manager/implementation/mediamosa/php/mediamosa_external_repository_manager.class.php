@@ -26,15 +26,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     const REPOSITORY_TYPE = 'mediamosa';
 
-    //const ACTION_MANAGE_SETTINGS = 'settings';
-    //const ACTION_CLEAN_EXTERNAL_REPOSITORY = 'clean';
-    //const ACTION_ADD_SETTING = 'add_setting';
-    //const ACTION_UPDATE_SETTING = 'update_setting';
-    //const ACTION_DELETE_SETTING = 'delete_setting';
-
     const PARAM_MEDIAFILE = 'mediafile_id';
-    //const PARAM_SERVER = 'server_id';
-    //const PARAM_EXTERNAL_REPOSITORY_SETTING_ID = 'setting_id';
     const PARAM_FEED_TYPE = 'feed';
 
     const FEED_TYPE_GENERAL = 1;
@@ -46,6 +38,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     const SETTING_SLAVE_APP_IDS = 'slave_app_ids';
     const SETTING_URL = 'url';
+    const SETTING_USE_PREFIX = 'use_prefix';
 
     private static $server;
     private $server_selection_form;
@@ -99,10 +92,11 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         $my_videos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_VIDEOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $menu_items[] = $my_videos;
 
-        $external = array();
-        $external['title'] = Translation :: get('External');
-        $external['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_EXTERNAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $menu_items[] = $external;
+        //display of only external assets is not yet possible
+//        $external = array();
+//        $external['title'] = Translation :: get('External');
+//        $external['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_EXTERNAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+//        $menu_items[] = $external;
 
         if($this->get_user()->is_platform_admin())
         {
@@ -131,11 +125,6 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb('#', $external_repository->get_title()));
 
-//        $server = Request :: get(self :: PARAM_SERVER);
-//        if ($server)
-//        {
-//            $this->set_parameter(self :: PARAM_SERVER, $server);
-//        }
         $parent = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
 
         switch ($parent)
@@ -160,18 +149,6 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
                 break;
 //            case self :: ACTION_CLEAN_EXTERNAL_REPOSITORY :
 //                $component = $this->create_component('Cleaner', $this);
-//                break;
-//            case self :: ACTION_MANAGE_SETTINGS :
-//                $component = $this->create_component('SettingsManager');
-//                break;
-//            case self :: ACTION_ADD_SETTING :
-//                $component = $this->create_component('SettingCreator');
-//                break;
-//            case self :: ACTION_UPDATE_SETTING :
-//                $component = $this->create_component('SettingUpdater');
-//                break;
-//            case self :: ACTION_DELETE_SETTING :
-//                $component = $this->create_component('SettingDeleter');
 //                break;
             case self :: ACTION_IMPORT_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Importer');
