@@ -9,7 +9,7 @@ use common\libraries\ConditionTranslator;
 use common\libraries\Database;
 use common\libraries\NotCondition;
 use common\libraries\InCondition;
-use GroupUseGroup;
+
 
 /**
  * $Id: database_group_data_manager.class.php 232 2009-11-16 10:11:48Z vanpouckesven $
@@ -473,5 +473,3 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
     }
 
 }
-
-?>
