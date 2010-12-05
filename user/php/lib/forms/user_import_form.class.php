@@ -5,8 +5,10 @@ use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
 use common\libraries\PlatformSetting;
+use common\libraries\LocalSetting;
 use common\libraries\Hashing;
 use common\libraries\Mail;
+use common\libraries\Import;
 
 /**
  * $Id: user_import_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -307,7 +309,7 @@ class UserImportForm extends FormValidator
     function parse_file($file_name, $file_type)
     {
         $this->users = array();
-        if ($file_type == 'text/csv' || $file_type == 'application/vnd.ms-excel' || $file_type == 'application/octet-stream' || $file_type == 'application/force-download')
+        if ($file_type == 'text/x-csv' || $file_type == 'text/csv' || $file_type == 'application/vnd.ms-excel' || $file_type == 'application/octet-stream' || $file_type == 'application/force-download')
         {
             $this->users = Import :: csv_to_array($file_name);
         }

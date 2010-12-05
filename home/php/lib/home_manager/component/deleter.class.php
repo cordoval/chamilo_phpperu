@@ -5,6 +5,8 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Header;
 /**
  * $Id: deleter.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib.home_manager.component

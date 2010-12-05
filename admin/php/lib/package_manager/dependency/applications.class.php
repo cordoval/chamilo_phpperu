@@ -2,6 +2,7 @@
 namespace admin;
 
 use common\libraries\Utilities;
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
@@ -53,7 +54,7 @@ class ApplicationsPackageDependency extends PackageDependency
     function as_html()
     {
         $version = $this->get_version();
-        return Translation :: get(Utilities :: underscores_to_camelcase($this->get_id())) . ', ' . Translation :: get('Version', array(), Utilities :: COMMON_LIBRARIES) . ': ' . $version['_content'];
+        return Translation :: get('TypeName', null, Application :: determine_namespace($this->get_id())) . ', ' . Translation :: get('Version', array(), Utilities :: COMMON_LIBRARIES) . ': ' . $version['_content'];
     }
 
     function check()

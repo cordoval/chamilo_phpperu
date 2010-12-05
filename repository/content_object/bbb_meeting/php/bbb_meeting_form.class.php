@@ -1,12 +1,6 @@
 <?php
 namespace repository\content_object\bbb_meeting;
 
-use repository;
-
-use repository\ContentObject;
-
-use common\extensions\video_conferencing_manager;
-
 use common\extensions\video_conferencing_manager\VideoConferencingManagerConnector;
 use common\extensions\video_conferencing_manager\implementation\bbb\BbbVideoConferencingObject;
 use common\extensions\video_conferencing_manager\implementation\bbb\BbbVideoConferencingManager;
@@ -18,9 +12,6 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Path;
 use common\libraries\Theme;
-use common\libraries\ExternalRepositoryLauncher;
-use common\extensions\external_repository_manager\ExternalRepositoryManager;
-use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use repository\ExternalInstance;
 use repository\ContentObjectForm;
 use repository\ExternalSync;

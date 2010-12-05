@@ -221,5 +221,10 @@ class Registration extends DataClass
     {
         return array(self :: TYPE_CORE, self :: TYPE_APPLICATION, self :: TYPE_CONTENT_OBJECT, self :: TYPE_LANGUAGE, self :: TYPE_EXTERNAL_REPOSITORY_MANAGER, self :: TYPE_VIDEO_CONFERENCING_MANAGER,self :: TYPE_EXTENSION);
     }
+    
+    function can_be_activated()
+    {
+        return !in_array($this->get_type(), array(self :: TYPE_CORE, self :: TYPE_EXTENSION));
+    }
 }
 ?>
