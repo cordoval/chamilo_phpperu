@@ -53,13 +53,13 @@
 		  			<severity>3</severity>
 				</dependency>
 			</external_repository_manager>
-			<common>
+			<library>
 				<dependency>
-		  			<id>libraries</id>
+		  			<id>common</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
-			</common>
+			</library>
 			<extension>
 				<dependency>
 		  			<id>rights_editor_manager</id>

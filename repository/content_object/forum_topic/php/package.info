@@ -35,13 +35,13 @@
 		  			<severity>1</severity>
 				</dependency>
 			</core>
-			<common>
+			<library>
 				<dependency>
-		  			<id>libraries</id>
+		  			<id>common</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
-			</common>
+			</library>
 			<extension>
 				<dependency>
 		  			<id>repo_viewer</id>

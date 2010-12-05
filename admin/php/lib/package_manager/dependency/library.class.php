@@ -13,7 +13,7 @@ use common\libraries\MessageLogger;
  * @package admin.lib.package_installer.dependency
  */
 
-class CommonPackageDependency extends PackageDependency
+class LibraryPackageDependency extends PackageDependency
 {
     const PROPERTY_VERSION = 'version';
 
@@ -60,11 +60,11 @@ class CommonPackageDependency extends PackageDependency
     function check()
     {
         $version = $this->get_version();
-        $message = Translation :: get('DependencyCheckCommon') . ': ' . $this->as_html() . ' ' . Translation :: get('Found', array(), Utilities :: COMMON_LIBRARIES) . ': ';
+        $message = Translation :: get('DependencyCheckLibrary') . ': ' . $this->as_html() . ' ' . Translation :: get('Found', array(), Utilities :: COMMON_LIBRARIES) . ': ';
 
         $conditions = array();
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $this->get_id());
-        $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_COMMON);
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LIBRARY);
         $condition = new AndCondition($conditions);
 
         $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition, array(), 0, 1);
@@ -84,16 +84,16 @@ class CommonPackageDependency extends PackageDependency
             {
                 $message .= '--' . Translation :: get('WrongVersion', array(), Utilities :: COMMON_LIBRARIES) . '--';
                 $this->logger->add_message($message);
-                $this->logger->add_message(Translation :: get('DependencyCommonWrongVersion'), MessageLogger :: TYPE_WARNING);
+                $this->logger->add_message(Translation :: get('DependencyLibraryWrongVersion'), MessageLogger :: TYPE_WARNING);
                 return false;
             }
             else
             {
                 if (! $registration->is_active())
                 {
-                    $message .= '--' . Translation :: get('InactiveCommon', array(), Utilities :: COMMON_LIBRARIES) . '--';
+                    $message .= '--' . Translation :: get('InactiveLibrary', array(), Utilities :: COMMON_LIBRARIES) . '--';
                     $this->logger->add_message($message);
-                    $this->logger->add_message(Translation :: get('DependencyActivateCommonWarning'), MessageLogger :: TYPE_WARNING);
+                    $this->logger->add_message(Translation :: get('DependencyActivateLibraryWarning'), MessageLogger :: TYPE_WARNING);
                 }
                 else
                 {

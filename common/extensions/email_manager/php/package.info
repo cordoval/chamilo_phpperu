@@ -34,13 +34,13 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
-			<common>
+			<library>
 				<dependency>
-		  			<id>libraries</id>
+		  			<id>common</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
-			</common>
+			</library>
 			<core>
 				<dependency>
 		  			<id>user</id>

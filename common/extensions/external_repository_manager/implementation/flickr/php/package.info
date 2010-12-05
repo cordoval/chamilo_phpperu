@@ -41,13 +41,13 @@
 		  			<severity>1</severity>
 				</dependency>
 			</content_objects>
-			<common>
+			<library>
 				<dependency>
-		  			<id>libraries</id>
+		  			<id>common</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
-			</common>
+			</library>
 			<extension>
 				<dependency>
 		  			<id>external_repository_manager</id>
