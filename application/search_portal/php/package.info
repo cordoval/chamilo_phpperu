@@ -42,6 +42,13 @@
 		  			<severity>1</severity>
 				</dependency>
 			</core>
+			<extention>
+				<dependency>
+		  			<id>email_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extention>
 		</dependencies>
 	</package>
 </packages>

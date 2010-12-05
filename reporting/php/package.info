@@ -82,6 +82,13 @@
 		  			<severity>1</severity>
 				</dependency>
 			</common>
+			<extension>
+				<dependency>
+		  			<id>reporting_viewer</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
 		</dependencies>
 	</package>
 </packages>

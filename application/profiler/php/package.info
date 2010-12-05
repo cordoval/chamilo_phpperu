@@ -35,13 +35,6 @@
 		  			<severity>1</severity>
 				</dependency>
 			</content_objects>
-			<core>
-				<dependency>
-		  			<id>group</id>
-		  			<version type="4">1.0.0</version>
-		  			<severity>1</severity>
-				</dependency>
-			</core>
 			<common>
 				<dependency>
 		  			<id>libraries</id>
@@ -71,6 +64,23 @@
 		  			<severity>1</severity>
 				</dependency>
 			</core>
+			<extension>
+				<dependency>
+		  			<id>category_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>repo_viewer</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>rights_editor_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
 		</dependencies>
 	</package>
 </packages>

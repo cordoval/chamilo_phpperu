@@ -16,8 +16,6 @@ use admin\Registration;
 use admin\AdminDataManager;
 use admin\AdminManager;
 use repository\content_object\learning_path_item\LearningPathItem;
-use repository\content_object\portfolio_item\PortfolioItem;
-use repository\content_object\portfolio_item\HandbookItem;
 use home\HomeDataManager;
 use repository\content_object\document\Document;
 
@@ -284,7 +282,7 @@ class RepositoryDataManager
         
         foreach($wrapper_types as $wrapper_type)
         {
-            $count_wrapper_items = self :: get_instance()->count_type_content_objects($wrapper_type, new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $object->get_id(), $wrapper_type));
+            $count_wrapper_items = self :: get_instance()->count_type_content_objects($wrapper_type, new EqualityCondition(LearningPathItem :: PROPERTY_REFERENCE, $object->get_id(), $wrapper_type));
             if ($count_wrapper_items > 0)
             {
                 return false;

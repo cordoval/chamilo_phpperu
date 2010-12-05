@@ -1,5 +1,8 @@
 <?php
 namespace common\libraries;
+
+use common\extensions\invitation_manager\InvitationManager;
+
 use user\User;
 /**
  * @author Hans De Bisschop

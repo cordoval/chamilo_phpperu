@@ -55,6 +55,13 @@
 		  			<severity>1</severity>
 				</dependency>
 			</extension>
+			<content_objects>
+				<dependency>
+		  			<id>document</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</content_objects>
 		</dependencies>
 	</package>
 </packages>

@@ -20,7 +20,6 @@ use common\extensions\video_conferencing_manager\VideoConferencingObject;
 
 use repository\ExternalSetting;
 use repository\ExternalSync;
-use repository\content_object\document\Document;
 
 /**
  * @author Hans De Bisschop

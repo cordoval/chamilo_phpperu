@@ -9,7 +9,6 @@ use common\libraries\Translation;
 use repository\ContentObject;
 use common\extensions\repo_viewer\RepoViewer;
 use repository\content_object\assessment\Assessment;
-use repository\content_object\survey\Survey;
 use common\libraries\Application;
 use common\libraries\Request;
 use common\libraries\Utilities;
@@ -88,7 +87,7 @@ class AssessmentPublisher
             if(count($ids) == 1 && !is_null(Request :: post('publish_and_build')))
             {
             	$object = RepositoryDataManager :: get_instance()->retrieve_content_object($ids[0]);
-            	if($object->get_type() == Assessment :: get_type_name() || $object->get_type() == Survey :: get_type_name())
+            	if($object->get_type() == Assessment :: get_type_name())
             		$this->parent->redirect($message, (! $publication ? true : false), array(Application :: PARAM_ACTION => AssessmentManager :: ACTION_BUILD_ASSESSMENT, AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $form->get_publication()->get_id()));
             }
 

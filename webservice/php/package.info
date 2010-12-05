@@ -42,6 +42,13 @@
 		  			<severity>1</severity>
 				</dependency>
 			</common>
+			<extension>
+				<dependency>
+		  			<id>rights_editor_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
 		</dependencies>
 	</package>
 </packages>
