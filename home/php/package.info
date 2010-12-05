@@ -34,7 +34,24 @@
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
+				<dependency>
+		  			<id>tracking</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>user</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
 			</core>
+			<common>
+				<dependency>
+		  			<id>libraries</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</common>
 		</dependencies>
 	</package>
 </packages>

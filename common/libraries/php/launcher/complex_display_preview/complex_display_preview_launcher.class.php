@@ -5,8 +5,6 @@ use repository\RepositoryManager;
 use repository\RepositoryDataManager;
 use repository\ComplexDisplayPreview;
 
-use common\libraries\Translation;
-
 class ComplexDisplayPreviewLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'complex_display_preview';

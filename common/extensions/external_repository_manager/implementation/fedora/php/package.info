@@ -60,6 +60,13 @@
 		  			<severity>1</severity>
 				</dependency>
 			</extension>
+			<core>
+				<dependency>
+		  			<id>user</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
 		</dependencies>
 		<extra>
 			<multiple>1</multiple>

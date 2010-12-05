@@ -1,10 +1,8 @@
 <?php
-
 namespace common\libraries;
 
 use admin\AdminManager;
 use repository\RepositoryManagerContentObjectShareRightsCreatorComponent;
-use common\libraries\BreadcrumbTrail;
 use install\InstallManager;
 
 /**
