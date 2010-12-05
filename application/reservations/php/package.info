@@ -34,6 +34,27 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
+			<core>
+				<dependency>
+		  			<id>group</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
+			<common>
+				<dependency>
+		  			<id>libraries</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</common>
+			<core>
+				<dependency>
+		  			<id>group</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
 		</dependencies>
 	</package>
 </packages>

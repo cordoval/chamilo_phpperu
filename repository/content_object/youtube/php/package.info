@@ -34,6 +34,13 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
+			<external_repository_manager>
+				<dependency>
+		  			<id>youtube</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>3</severity>
+				</dependency>
+			</external_repository_manager>
 		</dependencies>
 	</package>
 </packages>

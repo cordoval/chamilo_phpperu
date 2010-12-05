@@ -38,9 +38,30 @@
 				<dependency>
 		  			<id>mediamosa</id>
 		  			<version type="4">1.0.0</version>
-		  			<severity>1</severity>
+		  			<severity>3</severity>
 				</dependency>
 			</content_objects>
+			<common>
+				<dependency>
+		  			<id>libraries</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</common>
+			<extension>
+				<dependency>
+		  			<id>external_repository_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
+			<core>
+				<dependency>
+		  			<id>group</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
 		</dependencies>
 		<extra>
 			<multiple>1</multiple>

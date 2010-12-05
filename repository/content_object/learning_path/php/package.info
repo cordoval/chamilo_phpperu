@@ -90,6 +90,13 @@
 		  			<severity>1</severity>
 				</dependency>
 			</content_objects>
+			<core>
+				<dependency>
+		  			<id>admin</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
 		</dependencies>
 	</package>
 </packages>
