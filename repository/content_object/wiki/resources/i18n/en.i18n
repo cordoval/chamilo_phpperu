@@ -46,4 +46,5 @@ WikiToolBoxLinks = "Toolbox links"
 WikiDisplayWikiPageCreatorComponent = "Wikipage creator"
 WikiDisplayWikiHistoryComponent = "Wiki history"
 WikiDisplayReportingTemplateViewerComponent = "Wiki reporting"
+WikiDisplayViewerComponent = "Viewer"
 
