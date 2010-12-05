@@ -29,8 +29,8 @@ class HotspotQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '<div style="border: 1px solid #B5CAE7; border-top: none; padding: 10px;">';
 
         $html[] = '<div id="hotspot_container_' . $question_id . '" class="hotspot_container"><div id="hotspot_image_' . $question_id . '" class="hotspot_image" style="width: ' . $dimensions[0] . 'px; height: ' . $dimensions[1] . 'px; background-image: url(' . $image_object->get_url() . ')"></div></div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js');
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js');
+        $html[] = '<script type="text/javascript" src="' . htmlspecialchars(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js') . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . htmlspecialchars(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js') . '"></script>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/hotspot_question/resources/javascript/hotspot_question_result_display.js');
 
         $html[] = '<div class="clear"></div></div>';

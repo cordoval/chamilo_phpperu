@@ -40,7 +40,7 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManager
 		
 		$this->action_bar = $this->get_action_bar();
 		
-		if (count($this->user_languages) == 0)
+		if (count($this->user_languages) == 0 && !$this->get_user()->is_platform_admin())
 		{
 			Display :: not_allowed();
 		}

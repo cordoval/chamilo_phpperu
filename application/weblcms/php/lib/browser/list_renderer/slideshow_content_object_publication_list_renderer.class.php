@@ -42,7 +42,7 @@ class SlideshowContentObjectPublicationListRenderer extends ContentObjectPublica
         $last = ($slideshow_index == $publication_count - 1);
 
         $content_object = $publication->get_content_object();
-        $view_url = $content_object->get_url();
+        //$view_url = $content_object->get_url();
         //        $download_url = $this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_DOWNLOAD, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
 
 

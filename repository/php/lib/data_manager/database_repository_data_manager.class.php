@@ -22,6 +22,7 @@ use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
 use repository\content_object\forum\Forum;
 use repository\content_object\forum_topic\ForumTopic;
+use repository\content_object\document\Document;
 
 /**
  * $Id: database_repository_data_manager.class.php 234 2009-11-16 11:34:07Z vanpouckesven $
@@ -440,7 +441,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         
         if ($object->is_latest_version())
         {
-            $query = 'SELECT * FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . self :: ALIAS_CONTENT_OBJECT_TABLE . ' WHERE ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . '=' . $this->quote($object->get_object_number()) . ' ORDER BY ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . ' DESC';
+            $query = 'SELECT * FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name()) . ' WHERE ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . '=' . $this->quote($object->get_object_number()) . ' ORDER BY ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . ' DESC';
             $this->set_limit(1);
             $res = $this->query($query);
             $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
