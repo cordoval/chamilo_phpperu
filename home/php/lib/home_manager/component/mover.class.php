@@ -3,6 +3,8 @@ namespace home;
 use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Header;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 /**
  * $Id: mover.class.php 227 2009-11-13 14:45:05Z kariboe $
