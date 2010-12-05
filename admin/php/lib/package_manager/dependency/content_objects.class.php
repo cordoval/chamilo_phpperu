@@ -7,6 +7,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\MessageLogger;
 
+use repository\ContentObject;
+
 /**
  * $Id: content_objects.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_installer.dependency
@@ -52,7 +54,7 @@ class ContentObjectsPackageDependency extends PackageDependency
     function as_html()
     {
         $version = $this->get_version();
-        return Translation :: get(Utilities :: underscores_to_camelcase($this->get_id()) . 'TypeName') . ', ' . Translation :: get('Version', array(), Utilities :: COMMON_LIBRARIES) . ': ' . $version['_content'];
+        return Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($this->get_id())) . ', ' . Translation :: get('Version', array(), Utilities :: COMMON_LIBRARIES) . ': ' . $version['_content'];
     }
 
     function check()

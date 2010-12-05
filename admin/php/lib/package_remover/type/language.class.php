@@ -14,7 +14,12 @@ class PackageLanguageRemover extends PackageRemover
         $adm = AdminDataManager :: get_instance();
         $registration = $adm->retrieve_registration($this->get_package());
         $this->registration = $registration;
-
+        
+        if (! $this->registration->can_be_activated())
+        {
+            return $this->installation_failed('initilization', Translation :: get('PackageTypeNotRemovable'));
+        }
+        
         // Check dependencies before doing anything at all
         if (! $this->check_dependencies())
         {
@@ -24,7 +29,7 @@ class PackageLanguageRemover extends PackageRemover
         {
             $this->installation_successful('dependencies', Translation :: get('NoConflictingDependencies'));
         }
-
+        
         if (! $this->delete_language())
         {
             return $this->installation_failed('failed', Translation :: get('LanguageDeletionFailed'));
@@ -33,14 +38,14 @@ class PackageLanguageRemover extends PackageRemover
         {
             $this->installation_successful('repository', Translation :: get('LanguageSuccessfullyDeleted'));
         }
-
+        
         return true;
     }
 
     function delete_language()
     {
-    	$language = AdminDataManager :: get_instance()->retrieve_language_from_isocode($this->registration->get_name());
-    	return $language->delete();
+        $language = AdminDataManager :: get_instance()->retrieve_language_from_isocode($this->registration->get_name());
+        return $language->delete();
     }
 }
 ?>

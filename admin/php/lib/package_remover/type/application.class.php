@@ -40,6 +40,11 @@ class PackageApplicationRemover extends PackageRemover
         {
         	return $this->installation_failed('initilization', Translation :: get('ApplicationIsNotRegistered'));
         }
+        
+        if (!$this->registration->can_be_activated())
+        {
+            return $this->installation_failed('initilization', Translation :: get('PackageTypeNotRemovable'));
+        }
 
         // Deactivate the application, thus making it inaccesible
         $this->add_message(Translation :: get('DeactivatingApplication'));
