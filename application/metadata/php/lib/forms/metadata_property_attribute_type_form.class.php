@@ -53,10 +53,10 @@ class MetadataPropertyAttributeTypeForm extends FormValidator
 
         while($prefix = $prefixes->next_result())
         {
-            $options[$prefix->get_ns_prefix()] = $prefix->get_ns_prefix();
+            $options[$prefix->get_id()] = $prefix->get_ns_prefix();
         }
 
-        $this->addElement('select', MetadataPropertyAttributeType :: PROPERTY_NS_PREFIX, Translation :: get('NsPrefix'), $options);
+        $this->addElement('select', MetadataPropertyAttributeType :: PROPERTY_NAMESPACE, Translation :: get('NsPrefix'), $options);
 
         $this->addElement('text', MetadataPropertyAttributeType :: PROPERTY_NAME, Translation :: get('Name', null, Utilities :: COMMON_LIBRARIES));
         $this->addRule(MetadataPropertyAttributeType :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
@@ -115,7 +115,7 @@ class MetadataPropertyAttributeTypeForm extends FormValidator
     	$values = $this->exportValues();
 
     	$metadata_property_attribute_type->set_id($values[MetadataPropertyAttributeType :: PROPERTY_ID]);
-    	$metadata_property_attribute_type->set_ns_prefix(($values[MetadataPropertyAttributeType :: PROPERTY_NS_PREFIX] != self :: OPTION_BLANK) ? $values[MetadataPropertyAttributeType :: PROPERTY_NS_PREFIX] : null);
+    	$metadata_property_attribute_type->set_namespace(($values[MetadataPropertyAttributeType :: PROPERTY_NAMESPACE] != self :: OPTION_BLANK) ? $values[MetadataPropertyAttributeType :: PROPERTY_NAMESPACE] : null);
         $metadata_property_attribute_type->set_name($values[MetadataPropertyAttributeType :: PROPERTY_NAME]);
     	//$metadata_property_attribute_type->set_value_type($values[MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE]);
 
@@ -143,7 +143,7 @@ class MetadataPropertyAttributeTypeForm extends FormValidator
     	$values = $this->exportValues();
 
     	//$metadata_property_attribute_type->set_id($values[MetadataPropertyAttributeType :: PROPERTY_ID]);
-    	$metadata_property_attribute_type->set_ns_prefix(($values[MetadataPropertyAttributeType :: PROPERTY_NS_PREFIX] != self :: OPTION_BLANK) ? $values[MetadataPropertyAttributeType :: PROPERTY_NS_PREFIX] : null);
+    	$metadata_property_attribute_type->set_namespace(($values[MetadataPropertyAttributeType :: PROPERTY_NAMESPACE] != self :: OPTION_BLANK) ? $values[MetadataPropertyAttributeType :: PROPERTY_NAMESPACE] : null);
         $metadata_property_attribute_type->set_name($values[MetadataPropertyAttributeType :: PROPERTY_NAME]);
     	//$metadata_property_attribute_type->set_value_type($values[MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE]);
         
@@ -174,7 +174,7 @@ class MetadataPropertyAttributeTypeForm extends FormValidator
             $metadata_property_attribute_type = $this->metadata_property_attribute_type;
 
             $defaults[MetadataPropertyAttributeType :: PROPERTY_ID] = $metadata_property_attribute_type->get_id();
-            $defaults[MetadataPropertyAttributeType :: PROPERTY_NS_PREFIX] = $metadata_property_attribute_type->get_ns_prefix();
+            $defaults[MetadataPropertyAttributeType :: PROPERTY_NAMESPACE] = $metadata_property_attribute_type->get_namespace();
             $defaults[MetadataPropertyAttributeType :: PROPERTY_NAME] = $metadata_property_attribute_type->get_name();
 
 //            $defaults[MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE] = $metadata_property_attribute_type->get_value_type();

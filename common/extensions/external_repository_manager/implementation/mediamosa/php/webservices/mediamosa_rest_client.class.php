@@ -22,6 +22,8 @@ class MediamosaRestClient extends RestClient{
     const METHOD_GET = 'GET';
     const METHOD_PUT = 'PUT';
 
+    const RESPONSE_TYPE_XML = 1;
+
     const PARAM_CONNECTOR_COOKIE = 'mediamosa_connector_cookie';
     
     function __construct($mediamosa_url)
@@ -133,7 +135,7 @@ class MediamosaRestClient extends RestClient{
      * @param data array
      * @return MediaMosaRestResult object
      */
-    function request($method, $url, $data = null)
+    function request($method, $url, $data = null, $response_type = self :: RESPONSE_TYPE_XML)
     {
         //echo $url . "<br/>";
 
@@ -191,7 +193,11 @@ class MediamosaRestClient extends RestClient{
         }
         
         $response = $this->send_request();
-        $response->set_response_content_xml();
+        if($response_type == self :: RESPONSE_TYPE_XML)
+        {
+            $response->set_response_content_xml();
+        }
+
         return $response;
     }
 
