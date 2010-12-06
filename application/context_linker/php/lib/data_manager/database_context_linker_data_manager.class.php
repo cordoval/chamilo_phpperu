@@ -1,14 +1,18 @@
 <?php
 namespace application\context_linker;
+
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
-use repository\RepositoryDataManager;
 use common\libraries\ConditionTranslator;
-use application\metadata\MetadataDataManager;
+
+use repository\RepositoryDataManager;
 use repository\ContentObject;
+
+use application\metadata\MetadataDataManager;
 use application\metadata\MetadataPropertyType;
 use application\metadata\MetadataPropertyValue;
 use application\metadata\ContentObjectMetadataPropertyValue;
+use application\metadata\MetadataNamespace;
 
 /**
  *	This is a data manager that uses a database for storage. It was written
@@ -80,6 +84,7 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
         $rdm = RepositoryDataManager :: get_instance();
         $mdm = MetadataDataManager :: get_instance();
 
+        $namespace_alias = $mdm->get_alias(MetadataNamespace :: get_table_name());
         $orig_content_object_alias = $rdm->get_alias(ContentObject::get_table_name());
         $alt_content_object_alias = $rdm->get_alias(ContentObject::get_table_name()) . '_2';
         $property_type_alias = $mdm->get_alias(MetadataPropertyType :: get_table_name());
@@ -89,7 +94,7 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
         $query = 'SELECT ' . $context_link_alias . '.' . ContextLink :: PROPERTY_ID . ',' . $context_link_alias . '.' . ContextLink :: PROPERTY_DATE . ',
                 ' . $orig_content_object_alias . '.' . ContentObject :: PROPERTY_TYPE . ' AS orig_type, '. $orig_content_object_alias . '.' . ContentObject :: PROPERTY_ID . ' AS orig_id, ' . $orig_content_object_alias . '.' . ContentObject :: PROPERTY_TITLE . ' AS orig_title,
                 ' . $alt_content_object_alias . '.' . ContentObject :: PROPERTY_TYPE . ' AS alt_type, '. $alt_content_object_alias . '.' . ContentObject :: PROPERTY_ID . ' AS alt_id, ' . $alt_content_object_alias . '.' . ContentObject :: PROPERTY_TITLE . ' AS alt_title,
-                ' . $property_type_alias . '.' . MetadataPropertyType :: PROPERTY_NS_PREFIX . ', ' . $property_type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME . ', ' . $property_value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE;
+                ' . $namespace_alias . '.' . MetadataNamespace :: PROPERTY_NS_PREFIX . ', ' . $property_type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME . ', ' . $property_value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE;
         $query .=' FROM ' . $this->escape_table_name(ContextLink :: get_table_name()). ' AS ' . $context_link_alias;
         $query .= ' LEFT JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $orig_content_object_alias;
         $query .= ' ON ' . $this->escape_column_name(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $orig_context_link_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $orig_content_object_alias);
@@ -99,6 +104,8 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
         $query .= ' ON '. $this->escape_column_name(ContextLink :: PROPERTY_METADATA_PROPERTY_VALUE_ID, $context_link_alias).' = ' . $mdm->escape_column_name(MetadataPropertyValue :: PROPERTY_ID, $property_value_alias);
         $query .= ' LEFT JOIN ' .  $mdm->escape_table_name(MetadataPropertyType :: get_table_name()) . ' AS ' . $property_type_alias;
         $query .= ' ON  ' . $mdm->escape_column_name(MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, $property_value_alias) . '=' . $mdm->escape_column_name(MetadataPropertyType :: PROPERTY_ID, $property_type_alias);
+        $query .= ' LEFT JOIN ' . $mdm->escape_table_name(MetadataNamespace :: get_table_name()) . ' AS ' . $namespace_alias;
+        $query .= ' ON  ' . $mdm->escape_column_name(MetadataNamespace :: PROPERTY_ID, $namespace_alias) . '=' . $mdm->escape_column_name(MetadataPropertyType :: PROPERTY_NAMESPACE, $property_type_alias);
 
         $translator = new ConditionTranslator($this);
         $query .= $translator->render_query($condition);

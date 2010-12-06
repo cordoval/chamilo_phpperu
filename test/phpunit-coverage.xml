@@ -28,7 +28,9 @@
         <whitelist>
             <directory suffix=".class.php">../admin</directory>
             <directory suffix=".class.php">../application</directory>
-            <directory suffix=".class.php">../common</directory>
+            <!-- do not include plugin directory in whitelist -->
+            <directory suffix=".class.php">../common/extensions</directory>
+            <directory suffix=".class.php">../common/libraries/php</directory>
             <directory suffix=".class.php">../group</directory>
             <directory suffix=".class.php">../help</directory>
             <directory suffix=".class.php">../home</directory>
