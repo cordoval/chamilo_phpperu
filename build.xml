@@ -157,10 +157,10 @@
     <!-- ============================================  -->
     <!-- Target: phpcb                                 -->
     <!-- ============================================  -->
-    <target name="phpcb" depends="setcommands, clean, prepare"  >
+    <target name="phpcb" depends="setcommands, clean, prepare, phpunit-coverage "  >
         <echo message="Generating a browseable version of the codebase" />
         <exec   dir="${basedir}"
-                command="${phpcbCmd} --output ${build-codeBrowser-dir} --source ${basedir}"
+                command="${phpcbCmd} --output ${build-codeBrowser-dir} --log ${basedir}/files/build/logs"
                 checkreturn="true"
 		passthru="true"
         />
