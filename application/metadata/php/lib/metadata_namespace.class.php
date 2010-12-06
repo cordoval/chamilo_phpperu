@@ -30,7 +30,7 @@ class MetadataNamespace extends DataClass
      */
     static function get_default_property_names()
     {
-            return array (self :: PROPERTY_NS_PREFIX, self :: PROPERTY_NAME, self :: PROPERTY_URL);
+            return array (parent :: PROPERTY_ID, self :: PROPERTY_NS_PREFIX, self :: PROPERTY_NAME, self :: PROPERTY_URL);
     }
 
     function get_data_manager()
