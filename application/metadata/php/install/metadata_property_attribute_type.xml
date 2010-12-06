@@ -2,7 +2,7 @@
 <object name="metadata_property_attribute_type">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
-                <property name="ns_prefix" type="text" length="255" />
+                <property name="ns_prefix" type="text" length="10" />
                 <property name="name" type="text" length="255" notnull="1" />
         </properties>
 </object>

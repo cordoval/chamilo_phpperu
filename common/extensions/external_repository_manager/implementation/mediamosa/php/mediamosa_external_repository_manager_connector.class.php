@@ -164,12 +164,9 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
      * @param int $chamilo_user_id
      * @return simplexmlobject user
     */
-    function retrieve_mediamosa_user($chamilo_user_id) {
-
-
-
+    function retrieve_mediamosa_user($chamilo_user_id)
+    {
         $response = $this->request(self :: METHOD_GET, '/user/' . $this->get_mediamosa_user_id($chamilo_user_id));
-        
         
         /*
          * quota check
@@ -448,7 +445,7 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
 
         if($condition) $this->create_cql_sets($condition);
         $cql = $this->create_cql_query();
-echo $cql;
+//echo $cql;
         if($this->cql_error)$params['limit'] = 0;
 
         $params['cql'] = urlencode($cql);
