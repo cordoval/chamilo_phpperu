@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="metadata_namespace">
 	<properties>
-		<property name="ns_prefix" type="text" length="10" notnull="1" />
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+                <property name="ns_prefix" type="text" length="10" notnull="1" />
 		<property name="name" type="text" length="255" notnull="1" />
 		<property name="url" type="text" length="255" notnull="1" />
 	</properties>
-	<index name="ns_prefix" type="primary">
+        <index name="ns_prefix" type="unique">
 		<indexproperty name="ns_prefix" />
 	</index>
 </object>

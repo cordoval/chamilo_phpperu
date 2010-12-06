@@ -70,13 +70,13 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 
 	function update_metadata_namespace($metadata_namespace)
 	{
-		$condition = new EqualityCondition(MetadataNamespace :: PROPERTY_NS_PREFIX, $metadata_namespace->get_ns_prefix());
+		$condition = new EqualityCondition(MetadataNamespace :: PROPERTY_ID, $metadata_namespace->get_id());
 		return $this->update($metadata_namespace, $condition);
 	}
 
 	function delete_metadata_namespace($metadata_namespace)
 	{
-		$condition = new EqualityCondition(MetadataNamespace :: PROPERTY_NS_PREFIX, $metadata_namespace->get_ns_prefix());
+		$condition = new EqualityCondition(MetadataNamespace :: PROPERTY_ID, $metadata_namespace->get_id());
 		return $this->delete($metadata_namespace->get_table_name(), $condition);
 	}
 
@@ -85,9 +85,9 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 		return $this->count_objects(MetadataNamespace :: get_table_name(), $condition);
 	}
 
-	function retrieve_metadata_namespace($ns_prefix)
+	function retrieve_metadata_namespace($id)
 	{
-            $condition = new EqualityCondition(MetadataNamespace :: PROPERTY_NS_PREFIX, $ns_prefix);
+            $condition = new EqualityCondition(MetadataNamespace :: PROPERTY_ID, $id);
             return $this->retrieve_object(MetadataNamespace :: get_table_name(), $condition, null, MetadataNamespace :: CLASS_NAME);
 	}
 
@@ -254,14 +254,17 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
          */
         function retrieve_full_content_object_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
         {
+            $namespace_alias = $this->get_alias(MetadataNamespace :: get_table_name());
             $type_alias = $this->get_alias(MetadataPropertyType :: get_table_name());
             $value_alias = $this->get_alias(ContentObjectMetadataPropertyValue :: get_table_name());
 
-            $query = 'SELECT ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_ID . ', ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE . ', ' .$type_alias . '.' . MetadataPropertyType :: PROPERTY_NS_PREFIX . ', ' . $type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME;
+            $query = 'SELECT ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_ID . ', ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE . ', ' .$namespace_alias . '.' . MetadataNamespace :: PROPERTY_NS_PREFIX . ', ' . $type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME;
             $query .= ' FROM ' . $this->escape_table_name(ContentObjectMetadataPropertyValue :: get_table_name()) . ' AS ' . $value_alias;
             $query .= ' LEFT JOIN ' . $this->escape_table_name(MetadataPropertyType :: get_table_name()) . ' AS ' . $type_alias;
             $query .= ' ON ' . $this->escape_column_name(MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, $value_alias) . ' = '. $this->escape_column_name(MetadataPropertyType :: PROPERTY_ID, $type_alias);
-        
+            $query .= ' LEFT JOIN ' . $this->escape_table_name(MetadataNamespace :: get_table_name()) . ' AS ' . $namespace_alias;
+            $query .= ' ON ' . $this->escape_column_name(MetadataNamespace :: PROPERTY_ID, $namespace_alias) . ' = '. $this->escape_column_name(MetadataPropertyType :: PROPERTY_NAMESPACE, $type_alias);
+
             $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
 

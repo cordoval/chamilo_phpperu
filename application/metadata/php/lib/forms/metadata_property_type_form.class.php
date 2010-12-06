@@ -45,11 +45,11 @@ class MetadataPropertyTypeForm extends FormValidator
 
         while($prefix = $prefixes->next_result())
         {
-            $options[$prefix->get_ns_prefix()] = $prefix->get_ns_prefix();
+            $options[$prefix->get_id()] = $prefix->get_ns_prefix();
         }
 
-        $this->addElement('select', MetadataPropertyType :: PROPERTY_NS_PREFIX, Translation :: get('NsPrefix'), $options);
-        $this->addRule(MetadataPropertyType :: PROPERTY_NS_PREFIX, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $this->addElement('select', MetadataPropertyType :: PROPERTY_NAMESPACE, Translation :: get('NsPrefix'), $options);
+        $this->addRule(MetadataPropertyType :: PROPERTY_NAMESPACE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->addElement('text', MetadataPropertyType :: PROPERTY_NAME, Translation :: get('Name', null, Utilities :: COMMON_LIBRARIES));
         $this->addRule(MetadataPropertyType :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
@@ -84,7 +84,7 @@ class MetadataPropertyTypeForm extends FormValidator
     	$values = $this->exportValues();
 
     	$metadata_property_type->set_id($values[MetadataPropertyType :: PROPERTY_ID]);
-    	$metadata_property_type->set_ns_prefix($values[MetadataPropertyType :: PROPERTY_NS_PREFIX]);
+    	$metadata_property_type->set_namespace($values[MetadataPropertyType :: PROPERTY_NAMESPACE]);
     	$metadata_property_type->set_name($values[MetadataPropertyType :: PROPERTY_NAME]);
 
     	return $metadata_property_type->update();
@@ -96,7 +96,7 @@ class MetadataPropertyTypeForm extends FormValidator
     	$values = $this->exportValues();
 
     	
-    	$metadata_property_type->set_ns_prefix($values[MetadataPropertyType :: PROPERTY_NS_PREFIX]);
+    	$metadata_property_type->set_namespace($values[MetadataPropertyType :: PROPERTY_NAMESPACE]);
     	$metadata_property_type->set_name($values[MetadataPropertyType :: PROPERTY_NAME]);
 
    	if($metadata_property_type->create())
@@ -114,7 +114,7 @@ class MetadataPropertyTypeForm extends FormValidator
             $metadata_property_type = $this->metadata_property_type;
 
             $defaults[MetadataPropertyType :: PROPERTY_ID] = $metadata_property_type->get_id();
-            $defaults[MetadataPropertyType :: PROPERTY_NS_PREFIX] = $metadata_property_type->get_ns_prefix();
+            $defaults[MetadataPropertyType :: PROPERTY_NAMESPACE] = $metadata_property_type->get_namespace();
             $defaults[MetadataPropertyType :: PROPERTY_NAME] = $metadata_property_type->get_name();
 
             parent :: setDefaults($defaults);
