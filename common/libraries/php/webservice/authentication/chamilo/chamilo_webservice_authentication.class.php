@@ -24,11 +24,14 @@ namespace common\libraries;
 class ChamiloWebserviceAuthentication extends WebserviceAuthentication
 {
     const PARAM_AUTHORIZATION = 'authorization';
+
     const PARAM_USERNAME = 'username';
     const PARAM_TIMESTAMP = 'timestamp';
     const PARAM_NONCE = 'nonce';
     const PARAM_SIGNATURE = 'signature';
+    
     const PARAM_REMOTE_ADDRESS = 'REMOTE_ADDR';
+    
     const PARAM_HASH_ALGORITHM = 'sha512';
 
     public function is_valid()
