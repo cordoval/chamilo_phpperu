@@ -2,14 +2,13 @@
 namespace common\extensions\external_repository_manager\implementation\dropbox;
 
 use common\libraries\Utilities;
-
 use common\libraries\Translation;
 use common\libraries\StringUtilities;
 use common\libraries\PlatformSetting;
 use common\libraries\Filesystem;
 use common\libraries\Application;
-use repository\RepositoryManager;
 
+use repository\RepositoryManager;
 use repository\ContentObject;
 use repository\ExternalSync;
 use repository\content_object\document\Document;

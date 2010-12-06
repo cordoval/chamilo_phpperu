@@ -25,7 +25,7 @@ class DropboxExternalRepositoryTableCellRenderer extends DefaultExternalReposito
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function DropboxExternalRepositoryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

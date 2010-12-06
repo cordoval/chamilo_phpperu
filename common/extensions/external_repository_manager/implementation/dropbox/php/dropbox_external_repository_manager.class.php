@@ -20,14 +20,12 @@ class DropboxExternalRepositoryManager extends ExternalRepositoryManager
     const PARAM_FEED_TYPE = 'feed';
     const PARAM_FEED_IDENTIFIER = 'identifier';
 
-   	const FEED_TYPE_GENERAL = 1;
-   	const FEED_TYPE_PHOTOS = 2;
-   	const FEED_TYPE_PUBLIC = 3;    
+   	const FEED_TYPE_GENERAL = 1;   	
 
     /**
      * @param Application $application
      */
-    function DropboxExternalRepositoryManager($external_repository, $application)
+    function __construct($external_repository, $application)
     {
         parent :: __construct($external_repository, $application);
         $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
