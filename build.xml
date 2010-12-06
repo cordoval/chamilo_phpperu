@@ -148,7 +148,7 @@
     <target name="pdepend" depends="setcommands, clean, prepare"  >
         <echo message="Computing dependency report" />
         <exec   dir="${basedir}"
-                command="${pdependCmd} --jdepend-xml=${pdepend-report-file} --summary-xml=${pdepend-summary-report-file} --ignore=${plugin-dir} ${classes-dirs}"
+                command="${pdependCmd} --optimization=best --jdepend-xml=${pdepend-report-file} --summary-xml=${pdepend-summary-report-file} --ignore=${plugin-dir} ${classes-dirs}"
                 checkreturn="true"
 		passthru="true"
         />
@@ -179,7 +179,7 @@
     <!-- ============================================  -->
     <!-- Target: generate-report                       -->
     <!-- ============================================  -->
-    <target name="generate-reports" depends="phpunit-coverage, pdepend, phpcb, phpcpd"  />
+    <target name="generate-reports" depends="phpunit-coverage, phpcb, phpcpd"  />
 
     <!-- ============================================  -->
     <!-- (DEFAULT)  Target: build                      -->
