@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\wikimedia;
 
+use common\libraries;
+
 use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Redirect;
@@ -52,28 +54,16 @@ class WikimediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
     {
         $parameters = array();
         $parameters['action'] = 'login';
-        $parameters['lgname'] = 'chamilo';
-        $parameters['lgpassword'] = 'ch4m1l0';
+
+        $login = ExternalSetting :: get('login', $this->get_external_repository_instance_id());
+        $password = ExternalSetting :: get('password', $this->get_external_repository_instance_id());
+
+        $parameters['lgname'] = $login;
+        $parameters['lgpassword'] = $password;
         $parameters['format'] = 'xml';
         $parameters['redirects'] = true;
 
-        $result = $this->wikimedia->request(WikimediaRestClient :: METHOD_POST, null, $parameters);
-        //        var_dump($result);
-
-
-    //        $content = $this->_conn->post($this->api, $this->_param);
-    //        $result = unserialize($content);
-    //        if (! empty($result['result']['sessionid']))
-    //        {
-    //            $this->userid = $result['result']['lguserid'];
-    //            $this->username = $result['result']['lgusername'];
-    //            $this->token = $result['result']['lgtoken'];
-    //            return true;
-    //        }
-    //        else
-    //        {
-    //            return false;
-    //        }
+        $this->wikimedia->request(WikimediaRestClient :: METHOD_POST, null, $parameters);
     }
 
     /**
@@ -98,31 +88,108 @@ class WikimediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
      */
     function retrieve_external_repository_objects($condition = null, $order_property, $offset, $count)
     {
-        //define('WIKIMEDIA_FILE_NS', 6);
-        //define('WIKIMEDIA_IMAGE_SIDE_LENGTH', 1024);
+        if (! $condition)
+        {
+            $condition = 'Looney Tunes';
+        }
 
         $parameters = array();
         $parameters['action'] = 'query';
         $parameters['generator'] = 'search';
-        $parameters['gsrsearch'] = 'Disney';
+        $parameters['gsrsearch'] = urlencode($condition);
+        //define('WIKIMEDIA_FILE_NS', 6);
         $parameters['gsrnamespace'] = 6;
         $parameters['gsrlimit'] = $count;
+        $parameters['gsroffset'] = $offset;
         $parameters['prop'] = 'imageinfo';
-        $parameters['iiprop'] = 'url|dimensions|mime|user|userid|size';
-        $parameters['iiurlwidth'] = 1024;
-        $parameters['iiurlheight'] = 1024;
+        $parameters['iiprop'] = 'timestamp|url|dimensions|mime|user|userid|size';
+        $parameters['iiurlwidth'] = 192;
+        $parameters['iiurlheight'] = 192;
         $parameters['format'] = 'xml';
         $parameters['redirects'] = true;
 
         $result = $this->wikimedia->request(WikimediaRestClient :: METHOD_GET, null, $parameters);
 
-        foreach($result->get_response_content_xml()->query->pages->page as $page)
+        $objects = array();
+
+        foreach ($result->get_response_content_xml()->query->pages->page as $page)
         {
-            dump($page);
-            exit;
+            $objects[] = $this->get_image($page);
         }
 
-        return new ArrayResultSet(array());
+        return new ArrayResultSet($objects);
+    }
+
+    protected function get_image($page)
+    {
+        $object = new WikimediaExternalRepositoryObject();
+        $object->set_id((int) $page->attributes()->pageid);
+        $object->set_external_repository_id($this->get_external_repository_instance_id());
+
+        $file_info = pathinfo(substr((string) $page->attributes()->title, 5));
+        $object->set_title($file_info['filename']);
+        $object->set_description($file_info['filename']);
+
+        $time = strtotime((int) $page->imageinfo->ii->attributes()->timestamp);
+        $object->set_created($time);
+        $object->set_modified($time);
+        $object->set_owner_id((string) $page->imageinfo->ii->attributes()->user);
+
+        $photo_urls = array();
+
+        $original_width = (int) $page->imageinfo->ii->attributes()->width;
+        $original_height = (int) $page->imageinfo->ii->attributes()->height;
+
+        if ($original_width <= 192)
+        {
+            $photo_urls[WikimediaExternalRepositoryObject :: SIZE_THUMBNAIL] = array(
+                    'source' => (string) $page->imageinfo->ii->attributes()->url,
+                    'width' => $original_width,
+                    'height' => $original_height);
+        }
+        else
+        {
+            $photo_urls[WikimediaExternalRepositoryObject :: SIZE_THUMBNAIL] = array(
+                    'source' => (string) $page->imageinfo->ii->attributes()->thumburl,
+                    'width' => (int) $page->imageinfo->ii->attributes()->thumbwidth,
+                    'height' => (int) $page->imageinfo->ii->attributes()->thumbheight);
+        }
+
+        if ($original_width <= 500)
+        {
+            $photo_urls[WikimediaExternalRepositoryObject :: SIZE_MEDIUM] = array(
+                    'source' => (string) $page->imageinfo->ii->attributes()->url,
+                    'width' => $original_width,
+                    'height' => $original_height);
+        }
+        else
+        {
+            $thumbnail = $this->get_additional_thumbnail_url($page->imageinfo->ii->attributes()->thumburl, 500);
+            $thumbnail_dimensions = libraries\ImageManipulation :: rescale($original_width, $original_height, 500, 500);
+
+            $photo_urls[WikimediaExternalRepositoryObject :: SIZE_MEDIUM] = array(
+                    'source' => $thumbnail,
+                    'width' => $thumbnail_dimensions[0],
+                    'height' => $thumbnail_dimensions[1]);
+        }
+
+        $photo_urls[WikimediaExternalRepositoryObject :: SIZE_ORIGINAL] = array(
+                'source' => (string) $page->imageinfo->ii->attributes()->url,
+                'width' => $original_width,
+                'height' => $original_height);
+        $object->set_urls($photo_urls);
+
+        $object->set_type($file_info['extension']);
+        $object->set_rights($this->determine_rights());
+
+        return $object;
+    }
+
+    protected function get_additional_thumbnail_url($url, $size)
+    {
+        $path_info = pathinfo($url);
+        $filename = explode('-', $path_info['basename'], 2);
+        return $path_info['dirname'] . '/' . $size . 'px-' . $filename[1];
     }
 
     /**
@@ -131,16 +198,19 @@ class WikimediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
      */
     function count_external_repository_objects($condition)
     {
+        if (! $condition)
+        {
+            $condition = 'Looney Tunes';
+        }
+
         $parameters = array();
         $parameters['action'] = 'query';
         $parameters['generator'] = 'search';
-        $parameters['gsrsearch'] = 'Disney';
+        $parameters['gsrsearch'] = urlencode($condition);
         $parameters['gsrnamespace'] = 6;
         $parameters['gsrlimit'] = 1;
         $parameters['prop'] = 'imageinfo';
         $parameters['iiprop'] = 'timestamp';
-        $parameters['iiurlwidth'] = 1024;
-        $parameters['iiurlheight'] = 1024;
         $parameters['format'] = 'xml';
         $parameters['redirects'] = true;
 
@@ -180,8 +250,19 @@ class WikimediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
      */
     function retrieve_external_repository_object($id)
     {
-        $object = new WikimediaExternalRepositoryObject();
-        return $object;
+        $parameters = array();
+        $parameters['action'] = 'query';
+        $parameters['pageids'] = $id;
+        $parameters['gsrnamespace'] = 6;
+        $parameters['prop'] = 'imageinfo';
+        $parameters['iiprop'] = 'timestamp|url|dimensions|mime|user|userid|size';
+        $parameters['iiurlwidth'] = 192;
+        $parameters['iiurlheight'] = 192;
+        $parameters['format'] = 'xml';
+        $parameters['redirects'] = true;
+
+        $result = $this->wikimedia->request(WikimediaRestClient :: METHOD_GET, null, $parameters);
+        return $this->get_image($result->get_response_content_xml()->query->pages->page);
     }
 
     /**
@@ -203,7 +284,7 @@ class WikimediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
      * @param string $photo_user_id
      * @return boolean
      */
-    function determine_rights($license, $photo_user_id)
+    function determine_rights()
     {
         $rights = array();
         $rights[ExternalRepositoryObject :: RIGHT_USE] = true;

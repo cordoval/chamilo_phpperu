@@ -13,24 +13,19 @@ class WikimediaExternalRepositoryObject extends ExternalRepositoryObject
     const OBJECT_TYPE = 'wikimedia';
 
     const PROPERTY_URLS = 'urls';
-    const PROPERTY_LICENSE = 'license';
-    const PROPERTY_TAGS = 'tags';
 
-    const SIZE_SQUARE = 'square';
     const SIZE_THUMBNAIL = 'thumbnail';
-    const SIZE_SMALL = 'small';
     const SIZE_MEDIUM = 'medium';
-    const SIZE_LARGE = 'large';
     const SIZE_ORIGINAL = 'original';
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_URLS, self :: PROPERTY_LICENSE, self :: PROPERTY_TAGS));
+        return parent :: get_default_property_names(array(self :: PROPERTY_URLS));
     }
 
     static function get_default_sizes()
     {
-        return array(self :: SIZE_SQUARE, self :: SIZE_THUMBNAIL, self :: SIZE_SMALL, self :: SIZE_MEDIUM, self :: SIZE_LARGE, self :: SIZE_ORIGINAL);
+        return array(self :: SIZE_THUMBNAIL, self :: SIZE_MEDIUM, self :: SIZE_ORIGINAL);
     }
 
     function get_available_sizes()
@@ -51,11 +46,11 @@ class WikimediaExternalRepositoryObject extends ExternalRepositoryObject
         return implode('<br />' . "\n", $html);
     }
 
-    function get_available_size_dimensions($size = self :: SIZE_MEDIUM)
+    function get_available_size_dimensions($size = self :: SIZE_THUMBNAIL)
     {
         if (! in_array($size, self :: get_default_sizes()))
         {
-            $size = self :: SIZE_MEDIUM;
+            $size = self :: SIZE_THUMBNAIL;
         }
 
         if (! in_array($size, $this->get_available_sizes()))
@@ -68,7 +63,7 @@ class WikimediaExternalRepositoryObject extends ExternalRepositoryObject
         return array('width' => $urls[$size]['width'], 'height' => $urls[$size]['height']);
     }
 
-    function get_available_size_dimensions_string($size = self :: SIZE_MEDIUM)
+    function get_available_size_dimensions_string($size = self :: SIZE_THUMBNAIL)
     {
         $available_size_dimensions = $this->get_available_size_dimensions($size);
 
@@ -85,39 +80,11 @@ class WikimediaExternalRepositoryObject extends ExternalRepositoryObject
         return $this->set_default_property(self :: PROPERTY_URLS, $urls);
     }
 
-    function get_tags()
-    {
-        return $this->get_default_property(self :: PROPERTY_TAGS);
-    }
-
-    function set_tags($tags)
-    {
-        return $this->set_default_property(self :: PROPERTY_TAGS, $tags);
-    }
-
-    function get_tags_string($include_links = true)
-    {
-        $tags = array();
-        foreach ($this->get_tags() as $tag)
-        {
-            if ($include_links)
-            {
-                $tags[] = '<a href="http://www.wikimedia.com/photos/tags/' . $tag['text'] . '">' . $tag['display'] . '</a>';
-            }
-            else
-            {
-                $tags[] = $tag['display'];
-            }
-        }
-
-        return implode(', ', $tags);
-    }
-
-    function get_url($size = self :: SIZE_MEDIUM)
+    function get_url($size = self :: SIZE_THUMBNAIL)
     {
         if (! in_array($size, self :: get_default_sizes()))
         {
-            $size = self :: SIZE_MEDIUM;
+            $size = self :: SIZE_THUMBNAIL;
         }
 
         if (! in_array($size, $this->get_available_sizes()))
@@ -130,52 +97,6 @@ class WikimediaExternalRepositoryObject extends ExternalRepositoryObject
         return $urls[$size]['source'];
     }
 
-    function get_license()
-    {
-        return $this->get_default_property(self :: PROPERTY_LICENSE);
-    }
-
-    function get_license_id()
-    {
-        $license = $this->get_license();
-        return $license['id'];
-    }
-
-    function get_license_url()
-    {
-        $license = $this->get_license();
-        return $license['url'];
-    }
-
-    function get_license_name()
-    {
-        $license = $this->get_license();
-        return $license['name'];
-    }
-
-    function get_license_string()
-    {
-        if ($this->get_license_url())
-        {
-            return '<a href="' . $this->get_license_url() . '">' . $this->get_license_name() . '</a>';
-        }
-        else
-        {
-            return $this->get_license_name();
-        }
-    }
-
-    function get_license_icon()
-    {
-        $icon = new ToolbarItem($this->get_license_name(), Theme :: get_image_path() . 'licenses/license_' . $this->get_license_id() . '.png', null, ToolbarItem :: DISPLAY_ICON);
-        return $icon->as_html();
-    }
-
-    function set_license($license)
-    {
-        return $this->set_default_property(self :: PROPERTY_LICENSE, $license);
-    }
-
     static function get_object_type()
     {
         return self :: OBJECT_TYPE;
@@ -183,22 +104,7 @@ class WikimediaExternalRepositoryObject extends ExternalRepositoryObject
 
     static function get_possible_sizes()
     {
-        return array('sq' => self :: SIZE_SQUARE, 't' => self :: SIZE_THUMBNAIL, 's' => self :: SIZE_SMALL, 'm' => self :: SIZE_MEDIUM, 'l' => self :: SIZE_LARGE, 'o' => self :: SIZE_ORIGINAL);
-    }
-
-    static function get_possible_licenses()
-    {
-        $licenses = array();
-        $licenses[0] = array('id' => 0, 'name' => 'All Rights Reserved', 'url' => '');
-        $licenses[1] = array('id' => 1, 'name' => 'Attribution-NonCommercial-ShareAlike License', 'url' => 'http://creativecommons.org/licenses/by-nc-sa/2.0/');
-        $licenses[2] = array('id' => 2, 'name' => 'Attribution-NonCommercial License', 'url' => 'http://creativecommons.org/licenses/by-nc/2.0/');
-        $licenses[3] = array('id' => 3, 'name' => 'Attribution-NonCommercial-NoDerivs License', 'url' => 'http://creativecommons.org/licenses/by-nc-nd/2.0/');
-        $licenses[4] = array('id' => 4, 'name' => 'Attribution License', 'url' => 'http://creativecommons.org/licenses/by/2.0/');
-        $licenses[5] = array('id' => 5, 'name' => 'Attribution-ShareAlike License', 'url' => 'http://creativecommons.org/licenses/by-sa/2.0/');
-        $licenses[6] = array('id' => 6, 'name' => 'Attribution-NoDerivs License', 'url' => 'http://creativecommons.org/licenses/by-nd/2.0/');
-        $licenses[7] = array('id' => 7, 'name' => 'No known copyright restrictions', 'url' => 'http://www.wikimedia.com/commons/usage/');
-        $licenses[8] = array('id' => 8, 'name' => 'United States Government Work', 'url' => 'http://www.usa.gov/copyright.shtml');
-        return $licenses;
+        return array('t' => self :: SIZE_THUMBNAIL, 'm' => self :: SIZE_MEDIUM, 'o' => self :: SIZE_ORIGINAL);
     }
 }
 ?>
