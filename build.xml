@@ -148,7 +148,7 @@
     <target name="pdepend" depends="setcommands, clean, prepare"  >
         <echo message="Computing dependency report" />
         <exec   dir="${basedir}"
-                command="${pdependCmd} --jdepend-xml=${pdepend-report-file} --summary-xml=${pdepend-summary-report-file} --ignore ${plugin-dir} ${classes-dirs}"
+                command="${pdependCmd} --jdepend-xml=${pdepend-report-file} --summary-xml=${pdepend-summary-report-file} --ignore=${plugin-dir} ${classes-dirs}"
                 checkreturn="true"
 		passthru="true"
         />
