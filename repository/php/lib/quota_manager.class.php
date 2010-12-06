@@ -7,8 +7,6 @@ use common\libraries\InCondition;
 use common\libraries\AndCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
-use repository\content_object\portfolio_item\PortfolioItem;
-use repository\content_object\portfolio_item\HandbookItem;
 
 /**
  * $Id: quota_manager.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -165,7 +163,7 @@ class QuotaManager
         {
             $owner = $this->owner;
             $version_quota = $owner->get_version_type_quota($type);
-            
+
             if (isset($version_quota))
             {
                 $this->max_versions = $version_quota;

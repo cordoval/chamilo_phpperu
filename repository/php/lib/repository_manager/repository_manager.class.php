@@ -30,7 +30,6 @@ use user\UserDataManager;
 use rights\RightsDataManager;
 
 use repository\content_object\learning_path_item\LearningPathItem;
-use repository\content_object\portfolio_item\PortfolioItem;
 /**
  * @package repository.lib.repository_manager
  *

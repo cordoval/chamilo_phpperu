@@ -22,8 +22,6 @@ use common\libraries\OrCondition;
 use common\libraries\PatternMatchCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
-use repository\content_object\portfolio_item\PortfolioItem;
-use repository\content_object\handbook_item\HandbookItem;
 
 use admin\AdminDataManager;
 use admin\Registration;
@@ -123,7 +121,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $this->get_parent_id());
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
-        
+
         $types = RepositoryDataManager :: get_active_helper_types();
 
         foreach ($types as $type)

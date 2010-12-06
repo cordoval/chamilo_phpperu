@@ -8,7 +8,6 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
-use repository\content_object\portfolio_item\PortfolioItem;
 
 /**
  * $Id: user_view_form.class.php 200 2009-11-13 12:30:04Z kariboe $

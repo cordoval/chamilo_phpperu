@@ -13,7 +13,6 @@ use repository\content_object\document\Document;
 use repository\content_object\hotpotatoes\Hotpotatoes;
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\learning_path\LearningPath;
-use repository\content_object\portfolio_item\PortfolioItem;
 use repository\content_object\hotspot_question\HotspotQuestion;
 
 /**

@@ -19,7 +19,6 @@ use common\libraries\DynamicTabsRenderer;
 use common\libraries\DynamicContentTab;
 
 use repository\content_object\learning_path_item\LearningPathItem;
-use repository\content_object\portfolio_item\PortfolioItem;
 use repository\content_object\scorm_item\ScormItem;
 
 use admin\AdminDataManager;
