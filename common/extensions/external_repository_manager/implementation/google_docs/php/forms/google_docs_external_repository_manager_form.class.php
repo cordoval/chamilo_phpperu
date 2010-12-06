@@ -1,5 +1,5 @@
 <?php
-namespace common\extensions\external_repository_manager\implementation\dropbox;
+namespace common\extensions\external_repository_manager\implementation\google_docs;
 
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -8,11 +8,11 @@ use common\libraries\FormValidator;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
 /**
- * $Id: dropbox_external_repository_manager_form.class.php 224 2009-11-13 14:40:30Z kariboe $
+ * $Id: google_docs_external_repository_manager_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package
  */
 
-class DropboxExternalRepositoryManagerForm extends FormValidator
+class GoogleDocsExternalRepositoryManagerForm extends FormValidator
 {
 
     const TYPE_CREATE = 1;
@@ -50,7 +50,7 @@ class DropboxExternalRepositoryManagerForm extends FormValidator
     {
         $this->external_repository_object = $external_repository_object;
 
-        $defaults[DropboxExternalRepositoryObject :: PROPERTY_ID] = $external_repository_object->get_id();        
+        $defaults[GoogleDocsExternalRepositoryObject :: PROPERTY_ID] = $external_repository_object->get_id();        
 
         $display = ExternalRepositoryObjectDisplay :: factory($external_repository_object);
         $defaults[self :: PREVIEW] = $display->get_preview();
@@ -62,7 +62,7 @@ class DropboxExternalRepositoryManagerForm extends FormValidator
     {
         if ($this->form_type == self :: TYPE_EDIT)
         {
-            $this->add_information_message('dropbox_api_move', null, Translation :: get('DropboxAPIMoveImpossible'));
+            $this->add_information_message('google_docs_api_move', null, Translation :: get('GoogleDocsAPIMoveImpossible'));
         }        
     }
 
@@ -72,7 +72,7 @@ class DropboxExternalRepositoryManagerForm extends FormValidator
 
         $this->build_basic_form();
 
-        $this->addElement('hidden', DropboxExternalRepositoryObject :: PROPERTY_ID);
+        $this->addElement('hidden', GoogleDocsExternalRepositoryObject :: PROPERTY_ID);
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
@@ -89,8 +89,7 @@ class DropboxExternalRepositoryManagerForm extends FormValidator
     {
         if (StringUtilities :: has_value(($_FILES[self :: FILE]['name'])))
         {
-	        if($this->application->get_external_repository_connector()->create_external_repository_object($_FILES[self :: FILE]['name'], $_FILES[self :: FILE]['tmp_name']))
-            	return $_FILES[self :: FILE]['name'];
+	        return $this->application->get_external_repository_connector()->create_external_repository_object($_FILES[self :: FILE]);           	
         }
         else
         {

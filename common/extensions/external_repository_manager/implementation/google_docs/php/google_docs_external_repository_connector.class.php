@@ -483,5 +483,11 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
 
         return file_get_contents($url, false, stream_context_create($opts));
     }
+    
+	function create_external_repository_object($file)
+    {    	
+    	$resource = $this->google_docs->UploadFile($file['tmp_name'], $file['name'], $file['type']);
+    	return $resource->getResourceId()->getId();    	
+    }
 }
 ?>

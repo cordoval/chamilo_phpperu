@@ -175,7 +175,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_external_repository_actions()
     {
-        return array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
+        return array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY);
     }
 
     function run()

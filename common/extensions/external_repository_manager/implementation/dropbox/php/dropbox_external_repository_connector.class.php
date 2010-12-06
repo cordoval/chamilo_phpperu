@@ -43,6 +43,7 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
         
         $this->key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
         $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
+        $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
         
         $this->oauth = new Dropbox_OAuth_PEAR($this->key, $this->secret);
         
@@ -52,40 +53,44 @@ class DropboxExternalRepositoryConnector extends ExternalRepositoryConnector
 		    $state = 1;
 		}
 
-		switch($state) 
-        {
-			case 1 :
-		        $this->tokens = $this->oauth->getRequestToken();
-		        $url = $this->oauth->getAuthorizeUrl(Redirect:: current_url());		        
-		        $_SESSION['state'] = 2;
-		        $_SESSION['oauth_tokens'] = $this->tokens;
-		        header('Location: ' . $url);
-		        die();
-		    case 2 :
-		    	$this->oauth->setToken($_SESSION['oauth_tokens']);
-		        $this->tokens = $this->oauth->getAccessToken();
-		        $_SESSION['state'] = 3;
-		        $_SESSION['oauth_tokens'] = $this->tokens;	 
-			case 3 :		    	
-			    $this->oauth->setToken($_SESSION['oauth_tokens']);
-			    break;
-		}			
+		if(is_null($session_token))
+		{
+			switch($state) 
+		
+	        {
+				case 1 :
+			        $this->tokens = $this->oauth->getRequestToken();
+			        $url = $this->oauth->getAuthorizeUrl(Redirect:: current_url());		        
+			        $_SESSION['state'] = 2;
+			        $_SESSION['oauth_tokens'] = $this->tokens;
+			        header('Location: ' . $url);
+			        die();
+			    case 2 :
+			    	$this->oauth->setToken($_SESSION['oauth_tokens']);
+			        $this->tokens = $this->oauth->getAccessToken();
+			        $_SESSION['state'] = 3;
+			        $_SESSION['oauth_tokens'] = $this->tokens;	 
+				case 3 :		    	
+				    $this->oauth->setToken($_SESSION['oauth_tokens']);
+				    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
+		    		$user_setting = new ExternalRepositoryUserSetting();
+        			$user_setting->set_setting_id($setting->get_id());
+        			$user_setting->set_user_id(Session :: get_user_id());
+        			$token = $_SESSION['oauth_tokens']['token'].'-'.$_SESSION['oauth_tokens']['token_secret'];
+        			$user_setting->set_value($token);
+        			$user_setting->create();
+				    break;
+			}
+		}
+		$session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
+		$tokens_db = explode('-', $session_token);
+		$tokens = array();
+		$tokens['token'] = $tokens_db[0];
+		$tokens['token_secret'] = $tokens_db[1];
+		$this->oauth->setToken($tokens);				
         $this->dropbox = new Dropbox_API($this->oauth);	        
 	}      
 	
-    /**
-     * @return string
-     */
-    function retrieve_user_id()
-    {
-        if (! isset($this->user_id))
-        {
-            $hidden = $this->dropbox->prefs_getHidden();
-            $this->user_id = $hidden['nsid'];
-        }
-        return $this->user_id;
-    }
-
     /**
      * @param mixed $condition
      * @param ObjectTableOrder $order_property

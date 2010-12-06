@@ -1,5 +1,5 @@
 <?php
-namespace common\extensions\external_repository_manager\implementation\dropbox;
+namespace common\extensions\external_repository_manager\implementation\box;
 
 use common\libraries\Translation;
 use common\libraries\Request;
@@ -13,14 +13,14 @@ use common\extensions\external_repository_manager\ExternalRepositoryObjectDispla
 
 use repository\ExternalRepositorySetting;
 
-class DropboxExternalRepositoryManager extends ExternalRepositoryManager
+class BoxExternalRepositoryManager extends ExternalRepositoryManager
 {
-    const REPOSITORY_TYPE = 'dropbox';
+    const REPOSITORY_TYPE = 'box';
     
     const PARAM_FEED_TYPE = 'feed';
     const PARAM_FEED_IDENTIFIER = 'identifier';
 
-   	const FEED_TYPE_GENERAL = 1;   	
+   	const FEED_TYPE_GENERAL = 1;   	   	
 
     /**
      * @param Application $application
@@ -36,7 +36,7 @@ class DropboxExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'external_repository_manager/implementation/dropbox/php/component/';
+        return Path :: get_common_extensions_path() . 'external_repository_manager/implementation/box/php/component/';
     }
 
     /* (non-PHPdoc)
@@ -83,7 +83,7 @@ class DropboxExternalRepositoryManager extends ExternalRepositoryManager
         $menu_items = array();
 
         $general = array();
-        $general['title'] = Translation :: get('Dropbox');
+        $general['title'] = Translation :: get('Box.net');
         $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $general['class'] = 'home';
         $menu_items[] = $general;
@@ -106,15 +106,14 @@ class DropboxExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_external_repository_actions()
     {
-        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self ::ACTION_EXPORT_EXTERNAL_REPOSITORY);
+        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
 
         $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
 
         if ($is_platform)
         {
-            $actions[] = self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY;
+            $actions[] = self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY;            
         }
-
         return $actions;
     }
 
