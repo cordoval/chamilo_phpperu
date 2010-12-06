@@ -17,7 +17,7 @@
     <property name="build-coverage-dir" value="${build-dir}/coverage" />
     <property name="build-codeBrowser-dir" value="${build-dir}/codeBrowser" />
     <property name="test-dir" value="./test" />
-    <property name="plugin-dir" value="./common/libraries/plugin" />
+    <property name="plugin-dir" value="libraries/plugin" />
     <property name="phpunit-coverage-config-file" value="${test-dir}/phpunit-coverage.xml" />
     <property name="phpunit-config-file" value="${test-dir}/phpunit.xml" />
     <property name="pdepend-report-file" value="${build-logs-dir}/pdepend.xml" />
@@ -179,7 +179,7 @@
     <!-- ============================================  -->
     <!-- Target: generate-report                       -->
     <!-- ============================================  -->
-    <target name="generate-reports" depends="phpunit-coverage, phpcb, phpcpd"  />
+    <target name="generate-reports" depends="phpunit-coverage, pdepend, phpcb, phpcpd"  />
 
     <!-- ============================================  -->
     <!-- (DEFAULT)  Target: build                      -->
