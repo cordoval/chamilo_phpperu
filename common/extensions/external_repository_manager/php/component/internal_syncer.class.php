@@ -1,10 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager;
 
+use repository\ExternalSync;
+
 use common\libraries\Request;
 use common\libraries\Translation;
-
-use repository\ExternalRepositorySync;
 
 class ExternalRepositoryComponentInternalSyncerComponent extends ExternalRepositoryComponent
 {
@@ -16,7 +16,7 @@ class ExternalRepositoryComponentInternalSyncerComponent extends ExternalReposit
         {
             $object = $this->retrieve_external_repository_object($id);
 
-            if (! $object->is_importable() && ($object->get_synchronization_status() == ExternalRepositorySync :: SYNC_STATUS_INTERNAL || $object->get_synchronization_status() == ExternalRepositorySync :: SYNC_STATUS_CONFLICT))
+            if (! $object->is_importable() && ($object->get_synchronization_status() == ExternalSync :: SYNC_STATUS_INTERNAL || $object->get_synchronization_status() == ExternalSync :: SYNC_STATUS_CONFLICT))
             {
                 $succes = $this->synchronize_internal_repository_object($object);
 
