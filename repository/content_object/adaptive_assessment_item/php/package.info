@@ -4,15 +4,14 @@
 		<name>Adaptive assessment item</name>
 		<code>adaptive_assessment_item</code>
 		<section>content_object</section>
-		<category>assessment</category>
+		<category>helper</category>
 		<authors></authors>
 		<version>1.0.0</version>
 		<cycle>
 			<phase>general_availability</phase>
 			<realm>main</realm>
 		</cycle>
-		<filename>pool/main/content_object/a/adaptive_assessment_item/adaptive_assessment_item-1.0.0.zip
-		</filename>
+		<filename>pool/main/content_object/a/adaptive_assessment_item/adaptive_assessment_item-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
@@ -29,6 +28,20 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
+			<core>
+				<dependency>
+		  			<id>repository</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
+			<library>
+				<dependency>
+		  			<id>common</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</library>
 		</dependencies>
 	</package>
 </packages>
