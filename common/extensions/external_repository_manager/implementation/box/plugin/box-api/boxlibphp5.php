@@ -389,85 +389,73 @@ class boxclient {
 	
 	// Create New Folder
 	
-	function CreateFolder($new_folder_name, $params = array()) {
-	
+	function createFolder($new_folder_name, $parent_id, $params = array()) 
+	{	
 		$params['api_key']  	= $this->api_key;
-		$params['auth_token'] 	=  $this->auth_token;
-		$params['parent_id'] 	= 0; //Set to '0' by default. Change to create within sub-folder.
+		$params['auth_token'] 	= $this->auth_token;
+		$params['parent_id'] 	= $parent_id;
 		$params['name'] 	    = $new_folder_name;
 	    $params['share'] 	    = 1; //Set to '1' by default. Set to '0' to make folder private.
 		
 		$ret_array = array();
 		$data = $this->makeRequest('action=create_folder', $params);
-		if ($this->_checkForError($data)) {
+		if ($this->_checkForError($data)) 
+		{
 			return false;
 		}
-		foreach ($data as $a) {
-			switch ($a['tag']) {
-							case 'FOLDER_ID':
+		foreach ($data as $a) 
+		{
+			switch ($a['tag']) 
+			{
+					case 'FOLDER_ID':
 						$ret_array['folder_id'] = $a['value'];
 						break;
-							case 'FOLDER_NAME':
+					case 'FOLDER_NAME':
 						$ret_array['folder_type'] = $a['value'];
-					   break;
-					       case 'SHARED':
+					   	break;
+					case 'SHARED':
 					    $ret_array['shared'] = $a['value'];
 					    break;
-					    case 'PASSWORD':
+					case 'PASSWORD':
 					    $ret_array['password'] = $a['value'];
-					break;
-					}
+						break;
+			}
 		}
-			if ($this->_debug) {
+		if ($this->_debug) 
+		{
 			echo '<h2>Account Tree Return</h2>';
 			$this->_a($ret_array);
 			"<br/>";
-			print_r ($a);
-			
+			print_r ($a);			
 			echo '<hr />';
 		}
-	
-		
 		return $ret_array;
-		
-		
-		
 	}
 	
-	function ExportFile ($file, $params = array()) {	
-	  
+	function ExportFile ($file, $params = array()) 
+	{		  
 		$curl = curl_init($this->_box_api_upload_url.'/'.$this->auth_token.'/0');
 		curl_setopt($curl, CURLOPT_POST, true);		
 		curl_setopt($curl, CURLOPT_POSTFIELDS, array('file' => ('@'.$file)));
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);		
-		//curl_setopt($curl, CURLOPT_HEADER,$filename_header);
 		curl_setopt($curl, CURLINFO_HEADER_OUT, true);
 		$response = curl_exec($curl);
-		//var_dump(curl_getinfo($curl));						
 		curl_close($curl);
 		if(strpos($response, 'upload_ok'))
 		{
 			return true; 				
 		}
 		else return false;		
-	}	
+	}
 	
-	
-	// Upload File 
-	
-
-
-
 	function UploadFile ($file, $params = array()) {	
 	  
-		$filename_header;
-		
-        $filename_header = "Content-Disposition: form-data; name=\"Filename\"\r\n\r\n" . $file['name'] ."\r\nBoundary:";
+		$filename_header = "Content-Disposition: form-data; name=\"Filename\"\r\n\r\n" . $file['name'] ."\r\nBoundary:";
         $filename_header1 = "Content-Disposition: form-data name=\"Filedata\";filename=\"". rawurlencode($file['name']) ."\"\r\n\r\n";
         $curl = curl_init($this->_box_api_upload_url.'/'.$this->auth_token.'/0');
 		//curl_setopt($curl, CURLOPT_HTTPHEADER, array($filename_header, $filename_header1));
-        curl_setopt($curl, CURLOPT_POST, true);		
-		curl_setopt($curl, CURLOPT_POSTFIELDS, array('file' => ('@'.$file['tmp_name'])));		
+        curl_setopt($curl, CURLOPT_POST, true);        
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array('file' => ('@'.$file['name'])));		
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);		 
 		$response = curl_exec($curl);		
 		curl_close($curl);		
@@ -475,7 +463,7 @@ class boxclient {
 		{
 			return true; 				
 		}
-		else return false;		
+		else return false;	
 	}	
 	
 	// Register New User

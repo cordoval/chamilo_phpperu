@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Dropbox Not Found exception
+ * Dropbox base exception 
  * 
  * @package Dropbox 
  * @copyright Copyright (C) 2010 Rooftop Solutions. All rights reserved.
@@ -10,11 +10,6 @@
  */
 
 /**
- * This exception is thrown when a non-existant uri is accessed.
- * 
- * Basically, this exception is used when we get back a 404.
+ * Base exception class
  */
-class Dropbox_Exception_NotFound extends Dropbox_Exception {
-
-
-}
+class Dropbox_Exception extends Exception { }

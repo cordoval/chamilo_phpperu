@@ -1,5 +1,11 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\dropbox;
 
+use common\libraries\Path;
+use HTTP_OAuth_Consumer;
+use HTTP_OAuth_Consumer_Request;
+
+require_once Path :: get_plugin_path(__NAMESPACE__) . 'dropbox-api/OAuth.php';
 /**
  * Dropbox OAuth
  * 

@@ -38,7 +38,8 @@ abstract class ExternalRepositoryManager extends SubManager
     const ACTION_DELETE_EXTERNAL_REPOSITORY = 'deleter';
     const ACTION_CONFIGURE_EXTERNAL_REPOSITORY = 'configurer';
     const ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY = 'external_syncer';
-    const ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY = 'internal_syncer';
+    const ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY = 'internal_syncer';    
+    const ACTION_NEW_FOLDER_EXTERNAL_REPOSITORY = 'newfolder';
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
     

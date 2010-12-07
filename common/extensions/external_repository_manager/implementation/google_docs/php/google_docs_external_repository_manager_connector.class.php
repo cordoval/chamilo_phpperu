@@ -9,9 +9,10 @@ use common\libraries\Translation;
 use common\libraries\ArrayResultSet;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 
-use repository\ExternalRepositoryUserSetting;
+use repository\ExternalUserSetting;
+use repository\ExternalSetting;
 use repository\RepositoryDataManager;
 
 use \Zend_Loader;
@@ -24,7 +25,7 @@ use \Zend_Gdata_App_Extension_Link;
 require_once dirname(__FILE__) . '/google_docs_external_repository_object.class.php';
 require_once dirname(__FILE__) . '/google_docs_external_repository_object_acl.class.php';
 
-class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
+class GoogleDocsExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector
 {
     /**
      * @var Zend_Gdata_Docs
@@ -58,7 +59,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         parent :: __construct($external_repository_instance);
 
-        $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
+        $session_token = ExternalUserSetting :: get('session_token', $this->get_external_repository_instance_id());
 
         Zend_Loader :: loadClass('Zend_Gdata_Docs');
         Zend_Loader :: loadClass('Zend_Gdata_Docs_Query');
@@ -82,8 +83,8 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
 
                 if ($session_token)
                 {
-                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
-                    $user_setting = new ExternalRepositoryUserSetting();
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
+                    $user_setting = new ExternalUserSetting();
                     $user_setting->set_setting_id($setting->get_id());
                     $user_setting->set_user_id(Session :: get_user_id());
                     $user_setting->set_value($session_token);
@@ -486,8 +487,13 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
     
 	function create_external_repository_object($file)
     {    	
-    	$resource = $this->google_docs->UploadFile($file['tmp_name'], $file['name'], $file['type']);
+    	$resource = $this->google_docs->UploadFile($file['tmp_name'], substr($file['name'], 0, strripos($file['name'], '.')), $file['type']);
     	return $resource->getResourceId()->getId();    	
+    }
+    
+	function create_external_repository_folder($folder, $parent)
+    {
+    	return $this->google_docs->createFolder($folder, $parent);
     }
 }
 ?>

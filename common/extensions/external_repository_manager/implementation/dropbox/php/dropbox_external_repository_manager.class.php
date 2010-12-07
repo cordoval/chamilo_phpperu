@@ -10,7 +10,6 @@ use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
-
 use repository\ExternalSetting;
 
 class DropboxExternalRepositoryManager extends ExternalRepositoryManager

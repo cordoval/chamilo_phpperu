@@ -11,7 +11,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
 
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 
 class BoxExternalRepositoryManager extends ExternalRepositoryManager
 {
@@ -42,7 +42,7 @@ class BoxExternalRepositoryManager extends ExternalRepositoryManager
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#validate_settings()
      */
-    function validate_settings()
+    function validate_settings($external_repository)
     {
 //    	$key = ExternalRepositorySetting :: get('key');
 //        $secret = ExternalRepositorySetting :: get('secret');
@@ -88,7 +88,7 @@ class BoxExternalRepositoryManager extends ExternalRepositoryManager
         $general['class'] = 'home';
         $menu_items[] = $general;
 
-        $folders = $this->get_external_repository_connector()->retrieve_folders($this->get_url(array(self :: PARAM_FOLDER => '__PLACEHOLDER__')));
+        $folders = $this->get_external_repository_manager_connector()->retrieve_folders($this->get_url(array(self :: PARAM_FOLDER => '__PLACEHOLDER__')));
         $menu_items = array_merge($menu_items, $folders);
         return $menu_items;
     }
@@ -108,7 +108,7 @@ class BoxExternalRepositoryManager extends ExternalRepositoryManager
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
 
-        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
+        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalSetting :: get_all()) > 0);
 
         if ($is_platform)
         {

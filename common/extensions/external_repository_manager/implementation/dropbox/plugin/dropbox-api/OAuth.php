@@ -1,7 +1,10 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\dropbox;
+
 use common\libraries\Path;
-require_once Path :: get_plugin_path() . '/dropbox-api/OAuth/PHP.php';
-require_once Path :: get_plugin_path() . '/dropbox-api/OAuth/PEAR.php';
+
+require_once Path :: get_plugin_path(__NAMESPACE__) . 'dropbox-api/OAuth/PHP.php';
+require_once Path :: get_plugin_path(__NAMESPACE__) . 'dropbox-api/OAuth/PEAR.php';
 /**
  * Dropbox OAuth
  * 

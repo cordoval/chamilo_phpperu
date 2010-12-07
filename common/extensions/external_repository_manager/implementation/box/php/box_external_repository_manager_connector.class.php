@@ -10,19 +10,19 @@ use common\libraries\ArrayResultSet;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\Filesystem;
 
-use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use repository\RepositoryDataManager;
-use repository\ExternalRepositorySetting;
-use repository\ExternalRepositoryUserSetting;
+use repository\ExternalSetting;
+use repository\ExternalUserSetting;
 
 use boxclient;
 
 require_once Path :: get_plugin_path(__NAMESPACE__) . 'box-api/boxlibphp5.php';
 require_once dirname(__FILE__) . '/box_external_repository_object.class.php';
 
-class BoxExternalRepositoryConnector extends ExternalRepositoryConnector
+class BoxExternalRepositoryManagerConnector extends ExternalRepositoryManagerConnector
 {
     private $boxnet;
     private $key;
@@ -31,33 +31,33 @@ class BoxExternalRepositoryConnector extends ExternalRepositoryConnector
     function __construct($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
-        $this->key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
-        $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
+        $this->key = ExternalSetting :: get('key', $this->get_external_repository_instance_id());
+        $session_token = ExternalUserSetting :: get('session_token', $this->get_external_repository_instance_id());
+        
         $this->boxnet = new boxclient($this->key, '');
         
         $ticket_return = $this->boxnet->getTicket();
 
 		$this->ticket = $ticket_return['ticket'];
-		
+				
 		if ($this->ticket && ($auth_token == '') && $_REQUEST['auth_token']) 
     	{
     		$auth_token = $_REQUEST['auth_token'];
-    	}
+    	}    	
     	elseif ($this->ticket && ($auth_token == '') && is_null($session_token)) 
-    	{
-    		$this->boxnet->getAuthToken($this->ticket);    		
-		}
+    	{    		
+    		$this->boxnet->getAuthToken($this->ticket);    		    		
+		}						
 		if(is_null($session_token) && !is_null($auth_token))
 		{
-			$setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
-		    $user_setting = new ExternalRepositoryUserSetting();
+			$setting = RepositoryDataManager :: get_instance()->retrieve_external_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
+		    $user_setting = new ExternalUserSetting();
         	$user_setting->set_setting_id($setting->get_id());
         	$user_setting->set_user_id(Session :: get_user_id());
         	$user_setting->set_value($auth_token);
         	$user_setting->create();
-		}
-		$session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
-		
+		}		
+		$session_token = ExternalUserSetting :: get('session_token', $this->get_external_repository_instance_id());		
         $this->boxnet = new boxclient($this->boxnet->api_key, $session_token);			     
 	}      
 	
@@ -250,6 +250,11 @@ class BoxExternalRepositoryConnector extends ExternalRepositoryConnector
 	function update_external_repository_object($values)
     {
 		
+    }
+    
+	function create_external_repository_folder($parent, $folder)
+    {
+    	return $this->boxnet->createFolder($parent, $folder);
     }
 }
 ?>
