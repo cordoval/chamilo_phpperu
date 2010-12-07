@@ -13,7 +13,7 @@ class WikipediaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
         $object = $this->get_object();
 
         $properties = parent :: get_display_properties();
-        
+
         return $properties;
     }
 
@@ -22,8 +22,12 @@ class WikipediaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
         $object = $this->get_object();
         $url = $object->get_urls();
         $html = array();
-        
-        if ($url)
+
+        if ($is_thumbnail || !$url)
+        {
+            return parent :: get_preview($is_thumbnail);
+        }
+        else
         {
          	$html = array();
          	$html[] = '<iframe class="preview" src="' . $url. '"></iframe>';

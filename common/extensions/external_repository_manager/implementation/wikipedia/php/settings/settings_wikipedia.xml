@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application name="wikimedia">
+<application name="wikipedia">
 	<settings>
 		<category name="server">
 			<setting name="url" field="text" default="http://en.wikipedia.org/w/api.php" locked="true">
