@@ -122,7 +122,7 @@ class PortfolioManagerRightsOverviewComponent extends PortfolioManager
             $html_header[]= '<html>';
 
             
-            $html_header[]=  '<style type="text/css" media="screen,projection"> /*<![CDATA[*/ @import "'.Theme::get_css_path().'"; /*]]>*/ </style>';
+            $html_header[]=  '<style type="text/css"> /*<![CDATA[*/ @import "'.Theme::get_css_path().'"; /*]]>*/ </style>';
 
              
 

@@ -29,9 +29,7 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
 
 /**
  * A handbook manager
- *
- * @author Sven Vanpoucke
- * @author Nathalie Blocry
+  * @author Nathalie Blocry
  */
  class HandbookManager extends WebApplication
  {
@@ -42,6 +40,7 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
         const PARAM_HANDBOOK_PUBLICATION_ID = 'hpid';
         const PARAM_HANDBOOK_ID = 'hid';
         const PARAM_HANDBOOK_SELECTION_ID = 'hsid';
+        const PARAM_TOP_HANDBOOK_ID = 'thid';
 
 	const ACTION_DELETE_HANDBOOK_PUBLICATION = 'handbook_publication_deleter';
 	const ACTION_EDIT_HANDBOOK_PUBLICATION = 'handbook_publication_editor';
@@ -49,10 +48,11 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
 	const ACTION_BROWSE_HANDBOOK_PUBLICATIONS = 'handbook_publications_browser';
         const ACTION_VIEW_HANDBOOK = 'handbook_viewer';
         const ACTION_EDIT_RIGHTS = 'rights_editor';
+        const ACTION_VIEW_PREFERENCES = 'handbook_preferences_viewer';
         const ACTION_VIEW_HANDBOOK_PUBLICATION = 'handbook_publications_browser';
         const PARAM_HANDBOOK_OWNER_ID = 'handbook_owner';
 
-
+        const PARAM_COMPLEX_OBJECT_ID = 'coid';
         const PARAM_LANGUAGE = 'dc:language';
         const PARAM_PUBLISHER = 'dc:publisher';
 
@@ -160,7 +160,7 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
             {
                 $handbook_publication_id = $publications->next_result()->get_id();
             }
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_HANDBOOK, self::PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION_ID => $handbook_publication_id));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_HANDBOOK, self::PARAM_TOP_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION_ID => $handbook_publication_id));
 	}
         function get_view_handbook_url($handbook_id)
         {
@@ -537,6 +537,10 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
 
 
 
+    static function get_create_handbook_item_url($handbook_id)
+    {
+        return null;
+    }
 
     /**
      * Helper function for the Application class,

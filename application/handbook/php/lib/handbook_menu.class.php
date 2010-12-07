@@ -35,6 +35,7 @@ class HandbookMenu extends HTML_Menu
     private $handbook_id;
     private $handbook_selection_id;
     private $handbook_publication_id;
+    private $top_handbook_id;
 
 
     /**
@@ -44,35 +45,36 @@ class HandbookMenu extends HTML_Menu
      *                           "?category=%s".
      *
      */
-    function __construct($url_format, $handbook_id, $handbook_selection_id, $handbook_publication_id)
+    function __construct($url_format, $handbook_id, $handbook_selection_id, $handbook_publication_id, $top_handbook_id)
     {
         
       //        $this->urlFmt = $url_format;
-//        $this->urlFmt = 'run.php?go='.HandbookManager::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'='.$handbook_id;
-        $this->urlFmt ='run.php?go='.HandbookManager::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'=%s&'.HandbookManager::PARAM_HANDBOOK_SELECTION_ID.'=%s&'.HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID.'=%s';
+        $this->urlFmt ='run.php?go='.HandbookManager::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_TOP_HANDBOOK_ID.'=%s&'.HandbookManager::PARAM_HANDBOOK_SELECTION_ID.'=%s&'. HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID.'=%s&' . HandbookManager::PARAM_COMPLEX_OBJECT_ID . '=%s&' . HandbookManager::PARAM_HANDBOOK_ID . '=%s' ;
 
         $this->handbook_id = $handbook_id;
         $this->handbook_selection_id = $handbook_selection_id;
         $this->handbook_publication_id = $handbook_publication_id;
+        $this->top_handbook_id = $top_handbook_id;
         
    
         $menu = $this->get_menu();
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
 
-        if (! $handbook_id && ! $$handbook_selection_id)
+        if (!$top_handbook_id && !$$handbook_selection_id)
         {
-         
+            //NO HANDBOOK ID & NO SELECTION (SHOULD NOT EXIST)
             $this->forceCurrentUrl($this->get_root_url());
         }
-        elseif (! $handbook_selection_id && $handbook_id)
+        elseif (!$handbook_selection_id && $top_handbook_id)
         {
-            
-            $this->forceCurrentUrl($this->get_publication_url($handbook_id, $handbook_publication_id));
+            //NO SELECTION
+            $this->forceCurrentUrl($this->get_publication_url($top_handbook_id, $handbook_publication_id));
         }
         else
         {
-            $this->forceCurrentUrl($this->get_sub_item_url($handbook_id, $handbook_selection_id, $handbook_publication_id));
+            //SELECTION
+            $this->forceCurrentUrl($this->get_sub_item_url($top_handbook_id, $handbook_selection_id, $handbook_publication_id, $handbook_id));
         }
 
     }
@@ -94,11 +96,11 @@ class HandbookMenu extends HTML_Menu
 
         $hdm = HandbookDataManager :: get_instance();
         $rdm = RepositoryDataManager :: get_instance();
-        $handbook = $rdm->retrieve_content_object($this->handbook_id);
+        $handbook = $rdm->retrieve_content_object($this->top_handbook_id);
         $pub['title'] = $handbook->get_title();
         $pub['url'] = $this->get_publication_url($this->handbook_id, $this->handbook_publication_id);
         $pub['class'] = 'handbook';
-        $pub['sub'] = $this->get_handbook_items($this->handbook_id, $this->handbook_id, $this->handbook_publication_id);
+        $pub['sub'] = $this->get_handbook_items($this->top_handbook_id, $this->handbook_id);
         $menu[] = $pub;
 
 //        $udm = UserDataManager :: get_instance();
@@ -129,7 +131,7 @@ class HandbookMenu extends HTML_Menu
                 $pub['title'] = $handbook->get_title();
                 $pub['url'] = $this->get_publication_url($this->handbook_id);
                 $pub['class'] = 'handbook';
-                $pub['sub'] = $this->get_handbook_items($this->handbook_id, $this->handbook_id);
+                $pub['sub'] = $this->get_handbook_items($this->top_handbook_id, $this->handbook_id);
                 $menu[] = $pub;
          }
 
@@ -137,12 +139,12 @@ class HandbookMenu extends HTML_Menu
         return $menu;
     }
 
-    private function get_handbook_items($parent, $handbook_id)
+    private function get_handbook_items($top_handbook_id, $handbook_id)
     {
         $menu = array();
         $rdm = RepositoryDataManager :: get_instance();
 
-        $children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name()));
+        $children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $handbook_id, ComplexContentObjectItem :: get_table_name()));
 
         while ($child = $children->next_result())
         {
@@ -155,7 +157,7 @@ class HandbookMenu extends HTML_Menu
             }
             if ($lo->get_type() == Handbook :: get_type_name())
             {
-                $items = $this->get_handbook_items($lo->get_id(), $handbook_id);
+                $items = $this->get_handbook_items($top_handbook_id, $lo->get_id());
                 if (count($items) > 0)
                     $item['sub'] = $items;
             }
@@ -176,8 +178,8 @@ class HandbookMenu extends HTML_Menu
             }
 
 
-            $item['url'] = $this->get_sub_item_url($handbook_id, $child->get_ref(),$this->handbook_publication_id);
-           $item['class'] = $lo->get_type();
+            $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $handbook_id);
+            $item['class'] = $lo->get_type();
 //            $item['class'] = 'test';
             $menu[] = $item;
         }
@@ -188,7 +190,8 @@ class HandbookMenu extends HTML_Menu
     private function get_publication_url($hid, $hpid)
     {
         $fmt = str_replace('&'.HandbookManager::PARAM_HANDBOOK_SELECTION_ID.'=%s', '', $this->urlFmt);
-        
+         $fmt = str_replace('&'.HandbookManager::PARAM_HANDBOOK_ID.'=%s', '', $this->urlFmt);
+
         return htmlentities(sprintf($fmt, $hid, $hpid));
     }
 
@@ -196,15 +199,17 @@ class HandbookMenu extends HTML_Menu
     {
         
         $fmt = str_replace('&'.HandbookManager::PARAM_HANDBOOK_SELECTION_ID.'=%s', '', $this->urlFmt);
+        $fmt = str_replace('&'.HandbookManager::PARAM_TOP_HANDBOOK_ID.'=%s', '', $fmt);
+        $fmt = str_replace('&'.HandbookManager::PARAM_COMPLEX_OBJECT_ID.'=%s', '', $fmt);
         $fmt = str_replace('&'.HandbookManager::PARAM_HANDBOOK_ID.'=%s', '', $fmt);
 //        return $fmt;
         return htmlentities(sprintf($fmt, $hpid));
     }
 
-    private function get_sub_item_url($handbook_id, $handbook_selection_id, $hpid)
+    private function get_sub_item_url($top_handbook_id, $handbook_selection_id, $hpid, $coid, $handbook_id)
     {
        
-        return htmlentities(sprintf($this->urlFmt, $handbook_id, $handbook_selection_id, $hpid));
+        return htmlentities(sprintf($this->urlFmt, $top_handbook_id, $handbook_selection_id, $hpid, $coid, $handbook_id));
     }
 
     /**
