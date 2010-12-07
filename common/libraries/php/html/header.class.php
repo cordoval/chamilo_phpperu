@@ -67,7 +67,7 @@ class Header
         $this->add_css_file_header(Path :: get_common_extensions_path(true) . 'external_repository_manager/php/css_external_repository_manager.inc.php');
         //$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
         $this->add_css_file_header(Path :: get_common_extensions_path(true) . 'video_conferencing_manager/php/css_video_conferencing_manager.inc.php');
-        
+
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.min.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.dimensions.min.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.tabula.js');
@@ -96,7 +96,7 @@ class Header
         $this->add_link_header($this->get_path(WEB_PATH) . 'index.php', 'top');
         //$this->add_link_header($this->get_path(WEB_PATH). 'index_user.php?go=account','account',htmlentities(Translation :: get('ModifyProfile')));
         $this->add_link_header('http://help.chamilo.org/', 'help');
-        $this->add_html_header('<link rel="shortcut icon" href="' . Theme :: get_theme_path() . 'favicon.ico" type="image/x-icon" />');
+        $this->add_html_header('<link rel="shortcut icon" href="' . Theme :: get_common_image_path() . 'favicon.ico" type="image/x-icon" />');
         $this->add_html_header('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />');
     }
 

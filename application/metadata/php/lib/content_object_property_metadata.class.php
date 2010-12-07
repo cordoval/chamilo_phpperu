@@ -128,7 +128,7 @@ class ContentObjectPropertyMetadata extends DataClass
     function create()
     {
         $condition = new EqualityCondition(ContentObjectPropertyMetadata :: PROPERTY_CONTENT_OBJECT_PROPERTY, $this->get_content_object_property());
-        $count = $this->get_data_manager()->count_content_object_property_metadata($condition);
+        $count = $this->get_data_manager()->count_content_object_property_metadatas($condition);
 
         if($count >= 1)
         {

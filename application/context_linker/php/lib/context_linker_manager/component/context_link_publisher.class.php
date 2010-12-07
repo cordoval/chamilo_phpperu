@@ -30,9 +30,23 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
         $trail->add(new Breadcrumb(Translation :: get('CreateObject', array('OBJECT' => Translation::get('ContextLink')), Utilities::COMMON_LIBRARIES)));
         $trail->add_help('ContextLinkCreator');
 
+        $original_id = Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID);
+        $alternative_id = Request :: get(ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID);
+        //check that same object is'nt selected
+        if($original_id == $alternative_id)
+        {
+            $params =array();
+            $params[ContextLinkerManager :: PARAM_ACTION] = ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK;
+            $params[ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID] = $original_id;
+
+            $this->redirect(Translation :: get('SameContentObjectSelected'), 1, $params);
+            
+            exit();
+        }
+
         $context_link = new ContextLink();
-        $context_link->set_original_content_object_id(Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID));
-        $context_link->set_alternative_content_object_id(Request :: get(ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID));
+        $context_link->set_original_content_object_id($original_id);
+        $context_link->set_alternative_content_object_id($alternative_id);
         $context_link->set_date(time());
 
         $mdm = MetadataDataManager :: get_instance();

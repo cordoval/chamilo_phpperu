@@ -21,7 +21,7 @@ class {C_APPLICATION_NAME}Installer extends Installer
 	/**
 	 * Constructor
 	 */
-    function {C_APPLICATION_NAME}Installer($values)
+    function __construct($values)
     {
     	parent :: __construct($values, {C_APPLICATION_NAME}DataManager :: get_instance());
     }

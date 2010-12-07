@@ -70,7 +70,7 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
             
             if($use)
             {
-                $this->user_id_prefix = $this->get_app_id() . '_';
+                $this->user_id_prefix = $this->get_app_id() . '-';
             }
             else
             {
@@ -164,12 +164,9 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
      * @param int $chamilo_user_id
      * @return simplexmlobject user
     */
-    function retrieve_mediamosa_user($chamilo_user_id) {
-
-
-
+    function retrieve_mediamosa_user($chamilo_user_id)
+    {
         $response = $this->request(self :: METHOD_GET, '/user/' . $this->get_mediamosa_user_id($chamilo_user_id));
-        
         
         /*
          * quota check

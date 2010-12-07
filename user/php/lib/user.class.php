@@ -80,6 +80,9 @@ class User extends DataClass
 
     const ANONYMOUS_ID = "1";
 
+    const STATUS_TEACHER = 1;
+    const STATUS_STUDENT = 5;
+
     /**
      * @var array
      */

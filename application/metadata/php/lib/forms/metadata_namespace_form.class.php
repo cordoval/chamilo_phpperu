@@ -41,7 +41,8 @@ class MetadataNamespaceForm extends FormValidator
     function build_basic_form()
     {
 
-
+        $this->addElement('text', MetadataNamespace :: PROPERTY_NS_PREFIX, Translation :: get('NsPrefix'));
+        $this->addRule(MetadataNamespace :: PROPERTY_NS_PREFIX, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->addElement('text', MetadataNamespace :: PROPERTY_NAME, Translation :: get('Name', null, Utilities :: COMMON_LIBRARIES));
         $this->addRule(MetadataNamespace :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
@@ -53,12 +54,11 @@ class MetadataNamespaceForm extends FormValidator
 
     function build_editing_form()
     {
-    	$this->addElement('text', MetadataNamespace :: PROPERTY_NS_PREFIX, Translation :: get('NsPrefix'), array('disabled'=>'disabled'));
-        //$this->addElement('hidden', MetadataNamespace :: PROPERTY_NS_PREFIX, Translation :: get('NsPrefix'));
+    	
         
         $this->build_basic_form();
 
-    	//$this->addElement('hidden', MetadataNamespace :: PROPERTY_ID);
+    	$this->addElement('hidden', MetadataNamespace :: PROPERTY_ID);
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
@@ -68,15 +68,14 @@ class MetadataNamespaceForm extends FormValidator
 
     function build_creation_form()
     {
-    	$this->addElement('text', MetadataNamespace :: PROPERTY_NS_PREFIX, Translation :: get('NsPrefix'));
-        $this->addRule(MetadataNamespace :: PROPERTY_NS_PREFIX, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+    	
 
         $this->build_basic_form();
 
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
-		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     function update_metadata_namespace()
@@ -84,6 +83,7 @@ class MetadataNamespaceForm extends FormValidator
     	$metadata_namespace = $this->metadata_namespace;
     	$values = $this->exportValues();
 
+        $metadata_namespace->set_id($values[MetadataNamespace :: PROPERTY_ID]);
     	$metadata_namespace->set_ns_prefix($values[MetadataNamespace :: PROPERTY_NS_PREFIX]);
     	$metadata_namespace->set_name($values[MetadataNamespace :: PROPERTY_NAME]);
     	$metadata_namespace->set_url($values[MetadataNamespace :: PROPERTY_URL]);
@@ -110,7 +110,7 @@ class MetadataNamespaceForm extends FormValidator
 	function setDefaults($defaults = array ())
 	{
 		$metadata_namespace = $this->metadata_namespace;
-
+        $defaults[MetadataNamespace :: PROPERTY_ID] = $metadata_namespace->get_id();
     	$defaults[MetadataNamespace :: PROPERTY_NS_PREFIX] = $metadata_namespace->get_ns_prefix();
     	$defaults[MetadataNamespace :: PROPERTY_NAME] = $metadata_namespace->get_name();
     	$defaults[MetadataNamespace :: PROPERTY_URL] = $metadata_namespace->get_url();
