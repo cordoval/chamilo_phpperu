@@ -30,7 +30,7 @@ class YoutubeExternalRepositoryManagerImporterComponent extends YoutubeExternalR
 
         if ($youtube->create())
         {
-            ExternalSync :: quicksave($youtube, $object, $this->get_external()->get_id());
+            ExternalSync :: quicksave($youtube, $object, $this->get_external_repository()->get_id());
             $parameters = $this->get_parameters();
             $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
             $this->redirect(Translation :: get('ObjectImported', null, Utilities :: COMMON_LIBRARIES), false, $parameters, array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));

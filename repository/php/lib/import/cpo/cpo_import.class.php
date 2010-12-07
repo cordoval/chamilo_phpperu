@@ -12,7 +12,6 @@ use repository\content_object\document\Document;
 use repository\content_object\hotspot_question\HotspotQuestion;
 use repository\content_object\hotpotatoes\Hotpotatoes;
 use repository\content_object\learning_path\LearningPath;
-use repository\content_object\scorm_item\ScormItem;
 use DOMDocument;
 use common\libraries\Text;
 
