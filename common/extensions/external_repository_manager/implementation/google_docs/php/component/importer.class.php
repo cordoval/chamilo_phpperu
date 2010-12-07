@@ -56,7 +56,7 @@ class GoogleDocsExternalRepositoryManagerImporterComponent extends GoogleDocsExt
 
             if ($document->create())
             {
-                ExternalSync :: quicksave($document, $external_object, $this->get_external()->get_id());
+                ExternalSync :: quicksave($document, $external_object, $this->get_external_repository()->get_id());
 
                 $parameters = $this->get_parameters();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;

@@ -16,7 +16,7 @@ class DropboxExternalRepositoryTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function DropboxExternalRepositoryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new DropboxExternalRepositoryTableColumnModel();
         $renderer = new DropboxExternalRepositoryTableCellRenderer($browser);
