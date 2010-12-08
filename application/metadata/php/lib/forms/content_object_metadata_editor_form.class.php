@@ -70,17 +70,6 @@ class ContentObjectMetadataEditorForm extends MetadataForm
         $this->build_metadata_property_values();
     }
 
-    
-
-//    function build_editing_form()
-//    {
-//    	$this->build_basic_form();
-//
-//    	$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-//        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-//
-//        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-//    }
 
     function build_creation_form()
     {
@@ -98,17 +87,7 @@ class ContentObjectMetadataEditorForm extends MetadataForm
 
         $fails = 0;
 
-        //create new property value
-        if(!empty($values[MetadataPropertyValue :: PROPERTY_VALUE]))
-        {
-//            $metadata_property_value = new MetadataPropertyValue();
-//
-//            $metadata_property_value->set_content_object_id($values[MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID]);
-//            $metadata_property_value->set_property_type_id($values[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID]);
-//            $metadata_property_value->set_value($values[MetadataPropertyValue :: PROPERTY_VALUE]);
-
-            if(!$this->create_metadata_property_value())$fails++;
-        }
+        if(!parent :: edit_metadata()) $fails++;
 
         //update existing property values
         foreach($this->metadata_property_values as $metadata_property_value)

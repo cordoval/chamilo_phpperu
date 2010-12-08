@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\Request;
 
 class MetadataForm extends FormValidator
 {
@@ -82,6 +83,16 @@ class MetadataForm extends FormValidator
         
     }
 
+    function edit_metadata()
+    {
+        //create new property value
+        if(Request :: post(MetadataPropertyValue :: PROPERTY_VALUE))
+        {
+            return $this->create_metadata_property_value();
+        }
+        return true;
+    }
+
     /*
      * creates content object property value or user property value depending on $this->parent_type (user or content_object)
      * @return MetadataPropertyValue or false
@@ -109,8 +120,8 @@ class MetadataForm extends FormValidator
 
         $metadata_property_value->$function($values[self :: PARENT_ID]);
         
-        $metadata_property_value->set_property_type_id($values[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID]);
-        $metadata_property_value->set_value($values[MetadataPropertyValue :: PROPERTY_VALUE]);
+        $metadata_property_value->set_property_type_id(Request :: post(MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID));
+        $metadata_property_value->set_value(Request :: post(MetadataPropertyValue :: PROPERTY_VALUE));
 
         if($metadata_property_value->create())
         {
