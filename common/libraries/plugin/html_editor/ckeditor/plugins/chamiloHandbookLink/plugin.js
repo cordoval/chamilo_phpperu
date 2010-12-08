@@ -6,10 +6,10 @@ CKEDITOR.plugins.add('chamiloHandbookLink',
 		c.modes={wysiwyg:1,source:0};
 		c.canUndo=false;
 		editor.ui.addButton("chamiloHandbookLink",{
-			label:'help label for this plugin',
+			label:'add a link to another handbook topic',
 			command:editorname,
 			icon:this.path+"icon.gif"
 		});
-	CKEDITOR.dialog.add(editorname,this.path+"dialogs/dialog1.js")}
+	CKEDITOR.dialog.add(editorname,this.path+"dialogs/handbook.js")}
 });
 

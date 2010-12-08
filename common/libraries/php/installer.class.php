@@ -63,11 +63,6 @@ abstract class Installer
 
     function install()
     {
-        if (! $this->register_application())
-        {
-            return false;
-        }
-
         $dir = $this->get_path();
         $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
 
@@ -675,6 +670,11 @@ abstract class Installer
 
     function post_process()
     {
+        if (! $this->register_application())
+        {
+            return false;
+        }
+
         $application = $this->get_application();
 
         // Parse the Locations XML of the application

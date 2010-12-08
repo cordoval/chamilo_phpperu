@@ -20,6 +20,7 @@ abstract class ExternalRepositoryComponent extends SubManager
     const CONFIGURER_COMPONENT = 'configurer';
     const INTERNAL_SYNCER_COMPONENT = 'internal_syncer';
     const EXTERNAL_SYNCER_COMPONENT = 'external_syncer';
+    const NEWFOLDER_COMPONENT = 'newfolder';
 
     static function factory($type, $application)
     {

@@ -19,6 +19,8 @@ use repository\ContentObjectDisplay;
 use repository\content_object\document\Document;
 use repository\RepositoryManager;
 use rights\RightsUtilities;
+use common\libraries\EqualityCondition;
+use repository\ComplexContentObjectItem;
 
 
 
@@ -40,12 +42,17 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     const ALL_ALTERNATIVES = 'aa';
     const RELEVANT_ALTERNATIVES_ONLY = 'ro';
 
-    private $handbook_publication_id;
-    private $handbook_id;
-    private $handbook_selection_id;
+    private $handbook_publication_id; //the id of the publication
+    private $handbook_id; //the id of the parent handbook
+    private $handbook_selection_id; //the id of the current selection
+    private $complex_selection_id; //the id of the complex content object item wrapper
+    private $top_handbook_id; //the id of the top handbook
     private $selected_object;
     private $user_preferences = array();
     private $handbook_preferences = array();
+
+    private $next_item_id;
+    private $previous_item_id;
 
     private $edit_right;
     private $view_right;
@@ -62,7 +69,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         if($this->view_right)
         {
             $this->get_content_objects();
-            $this->get_preferences();
+            $this->get_preferences($this->handbook_id);
 
             parent::display_header();
 
@@ -107,8 +114,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         $user_id = $this->get_user_id();
         $this->handbook_publication_id = Request :: get(HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID);
         $location_id = HandbookRights::get_location_id_by_identifier_from_handbooks_subtree($this->handbook_publication_id);
-        $this->view_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::EDIT_RIGHT, $this->handbook_publication_id, $user_id);
-        $this->edit_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::VIEW_RIGHT, $this->handbook_publication_id, $user_id);
+        $this->view_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::VIEW_RIGHT, $this->handbook_publication_id, $user_id);
+        $this->edit_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::EDIT_RIGHT, $this->handbook_publication_id, $user_id);
         
     }
 
@@ -116,6 +123,9 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     {
         $this->handbook_id = Request :: get(HandbookManager::PARAM_HANDBOOK_ID);
         $this->handbook_selection_id = Request :: get(HandbookManager::PARAM_HANDBOOK_SELECTION_ID);
+        $this->complex_selection_id =  Request :: get(HandbookManager::PARAM_COMPLEX_OBJECT_ID);
+        $this->top_handbook_id =  Request :: get(HandbookManager::PARAM_TOP_HANDBOOK_ID);
+
 
         $rdm = RepositoryDataManager::get_instance();
 
@@ -135,6 +145,30 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                 $this->selected_object = $rdm->retrieve_content_object($publication->get_content_object_id());
             }
         }
+
+        $this->get_next_previous_items();
+       
+    }
+
+    function get_next_previous_items()
+    {
+        //TODO FINISH THIS FUNCTION
+        if($this->selected_object != null)
+        {
+            $rdm = RepositoryDataManager::get_instance();
+
+    //        $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->handbook_id);
+//            $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $this->selected_object->get_id());
+
+            $complex_content_item = $rdm->retrieve_complex_content_object_item($this->complex_selection_id);
+            $display_order = $complex_content_item->get_display_order();
+
+            $next = $display_order +1;
+            $previous = $display_order -1;
+
+        }
+
+
     }
 
     function get_menu()
@@ -150,7 +184,9 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
                 $html[] = '<div>';
                 $hpid = $this->handbook_publication_id;
-                $menu = new HandbookMenu( 'run.php?application='.self::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'='.$this->handbook_id,  $this->handbook_id, null, $hpid);
+
+//                $menu = new HandbookMenu( 'run.php?application='.self::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'='.$this->handbook_id,  $this->top_handbook_id, null, $this->handbook_publication_id, $this->handbook_id);
+               $menu = new HandbookMenu( '',  $this->handbook_id, null, $this->handbook_publication_id, $this->top_handbook_id);
                     $html[] = $menu->render_as_tree();
                 $html[] = '</div>';
             $html[] = '</div>';
@@ -169,22 +205,23 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     function display_content()
     {
 //        //VOORLOPIG: print preferences
-//         $html[] = '<div>';
-//         $html[] = 'user preferences:<br/>';
-//         while(list($key, $value)= each($this->user_preferences))
-//         {
-//             $html[] = $key . ' =  '. $value . '<br/>';
-//         }
-//         $html[] = 'handbook preferences:<br/>';
-//         while(list($key, $value)= each($this->handbook_preferences))
-//         {
-//             $html[] = $key . ' =  '. $value . '<br/>';
-//         }
-//         $html[] = '</div>';
+         $html[] = '<div>';
+         $html[] = 'user preferences:<br/>';
+         while(list($key, $value)= each($this->user_preferences))
+         {
+             $html[] = $key . ' =  '. $value . '<br/>';
+         }
+         $html[] = 'handbook preferences:<br/>';
+         while(list($key, $value)= each($this->handbook_preferences))
+         {
+             $html[] = $key . ' =  '. $value . '<br/>';
+         }
+         $html[] = '</div>';
 
         if ($this->selected_object && $this->selected_object->get_type() == Handbook::get_type_name())
         {
             //SHOW ALL ITEMS IN THIS HANDBOOK (one level)
+            //TODO: implement
             $html[] = $this->get_handbook_html($this->selected_object->get_id());
         }
         else if($this->selected_object)
@@ -210,6 +247,11 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         if($this->edit_right)
         {
             $actions[] = new ToolbarItem(Translation :: get('EditPublicationRights'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
+            $actions[] = new ToolbarItem(Translation :: get('ViewHandbookPreferences'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_VIEW_PREFERENCES, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
+
+            var_dump($this->handbook_id);
+            $actions[] = new ToolbarItem(Translation :: get('AddNewItemToHandbook'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_handbook_item_url($this->handbook_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+
         }
 
         if($this->selected_object && $this->edit_right)
@@ -220,12 +262,26 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         //view glossary
 
 
+        //previous item
+        if($this->previous_item_id != null)
+        {
+            $tool_actions[] = new ToolbarItem(Translation :: get('previous'), Theme :: get_common_image_path() . 'action_action_bar_left_hide.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->previous_item_id)));
+        }
+        //next
+        if($this->next_item_id != null)
+        {
+            $tool_actions[] = new ToolbarItem(Translation :: get('next'), Theme :: get_common_image_path() . 'action_action_bar_left_show.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->next_item_id)));
+        }
 
         $action_bar->set_common_actions($actions);
+
+        $action_bar->set_tool_actions($tool_actions);
 
         return $action_bar;
 
     }
+
+
 
 
 

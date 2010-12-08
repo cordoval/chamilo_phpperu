@@ -130,9 +130,9 @@ class Path
             case REL_FILE_PATH :
                 return self :: $path[$path_type] = self :: get(REL_PATH) . 'files/';
             case WEB_LAYOUT_PATH :
-                return self :: $path[$path_type] = self :: get(WEB_PATH) . 'layout/';
+                return self :: $path[$path_type] = self :: get(WEB_PATH) . 'common/libraries/resources/css/';
             case SYS_LAYOUT_PATH :
-                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'layout/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'common/libraries/resources/css/';
             case WEB_LANG_PATH :
                 return self :: $path[$path_type] = self :: get(WEB_PATH) . 'languages/';
             case SYS_LANG_PATH :

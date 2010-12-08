@@ -122,6 +122,7 @@ class ExternalRepositoryComponentBrowserComponent extends ExternalRepositoryComp
 
         $action_bar->set_search_url($this->get_url());
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //$action_bar->add_common_action(new ToolbarItem('New folder', Theme :: get_common_image_path() . 'action_browser.png', substr($this->get_url(), 0, strripos($this->get_url(), '=')+1). 'newfolder&folder='. $_REQUEST['folder'], ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         $renderers = $this->get_parent()->get_available_renderers();
 
