@@ -4,6 +4,7 @@ namespace common\libraries;
 
 use webservice\WebserviceDataManager;
 use webservice\WebserviceRights;
+use webservice\WebserviceManager;
 
 require_once dirname(__FILE__) . '/rest_message_renderer.class.php';
 require_once dirname(__FILE__) . '/success_rest_message.class.php';
