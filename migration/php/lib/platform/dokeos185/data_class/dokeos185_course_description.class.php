@@ -4,6 +4,7 @@ use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use repository\content_object\description\Description;
+use application\weblcms\ContentObjectPublication;
 
 /**
  * $Id: dokeos185_course_description.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
