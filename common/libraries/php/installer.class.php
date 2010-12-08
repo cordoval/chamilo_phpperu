@@ -645,7 +645,7 @@ abstract class Installer
                         $camelcase_method = Utilities :: underscores_to_camelcase($method);
 
                         $webservice = new WebserviceRegistration();
-                        $webservice->set_name(Translation :: get($camelcase_method, null, $namespace));
+                        $webservice->set_name(Translation :: get($camelcase_method, null, WebserviceManager :: APPLICATION_NAME));
                         $webservice->set_description(Translation :: get($camelcase_folder . $camelcase_method . 'Description', null, $namespace));
                         $webservice->set_active(1);
                         $webservice->set_category($object_webservice_category->get_id());
