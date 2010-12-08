@@ -10,7 +10,9 @@ use common\libraries\Utilities;
 class MetadataForm extends FormValidator
 {
     private $property_types = array();
+    private $prefixes = array();
     private $parent_type;
+    
 
     const PARENT_USER = 'user';
     const PARENT_CONTENT_OBJECT = 'content_object';
@@ -19,6 +21,7 @@ class MetadataForm extends FormValidator
     function __construct($name, $method, $action)
     {
         $this->retrieve_property_types();
+        $this->retrieve_prefixes();
 
         parent :: __construct($name, $method, $action);
     }
@@ -50,7 +53,8 @@ class MetadataForm extends FormValidator
     {
         $mdm = MetadataDataManager :: get_instance();
 
-        $prefixes = $mdm->retrieve_prefixes();
+        $this->prefixes = $mdm->retrieve_prefixes();
+        
     }
 
     function get_property_types()
@@ -58,17 +62,24 @@ class MetadataForm extends FormValidator
         return $this->property_types;
     }
 
+    function get_prefixes()
+    {
+        return $this->prefixes;
+    }
+
     function build_empty_property_value()
     {
-        $group = array();
+        $this->addElement('select', MetadataPropertyType :: PROPERTY_NS_PREFIX, Translation :: get('MetadataPropertyType'), $this->get_prefixes(), array('class' => 'ns_prefix'));
+        //$group = array();
+        
+        //$group[] = $this->createElement('select', MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, Translation :: get('MetadataPropertyType'), $this->property_types);
+        //$group[] = $this->createElement('text', MetadataPropertyValue :: PROPERTY_VALUE, Translation :: get('MetadataPropertyValue'), array('id' => MetadataManager :: PARAM_METADATA_PROPERTY_VALUE));
 
-        $group[] = $this->createElement('select', MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, Translation :: get('MetadataPropertyType'), $this->property_types);
-        $group[] = $this->createElement('text', MetadataPropertyValue :: PROPERTY_VALUE, Translation :: get('MetadataPropertyValue'), array('id' => MetadataManager :: PARAM_METADATA_PROPERTY_VALUE));
-
-        $this->addGroup($group, '', Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES));
+        //$this->addGroup($group, '', Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES));
 
         //javascript
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/metadata/resources/javascript/set_metadata_defaults.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/metadata/resources/javascript/format_metadata_value.js'));
+        
     }
 
     /*

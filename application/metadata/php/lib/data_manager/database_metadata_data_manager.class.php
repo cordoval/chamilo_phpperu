@@ -537,13 +537,13 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
             $namespace_alias = $this->get_alias(MetadataNamespace :: get_table_name());
             $type_alias = $this->get_alias(MetadataPropertyType :: get_table_name());
 
-            $query = 'SELECT ' . $namespace_alias . '.' . MetadataNamespace :: PROPERTY_NS_PREFIX . $namespace_alias . '.' . MetadataNamespace :: PROPERTY_ID;
+            $query = 'SELECT DISTINCT ' . $namespace_alias . '.' . MetadataNamespace :: PROPERTY_NS_PREFIX . ', ' . $namespace_alias . '.' . MetadataNamespace :: PROPERTY_ID;
             $query .= ' FROM ' . $this->escape_table_name(MetadataNamespace :: get_table_name()) . ' AS ' . $namespace_alias;
             $query .= ' INNER JOIN ' . $this->escape_table_name(MetadataPropertyType :: get_table_name()) . ' AS ' . $type_alias;
             $query .= ' ON ' . $this->escape_column_name(MetadataPropertyType :: PROPERTY_NAMESPACE, $type_alias) . ' = '. $this->escape_column_name(MetadataNamespace :: PROPERTY_ID, $namespace_alias);
             
-            $translator = new ConditionTranslator($this);
-            $query .= $translator->render_query($condition);
+            //$translator = new ConditionTranslator($this);
+            //$query .= $translator->render_query(null);
 
             $res = $this->query($query);
 
