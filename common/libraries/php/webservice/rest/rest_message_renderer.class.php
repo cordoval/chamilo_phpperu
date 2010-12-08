@@ -23,7 +23,7 @@ abstract class RestMessageRenderer
         }
         else
         {
-            if(is_array($object) && count($object) > 0 && $object[1] instanceof DataClass)
+            if(is_array($object) && count($object) > 0 && $object[0] instanceof DataClass)
             {
                $this->render_multiple_objects($object);
             }

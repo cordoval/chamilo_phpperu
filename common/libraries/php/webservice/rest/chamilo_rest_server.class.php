@@ -2,6 +2,9 @@
 
 namespace common\libraries;
 
+use webservice\WebserviceDataManager;
+use webservice\WebserviceRights;
+
 require_once dirname(__FILE__) . '/rest_message_renderer.class.php';
 require_once dirname(__FILE__) . '/success_rest_message.class.php';
 require_once dirname(__FILE__) . '/rest_server.class.php';
@@ -98,10 +101,6 @@ class ChamiloRestServer extends RestServer
             {
                 $this->result = call_user_func(array($this->webservice_handler, $function), $parameters);
             }
-            else
-            {
-                $this->result = new SuccessRestMessage(false, Translation :: get('NotAllowedToExecuteWebservice'));
-            }
         }
         else
         {
@@ -112,7 +111,28 @@ class ChamiloRestServer extends RestServer
 
     private function is_allowed($application, $object, $function)
     {
-        return WebserviceAuthentication :: factory()->is_valid();
+        $user = WebserviceAuthentication :: factory()->is_valid();
+        
+        if(!$user)
+        {
+            $this->result = new SuccessRestMessage(false, Translation :: get('NotAuthorized'));
+            return false;
+        }
+
+        $registration = WebserviceDataManager :: retrieve_webservice_registration_by_code($application . '_' . $object . '_' . $function);
+        if(!$registration)
+        {
+            $this->result = new SuccessRestMessage(false, Translation :: get('WebserviceNotRegistered'));
+            return false;
+        }
+
+        if(!WebserviceRights :: is_allowed_in_webservices_subtree(WebserviceRights :: USE_RIGHT, $registration->get_id(), WebserviceRights :: TYPE_WEBSERVICE, $user->get_id()))
+        {
+            $this->result = new SuccessRestMessage(false, Translation :: get('NoRightsToExecuteWebservice'));
+            return false;
+        }
+
+        return true;
     }
 
     private function handle_result()
