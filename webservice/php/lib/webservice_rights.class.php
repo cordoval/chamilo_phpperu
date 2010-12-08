@@ -72,9 +72,9 @@ class WebserviceRights
     	return RightsUtilities :: get_location_by_identifier(WebserviceManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_WEBSERVICES);
     }
 
-    static function is_allowed_in_webservices_subtree($right, $location, $type)
+    static function is_allowed_in_webservices_subtree($right, $location, $type, $user = null)
     {
-    	 return RightsUtilities :: is_allowed($right, $location, $type, WebserviceManager :: APPLICATION_NAME, null, 0, self :: TREE_TYPE_WEBSERVICES);
+    	 return RightsUtilities :: is_allowed($right, $location, $type, WebserviceManager :: APPLICATION_NAME, $user, 0, self :: TREE_TYPE_WEBSERVICES);
     }
 }
 ?>

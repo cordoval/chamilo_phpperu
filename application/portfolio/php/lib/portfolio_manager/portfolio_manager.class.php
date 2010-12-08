@@ -465,8 +465,6 @@ class PortfolioManager extends WebApplication
 
     static function get_portfolio_system_settings_page()
     {
-        //TODO: support for multiple languates
-        //return Configuration :: get_instance()->get_parameter('general', 'root_web') . self :: SYSTEM_SETTINGS_INFO_FILE_LOCATION . Translation :: get_instance()->get_language() . '_' . self :: SYSTEM_SETTINGS_INFO_FILE_NAME;
         return Path :: get(WEB_PATH) . self :: SYSTEM_SETTINGS_INFO_FILE_LOCATION . Translation :: get_instance()->get_language() . '_' . self :: SYSTEM_SETTINGS_INFO_FILE_NAME;
 
     }

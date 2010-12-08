@@ -20,7 +20,6 @@ class WebserviceCategory extends DataClass
     const CLASS_NAME = __CLASS__;
     const PROPERTY_NAME = 'name';
     const PROPERTY_PARENT = 'parent_id';
-    const PROPERTY_LOCATION = 'location';
 
     /**
      * Get the default properties of all webservice_categories.
@@ -28,7 +27,7 @@ class WebserviceCategory extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_NAME));
+        return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_PARENT));
     }
 
     /**
@@ -76,12 +75,6 @@ class WebserviceCategory extends DataClass
     {
         $wdm = WebserviceDataManager :: get_instance();
         $wdm->create_webservice_category($this);
-
-        /*$location = new Location();
-        $location->set_location($this->get_name());
-        $location->set_application('webservice');
-        $location->set_type('webservice_category');
-        $location->set_identifier($this->get_id());*/
 
         if ($this->get_parent())
         {

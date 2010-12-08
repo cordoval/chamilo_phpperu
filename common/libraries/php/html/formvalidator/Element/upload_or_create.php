@@ -6,7 +6,6 @@ use common\libraries\FormValidatorHtmlEditorOptions;
 use common\libraries\Utilities;
 
 require_once 'HTML/QuickForm/radio.php';
-
 /**
  * @package common.html.formvalidator.Element
  */

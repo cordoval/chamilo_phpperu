@@ -1,0 +1,5 @@
+- all webservice registrations / categories will change due to new webservices
+- WebserviceRegistration:   * application field is removed
+                            * code field is added
+                            * parent_id changes to category_id
+- WebserviceCredential removed
