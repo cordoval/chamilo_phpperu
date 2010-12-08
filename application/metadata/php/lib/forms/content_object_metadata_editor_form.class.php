@@ -11,6 +11,7 @@ use common\libraries\Translation;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\Request;
 
 class ContentObjectMetadataEditorForm extends MetadataForm
 {
@@ -58,11 +59,11 @@ class ContentObjectMetadataEditorForm extends MetadataForm
 
         if(count($this->content_object_property_metadata_values))
         {
-            $this->addElement('html', '<h3>' .Translation :: get('Predefined').'</h3>');
+            $this->addElement('html', '<h4>' .Translation :: get('Predefined').'</h4>');
             $this->build_content_object_property_metadata_values();
         }
 
-        $this->addElement('html', '<h3>' .Translation :: get('Additional').'</h3>');
+        $this->addElement('html', '<h4>' .Translation :: get('Additional').'</h4>');
 
         $this->build_empty_property_value();
 
@@ -136,7 +137,7 @@ class ContentObjectMetadataEditorForm extends MetadataForm
                 //select appropriate value input box according to value type
                 //$appendix = ($metadata_property_attribute_value->get_value_type() == MetadataPropertyAttributeValue :: VALUE_TYPE_ID) ? '_n' : '';
                 //$appendix = '_n';
-                $metadata_property_attribute_value->set_value($_POST[MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id()]);
+                $metadata_property_attribute_value->set_value(Request :: post(MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id()));
 
                 if(!$metadata_property_attribute_value->create()) $fails ++;
             }
