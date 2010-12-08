@@ -21,4 +21,3 @@ class handbook_preferences_viewer extends HandbookManager
         echo $preferences;
     }
 }
-?>

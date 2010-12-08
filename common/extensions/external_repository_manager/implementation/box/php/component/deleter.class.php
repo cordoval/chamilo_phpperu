@@ -1,5 +1,5 @@
 <?php
-namespace common\extensions\external_repository_manager\implementation\Box;
+namespace common\extensions\external_repository_manager\implementation\box;
 
 use common\libraries\Utilities;
 
@@ -35,4 +35,3 @@ class BoxExternalRepositoryManagerDeleterComponent extends BoxExternalRepository
         }
     }
 }
-?>
