@@ -57,7 +57,7 @@ class WikipediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
         $parameters['redirects'] = true;
 
         $this->wikipedia->request(WikipediaRestClient :: METHOD_POST, null, $parameters);
-    }    
+    }
 
     /**
      * @param mixed $condition
@@ -82,21 +82,19 @@ class WikipediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
         $parameters['gsrlimit'] = $count;
         $parameters['gsroffset'] = $offset;
         $parameters['prop'] = 'info';
-		$parameters['inprop'] = 'url';  
-		$parameters['format'] = 'xml';
-		$parameters['export'] = true;
+        $parameters['inprop'] = 'url';
+        $parameters['format'] = 'xml';
+        $parameters['export'] = true;
         $parameters['redirects'] = true;
 
         $result = $this->wikipedia->request(WikipediaRestClient :: METHOD_GET, null, $parameters);
-        
-		$objects = array();
+
+        $objects = array();
         foreach ($result->get_response_content_xml()->query->pages->page as $page)
-        {            
-        	dump($page);
-        	exit;
-        	$objects[] = $this->get_article($page);
+        {
+            $objects[] = $this->get_article($page);
         }
-		return new ArrayResultSet($objects);
+        return new ArrayResultSet($objects);
     }
 
     protected function get_article($page)
@@ -105,19 +103,18 @@ class WikipediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
         $object->set_id((int) $page->attributes()->pageid);
         $object->set_external_repository_id($this->get_external_repository_instance_id());
 
-        $file_info = pathinfo(substr((string) $page->attributes()->title, 5));
-        $object->set_title($file_info['filename']);
-        $object->set_description($file_info['filename']);
-		$time = strtotime((int) $page->attributes()->touched);
+        $object->set_title((string) $page->attributes()->title);
+        $object->set_description((string) $page->attributes()->title);
+        $time = strtotime((int) $page->attributes()->touched);
         $object->set_created($time);
-        $object->set_modified($time);        
-        
-        $object->set_urls($page->attributes()->fullurl);        		
+        $object->set_modified($time);
+
+        $object->set_urls((string) $page->attributes()->fullurl);
 
         $object->set_rights($this->determine_rights());
-        
+
         return $object;
-    }   
+    }
 
     /**
      * @param mixed $condition
@@ -226,14 +223,6 @@ class WikipediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
     function delete_external_repository_object($id)
     {
         return true;
-    }
-    
-	function download_external_repository_object($external_object)
-    {
-    	$url = $external_object->get_urls(). '&printable=yes';
-    	$c = file_get_contents("http://en.wikipedia.org/wiki/Wikipedia:Featured_pictures/Culture,_entertainment,_and_lifestyle/Sport");    	
-	    
-    	return $c;
     }
 }
 ?>

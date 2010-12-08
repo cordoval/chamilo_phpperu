@@ -35,11 +35,15 @@ class WikipediaExternalRepositoryObject extends ExternalRepositoryObject
     {
         return self :: OBJECT_TYPE;
     }
-    
-	function get_content_data($external_object)
-	{			
-		$external_repository = RepositoryDataManager :: get_instance()->retrieve_external_instance($this->get_external_repository_id());
-		return WikipediaExternalRepositoryManagerConnector :: get_instance($external_repository)->download_external_repository_object($external_object);
+
+	function get_content_data()
+	{
+		return file_get_contents($this->get_urls());
+	}
+
+	function get_render_url()
+	{
+	    return $this->get_urls() . '?action=render';
 	}
 }
 ?>
