@@ -37,12 +37,20 @@ class MetadataForm extends FormValidator
     function retrieve_property_types()
     {
         $mdm = MetadataDataManager :: get_instance();
+
         $property_types = $mdm->retrieve_metadata_property_types();
 
         while($property_type = $property_types->next_result())
         {
             $this->property_types[$property_type->get_id()] = $property_type->get_ns_prefix() .':'. $property_type->get_name();
         }
+    }
+
+    function retrieve_prefixes()
+    {
+        $mdm = MetadataDataManager :: get_instance();
+
+        $prefixes = $mdm->retrieve_prefixes();
     }
 
     function get_property_types()

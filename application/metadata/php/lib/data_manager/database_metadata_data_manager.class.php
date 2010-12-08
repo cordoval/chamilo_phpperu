@@ -529,6 +529,33 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
             return $this->delete(MetadataDefaultValue :: get_table_name(), $condition);
         }
 
+        /*
+         * retrieve prefixes of namespaces that have property types set
+         */
+        function retrieve_prefixes()
+        {
+            $namespace_alias = $this->get_alias(MetadataNamespace :: get_table_name());
+            $type_alias = $this->get_alias(MetadataPropertyType :: get_table_name());
+
+            $query = 'SELECT ' . $namespace_alias . '.' . MetadataNamespace :: PROPERTY_NS_PREFIX . $namespace_alias . '.' . MetadataNamespace :: PROPERTY_ID;
+            $query .= ' FROM ' . $this->escape_table_name(MetadataNamespace :: get_table_name()) . ' AS ' . $namespace_alias;
+            $query .= ' INNER JOIN ' . $this->escape_table_name(MetadataPropertyType :: get_table_name()) . ' AS ' . $type_alias;
+            $query .= ' ON ' . $this->escape_column_name(MetadataPropertyType :: PROPERTY_NAMESPACE, $type_alias) . ' = '. $this->escape_column_name(MetadataNamespace :: PROPERTY_ID, $namespace_alias);
+            
+            $translator = new ConditionTranslator($this);
+            $query .= $translator->render_query($condition);
+
+            $res = $this->query($query);
+
+            $prefixes = array();
+            while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+            {
+                $prefixes[$record[MetadataNamespace :: PROPERTY_ID]] = $record[MetadataNamespace :: PROPERTY_NS_PREFIX];
+            }
+            $res->free();
+            return $prefixes;
+        }
+
         function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null){}
 //
         function get_content_object_publication_attribute($publication_id){}
