@@ -43,6 +43,12 @@ class SurveyManagerTakerComponent extends SurveyManager
         {
             Display :: not_allowed();
         }
+     
+        $publication = SurveyDataManager::get_instance()->retrieve_survey_publication($this->publication_id);
+        
+        if(!$publication->is_publication_period()){
+        	 $this->redirect(Translation :: get('NotInPublicationPeriod'), (false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+        }
         
         ComplexDisplay :: launch(Survey :: get_type_name(), $this, false);
     }
