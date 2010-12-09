@@ -35,4 +35,3 @@ class BoxExternalRepositoryManagerDeleterComponent extends BoxExternalRepository
         }
     }
 }
-?>
