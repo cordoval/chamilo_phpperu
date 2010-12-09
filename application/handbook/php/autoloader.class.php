@@ -1,33 +1,19 @@
 <?php
 namespace application\handbook;
 use common\libraries\Utilities;
+use common\libraries\WebApplication;
 
 class Autoloader
 {
     static function load($classname)
 	{
-	$classname_parts = explode('\\', $classname);
-
-        if (count($classname_parts) == 1)
-        {
-            return false;
-        }
-        else
-        {
-            $classname = $classname_parts[count($classname_parts) - 1];
-            array_pop($classname_parts);
-            if (implode('\\', $classname_parts) != __NAMESPACE__)
-            {
-                return false;
-            }
-        }
-
+	
         $list = array(
-           'handbook_data_manager' => 'handbook_data_manager.class.php',
+            'handbook_data_manager' => 'handbook_data_manager.class.php',
             'handbook_preference' => 'handbook_preference.class.php',
             'handbook_rights' => 'handbook_rights.class.php',
             'handbook_publication' => 'handbook_publication.class.php',
-            'handbook_manager' => '/handbook_manager/handbook_manager.class.php'
+            'handbook_manager' => 'handbook_manager/handbook_manager.class.php'
             );
 
 
@@ -44,5 +30,3 @@ class Autoloader
 
 
 }
-
-?>
