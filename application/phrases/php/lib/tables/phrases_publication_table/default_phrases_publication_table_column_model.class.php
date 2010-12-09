@@ -5,18 +5,12 @@ use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 use repository\ContentObject;
 use repository\RepositoryDataManager;
-/**
- * $Id: default_phrases_publication_table_column_model.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.tables.phrases_publication_table
- */
-require_once dirname(__FILE__) . '/../../phrases_publication.class.php';
 
 /**
- * Default column model for the phrases_publication table
- *
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class DefaultPhrasesPublicationTableColumnModel extends ObjectTableColumnModel
 {
 

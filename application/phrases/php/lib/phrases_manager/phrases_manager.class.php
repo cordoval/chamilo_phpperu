@@ -5,20 +5,12 @@ use common\libraries\WebApplication;
 use repository\content_object\adaptive_assessment\AdaptiveAssessment;
 use common\libraries\Translation;
 use common\libraries\Session;
-/**
- * $Id: phrases_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
- * @package application.lib.phrases.phrases_manager
- */
-require_once dirname(__FILE__) . '/../phrases_data_manager.class.php';
-require_once dirname(__FILE__) . '/component/phrases_publication_browser/phrases_publication_browser_table.class.php';
-require_once dirname(__FILE__) . '/../phrases_rights.class.php';
 
 /**
- * A phrases manager
- *
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class PhrasesManager extends WebApplication
 {
     const APPLICATION_NAME = 'phrases';

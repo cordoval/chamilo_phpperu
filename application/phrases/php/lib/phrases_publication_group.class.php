@@ -2,16 +2,12 @@
 namespace application\phrases;
 
 use common\libraries\DataClass;
-/**
- * $Id: phrases_publication_group.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases
- */
 
 /**
- * This class describes a PhrasesPublicationGroup data object
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class PhrasesPublicationGroup extends DataClass
 {
     const CLASS_NAME = __CLASS__;

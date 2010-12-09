@@ -1,6 +1,11 @@
 <?php
 namespace application\phrases;
 
+/**
+ * @author Hans De Bisschop
+ * @package application.phrases
+ */
+
 interface PhrasesDataManagerInterface
 {
 

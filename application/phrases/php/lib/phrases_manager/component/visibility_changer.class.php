@@ -6,17 +6,12 @@ use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
-/**
- * $Id: visibility_changer.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component
- */
-require_once dirname(__FILE__) . '/../phrases_manager.class.php';
 
 /**
- * Component to create a new phrases_publication object
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class PhrasesManagerVisibilityChangerComponent extends PhrasesManager
 {
 

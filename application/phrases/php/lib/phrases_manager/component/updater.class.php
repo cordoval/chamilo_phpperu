@@ -8,18 +8,12 @@ use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
-/**
- * $Id: updater.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component
- */
-require_once dirname(__FILE__) . '/../phrases_manager.class.php';
-require_once dirname(__FILE__) . '/../../forms/phrases_publication_form.class.php';
 
 /**
- * Component to edit an existing phrases_publication object
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class PhrasesManagerUpdaterComponent extends PhrasesManager
 {
 

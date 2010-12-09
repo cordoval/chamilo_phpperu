@@ -8,20 +8,10 @@ use common\libraries\Theme;
 use common\libraries\Request;
 use common\libraries\ComplexContentObjectSupport;
 use common\libraries\Utilities;
-/**
- * $Id: phrases_publication_browser_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component.phrases_publication_browser
- */
-require_once dirname(__FILE__) . '/phrases_publication_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../tables/phrases_publication_table/default_phrases_publication_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../phrases_publication.class.php';
-require_once dirname(__FILE__) . '/../../phrases_manager.class.php';
 
 /**
- * Cell rendere for the learning object browser table
- *
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
 
 class PhrasesPublicationBrowserTableCellRenderer extends DefaultPhrasesPublicationTableCellRenderer

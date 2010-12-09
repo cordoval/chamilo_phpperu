@@ -6,8 +6,10 @@ use common\libraries\EqualityCondition;
 use tracking\SimpleTracker;
 
 /**
- * @package application.lib.weblcms.trackers
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
+
 class PhrasesAdaptiveAssessmentItemAttemptTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;

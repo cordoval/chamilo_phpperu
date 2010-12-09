@@ -9,13 +9,11 @@ use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use repository\OpenQuestion;
 use common\libraries\Path;
-/**
- * $Id: document_downloader.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component
- */
 
-require_once dirname(__FILE__) . '/../../../trackers/phrases_question_attempts_tracker.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/phrases_phrases_attempts_tracker.class.php';
+/**
+ * @author Hans De Bisschop
+ * @package application.phrases
+ */
 
 class PhrasesManagerDocumentDownloaderComponent extends PhrasesManager
 {
@@ -33,8 +31,8 @@ class PhrasesManagerDocumentDownloaderComponent extends PhrasesManager
             {
                 $id = Request :: get('tid');
                 $type = 'tid';
-                $track = new PhrasesPhrasesAttemptsTracker();
-                $condition = new EqualityCondition(PhrasesPhrasesAttemptsTracker :: PROPERTY_ID, $id);
+                $track = new PhrasesAdaptiveAssessmentAttemptTracker();
+                $condition = new EqualityCondition(PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_ID, $id);
                 $user_phrasess = $track->retrieve_tracker_items($condition);
                 $filenames = $this->save_user_phrases_docs($user_phrasess[0]);
             }
@@ -61,8 +59,8 @@ class PhrasesManagerDocumentDownloaderComponent extends PhrasesManager
     function save_phrases_docs($phrases_id)
     {
         //$publication = PhrasesDataManager :: get_instance()->retrieve_content_object_publication($phrases_id);
-        $track = new PhrasesPhrasesAttemptsTracker();
-        $condition = new EqualityCondition(PhrasesPhrasesAttemptsTracker :: PROPERTY_PHRASES_ID, $phrases_id);
+        $track = new PhrasesAdaptiveAssessmentAttemptTracker();
+        $condition = new EqualityCondition(PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ID, $phrases_id);
         $user_phrasess = $track->retrieve_tracker_items($condition);
         //dump($user_phrasess);
         foreach ($user_phrasess as $user_phrases)
@@ -99,9 +97,9 @@ class PhrasesManagerDocumentDownloaderComponent extends PhrasesManager
         foreach ($questions as $i => $question)
         {
             $clo_question = $c_questions[$i];
-            $track = new PhrasesQuestionAttemptsTracker();
-            $conditiona = new EqualityCondition(PhrasesQuestionAttemptsTracker :: PROPERTY_PHRASES_ATTEMPT_ID, $user_phrases->get_id());
-            $conditionq = new EqualityCondition(PhrasesQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $clo_question->get_id());
+            $track = new PhrasesAdaptiveAssessmentQuestionAttemptsTracker();
+            $conditiona = new EqualityCondition(PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID, $user_phrases->get_id());
+            $conditionq = new EqualityCondition(PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_COMPLEX_QUESTION_ID, $clo_question->get_id());
             $condition = new AndCondition(array($conditiona, $conditionq));
             $user_questions = $track->retrieve_tracker_items($condition);
             //print_r($condition);

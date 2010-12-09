@@ -11,22 +11,10 @@ use common\libraries\InCondition;
 use repository\ContentObjectPublicationAttributes;
 use common\libraries\Session;
 use repository\content_object\adaptive_assessment\AdaptiveAssessment;
-/**
- * $Id: database_phrases_data_manager.class.php 237 2009-11-16 13:04:53Z vanpouckesven $
- * @package application.lib.phrases.data_manager
- */
-require_once dirname(__FILE__) . '/../phrases_publication.class.php';
-require_once dirname(__FILE__) . '/../category_manager/phrases_publication_category.class.php';
-require_once dirname(__FILE__) . '/../phrases_publication_group.class.php';
-require_once dirname(__FILE__) . '/../phrases_publication_user.class.php';
-require_once dirname(__FILE__) . '/../phrases_data_manager_interface.class.php';
 
 /**
- * This is a data manager that uses a database for storage. It was written
- * for MySQL, but should be compatible with most SQL flavors.
- *
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
 
 class DatabasePhrasesDataManager extends Database implements PhrasesDataManagerInterface

@@ -8,17 +8,10 @@ use common\libraries\Translation;
 use repository\content_object\adaptive_assessment\AdaptiveAssessment;
 
 /**
- * $Id: default_phrases_publication_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.tables.phrases_publication_table
- */
-require_once dirname(__FILE__) . '/../../phrases_publication.class.php';
-
-/**
- * Default cell renderer for the phrases_publication table
- *
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class DefaultPhrasesPublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 

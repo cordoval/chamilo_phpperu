@@ -4,11 +4,9 @@ namespace application\phrases;
 use rights\RightsUtilities;
 
 /**
- * $Id: user_rights.class.php 196 2009-11-13 12:19:18Z chellee $
- * @package user
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
-
-require_once dirname(__FILE__) . '/phrases_manager/phrases_manager.class.php';
 
 class PhrasesRights
 {

@@ -4,7 +4,8 @@ use common\libraries\Utilities;
 use tracking\SimpleTracker;
 
 /**
- * @package application.lib.assessment.trackers
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
 
 class PhrasesAdaptiveAssessmentQuestionAttemptsTracker extends SimpleTracker

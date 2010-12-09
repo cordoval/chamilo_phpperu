@@ -13,16 +13,12 @@ use repository\RepositoryDataManager;
 use repository\content_object\adaptive_assessment\AdaptiveAssessment;
 
 use common\extensions\repo_viewer\RepoViewer;
-/**
- * $Id: phrases_publisher.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.publisher
- */
-require_once dirname(__FILE__) . '/../forms/phrases_publication_form.class.php';
 
 /**
- * This class represents a profile publisher component which can be used
- * to preview a learning object in the learning object publisher.
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
+
 class PhrasesPublisher
 {
     private $parent;

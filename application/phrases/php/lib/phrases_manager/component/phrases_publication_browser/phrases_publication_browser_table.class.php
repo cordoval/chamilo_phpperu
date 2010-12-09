@@ -7,21 +7,12 @@ use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Translation;
 use common\libraries\Request;
-/**
- * $Id: phrases_publication_browser_table.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component.phrases_publication_browser
- */
-require_once dirname(__FILE__) . '/phrases_publication_browser_table_data_provider.class.php';
-require_once dirname(__FILE__) . '/phrases_publication_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/phrases_publication_browser_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../phrases_manager.class.php';
 
 /**
- * Table to display a list of phrases_publications
- *
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class PhrasesPublicationBrowserTable extends ObjectTable
 {
     const DEFAULT_NAME = 'phrases_publication_browser_table';

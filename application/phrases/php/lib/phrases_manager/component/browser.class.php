@@ -17,20 +17,12 @@ use common\libraries\AndCondition;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\InequalityCondition;
 use common\libraries\Utilities;
-/**
- * $Id: browser.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component
- */
-
-require_once dirname(__FILE__) . '/../phrases_manager.class.php';
-require_once dirname(__FILE__) . '/../../phrases_publication_category_menu.class.php';
-require_once dirname(__FILE__) . '/phrases_publication_browser/phrases_publication_browser_table.class.php';
 
 /**
- * phrases component which allows the user to browse his phrases_publications
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class PhrasesManagerBrowserComponent extends PhrasesManager
 {
     private $action_bar;
