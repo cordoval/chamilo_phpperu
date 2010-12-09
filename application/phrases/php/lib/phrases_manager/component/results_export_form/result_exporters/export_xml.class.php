@@ -17,8 +17,8 @@ class ResultsXmlExport extends ResultsExport
     {
         $publication = PhrasesDataManager :: get_instance()->retrieve_phrases_publication($id);
         $phrases = $publication->get_publication_object();
-        $condition = new EqualityCondition(PhrasesPhrasesAttemptsTracker :: PROPERTY_PHRASES_ID, $id);
-        $track = new PhrasesPhrasesAttemptsTracker();
+        $condition = new EqualityCondition(PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ID, $id);
+        $track = new PhrasesAdaptiveAssessmentAttemptTracker();
         $user_phrasess = $track->retrieve_tracker_items($condition);
         foreach ($user_phrasess as $user_phrases)
         {
@@ -32,8 +32,8 @@ class ResultsXmlExport extends ResultsExport
 
     function export_user_phrases_id($id)
     {
-        $condition = new EqualityCondition(PhrasesPhrasesAttemptsTracker :: PROPERTY_ID, $id);
-        $track = new PhrasesPhrasesAttemptsTracker();
+        $condition = new EqualityCondition(PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_ID, $id);
+        $track = new PhrasesAdaptiveAssessmentAttemptTracker();
         $user_phrasess = $track->retrieve_tracker_items($condition);
         $user_phrases = $user_phrasess[0];
         $publication = PhrasesDataManager :: get_instance()->retrieve_phrases_publication($user_phrases->get_phrases_id());
@@ -89,9 +89,9 @@ class ResultsXmlExport extends ResultsExport
         $data['type'] = htmlspecialchars($question->get_type());
         $data['weight'] = $clo_question->get_weight();
 
-        $track = new PhrasesQuestionAttemptsTracker();
-        $condition_q = new EqualityCondition(PhrasesQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $clo_question->get_id());
-        $condition_a = new EqualityCondition(PhrasesQuestionAttemptsTracker :: PROPERTY_PHRASES_ATTEMPT_ID, $user_phrases->get_id());
+        $track = new PhrasesAdaptiveAssessmentQuestionAttemptsTracker();
+        $condition_q = new EqualityCondition(PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_COMPLEX_QUESTION_ID, $clo_question->get_id());
+        $condition_a = new EqualityCondition(PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID, $user_phrases->get_id());
         $condition = new AndCondition(array($condition_q, $condition_a));
         $user_answers = $track->retrieve_tracker_items($condition);
         $user_answer = $user_answers[0];

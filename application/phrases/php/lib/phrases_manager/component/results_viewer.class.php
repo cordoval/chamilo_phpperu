@@ -38,16 +38,16 @@ class PhrasesManagerResultsViewerComponent extends PhrasesManager
 
             if ($split[0] == 'aid')
             {
-                $condition = new EqualityCondition(PhrasesPhrasesAttemptsTracker :: PROPERTY_PHRASES_ID, $id);
+                $condition = new EqualityCondition(PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ID, $id);
             }
             else
             {
-                $condition = new EqualityCondition(PhrasesPhrasesAttemptsTracker :: PROPERTY_ID, $id);
+                $condition = new EqualityCondition(PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_ID, $id);
                 $parameters = array(
                         PhrasesManager :: PARAM_PHRASES_PUBLICATION => $pid);
             }
 
-            $dummy = new PhrasesPhrasesAttemptsTracker();
+            $dummy = new PhrasesAdaptiveAssessmentAttemptTracker();
             $trackers = $dummy->retrieve_tracker_items($condition);
             foreach ($trackers as $tracker)
             {
@@ -141,9 +141,9 @@ class PhrasesManagerResultsViewerComponent extends PhrasesManager
 
     function retrieve_phrases_results()
     {
-        $condition = new EqualityCondition(PhrasesQuestionAttemptsTracker :: PROPERTY_PHRASES_ATTEMPT_ID, $this->current_attempt_id);
+        $condition = new EqualityCondition(PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID, $this->current_attempt_id);
 
-        $dummy = new PhrasesQuestionAttemptsTracker();
+        $dummy = new PhrasesAdaptiveAssessmentQuestionAttemptsTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
 
         $results = array();
@@ -161,11 +161,11 @@ class PhrasesManagerResultsViewerComponent extends PhrasesManager
 
     function change_answer_data($question_cid, $score, $feedback)
     {
-        $conditions[] = new EqualityCondition(PhrasesQuestionAttemptsTracker :: PROPERTY_PHRASES_ATTEMPT_ID, $this->current_attempt_id);
-        $conditions[] = new EqualityCondition(PhrasesQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $question_cid);
+        $conditions[] = new EqualityCondition(PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID, $this->current_attempt_id);
+        $conditions[] = new EqualityCondition(PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_COMPLEX_QUESTION_ID, $question_cid);
         $condition = new AndCondition($conditions);
 
-        $dummy = new PhrasesQuestionAttemptsTracker();
+        $dummy = new PhrasesAdaptiveAssessmentQuestionAttemptsTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
         $tracker = $trackers[0];
         $tracker->set_score($score);
@@ -175,8 +175,8 @@ class PhrasesManagerResultsViewerComponent extends PhrasesManager
 
     function change_total_score($total_score)
     {
-        $condition = new EqualityCondition(PhrasesPhrasesAttemptsTracker :: PROPERTY_ID, $this->current_attempt_id);
-        $dummy = new PhrasesPhrasesAttemptsTracker();
+        $condition = new EqualityCondition(PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_ID, $this->current_attempt_id);
+        $dummy = new PhrasesAdaptiveAssessmentAttemptTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
         $tracker = $trackers[0];
 

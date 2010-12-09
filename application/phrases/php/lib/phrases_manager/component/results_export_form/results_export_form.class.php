@@ -28,8 +28,8 @@ class PhrasesResultsExportForm extends FormValidator
         if (Request :: get('tid'))
         {
             $tid = Request :: get('tid');
-            $track = new PhrasesPhrasesAttemptsTracker();
-            $condition = new EqualityCondition(PhrasesPhrasesAttemptsTracker :: PROPERTY_ID, $tid);
+            $track = new PhrasesAdaptiveAssessmentAttemptTracker();
+            $condition = new EqualityCondition(PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_ID, $tid);
             $uass = $track->retrieve_tracker_items($condition);
             $user_phrases = $uass[0];
 
