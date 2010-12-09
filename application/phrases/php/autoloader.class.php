@@ -1,9 +1,8 @@
 <?php
-
 namespace application\phrases;
 
-use common\libraries\WebApplication;
 use common\libraries\Utilities;
+use common\libraries\WebApplication;
 
 /**
  * $Id: user_autoloader.class.php 167 2009-11-12 11:17:52Z vanpouckesven $
@@ -13,24 +12,14 @@ use common\libraries\Utilities;
 class Autoloader
 {
 
+    public static $class_name;
+
     static function load($classname)
     {
-       
-
-        $list = array(
-            'phrases_data_manager' => 'phrases_data_manager.class.php',
-            'phrases_data_manager_interface' => 'phrases_data_manager_interface.class.php',
-            'phrases_publication' => 'phrases_publication.class.php',
-            'phrases_publication_menu' => 'phrases_publication_menu.class.php',
-            'phrases_mastery_level' => 'phrases_mastery_level.class.php',
-            'phrases_mastery_level_manager' => 'phrases_manager/component/mastery_level_manager/mastery_level_manager.class.php',
-            'phrases_publication_form' => 'forms/phrases_publication_form.class.php',
-            'phrases_publication_manager' => 'phrases_manager/component/publication_manager/publication_manager.class.php',
-            'phrases_manager' => 'phrases_manager/phrases_manager.class.php',
-            'phrases_publisher' => 'publisher/phrases_publisher.class.php',
-        );
-
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        self :: $class_name = $classname;
+        $list = array('phrases_manager' => 'phrases_manager/phrases_manager.class.php',
+                'results_export' => 'phrases_manager/component/results_export_form/export.class.php');
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (key_exists($lower_case, $list))
         {
@@ -43,5 +32,4 @@ class Autoloader
     }
 
 }
-
 ?>
