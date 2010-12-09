@@ -50,7 +50,6 @@ class ResultsXmlExport extends ResultsExport
         $data['id'] = $phrases->get_id();
         $data['title'] = htmlspecialchars($phrases->get_title());
         $data['description'] = htmlspecialchars($phrases->get_description());
-        $data['phrases_type'] = htmlspecialchars($phrases->get_phrases_type());
         return $data;
     }
 

@@ -90,7 +90,6 @@ class PhrasesManagerBrowserComponent extends PhrasesManager
         if ($RIGHT_PUBLISH)
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_phrases_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportQTI'), Theme :: get_common_image_path() . 'action_import.png', $this->get_import_qti_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

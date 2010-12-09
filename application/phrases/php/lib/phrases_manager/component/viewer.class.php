@@ -13,7 +13,7 @@ use common\libraries\Translation;
 use tracking\Event;
 use repository\content_object\hotpotatoes\Hotpotatoes;
 use repository\ComplexDisplay;
-use repository\content_object\phrases\PhrasesComplexDisplaySupport;
+use repository\content_object\adaptive_assessment\AdaptiveAssessmentComplexDisplaySupport;
 
 /**
  * $Id: viewer.class.php 193 2009-11-13 11:53:37Z chellee $
@@ -23,7 +23,7 @@ use repository\content_object\phrases\PhrasesComplexDisplaySupport;
 require_once Path :: get_application_path() . '/phrases/php/trackers/phrases_phrases_attempts_tracker.class.php';
 require_once Path :: get_application_path() . '/phrases/php/trackers/phrases_question_attempts_tracker.class.php';
 
-class PhrasesManagerViewerComponent extends PhrasesManager implements PhrasesComplexDisplaySupport
+class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAssessmentComplexDisplaySupport
 {
     private $datamanager;
 
@@ -93,23 +93,7 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements PhrasesCom
         }
 
         // Executing phrases
-        if ($this->phrases->get_phrases_type() == Hotpotatoes :: TYPE_HOTPOTATOES)
-        {
-            $this->display_header();
-
-            $path = $this->phrases->add_javascript(Path :: get(WEB_PATH) . 'application/phrases/php/ajax/hotpotatoes_save_score.php', $this->get_browse_phrases_publications_url(), $this->active_tracker->get_id());
-            echo '<iframe src="' . $path . '" width="100%" height="600">
-  				 <p>Your browser does not support iframes.</p>
-				 </iframe>';
-            //require_once $path;
-            $this->display_footer();
-            exit();
-        }
-        else
-        {
-            ComplexDisplay :: launch($this->phrases->get_type(), $this);
-        }
-
+        ComplexDisplay :: launch($this->phrases->get_type(), $this);
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)

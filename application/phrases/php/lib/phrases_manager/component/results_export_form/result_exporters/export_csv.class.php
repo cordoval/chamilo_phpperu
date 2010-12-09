@@ -15,7 +15,6 @@ class ResultsCsvExport extends ResultsExport
 
     const PROPERTY_PHRASES_TITLE = 'phrases_title';
     const PROPERTY_PHRASES_DESCRIPTION = 'phrases_description';
-    const PROPERTY_PHRASES_TYPE = 'phrases_type';
     const PROPERTY_USERNAME = 'username';
     const PROPERTY_RESULT = 'result';
     const PROPERTY_DATE_TIME_TAKEN = 'date_time_taken';
@@ -79,14 +78,12 @@ class ResultsCsvExport extends ResultsExport
     {
         $this->currentrow[self :: PROPERTY_PHRASES_TITLE] = $phrases->get_title();
         $this->currentrow[self :: PROPERTY_PHRASES_DESCRIPTION] = strip_tags($phrases->get_description());
-        $this->currentrow[self :: PROPERTY_PHRASES_TYPE] = $phrases->get_phrases_type();
     }
 
     function empty_phrases_columns()
     {
         $this->currentrow[self :: PROPERTY_PHRASES_TITLE] = ' ';
         $this->currentrow[self :: PROPERTY_PHRASES_DESCRIPTION] = ' ';
-        $this->currentrow[self :: PROPERTY_PHRASES_TYPE] = ' ';
     }
 
     function export_user_phrases($user_phrases, $phrases_id)

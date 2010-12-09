@@ -69,19 +69,6 @@ class DefaultPhrasesPublicationTableCellRenderer extends ObjectTableCellRenderer
                 }
 
                 return $description;
-            case ContentObject :: PROPERTY_TYPE :
-                $type = Translation :: get($content_object->get_type());
-                if ($type == AdaptiveAssessment :: get_type_name())
-                {
-                    $type = $content_object->get_phrases_type();
-                }
-
-                if ($phrases_publication->get_hidden())
-                {
-                    return '<span style="color: #999999;">' . $type . '</span>';
-                }
-
-                return $type;
             case PhrasesPublication :: PROPERTY_FROM_DATE :
                 return $phrases_publication->get_from_date();
             case PhrasesPublication :: PROPERTY_TO_DATE :

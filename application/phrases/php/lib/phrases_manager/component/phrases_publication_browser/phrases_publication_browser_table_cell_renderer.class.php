@@ -88,7 +88,6 @@ class PhrasesPublicationBrowserTableCellRenderer extends DefaultPhrasesPublicati
                 $toolbar->add_item(new ToolbarItem(Translation :: get('Hide', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_visible.png', $this->browser->get_change_phrases_publication_visibility_url($phrases_publication), ToolbarItem :: DISPLAY_ICON));
             }
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Export', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_export.png', $this->browser->get_export_qti_url($phrases_publication), ToolbarItem :: DISPLAY_ICON));
             $toolbar->add_item(new ToolbarItem(Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_move_phrases_publication_url($phrases_publication), ToolbarItem :: DISPLAY_ICON));
 
             if ($phrases instanceof ComplexContentObjectSupport)

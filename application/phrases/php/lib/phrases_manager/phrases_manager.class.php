@@ -35,8 +35,6 @@ class PhrasesManager extends WebApplication
     const ACTION_MANAGE_PHRASES_PUBLICATION_CATEGORIES = 'category_manager';
     const ACTION_VIEW_PHRASES_PUBLICATION = 'viewer';
     const ACTION_VIEW_PHRASES_PUBLICATION_RESULTS = 'results_viewer';
-    const ACTION_IMPORT_QTI = 'qti_importer';
-    const ACTION_EXPORT_QTI = 'qti_exporter';
     const ACTION_CHANGE_PHRASES_PUBLICATION_VISIBILITY = 'visibility_changer';
     const ACTION_MOVE_PHRASES_PUBLICATION = 'mover';
     const ACTION_EXPORT_RESULTS = 'results_exporter';
@@ -157,17 +155,6 @@ class PhrasesManager extends WebApplication
         return $this->get_url(array(
                 self :: PARAM_ACTION => self :: ACTION_VIEW_PHRASES_PUBLICATION_RESULTS,
                 self :: PARAM_PHRASES_PUBLICATION => $id));
-    }
-
-    function get_import_qti_url()
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_QTI));
-    }
-
-    function get_export_qti_url($phrases_publication)
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_QTI,
-                self :: PARAM_PHRASES_PUBLICATION => $phrases_publication->get_id()));
     }
 
     function get_change_phrases_publication_visibility_url($phrases_publication)

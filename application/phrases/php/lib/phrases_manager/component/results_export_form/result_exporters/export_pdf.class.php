@@ -14,7 +14,6 @@ class ResultsPdfExport extends ResultsExport
 
     const PROPERTY_PHRASES_TITLE = 'Title';
     const PROPERTY_PHRASES_DESCRIPTION = 'Description';
-    const PROPERTY_PHRASES_TYPE = 'Type';
     const PROPERTY_USERNAME = 'Username';
     const PROPERTY_RESULT = 'Result';
     const PROPERTY_DATE_TIME_TAKEN = 'TakenOn';
@@ -65,7 +64,6 @@ class ResultsPdfExport extends ResultsExport
     {
         $data[self :: PROPERTY_PHRASES_TITLE] = $phrases->get_title();
         $data[self :: PROPERTY_PHRASES_DESCRIPTION] = strip_tags($phrases->get_description());
-        $data[self :: PROPERTY_PHRASES_TYPE] = $phrases->get_phrases_type();
         return $data;
     }
 
