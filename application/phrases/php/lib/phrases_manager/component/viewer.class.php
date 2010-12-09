@@ -1,99 +1,59 @@
 <?php
 namespace application\phrases;
 
+use repository\content_object\assessment;
+
 use common\libraries\Request;
-use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
-use tracking\Tracker;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
+
+use tracking\Tracker;
 use tracking\Event;
-use repository\content_object\hotpotatoes\Hotpotatoes;
+
 use repository\ComplexDisplay;
+use repository\RepositoryDataManager;
 use repository\content_object\adaptive_assessment\AdaptiveAssessmentComplexDisplaySupport;
+use repository\content_object\assessment\AssessmentComplexDisplaySupport;
 
 /**
  * $Id: viewer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.phrases.phrases_manager.component
  */
 
-require_once Path :: get_application_path() . '/phrases/php/trackers/phrases_phrases_attempts_tracker.class.php';
-require_once Path :: get_application_path() . '/phrases/php/trackers/phrases_question_attempts_tracker.class.php';
+require_once WebApplication :: get_application_class_path(PhrasesManager :: APPLICATION_NAME) . 'trackers/phrases_adaptive_assessment_attempt_tracker.class.php';
+require_once WebApplication :: get_application_class_path(PhrasesManager :: APPLICATION_NAME) . 'trackers/phrases_adaptive_assessment_item_attempt_tracker.class.php';
+require_once WebApplication :: get_application_class_path(PhrasesManager :: APPLICATION_NAME) . 'trackers/phrases_adaptive_assessment_question_attempts_tracker.class.php';
 
-class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAssessmentComplexDisplaySupport
+class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAssessmentComplexDisplaySupport, AssessmentComplexDisplaySupport
 {
-    private $datamanager;
-
-    private $pub;
-    private $phrases;
-    private $pid;
-    private $active_tracker;
-    private $trail;
+    private $publication;
 
     function run()
     {
-        // Retrieving phrases
-        $this->datamanager = PhrasesDataManager :: get_instance();
-        if (Request :: get(PhrasesManager :: PARAM_PHRASES_PUBLICATION))
+        $publication_id = Request :: get(self :: PARAM_PHRASES_PUBLICATION);
+
+        if (! $publication_id)
         {
-            $this->pid = Request :: get(PhrasesManager :: PARAM_PHRASES_PUBLICATION);
-            $this->pub = $this->datamanager->retrieve_phrases_publication($this->pid);
-            $phrases_id = $this->pub->get_content_object();
-            $this->phrases = RepositoryDataManager :: get_instance()->retrieve_content_object($phrases_id);
+            $this->redirect(Translation :: get('NoSuchPublication'), true, array(
+                    self :: PARAM_ACTION => self :: ACTION_BROWSE_PHRASES_PUBLICATIONS));
         }
-
-        if (Request :: get(PhrasesManager :: PARAM_INVITATION_ID))
+        else
         {
-            $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_INVITATION_CODE, Request :: get(PhrasesManager :: PARAM_INVITATION_ID));
-            $invitation = $this->datamanager->retrieve_survey_invitations($condition)->next_result();
+            $this->publication = PhrasesDataManager :: get_instance()->retrieve_phrases_publication($publication_id);
 
-            $this->pid = $invitation->get_survey_id();
-            $this->pub = $this->datamanager->retrieve_phrases_publication($this->pid);
-            $phrases_id = $this->pub->get_content_object();
-            $this->phrases = RepositoryDataManager :: get_instance()->retrieve_content_object($phrases_id);
-        }
-
-        if ($this->pub && ! $this->pub->is_visible_for_target_user($this->get_user()))
-        {
-            $this->not_allowed(null, false);
-        }
-
-        // Checking statistics
-        $conditions[] = new EqualityCondition(PhrasesPhrasesAttemptsTracker :: PROPERTY_PHRASES_ID, $this->pid);
-        $conditions[] = new EqualityCondition(PhrasesPhrasesAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
-        $condition = new AndCondition($conditions);
-
-        $trackers = Tracker :: get_data(PhrasesPhrasesAttemptsTracker :: CLASS_NAME, PhrasesManager :: APPLICATION_NAME, $condition);
-        $count = $trackers->size();
-
-        while ($tracker = $trackers->next_result())
-        {
-            if ($tracker->get_status() == 'not attempted')
+            if ($this->publication && ! $this->publication->is_visible_for_target_user($this->get_user()))
             {
-                $this->active_tracker = $tracker;
-                $count --;
-                break;
+                $this->not_allowed(null, false);
+            }
+            else
+            {
+                ComplexDisplay :: launch($this->get_root_content_object()->get_type(), $this);
             }
         }
-
-        if ($this->phrases->get_maximum_attempts() != 0 && $count >= $this->phrases->get_maximum_attempts())
-        {
-            $this->display_header();
-            $this->display_error_message(Translation :: get('YouHaveReachedYourMaximumAttempts'));
-            $this->display_footer();
-            return;
-        }
-
-        if (! $this->active_tracker)
-        {
-            $this->active_tracker = $this->create_tracker();
-        }
-
-        // Executing phrases
-        ComplexDisplay :: launch($this->phrases->get_type(), $this);
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
@@ -105,74 +65,7 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
 
     function get_additional_parameters()
     {
-        return array(self :: PARAM_PHRASES_PUBLICATION, self :: PARAM_INVITATION_ID);
-    }
-
-    function get_root_content_object()
-    {
-        return $this->phrases;
-    }
-
-    function display_header($trail)
-    {
-        if ($trail)
-        {
-            $this->trail->merge($trail);
-        }
-
-        parent :: display_header($this->trail);
-    }
-
-    function create_tracker()
-    {
-        $parameters = array(
-                PhrasesPhrasesAttemptsTracker :: PROPERTY_PHRASES_ID => $this->pid,
-                PhrasesPhrasesAttemptsTracker :: PROPERTY_USER_ID => $this->get_user_id(),
-                PhrasesPhrasesAttemptsTracker :: PROPERTY_TOTAL_SCORE => 0);
-        $tracker = Event :: trigger('attempt_phrases', PhrasesManager :: APPLICATION_NAME, $parameters);
-        return $tracker[0];
-    }
-
-    function save_phrases_answer($complex_question_id, $answer, $score)
-    {
-        $parameters = array();
-        $parameters[PhrasesQuestionAttemptsTracker :: PROPERTY_PHRASES_ATTEMPT_ID] = $this->active_tracker->get_id();
-        $parameters[PhrasesQuestionAttemptsTracker :: PROPERTY_QUESTION_CID] = $complex_question_id;
-        $parameters[PhrasesQuestionAttemptsTracker :: PROPERTY_ANSWER] = $answer;
-        $parameters[PhrasesQuestionAttemptsTracker :: PROPERTY_SCORE] = $score;
-        $parameters[PhrasesQuestionAttemptsTracker :: PROPERTY_FEEDBACK] = '';
-
-        Event :: trigger('attempt_question', PhrasesManager :: APPLICATION_NAME, $parameters);
-    }
-
-    function save_phrases_result($total_score)
-    {
-        $tracker = $this->active_tracker;
-
-        $tracker->set_total_score($total_score);
-        $tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
-        $tracker->set_status('completed');
-        $tracker->update();
-    }
-
-    function get_phrases_current_attempt_id()
-    {
-        return $this->active_tracker->get_id();
-    }
-
-    function get_phrases_go_back_url()
-    {
-        return $this->get_url(array(
-                PhrasesManager :: PARAM_ACTION => PhrasesManager :: ACTION_BROWSE_PHRASES_PUBLICATIONS,
-                PhrasesManager :: PARAM_PHRASES_PUBLICATION => null));
-    }
-
-    /**
-     * Unused for phrasess
-     */
-    function is_allowed($right)
-    {
-        return true;
+        return array(self :: PARAM_PHRASES_PUBLICATION);
     }
 }
 ?>

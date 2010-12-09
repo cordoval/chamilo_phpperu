@@ -8,20 +8,18 @@ use tracking\SimpleTracker;
 /**
  * @package application.lib.weblcms.trackers
  */
-class WeblcmsLpAttemptTracker extends SimpleTracker
+class PhrasesAdaptiveAssessmentAttemptTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
 
     const PROPERTY_USER_ID = 'user_id';
-    const PROPERTY_COURSE_ID = 'course_id';
-    const PROPERTY_LP_ID = 'lp_id';
+    const PROPERTY_ADAPTIVE_ASSESSMENT_ID = 'adaptive_assessment_id';
     const PROPERTY_PROGRESS = 'progress';
 
     function validate_parameters(array $parameters = array())
     {
         $this->set_user_id($parameters[self :: PROPERTY_USER_ID]);
-        $this->set_course_id($parameters[self :: PROPERTY_COURSE_ID]);
-        $this->set_lp_id($parameters[self :: PROPERTY_LP_ID]);
+        $this->set_adaptive_assessment_id($parameters[self :: PROPERTY_ADAPTIVE_ASSESSMENT_ID]);
         $this->set_progress($parameters[self :: PROPERTY_PROGRESS]);
     }
 
@@ -30,7 +28,9 @@ class WeblcmsLpAttemptTracker extends SimpleTracker
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID, self :: PROPERTY_COURSE_ID, self :: PROPERTY_LP_ID, self :: PROPERTY_PROGRESS));
+        return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID,
+                self :: PROPERTY_ADAPTIVE_ASSESSMENT_ID,
+                self :: PROPERTY_PROGRESS));
     }
 
     function get_user_id()
@@ -43,24 +43,14 @@ class WeblcmsLpAttemptTracker extends SimpleTracker
         $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
     }
 
-    function get_course_id()
+    function get_adaptive_assessment_id()
     {
-        return $this->get_default_property(self :: PROPERTY_COURSE_ID);
+        return $this->get_default_property(self :: PROPERTY_ADAPTIVE_ASSESSMENT_ID);
     }
 
-    function set_course_id($course_id)
+    function set_adaptive_assessment_id($adaptive_assessment_id)
     {
-        $this->set_default_property(self :: PROPERTY_COURSE_ID, $course_id);
-    }
-
-    function get_lp_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_LP_ID);
-    }
-
-    function set_lp_id($lp_id)
-    {
-        $this->set_default_property(self :: PROPERTY_LP_ID, $lp_id);
+        $this->set_default_property(self :: PROPERTY_ADAPTIVE_ASSESSMENT_ID, $adaptive_assessment_id);
     }
 
     function get_progress()
@@ -77,8 +67,8 @@ class WeblcmsLpAttemptTracker extends SimpleTracker
     {
         $succes = parent :: delete();
 
-        $condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $this->get_id());
-        $dummy = new WeblcmsLpiAttemptTracker();
+        $condition = new EqualityCondition(PhrasesAdaptiveAssessmentItemAttemptTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_VIEW_ID, $this->get_id());
+        $dummy = new PhrasesAdaptiveAssessmentItemAttemptTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
 
         foreach ($trackers as $tracker)

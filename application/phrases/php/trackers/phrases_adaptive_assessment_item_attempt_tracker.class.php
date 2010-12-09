@@ -8,12 +8,12 @@ use tracking\SimpleTracker;
 /**
  * @package application.lib.weblcms.trackers
  */
-class WeblcmsLpiAttemptTracker extends SimpleTracker
+class PhrasesAdaptiveAssessmentItemAttemptTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
 
-    const PROPERTY_LP_ITEM_ID = 'lp_item_id';
-    const PROPERTY_LP_VIEW_ID = 'lp_view_id';
+    const PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ID = 'adaptive_assessment_item_id';
+    const PROPERTY_ADAPTIVE_ASSESSMENT_VIEW_ID = 'adaptive_assessment_view_id';
     const PROPERTY_START_TIME = 'start_time';
     const PROPERTY_TOTAL_TIME = 'total_time';
     const PROPERTY_SCORE = 'score';
@@ -25,8 +25,8 @@ class WeblcmsLpiAttemptTracker extends SimpleTracker
 
     function validate_parameters(array $parameters = array())
     {
-        $this->set_lp_item_id($parameters[self :: PROPERTY_LP_ITEM_ID]);
-        $this->set_lp_view_id($parameters[self :: PROPERTY_LP_VIEW_ID]);
+        $this->set_adaptive_assessment_item_id($parameters[self :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ID]);
+        $this->set_adaptive_assessment_view_id($parameters[self :: PROPERTY_ADAPTIVE_ASSESSMENT_VIEW_ID]);
         $this->set_start_time($parameters[self :: PROPERTY_START_TIME]);
         $this->set_total_time($parameters[self :: PROPERTY_TOTAL_TIME]);
         $this->set_score($parameters[self :: PROPERTY_SCORE]);
@@ -43,17 +43,26 @@ class WeblcmsLpiAttemptTracker extends SimpleTracker
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_LP_VIEW_ID, self :: PROPERTY_START_TIME, self :: PROPERTY_LP_ITEM_ID, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_SCORE, self :: PROPERTY_STATUS, self :: PROPERTY_LESSON_LOCATION, self :: PROPERTY_SUSPEND_DATA, self :: PROPERTY_MAX_SCORE, self :: PROPERTY_MIN_SCORE));
+                self :: PROPERTY_ADAPTIVE_ASSESSMENT_VIEW_ID,
+                self :: PROPERTY_START_TIME,
+                self :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ID,
+                self :: PROPERTY_TOTAL_TIME,
+                self :: PROPERTY_SCORE,
+                self :: PROPERTY_STATUS,
+                self :: PROPERTY_LESSON_LOCATION,
+                self :: PROPERTY_SUSPEND_DATA,
+                self :: PROPERTY_MAX_SCORE,
+                self :: PROPERTY_MIN_SCORE));
     }
 
-    function get_lp_view_id()
+    function get_adaptive_assessment_view_id()
     {
-        return $this->get_default_property(self :: PROPERTY_LP_VIEW_ID);
+        return $this->get_default_property(self :: PROPERTY_ADAPTIVE_ASSESSMENT_VIEW_ID);
     }
 
-    function set_lp_view_id($lp_view_id)
+    function set_adaptive_assessment_view_id($adaptive_assessment_view_id)
     {
-        $this->set_default_property(self :: PROPERTY_LP_VIEW_ID, $lp_view_id);
+        $this->set_default_property(self :: PROPERTY_ADAPTIVE_ASSESSMENT_VIEW_ID, $adaptive_assessment_view_id);
     }
 
     function get_start_time()
@@ -66,14 +75,14 @@ class WeblcmsLpiAttemptTracker extends SimpleTracker
         $this->set_default_property(self :: PROPERTY_START_TIME, $start_time);
     }
 
-    function get_lp_item_id()
+    function get_adaptive_assessment_item_id()
     {
-        return $this->get_default_property(self :: PROPERTY_LP_ITEM_ID);
+        return $this->get_default_property(self :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ID);
     }
 
-    function set_lp_item_id($lp_item_id)
+    function set_adaptive_assessment_item_id($adaptive_assessment_item_id)
     {
-        $this->set_default_property(self :: PROPERTY_LP_ITEM_ID, $lp_item_id);
+        $this->set_default_property(self :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ID, $adaptive_assessment_item_id);
     }
 
     function get_total_time()
@@ -150,8 +159,8 @@ class WeblcmsLpiAttemptTracker extends SimpleTracker
     {
         $succes = parent :: delete();
 
-        $condition = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID, $this->get_id());
-        $dummy = new WeblcmsLearningPathQuestionAttemptsTracker();
+        $condition = new EqualityCondition(PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID, $this->get_id());
+        $dummy = new PhrasesAdaptiveAssessmentQuestionAttemptsTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
 
         foreach ($trackers as $tracker)

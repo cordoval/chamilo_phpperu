@@ -7,11 +7,11 @@ use tracking\SimpleTracker;
  * @package application.lib.assessment.trackers
  */
 
-class PhrasesQuestionAttemptsTracker extends SimpleTracker
+class PhrasesAdaptiveAssessmentQuestionAttemptsTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
 
-    const PROPERTY_ASSESSMENT_ATTEMPT_ID = 'assessment_attempt_id';
+    const PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID = 'adaptive_assessment_item_attempt_id';
     const PROPERTY_COMPLEX_QUESTION_ID = 'complex_question_id';
     const PROPERTY_ANSWER = 'answer';
     const PROPERTY_FEEDBACK = 'feedback';
@@ -19,7 +19,7 @@ class PhrasesQuestionAttemptsTracker extends SimpleTracker
 
     function validate_parameters(array $parameters = array())
     {
-        $this->set_assessment_attempt_id($parameters[self :: PROPERTY_ASSESSMENT_ATTEMPT_ID]);
+        $this->set_adaptive_assessment_item_attempt_id($parameters[self :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID]);
         $this->set_complex_question_id($parameters[self :: PROPERTY_COMPLEX_QUESTION_ID]);
         $this->set_answer($parameters[self :: PROPERTY_ANSWER]);
         $this->set_feedback($parameters[self :: PROPERTY_FEEDBACK]);
@@ -31,17 +31,22 @@ class PhrasesQuestionAttemptsTracker extends SimpleTracker
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_ASSESSMENT_ATTEMPT_ID, self :: PROPERTY_COMPLEX_QUESTION_ID, self :: PROPERTY_ANSWER, self :: PROPERTY_FEEDBACK, self :: PROPERTY_SCORE));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID,
+                self :: PROPERTY_COMPLEX_QUESTION_ID,
+                self :: PROPERTY_ANSWER,
+                self :: PROPERTY_FEEDBACK,
+                self :: PROPERTY_SCORE));
     }
 
-    function get_assessment_attempt_id()
+    function get_adaptive_assessment_item_attempt_id()
     {
-        return $this->get_default_property(self :: PROPERTY_ASSESSMENT_ATTEMPT_ID);
+        return $this->get_default_property(self :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID);
     }
 
-    function set_assessment_attempt_id($assessment_attempt_id)
+    function set_adaptive_assessment_item_attempt_id($adaptive_assessment_item_attempt_id)
     {
-        $this->set_default_property(self :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $assessment_attempt_id);
+        $this->set_default_property(self :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID, $adaptive_assessment_item_attempt_id);
     }
 
     function get_complex_question_id()
