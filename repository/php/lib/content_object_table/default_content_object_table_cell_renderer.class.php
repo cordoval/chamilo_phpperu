@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\libraries\Versionable;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableCellRenderer;
@@ -20,18 +21,18 @@ use common\libraries\DatetimeUtilities;
  * columns:
  *
  * - The ID of the learning object
- *   Displays the ID.
+ * Displays the ID.
  * - The type of the learning object
- *   Displays the icon that corresponds to the learning object type.
+ * Displays the icon that corresponds to the learning object type.
  * - The title of the learning object
- *   Displays the title.
+ * Displays the title.
  * - The description of the learning object
- *   Strips HTML tags from the description of the learning object and displays
- *   the first 200 characters of the resulting string.
+ * Strips HTML tags from the description of the learning object and displays
+ * the first 200 characters of the resulting string.
  * - The date when the learning object was created
- *   Displays a localized version of the date.
+ * Displays a localized version of the date.
  * - The date when the learning object was last modified
- *   Displays a localized version of the date.
+ * Displays a localized version of the date.
  *
  * Any other column type will result in an empty cell.
  *
@@ -75,8 +76,22 @@ class DefaultContentObjectTableCellRenderer extends ObjectTableCellRenderer
                 return DatetimeUtilities :: format_locale_date(null, $content_object->get_creation_date());
             case ContentObject :: PROPERTY_MODIFICATION_DATE :
                 return DatetimeUtilities :: format_locale_date(null, $content_object->get_modification_date());
-            case Translation :: get('Versions') :
-                return $content_object->get_version_count();
+            case ContentObject :: get_version_header() :
+                if ($content_object instanceof Versionable)
+                {
+                    if ($content_object->get_id() != $content_object->get_object_number())
+                    {
+                        return '<img src="' . Theme :: get_image_path() . 'versions_multiple.png" alt="' . Translation :: get('TwoOrMoreVersionsAvailable') . '" title="' . Translation :: get('OneOrMoreVersionsAvailable') . '" />';
+                    }
+                    else
+                    {
+                        return '<img src="' . Theme :: get_image_path() . 'versions_none.png" alt="' . Translation :: get('NoVersionsAvailable') . '" title="' . Translation :: get('NoVersionsAvailable') . '" />';
+                    }
+                }
+                else
+                {
+                    return '<img src="' . Theme :: get_image_path() . 'versions_none.png" alt="' . Translation :: get('NotVersionable') . '" title="' . Translation :: get('NotVersionable') . '" />';
+                }
             default :
                 return '&nbsp;';
         }

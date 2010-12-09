@@ -4,6 +4,7 @@ use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use group\Group;
+use group\GroupDataManager;
 /**
  * $Id: dokeos185_class.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185

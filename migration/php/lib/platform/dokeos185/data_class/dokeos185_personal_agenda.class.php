@@ -5,6 +5,7 @@ use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use admin\AdminDataManager;
 use repository\content_object\calendar_event\CalendarEvent;
+use application\personal_calendar\PersonalCalendarPublication;
 
 /**
  * $Id: dokeos185_personal_agenda.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
