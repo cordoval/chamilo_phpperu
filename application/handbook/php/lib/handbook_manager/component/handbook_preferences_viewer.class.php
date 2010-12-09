@@ -1,6 +1,9 @@
 <?php
 namespace application\handbook;
 
+use common\libraries\Request;
+
+require_once dirname(__FILE__).'/../handbook_manager.class.php';
 
 /**
  * Description of handbook_preferences_viewer
