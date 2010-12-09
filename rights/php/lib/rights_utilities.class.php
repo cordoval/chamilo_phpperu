@@ -21,6 +21,7 @@ use group\Group;
 use group\GroupRightsTemplate;
 use common\libraries\ObjectResultSet;
 use ReflectionClass;
+use ErrorException;
 
 /**
  * $Id: rights_utilities.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
@@ -197,7 +198,7 @@ class RightsUtilities
     {
 
         // Determine the user_id of the user we're checking a right for
-        $user = self :: retrieve_user();
+        $user = self :: retrieve_user($user_id);
         $templates = self :: retrieve_templates($user);
         $groups = self :: retrieve_platform_groups($user);
         return self :: get_right($right, $identifier, $type, $application, $user, $templates, $groups, $tree_identifier, $tree_type);
@@ -207,7 +208,7 @@ class RightsUtilities
      * Helper function that retrieves the current user from db or cache
      */
 
-    static function retrieve_user()
+    static function retrieve_user($user_id)
     {
         $udm = UserDataManager :: get_instance();
         $user_id = $user_id ? $user_id : Session :: get_user_id();

@@ -43,8 +43,8 @@ class Autoloader
             'course_type_rights' => 'course_type/course_type_rights.class.php',
             'course_settings' => 'course/course_settings.class.php',
             'course_rights' => 'course/course_rights.class.php',
-            'weblcms_lp_attempt_tracker' => 'trackers/weblcms_lp_attempt_tracker.class.php',
-            'weblcms_assessment_attempts_tracker' => 'trackers/weblcms_assessment_attempts_tracker.class.php',
+            'weblcms_lp_attempt_tracker' => '../trackers/weblcms_lp_attempt_tracker.class.php',
+            'weblcms_assessment_attempts_tracker' => '../trackers/weblcms_assessment_attempts_tracker.class.php',
             'course_category' => 'category_manager/course_category.class.php',
             'course' => 'course/course.class.php',
             'course_group_relation' => 'course/course_group_relation.class.php',
@@ -65,12 +65,13 @@ class Autoloader
             'object_publication_table' => 'browser/object_publication_table/object_publication_table.class.php',
             'object_publication_table_cell_renderer' => 'browser/object_publication_table/object_publication_table_cell_renderer.class.php',
             'object_publication_table_column_model' => 'browser/object_publication_table/object_publication_table_column_model.class.php',
-            'weblcms_learning_path_question_attempts_tracker' => 'trackers/weblcms_learning_path_question_attempts_tracker.class.php',
-            'weblcms_lpi_attempt_objective_tracker' => 'trackers/weblcms_lpi_attempt_objective_tracker.class.php',
-            'weblcms_lpi_attempt_tracker' => 'trackers/weblcms_lpi_attempt_tracker.class.php',
-            'weblcms_survey_participant_mail_tracker' => 'trackers/weblcms_survey_participant_mail_tracker.class.php',
-            'weblcms_survey_participant_tracker' => 'trackers/weblcms_survey_participant_tracker.class.php',
-            'weblcms_survey_question_answer_tracker' => 'trackers/weblcms_survey_question_answer_tracker.class.php',
+            'weblcms_learning_path_question_attempts_tracker' => '../trackers/weblcms_learning_path_question_attempts_tracker.class.php',
+            'weblcms_lpi_attempt_objective_tracker' => '../trackers/weblcms_lpi_attempt_objective_tracker.class.php',
+            'weblcms_lpi_attempt_tracker' => '../trackers/weblcms_lpi_attempt_tracker.class.php',
+            'weblcms_lp_attempt_tracker' => '../trackers/weblcms_lp_attempt_tracker.class.php',
+            'weblcms_survey_participant_mail_tracker' => '../trackers/weblcms_survey_participant_mail_tracker.class.php',
+            'weblcms_survey_participant_tracker' => '../trackers/weblcms_survey_participant_tracker.class.php',
+            'weblcms_survey_question_answer_tracker' => '../trackers/weblcms_survey_question_answer_tracker.class.php',
             'weblcms_rights' => 'weblcms_rights.class.php',
             'course_group_unsubscribe_right' => 'course/course_group_unsubscribe_right.class.php',
             'course_group_subscribe_right' => 'course/course_group_subscribe_right.class.php',
@@ -78,11 +79,10 @@ class Autoloader
             'course_group_subscribe_right' => 'course/course_group_subscribe_right.class.php',
             'content_object_pub_feedback_browser' => 'content_object_pub_feedback_browser.class.php',
             'list_content_object_publication_list_renderer' => 'browser/list_renderer/list_content_object_publication_list_renderer.class.php',
-        	'weblcms_block' =>'../blocks/weblcms_block.class.php',
-        	'course_list_renderer' =>'course/course_list_renderer/course_list_renderer.class.php',
-            'course_user_category' =>'course/course_user_category.class.php',
-        
-            );
+            'weblcms_block' => '../blocks/weblcms_block.class.php',
+            'course_list_renderer' => 'course/course_list_renderer/course_list_renderer.class.php',
+            'course_user_category' => 'course/course_user_category.class.php',
+        );
 
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 

@@ -1,9 +1,9 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\dropbox;
 
-use repository\ExternalRepositorySetting;
+use repository\ExternalSetting;
 
-class ExternalRepositorySettingsDropboxConnector
+class ExternalSettingsDropboxConnector
 {
 }
 ?>

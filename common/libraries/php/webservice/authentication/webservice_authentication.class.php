@@ -15,7 +15,7 @@ abstract class WebserviceAuthentication
         $path = dirname(__FILE__) . '/' . $type . '/' . $type . '_webservice_authentication.class.php';
         if(!file_exists($path))
         {
-            throw new Exception(Translation :: get('CouldNotCreateWebserviceAuthenticationType', array('TYPE' => $type)));
+            throw new Exception(Translation :: get('CouldNotCreateWebserviceAuthenticationType', array('TYPE' => $type), WebserviceManager :: APPLICATION_NAME));
         }
 
         require_once($path);
