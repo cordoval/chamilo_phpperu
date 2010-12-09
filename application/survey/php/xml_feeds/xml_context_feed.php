@@ -19,7 +19,7 @@ if (Authentication :: is_valid())
     
     $user_id = $_GET[SurveyManager :: PARAM_USER_ID];
     $conditions[] = new EqualityCondition(SurveyContextRelUser :: PROPERTY_USER_ID, $user_id);
-      
+    
     $context_template_id = $_GET[SurveyReportingManager :: PARAM_CONTEXT_TEMPLATE_ID];
     
     if ($context_template_id)
@@ -29,10 +29,17 @@ if (Authentication :: is_valid())
         $conditions[] = new EqualityCondition(SurveyContext :: PROPERTY_TYPE, $context_type, SurveyContext :: get_table_name());
     }
     
-    $query_condition = Utilities :: query_to_condition($_GET['query'], array(SurveyContext :: PROPERTY_NAME));
-    if (isset($query_condition))
+    $active = $_GET[SurveyContext :: PROPERTY_ACTIVE];
+    if ($active)
     {
-        $conditions[] = $query_condition;
+        $conditions[] = new EqualityCondition(SurveyContext :: PROPERTY_ACTIVE, $active, SurveyContext :: get_table_name());
+    }
+    
+    $query = $_GET['query'];
+    if ($query)
+    {
+        $conditions[] = new PatternMatchCondition(SurveyContext :: PROPERTY_NAME, '*' . $query . '*', SurveyContext :: get_table_name());
+    
     }
     
     if (is_array($_GET['exclude']))
@@ -79,7 +86,7 @@ function dump_tree($contexts)
         
         foreach ($contexts as $context)
         {
-            $id = 'context_'.$context->get_context_id();
+            $id = 'context_' . $context->get_context_id();
             $name = strip_tags($context->get_optional_property(SurveyContext :: PROPERTY_NAME));
             //            $description = strip_tags($period->get_description());
             //            $description = preg_replace("/[\n\r]/", "", $description);
