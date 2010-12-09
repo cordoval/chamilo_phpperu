@@ -33,7 +33,7 @@ class MetadataManagerContentObjectMetadataEditorComponent extends MetadataManage
 
         //conditions to eventually find all attribute values (of the default values as well as the regular ones)
         //search where the parent_id is teh current content object id and where the relation is contnet object property -> group with and
-        $content_object_condition1 =  new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_PARENT_ID, Request :: get(MetadataManager :: PARAM_CONTENT_OBJECT));
+        $content_object_condition1 =  new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_CONTENT_OBJECT_ID, Request :: get(MetadataManager :: PARAM_CONTENT_OBJECT));
         $content_object_condition2 = new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_RELATION, MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY);
         $content_object_condition = new AndCondition($content_object_condition1, $content_object_condition2);
 
@@ -129,6 +129,7 @@ class MetadataManagerContentObjectMetadataEditorComponent extends MetadataManage
         }
         return $metadata_property_value_arr;
     }
+
 
     function format_metadata_property_attribute_values($metadata_property_attribute_values)
     {
