@@ -1,7 +1,8 @@
 <?php
-require_once PATH :: get_reporting_path() . '/lib/reporting_template.class.php';
-require_once dirname(__FILE__) . '/../blocks/survey_total_result_view_reporting_block.class.php';
-require_once dirname(__FILE__) . '/../blocks/survey_total_user_result_view_reporting_block.class.php';
+namespace application\survey;
+
+use reporting\ReportingTemplate;
+use common\libraries\Request;
 
 class SurveyResultViewReportingTemplate extends ReportingTemplate
 {

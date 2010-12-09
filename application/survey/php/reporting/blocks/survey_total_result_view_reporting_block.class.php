@@ -1,11 +1,14 @@
 <?php
 namespace application\survey;
 
-//require_once dirname(__FILE__) . '/../survey_reporting_block.class.php';
-//require_once dirname(__FILE__) . '/../../survey_manager/survey_manager.class.php';
-//require_once (dirname(__FILE__) . '/../../trackers/survey_question_answer_tracker.class.php');
-//require_once (dirname(__FILE__) . '/../../trackers/survey_participant_tracker.class.php');
-//require_once Path :: get_repository_path() . 'lib/content_object/survey/analyzer/analyzer.class.php';
+use common\libraries\Translation;
+use reporting\ReportingData;
+use common\libraries\EqualityCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\AndCondition;
+use user\VisitTracker;
+use tracking\Tracker;
+use user\UserManager;
 
 class SurveyTotalResultViewReportingBlock extends SurveyReportingBlock
 {
@@ -74,7 +77,7 @@ class SurveyTotalResultViewReportingBlock extends SurveyReportingBlock
             $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*context_template_id=' . $context_template_id . '*');
             $condition = new AndCondition($conditions);
             
-            $trackers = Tracker :: get_data(VisitTracker :: get_table_name(), UserManager :: APPLICATION_NAME, $condition);
+            $trackers = Tracker :: get_data(VisitTracker :: CLASS_NAME, UserManager :: APPLICATION_NAME, $condition);
             
             $user_ids = array();
             

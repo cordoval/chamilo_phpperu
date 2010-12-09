@@ -78,7 +78,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         {
             if ($survey_publication->is_publication_period())
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_survey_publication_viewer_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_survey_publication_taker_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
             
             }
             else

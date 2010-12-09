@@ -9,8 +9,9 @@ use common\libraries\DynamicFormTab;
 use common\libraries\Translation;
 use repository\content_object\survey\SurveyAnalyzer;
 use common\libraries\Request;
+use repository\content_object\survey\SurveyContext;
 
-require_once Path :: get_repository_content_object_path() . 'survey/php/analyzer/analyzer.class.php';
+//require_once Path :: get_repository_content_object_path() . 'survey/php/analyzer/analyzer.class.php';
 
 class SurveyReportingFilterWizard extends WizardPageValidator
 {

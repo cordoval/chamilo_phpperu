@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace repository\content_object\survey;
 
 use common\libraries\FormValidator;
@@ -21,9 +21,9 @@ class SurveyContextForm extends FormValidator
     private $manager;
 
     /**
-     * Creates a new LanguageForm
+     * Creates a new SurveyContextForm
      */
-    function __construct($form_type, $action, $survey_context, $user, $manager)
+    function SurveyContextForm($form_type, $action, $survey_context, $user, $manager)
     {
         parent :: __construct('survey_context_form', 'post', $action);
         
@@ -59,10 +59,10 @@ class SurveyContextForm extends FormValidator
         $this->addElement('html', '</div>');
         
         $buttons[] = $this->createElement('style_submit_button', 'create', Translation :: get($action_name), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/survey/resources/javascript/survey_context_registration_form.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/survey_context_registration_form.js'));
     }
 
     /**
@@ -80,6 +80,8 @@ class SurveyContextForm extends FormValidator
         {
             $this->add_textfield($property_name, $property_name, true);
         }
+        
+        $this->add_select(SurveyContext :: PROPERTY_ACTIVE, 'active', array(1 => 'yes', 0 => 'no'));
         
         $this->build_footer('Create');
     }
@@ -99,6 +101,9 @@ class SurveyContextForm extends FormValidator
         {
             $this->add_textfield($property_name, $property_name, true);
         }
+        
+        $this->add_select(SurveyContext :: PROPERTY_ACTIVE, 'active', array(1 => 'yes', 0 => 'no'));
+        
         $this->addElement('hidden', SurveyContext :: PROPERTY_ID);
         $this->build_footer('Update');
     }
@@ -110,7 +115,8 @@ class SurveyContextForm extends FormValidator
         
         $values = $this->exportValues();
         $survey_context->set_name($values[SurveyContext :: PROPERTY_NAME]);
-                
+        $survey_context->set_active($values[SurveyContext :: PROPERTY_ACTIVE]);
+        
         foreach ($property_names as $property_name)
         {
             $survey_context->set_additional_property($property_name, $this->exportValue($property_name));
@@ -125,8 +131,9 @@ class SurveyContextForm extends FormValidator
         $property_names = $survey_context->get_additional_property_names();
         
         $values = $this->exportValues();
-		
+        
         $survey_context->set_name($values[SurveyContext :: PROPERTY_NAME]);
+        $survey_context->set_active($values[SurveyContext :: PROPERTY_ACTIVE]);
         
         foreach ($property_names as $property_name)
         {
@@ -146,6 +153,7 @@ class SurveyContextForm extends FormValidator
         $property_names = $survey_context->get_additional_property_names();
         
         $defaults[SurveyContext :: PROPERTY_NAME] = $survey_context->get_name();
+        $defaults[SurveyContext :: PROPERTY_ACTIVE] = $survey_context->get_active();
         
         foreach ($property_names as $property_name)
         {
