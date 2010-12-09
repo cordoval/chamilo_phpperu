@@ -64,7 +64,7 @@ class PhrasesPublicationBrowserTableCellRenderer extends DefaultPhrasesPublicati
         $phrases = $phrases_publication->get_publication_object();
 
         $toolbar = new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('TakePhrases'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_phrases_publication_viewer_url($phrases_publication), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('TakePhrases'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_publication_viewer_url($phrases_publication), ToolbarItem :: DISPLAY_ICON));
 
         if (PhrasesRights :: is_allowed_in_phrasess_subtree(PhrasesRights :: VIEW_RESULTS_RIGHT, $phrases_publication->get_id(), PhrasesRights :: TYPE_PUBLICATION))
         {

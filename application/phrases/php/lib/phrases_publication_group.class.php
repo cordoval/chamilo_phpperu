@@ -10,17 +10,17 @@ use common\libraries\DataClass;
 /**
  * This class describes a PhrasesPublicationGroup data object
  * @author Hans De Bisschop
- * @author 
+ * @author
  */
 class PhrasesPublicationGroup extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication_group';
-    
+
     /**
      * PhrasesPublicationGroup properties
      */
-    const PROPERTY_PHRASES_PUBLICATION = 'phrases_publication_id';
+    const PROPERTY_PUBLICATION = 'publication_id';
     const PROPERTY_GROUP_ID = 'group_id';
 
     /**
@@ -29,7 +29,7 @@ class PhrasesPublicationGroup extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_PHRASES_PUBLICATION, self :: PROPERTY_GROUP_ID);
+        return array(self :: PROPERTY_PUBLICATION, self :: PROPERTY_GROUP_ID);
     }
 
     function get_data_manager()
@@ -41,18 +41,18 @@ class PhrasesPublicationGroup extends DataClass
      * Returns the phrases_publication of this PhrasesPublicationGroup.
      * @return the phrases_publication.
      */
-    function get_phrases_publication()
+    function get_publication()
     {
-        return $this->get_default_property(self :: PROPERTY_PHRASES_PUBLICATION);
+        return $this->get_default_property(self :: PROPERTY_PUBLICATION);
     }
 
     /**
      * Sets the phrases_publication of this PhrasesPublicationGroup.
      * @param phrases_publication
      */
-    function set_phrases_publication($phrases_publication)
+    function set_publication($phrases_publication)
     {
-        $this->set_default_property(self :: PROPERTY_PHRASES_PUBLICATION, $phrases_publication);
+        $this->set_default_property(self :: PROPERTY_PUBLICATION, $phrases_publication);
     }
 
     /**

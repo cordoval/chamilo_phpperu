@@ -144,7 +144,7 @@ class PhrasesManager extends WebApplication
                 self :: PARAM_ACTION => self :: ACTION_MANAGE_PHRASES_PUBLICATION_CATEGORIES));
     }
 
-    function get_phrases_publication_viewer_url($phrases_publication)
+    function get_publication_viewer_url($phrases_publication)
     {
         return $this->get_url(array(
                 self :: PARAM_ACTION => self :: ACTION_VIEW_PHRASES_PUBLICATION,

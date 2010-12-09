@@ -45,7 +45,7 @@ class DatabasePhrasesDataManager extends Database implements PhrasesDataManagerI
         foreach ($phrases_publication->get_target_groups() as $group)
         {
             $phrases_publication_group = new PhrasesPublicationGroup();
-            $phrases_publication_group->set_phrases_publication($phrases_publication->get_id());
+            $phrases_publication_group->set_publication($phrases_publication->get_id());
             $phrases_publication_group->set_group_id($group);
             $succes &= $phrases_publication_group->create();
         }
@@ -53,7 +53,7 @@ class DatabasePhrasesDataManager extends Database implements PhrasesDataManagerI
         foreach ($phrases_publication->get_target_users() as $user)
         {
             $phrases_publication_user = new PhrasesPublicationUser();
-            $phrases_publication_user->set_phrases_publication($phrases_publication->get_id());
+            $phrases_publication_user->set_publication($phrases_publication->get_id());
             $phrases_publication_user->set_user($user);
             $succes &= $phrases_publication_user->create();
         }
@@ -83,8 +83,8 @@ class DatabasePhrasesDataManager extends Database implements PhrasesDataManagerI
 
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(PhrasesPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(PhrasesPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
-        $query .= ' LEFT JOIN ' . $this->escape_table_name(PhrasesPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->escape_column_name(PhrasesPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(PhrasesPublicationUser :: PROPERTY_PHRASES_PUBLICATION, $publication_user_alias);
-        $query .= ' LEFT JOIN ' . $this->escape_table_name(PhrasesPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(PhrasesPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(PhrasesPublicationGroup :: PROPERTY_PHRASES_PUBLICATION, $publication_group_alias);
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(PhrasesPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->escape_column_name(PhrasesPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(PhrasesPublicationUser :: PROPERTY_PUBLICATION, $publication_user_alias);
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(PhrasesPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(PhrasesPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(PhrasesPublicationGroup :: PROPERTY_PUBLICATION, $publication_group_alias);
 
         return $this->count_result_set($query, PhrasesPublication :: get_table_name(), $condition);
     }
@@ -157,8 +157,8 @@ class DatabasePhrasesDataManager extends Database implements PhrasesDataManagerI
 
         $query = 'SELECT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(PhrasesPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(PhrasesPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
-        $query .= ' LEFT JOIN ' . $this->escape_table_name(PhrasesPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->escape_column_name(PhrasesPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(PhrasesPublicationUser :: PROPERTY_PHRASES_PUBLICATION, $publication_user_alias);
-        $query .= ' LEFT JOIN ' . $this->escape_table_name(PhrasesPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(PhrasesPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(PhrasesPublicationGroup :: PROPERTY_PHRASES_PUBLICATION, $publication_group_alias);
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(PhrasesPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->escape_column_name(PhrasesPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(PhrasesPublicationUser :: PROPERTY_PUBLICATION, $publication_user_alias);
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(PhrasesPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(PhrasesPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(PhrasesPublicationGroup :: PROPERTY_PUBLICATION, $publication_group_alias);
 
         return $this->retrieve_object_set($query, PhrasesPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, PhrasesPublication :: CLASS_NAME);
     }

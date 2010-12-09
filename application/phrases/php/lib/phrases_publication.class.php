@@ -209,7 +209,7 @@ class PhrasesPublication extends DataClass
     {
         if (! $this->target_groups)
         {
-            $condition = new EqualityCondition(PhrasesPublicationGroup :: PROPERTY_PHRASES_PUBLICATION, $this->get_id());
+            $condition = new EqualityCondition(PhrasesPublicationGroup :: PROPERTY_PUBLICATION, $this->get_id());
             $groups = $this->get_data_manager()->retrieve_phrases_publication_groups($condition);
 
             while ($group = $groups->next_result())
@@ -225,7 +225,7 @@ class PhrasesPublication extends DataClass
     {
         if (! $this->target_users)
         {
-            $condition = new EqualityCondition(PhrasesPublicationUser :: PROPERTY_PHRASES_PUBLICATION, $this->get_id());
+            $condition = new EqualityCondition(PhrasesPublicationUser :: PROPERTY_PUBLICATION, $this->get_id());
             $users = $this->get_data_manager()->retrieve_phrases_publication_users($condition);
 
             while ($user = $users->next_result())

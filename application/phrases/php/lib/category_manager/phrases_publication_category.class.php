@@ -21,6 +21,7 @@ require_once dirname(__FILE__) . '/../phrases_data_manager.class.php';
 class PhrasesPublicationCategory extends PlatformCategory
 {
     const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'publication_category';
 
     function create()
     {
@@ -89,6 +90,6 @@ class PhrasesPublicationCategory extends PlatformCategory
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(__CLASS__));
+        return self :: TABLE_NAME;
     }
 }
