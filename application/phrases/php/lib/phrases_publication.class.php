@@ -5,16 +5,12 @@ use common\libraries\DataClass;
 use common\libraries\EqualityCondition;
 use repository\RepositoryDataManager;
 use user\UserDataManager;
-/**
- * $Id: phrases_publication.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases
- */
 
 /**
- * This class describes a PhrasesPublication data object
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class PhrasesPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;

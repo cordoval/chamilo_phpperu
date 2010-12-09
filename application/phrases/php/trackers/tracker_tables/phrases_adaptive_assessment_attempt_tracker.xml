@@ -14,7 +14,4 @@
 	<index name="user_id">
 		<indexproperty name="user_id" />
 	</index>
-	<index name="course_id">
-		<indexproperty name="course_id" />
-	</index>
 </object>

@@ -4,10 +4,12 @@ namespace application\phrases;
 use common\libraries\EqualityCondition;
 use repository\ComplexContentObjectItem;
 use common\libraries\AndCondition;
+
 /**
- * $Id: export_csv.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component.results_export_form.result_exporters
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
+
 class ResultsCsvExport extends ResultsExport
 {
     private $currentrow;

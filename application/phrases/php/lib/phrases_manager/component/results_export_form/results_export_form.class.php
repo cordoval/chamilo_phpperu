@@ -8,12 +8,11 @@ use user\UserDataManager;
 use common\libraries\Theme;
 use common\libraries\Export;
 use common\libraries\Utilities;
-/**
- * $Id: results_export_form.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component.results_export_form
- */
 
-require_once dirname(__FILE__) . '/../../../../trackers/phrases_phrases_attempts_tracker.class.php';
+/**
+ * @author Hans De Bisschop
+ * @package application.phrases
+ */
 
 class PhrasesResultsExportForm extends FormValidator
 {

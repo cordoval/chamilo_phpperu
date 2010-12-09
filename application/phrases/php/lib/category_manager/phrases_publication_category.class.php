@@ -4,18 +4,10 @@ namespace application\phrases;
 use common\extensions\category_manager\PlatformCategory;
 use common\libraries\Path;
 use common\libraries\Utilities;
-/**
- * $Id: phrases_publication_category.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.category_manager
- */
-require_once Path :: get_common_extensions_path() . 'category_manager/php/platform_category.class.php';
-require_once dirname(__FILE__) . '/../phrases_data_manager.class.php';
 
 /**
- * @package category
- */
-/**
  * @author Hans De Bisschop
+ * @package application.phrases
  */
 
 class PhrasesPublicationCategory extends PlatformCategory

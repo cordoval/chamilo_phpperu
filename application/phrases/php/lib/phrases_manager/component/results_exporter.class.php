@@ -6,13 +6,11 @@ use common\libraries\Export;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
+
 /**
- * $Id: results_exporter.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
-require_once dirname(__FILE__) . '/../phrases_manager.class.php';
-require_once dirname(__FILE__) . '/results_export_form/results_export_form.class.php';
-require_once dirname(__FILE__) . '/results_export_form/export.class.php';
 
 class PhrasesManagerResultsExporterComponent extends PhrasesManager
 {

@@ -20,13 +20,9 @@ use repository\content_object\adaptive_assessment\AdaptiveAssessmentComplexDispl
 use repository\content_object\assessment\AssessmentComplexDisplaySupport;
 
 /**
- * $Id: viewer.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
-
-require_once WebApplication :: get_application_class_path(PhrasesManager :: APPLICATION_NAME) . 'trackers/phrases_adaptive_assessment_attempt_tracker.class.php';
-require_once WebApplication :: get_application_class_path(PhrasesManager :: APPLICATION_NAME) . 'trackers/phrases_adaptive_assessment_item_attempt_tracker.class.php';
-require_once WebApplication :: get_application_class_path(PhrasesManager :: APPLICATION_NAME) . 'trackers/phrases_adaptive_assessment_question_attempts_tracker.class.php';
 
 class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAssessmentComplexDisplaySupport, AssessmentComplexDisplaySupport
 {

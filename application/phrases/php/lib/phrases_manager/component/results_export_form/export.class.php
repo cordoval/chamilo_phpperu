@@ -1,17 +1,15 @@
 <?php
 namespace application\phrases;
 
-use application\weblcms\WeblcmsDataManager;
 use repository\RepositoryDataManager;
+
 use common\libraries\Path;
+use common\libraries\Utilities;
+
 /**
- * $Id: export.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component.results_export_form
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
-require_once dirname(__FILE__) . '/result_exporters/export_csv.class.php';
-require_once dirname(__FILE__) . '/result_exporters/export_xml.class.php';
-require_once dirname(__FILE__) . '/result_exporters/export_pdf.class.php';
-require_once Path :: get_web_application_path('weblcms') . Path :: CLASS_PATH . '/lib/weblcms_data_manager.class.php';
 
 abstract class ResultsExport
 {
@@ -19,12 +17,10 @@ abstract class ResultsExport
     const FILETYPE_PDF = 'pdf';
     const FILETYPE_XML = 'xml';
 
-    protected $wdm;
     protected $rdm;
 
     function __construct()
     {
-        $this->wdm = WeblcmsDataManager :: get_instance();
         $this->rdm = RepositoryDataManager :: get_instance();
     }
 
@@ -45,20 +41,31 @@ abstract class ResultsExport
 
     abstract function export_user_phrases_id($id);
 
-    function factory($filetype)
+    function factory($type)
     {
-        switch ($filetype)
+        $file = dirname(__FILE__) . '/result_exporters/export_' . $type . '.class.php';
+
+        if (! file_exists($file) || ! is_file($file))
         {
-            case self :: FILETYPE_XML :
-                return new ResultsXmlExport();
-            case self :: FILETYPE_CSV :
-                return new ResultsCsvExport();
-            case self :: FILETYPE_PDF :
-                return new ResultsPdfExport();
-            default :
-                return null;
+            $message = array();
+            $message[] = Translation :: get('ResultsExporterFailedToLoad') . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('File') . ':</b><br />';
+            $message[] = $file . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('Stacktrace') . ':</b>';
+            $message[] = '<ul>';
+            $message[] = '<li>' . Translation :: get($type) . '</li>';
+            $message[] = '</ul>';
+
+            Display :: header();
+            Display :: error_message(implode("\n", $message));
+            Display :: footer();
+            exit();
         }
-        return null;
+
+        require_once $file;
+
+        $class = __NAMESPACE__ . '\\Results' . Utilities :: underscores_to_camelcase($type) . 'Export';
+        return new $class();
     }
 }
 ?>

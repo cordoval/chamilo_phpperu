@@ -10,19 +10,12 @@ use repository\ComplexDisplay;
 use common\libraries\Path;
 use reporting\ReportingDataManager;
 use common\libraries\AndCondition;
-/**
- * $Id: results_viewer.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component
- */
-require_once dirname(__FILE__) . '/../phrases_manager.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/phrases_question_attempts_tracker.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/phrases_phrases_attempts_tracker.class.php';
 
 /**
- * Component to create a new phrases_publication object
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class PhrasesManagerResultsViewerComponent extends PhrasesManager
 {
     private $current_attempt_id;
@@ -122,8 +115,6 @@ class PhrasesManagerResultsViewerComponent extends PhrasesManager
 
     function display_summary_results()
     {
-        require_once (Path :: get_application_path() . '/phrases/php/reporting/templates/phrases_attempts_summary_template.class.php');
-
         $current_category = Request :: get('category');
         $current_category = $current_category ? $current_category : 0;
         $parameters = array('category' => $current_category, 'url' => $this->get_url());
@@ -136,8 +127,6 @@ class PhrasesManagerResultsViewerComponent extends PhrasesManager
 
     function display_phrases_results($pid)
     {
-        require_once (Path :: get_application_path() . '/phrases/php/reporting/templates/phrases_attempts_template.class.php');
-
         $url = $this->get_url(array(PhrasesManager :: PARAM_PHRASES_PUBLICATION => $pid));
         $results_export_url = $this->get_results_exporter_url();
         $parameters = array(PhrasesManager :: PARAM_PHRASES_PUBLICATION => $pid,

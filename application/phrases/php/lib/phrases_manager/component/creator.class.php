@@ -10,18 +10,12 @@ use common\extensions\repo_viewer\RepoViewerInterface;
 
 use repository\content_object\adaptive_assessment\AdaptiveAssessment;
 use repository\content_object\hotpotatoes\Hotpotatoes;
-/**
- * $Id: creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
- * @package application.lib.phrases.phrases_manager.component
- */
-require_once dirname(__FILE__) . '/../phrases_manager.class.php';
-require_once dirname(__FILE__) . '/../../publisher/phrases_publisher.class.php';
 
 /**
- * Component to create a new phrases_publication object
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class PhrasesManagerCreatorComponent extends PhrasesManager implements RepoViewerInterface
 {
 

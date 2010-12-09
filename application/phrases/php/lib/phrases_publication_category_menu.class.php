@@ -9,17 +9,12 @@ use common\libraries\ObjectTableOrder;
 use common\libraries\OptionsMenuRenderer;
 use common\libraries\TreeMenuRenderer;
 use common\libraries\Utilities;
+
 /**
- * $Id: phrases_publication_category_menu.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
-require_once dirname(__FILE__) . '/category_manager/phrases_publication_category.class.php';
-require_once dirname(__FILE__) . '/phrases_data_manager.class.php';
-/**
- * This class provides a navigation menu to allow a user to browse through
- * categories of courses.
- * @author Bart Mollet
- */
+
 class PhrasesPublicationCategoryMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;

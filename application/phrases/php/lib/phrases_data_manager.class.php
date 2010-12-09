@@ -5,16 +5,10 @@ use common\libraries\Configuration;
 use common\libraries\Utilities;
 
 /**
- * $Id: phrases_data_manager.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases
- */
-/**
- * This is a skeleton for a data manager for the Phrases Application.
- * Data managers must extend this class and implement its abstract methods.
- *
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class PhrasesDataManager
 {
     /**

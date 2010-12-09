@@ -9,13 +9,9 @@ use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 
 /**
- * $Id: builder.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
-
-require_once dirname(__FILE__) . '/../phrases_manager.class.php';
-require_once dirname(__FILE__) . '/../../phrases_publication_category_menu.class.php';
-require_once dirname(__FILE__) . '/phrases_publication_browser/phrases_publication_browser_table.class.php';
 
 class PhrasesManagerBuilderComponent extends PhrasesManager implements DelegateComponent
 {

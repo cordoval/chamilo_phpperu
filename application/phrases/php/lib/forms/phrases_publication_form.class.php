@@ -14,17 +14,11 @@ use common\libraries\Application;
 use application\gradebook\GradebookManager;
 use application\gradebook\GradebookInternalItemForm;
 
-require_once dirname(__FILE__) . '/../phrases_publication.class.php';
 /**
- * $Id: phrases_publication_form.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.forms
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
 
-/**
- * This class describes the form for a PhrasesPublication object.
- * @author Hans De Bisschop
- * @author
- * */
 class PhrasesPublicationForm extends FormValidator
 {
     const TYPE_SINGLE = 1;
@@ -154,15 +148,6 @@ class PhrasesPublicationForm extends FormValidator
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
-        if (WebApplication :: is_active('gradebook'))
-        {
-            if (PlatformSetting :: get_instance()->get('allow_evaluate_application_phrases', 'gradebook'))
-            {
-                require_once WebApplication :: get_application_path(GradebookManager :: APPLICATION_NAME) . 'php/lib/forms/gradebook_internal_item_form.class.php';
-                $gradebook_internal_item_form = new GradebookInternalItemForm();
-                $gradebook_internal_item_form->build_evaluation_question($this);
-            }
-        }
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor', null, Utilities :: COMMON_LIBRARIES), $attributes);
         $this->add_forever_or_timewindow();
         $this->addElement('checkbox', PhrasesPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden', null, Utilities :: COMMON_LIBRARIES));
@@ -178,7 +163,8 @@ class PhrasesPublicationForm extends FormValidator
                 'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-        //$this->addElement('submit', 'submit', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
+
+     //$this->addElement('submit', 'submit', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
     }
 
     /**
@@ -260,20 +246,6 @@ class PhrasesPublicationForm extends FormValidator
             else
             {
                 $this->publication = $pub;
-            }
-            if (Request :: post('evaluation'))
-            {
-
-                require_once WebApplication :: get_application_path(GradebookManager :: APPLICATION_NAME) . 'php/lib/forms/gradebook_internal_item_form.class.php';
-                $gradebook_internal_item_form = new GradebookInternalItemForm();
-                if ($pub->get_publication_object()->get_type() == 'survey')
-                {
-                    $gradebook_internal_item_form->create_internal_item($pub->get_id(), null, 'c' . 0);
-                }
-                else
-                {
-                    $gradebook_internal_item_form->create_internal_item($pub->get_id(), true, 'C' . 0);
-                }
             }
         }
         return true;

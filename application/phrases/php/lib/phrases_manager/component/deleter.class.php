@@ -8,17 +8,12 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
 use application\gradebook\GradebookUtilities;
-/**
- * $Id: deleter.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component
- */
-require_once dirname(__FILE__) . '/../phrases_manager.class.php';
 
 /**
- * Component to delete phrases_publications objects
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class PhrasesManagerDeleterComponent extends PhrasesManager
 {
 

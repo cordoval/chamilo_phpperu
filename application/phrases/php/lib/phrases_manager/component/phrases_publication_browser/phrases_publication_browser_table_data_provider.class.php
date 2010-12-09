@@ -2,16 +2,12 @@
 namespace application\phrases;
 
 use common\libraries\ObjectTableDataProvider;
+
 /**
- * $Id: phrases_publication_browser_table_data_provider.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.phrases.phrases_manager.component.phrases_publication_browser
- */
-/**
- * Data provider for a phrases_publication table
- *
  * @author Hans De Bisschop
- * @author
+ * @package application.phrases
  */
+
 class PhrasesPublicationBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
@@ -35,7 +31,7 @@ class PhrasesPublicationBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         return $this->get_browser()->retrieve_phrases_publications($this->get_condition(), $offset, $count, $order_property);
     }
 

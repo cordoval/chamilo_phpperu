@@ -2,12 +2,11 @@
 namespace application\phrases;
 
 use common\extensions\category_manager\CategoryManager;
+
 /**
- * $Id: phrases_publication_category_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
- * @package application.lib.phrases.category_manager
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
-require_once dirname(__FILE__) . '/../phrases_data_manager.class.php';
-require_once dirname(__FILE__) . '/phrases_publication_category.class.php';
 
 class PhrasesPublicationCategoryManager extends CategoryManager
 {
