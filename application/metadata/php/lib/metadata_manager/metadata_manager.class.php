@@ -68,7 +68,7 @@ use common\libraries\Redirect;
     const ACTION_CREATE_METADATA_PROPERTY_ATTRIBUTE_TYPE = 'metadata_property_attribute_type_creator';
     const ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES = 'metadata_property_attribute_types_browser';
 
-    const ACTION_DELETE_METADATA_PROPERTY_ATTRIBUTE_VALUE = 'metadata_property_attribute_value_deleter';
+    const ACTION_DELETE_CONTENT_OBJECT_METADATA_PROPERTY_ATTRIBUTE_VALUE = 'content_object_metadata_property_attribute_value_deleter';
 
     const ACTION_BROWSE_METADATA_DEFAULT_VALUES = 'metadata_default_values_browser';
     const ACTION_DELETE_METADATA_DEFAULT_VALUE = 'metadata_default_value_deleter';
