@@ -5,7 +5,7 @@ use common\libraries\LocalSetting;
 use common\libraries\FormValidatorHtmlEditorOptions;
 use common\libraries\Utilities;
 
-require_once dirname(__FILE__).'/../../../../../../plugin/pear/HTML/QuickForm/radio.php';
+require_once 'HTML/QuickForm/radio.php';
 /**
  * @package common.html.formvalidator.Element
  */

@@ -48,7 +48,12 @@ class DigestWebserviceAuthentication extends WebserviceAuthentication
             }
 
             $valid_response = $this->calculate_valid_response($data, $user->get_password());
-            return ($data[self :: PARAM_RESPONSE] == $valid_response);
+            if($data[self :: PARAM_RESPONSE] == $valid_response)
+            {
+                return $user;
+            }
+
+            return false;
         }
     }
 

@@ -80,13 +80,13 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager impl
 
     function get_condition()
     {
-        $condition = new EqualityCondition(WebserviceCategory :: PROPERTY_PARENT, $this->get_webservice_category());
+        $condition = new EqualityCondition(WebserviceRegistration :: PROPERTY_CATEGORY, $this->get_webservice_category());
 
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
             $or_conditions = array();
-            $or_conditions[] = new PatternMatchCondition(WebserviceCategory :: PROPERTY_NAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(WebserviceRegistration :: PROPERTY_NAME, '*' . $query . '*');
             $or_condition = new OrCondition($or_conditions);
 
             $and_conditions = array();
