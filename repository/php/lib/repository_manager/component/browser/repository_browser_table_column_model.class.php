@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Translation;
+use common\libraries\Theme;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 use common\libraries\StaticTableColumn;
@@ -29,7 +30,7 @@ class RepositoryBrowserTableColumnModel extends DefaultContentObjectTableColumnM
         parent :: __construct();
         $this->set_default_order_column(0);
         $this->add_column(new ObjectTableColumn(ContentObject :: PROPERTY_MODIFICATION_DATE));
-        $this->add_column(new StaticTableColumn(Translation :: get('Versions')));
+        $this->add_column(new StaticTableColumn(ContentObject :: get_version_header()));
         $this->add_column(self :: get_modification_column());
     }
 
