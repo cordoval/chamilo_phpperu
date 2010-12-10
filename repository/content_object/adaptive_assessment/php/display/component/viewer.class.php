@@ -134,7 +134,7 @@ class AdaptiveAssessmentDisplayViewerComponent extends AdaptiveAssessmentDisplay
 
                 $this->adaptive_assessment_trackers[self :: TRACKER_LEARNING_PATH_ITEM] = $adaptive_assessment_item_tracker;
 
-                $this->set_parameter(self :: PARAM_LEARNING_PATH_ITEM_ID, $adaptive_assessment_item_attempt_data[$this->get_complex_content_object_item_id()]['active_tracker']->get_id());
+                $this->set_parameter(self :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID, $adaptive_assessment_item_attempt_data[$this->get_complex_content_object_item_id()]['active_tracker']->get_id());
                 $this->set_parameter(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
 
                 $this->display_header();
