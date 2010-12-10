@@ -91,7 +91,7 @@
     <!-- ============================================  -->
     <!-- Target: phpcb                                 -->
     <!-- ============================================  -->
-    <target name="phpcb" depends="clean, prepare, phpunit-coverage "  >
+    <target name="phpcb" depends="clean, prepare, phpunit-coverage, phpcpd, phpcs "  >
         <echo message="Generating a browseable version of the codebase" />
         <exec   dir="${basedir}"
                 command="php ${basedir}/script/phpcb.php --output ${build-codeBrowser-dir} --log ${basedir}/files/build/logs"
@@ -126,7 +126,7 @@
     <!-- ============================================  -->
     <!-- Target: generate-report                       -->
     <!-- ============================================  -->
-    <target name="generate-reports" depends="phpunit-coverage, pdepend, phpcpd, phpcb"  />
+    <target name="generate-reports" depends="phpunit-coverage, pdepend, phpcpd, phpcs, phpcb"  />
 
     <!-- ============================================  -->
     <!-- (DEFAULT)  Target: build                      -->
