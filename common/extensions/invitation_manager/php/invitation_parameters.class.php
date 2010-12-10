@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\invitation_manager;
+
 class InvitationParameters
 {
     private $valid_email_regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
@@ -73,6 +74,26 @@ class InvitationParameters
     {
         $emails = explode(',', $emails);
 
+        foreach ($emails as $email)
+        {
+            $email = trim($email);
+
+            if (preg_match($this->valid_email_regex . 'D', $email))
+            {
+                $this->add_email($email);
+            }
+            else
+            {
+                $this->invalid_emails[] = $email;
+            }
+        }
+    }
+    
+/**
+     * @param array $emails
+     */
+    function set_emails_from_array($emails)
+    {
         foreach ($emails as $email)
         {
             $email = trim($email);

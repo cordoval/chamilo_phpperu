@@ -9,6 +9,8 @@ use common\libraries\PlatformSetting;
 use common\libraries\Hashing;
 use common\libraries\Mail;
 use common\libraries\Utilities;
+use common\libraries\Session;
+use tracking\Event;
 
 /**
  * $Id: register_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

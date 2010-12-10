@@ -18,6 +18,9 @@ use common\libraries\InCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use user\UserDataManager;
+use repository\content_object\survey\SurveyContextDataManager;
+use repository\content_object\survey\SurveyTemplate;
+
 
 class SurveyManagerParticipantBrowserComponent extends SurveyManager
 {
