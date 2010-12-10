@@ -44,13 +44,11 @@ use admin\Registration;
 use admin\PackageInfo;
 
 /**
- * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.adaptive_assessment.component
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
-require_once dirname(__FILE__) . '/browser/adaptive_assessment_browser_table_cell_renderer.class.php';
 
-class AdaptiveAssessmentBuilderBrowserComponent extends AdaptiveAssessmentBuilder implements
-        ContentObjectTypeSelectorSupport
+class AdaptiveAssessmentBuilderBrowserComponent extends AdaptiveAssessmentBuilder implements ContentObjectTypeSelectorSupport
 {
 
     function run()
@@ -78,8 +76,7 @@ class AdaptiveAssessmentBuilderBrowserComponent extends AdaptiveAssessmentBuilde
         }
 
         echo '<br />';
-        $types = array(
-                AdaptiveAssessment :: get_type_name(),
+        $types = array(AdaptiveAssessment :: get_type_name(),
                 Assessment :: get_type_name());
         echo $this->get_creation_links($content_object, $types);
 

@@ -1,7 +1,12 @@
 <?php
 namespace repository\content_object\adaptive_assessment;
 
-class DummyLpAttemptTracker
+/**
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
+ */
+
+class DummyAdaptiveAssessmentAttemptTracker
 {
 
     function get_id()
