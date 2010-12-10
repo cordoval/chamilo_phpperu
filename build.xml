@@ -121,10 +121,11 @@
     <!-- ============================================  -->
     <!-- Target: phpunit (with reports)                -->
     <!-- ============================================  -->
+
     <target name="phpunit-coverage" depends="setcommands, clean, prepare">
         <echo message="Running all the tests and generating reports (this takes several minutes)..." />
         <exec   dir="${basedir}"
-                command="${phpunitCmd} --configuration ${phpunit-coverage-config-file}"
+                command="php ./script/phpunit.php --configuration ${phpunit-coverage-config-file}"
                 checkreturn="true"
 		passthru="true"
          />
@@ -136,7 +137,7 @@
     <target name="phpunit" depends="setcommands" >
         <echo message="Running all the tests" />
         <exec   dir="${basedir}"
-                command="${phpunitCmd} --configuration ${phpunit-config-file}"
+                command="php ./script/phpunit.php --configuration ${phpunit-config-file}"
                 checkreturn="true"
 		passthru="true"
         />
@@ -148,7 +149,7 @@
     <target name="pdepend" depends="setcommands, clean, prepare"  >
         <echo message="Computing dependency report" />
         <exec   dir="${basedir}"
-                command="${pdependCmd} --optimization=best --jdepend-xml=${pdepend-report-file} --summary-xml=${pdepend-summary-report-file} --ignore=${plugin-dir} ${classes-dirs}"
+                command="php ./script/pdepend.php --optimization=best --jdepend-xml=${pdepend-report-file} --summary-xml=${pdepend-summary-report-file} --ignore=${plugin-dir} ${classes-dirs}"
                 checkreturn="true"
 		passthru="true"
         />
@@ -160,7 +161,7 @@
     <target name="phpcb" depends="setcommands, clean, prepare, phpunit-coverage "  >
         <echo message="Generating a browseable version of the codebase" />
         <exec   dir="${basedir}"
-                command="${phpcbCmd} --output ${build-codeBrowser-dir} --log ${basedir}/files/build/logs"
+                command="php ./script/phpcb.php --output ${build-codeBrowser-dir} --log ${basedir}/files/build/logs"
                 checkreturn="true"
 		passthru="true"
         />
@@ -171,7 +172,7 @@
     <!-- ============================================  -->
     <target name="phpcpd" depends="setcommands, clean,  prepare" >
         <exec   dir="${basedir}"
-                command="${phpcpdCmd} --log-pmd ${pmd-report-file} --exclude ${plugin-dir} ${basedir}"
+                command="php ./script/phpcpd.php --log-pmd ${pmd-report-file} --exclude ${plugin-dir} ${basedir}"
                 
         />
     </target>
@@ -179,7 +180,7 @@
     <!-- ============================================  -->
     <!-- Target: generate-report                       -->
     <!-- ============================================  -->
-    <target name="generate-reports" depends="phpunit-coverage, pdepend, phpcb, phpcpd"  />
+    <target name="generate-reports" depends="phpunit-coverage, pdepend, phpcpd, phpcb"  />
 
     <!-- ============================================  -->
     <!-- (DEFAULT)  Target: build                      -->
