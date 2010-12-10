@@ -6,6 +6,7 @@ use repository\content_object\survey_matrix_question\SurveyMatrixQuestion;
 use repository\content_object\survey_multiple_choice_question\SurveyMultipleChoiceQuestion;
 use repository\content_object\survey_open_question\SurveyOpenQuestion;
 use common\libraries\Translation;
+use repository\content_object\survey_select_question\SurveySelectQuestion;
 
 class SurveyPercentageAnalyzer extends SurveyAnalyzer
 {
