@@ -6,7 +6,10 @@ use common\libraries\Display;
 use repository\RepositoryDataManager;
 use repository\ContentObjectDisplay;
 
-require_once dirname(__FILE__) . '/../adaptive_assessment_display_embedder.class.php';
+/**
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
+ */
 
 class AdaptiveAssessmentDisplayEmbedderContentObjectComponent extends AdaptiveAssessmentDisplayEmbedder
 {

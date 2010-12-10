@@ -4,9 +4,8 @@ namespace repository\content_object\adaptive_assessment;
 use common\libraries\Request;
 use repository\ComplexDisplay;
 
-require_once dirname(__FILE__) . '/../adaptive_assessment_display_embedder.class.php';
-
 /**
+ * @author Hans De Bisschop
  * @package repository.content_object.adaptive_assessment
  */
 
@@ -18,9 +17,9 @@ class AdaptiveAssessmentAssessmentContentObjectDisplay extends AdaptiveAssessmen
         $parameters = array();
         $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = null;
         $parameters[self :: PARAM_EMBEDDED_CONTENT_OBJECT_ID] = $content_object->get_id();
-        
+
         $html[] = $this->display_link($this->get_parent()->get_url($parameters));
-        
+
         return implode("\n", $html);
     }
 }

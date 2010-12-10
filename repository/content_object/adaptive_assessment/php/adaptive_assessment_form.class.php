@@ -5,8 +5,8 @@ use repository\ContentObjectForm;
 
 /**
  * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
-require_once dirname(__FILE__) . '/adaptive_assessment.class.php';
 
 class AdaptiveAssessmentForm extends ContentObjectForm
 {

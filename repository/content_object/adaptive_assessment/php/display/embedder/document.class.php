@@ -4,7 +4,10 @@ namespace repository\content_object\adaptive_assessment;
 use common\libraries\Request;
 use repository\RepositoryDataManager;
 
-require_once dirname(__FILE__) . '/../adaptive_assessment_display_embedder.class.php';
+/**
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
+ */
 
 class AdaptiveAssessmentDisplayEmbedderDocumentComponent extends AdaptiveAssessmentDisplayEmbedder
 {

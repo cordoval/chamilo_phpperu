@@ -15,8 +15,8 @@ use repository\ComplexContentObjectItem;
 use repository\RepositoryDataManager;
 
 /**
- * $Id: prerequisites_builder_form.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.adaptive_assessment.component.prerequisites_builder
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
 
 class PrerequisitesBuilderForm extends FormValidator
@@ -41,12 +41,13 @@ class PrerequisitesBuilderForm extends FormValidator
         $this->build_basic_form();
     }
 
-//    function build_basic_form()
-//    {
-//        $this->build_list();
-//        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SavePrerequisites'), array('class' => 'positive save'));
-//        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-//    }
+    //    function build_basic_form()
+    //    {
+    //        $this->build_list();
+    //        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SavePrerequisites'), array('class' => 'positive save'));
+    //        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+    //    }
+
 
     function handle_session_values()
     {
@@ -111,16 +112,22 @@ class PrerequisitesBuilderForm extends FormValidator
     function build_basic_form()
     {
         $renderer = &$this->defaultRenderer();
-//        $renderer->setElementTemplate('<div style="margin: 10px 0px;">{element}<div class="clear"></div></div>', 'option_buttons');
-//        $renderer->setGroupElementTemplate('<div style="text-align: center; margin-right: 10px;">{element}</div>', 'option_buttons');
+        //        $renderer->setElementTemplate('<div style="margin: 10px 0px;">{element}<div class="clear"></div></div>', 'option_buttons');
+        //        $renderer->setGroupElementTemplate('<div style="text-align: center; margin-right: 10px;">{element}</div>', 'option_buttons');
 
-//        $gbuttons = array();
-//        $gbuttons[] = $this->createElement('style_button', 'add_group[]', Translation :: get('AddPrerequisiteGroup'), array('class' => 'normal add', 'id' => 'add_group'));
-//        $this->addGroup($gbuttons, 'option_buttons', null, '', false);
 
-        $operator = array('' => Translation :: get('Operator'), '&' => Translation :: get('And'), '|' => Translation :: get('Or'));
-        $goperator = array('&' => Translation :: get('And'), '|' => Translation :: get('Or'));
+        //        $gbuttons = array();
+        //        $gbuttons[] = $this->createElement('style_button', 'add_group[]', Translation :: get('AddPrerequisiteGroup'), array('class' => 'normal add', 'id' => 'add_group'));
+        //        $this->addGroup($gbuttons, 'option_buttons', null, '', false);
+
+
+        $operator = array('' => Translation :: get('Operator'),
+                '&' => Translation :: get('And'),
+                '|' => Translation :: get('Or'));
+        $goperator = array('&' => Translation :: get('And'),
+                '|' => Translation :: get('Or'));
         //$goperator = array('' => Translation :: get('GroupOperator'), '&' => Translation :: get('And'), '|' => Translation :: get('Or'));
+
 
         $not = array('' => '', '~' => Translation :: get('Not'));
         $siblings = $this->retrieve_siblings();
@@ -152,7 +159,10 @@ class PrerequisitesBuilderForm extends FormValidator
                 if ($_SESSION['number_of_groups'] - count($_SESSION['skip_groups']) > 1)
                 {
                     $renderer->setElementTemplate('{element}', 'remove_group[' . $group_number . ']');
-                    $group[] = $this->addElement('image', 'remove_group[' . $group_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('title' => Translation :: get('RemoveGroup'), 'class' => 'remove_group', 'id' => $group_number));
+                    $group[] = $this->addElement('image', 'remove_group[' . $group_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array(
+                            'title' => Translation :: get('RemoveGroup'),
+                            'class' => 'remove_group',
+                            'id' => $group_number));
                 }
 
                 $category_html = array();
@@ -161,6 +171,7 @@ class PrerequisitesBuilderForm extends FormValidator
                 $category_html[] = '<div class="body">';
                 $this->addElement('html', implode("\n", $category_html));
                 //$this->addElement('category', Translation :: get('PrerequisiteGroup') . ' ' . ($gcounter + 1));
+
 
                 $number_of_items = intval($_SESSION['number_of_items'][$group_number]);
 
@@ -178,7 +189,8 @@ class PrerequisitesBuilderForm extends FormValidator
                         }
                         else
                         {
-                            $element = $this->createElement('select', 'operator' . $identifier, '', $operator, array('disabled'));
+                            $element = $this->createElement('select', 'operator' . $identifier, '', $operator, array(
+                                    'disabled'));
                             $group[] = $element;
                         }
 
@@ -187,7 +199,10 @@ class PrerequisitesBuilderForm extends FormValidator
 
                         if ($_SESSION['number_of_items'][$group_number] - count($_SESSION['skip_items'][$group_number]) > 1)
                         {
-                            $group[] = & $this->createElement('image', 'remove_item[' . $group_number . '][' . $item_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('title' => Translation :: get('RemoveItem'), 'class' => 'remove_item', 'id' => $group_number . '_' . $item_number));
+                            $group[] = & $this->createElement('image', 'remove_item[' . $group_number . '][' . $item_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array(
+                                    'title' => Translation :: get('RemoveItem'),
+                                    'class' => 'remove_item',
+                                    'id' => $group_number . '_' . $item_number));
                         }
 
                         $this->addGroup($group, 'item_' . $group_number . '_' . $item_number, null, '', false);
@@ -199,21 +214,27 @@ class PrerequisitesBuilderForm extends FormValidator
 
                 $gcounter ++;
 
-//                $group = array();
+                //                $group = array();
                 //$group[] = &$this->createElement('image', 'create_item[' . $group_number . ']', Theme :: get_common_image_path() . 'action_add.png', array('title' => Translation :: get('AddItem'), 'class' => 'create_item', 'id' => $group_number));
+
 
                 $renderer->setElementTemplate('{element}', 'add_item[' . $group_number . ']');
                 $this->addElement('html', '<div style="border-top: 1px dotted #cecece; padding: 10px;">');
-                $this->addElement('image', 'add_item[' . $group_number . ']', Theme :: get_common_image_path() . 'action_add.png', array('title' => Translation :: get('AddItem'), 'class' => 'add_item', 'id' => $group_number));
+                $this->addElement('image', 'add_item[' . $group_number . ']', Theme :: get_common_image_path() . 'action_add.png', array(
+                        'title' => Translation :: get('AddItem'),
+                        'class' => 'add_item',
+                        'id' => $group_number));
                 $this->addElement('html', '</div>');
 
-//                if ($_SESSION['number_of_groups'] - count($_SESSION['skip_groups']) > 1)
-//                {
-//                    $group[] = &$this->createElement('image', 'remove_group[' . $group_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('title' => Translation :: get('RemoveGroup'), 'class' => 'remove_group', 'id' => $group_number));
-//                }
+                //                if ($_SESSION['number_of_groups'] - count($_SESSION['skip_groups']) > 1)
+                //                {
+                //                    $group[] = &$this->createElement('image', 'remove_group[' . $group_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('title' => Translation :: get('RemoveGroup'), 'class' => 'remove_group', 'id' => $group_number));
+                //                }
 
-//                $this->addGroup($group, 'group_' . $group_number, null, '', false);
-//                $renderer->setElementTemplate('<div style="float: right; margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'group_' . $group_number);
+
+                //                $this->addGroup($group, 'group_' . $group_number, null, '', false);
+                //                $renderer->setElementTemplate('<div style="float: right; margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'group_' . $group_number);
+
 
                 $category_html = array();
                 $category_html[] = '<div style="clear: both;"></div>';
@@ -225,8 +246,11 @@ class PrerequisitesBuilderForm extends FormValidator
         }
 
         $form_buttons = array();
-        $form_buttons[] = $this->createElement('style_button', 'add_group[]', Translation :: get('AddPrerequisiteGroup'), array('class' => 'normal add', 'id' => 'add_group'));
-        $form_buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SavePrerequisites'), array('class' => 'positive save'));
+        $form_buttons[] = $this->createElement('style_button', 'add_group[]', Translation :: get('AddPrerequisiteGroup'), array(
+                'class' => 'normal add',
+                'id' => 'add_group'));
+        $form_buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SavePrerequisites'), array(
+                'class' => 'positive save'));
         $this->addGroup($form_buttons, 'option_buttons', null, '&nbsp;', false);
     }
 
@@ -240,15 +264,15 @@ class PrerequisitesBuilderForm extends FormValidator
         $condition = new AndCondition($conditions);
 
         $rdm = RepositoryDataManager :: get_instance();
-		$siblings[-1]=''; //add an empty box
+        $siblings[- 1] = ''; //add an empty box
         $siblings_list = $rdm->retrieve_complex_content_object_items($condition);
         while ($sibbling = $siblings_list->next_result())
         {
             $content_object = $rdm->retrieve_content_object($sibbling->get_ref());
 
-            if($content_object->get_type() == AdaptiveAssessment :: get_type_name())
+            if ($content_object->get_type() == AdaptiveAssessment :: get_type_name())
             {
-            	continue;
+                continue;
             }
 
             if ($content_object->get_type() == AdaptiveAssessmentItem :: get_type_name())
@@ -339,11 +363,11 @@ class PrerequisitesBuilderForm extends FormValidator
 
             $defaults['group_operator'] = $operators;
 
-            if($this->number_of_groups == 0 && is_numeric($prerequisites))
+            if ($this->number_of_groups == 0 && is_numeric($prerequisites))
             {
-            	$this->number_of_groups = 1;
-            	$this->number_of_items[0] = 1;
-            	$defaults['prerequisite'][0][0] = $prerequisites;
+                $this->number_of_groups = 1;
+                $this->number_of_items[0] = 1;
+                $defaults['prerequisite'][0][0] = $prerequisites;
             }
         }
 

@@ -9,11 +9,12 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\Request;
 
-require_once dirname(__FILE__) . '/adaptive_assessment_display.class.php';
-
 /**
- * @package application.lib.weblcms.tool.adaptive_assessment.component.adaptive_assessment_viewer
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
+
+require_once dirname(__FILE__) . '/adaptive_assessment_display.class.php';
 
 class AdaptiveAssessmentContentObjectDisplay
 {
