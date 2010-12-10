@@ -56,7 +56,7 @@ class RestResult
 	* @var string
 	*/ 
 	private $response_content;
-	
+	private $response_content_xml;
 	/**
 	* the response error
 	*
@@ -327,6 +327,28 @@ class RestResult
     function get_response_cookies()
     {
         return isset($this->response_cookies) ? $this->response_cookies : false;
+    }
+
+    function set_response_content_xml()
+    {
+        if($this->get_response_content())
+        {
+            if($xml = simplexml_load_string($this->get_response_content()))
+            {
+                $this->response_content_xml = new SimpleXMLElement($this->get_response_content());
+            }
+        }
+    }
+
+    /**
+     * Get the response content and turns it into object
+     *
+     * @return simplexmlelement object
+     */
+    function get_response_content_xml()
+    {
+        return isset($this->response_content_xml) ? $this->response_content_xml : false;
+
     }
 }
 ?>

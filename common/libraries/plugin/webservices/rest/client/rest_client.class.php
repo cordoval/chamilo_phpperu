@@ -657,7 +657,7 @@ class RestClient
      *
      * @return RestResult
      */
-    protected function send_pear_request()
+        protected function send_pear_request()
     {
         $result = new RestResult();
         $result->set_request_connexion_mode($this->connexion_mode);

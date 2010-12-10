@@ -135,7 +135,7 @@ class MediamosaRestClient extends RestClient{
      * @param data array
      * @return MediaMosaRestResult object
      */
-    function request($method, $url, $data = null, $response_type = self :: RESPONSE_TYPE_XML)
+    function request($method, $appendix, $data = null, $response_type = self :: RESPONSE_TYPE_XML)
     {
         //echo $url . "<br/>";
 
@@ -147,7 +147,7 @@ class MediamosaRestClient extends RestClient{
         if(($method == self :: METHOD_POST))
         {
             if(is_array($data)) $this->set_data_to_send($data);
-            $url = $this->mediamosa_url . $url;
+            $url = $this->mediamosa_url . $appendix;
         }
         elseif($method == self :: METHOD_GET)
         {
@@ -173,10 +173,10 @@ class MediamosaRestClient extends RestClient{
                 }
 
                 $get_string = implode('&', $tmp);
-                $url .= '?' . $get_string;
+                $appendix .= '?' . $get_string;
                
             }
-            $url = $this->mediamosa_url . $url;
+            $url = $this->mediamosa_url . $appendix;
             
         }elseif($method == self :: METHOD_PUT)
         {
@@ -206,9 +206,9 @@ class MediamosaRestClient extends RestClient{
      * 1. headers can be set in array key-value pairs
      * 2. headers are returned in array key-value pairs
      */
-    protected function send_pear_request()
+     protected function send_pear_request()
     {
-        
+
         $result = new MediaMosaRestResult();
         $result->set_request_connexion_mode($this->get_connexion_mode());
         $result->set_request_http_method($this->get_http_method());
@@ -230,10 +230,10 @@ class MediamosaRestClient extends RestClient{
 
        //add data
         $data_to_send = $this->get_data_to_send();
-        
+
         if(isset($data_to_send))
         {
-            
+
            if(is_string($data_to_send))
             {
                  $request->setBody($data_to_send);
@@ -281,7 +281,7 @@ class MediamosaRestClient extends RestClient{
                 $request->setBody($file_content);
             }
             /*
-             * addition
+             * if data_to_send is an array -> send key value pairs as param = value
              */
             elseif(is_array($data_to_send))
             {
@@ -300,11 +300,9 @@ class MediamosaRestClient extends RestClient{
             }
 
 
-            /*
-             * addition
-             */
+
            /*add additional headers*/
-            
+
             if(is_array($this->get_header_data()))
             {
                 foreach($this->get_header_data() as $n => $header)
@@ -320,9 +318,6 @@ class MediamosaRestClient extends RestClient{
         {
             $result->set_response_http_code($request->getResponseCode());
             $result->set_response_content($request->getResponseBody());
-            /*
-             * addition
-             */
             $result->set_response_header($request->getResponseHeader());
             $result->set_response_cookies($request->getResponseCookies());
         }
@@ -334,9 +329,5 @@ class MediamosaRestClient extends RestClient{
 
         return $result;
     }
-
-    
-
-    
 }
 ?>
