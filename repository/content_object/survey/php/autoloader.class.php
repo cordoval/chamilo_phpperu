@@ -36,7 +36,7 @@ class Autoloader
             'survey_context_manager' => 'manage/context/survey_context_manager',
             'default_survey_page_table_column_model' => 'manage/context/tables/page_table/default_page_table_column_model',
             'default_survey_page_table_cell_renderer' => 'manage/context/tables/page_table/default_page_table_cell_renderer',
-            'survey_context_form' => 'manage/context/forms/context_form.class.php',
+            'survey_context_form' => 'manage/context/forms/context_form',
             'default_survey_context_table_column_model' => 'manage/context/tables/context_table/default_context_table_column_model',
             'default_survey_context_table_cell_renderer' => 'manage/context/tables/context_table/default_context_table_cell_renderer',
             'default_survey_context_template_table_column_model' => 'manage/context/tables/context_template_table/default_context_template_table_column_model',

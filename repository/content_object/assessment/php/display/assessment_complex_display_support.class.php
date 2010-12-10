@@ -40,4 +40,3 @@ interface AssessmentComplexDisplaySupport extends ComplexDisplaySupport
      */
     function get_assessment_go_back_url();
 }
-?>

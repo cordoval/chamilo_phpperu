@@ -4,10 +4,12 @@ namespace repository\content_object\survey;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\ResourceManager;
+use common\libraries\Utilities;
 
 use HTML_QuickForm_Action_Display;
 
 require_once Path :: get_repository_content_object_path() . '/survey/php/display/component/survey_menu.class.php';
+require_once Path :: get_repository_content_object_path() . '/survey/php/display/component/survey_tree.class.php';
 
 class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 {
@@ -116,11 +118,12 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
         
         $url_format = '?' . $url_format . '&' . SurveyViewerWizard :: PARAM_PUBLICATION_ID . '=%s&' . SurveyViewerWizard :: PARAM_SURVEY_ID . '=%s&' . SurveyViewerWizard :: PARAM_INVITEE_ID . '=%s&' . SurveyViewerWizard :: PARAM_CONTEXT_PATH . '=%s';
         
-        $survey_menu = new SurveyMenu($this->parent, $current_page->get_context_path(), $url_format, $this->survey);
-        
+        //$survey_menu = new SurveyMenu($this->parent, $current_page->get_context_path(), $url_format, $this->survey);
+        $survey_tree = new SurveyTree($this->survey->get_id(), $current_page->get_context_path(), $url_format, $this->survey);
         $html = array();
         $html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
-        $html[] = $survey_menu->render_as_tree();
+        //$html[] = $survey_menu->render_as_tree();
+        $html[] = $survey_tree->render_as_tree();
         $html[] = '</div>';
         return implode("\n", $html);
     }

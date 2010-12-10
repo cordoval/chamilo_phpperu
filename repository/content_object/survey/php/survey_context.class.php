@@ -86,26 +86,31 @@ abstract class SurveyContext extends DataClass
 
     static function factory($type, $defaultProperties = array(), $additionalProperties = null)
     {
-        $class = self :: type_to_class($type);
+        $class =  self :: type_to_class($type);
         require_once dirname(__FILE__) . '/context/' . $type . '/' . $type . '.class.php';
         return new $class($defaultProperties, $additionalProperties);
     }
 
     static function type_to_class($type)
     {
-        return Utilities :: underscores_to_camelcase($type);
+        return __NAMESPACE__.'\\'.Utilities :: underscores_to_camelcase($type);
     }
 
     static function class_to_type($class)
     {
-        return Utilities :: camelcase_to_underscores($class);
+        return Utilities :: get_classname_from_namespace($class, true);
     }
 
     function get_type()
     {
         return self :: class_to_type(get_class($this));
     }
-
+	
+	function set_type()
+    {
+        $this->set_default_property(self :: PROPERTY_TYPE, self :: class_to_type(get_class($this)));
+    }
+    
     function set_name($name)
     {
         $this->set_default_property(self :: PROPERTY_NAME, $name);
@@ -173,7 +178,7 @@ abstract class SurveyContext extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function get_additional_property($name)

@@ -13,30 +13,30 @@ require_once Path :: get_plugin_path().'/webservices/rest/client/rest_result.cla
  */
 class MediamosaRestResult extends RestResult {
 
-    private $response_content_xml;
+//    private $response_content_xml;
 
-    function set_response_content_xml()
-    {
-        if($this->get_response_content())
-        {
-            if($xml = simplexml_load_string($this->get_response_content()))
-            {
-                $this->response_content_xml = new SimpleXMLElement($this->get_response_content());
-            }
-        }
-    }
-
-    /**
-     * overrides parent
-     * Get the response content and turns it into object
-     *
-     * @return simplexmlelement object
-     */
-    function get_response_content_xml()
-    {
-        return isset($this->response_content_xml) ? $this->response_content_xml : false;
-
-    }
+//    function set_response_content_xml()
+//    {
+//        if($this->get_response_content())
+//        {
+//            if($xml = simplexml_load_string($this->get_response_content()))
+//            {
+//                $this->response_content_xml = new SimpleXMLElement($this->get_response_content());
+//            }
+//        }
+//    }
+//
+//    /**
+//     * overrides parent
+//     * Get the response content and turns it into object
+//     *
+//     * @return simplexmlelement object
+//     */
+//    function get_response_content_xml()
+//    {
+//        return isset($this->response_content_xml) ? $this->response_content_xml : false;
+//
+//    }
 
 
 

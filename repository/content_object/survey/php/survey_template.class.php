@@ -76,19 +76,19 @@ abstract class SurveyTemplate extends DataClass
 
     static function factory($type, $defaultProperties = array(), $additionalProperties = null)
     {
-        $class = __NAMESPACE__.'\\'. self :: type_to_class($type);
+        $class = self :: type_to_class($type);
         require_once dirname(__FILE__) . '/template/' . $type . '/' . $type . '.class.php';
         return new $class($defaultProperties, $additionalProperties);
     }
 
     static function type_to_class($type)
     {
-        return Utilities :: underscores_to_camelcase($type);
+        return __NAMESPACE__.'\\'.Utilities :: underscores_to_camelcase($type);
     }
 
     static function class_to_type($class)
     {
-        return Utilities :: camelcase_to_underscores($class);
+        return Utilities :: get_classname_from_namespace($class, true);
     }
 
     function get_user_id()
@@ -103,7 +103,7 @@ abstract class SurveyTemplate extends DataClass
 
     function get_type()
     {
-        return self :: class_to_type(Utilities :: get_classname_from_object($this));
+        return self :: class_to_type(get_class($this));
         
     }
 
@@ -132,7 +132,7 @@ abstract class SurveyTemplate extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function get_additional_property($name)
