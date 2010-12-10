@@ -63,5 +63,66 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
     {
         return array(self :: PARAM_PHRASES_PUBLICATION);
     }
+
+    public function retrieve_adaptive_assessment_tracker() {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+    public function retrieve_adaptive_assessment_tracker_items($adaptive_assessment_tracker) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+    public function get_adaptive_assessment_tree_menu_url() {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+    public function create_adaptive_assessment_item_tracker($adaptive_assessment_tracker, $current_complex_content_object_item) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    public function get_adaptive_assessment_attempt_progress_details_reporting_template_name() {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    public function get_adaptive_assessment_attempt_progress_reporting_template_name() {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    public function get_adaptive_assessment_content_object_assessment_result_url($complex_content_object_id, $details) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    public function get_adaptive_assessment_content_object_item_details_url($complex_content_object_id) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    public function get_adaptive_assessment_previous_url($total_steps) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    public function get_adaptive_assessment_template_application_name() {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    public function get_assessment_current_attempt_id() {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    public function get_assessment_go_back_url() {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    public function save_assessment_answer($complex_question_id, $answer, $score) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    public function save_assessment_result($total_score) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    public function get_root_content_object() {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
+    public function is_allowed($right) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+
 }
-?>

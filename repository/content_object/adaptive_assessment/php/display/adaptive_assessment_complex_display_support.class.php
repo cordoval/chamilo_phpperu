@@ -87,4 +87,3 @@ interface AdaptiveAssessmentComplexDisplaySupport extends ComplexDisplaySupport
      */
     function get_adaptive_assessment_template_application_name();
 }
-?>
