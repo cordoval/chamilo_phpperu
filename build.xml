@@ -3,6 +3,10 @@
 	If you do not have phing, please install it :
 	$> pear channel-discover pear.phing.info
 	$> pear install phing/phing
+
+    OR
+
+    type php ./script/phing.php XXXX (XXXX is your target)
 -->
 <project name="Chamilo2" default="phpunit">
 
@@ -23,80 +27,6 @@
     <property name="pdepend-report-file" value="${build-logs-dir}/pdepend.xml" />
     <property name="pdepend-summary-report-file" value="${build-logs-dir}/pdepend-summary.xml" />
     <property name="pmd-report-file" value="${build-logs-dir}/phpcpd.xml" />
-
-
-    <!-- ============================================  -->
-    <!-- Defining conditions                           -->
-    <!-- ============================================  -->
-    <condition property="isWindows">
-        <os family="windows" />
-    </condition>
-
-
-
-    <!-- ============================================  -->
-    <!-- Target: setCommands depending on OS Family    -->
-    <!-- ============================================  -->
-    <target name="setcommands" depends="setcommandsNix, setcommandsWin" />
-
-    <target name="setcommandsNix" unless="isWindows">
-        <echo message="Defining executables for *Nix system" />
-        <property name="phpunitCmd" value="phpunit" />
-        <property name="pdependCmd" value="pdepend" />
-        <property name="phpcbCmd" value="phpcb" />
-        <property name="phpcpdCmd" value="phpcpd" />
-    </target>
-
-    <target name="setcommandsWin" if="isWindows">
-        <property name="phpunitCmd" value="phpunit.bat" />
-        <property name="pdependCmd" value="pdepend.bat" />
-        <property name="phpcbCmd" value="phpcb.bat" />
-        <property name="phpcpdCmd" value="phpcpd.bat" />
-    </target>
-
-    <!-- ============================================  -->
-    <!-- Target: install-dependencies                  -->
-    <!-- ============================================  -->
-    <target name="install-dependencies">
-        <echo message="install phpunit and pdepend from PEAR" />
-        <exec   dir="${basedir}"
-                command="pear channel-discover pear.phpunit.de"
-		passthru="true"
-         />
-        <exec   dir="${basedir}"
-                command="pear channel-discover components.ez.no"
-		passthru="true"
-         />
-        <exec   dir="${basedir}"
-                command="pear channel-discover pear.symfony-project.com"
-		passthru="true"
-         />
-        <exec   dir="${basedir}"
-                command="pear channel-discover pear.pdepend.org"
-		passthru="true"
-         />
-        <exec   dir="${basedir}"
-                command="pear install phpunit/PHPUnit"
-		passthru="true"
-         />
-         <exec   dir="${basedir}"
-                command="pear install phpunit/phpcpd"
-		passthru="true"
-         />
-        <exec   dir="${basedir}"
-                command="pear install pdepend/PHP_Depend-beta"
-		passthru="true"
-         />
-         <exec   dir="${basedir}"
-                command="pear config-set preferred_state beta"
-		passthru="true"
-         />
-         <exec   dir="${basedir}"
-                command="pear install --alldeps phpunit/PHP_CodeBrowser"
-		passthru="true"
-         />
-
-    </target>
 
 
     <!-- ============================================  -->
@@ -122,7 +52,7 @@
     <!-- Target: phpunit (with reports)                -->
     <!-- ============================================  -->
 
-    <target name="phpunit-coverage" depends="setcommands, clean, prepare">
+    <target name="phpunit-coverage" depends="clean, prepare">
         <echo message="Running all the tests and generating reports (this takes several minutes)..." />
         <exec   dir="${basedir}"
                 command="php ./script/phpunit.php --configuration ${phpunit-coverage-config-file}"
@@ -134,7 +64,7 @@
     <!-- ============================================  -->
     <!-- Target: phpunit (no report, much faster)      -->
     <!-- ============================================  -->
-    <target name="phpunit" depends="setcommands" >
+    <target name="phpunit" >
         <echo message="Running all the tests" />
         <exec   dir="${basedir}"
                 command="php ./script/phpunit.php --configuration ${phpunit-config-file}"
@@ -146,7 +76,7 @@
     <!-- ============================================  -->
     <!-- Target: pdepend                               -->
     <!-- ============================================  -->
-    <target name="pdepend" depends="setcommands, clean, prepare"  >
+    <target name="pdepend" depends="clean, prepare"  >
         <echo message="Computing dependency report" />
         <exec   dir="${basedir}"
                 command="php ./script/pdepend.php --optimization=best --jdepend-xml=${pdepend-report-file} --summary-xml=${pdepend-summary-report-file} --ignore=${plugin-dir} ${classes-dirs}"
@@ -158,7 +88,7 @@
     <!-- ============================================  -->
     <!-- Target: phpcb                                 -->
     <!-- ============================================  -->
-    <target name="phpcb" depends="setcommands, clean, prepare, phpunit-coverage "  >
+    <target name="phpcb" depends="clean, prepare, phpunit-coverage "  >
         <echo message="Generating a browseable version of the codebase" />
         <exec   dir="${basedir}"
                 command="php ./script/phpcb.php --output ${build-codeBrowser-dir} --log ${basedir}/files/build/logs"
@@ -170,7 +100,7 @@
     <!-- ============================================  -->
     <!-- Target: phpcpd                                -->
     <!-- ============================================  -->
-    <target name="phpcpd" depends="setcommands, clean,  prepare" >
+    <target name="phpcpd" depends="clean,  prepare" >
         <exec   dir="${basedir}"
                 command="php ./script/phpcpd.php --log-pmd ${pmd-report-file} --exclude ${plugin-dir} ${basedir}"
                 
