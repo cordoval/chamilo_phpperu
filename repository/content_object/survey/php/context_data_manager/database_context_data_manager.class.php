@@ -30,7 +30,7 @@ require_once Path :: get_repository_path() . 'lib/data_manager/database_reposito
 class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager implements SurveyContextDataManagerInterface
 {
 
-    function retrieve_survey_contexts($type, $condition = null, $offset = null, $count = null, $order_property = null)
+  function retrieve_survey_contexts($type, $condition = null, $offset = null, $count = null, $order_property = null)
     {
         
         $type_table = $this->escape_table_name($type);
@@ -67,7 +67,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         }
         
         $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $id);
-        //context is always extended because SurveyContext is an abstact class
+        //context is always extended because SurveyContext is an abstact class        
         //        if ($this->is_extended_type($type))
         //        {
         $survey_context_alias = $this->get_alias(SurveyContext :: get_table_name());
@@ -98,7 +98,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         if ($context->get_additional_properties())
         {
             $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
-            $this->delete_objects(Utilities :: get_classname_from_object($context, true), $condition);
+            $this->delete_objects(Utilities :: camelcase_to_underscores(get_class($context)), $condition);
         }
         
         $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
@@ -111,17 +111,23 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         if ($context->get_additional_properties())
         {
             $properties = Array();
-            $alias = $this->get_alias(Utilities :: get_classname_from_object($context, true));
+            $alias = $this->get_alias(Utilities :: camelcase_to_underscores(get_class($context)));
             foreach ($context->get_additional_property_names() as $property_name)
             {
                 $properties[$property_name] = $this->quote($context->get_additional_property($property_name));
             }
+            
             $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
-            $this->update_objects(Utilities :: get_classname_from_object($context, true), $properties, $condition);
+            $this->update_objects(Utilities :: camelcase_to_underscores(get_class($context)), $properties, $condition);
         }
         
-    //        $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
-    //        $this->delete_objects(SurveyContext :: get_table_name(), $condition);
+        $props = array();
+        $props[SurveyContext :: PROPERTY_ACTIVE] = $this->quote($context->get_default_property(SurveyContext :: PROPERTY_ACTIVE));
+        $props[SurveyContext :: PROPERTY_NAME] = $this->quote($context->get_default_property(SurveyContext :: PROPERTY_NAME));
+      
+        $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
+        $this->update_objects(Utilities :: camelcase_to_underscores(SurveyContext :: CLASS_NAME), $props, $condition);
+        return true;
     }
 
     function create_survey_context_template($survey_context_template)
@@ -136,8 +142,10 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-        $props[$this->escape_column_name(SurveyContext :: PROPERTY_ID)] = $context->get_id();
-        $props[$this->escape_column_name(SurveyContext :: PROPERTY_TYPE)] = $context->get_type();
+//        $props[$this->escape_column_name(SurveyContext :: PROPERTY_ID)] = $context->get_id();
+//        $props[$this->escape_column_name(SurveyContext :: PROPERTY_TYPE)] = $context->get_type();
+//        $props[$this->escape_column_name(SurveyContext :: PROPERTY_ACTIVE)] = $context->get_active();
+//        $props[$this->escape_column_name(SurveyContext :: PROPERTY_CONTEXT_REGISTRATION_ID)] = $context->get_context_registration_id();
         $props[$this->escape_column_name(SurveyContext :: PROPERTY_ID)] = $this->get_better_next_id('survey_context', 'id');
         $this->get_connection()->loadModule('Extended');
         $this->get_connection()->extended->autoExecute($this->get_table_name('survey_context'), $props, MDB2_AUTOQUERY_INSERT);
@@ -410,7 +418,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         if ($template->get_additional_properties())
         {
             $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_ID, $template->get_id());
-            $this->delete_objects(Utilities :: get_classname_from_object($template, true), $condition);
+            $this->delete_objects(Utilities :: camelcase_to_underscores(get_class($template)), $condition);
         }
         
         $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_ID, $template->get_id());
@@ -423,13 +431,13 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         if ($template->get_additional_properties())
         {
             $properties = Array();
-            $alias = $this->get_alias(Utilities :: get_classname_from_object($template, true));
+            $alias = $this->get_alias(Utilities :: camelcase_to_underscores(get_class($template)));
             foreach ($template->get_additional_property_names() as $property_name)
             {
                 $properties[$property_name] = $this->quote($template->get_additional_property($property_name));
             }
             $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_ID, $template->get_id());
-            $this->update_objects(Utilities :: get_classname_from_object($context, true), $properties, $condition);
+            $this->update_objects(Utilities :: camelcase_to_underscores(get_class($context)), $properties, $condition);
         }
     }
 

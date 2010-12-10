@@ -16,7 +16,8 @@ class Autoloader
     {
         $list = array(
             'survey' => 'survey',
-            'survey_context_template' => 'survey_context_template.class.php',
+            'survey_context_template' => 'survey_context_template',
+            'survey_context' => 'survey_context',
             'survey_builder' => 'builder/survey_builder',
             'survey_display' => 'display/survey_display',
             'survey_analyzer' => 'analyzer/analyzer',

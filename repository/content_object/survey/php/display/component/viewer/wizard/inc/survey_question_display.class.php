@@ -7,7 +7,7 @@ use common\libraries\Utilities;
 
 abstract class SurveyQuestionDisplay
 {
-    private $complex_question;
+ private $complex_question;
     private $question;
     private $question_nr;
     
@@ -26,7 +26,7 @@ abstract class SurveyQuestionDisplay
     private $visible;
     private $contex_path;
 
-    function __construct($formvalidator, $complex_question, $question, $answer, $context_path, $survey)
+    function SurveyQuestionDisplay($formvalidator, $complex_question, $question, $answer, $context_path, $survey)
     {
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
@@ -36,7 +36,7 @@ abstract class SurveyQuestionDisplay
         $this->answer = $answer;
         $this->contex_path = $context_path;
         $this->survey = $survey;
-        $this->question_nr = $this->survey->get_question_nr($context_path);;
+        $this->question_nr = $this->survey->get_question_nr($context_path);
     }
 
     function get_complex_question()
@@ -101,13 +101,11 @@ abstract class SurveyQuestionDisplay
         
         if (! $this->get_complex_question()->is_visible())
         {
-            $html[] = '<div style="display:none" class="question" id="survey_question_' . $this->question->get_id() . '">';
-        
+            $html[] = '<div style="display:none" class="question" id="survey_question_' . $this->complex_question->get_id() . '">';
         }
         else
         {
-            $html[] = '<div  class="question" id="survey_question_' . $this->question->get_id() . '">';
-        
+            $html[] = '<div  class="question" id="survey_question_' . $this->complex_question->get_id() . '">';
         }
         
         $html[] = '<div class="title">';
@@ -177,7 +175,7 @@ abstract class SurveyQuestionDisplay
         
         require_once $file;
         
-        $class = __NAMESPACE__.'\\'.Utilities :: underscores_to_camelcase($type) . 'Display';
+        $class = Utilities :: underscores_to_camelcase($type) . 'Display';
         $question_display = new $class($formvalidator, $complex_question, $question, $answer, $context_path, $survey);
         return $question_display;
     }

@@ -7,9 +7,9 @@ use common\libraries\Security;
 
 class SurveyViewerWizardNext extends HTML_QuickForm_Action
 {
-    private $parent;
+ private $parent;
 
-    public function __construct($parent)
+    public function SurveyViewerWizardNext($parent)
     {
         $this->parent = $parent;
     }
@@ -59,9 +59,10 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
 
             $survey_values = $page->exportValues();
             //
-//            dump('values:');
-//            dump($survey_values);
+            //            dump('values:');
+            //            dump($survey_values);
             
+
             $values = array();
             
             foreach ($survey_values as $key => $value)
@@ -91,25 +92,37 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
                 }
             }
             
-//            dump($values);
+            //            dump($values);
             
+
             $complex_question_ids = array_keys($values);
             
-//            dump($complex_question_ids);
+            //            dump($complex_question_ids);
             
+
             if (count($complex_question_ids) > 0)
             {
                 foreach ($complex_question_ids as $complex_question_id)
                 {
                     
-//                    dump($complex_question_id);
+                    //                    dump($complex_question_id);
                     $answers = $values[$complex_question_id];
                     
-//                    dump($answers);
+                    //                    dump($answers);
                     
+
                     if (count($answers) > 0)
                     {
-                        $this->parent->save_answer($complex_question_id, serialize($answers), $context_path . '_' . $complex_question_id);
+                        if ($this->parent->get_survey()->has_context())
+                        {
+                            $this->parent->save_answer($complex_question_id, serialize($answers), $context_path . '_' . $complex_question_id);
+                        
+                        }
+                        else
+                        {
+                            $this->parent->save_answer($complex_question_id, serialize($answers), $complex_question_id);
+                        
+                        }
                     }
                 }
             }
@@ -119,7 +132,8 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
             //            dump($next);
             //            dump('handle jump');
             return $next->handle('jump');
-            //             Consider this a 'finish' button, if there is no explicit one
+        
+     //             Consider this a 'finish' button, if there is no explicit one
         }
         elseif ($page->controller->isModal())
         {

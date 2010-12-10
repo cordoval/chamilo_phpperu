@@ -9,38 +9,40 @@ require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.cl
 abstract class SurveyContext extends DataClass
 {
 
-    const CLASS_NAME = __CLASS__;
-
+ const CLASS_NAME = __CLASS__;
+    
     const PROPERTY_TYPE = 'type';
     const PROPERTY_NAME = 'name';
     const PROPERTY_CONTEXT_REGISTRATION_ID = 'context_registration_id';
-
+    const PROPERTY_ACTIVE = 'active';
+    
+    
     private $additionalProperties;
 
     //    abstract static public function create_contexts_for_user($user_id, $key, $key_type = '' );
-
+    
 
     abstract static public function get_allowed_keys();
 
     abstract static function get_additional_property_names();
 
     //    abstract static public function get_display_name();
+    
 
-
-    public function __construct($defaultProperties = array (), $additionalProperties = null)
+    public function SurveyContext($defaultProperties = array (), $additionalProperties = null)
     {
         parent :: __construct($defaultProperties);
         if (isset($additionalProperties))
         {
             $this->additionalProperties = $additionalProperties;
         }
-
+    
     }
 
     public function create()
     {
         $dm = SurveyContextDataManager :: get_instance();
-
+        
         if (! $dm->create_survey_context($this))
         {
             return false;
@@ -49,14 +51,14 @@ abstract class SurveyContext extends DataClass
         {
             return true;
         }
-
+    
     }
 
     public function delete()
     {
-
+        
         $dm = SurveyContextDataManager :: get_instance();
-
+        
         if (! $dm->delete_survey_context($this))
         {
             return false;
@@ -69,9 +71,9 @@ abstract class SurveyContext extends DataClass
 
     public function update()
     {
-
+        
         $dm = SurveyContextDataManager :: get_instance();
-
+        
         if (! $dm->update_survey_context($this))
         {
             return false;
@@ -84,7 +86,7 @@ abstract class SurveyContext extends DataClass
 
     static function factory($type, $defaultProperties = array(), $additionalProperties = null)
     {
-    	$class = __NAMESPACE__.'\\'. self :: type_to_class($type);
+        $class = self :: type_to_class($type);
         require_once dirname(__FILE__) . '/context/' . $type . '/' . $type . '.class.php';
         return new $class($defaultProperties, $additionalProperties);
     }
@@ -101,7 +103,7 @@ abstract class SurveyContext extends DataClass
 
     function get_type()
     {
-        return self :: class_to_type(Utilities :: get_classname_from_object($this));
+        return self :: class_to_type(get_class($this));
     }
 
     function set_name($name)
@@ -113,7 +115,7 @@ abstract class SurveyContext extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_NAME);
     }
-
+	    
     function get_context_registration_id()
     {
         return $this->get_default_property(self :: PROPERTY_CONTEXT_REGISTRATION_ID);
@@ -124,9 +126,23 @@ abstract class SurveyContext extends DataClass
         $this->set_default_property(self :: PROPERTY_CONTEXT_REGISTRATION_ID, $context_registration_id);
     }
 
+	function set_active($active)
+    {
+        $this->set_default_property(self :: PROPERTY_ACTIVE, $active);
+    }
+
+    function get_active()
+    {
+        return $this->get_default_property(self :: PROPERTY_ACTIVE);
+    }
+    
+    function is_active(){
+    	return $this->get_active()==1;
+    }
+    
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_NAME, self :: PROPERTY_CONTEXT_REGISTRATION_ID));
+        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_NAME, self :: PROPERTY_CONTEXT_REGISTRATION_ID, self :: PROPERTY_ACTIVE));
     }
 
     private static function get_registered_context_types()
@@ -157,7 +173,7 @@ abstract class SurveyContext extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     function get_additional_property($name)
@@ -193,6 +209,5 @@ abstract class SurveyContext extends DataClass
         $dm = SurveyContextDataManager :: get_instance();
         return $dm->retrieve_survey_context_by_id($survey_context_id, $type);
     }
-
 }
 ?>

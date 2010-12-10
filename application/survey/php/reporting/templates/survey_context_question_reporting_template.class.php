@@ -30,6 +30,8 @@ class SurveyContextQuestionReportingTemplate extends ReportingTemplate implement
         {
             $this->add_reporting_block(new SurveyContextQuestionReportingBlock($this, $complex_question_id));
         }
+
+        $this->add_reporting_block(new SurveyInactiveContextReportingBlock($this, $this->filter_parameters[SurveyReportingFilterWizard :: PARAM_CONTEXT_TEMPLATE_ID], $this->get_parent()->get_user_id()));
         
         $this->set_filter_parameters();
      

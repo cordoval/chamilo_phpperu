@@ -20,9 +20,7 @@ use common\libraries\Translation;
 /**
  * $Id: adaptive_assessment_tree.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.adaptive_assessment.component.adaptive_assessment_viewer
- */
-require_once dirname(__FILE__) . '/rule_condition_translator.class.php';
-/**
+ *
  * This class provides a navigation menu to allow a user to browse through his
  * categories of learning objects.
  * @author Sven Vanpoucke
@@ -46,7 +44,6 @@ class AdaptiveAssessmentTree extends HTML_Menu
     private $current_tracker;
     private $current_parent;
     private $objects = array();
-    private $translator;
 
     private $dm;
 
@@ -69,7 +66,6 @@ class AdaptiveAssessmentTree extends HTML_Menu
         $this->lp = $this->dm->retrieve_content_object($lp_id);
         $this->urlFmt = $url_format;
         $this->lpi_tracker_data = $lpi_tracker_data;
-        $this->translator = new RuleConditionTranslator();
 
         $menu = $this->get_menu($lp_id);
         parent :: __construct($menu);

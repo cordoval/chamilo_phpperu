@@ -14,18 +14,29 @@ class DefaultSurveyContextTableCellRenderer extends ObjectTableCellRenderer
     {
     }
 
-    function render_cell($column, $context)
+ function render_cell($column, $context)
     {
-    	
-    	if ($column->get_name() == SurveyContext :: PROPERTY_NAME)
+        
+        if ($column->get_name() == SurveyContext :: PROPERTY_NAME)
         {
             return $context->get_name();
         }
-        else
-        {
-            return $context->get_additional_property($column->get_name());
-        }
-    
+        else 
+            if ($column->get_name() == SurveyContext :: PROPERTY_ACTIVE)
+            {
+                if ($context->is_active())
+                {
+                    return 'yes';
+                }
+                else
+                {
+                    return 'no';
+                }
+            }
+            else
+            {
+                return $context->get_additional_property($column->get_name());
+            }
     }
 
     function render_id_cell($object)

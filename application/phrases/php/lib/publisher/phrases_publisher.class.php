@@ -1,26 +1,24 @@
 <?php
 namespace application\phrases;
 
+use common\libraries\InCondition;
+use common\libraries\Theme;
 use common\libraries\Translation;
 use common\libraries\Application;
-use common\libraries\Theme;
-use common\libraries\InCondition;
-
-use common\extensions\repo_viewer\RepoViewer;
+use common\libraries\Request;
+use common\libraries\Utilities;
 
 use repository\ContentObject;
 use repository\RepositoryDataManager;
-use common\libraries\Utilities;
+use repository\content_object\adaptive_assessment\AdaptiveAssessment;
+
+use common\extensions\repo_viewer\RepoViewer;
 
 /**
- * $Id: phrases_publisher.class.php 201 2009-11-13 12:34:51Z chellee $
- * @package application.personal_calendar.publisher
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
 
-/**
- * This class represents a profile publisher component which can be used
- * to preview a learning object in the learning object publisher.
- */
 class PhrasesPublisher
 {
     private $parent;
@@ -50,13 +48,13 @@ class PhrasesPublisher
 
 
             $html[] = '<div class="content_object padding_10">';
-            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects', null, Utilities::COMMON_LIBRARIES) . '</div>';
+            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects', null, 'repository') . '</div>';
             $html[] = '<div class="description">';
             $html[] = '<ul class="attachments_list">';
 
             while ($content_object = $content_objects->next_result())
             {
-                $namespace =ContentObject :: get_content_object_type_namespace($content_object->get_type());
+                $namespace = ContentObject :: get_content_object_type_namespace($content_object->get_type());
                 $html[] = '<li><img src="' . Theme :: get_image_path($namespace) . 'logo/' . Theme :: ICON_MINI . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, $namespace)) . '"/> ' . $content_object->get_title() . '</li>';
             }
 
@@ -76,14 +74,24 @@ class PhrasesPublisher
 
             if (! $publication)
             {
-                $message = Translation :: get('ObjectNotPublished', null, Utilities::COMMON_LIBRARIES);
+                $message = Translation :: get('ObjectNotPublished', null, Utilities :: COMMON_LIBRARIES);
             }
             else
             {
-                $message = Translation :: get('ObjectPublished', null, Utilities::COMMON_LIBRARIES);
+                $message = Translation :: get('ObjectPublished', null, Utilities :: COMMON_LIBRARIES);
             }
 
-            $this->parent->redirect($message, (! $publication ? true : false), array(Application :: PARAM_ACTION => PhrasesManager :: ACTION_MANAGE_PHRASES, PhrasesPublicationManager :: PARAM_PUBLICATION_MANAGER_ACTION => PhrasesPublicationManager :: ACTION_BROWSE));
+            if (count($ids) == 1 && ! is_null(Request :: post('publish_and_build')))
+            {
+                $object = RepositoryDataManager :: get_instance()->retrieve_content_object($ids[0]);
+                if ($object->get_type() == AdaptiveAssessment :: get_type_name())
+                    $this->parent->redirect($message, (! $publication ? true : false), array(
+                            Application :: PARAM_ACTION => PhrasesManager :: ACTION_BUILD_PHRASES,
+                            PhrasesManager :: PARAM_PHRASES_PUBLICATION => $form->get_publication()->get_id()));
+            }
+
+            $this->parent->redirect($message, (! $publication ? true : false), array(
+                    Application :: PARAM_ACTION => PhrasesManager :: ACTION_BROWSE_PHRASES_PUBLICATIONS));
         }
         else
         {

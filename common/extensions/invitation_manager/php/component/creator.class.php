@@ -8,7 +8,7 @@ class InvitationManagerCreatorComponent extends InvitationManager
      */
     function run()
     {
-        $form = new InvitationForm($this->get_url());
+        $form = new InvitationForm($this, $this->get_url());
 
         if ($form->validate())
         {

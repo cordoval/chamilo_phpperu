@@ -89,6 +89,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         {
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_subscribe_user_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeGroups'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_subscribe_group_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('InviteUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_invite_user_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         return $action_bar;

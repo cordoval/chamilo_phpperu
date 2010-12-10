@@ -88,7 +88,6 @@ class Header
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.jeditable.mini.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.query.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.replacetext.js');
-        $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.tipTip.js');
         $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/utilities.js');
         $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/notifications.js');
         $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/help.js');
