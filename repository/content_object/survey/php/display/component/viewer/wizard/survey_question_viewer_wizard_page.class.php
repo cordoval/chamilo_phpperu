@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/inc/survey_question_display.class.php';
 class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
 {
     
-private $page_number;
+	private $page_number;
     private $context_path;
     private $survey_page;
     
@@ -21,7 +21,7 @@ private $page_number;
 
     function SurveyQuestionViewerWizardPage($name, $parent, $context_path, $survey)
     {
-        parent :: SurveyViewerWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
         $this->context_path = $context_path;
         
         $this->survey = $survey;

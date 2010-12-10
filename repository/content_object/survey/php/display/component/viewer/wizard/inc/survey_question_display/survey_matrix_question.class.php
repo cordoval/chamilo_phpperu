@@ -52,7 +52,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
             
             foreach ($matches as $j => $match)
             {
-                if ($type == MatrixQuestion :: MATRIX_TYPE_RADIO)
+                if ($type == SurveyMatrixQuestion :: MATRIX_TYPE_RADIO)
                 {
                     $option_name = $question_id . '_' . $i . '_0';
                     
@@ -67,7 +67,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
                     
                     $group[] = $radio;
                 }
-                elseif ($type == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)
+                elseif ($type == SurveyMatrixQuestion :: MATRIX_TYPE_CHECKBOX)
                 {
                     $option_name = $question_id . '_' . $i . '_' . $j;
                     
