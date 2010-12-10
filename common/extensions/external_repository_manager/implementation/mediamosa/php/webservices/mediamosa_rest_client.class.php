@@ -17,12 +17,13 @@ class MediamosaRestClient extends RestClient{
     private $mediamosa_url;
     private $connector_cookie = null;
     
-
     const METHOD_POST = 'POST';
     const METHOD_GET = 'GET';
     const METHOD_PUT = 'PUT';
 
-    const RESPONSE_TYPE_XML = 1;
+    const RESPONSE_TYPE_STRING = '0';
+    const RESPONSE_TYPE_XML = '1';
+    const RESPONSE_TYPE_JSON = '2';
 
     const PARAM_CONNECTOR_COOKIE = 'mediamosa_connector_cookie';
     
@@ -135,7 +136,7 @@ class MediamosaRestClient extends RestClient{
      * @param data array
      * @return MediaMosaRestResult object
      */
-    function request($method, $appendix, $data = null, $response_type = self :: RESPONSE_TYPE_XML)
+    function request($method, $url, $data = null, $response_type = self :: RESPONSE_TYPE_XML)
     {
         //echo $url . "<br/>";
 
@@ -147,7 +148,7 @@ class MediamosaRestClient extends RestClient{
         if(($method == self :: METHOD_POST))
         {
             if(is_array($data)) $this->set_data_to_send($data);
-            $url = $this->mediamosa_url . $appendix;
+            $url = $this->mediamosa_url . $url;
         }
         elseif($method == self :: METHOD_GET)
         {
@@ -173,10 +174,10 @@ class MediamosaRestClient extends RestClient{
                 }
 
                 $get_string = implode('&', $tmp);
-                $appendix .= '?' . $get_string;
+                $url .= '?' . $get_string;
                
             }
-            $url = $this->mediamosa_url . $appendix;
+            $url = $this->mediamosa_url . $url;
             
         }elseif($method == self :: METHOD_PUT)
         {
@@ -197,6 +198,8 @@ class MediamosaRestClient extends RestClient{
         {
             $response->set_response_content_xml();
         }
+
+        
 
         return $response;
     }

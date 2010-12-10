@@ -348,7 +348,16 @@ class RestResult
     function get_response_content_xml()
     {
         return isset($this->response_content_xml) ? $this->response_content_xml : false;
+    }
 
+    function set_response_content_json()
+    {
+        $this->response_content_json = json_decode($this->response_content);
+    }
+
+    function get_response_content_json()
+    {
+        return isset($this->response_content_json) ? $this->response_content_json : false;
     }
 }
 ?>
