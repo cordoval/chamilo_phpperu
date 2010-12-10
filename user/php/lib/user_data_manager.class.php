@@ -147,5 +147,11 @@ class UserDataManager
         
         return self :: $user_cache[$official_code];
     }
+
+    static function retrieve_active_users()
+    {
+        $condition = new EqualityCondition(User :: PROPERTY_ACTIVE, 1);
+        return self :: get_instance()->retrieve_users($condition);
+    }
 }
 ?>
