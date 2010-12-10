@@ -64,7 +64,8 @@ class Initializer
     {
 	// I do not understand why but Fatal error aren't shown 
 	// when setting these parameters
-        //ini_set('error_reporting', 'E_ALL & ~E_DEPRECATED');
+        // Sven: the error reporting parameters are constants and should not be defined between quotes.
+        ini_set('error_reporting', E_ALL & ~E_DEPRECATED);
     }
 
 }

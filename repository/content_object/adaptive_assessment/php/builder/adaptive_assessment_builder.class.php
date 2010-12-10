@@ -3,9 +3,10 @@ namespace repository\content_object\adaptive_assessment;
 
 use repository\ComplexBuilder;
 use common\libraries\ComplexMenuSupport;
+
 /**
- * $Id: adaptive_assessment_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.adaptive_assessment
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
 
 class AdaptiveAssessmentBuilder extends ComplexBuilder implements ComplexMenuSupport
@@ -18,7 +19,8 @@ class AdaptiveAssessmentBuilder extends ComplexBuilder implements ComplexMenuSup
     {
         $complex_content_object_item_id = ($this->get_complex_content_object_item()) ? ($this->get_complex_content_object_item()->get_id()) : null;
         return $this->get_url(array(
-                self :: PARAM_BUILDER_ACTION => self :: ACTION_BUILD_PREREQUISITES, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id,
+                self :: PARAM_BUILDER_ACTION => self :: ACTION_BUILD_PREREQUISITES,
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id,
                 self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item));
     }
 
@@ -26,7 +28,8 @@ class AdaptiveAssessmentBuilder extends ComplexBuilder implements ComplexMenuSup
     {
         $complex_content_object_item_id = ($this->get_complex_content_object_item()) ? ($this->get_complex_content_object_item()->get_id()) : null;
         return $this->get_url(array(
-                self :: PARAM_BUILDER_ACTION => self :: ACTION_SET_MASTERY_SCORE, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id,
+                self :: PARAM_BUILDER_ACTION => self :: ACTION_SET_MASTERY_SCORE,
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id,
                 self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item));
     }
 

@@ -181,10 +181,6 @@ class ContentObjectMetadataEditorForm extends MetadataForm
                     if(!$metadata_property_attribute_value->create()) $fails ++;
                 }
             }
-            else
-            {
-                $fails ++;
-            }
         }
         return ($fails) ? false : true;
     }

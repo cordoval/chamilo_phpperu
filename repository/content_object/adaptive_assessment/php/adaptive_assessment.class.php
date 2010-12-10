@@ -9,9 +9,10 @@ use repository\content_object\adaptive_assessment_item\AdaptiveAssessmentItem;
 
 /**
  * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
-class AdaptiveAssessment extends ContentObject implements
-        ComplexContentObjectSupport
+
+class AdaptiveAssessment extends ContentObject implements ComplexContentObjectSupport
 {
     const CLASS_NAME = __CLASS__;
 
@@ -22,8 +23,7 @@ class AdaptiveAssessment extends ContentObject implements
 
     function get_allowed_types()
     {
-        return array(
-                AdaptiveAssessment :: get_type_name(),
+        return array(AdaptiveAssessment :: get_type_name(),
                 AdaptiveAssessmentItem :: get_type_name());
     }
 }

@@ -6,23 +6,25 @@ use common\libraries\EqualityCondition;
 use tracking\SimpleTracker;
 
 /**
- * @package application.lib.weblcms.trackers
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
-class DummyLpiAttemptTracker
+
+class DummyAdaptiveAssessmentItemAttemptTracker
 {
-    private $lp_item_id;
+    private $adaptive_assessment_item_id;
 
     function get_id()
     {
         return 1;
     }
 
-    function get_lp_view_id()
+    function get_adaptive_assessment_view_id()
     {
         return 1;
     }
 
-    function set_lp_view_id($lp_view_id)
+    function set_adaptive_assessment_view_id($adaptive_assessment_view_id)
     {
     }
 
@@ -35,14 +37,14 @@ class DummyLpiAttemptTracker
     {
     }
 
-    function get_lp_item_id()
+    function get_adaptive_assessment_item_id()
     {
-        return $this->lp_item_id;
+        return $this->adaptive_assessment_item_id;
     }
 
-    function set_lp_item_id($lp_item_id)
+    function set_adaptive_assessment_item_id($adaptive_assessment_item_id)
     {
-        $this->lp_item_id = $lp_item_id;
+        $this->adaptive_assessment_item_id = $adaptive_assessment_item_id;
     }
 
     function get_total_time()

@@ -3,6 +3,11 @@ namespace repository\content_object\adaptive_assessment;
 
 use common\libraries\SubManager;
 
+/**
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
+ */
+
 class AdaptiveAssessmentDisplayEmbedder extends SubManager
 {
     const ACTION_DOCUMENT = 'document';

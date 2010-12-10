@@ -2,9 +2,12 @@
 namespace repository\content_object\adaptive_assessment;
 
 use repository\ComplexDisplay;
+
 /**
- * @package repository.content_object.adaptive_assessment.display
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
+
 class AdaptiveAssessmentDisplay extends ComplexDisplay
 {
     const ACTION_EMBED = 'embedder';

@@ -11,8 +11,8 @@ use repository\RepositoryDataManager;
 use repository\ComplexBuilder;
 
 /**
- * $Id: mastery_score_setter.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.adaptive_assessment.component
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
 
 class AdaptiveAssessmentBuilderMasteryScoreSetterComponent extends AdaptiveAssessmentBuilder
@@ -26,7 +26,9 @@ class AdaptiveAssessmentBuilderMasteryScoreSetterComponent extends AdaptiveAsses
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail = BreadcrumbTrail :: get_instance();
 
-        $parameters = array(AdaptiveAssessmentBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, AdaptiveAssessmentBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
+        $parameters = array(
+                AdaptiveAssessmentBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item,
+                AdaptiveAssessmentBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
 
         $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('BuildPrerequisites')));
 
@@ -46,7 +48,8 @@ class AdaptiveAssessmentBuilderMasteryScoreSetterComponent extends AdaptiveAsses
         {
             $succes = $this->set_mastery_score($lp_item, $form->exportValues());
             $message = $succes ? 'MasteryScoreSet' : 'MasteryScoreNotSet';
-            $this->redirect(Translation :: get($message), ! $succes, array_merge($parameters, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE)));
+            $this->redirect(Translation :: get($message), ! $succes, array_merge($parameters, array(
+                    ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE)));
         }
         else
         {
@@ -69,10 +72,12 @@ class AdaptiveAssessmentBuilderMasteryScoreSetterComponent extends AdaptiveAsses
 
         if ($lp_item->get_mastery_score())
         {
-            $form->setDefaults(array('mastery_score' => $lp_item->get_mastery_score()));
+            $form->setDefaults(array(
+                    'mastery_score' => $lp_item->get_mastery_score()));
         }
 
-        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('SetMasteryScore'), array('class' => 'positive'));
+        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('SetMasteryScore'), array(
+                'class' => 'positive'));
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
         return $form;

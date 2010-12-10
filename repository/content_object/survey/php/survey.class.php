@@ -362,7 +362,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         if ($this->has_context())
         {
             $context_template = $this->get_context_template(1);
-            
+                     
             $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $this->invitee_id, SurveyTemplate :: get_table_name());
             $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($context_template->get_type(), $condition);
             
@@ -371,20 +371,20 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                 
                 $level = 1;
                 $property_names = $template->get_additional_property_names(true);
+                              
                 $parent_id = 0;
                 foreach ($property_names as $property_name => $context_type)
                 {
                     
                     $conditions = array();
-                    $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->get_id());
-                    $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->get_context_template($level)->get_id($level));
+                    $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->get_id(), SurveyContextTemplateRelPage :: get_table_name());
+                    $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->get_context_template($level)->get_id($level), SurveyContextTemplateRelPage :: get_table_name());
                     $condition = new AndCondition($conditions);
                     $template_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition);
                     
                     $context_id = $template->get_additional_property($property_name);
-                    
                     $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
-                    
+                   
                     $context_path_tree[$level][$parent_id]['context_' . $context_id] = $context->get_name();
                     
                     while ($template_rel_page = $template_rel_pages->next_result())
@@ -524,6 +524,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         {
             $this->create_context_path_tree();
         }
+        
+//        dump($this->context_path_tree);
         
         if ($level == 1)
         {

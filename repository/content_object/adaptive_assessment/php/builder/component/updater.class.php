@@ -12,25 +12,25 @@ use repository\ComplexContentObjectItemForm;
 use repository\ContentObjectForm;
 
 /**
- * $Id: updater.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.adaptive_assessment.component
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
-//require_once dirname(__FILE__) . '/../adaptive_assessment_builder_component.class.php';
-//require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 
 class AdaptiveAssessmentBuilderUpdaterComponent extends AdaptiveAssessmentBuilder
 {
 
     function run()
     {
-    	$menu_trail = $this->get_complex_content_object_breadcrumbs();
+        $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('Update')));
 
         $complex_content_object_item_id = Request :: get(AdaptiveAssessmentBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $parent_complex_content_object_item = Request :: get(AdaptiveAssessmentBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
 
-        $parameters = array(AdaptiveAssessmentBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, AdaptiveAssessmentBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
+        $parameters = array(
+                AdaptiveAssessmentBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item,
+                AdaptiveAssessmentBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
 
         $rdm = RepositoryDataManager :: get_instance();
         $complex_content_object_item = $rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
@@ -77,7 +77,8 @@ class AdaptiveAssessmentBuilderUpdaterComponent extends AdaptiveAssessmentBuilde
 
             $parameters[AdaptiveAssessmentBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = null;
 
-            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(AdaptiveAssessmentBuilder :: PARAM_BUILDER_ACTION => AdaptiveAssessmentBuilder :: ACTION_BROWSE)));
+            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(
+                    AdaptiveAssessmentBuilder :: PARAM_BUILDER_ACTION => AdaptiveAssessmentBuilder :: ACTION_BROWSE)));
         }
         else
         {

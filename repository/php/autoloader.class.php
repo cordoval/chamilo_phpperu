@@ -44,8 +44,7 @@ class Autoloader
 
     static function check_for_general_files()
     {
-        $list = array('catalog',
-                'complex_content_object_item_form',
+        $list = array('catalog', 'complex_content_object_item_form',
                 'complex_content_object_item',
                 'complex_content_object_menu',
                 'content_object_category_menu',
@@ -62,24 +61,20 @@ class Autoloader
                 'content_object',
                 'content_object_attachment',
                 'content_object_updater',
-                'difference_engine',
-        		'external_instance',
-        		'external_setting',
-        		'external_user_setting',
-                'external_sync_info',
-                'external_sync',
-                'quota_manager',
-                'repository_data_class',
+                'difference_engine', 'external_instance',
+                'external_setting',
+                'external_user_setting',
+                'external_sync_info', 'external_sync',
+                'quota_manager', 'repository_data_class',
                 'repository_data_manager',
                 'repository_rights',
                 'user_view_rel_content_object',
-                'user_view',
-                'content_object_renderer',
+                'user_view', 'content_object_renderer',
                 'content_object_share',
                 'content_object_user_share',
                 'content_object_group_share',
                 'content_object_type_selector',
-                'content_object_type_selector_support',);
+                'content_object_type_selector_support');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -94,9 +89,7 @@ class Autoloader
 
     static function check_for_form_files()
     {
-        $list = array(
-                'repository_filter_form',
-                'user_view_form',
+        $list = array('repository_filter_form', 'user_view_form',
                 'content_object_share_form');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
@@ -124,8 +117,7 @@ class Autoloader
                 'user_view_browser_table' => 'user_view_browser/user_view_browser_table.class.php',
                 'link_browser_table' => 'link_browser/link_browser_table.class.php',
                 'external_link_browser_table' => 'external_link_browser/external_link_browser_table.class.php',
-                'content_object_registration_browser_table' => 'content_object_registration_browser/content_object_registration_browser_table.class.php',
-            );
+                'content_object_registration_browser_table' => 'content_object_registration_browser/content_object_registration_browser_table.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -141,8 +133,7 @@ class Autoloader
 
     static function check_for_special_files()
     {
-        $list = array(
-                'complex_builder' => 'complex_builder/complex_builder.class.php',
+        $list = array('complex_builder' => 'complex_builder/complex_builder.class.php',
                 'complex_builder_component' => 'complex_builder/complex_builder_component.class.php',
                 'complex_display' => 'complex_display/complex_display.class.php',
                 'complex_display_component' => 'complex_display/complex_display_component.class.php',
@@ -163,22 +154,23 @@ class Autoloader
                 'external_instance_manager' => 'external_instance_manager/external_instance_manager.class.php',
                 'external_repository_user_quotum' => 'external_repository_user_quotum.class.php',
                 'qti_import' => 'import/qti/qti_import.class.php',
-            'qti_serializer_base' => 'export/qti/object_export/qti_serializer_base.class.php',
-            'qti_serializer_export' => 'export/qti/object_export/qti_serializer_export.class.php',
-            'qti_question_serializer' => 'export/qti/object_export/qti_question_serializer.class.php',
-            'qti_export' => 'export/qti/qti_export.class.php',
-            'scorm_export' => 'export/scorm/scorm_export.class.php',
-            'learning_path_scorm_export' => 'export/scorm/learning_path/learning_path_scorm_export.class.php',
-            'ims_metadata_reader' => 'import/cp/metadata/ims_metadata_reader.class.php',
-            'imscp_manifest_cp_import' => 'import/cp/object_import/import/dir/imscp_manifest_cp_import.class.php',
+                'qti_serializer_base' => 'export/qti/object_export/qti_serializer_base.class.php',
+                'qti_serializer_export' => 'export/qti/object_export/qti_serializer_export.class.php',
+                'qti_question_serializer' => 'export/qti/object_export/qti_question_serializer.class.php',
+                'qti_export' => 'export/qti/qti_export.class.php',
+                'scorm_export' => 'export/scorm/scorm_export.class.php',
+                'learning_path_scorm_export' => 'export/scorm/learning_path/learning_path_scorm_export.class.php',
+                'ims_metadata_reader' => 'import/cp/metadata/ims_metadata_reader.class.php',
+                'imscp_manifest_cp_import' => 'import/cp/object_import/import/dir/imscp_manifest_cp_import.class.php',
                 'qti_question_builder' => 'import/qti/object_import/qti_question_builder.class.php',
                 'qti_builder_base' => 'import/qti/object_import/qti_builder_base.class.php',
-            'qti_renderer_base' => 'import/qti/object_import/qti_builder_base.class.php',
+                'qti_renderer_base' => 'import/qti/object_import/qti_builder_base.class.php',
                 'cp_object_import_base' => 'import/cp/object_import/cp_object_import_base.class.php',
                 'cp_object_export' => 'export/cp/object_export/cp_object_export.class.php',
                 'cpe_object_export_base' => 'export/cp/object_export/cpe_object_export_base.class.php',
                 'cp_object_import_aggregate' => 'import/cp/object_import/cp_object_import_aggregate.class.php',
                 'complex_browser_table_column_model' => 'repository_manager/component/complex_browser/complex_browser_table_column_model.class.php',
+                'complex_browser_table_cell_renderer' => 'repository_manager/component/complex_browser/complex_browser_table_cell_renderer.class.php',
                 'open_question_difference' => '../question_types/open_question/open_question.class.php',
                 'open_question_difference' => '../question_types/open_question/open_question_difference.class.php',
                 'open_question' => '../question_types/open_question/open_question.class.php',
@@ -207,8 +199,7 @@ class Autoloader
                 'rating_question_difference' => '../question_types/rating_question/rating_question_difference.class.php',
                 'rating_question_difference_display' => '../question_types/rating_question/rating_question_difference_display.class.php',
                 'rating_question_display' => '../question_types/rating_question/rating_question_display.class.php',
-                'rating_question_form' => '../question_types/rating_question/rating_question_form.class.php',
-            );
+                'rating_question_form' => '../question_types/rating_question/rating_question_form.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
