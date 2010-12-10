@@ -13,20 +13,23 @@
     <!-- ============================================  -->
     <!-- Defining locations                            -->
     <!-- ============================================  -->
-    <property name="basedir" value="." />
-    <property name="files-dir" value="./files" />
-    <property name="classes-dirs" value="./admin,./application,./common,./group,./help,./home,./install,./menu,./migration,./reporting,./rights,./tracking,./user,./webservice" />
+    <resolvepath propertyName="basedir" file="."/>
+    <property name="files-dir" value="${basedir}/files" />
+    <property name="classes-dirs-coma" value="${basedir}/admin,${basedir}/application,${basedir}/common,${basedir}/group,${basedir}/help,${basedir}/home,${basedir}/install,${basedir}/menu,${basedir}/migration,${basedir}/reporting,${basedir}/rights,${basedir}/tracking,${basedir}/user,${basedir}/webservice" />
+    <property name="classes-dirs-space" value="${basedir}/admin ${basedir}/application ${basedir}/common ${basedir}/group ${basedir}/help ${basedir}/home ${basedir}/install ${basedir}/menu ${basedir}/migration ${basedir}/reporting ${basedir}/rights ${basedir}/tracking ${basedir}/user ${basedir}/webservice" />
     <property name="build-dir" value="${files-dir}/build" />
     <property name="build-logs-dir" value="${build-dir}/logs" />
     <property name="build-coverage-dir" value="${build-dir}/coverage" />
     <property name="build-codeBrowser-dir" value="${build-dir}/codeBrowser" />
-    <property name="test-dir" value="./test" />
+    <property name="test-dir" value="${basedir}/test" />
     <property name="plugin-dir" value="libraries/plugin" />
     <property name="phpunit-coverage-config-file" value="${test-dir}/phpunit-coverage.xml" />
     <property name="phpunit-config-file" value="${test-dir}/phpunit.xml" />
     <property name="pdepend-report-file" value="${build-logs-dir}/pdepend.xml" />
     <property name="pdepend-summary-report-file" value="${build-logs-dir}/pdepend-summary.xml" />
     <property name="pmd-report-file" value="${build-logs-dir}/phpcpd.xml" />
+    <property name="checkstyle-report-file" value="${build-logs-dir}/phpcs.xml" />
+
 
 
     <!-- ============================================  -->
@@ -55,7 +58,7 @@
     <target name="phpunit-coverage" depends="clean, prepare">
         <echo message="Running all the tests and generating reports (this takes several minutes)..." />
         <exec   dir="${basedir}"
-                command="php ./script/phpunit.php --configuration ${phpunit-coverage-config-file}"
+                command="php ${basedir}/script/phpunit.php --configuration ${phpunit-coverage-config-file}"
                 checkreturn="true"
 		passthru="true"
          />
@@ -67,7 +70,7 @@
     <target name="phpunit" >
         <echo message="Running all the tests" />
         <exec   dir="${basedir}"
-                command="php ./script/phpunit.php --configuration ${phpunit-config-file}"
+                command="php ${basedir}/script/phpunit.php --configuration ${phpunit-config-file}"
                 checkreturn="true"
 		passthru="true"
         />
@@ -79,7 +82,7 @@
     <target name="pdepend" depends="clean, prepare"  >
         <echo message="Computing dependency report" />
         <exec   dir="${basedir}"
-                command="php ./script/pdepend.php --optimization=best --jdepend-xml=${pdepend-report-file} --summary-xml=${pdepend-summary-report-file} --ignore=${plugin-dir} ${classes-dirs}"
+                command="php ${basedir}/script/pdepend.php --optimization=best --jdepend-xml=${pdepend-report-file} --summary-xml=${pdepend-summary-report-file} --ignore=${plugin-dir} ${classes-dirs-coma}"
                 checkreturn="true"
 		passthru="true"
         />
@@ -91,7 +94,7 @@
     <target name="phpcb" depends="clean, prepare, phpunit-coverage "  >
         <echo message="Generating a browseable version of the codebase" />
         <exec   dir="${basedir}"
-                command="php ./script/phpcb.php --output ${build-codeBrowser-dir} --log ${basedir}/files/build/logs"
+                command="php ${basedir}/script/phpcb.php --output ${build-codeBrowser-dir} --log ${basedir}/files/build/logs"
                 checkreturn="true"
 		passthru="true"
         />
@@ -102,10 +105,23 @@
     <!-- ============================================  -->
     <target name="phpcpd" depends="clean,  prepare" >
         <exec   dir="${basedir}"
-                command="php ./script/phpcpd.php --log-pmd ${pmd-report-file} --exclude ${plugin-dir} ${basedir}"
+                command="php ${basedir}/script/phpcpd.php --log-pmd ${pmd-report-file} --exclude ${plugin-dir} ${basedir}"
                 
         />
     </target>
+    
+    <!-- ============================================  -->
+    <!-- Target: phpcs                             -->
+    <!-- ============================================  -->
+    <target name="phpcs" depends="clean, prepare" >
+        
+        <exec   
+            dir="${basedir}"
+            command="php ${basedir}/script/phpcs.php --extensions=php --ignore=${plugin-dir} --report=checkstyle --report-file=${checkstyle-report-file} --standard=Chamilo2 ${classes-dirs-space}"
+        />
+    </target>
+
+
 
     <!-- ============================================  -->
     <!-- Target: generate-report                       -->
