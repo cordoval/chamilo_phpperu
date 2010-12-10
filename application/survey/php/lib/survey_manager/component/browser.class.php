@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace application\survey;
 
 use common\libraries\ActionBarRenderer;
@@ -11,6 +11,8 @@ use common\libraries\DynamicContentTab;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use rights\RightsDataManager;
+use rights\UserRightLocation;
 
 class SurveyManagerBrowserComponent extends SurveyManager
 {
@@ -105,17 +107,6 @@ class SurveyManagerBrowserComponent extends SurveyManager
         }
         else
         {
-            
-            //            $dates = array();
-            //            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time(), $publication_alias);
-            //            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time(), $publication_alias);
-            //            $dates[] = new AndCondition($interval);
-            //            $dates[] = new AndCondition(array(new EqualityCondition(SurveyPublication :: PROPERTY_FROM_DATE, 0, $publication_alias), new EqualityCondition(SurveyPublication :: PROPERTY_TO_DATE, 0, $publication_alias)));
-            //            $dates[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $this->get_user_id(), $publication_alias);
-            //            $conditions[] = new OrCondition($dates);
-            //            $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $this->get_user_id(), $publication_alias);
-            
-
             $user_rights_location_alias = RightsDataManager :: get_instance()->get_alias(UserRightLocation :: get_table_name());
             
             $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user->get_id(), $user_rights_location_alias, true);

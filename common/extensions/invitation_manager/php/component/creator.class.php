@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\invitation_manager;
+
+use common\libraries\Translation;
+
 class InvitationManagerCreatorComponent extends InvitationManager
 {
 
@@ -12,10 +15,8 @@ class InvitationManagerCreatorComponent extends InvitationManager
 
         if ($form->validate())
         {
-            //$success = $form->email();
-        //$this->redirect(Translation :: get($success ? 'EmailSent' : 'EmailNotSent'), ($success ? false : true), array());
-
-
+            $success = $form->process();
+        	$this->redirect(Translation :: get($success ? 'EmailSent' : 'EmailNotSent'), ($success ? false : true), array());
         }
         else
         {

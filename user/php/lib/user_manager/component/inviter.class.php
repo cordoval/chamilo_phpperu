@@ -7,8 +7,9 @@ use common\libraries\Request;
 use common\libraries\Display;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
-
 use admin\AdminDataManager;
+use common\extensions\invitation_manager\InvitationManager;
+use common\libraries\Application;
 
 /**
  * $Id: register.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

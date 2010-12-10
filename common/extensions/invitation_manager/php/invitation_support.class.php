@@ -33,5 +33,11 @@ interface InvitationSupport
      * format of array = key = location_id, value = array with right_ids to give on the location with location_id
      */
     function get_location_rights_ids();
+    
+     /**
+     * Get the expiration data which determine the expiration date invitation an the user account
+     * @return int unix time stamp
+     */
+    function get_expiration_date();
 }
 ?>
