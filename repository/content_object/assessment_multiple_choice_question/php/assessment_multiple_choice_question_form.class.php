@@ -5,28 +5,33 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 use common\libraries\Theme;
-use repository\MultipleChoiceQuestionForm;
-use repository\MultipleChoiceQuestionOption;
+
+use repository\ContentObjectForm;
 
 /**
  * $Id: assessment_multiple_choice_question_form.class.php $
  * @package repository.lib.content_object.multiple_choice_question
  */
-require_once Path :: get_repository_path() . '/question_types/multiple_choice_question/multiple_choice_question_form.class.php';
 require_once dirname(__FILE__) . '/assessment_multiple_choice_question_option.class.php';
 
-class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
+class AssessmentMultipleChoiceQuestionForm extends ContentObjectForm
 {
 
     protected function build_creation_form()
     {
         parent :: build_creation_form();
+        $this->addElement('category', Translation :: get('Options'));
+        $this->add_options();
+        $this->addElement('category');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_multiple_choice_question/resources/javascript/assessment_multiple_choice_question.js'));
     }
 
     protected function build_editing_form()
     {
         parent :: build_editing_form();
+        $this->addElement('category', Translation :: get('Options'));
+        $this->add_options();
+        $this->addElement('category');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_multiple_choice_question/resources/javascript/assessment_multiple_choice_question.js'));
     }
 
@@ -41,7 +46,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
 
                 foreach ($options as $index => $option)
                 {
-                    $defaults[MultipleChoiceQuestionOption :: PROPERTY_VALUE][$index] = $option->get_value();
+                    $defaults[AssessmentMultipleChoiceQuestionOption :: PROPERTY_VALUE][$index] = $option->get_value();
                     $defaults[AssessmentMultipleChoiceQuestionOption :: PROPERTY_SCORE][$index] = $option->get_score();
                     $defaults[AssessmentMultipleChoiceQuestionOption :: PROPERTY_FEEDBACK][$index] = $option->get_feedback();
                     if ($object->get_answer_type() == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
@@ -70,15 +75,24 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
     function create_content_object()
     {
         $object = new AssessmentMultipleChoiceQuestion();
-        return parent :: create_content_object($object);
+        $this->set_content_object($object);
+        $this->add_options_to_object();
+        return parent :: create_content_object();
+    }
+
+    function update_content_object()
+    {
+        $this->add_options_to_object();
+        return parent :: update_content_object();
     }
 
     function add_options_to_object()
     {
         $object = $this->get_content_object();
         $values = $this->exportValues();
+
         $options = array();
-        foreach ($values[MultipleChoiceQuestionOption :: PROPERTY_VALUE] as $option_id => $value)
+        foreach ($values[AssessmentMultipleChoiceQuestionOption :: PROPERTY_VALUE] as $option_id => $value)
         {
             $score = $values[AssessmentMultipleChoiceQuestionOption :: PROPERTY_SCORE][$option_id];
             $feedback = $values[AssessmentMultipleChoiceQuestionOption :: PROPERTY_FEEDBACK][$option_id];
@@ -152,13 +166,17 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
             $switch_label = Translation :: get('SwitchToRadioButtons');
         }
 
-        $this->addElement('hidden', 'mc_answer_type', $_SESSION['mc_answer_type'], array('id' => 'mc_answer_type'));
-        $this->addElement('hidden', 'mc_number_of_options', $_SESSION['mc_number_of_options'], array('id' => 'mc_number_of_options'));
+        $this->addElement('hidden', 'mc_answer_type', $_SESSION['mc_answer_type'], array(
+                'id' => 'mc_answer_type'));
+        $this->addElement('hidden', 'mc_number_of_options', $_SESSION['mc_number_of_options'], array(
+                'id' => 'mc_number_of_options'));
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch change_answer_type'));
+        $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array(
+                'class' => 'normal switch change_answer_type'));
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add add_option'));
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array(
+                'class' => 'normal add add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $html_editor_options = array();
@@ -190,30 +208,36 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
 
                 if ($_SESSION['mc_answer_type'] == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
                 {
-                    $group[] = & $this->createElement('checkbox', AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']', Translation :: get('Correct'), '', array('class' => MultipleChoiceQuestionOption :: PROPERTY_VALUE, 'id' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
+                    $group[] = & $this->createElement('checkbox', AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']', Translation :: get('Correct'), '', array(
+                            'class' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_VALUE,
+                            'id' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
                 }
                 else
                 {
-                    $group[] = & $this->createElement('radio', AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT, Translation :: get('Correct'), '', $option_number, array('class' => MultipleChoiceQuestionOption :: PROPERTY_VALUE, 'id' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
+                    $group[] = & $this->createElement('radio', AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT, Translation :: get('Correct'), '', $option_number, array(
+                            'class' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_VALUE,
+                            'id' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
                 }
 
-                $group[] = $this->create_html_editor(MultipleChoiceQuestionOption :: PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
+                $group[] = $this->create_html_editor(AssessmentMultipleChoiceQuestionOption :: PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
                 $group[] = $this->create_html_editor(AssessmentMultipleChoiceQuestionOption :: PROPERTY_FEEDBACK . '[' . $option_number . ']', Translation :: get('Feedback'), $html_editor_options);
                 $group[] = & $this->createElement('text', AssessmentMultipleChoiceQuestionOption :: PROPERTY_SCORE . '[' . $option_number . ']', Translation :: get('Score'), 'size="2"  class="input_numeric"');
 
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 2)
                 {
-                    $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
+                    $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array(
+                            'class' => 'remove_option',
+                            'id' => 'remove_' . $option_number));
                 }
                 else
                 {
                     $group[] = & $this->createElement('static', null, null, '<img id="remove_' . $option_number . '" class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" class="remove_option" />');
                 }
 
-                $this->addGroup($group, MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number, null, '', false);
+                $this->addGroup($group, AssessmentMultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number, null, '', false);
 
-                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
-                $renderer->setGroupElementTemplate('<td>{element}</td>', MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
+                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', AssessmentMultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
+                $renderer->setGroupElementTemplate('<td>{element}</td>', AssessmentMultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
             }
         }
 
@@ -227,9 +251,18 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
     }
 
+    function validate()
+    {
+        if (isset($_POST['add']) || isset($_POST['remove']) || isset($_POST['change_answer_type']))
+        {
+            return false;
+        }
+        return parent :: validate();
+    }
+
     function validate_selected_answers($fields)
     {
-        if (! isset($fields[MultipleChoiceQuestionOption :: PROPERTY_CORRECT]))
+        if (! isset($fields[AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT]))
         {
             $message = $_SESSION['mc_answer_type'] == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX ? Translation :: get('SelectAtLeastOneCorrectAnswer') : Translation :: get('SelectACorrectAnswer');
             return array('change_answer_type' => $message);

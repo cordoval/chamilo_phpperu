@@ -4,19 +4,19 @@ namespace repository\content_object\assessment_open_question;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
-use repository\OpenQuestionDisplay;
+
+use repository\ContentObjectDisplay;
 
 /**
  * $Id: assessment_open_question_display.class.php $
  * @package repository.lib.content_object.assessment_open_question
  */
-
-require_once Path :: get_repository_path() . '/question_types/open_question/open_question_display.class.php';
 /**
  * This class can be used to display open questions
  */
-class AssessmentOpenQuestionDisplay extends OpenQuestionDisplay
+class AssessmentOpenQuestionDisplay extends ContentObjectDisplay
 {
+
     function get_description()
     {
         $description = parent :: get_description();

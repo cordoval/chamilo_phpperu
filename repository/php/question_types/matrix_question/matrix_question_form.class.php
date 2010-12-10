@@ -15,6 +15,7 @@ require_once dirname(__FILE__) . '/matrix_question.class.php';
 
 class MatrixQuestionForm extends ContentObjectForm
 {
+
     protected function build_creation_form()
     {
         parent :: build_creation_form();
@@ -45,7 +46,7 @@ class MatrixQuestionForm extends ContentObjectForm
             $options = $object->get_options();
             foreach ($options as $index => $option)
             {
-                $defaults[MatrixQuestionOption::PROPERTY_VALUE][$index] = $option->get_value();
+                $defaults[MatrixQuestionOption :: PROPERTY_VALUE][$index] = $option->get_value();
             }
             $matches = $object->get_matches();
             foreach ($matches as $index => $match)
@@ -60,6 +61,7 @@ class MatrixQuestionForm extends ContentObjectForm
 
         parent :: setDefaults($defaults);
     }
+
     function setCsvValues($valuearray)
     {
         $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
@@ -80,7 +82,9 @@ class MatrixQuestionForm extends ContentObjectForm
         return parent :: update_content_object();
     }
 
-    function remove_XSS_recursive(){}
+    function remove_XSS_recursive()
+    {
+    }
 
     /**
      * Adds the answer to the current learning object.
@@ -94,7 +98,7 @@ class MatrixQuestionForm extends ContentObjectForm
         $options = array();
         $matches = array();
 
-        foreach ($values[MatrixQuestionOption::PROPERTY_VALUE] as $option_id => $value)
+        foreach ($values[MatrixQuestionOption :: PROPERTY_VALUE] as $option_id => $value)
         {
             //Create the option with it corresponding match
             $options[] = new MatrixQuestionOption($value);
@@ -194,9 +198,12 @@ class MatrixQuestionForm extends ContentObjectForm
             $_SESSION['mq_matrix_type'] = $object->get_matrix_type();
         }
 
-        $this->addElement('hidden', 'mq_number_of_options', $_SESSION['mq_number_of_options'], array('id' => 'mq_number_of_options'));
-        $this->addElement('hidden', 'mq_number_of_matches', $_SESSION['mq_number_of_matches'], array('id' => 'mq_number_of_matches'));
-        $this->addElement('hidden', 'mq_matrix_type', $_SESSION['mq_matrix_type'], array('id' => 'mq_matrix_type'));
+        $this->addElement('hidden', 'mq_number_of_options', $_SESSION['mq_number_of_options'], array(
+                'id' => 'mq_number_of_options'));
+        $this->addElement('hidden', 'mq_number_of_matches', $_SESSION['mq_number_of_matches'], array(
+                'id' => 'mq_number_of_matches'));
+        $this->addElement('hidden', 'mq_matrix_type', $_SESSION['mq_matrix_type'], array(
+                'id' => 'mq_matrix_type'));
 
     }
 
@@ -233,8 +240,11 @@ class MatrixQuestionForm extends ContentObjectForm
         }
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', 'change_matrix_type[]', $switch_label, array('class' => 'normal switch change_matrix_type'));
-        $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatrixQuestionOption'), array('class' => 'normal add', 'id' => 'add_option'));
+        $buttons[] = $this->createElement('style_submit_button', 'change_matrix_type[]', $switch_label, array(
+                'class' => 'normal switch change_matrix_type'));
+        $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatrixQuestionOption'), array(
+                'class' => 'normal add',
+                'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $renderer = $this->defaultRenderer();
@@ -245,7 +255,7 @@ class MatrixQuestionForm extends ContentObjectForm
         $table_header[] = '<tr>';
         $table_header[] = '<th class="list"></th>';
         $table_header[] = '<th>' . Translation :: get('Options') . '</th>';
-//        $table_header[] = '<th class="code">' . Translation :: get('Matches') . '</th>';
+        //        $table_header[] = '<th class="code">' . Translation :: get('Matches') . '</th>';
         $table_header[] = '<th class="action"></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
@@ -268,21 +278,23 @@ class MatrixQuestionForm extends ContentObjectForm
             {
                 $visual_number ++;
                 $group[] = $this->createElement('static', null, null, $visual_number);
-                $group[] = $this->create_html_editor(MatrixQuestionOption::PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
+                $group[] = $this->create_html_editor(MatrixQuestionOption :: PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
 
                 if ($number_of_options - count($_SESSION['mq_skip_options']) > 1)
                 {
-                    $group[] = $this->createElement('image', 'remove_option[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_option_' . $option_number));
+                    $group[] = $this->createElement('image', 'remove_option[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array(
+                            'class' => 'remove_option',
+                            'id' => 'remove_option_' . $option_number));
                 }
                 else
                 {
                     $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
 
-                $this->addGroup($group, MatrixQuestionOption::PROPERTY_VALUE . '_' . $option_number, null, '', false);
+                $this->addGroup($group, MatrixQuestionOption :: PROPERTY_VALUE . '_' . $option_number, null, '', false);
 
-                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($visual_number % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', MatrixQuestionOption::PROPERTY_VALUE . '_' . $option_number);
-                $renderer->setGroupElementTemplate('<td>{element}</td>', MatrixQuestionOption::PROPERTY_VALUE . '_' . $option_number);
+                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($visual_number % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', MatrixQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
+                $renderer->setGroupElementTemplate('<td>{element}</td>', MatrixQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
             }
         }
         $table_footer[] = '</tbody>';
@@ -308,7 +320,9 @@ class MatrixQuestionForm extends ContentObjectForm
         $this->addElement('category', Translation :: get('Matches'));
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_button', 'add_match[]', Translation :: get('AddMatch'), array('class' => 'normal add', 'id' => 'add_match'));
+        $buttons[] = $this->createElement('style_button', 'add_match[]', Translation :: get('AddMatch'), array(
+                'class' => 'normal add',
+                'id' => 'add_match'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $renderer = $this->defaultRenderer();
@@ -347,7 +361,9 @@ class MatrixQuestionForm extends ContentObjectForm
 
                 if ($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
                 {
-                    $group[] = $this->createElement('image', 'remove_match[' . $match_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_match', 'id' => 'remove_match_' . $match_number));
+                    $group[] = $this->createElement('image', 'remove_match[' . $match_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array(
+                            'class' => 'remove_match',
+                            'id' => 'remove_match_' . $match_number));
                 }
                 else
                 {
@@ -359,7 +375,11 @@ class MatrixQuestionForm extends ContentObjectForm
                 $renderer->setElementTemplate('<tr id="match_' . $match_number . '" class="' . ($match_number - 1 % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'match_' . $match_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'match_' . $match_number);
 
-                $this->addGroupRule('match_' . $match_number, array('match[' . $match_number . ']' => array(array(Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required'))));
+                $this->addGroupRule('match_' . $match_number, array(
+                        'match[' . $match_number . ']' => array(
+                                array(
+                                        Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES),
+                                        'required'))));
             }
 
             $this->setConstants($defaults);

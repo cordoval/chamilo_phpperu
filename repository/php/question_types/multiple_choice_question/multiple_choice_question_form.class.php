@@ -143,13 +143,17 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
             $switch_label = Translation :: get('SwitchToRadioButtons');
         }
 
-        $this->addElement('hidden', 'mc_answer_type', $_SESSION['mc_answer_type'], array('id' => 'mc_answer_type'));
-        $this->addElement('hidden', 'mc_number_of_options', $_SESSION['mc_number_of_options'], array('id' => 'mc_number_of_options'));
+        $this->addElement('hidden', 'mc_answer_type', $_SESSION['mc_answer_type'], array(
+                'id' => 'mc_answer_type'));
+        $this->addElement('hidden', 'mc_number_of_options', $_SESSION['mc_number_of_options'], array(
+                'id' => 'mc_number_of_options'));
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch change_answer_type'));
+        $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array(
+                'class' => 'normal switch change_answer_type'));
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add add_option'));
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array(
+                'class' => 'normal add add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $html_editor_options = array();
@@ -181,7 +185,9 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
 
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 2)
                 {
-                    $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
+                    $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array(
+                            'class' => 'remove_option',
+                            'id' => 'remove_' . $option_number));
                 }
                 else
                 {

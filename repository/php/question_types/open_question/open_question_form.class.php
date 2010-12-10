@@ -16,14 +16,15 @@ class OpenQuestionForm extends ContentObjectForm
 
     function setDefaults($defaults = array ())
     {
-    	parent :: setDefaults($defaults);
+        parent :: setDefaults($defaults);
     }
 
     function build_creation_form()
     {
         parent :: build_creation_form();
 
-        //$this->addElement('category');
+    //$this->addElement('category');
+
 
     }
 
@@ -38,15 +39,15 @@ class OpenQuestionForm extends ContentObjectForm
     function create_content_object($object)
     {
         $this->set_content_object($object);
-    	return parent :: create_content_object();
+        return parent :: create_content_object();
     }
 
     function update_content_object()
     {
         $object = $this->get_content_object();
-    	$this->set_content_object($object);
+        $this->set_content_object($object);
 
-    	return parent :: update_content_object();
+        return parent :: update_content_object();
     }
 }
 ?>

@@ -5,28 +5,33 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 use common\libraries\Theme;
-use repository\SelectQuestionForm;
-use repository\SelectQuestionOption;
+
+use repository\ContentObjectForm;
 
 /**
  * $Id: assessment_select_question_form.class.php $
  * @package repository.lib.content_object.select_question
  */
-require_once Path :: get_repository_path() . '/question_types/select_question/select_question_form.class.php';
 require_once dirname(__FILE__) . '/assessment_select_question_option.class.php';
 
-class AssessmentSelectQuestionForm extends SelectQuestionForm
+class AssessmentSelectQuestionForm extends ContentObjectForm
 {
 
     protected function build_creation_form()
     {
         parent :: build_creation_form();
+        $this->addElement('category', Translation :: get('Options'));
+        $this->add_options();
+        $this->addElement('category');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_select_question/resources/javascript/assessment_select_question.js'));
     }
 
     protected function build_editing_form()
     {
         parent :: build_editing_form();
+        $this->addElement('category', Translation :: get('Options'));
+        $this->add_options();
+        $this->addElement('category');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_select_question/resources/javascript/assessment_select_question.js'));
     }
 
@@ -40,7 +45,7 @@ class AssessmentSelectQuestionForm extends SelectQuestionForm
                 $options = $object->get_options();
                 foreach ($options as $index => $option)
                 {
-                    $defaults[SelectQuestionOption :: PROPERTY_VALUE][$index] = $option->get_value();
+                    $defaults[AssessmentSelectQuestionOption :: PROPERTY_VALUE][$index] = $option->get_value();
                     $defaults[AssessmentSelectQuestionOption :: PROPERTY_SCORE][$index] = $option->get_score();
                     $defaults[AssessmentSelectQuestionOption :: PROPERTY_FEEDBACK][$index] = $option->get_feedback();
                     if ($object->get_answer_type() == 'checkbox')
@@ -69,7 +74,24 @@ class AssessmentSelectQuestionForm extends SelectQuestionForm
     function create_content_object()
     {
         $object = new AssessmentSelectQuestion();
-        return parent :: create_content_object($object);
+        $this->set_content_object($object);
+        $this->add_options_to_object();
+        return parent :: create_content_object();
+    }
+
+    function update_content_object()
+    {
+        $this->add_options_to_object();
+        return parent :: update_content_object();
+    }
+
+    function validate()
+    {
+        if (isset($_POST['add']) || isset($_POST['remove']) || isset($_POST['change_answer_type']))
+        {
+            return false;
+        }
+        return parent :: validate();
     }
 
     function validate_selected_answers($fields)
@@ -86,8 +108,9 @@ class AssessmentSelectQuestionForm extends SelectQuestionForm
     {
         $object = $this->get_content_object();
         $values = $this->exportValues();
+
         $options = array();
-        foreach ($values[SelectQuestionOption :: PROPERTY_VALUE] as $option_id => $value)
+        foreach ($values[AssessmentSelectQuestionOption :: PROPERTY_VALUE] as $option_id => $value)
         {
             $score = $values[AssessmentSelectQuestionOption :: PROPERTY_SCORE][$option_id];
             $feedback = $values[AssessmentSelectQuestionOption :: PROPERTY_FEEDBACK][$option_id];
@@ -101,6 +124,7 @@ class AssessmentSelectQuestionForm extends SelectQuestionForm
             }
             $options[] = new AssessmentSelectQuestionOption($value, $correct, $score, $feedback);
         }
+
         $object->set_answer_type($_SESSION['select_answer_type']);
         $object->set_options($options);
     }
@@ -161,13 +185,19 @@ class AssessmentSelectQuestionForm extends SelectQuestionForm
             $switch_label = Translation :: get('SwitchToSingleSelect');
         }
 
-        $this->addElement('hidden', 'select_answer_type', $_SESSION['select_answer_type'], array('id' => 'select_answer_type'));
-        $this->addElement('hidden', 'select_number_of_options', $_SESSION['select_number_of_options'], array('id' => 'select_number_of_options'));
+        $this->addElement('hidden', 'select_answer_type', $_SESSION['select_answer_type'], array(
+                'id' => 'select_answer_type'));
+        $this->addElement('hidden', 'select_number_of_options', $_SESSION['select_number_of_options'], array(
+                'id' => 'select_number_of_options'));
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch', 'id' => 'change_answer_type'));
+        $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array(
+                'class' => 'normal switch',
+                'id' => 'change_answer_type'));
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddSelectOption'), array('class' => 'normal add', 'id' => 'add_option'));
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddSelectOption'), array(
+                'class' => 'normal add',
+                'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $html_editor_options = array();
@@ -199,30 +229,37 @@ class AssessmentSelectQuestionForm extends SelectQuestionForm
 
                 if ($_SESSION['select_answer_type'] == 'checkbox')
                 {
-                    $group[] = & $this->createElement('checkbox', AssessmentSelectQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']', Translation :: get('Correct'), '', array('class' => SelectQuestionOption :: PROPERTY_VALUE, 'id' => AssessmentSelectQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
+                    $group[] = & $this->createElement('checkbox', AssessmentSelectQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']', Translation :: get('Correct'), '', array(
+                            'class' => AssessmentSelectQuestionOption :: PROPERTY_VALUE,
+                            'id' => AssessmentSelectQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
                 }
                 else
                 {
-                    $group[] = & $this->createElement('radio', AssessmentSelectQuestionOption :: PROPERTY_CORRECT, Translation :: get('Correct'), '', $option_number, array('class' => SelectQuestionOption :: PROPERTY_VALUE, 'id' => AssessmentSelectQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
+                    $group[] = & $this->createElement('radio', AssessmentSelectQuestionOption :: PROPERTY_CORRECT, Translation :: get('Correct'), '', $option_number, array(
+                            'class' => AssessmentSelectQuestionOption :: PROPERTY_VALUE,
+                            'id' => AssessmentSelectQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
                 }
 
-                $group[] = & $this->createElement('text', SelectQuestionOption :: PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), array('style' => 'width: 300px;'));
+                $group[] = & $this->createElement('text', AssessmentSelectQuestionOption :: PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), array(
+                        'style' => 'width: 300px;'));
                 $group[] = & $this->create_html_editor(AssessmentSelectQuestionOption :: PROPERTY_FEEDBACK . '[' . $option_number . ']', Translation :: get('Feedback'), $html_editor_options);
                 $group[] = & $this->createElement('text', AssessmentSelectQuestionOption :: PROPERTY_SCORE . '[' . $option_number . ']', Translation :: get('Score'), 'size="2"  class="input_numeric"');
 
                 if ($number_of_options - count($_SESSION['select_skip_options']) > 2)
                 {
-                    $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
+                    $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array(
+                            'class' => 'remove_option',
+                            'id' => 'remove_' . $option_number));
                 }
                 else
                 {
                     $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" class="remove_option" />');
                 }
 
-                $this->addGroup($group, SelectQuestionOption :: PROPERTY_VALUE . '_' . $option_number, null, '', false);
+                $this->addGroup($group, AssessmentSelectQuestionOption :: PROPERTY_VALUE . '_' . $option_number, null, '', false);
 
-                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', SelectQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
-                $renderer->setGroupElementTemplate('<td>{element}</td>', SelectQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
+                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', AssessmentSelectQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
+                $renderer->setGroupElementTemplate('<td>{element}</td>', AssessmentSelectQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
             }
         }
 

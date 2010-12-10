@@ -1,20 +1,18 @@
 <?php
-
 namespace repository\content_object\assessment_open_question;
+
 use common\libraries\Path;
-use repository\OpenQuestionForm;
+use repository\ContentObjectForm;
 use common\libraries\Translation;
 
 /**
  * $Id: assessment_open_question_form.class.php$ $
  * @package repository.lib.content_object.assessment_open_question
  */
-require_once Path :: get_repository_path() . '/question_types/open_question/open_question_form.class.php';
-
 /**
  * This class represents a form to create or update open questions
  */
-class AssessmentOpenQuestionForm extends OpenQuestionForm
+class AssessmentOpenQuestionForm extends ContentObjectForm
 {
 
     function setDefaults($defaults = array ())
@@ -29,7 +27,7 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
         {
             $defaults[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE] = AssessmentOpenQuestion :: TYPE_OPEN;
         }
-        
+
         parent :: setDefaults($defaults);
     }
 
@@ -72,11 +70,11 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
     function create_content_object()
     {
         $object = new AssessmentOpenQuestion();
-        
+
         $values = $this->exportValues();
         $object->set_question_type($values[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE]);
         $object->set_feedback($values[AssessmentOpenQuestion :: PROPERTY_FEEDBACK]);
-        
+
         $this->set_content_object($object);
         return parent :: create_content_object($object);
     }
@@ -84,11 +82,11 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
     function update_content_object()
     {
         $object = $this->get_content_object();
-        
+
         $values = $this->exportValues();
         $object->set_question_type($values[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE]);
         $object->set_feedback($values[AssessmentOpenQuestion :: PROPERTY_FEEDBACK]);
-        
+
         $this->set_content_object($object);
         return parent :: update_content_object();
     }

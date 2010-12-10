@@ -2,17 +2,71 @@
 namespace repository\content_object\assessment_matrix_question;
 
 use common\libraries\Path;
-use repository\MatrixQuestionDisplay;
+
+use repository\ContentObjectDisplay;
 
 /**
  * $Id: assessment_matrix_question_display.class.php $
  * @package repository.lib.content_object.matrix_question
  */
-require_once Path :: get_repository_path() . '/question_types/matrix_question/matrix_question_display.class.php';
-require_once dirname (__FILE__) . '/assessment_matrix_question_option.class.php';
+require_once dirname(__FILE__) . '/assessment_matrix_question_option.class.php';
 
-class AssessmentMatrixQuestionDisplay extends MatrixQuestionDisplay
+class AssessmentMatrixQuestionDisplay extends ContentObjectDisplay
 {
 
+    function get_description()
+    {
+        $content_object = $this->get_content_object();
+        $matches = $content_object->get_matches();
+        $options = $content_object->get_options();
+        $type = $content_object->get_matrix_type();
+
+        $html = array();
+        $html[] = parent :: get_description();
+
+        $table_header = array();
+        $table_header[] = '<table class="data_table">';
+        $table_header[] = '<thead>';
+        $table_header[] = '<tr>';
+        $table_header[] = '<th class="caption"></th>';
+
+        foreach ($matches as $match)
+        {
+            $table_header[] = '<th class="center">' . strip_tags($match) . '</th>';
+        }
+
+        $table_header[] = '</tr>';
+        $table_header[] = '</thead>';
+        $table_header[] = '<tbody>';
+        $html[] = implode("\n", $table_header);
+
+        foreach ($options as $index => $option)
+        {
+            $html[] = '<tr class="' . ($index % 2 == 0 ? 'row_even' : 'row_odd') . '">';
+            $html[] = '<td>' . $option->get_value() . '</td>';
+
+            foreach ($matches as $j => $match)
+            {
+                if ($type == AssessmentMatrixQuestion :: MATRIX_TYPE_RADIO)
+                {
+                    $answer_name = $question_id . '_' . $index . '_0';
+                    $html[] = '<td style="text-align: center;"><input type="radio" name="' . $answer_name . '"/></td>';
+                }
+                elseif ($type == AssessmentMatrixQuestion :: MATRIX_TYPE_CHECKBOX)
+                {
+                    $answer_name = $question_id . '_' . $index . '[' . $j . ']';
+                    $html[] = '<td style="text-align: center;"><input type="checkbox" name="' . $answer_name . '"/></td>';
+                }
+            }
+
+            $html[] = '</tr>';
+        }
+
+        $table_footer[] = '</tbody>';
+        $table_footer[] = '</table>';
+        $html[] = implode("\n", $table_footer);
+
+        return implode("\n", $html);
+    }
 }
 ?>
