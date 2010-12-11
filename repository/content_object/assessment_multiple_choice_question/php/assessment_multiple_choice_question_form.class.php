@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 use repository\ContentObjectForm;
 
@@ -23,6 +24,21 @@ class AssessmentMultipleChoiceQuestionForm extends ContentObjectForm
         $this->addElement('category', Translation :: get('Options'));
         $this->add_options();
         $this->addElement('category');
+
+        $this->addElement('category', Translation :: get('Hint'));
+
+        $html_editor_options = array();
+        $html_editor_options['width'] = '100%';
+        $html_editor_options['height'] = '85';
+        $html_editor_options['collapse_toolbar'] = true;
+        $html_editor_options['show_tags'] = false;
+        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
+
+        $renderer = $this->defaultRenderer();
+        $this->add_html_editor(AssessmentMultipleChoiceQuestion :: PROPERTY_HINT, Translation :: get('Hint', array(), Utilities :: get_namespace_from_object($this)), false, $html_editor_options);
+        $renderer->setElementTemplate('{element}<div class="clear"></div>', AssessmentMultipleChoiceQuestion :: PROPERTY_HINT);
+        $this->addElement('category');
+
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_multiple_choice_question/resources/javascript/assessment_multiple_choice_question.js'));
     }
 
@@ -32,6 +48,21 @@ class AssessmentMultipleChoiceQuestionForm extends ContentObjectForm
         $this->addElement('category', Translation :: get('Options'));
         $this->add_options();
         $this->addElement('category');
+
+        $this->addElement('category', Translation :: get('Hint'));
+
+        $html_editor_options = array();
+        $html_editor_options['width'] = '100%';
+        $html_editor_options['height'] = '85';
+        $html_editor_options['collapse_toolbar'] = true;
+        $html_editor_options['show_tags'] = false;
+        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
+
+        $renderer = $this->defaultRenderer();
+        $this->add_html_editor(AssessmentMultipleChoiceQuestion :: PROPERTY_HINT, Translation :: get('Hint', array(), Utilities :: get_namespace_from_object($this)), false, $html_editor_options);
+        $renderer->setElementTemplate('{element}<div class="clear"></div>', AssessmentMultipleChoiceQuestion :: PROPERTY_HINT);
+        $this->addElement('category');
+
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_multiple_choice_question/resources/javascript/assessment_multiple_choice_question.js'));
     }
 
@@ -40,6 +71,7 @@ class AssessmentMultipleChoiceQuestionForm extends ContentObjectForm
         if (! $this->isSubmitted())
         {
             $object = $this->get_content_object();
+            $defaults[AssessmentMultipleChoiceQuestion :: PROPERTY_HINT] = $object->get_hint();
             if ($object->get_number_of_options() != 0)
             {
                 $options = $object->get_options();
@@ -75,6 +107,7 @@ class AssessmentMultipleChoiceQuestionForm extends ContentObjectForm
     function create_content_object()
     {
         $object = new AssessmentMultipleChoiceQuestion();
+        $object->set_hint($this->exportValue(AssessmentMultipleChoiceQuestion :: PROPERTY_HINT));
         $this->set_content_object($object);
         $this->add_options_to_object();
         return parent :: create_content_object();
@@ -90,6 +123,8 @@ class AssessmentMultipleChoiceQuestionForm extends ContentObjectForm
     {
         $object = $this->get_content_object();
         $values = $this->exportValues();
+
+        $object->set_hint($values[AssessmentMultipleChoiceQuestion :: PROPERTY_HINT]);
 
         $options = array();
         foreach ($values[AssessmentMultipleChoiceQuestionOption :: PROPERTY_VALUE] as $option_id => $value)

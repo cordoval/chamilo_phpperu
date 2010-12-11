@@ -13,12 +13,14 @@ use repository\ContentObject;
  */
 require_once dirname(__FILE__) . '/assessment_multiple_choice_question_option.class.php';
 
-class AssessmentMultipleChoiceQuestion extends ContentObject implements Versionable
+class AssessmentMultipleChoiceQuestion extends ContentObject implements
+        Versionable
 {
     const CLASS_NAME = __CLASS__;
 
     const PROPERTY_ANSWER_TYPE = 'answer_type';
     const PROPERTY_OPTIONS = 'options';
+    const PROPERTY_HINT = 'hint';
 
     const ANSWER_TYPE_RADIO = 1;
     const ANSWER_TYPE_CHECKBOX = 2;
@@ -59,9 +61,19 @@ class AssessmentMultipleChoiceQuestion extends ContentObject implements Versiona
         return $this->get_additional_property(self :: PROPERTY_ANSWER_TYPE);
     }
 
+    public function set_hint($hint)
+    {
+        return $this->set_additional_property(self :: PROPERTY_HINT, $hint);
+    }
+
+    public function get_hint()
+    {
+        return $this->get_additional_property(self :: PROPERTY_HINT);
+    }
+
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_ANSWER_TYPE, self :: PROPERTY_OPTIONS);
+        return array(self :: PROPERTY_ANSWER_TYPE, self :: PROPERTY_OPTIONS, self :: PROPERTY_HINT);
     }
 
     static function get_type_name()
