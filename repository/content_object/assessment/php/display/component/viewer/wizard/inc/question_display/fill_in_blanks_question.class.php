@@ -1,7 +1,13 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\Path;
+
+use common\libraries\ResourceManager;
+
 use common\libraries\Translation;
+use common\libraries\Theme;
+
 use repository\content_object\fill_in_blanks_question\FillInBlanksQuestion;
 use repository\content_object\fill_in_blanks_question\FillInBlanksQuestionAnswer;
 
@@ -17,21 +23,23 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
     function add_question_form()
     {
         $clo_question = $this->get_complex_content_object_question();
-        
+
         $question = $this->get_question();
         $answers = $question->get_answers();
         $question_type = $question->get_question_type();
         $answer_text = $question->get_answer_text();
         $answer_text = nl2br($answer_text);
-        
+
         $parts = preg_split(FillInBlanksQuestionAnswer :: CLOZE_REGEX, $answer_text);
         $this->add_html(array_shift($parts));
         $index = 0;
-        
+
         $element_template = ' {element} ';
         $renderer = $this->get_renderer();
         $renderer->setElementTemplate($element_template, 'select');
-        
+
+        $this->get_formvalidator()->addElement('html', ResourceManager::get_instance()->get_resource_html(Path::get_repository_content_object_path(true) . 'fill_in_blanks_question/resources/javascript/fill_in_the_blanks_hint.js'));
+
         foreach ($parts as $part)
         {
             $name = $clo_question->get_id() . "[$index]";
@@ -40,6 +48,8 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
             $index ++;
             $renderer->setElementTemplate($element_template, $name);
         }
+
+
     }
 
     function add_html($html)
@@ -79,6 +89,9 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
             $size = empty($size) ? 20 : $size;
             $this->add_text($name, $size);
         }
+
+        $hint_name = 'hint_' . $this->get_complex_content_object_question()->get_id() . '_' . $index;
+        $formvalidator->addElement('html', '<img src="' . Theme :: get_image_path() . 'action_hint.png" id="'. $hint_name .'" class="hint" alt="'. Translation :: get('Hint') .'" title="'. Translation :: get('Hint') .'" />');
     }
 
     function get_question_options($index, $answers)
@@ -105,7 +118,7 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
     {
         $instruction = array();
         $question = $this->get_question();
-        
+
         if ($question->has_description())
         {
             $instruction[] = '<div class="splitter">';
@@ -116,7 +129,7 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
         {
             $instruction = array();
         }
-        
+
         return implode("\n", $instruction);
     }
 }
