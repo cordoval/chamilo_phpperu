@@ -213,5 +213,35 @@ class JsonAjaxResult
         $object = json_decode($json_string);
         return new self();
     }
+
+    static function error($result_code = 404, $result_message = null)
+    {
+        $json_ajax_result = new self($result_code);
+        if ($message)
+        {
+            $json_ajax_result->set_result_message($result_message);
+        }
+        $json_ajax_result->display();
+    }
+
+    static function not_allowed($result_message = null)
+    {
+        self :: error(403, $result_message);
+    }
+
+    static function not_found($result_message = null)
+    {
+        self :: error(404, $result_message);
+    }
+
+    static function general_error($result_message = null)
+    {
+        self :: error(500, $result_message);
+    }
+
+    static function bad_request($result_message = null)
+    {
+        self :: error(400, $result_message);
+    }
 }
 ?>
