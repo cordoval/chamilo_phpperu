@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\Translation;
+
 use repository\content_object\assessment_matrix_question\AssessmentMatrixQuestion;
 /**
  * $Id: matrix_question.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -33,6 +35,7 @@ class AssessmentMatrixQuestionDisplay extends QuestionDisplay
             $table_header[] = '<th class="center">' . strip_tags($match) . '</th>';
         }
 
+        $table_header[] = '<th class="center">' . Translation :: get('Hint') . '</th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
@@ -59,6 +62,9 @@ class AssessmentMatrixQuestionDisplay extends QuestionDisplay
                     $group[] = $formvalidator->createElement('checkbox', $answer_name);
                 }
             }
+
+            $hint_name = 'hint_' . $question_id . '_' . $i;
+            $group[] = $formvalidator->createElement('static', null, null, '<a id="' . $hint_name . '" class="button hint_button">' . Translation :: get('GetAHint') . '</a>');
 
             $formvalidator->addGroup($group, 'matrix_option_' . $i, null, '', false);
 

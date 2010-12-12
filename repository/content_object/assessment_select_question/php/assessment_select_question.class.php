@@ -18,6 +18,7 @@ class AssessmentSelectQuestion extends ContentObject
 
     const PROPERTY_OPTIONS = 'options';
     const PROPERTY_ANSWER_TYPE = 'answer_type';
+    const PROPERTY_HINT = 'hint';
 
     public function add_option($option)
     {
@@ -55,14 +56,27 @@ class AssessmentSelectQuestion extends ContentObject
         return $this->set_additional_property(self :: PROPERTY_ANSWER_TYPE, $answer_type);
     }
 
+    public function set_hint($hint)
+    {
+        return $this->set_additional_property(self :: PROPERTY_HINT, $hint);
+    }
+
+    public function get_hint()
+    {
+        return $this->get_additional_property(self :: PROPERTY_HINT);
+    }
+
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_ANSWER_TYPE, self :: PROPERTY_OPTIONS);
+        return array(
+                self :: PROPERTY_ANSWER_TYPE,
+                self :: PROPERTY_OPTIONS,
+                self :: PROPERTY_HINT);
     }
 
     static function get_type_name()
     {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

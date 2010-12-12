@@ -29,7 +29,7 @@ class AssessmentMultipleChoiceQuestionForm extends ContentObjectForm
 
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
-        $html_editor_options['height'] = '85';
+        $html_editor_options['height'] = '100';
         $html_editor_options['collapse_toolbar'] = true;
         $html_editor_options['show_tags'] = false;
         $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
@@ -53,7 +53,7 @@ class AssessmentMultipleChoiceQuestionForm extends ContentObjectForm
 
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
-        $html_editor_options['height'] = '85';
+        $html_editor_options['height'] = '100';
         $html_editor_options['collapse_toolbar'] = true;
         $html_editor_options['show_tags'] = false;
         $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
@@ -115,6 +115,7 @@ class AssessmentMultipleChoiceQuestionForm extends ContentObjectForm
 
     function update_content_object()
     {
+        $this->get_content_object()->set_hint($this->exportValue(AssessmentMultipleChoiceQuestion :: PROPERTY_HINT));
         $this->add_options_to_object();
         return parent :: update_content_object();
     }

@@ -23,6 +23,7 @@ class AssessmentRatingQuestionForm extends ContentObjectForm
         $object = $this->get_content_object();
         if ($object != null)
         {
+            $defaults[AssessmentRatingQuestion :: PROPERTY_HINT] = $object->get_hint();
             $defaults[AssessmentRatingQuestion :: PROPERTY_LOW] = $object->get_low();
             $defaults[AssessmentRatingQuestion :: PROPERTY_HIGH] = $object->get_high();
             $defaults[AssessmentRatingQuestion :: PROPERTY_CORRECT] = $object->get_correct();
@@ -66,6 +67,15 @@ class AssessmentRatingQuestionForm extends ContentObjectForm
         $this->addElement('html', '</div>');
 
         $this->add_textfield(AssessmentRatingQuestion :: PROPERTY_CORRECT, Translation :: get('CorrectValue'), false);
+
+        $html_editor_options = array();
+        $html_editor_options['width'] = '595';
+        $html_editor_options['height'] = '100';
+        $html_editor_options['collapse_toolbar'] = true;
+        $html_editor_options['show_tags'] = false;
+        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
+        $this->add_html_editor(AssessmentRatingQuestion :: PROPERTY_HINT, Translation :: get('Hint', array(), Utilities :: get_namespace_from_object($this)), false, $html_editor_options);
+
         $this->addElement('html', "<script type=\"text/javascript\">
 			/* <![CDATA[ */
 			hide_controls('buttons');
@@ -117,6 +127,15 @@ class AssessmentRatingQuestionForm extends ContentObjectForm
         $this->addElement('html', '</div>');
 
         $this->add_textfield(AssessmentRatingQuestion :: PROPERTY_CORRECT, Translation :: get('CorrectValue'), false);
+
+        $html_editor_options = array();
+        $html_editor_options['width'] = '595';
+        $html_editor_options['height'] = '100';
+        $html_editor_options['collapse_toolbar'] = true;
+        $html_editor_options['show_tags'] = false;
+        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
+        $this->add_html_editor(AssessmentRatingQuestion :: PROPERTY_HINT, Translation :: get('Hint', array(), Utilities :: get_namespace_from_object($this)), false, $html_editor_options);
+
         $this->addElement('html', "<script type=\"text/javascript\">
 			/* <![CDATA[ */
 			var ratingtype_percentage = document.getElementById('ratingtype_percentage');
@@ -153,19 +172,30 @@ class AssessmentRatingQuestionForm extends ContentObjectForm
     {
         $values = $this->exportValues();
         $object = new AssessmentRatingQuestion();
+        $object->set_hint($values[AssessmentRatingQuestion :: PROPERTY_HINT]);
 
         if (isset($values[AssessmentRatingQuestion :: PROPERTY_LOW]) && $values[AssessmentRatingQuestion :: PROPERTY_LOW] != '')
+        {
             $object->set_low($values[AssessmentRatingQuestion :: PROPERTY_LOW]);
+        }
         else
+        {
             $object->set_low(0);
+        }
 
         if (isset($values[AssessmentRatingQuestion :: PROPERTY_HIGH]) && $values[AssessmentRatingQuestion :: PROPERTY_HIGH] != '')
+        {
             $object->set_high($values[AssessmentRatingQuestion :: PROPERTY_HIGH]);
+        }
         else
+        {
             $object->set_high(100);
+        }
 
         if (isset($values[AssessmentRatingQuestion :: PROPERTY_CORRECT]))
+        {
             $object->set_correct($values[AssessmentRatingQuestion :: PROPERTY_CORRECT]);
+        }
 
         $this->set_content_object($object);
         return parent :: create_content_object();
@@ -175,6 +205,7 @@ class AssessmentRatingQuestionForm extends ContentObjectForm
     {
         $values = $this->exportValues();
         $object = parent :: get_content_object();
+        $object->set_hint($values[AssessmentRatingQuestion :: PROPERTY_HINT]);
 
         if (isset($values[AssessmentRatingQuestion :: PROPERTY_LOW]) && $values[AssessmentRatingQuestion :: PROPERTY_LOW] != '')
         {

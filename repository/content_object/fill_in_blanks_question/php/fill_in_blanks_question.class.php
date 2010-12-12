@@ -79,8 +79,7 @@ class FillInBlanksQuestion extends ContentObject implements Versionable
         $answer = $this->get_best_answer_for_question($index);
         if ($this->get_question_type() == self :: TYPE_SELECT)
         {
-            //return $answer->get_hint();
-            return $answer->get_value();
+            return $answer->get_hint();
         }
         elseif ($this->get_question_type() == self :: TYPE_TEXT)
         {

@@ -29,7 +29,7 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
         $answer_text = $question->get_answer_text();
         $answer_text = nl2br($answer_text);
 
-        $parts = preg_split(FillInBlanksQuestionAnswer :: CLOZE_REGEX, $answer_text);
+        $parts = preg_split(FillInBlanksQuestionAnswer :: QUESTIONS_REGEX, $answer_text);
 
         $this->add_html('<div class="with_borders">');
         $this->add_html('<div class="fill_in_the_blanks_text">');

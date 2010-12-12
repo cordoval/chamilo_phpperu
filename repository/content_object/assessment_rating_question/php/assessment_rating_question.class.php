@@ -19,12 +19,13 @@ class AssessmentRatingQuestion extends ContentObject implements Versionable
     const PROPERTY_LOW = 'low';
     const PROPERTY_HIGH = 'high';
     const PROPERTY_CORRECT = 'correct';
+    const PROPERTY_HINT = 'hint';
 
     const CLASS_NAME = __CLASS__;
 
     static function get_type_name()
     {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function get_correct()
@@ -57,10 +58,23 @@ class AssessmentRatingQuestion extends ContentObject implements Versionable
         $this->set_additional_property(self :: PROPERTY_HIGH, $value);
     }
 
+    public function set_hint($hint)
+    {
+        return $this->set_additional_property(self :: PROPERTY_HINT, $hint);
+    }
+
+    public function get_hint()
+    {
+        return $this->get_additional_property(self :: PROPERTY_HINT);
+    }
+
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_LOW, self :: PROPERTY_HIGH,
-                self :: PROPERTY_CORRECT);
+        return array(
+                self :: PROPERTY_LOW,
+                self :: PROPERTY_HIGH,
+                self :: PROPERTY_CORRECT,
+                self :: PROPERTY_HINT);
     }
 }
 ?>

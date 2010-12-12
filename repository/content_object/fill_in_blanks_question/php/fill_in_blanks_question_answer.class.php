@@ -8,7 +8,20 @@ namespace repository\content_object\fill_in_blanks_question;
 class FillInBlanksQuestionAnswer
 {
 
+    /**
+     * If format is:
+     * [answer(feedback)=score,answer]{hint}
+     * then use this for regex
+     * \[([^\[\]]*)\](?:\{([^\[\}]*)\})?
+     *
+     * And to split individual questions into answers
+     * with feedback and a score use
+     * (?:([^,\n\r\(\\=)]+)(?:\(([^,\n\r]+)\))?(?:=([0-9]+))?,?)+?
+     *
+     */
     const CLOZE_REGEX = '/\[[^\[\]]*\]/';
+    const QUESTIONS_REGEX = '/\[([^[\]]*)\](?:\{([^[}]*)\})?/';
+    const PARTS_REGEX = '/(?:([^,\n\r(\\\\=)]+)(?:\(([^,\n\r]+)\))?(?:=([0-9]+))?,?)+?/';
 
     /**
      *
@@ -18,27 +31,20 @@ class FillInBlanksQuestionAnswer
     static function parse($text)
     {
         $result = array();
-        $matches = array();
-        preg_match_all(self :: CLOZE_REGEX, $text, $matches);
-        $index = 0;
-        $matches = empty($matches) ? array() : $matches[0];
 
-        foreach ($matches as $match)
+        $questions = array();
+        preg_match_all(self :: QUESTIONS_REGEX, $text, $questions);
+
+        foreach ($questions[1] as $question_id => $question)
         {
-            $match = trim($match, '[]');
-            $answers = explode(',', $match);
-            foreach ($answers as $answer)
+            $answers = array();
+            preg_match_all(self :: PARTS_REGEX, $question, $answers);
+
+            foreach ($answers[1] as $answer_id => $answer)
             {
-                $parts = explode('=', $answer);
-                $score = count($parts) > 1 ? $parts[1] : 1;
-                $score = is_numeric($score) ? $score : 1;
-                $parts = str_replace(')', '=', str_replace('(', '=', $parts[0]));
-                $parts = explode('=', $parts);
-                $feedback = count($parts) > 1 ? $parts[1] : '';
-                $answer = $parts[0];
-                $result[] = new FillInBlanksQuestionAnswer($answer, $score, $feedback, '', $index);
+                $score = is_numeric($answers[3][$answer_id]) ? $answers[3][$answer_id] : 1;
+                $result[] = new FillInBlanksQuestionAnswer($answer, $score, $answers[2][$answer_id], '', $question_id, $questions[2][$question_id]);
             }
-            $index ++;
         }
         return $result;
     }
@@ -74,20 +80,22 @@ class FillInBlanksQuestionAnswer
     static function get_number_of_questions($text)
     {
         $matches = array();
-        return preg_match_all(self :: CLOZE_REGEX, $text, $matches);
+        return preg_match_all(self :: QUESTIONS_REGEX, $text, $matches);
     }
 
     private $value;
     private $weight;
     private $comment;
+    private $hint;
     private $size;
     private $position;
 
-    function __construct($value, $weight, $comment, $size, $position)
+    function __construct($value, $weight, $comment, $size, $position, $hint)
     {
         $this->value = $value;
         $this->weight = $weight;
         $this->comment = $comment;
+        $this->hint = $hint;
         $this->size = empty($size) ? strlen($value) : $size;
         $this->position = $position;
     }
@@ -95,6 +103,11 @@ class FillInBlanksQuestionAnswer
     function get_comment()
     {
         return $this->comment;
+    }
+
+    function get_hint()
+    {
+        return $this->hint;
     }
 
     function get_value()

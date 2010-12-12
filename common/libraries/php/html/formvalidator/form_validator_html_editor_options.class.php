@@ -192,7 +192,7 @@ abstract class FormValidatorHtmlEditorOptions
     					break;
 
     				case self :: OPTION_WIDTH :
-    					$this->set_option($available_option, 610);
+    					$this->set_option($available_option, 595);
     					break;
     				case self :: OPTION_HEIGHT :
     					$this->set_option($available_option, 200);

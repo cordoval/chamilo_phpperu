@@ -18,19 +18,20 @@ class AssessmentMatchTextQuestion extends ContentObject implements Versionable
     const PROPERTY_OPTIONS = 'options';
     const PROPERTY_USE_WILDCARDS = 'use_wildcards';
     const PROPERTY_IGNORE_CASE = 'ignore_case';
+    const PROPERTY_HINT = 'hint';
 
     public static function get_type_name()
     {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     public static function get_additional_property_names()
     {
-        $result = array();
-        $result[] = self :: PROPERTY_OPTIONS;
-        $result[] = self :: PROPERTY_USE_WILDCARDS;
-        $result[] = self :: PROPERTY_IGNORE_CASE;
-        return $result;
+        return array(
+                self :: PROPERTY_OPTIONS,
+                self :: PROPERTY_USE_WILDCARDS,
+                self :: PROPERTY_IGNORE_CASE,
+                self :: PROPERTY_HINT);
     }
 
     public function ContentObject($defaultProperties = array (), $additionalProperties = null)
@@ -85,6 +86,16 @@ class AssessmentMatchTextQuestion extends ContentObject implements Versionable
     public function set_ignore_case($type)
     {
         return $this->set_additional_property(self :: PROPERTY_IGNORE_CASE, (bool) $type);
+    }
+
+    public function set_hint($hint)
+    {
+        return $this->set_additional_property(self :: PROPERTY_HINT, $hint);
+    }
+
+    public function get_hint()
+    {
+        return $this->get_additional_property(self :: PROPERTY_HINT);
     }
 
     public function get_ignore_case()
