@@ -11,8 +11,7 @@ use repository\ContentObject;
  */
 require_once dirname(__FILE__) . '/main.php';
 
-class AssessmentMatchNumericQuestion extends ContentObject implements
-        Versionable
+class AssessmentMatchNumericQuestion extends ContentObject implements Versionable
 {
     const CLASS_NAME = __CLASS__;
 
@@ -30,9 +29,7 @@ class AssessmentMatchNumericQuestion extends ContentObject implements
 
     public static function get_additional_property_names()
     {
-        return array(
-                self :: PROPERTY_TOLERANCE_TYPE,
-                self :: PROPERTY_OPTIONS,
+        return array(self :: PROPERTY_TOLERANCE_TYPE, self :: PROPERTY_OPTIONS,
                 self :: PROPERTY_HINT);
     }
 
@@ -89,5 +86,11 @@ class AssessmentMatchNumericQuestion extends ContentObject implements
     public function get_hint()
     {
         return $this->get_additional_property(self :: PROPERTY_HINT);
+    }
+
+    function has_hint()
+    {
+        $hint = trim(strip_tags($this->get_hint()));
+        return ! empty($hint);
     }
 }
