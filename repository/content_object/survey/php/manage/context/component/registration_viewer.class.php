@@ -28,7 +28,7 @@ class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManag
     function run()
     {
         $context_registration_id = Request :: get(SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID);
-        $this->set_parameter(SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID, $context_registration_id);
+//        $this->set_parameter(SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID, $context_registration_id);
         $this->context_registration = SurveyContextDataManager :: get_instance()->retrieve_survey_context_registration($context_registration_id);
 
         $this->ab = $this->get_action_bar();

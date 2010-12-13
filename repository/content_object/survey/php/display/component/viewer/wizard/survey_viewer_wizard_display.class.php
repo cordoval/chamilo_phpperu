@@ -15,6 +15,7 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 {
     
     private $parent;
+    private $survey_menu;
     /**
      * @var Survey
      */
@@ -37,7 +38,7 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
         $this->parent->get_parent()->display_header();
 
         if($this->survey->has_context()){
-        	 $html[] = $this->get_menu_html($current_page);
+        	$html[] = $this->get_menu_html($current_page);
         	$html[] = '<div style="float: right; width: 80%;">';
         }else{
         	$html[] = '<div style="float: right; width: 100%;">';
@@ -116,17 +117,37 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
         $url = explode('?', $url);
         $url_format = $url[1];
         
-        $url_format = '?' . $url_format . '&' . SurveyViewerWizard :: PARAM_PUBLICATION_ID . '=%s&' . SurveyViewerWizard :: PARAM_SURVEY_ID . '=%s&' . SurveyViewerWizard :: PARAM_INVITEE_ID . '=%s&' . SurveyViewerWizard :: PARAM_CONTEXT_PATH . '=%s';
+//        $url_format = '?' . $url_format . '&' . SurveyViewerWizard :: PARAM_PUBLICATION_ID . '=%s&' . SurveyViewerWizard :: PARAM_SURVEY_ID . '=%s&' . SurveyViewerWizard :: PARAM_INVITEE_ID . '=%s&' . SurveyViewerWizard :: PARAM_CONTEXT_PATH . '=%s';
+        $url_format = '?' . $url_format . '&' . SurveyViewerWizard :: PARAM_PUBLICATION_ID . '=%s&' . SurveyViewerWizard :: PARAM_SURVEY_ID . '=%s&' . SurveyViewerWizard :: PARAM_CONTEXT_PATH . '=%s';
         
-        //$survey_menu = new SurveyMenu($this->parent, $current_page->get_context_path(), $url_format, $this->survey);
-        $survey_tree = new SurveyTree($this->survey->get_id(), $current_page->get_context_path(), $url_format, $this->survey);
+      	$this->survey_menu = new SurveyMenu($this->parent, $current_page->get_context_path(), $url_format, $this->survey);
+//        $survey_tree = new SurveyTree($this->survey->get_id(), $current_page->get_context_path(), $url_format, $this->survey);
         $html = array();
         $html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
-        //$html[] = $survey_menu->render_as_tree();
-        $html[] = $survey_tree->render_as_tree();
+        $html[] = $this->get_progress_bar();
+        $html[] = $this->survey_menu->render_as_tree();
+       
+//        $html[] = $survey_tree->render_as_tree();
         $html[] = '</div>';
         return implode("\n", $html);
     }
+	
+  /**
+     * Renders the progress bar for the learning path
+     *
+     * @return array() HTML code of the progress bar
+     */
+    private function get_progress_bar()
+    {
+        $progress = $this->survey_menu->get_progress();
 
+        $html = array();
+        $html[] = '<div style="position: relative; text-align: center; border: 1px solid black; height: 14px; width:100px;">';
+        $html[] = '<div style="background-color: lightblue; height: 14px; width:' . $progress . 'px; text-align: center;">';
+        $html[] = '</div>';
+        $html[] = '<div style="width: 100px; text-align: center; position: absolute; top: 0px;">' . round($progress) . '%</div></div>';
+
+        return implode("\n", $html);
+    }
 }
 ?>
