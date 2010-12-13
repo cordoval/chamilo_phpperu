@@ -110,6 +110,12 @@ class FillInBlanksQuestionAnswer
         return $this->hint;
     }
 
+    function has_hint()
+    {
+        $hint = trim(strip_tags($this->get_hint()));
+        return ! empty($hint);
+    }
+
     function get_value()
     {
         return $this->value;

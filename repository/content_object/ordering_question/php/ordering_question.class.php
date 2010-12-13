@@ -55,6 +55,12 @@ class OrderingQuestion extends ContentObject implements Versionable
         return $this->get_additional_property(self :: PROPERTY_HINT);
     }
 
+    function has_hint()
+    {
+        $hint = trim(strip_tags($this->get_hint()));
+        return !empty($hint);
+    }
+
     public function get_number_of_options()
     {
         return count($this->get_options());

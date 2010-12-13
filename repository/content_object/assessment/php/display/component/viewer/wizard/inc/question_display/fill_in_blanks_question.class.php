@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
 
+use repository\content_object\fill_in_blanks_question;
+
 use repository\ContentObject;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
@@ -131,8 +133,15 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
             $group[] = $this->add_text($name, $size);
         }
 
-        $hint_name = 'hint_' . $this->get_complex_content_object_question()->get_id() . '_' . $index;
-        $group[] = $formvalidator->createElement('static', null, null, '<a id="' . $hint_name . '" class="button hint_button">' . Translation :: get('GetAHint') . '</a>');
+        if ($this->get_question()->get_best_answer_for_question($index)->has_hint() || $question_type == FillInBlanksQuestion :: TYPE_TEXT)
+        {
+            $hint_name = 'hint_' . $this->get_complex_content_object_question()->get_id() . '_' . $index;
+            $group[] = $formvalidator->createElement('static', null, null, '<a id="' . $hint_name . '" class="button hint_button">' . Translation :: get('GetAHint') . '</a>');
+        }
+        else
+        {
+            $group[] = $formvalidator->createElement('static', null, null, '');
+        }
 
         $formvalidator->addGroup($group, 'option_' . $index, null, '', false);
         $renderer = $this->get_renderer();
