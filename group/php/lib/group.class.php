@@ -268,14 +268,14 @@ class Group extends DataClass
 
     function move($new_parent_id, $new_previous_id = 0)
     {
-        $location = GroupRights :: get_location_by_identifier_from_groups_subtree($this->get_id());
-        if ($location)
-        {
-            if (! $location->move(GroupRights :: get_location_id_by_identifier_from_groups_subtree($new_parent_id)))
-            {
-                return false;
-            }
-        }
+//        $location = GroupRights :: get_location_by_identifier_from_groups_subtree($this->get_id());
+//        if ($location)
+//        {
+//            if (! $location->move(GroupRights :: get_location_id_by_identifier_from_groups_subtree($new_parent_id)))
+//            {
+//                return false;
+//            }
+//        }
 
         return $this->move_group($new_parent_id, $new_previous_id = 0);
     }
@@ -284,10 +284,10 @@ class Group extends DataClass
     {
         $gdm = $this->get_data_manager();
 
-        if (! GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_CREATE, $new_parent_id))
-        {
-            return false;
-        }
+//        if (! GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_CREATE, $new_parent_id))
+//        {
+//            return false;
+//        }
 
         if (! $gdm->move_group($this, $new_parent_id, $new_previous_id))
         {
@@ -325,14 +325,14 @@ class Group extends DataClass
     {
         $gdm = $this->get_data_manager();
 
-        $location = GroupRights :: get_location_by_identifier_from_groups_subtree($this->get_id());
-        if ($location)
-        {
-            if (! $location->remove())
-            {
-                return false;
-            }
-        }
+//        $location = GroupRights :: get_location_by_identifier_from_groups_subtree($this->get_id());
+//        if ($location)
+//        {
+//            if (! $location->remove())
+//            {
+//                return false;
+//            }
+//        }
 
         return $this->delete_group();
     }
@@ -391,13 +391,13 @@ class Group extends DataClass
             return false;
         }
 
-        $parent_location = GroupRights :: get_location_id_by_identifier_from_groups_subtree($this->get_parent());
-        $parent_location = ($parent_location ? $parent_location : 0);
-        if (! GroupRights :: create_location_in_groups_subtree($this->get_name(), $this->get_id(), $parent_location))
-        {
-            $this->delete_group();
-            return false;
-        }
+//        $parent_location = GroupRights :: get_location_id_by_identifier_from_groups_subtree($this->get_parent());
+//        $parent_location = ($parent_location ? $parent_location : 0);
+//        if (! GroupRights :: create_location_in_groups_subtree($this->get_name(), $this->get_id(), $parent_location))
+//        {
+//            $this->delete_group();
+//            return false;
+//        }
 
         return true;
     }
