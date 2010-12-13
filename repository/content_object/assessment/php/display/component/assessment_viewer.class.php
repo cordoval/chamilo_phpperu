@@ -6,6 +6,7 @@ namespace repository\content_object\assessment;
  */
 require_once dirname(__FILE__) . '/../assessment_display.class.php';
 require_once dirname(__FILE__) . '/viewer/assessment_viewer_wizard.class.php';
+require_once dirname(__FILE__) . '/viewer/assessment_viewer_form.class.php';
 
 class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
 {
@@ -15,6 +16,11 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
      */
     function run()
     {
+        //$form = new AssessmentViewerForm($this, $this->get_root_content_object());
+        //$this->display_header();
+        //$form->display();
+        //$this->display_footer();
+
         $wizard = new AssessmentViewerWizard($this, $this->get_root_content_object());
         $wizard->run();
     }
