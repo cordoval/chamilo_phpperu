@@ -63,6 +63,7 @@ class AssessmentMultipleChoiceQuestionDisplay extends QuestionDisplay
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $formvalidator->addElement('html', implode("\n", $table_footer));
+        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'assessment/resources/javascript/hint.js'));
     }
 
     function add_border()
@@ -101,7 +102,6 @@ class AssessmentMultipleChoiceQuestionDisplay extends QuestionDisplay
 
         $footer = implode("\n", $html);
         $formvalidator->addElement('html', $footer);
-        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'assessment_multiple_choice_question/resources/javascript/hint.js'));
 
         parent :: add_footer($formvalidator);
     }

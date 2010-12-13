@@ -51,6 +51,7 @@ class OrderingQuestionDisplay extends QuestionDisplay
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $formvalidator->addElement('html', implode("\n", $table_footer));
+        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'assessment/resources/javascript/hint.js'));
     }
 
     function add_border()

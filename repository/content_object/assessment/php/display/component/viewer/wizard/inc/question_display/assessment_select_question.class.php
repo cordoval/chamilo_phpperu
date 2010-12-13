@@ -53,6 +53,8 @@ class AssessmentSelectQuestionDisplay extends QuestionDisplay
             $formvalidator->addElement('select', $question_name, '', $answers, 'class="select_question"');
         }
 
+        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'assessment/resources/javascript/hint.js'));
+
         $renderer->setElementTemplate($element_template, $question_name);
     }
 

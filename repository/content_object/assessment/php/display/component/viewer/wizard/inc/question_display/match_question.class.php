@@ -35,6 +35,7 @@ class MatchQuestionDisplay extends QuestionDisplay
         $name = $clo_question->get_id() . '_0';
         $formvalidator->addElement('textarea', $name, '', array(
                 'style' => $textarea_style));
+        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'assessment/resources/javascript/hint.js'));
         $renderer->setElementTemplate($element_template, $name);
     }
 

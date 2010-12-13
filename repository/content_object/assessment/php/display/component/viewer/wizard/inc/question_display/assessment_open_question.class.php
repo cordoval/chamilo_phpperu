@@ -21,6 +21,7 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
         $question = $this->get_question();
         $type = $question->get_question_type();
         $formvalidator = $this->get_formvalidator();
+        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'assessment/resources/javascript/hint.js'));
 
         switch ($type)
         {
