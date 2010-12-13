@@ -48,7 +48,7 @@ class PHP_CodeSniffer_Standards_Chamilo2_Chamilo2CodingStandard
             #'PEAR/Sniffs/Files/LineEndingsSniff.php',
             /* function calls arguments  have
              *  - no spaces before comma
-             *  - 1 space after comme
+             *  - 1 space after comma
              *  - 1 space before and 1 space after equal sign of default value
              */
             'PEAR/Sniffs/Functions/FunctionCallArgumentSpacingSniff.php',
@@ -67,7 +67,7 @@ class PHP_CodeSniffer_Standards_Chamilo2_Chamilo2CodingStandard
              * with the first token of the matching opening brace
              */
             'PEAR/Sniffs/WhiteSpace/ScopeClosingBraceSniff.php',
-            /* Checks that the php file does not end with a closing tag */
+            /* The php file does not end with a closing tag */
             'Zend/Sniffs/Files/ClosingTagSniff.php',
             /* Line should not exceed 80 chars and cannot exceed 120 chars */
             'Zend/Sniffs/Files/LineLengthSniff.php', 
