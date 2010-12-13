@@ -10,6 +10,7 @@ use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
+use common\libraries\Display;
 
 use tracking\Tracker;
 use tracking\Event;

@@ -106,6 +106,7 @@ abstract class SurveyQuestionDisplay
         else
         {
             $html[] = '<div  class="question" id="survey_question_' . $this->complex_question->get_id() . '">';
+            $html[] = '<a name='.$this->complex_question->get_id().'></a>';
         }
         
         $html[] = '<div class="title">';
