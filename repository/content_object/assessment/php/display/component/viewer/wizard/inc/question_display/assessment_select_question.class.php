@@ -19,16 +19,16 @@ class AssessmentSelectQuestionDisplay extends QuestionDisplay
         $renderer = $this->get_renderer();
         $clo_question = $this->get_complex_content_object_question();
         $question = $this->get_question();
-        
+
         $options = $question->get_options();
         $type = $question->get_answer_type();
         $question_id = $clo_question->get_id();
-        
+
         foreach ($options as $option)
         {
             $answers[] = $option->get_value();
         }
-        
+
         $element_template = array();
         $element_template[] = '<div><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
         $element_template[] = '<div class="clear">&nbsp;</div>';
@@ -36,12 +36,14 @@ class AssessmentSelectQuestionDisplay extends QuestionDisplay
         $element_template[] = '<div class="clear">&nbsp;</div>';
         $element_template[] = '</div>';
         $element_template = implode("\n", $element_template);
-        
+
         $question_name = $question_id . '_0';
-        
+
         if ($type == 'checkbox')
         {
-            $advanced_select = $formvalidator->createElement('multiselect', $question_name, '', $answers, array('style' => 'width: 200px;', 'class' => 'advanced_select_question'));
+            $advanced_select = $formvalidator->createElement('multiselect', $question_name, '', $answers, array(
+                    'style' => 'width: 200px;',
+                    'class' => 'advanced_select_question'));
             $advanced_select->setButtonAttributes('add', 'class="add"');
             $advanced_select->setButtonAttributes('remove', 'class="remove"');
             $formvalidator->addElement($advanced_select);
@@ -50,7 +52,7 @@ class AssessmentSelectQuestionDisplay extends QuestionDisplay
         {
             $formvalidator->addElement('select', $question_name, '', $answers, 'class="select_question"');
         }
-        
+
         $renderer->setElementTemplate($element_template, $question_name);
     }
 
@@ -64,7 +66,7 @@ class AssessmentSelectQuestionDisplay extends QuestionDisplay
         $instruction = array();
         $question = $this->get_question();
         $type = $question->get_answer_type();
-        
+
         if ($type == 'radio' && $question->has_description())
         {
             $instruction[] = '<div class="splitter">';
@@ -81,8 +83,22 @@ class AssessmentSelectQuestionDisplay extends QuestionDisplay
         {
             $instruction = array();
         }
-        
+
         return implode("\n", $instruction);
+    }
+
+    function add_footer($formvalidator)
+    {
+        $formvalidator = $this->get_formvalidator();
+        $hint_name = 'hint_' . $this->get_complex_content_object_question()->get_id();
+
+        $html[] = '<div class="splitter">' . Translation :: get('Hint') . '</div>';
+        $html[] = '<div class="with_borders"><a id="' . $hint_name . '" class="button hint_button">' . Translation :: get('GetAHint') . '</a></div>';
+
+        $footer = implode("\n", $html);
+        $formvalidator->addElement('html', $footer);
+
+        parent :: add_footer($formvalidator);
     }
 }
 ?>

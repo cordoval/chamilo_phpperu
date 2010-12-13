@@ -18,7 +18,7 @@ class Autoloader
                 'adaptive_assessment_complex_display_support' => 'display/adaptive_assessment_complex_display_support',
                 'adaptive_assessment_complex_display_preview' => 'display/adaptive_assessment_complex_display_preview',
                 'adaptive_assessment_display' => 'display/adaptive_assessment_display',
-                'adaptive_assessment_display_embedder' => 'adaptive_assessment_display_embedder',
+                'adaptive_assessment_display_embedder' => 'display/adaptive_assessment_display_embedder',
                 'dummy_adaptive_assessment_attempt_tracker' => 'display/preview/dummy_adaptive_assessment_attempt_tracker',
                 'dummy_adaptive_assessment_item_attempt_tracker' => 'display/preview/dummy_adaptive_assessment_item_attempt_tracker',
                 'adaptive_assessment_content_object_display' => 'display/adaptive_assessment_content_object_display',

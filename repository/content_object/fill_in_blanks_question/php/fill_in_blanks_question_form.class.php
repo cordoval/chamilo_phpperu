@@ -123,12 +123,13 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         $html[] = '</div>';
         $html[] = '<div class="formw">';
         $html[] = '<div class="element">';
-        $html[] = '<table class="data_table" style="width: 661px;">';
+        $html[] = '<table class="data_table">';
         $html[] = '<thead>';
         $html[] = '<tr>';
         $html[] = '<th>' . Translation :: get('Question') . '</th>';
         $html[] = '<th>' . Translation :: get('Answer') . '</th>';
         $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
+        $html[] = '<th>' . Translation :: get('Hint') . '</th>';
         $html[] = '<th class="numeric">' . Translation :: get('Score') . '</th>';
         $html[] = '</tr>';
         $html[] = '</thead>';
@@ -147,6 +148,7 @@ class FillInBlanksQuestionForm extends ContentObjectForm
             $html[] = '<td>' . ($answer->get_position() + 1) . '</td>';
             $html[] = '<td>' . str_replace("\n", '<br/>', $answer->get_value()) . '</td>';
             $html[] = '<td>' . str_replace("\n", '<br/>', $answer->get_comment()) . ' </td>';
+            $html[] = '<td>' . str_replace("\n", '<br/>', $answer->get_hint()) . ' </td>';
             $html[] = '<td>' . $answer->get_weight() . '</td>';
             $html[] = '</tr>';
         }

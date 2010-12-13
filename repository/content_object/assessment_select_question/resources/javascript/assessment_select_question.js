@@ -91,12 +91,12 @@ $(function ()
 			rows;
 		
 		id = id.replace('remove_', '');
-		destroyHtmlEditor('comment['+ id +']');
+		destroyHtmlEditor('feedback['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
 		
 		rows = $('tr', tableBody);
 		
-		doAjaxPost("./common/libraries/php/ajax/select_question.php", { action: 'skip_option', value: id });
+		doAjaxPost("./repository/content_object/assessment_select_question/php/ajax/assessment_select_question.php", { action: 'skip_option', value: id });
 		
 		rows.each(function ()
 		{
@@ -135,10 +135,10 @@ $(function ()
 		}
 		
 		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
-		editorName = 'comment[' + numberOfOptions + ']';
+		editorName = 'feedback[' + numberOfOptions + ']';
 		
 		fieldOption = '<input id="' + id + '" class="value" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
-		fieldAnswer = '<input type="text" name="option[' + numberOfOptions + ']" style="width: 300px;" />';
+		fieldAnswer = '<input type="text" name="value[' + numberOfOptions + ']" style="width: 300px;" />';
 		fieldComment = renderHtmlEditor(editorName, parameters);
 		fieldScore = '<input class="input_numeric" type="text" value="1" name="score[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';

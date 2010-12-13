@@ -16,13 +16,14 @@ class MatchQuestion extends ContentObject implements Versionable
 {
     const PROPERTY_ANSWER_TYPE = 'answer_type';
     const PROPERTY_OPTIONS = 'options';
+    const PROPERTY_HINT = 'hint';
 
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name()
-	{
-		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
-	}
+    static function get_type_name()
+    {
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
+    }
 
     public function add_option($option)
     {
@@ -60,9 +61,22 @@ class MatchQuestion extends ContentObject implements Versionable
         return $this->get_additional_property(self :: PROPERTY_ANSWER_TYPE);
     }
 
+    public function set_hint($hint)
+    {
+        return $this->set_additional_property(self :: PROPERTY_HINT, $hint);
+    }
+
+    public function get_hint()
+    {
+        return $this->get_additional_property(self :: PROPERTY_HINT);
+    }
+
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_ANSWER_TYPE, self :: PROPERTY_OPTIONS);
+        return array(
+                self :: PROPERTY_ANSWER_TYPE,
+                self :: PROPERTY_OPTIONS,
+                self :: PROPERTY_HINT);
     }
 }
 ?>

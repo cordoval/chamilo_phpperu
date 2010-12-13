@@ -41,15 +41,16 @@ class MatchingQuestionForm extends ContentObjectForm
     {
         $object = $this->get_content_object();
 
-//        dump($object->get_options());
-//        dump($object->get_matches());
+        //        dump($object->get_options());
+        //        dump($object->get_matches());
+
 
         if ($object->get_number_of_options() != 0)
         {
             $options = $object->get_options();
             foreach ($options as $index => $option)
             {
-                $defaults[MatchingQuestionOption::PROPERTY_VALUE][$index] = $option->get_value();
+                $defaults[MatchingQuestionOption :: PROPERTY_VALUE][$index] = $option->get_value();
             }
             $matches = $object->get_matches();
             foreach ($matches as $index => $match)
@@ -99,7 +100,7 @@ class MatchingQuestionForm extends ContentObjectForm
 
         //Get an array with a mapping from the match-id to its index in the $values['match'] array
         $matches_indexes = array_flip(array_keys($values['match']));
-        foreach ($values[MatchingQuestionOption::PROPERTY_VALUE] as $option_id => $value)
+        foreach ($values[MatchingQuestionOption :: PROPERTY_VALUE] as $option_id => $value)
         {
             //Create the option with it corresponding match
             $options[] = new MatchingQuestionOption($value);
@@ -198,10 +199,13 @@ class MatchingQuestionForm extends ContentObjectForm
         }
 
         $this->addElement('category', Translation :: get('Options'));
-        $this->addElement('hidden', 'mq_number_of_options', $_SESSION['mq_number_of_options'], array('id' => 'mq_number_of_options'));
+        $this->addElement('hidden', 'mq_number_of_options', $_SESSION['mq_number_of_options'], array(
+                'id' => 'mq_number_of_options'));
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatchingQuestionOption'), array('class' => 'normal add', 'id' => 'add_option'));
+        $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatchingQuestionOption'), array(
+                'class' => 'normal add',
+                'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $renderer = $this->defaultRenderer();
@@ -212,7 +216,7 @@ class MatchingQuestionForm extends ContentObjectForm
         $table_header[] = '<tr>';
         $table_header[] = '<th class="list"></th>';
         $table_header[] = '<th>' . Translation :: get('Options') . '</th>';
-//        $table_header[] = '<th class="code">' . Translation :: get('Matches') . '</th>';
+        //        $table_header[] = '<th class="code">' . Translation :: get('Matches') . '</th>';
         $table_header[] = '<th class="action"></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
@@ -235,21 +239,23 @@ class MatchingQuestionForm extends ContentObjectForm
             {
                 $visual_number ++;
                 $group[] = $this->createElement('static', null, null, $visual_number);
-                $group[] = $this->create_html_editor(MatchingQuestionOption::PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
+                $group[] = $this->create_html_editor(MatchingQuestionOption :: PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
 
                 if ($number_of_options - count($_SESSION['mq_skip_options']) > 2)
                 {
-                    $group[] = $this->createElement('image', 'remove_option[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_option_' . $option_number));
+                    $group[] = $this->createElement('image', 'remove_option[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array(
+                            'class' => 'remove_option',
+                            'id' => 'remove_option_' . $option_number));
                 }
                 else
                 {
                     $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
 
-                $this->addGroup($group, MatchingQuestionOption::PROPERTY_VALUE . '_' . $option_number, null, '', false);
+                $this->addGroup($group, MatchingQuestionOption :: PROPERTY_VALUE . '_' . $option_number, null, '', false);
 
-                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($visual_number % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', MatchingQuestionOption::PROPERTY_VALUE . '_' . $option_number);
-                $renderer->setGroupElementTemplate('<td>{element}</td>', MatchingQuestionOption::PROPERTY_VALUE . '_' . $option_number);
+                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($visual_number % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', MatchingQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
+                $renderer->setGroupElementTemplate('<td>{element}</td>', MatchingQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
 
             }
         }
@@ -274,10 +280,13 @@ class MatchingQuestionForm extends ContentObjectForm
         $number_of_matches = intval($_SESSION['mq_number_of_matches']);
         $this->addElement('category', Translation :: get('Matches'));
 
-        $this->addElement('hidden', 'mq_number_of_matches', $_SESSION['mq_number_of_matches'], array('id' => 'mq_number_of_matches'));
+        $this->addElement('hidden', 'mq_number_of_matches', $_SESSION['mq_number_of_matches'], array(
+                'id' => 'mq_number_of_matches'));
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_button', 'add_match[]', Translation :: get('AddMatch'), array('class' => 'normal add', 'id' => 'add_match'));
+        $buttons[] = $this->createElement('style_button', 'add_match[]', Translation :: get('AddMatch'), array(
+                'class' => 'normal add',
+                'id' => 'add_match'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $renderer = $this->defaultRenderer();
@@ -316,7 +325,9 @@ class MatchingQuestionForm extends ContentObjectForm
 
                 if ($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
                 {
-                    $group[] = $this->createElement('image', 'remove_match[' . $match_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_match', 'id' => 'remove_match_' . $match_number));
+                    $group[] = $this->createElement('image', 'remove_match[' . $match_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array(
+                            'class' => 'remove_match',
+                            'id' => 'remove_match_' . $match_number));
                 }
                 else
                 {
@@ -328,7 +339,11 @@ class MatchingQuestionForm extends ContentObjectForm
                 $renderer->setElementTemplate('<tr id="match_' . $match_number . '" class="' . ($match_number - 1 % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'match_' . $match_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'match_' . $match_number);
 
-                $this->addGroupRule('match_' . $match_number, array('match[' . $match_number . ']' => array(array(Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required'))));
+                $this->addGroupRule('match_' . $match_number, array(
+                        'match[' . $match_number . ']' => array(
+                                array(
+                                        Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES),
+                                        'required'))));
             }
 
             $this->setConstants($defaults);

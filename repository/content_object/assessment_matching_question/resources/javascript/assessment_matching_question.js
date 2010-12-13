@@ -96,7 +96,7 @@ $(function ()
 		destroyHtmlEditor('value['+ id +']');
 		destroyHtmlEditor('feedback['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
-		doAjaxPost("./common/libraries/php/ajax/matching_question.php", { action: 'skip_option', value: id });
+		doAjaxPost("./repository/content_object/assessment_matching_question/php/ajax/assessment_matching_question.php", { action: 'skip_option', value: id });
 		
 		rows = $('tr', tableBody);
 		rows.each(function ()
@@ -157,7 +157,7 @@ $(function ()
 		destroyHtmlEditor('match['+ id +']');
 		$('tr#match_' + id, tableBody).remove();
 		
-		doAjaxPost("./common/libraries/php/ajax/matching_question.php", { action: 'skip_match', value: id });
+		doAjaxPost("./repository/content_object/assessment_matching_question/php/ajax/assessment_matching_question.php", { action: 'skip_match', value: id });
 		
 		rows = $('tr', tableBody);
 		rows.each(function ()

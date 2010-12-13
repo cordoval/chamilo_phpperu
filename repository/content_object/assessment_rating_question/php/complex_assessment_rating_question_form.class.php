@@ -3,23 +3,23 @@ namespace repository\content_object\assessment_rating_question;
 
 use common\libraries\Translation;
 use common\libraries\Path;
-use repository\ComplexRatingQuestionForm;
+
+use repository\ComplexContentObjectItemForm;
 
 /**
  * $Id: complex_assessment_rating_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.rating_question
  */
-require_once Path :: get_repository_path() . 'question_types/rating_question/complex_rating_question_form.class.php';
-
 /**
  * This class represents a complex question
  */
-class ComplexAssessmentRatingQuestionForm extends ComplexRatingQuestionForm
+class ComplexAssessmentRatingQuestionForm extends ComplexContentObjectItemForm
 {
 
- 	public function get_elements()
+    public function get_elements()
     {
-        $elements[] = $this->createElement('text', ComplexAssessmentRatingQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array("size" => "50"));
+        $elements[] = $this->createElement('text', ComplexAssessmentRatingQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array(
+                "size" => "50"));
         return $elements;
     }
 
@@ -65,6 +65,33 @@ class ComplexAssessmentRatingQuestionForm extends ComplexRatingQuestionForm
         $values = $this->exportValues();
         $cloi->set_weight($values[ComplexAssessmentRatingQuestion :: PROPERTY_WEIGHT]);
         return parent :: update_complex_content_object_item();
+    }
+
+    protected function build_creation_form()
+    {
+        parent :: build_creation_form();
+        $elements = $this->get_elements();
+        foreach ($elements as $element)
+        {
+            $this->addElement($element);
+        }
+    }
+
+    // Inherited
+    protected function build_editing_form()
+    {
+        parent :: build_editing_form();
+        $elements = $this->get_elements();
+        foreach ($elements as $element)
+        {
+            $this->addElement($element);
+        }
+    }
+
+    function setDefaults($defaults = array ())
+    {
+        $defaults = array_merge($defaults, $this->get_default_values());
+        parent :: setDefaults($defaults);
     }
 }
 ?>

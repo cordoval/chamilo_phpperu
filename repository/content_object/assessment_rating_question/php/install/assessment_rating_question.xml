@@ -5,6 +5,7 @@
 		<property name="low" type="integer" notnull="1" />
 		<property name="high" type="integer" notnull="1" />
 		<property name="correct" type="integer" notnull="0" />
+		<property name="hint" type="text" notnull="1" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />

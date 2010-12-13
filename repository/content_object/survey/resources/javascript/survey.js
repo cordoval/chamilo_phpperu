@@ -16,7 +16,7 @@
 			checkedQuestionResults[$(this).attr('type') +  '_' + $(this).attr('name')] = $(this).val();
 		});
 		
-		displayResult = doAjaxPost("./common/javascript/ajax/survey.php", {"survey_page" : surveyPageId, "survey_publication" : surveyPublicationId, "results" : $.json.serialize(checkedQuestionResults)});
+		displayResult = doAjaxPost("./repository/content_object/survey/php/ajax/survey.php", {"survey_page" : surveyPageId, "survey_publication" : surveyPublicationId, "results" : $.json.serialize(checkedQuestionResults)});
 		
 //		alert(displayResult);
 		

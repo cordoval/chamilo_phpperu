@@ -3,22 +3,22 @@ namespace repository\content_object\assessment_open_question;
 
 use common\libraries\Translation;
 use common\libraries\Path;
-use repository\ComplexOpenQuestionForm;
+use repository\ComplexContentObjectItemForm;
 
 /**
  * $Id: complex_assessment_open_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.open_question
  */
-require_once Path :: get_repository_path() . '/question_types/open_question/complex_open_question_form.class.php';
 /**
  * This class represents a complex question
  */
-class ComplexAssessmentOpenQuestionForm extends ComplexOpenQuestionForm
+class ComplexAssessmentOpenQuestionForm extends ComplexContentObjectItemForm
 {
 
-public function get_elements()
+    public function get_elements()
     {
-        $elements[] = $this->createElement('text', ComplexAssessmentOpenQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array("size" => "50"));
+        $elements[] = $this->createElement('text', ComplexAssessmentOpenQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array(
+                "size" => "50"));
         return $elements;
     }
 
@@ -64,6 +64,34 @@ public function get_elements()
         $values = $this->exportValues();
         $cloi->set_weight($values[ComplexAssessmentOpenQuestion :: PROPERTY_WEIGHT]);
         return parent :: update_complex_content_object_item();
+    }
+
+    protected function build_creation_form()
+    {
+        parent :: build_creation_form();
+        $elements = $this->get_elements();
+        foreach ($elements as $element)
+        {
+            $this->addElement($element);
+        }
+    }
+
+    // Inherited
+    protected function build_editing_form()
+    {
+        parent :: build_editing_form();
+        $elements = $this->get_elements();
+        foreach ($elements as $element)
+        {
+            $this->addElement($element);
+        }
+    }
+
+    // Inherited
+    function setDefaults($defaults = array ())
+    {
+        $defaults = array_merge($defaults, $this->get_default_values());
+        parent :: setDefaults($defaults);
     }
 }
 ?>

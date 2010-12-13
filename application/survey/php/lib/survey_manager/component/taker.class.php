@@ -14,6 +14,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use tracking\Tracker;
 use tracking\Event;
+use common\libraries\Display;
 
 
 //require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
@@ -39,7 +40,7 @@ class SurveyManagerTakerComponent extends SurveyManager
         
 //        $this->invitee_id = Request :: get(SurveyViewerWizard :: PARAM_INVITEE_ID);
         
-        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION, $this->user_id))
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION, $this->get_user_id()))
         {
             Display :: not_allowed();
         }
@@ -49,7 +50,7 @@ class SurveyManagerTakerComponent extends SurveyManager
         if(!$publication->is_publication_period()){
         	 $this->redirect(Translation :: get('NotInPublicationPeriod'), (false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
         }
-        
+               
         ComplexDisplay :: launch(Survey :: get_type_name(), $this, false);
     }
 
@@ -60,7 +61,7 @@ class SurveyManagerTakerComponent extends SurveyManager
 
     function get_additional_parameters()
     {
-        return array(self :: PARAM_PUBLICATION_ID, SurveyViewerWizard :: PARAM_SURVEY_ID, SurveyViewerWizard :: PARAM_INVITEE_ID, SurveyViewerWizard :: PARAM_CONTEXT_PATH);
+        return array(self :: PARAM_PUBLICATION_ID, SurveyViewerWizard :: PARAM_SURVEY_ID, SurveyViewerWizard :: PARAM_CONTEXT_PATH);
     }
 
     //try out for interface SurveyTaker
@@ -69,7 +70,7 @@ class SurveyManagerTakerComponent extends SurveyManager
     function started()
     {
         $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->publication_id);
-        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->user_id);
+        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->get_user_id());
         $condition = new AndCondition($conditions);
         
         $tracker_count = Tracker :: count_data(SurveyParticipantTracker :: CLASS_NAME, SurveyManager :: APPLICATION_NAME, $condition);
@@ -79,7 +80,7 @@ class SurveyManagerTakerComponent extends SurveyManager
             
             $args = array();
             $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->publication_id;
-            $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $this->user_id;
+            $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $this->get_user_id();
             $args[SurveyParticipantTracker :: PROPERTY_START_TIME] = time();
             $args[SurveyParticipantTracker :: PROPERTY_STATUS] = SurveyParticipantTracker :: STATUS_STARTED;
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = 0;
@@ -95,18 +96,18 @@ class SurveyManagerTakerComponent extends SurveyManager
         }
     }
 
-    function finished()
+    function finished($progress)
     {
         
-        $condition = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->participant_tracker->get_id());
-        
-        $answer_count = Tracker :: count_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
-        
-        $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($this->survey_id);
-        $survey->initialize($this->user_id);
-        $question_count = count($survey->get_question_context_paths());
-        
-        $progress = $answer_count / $question_count * 100;
+//        $condition = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->participant_tracker->get_id());
+//        
+//        $answer_count = Tracker :: count_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
+//        
+//        $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($this->survey_id);
+//        $survey->initialize($this->get_user_id());
+//        $question_count = count($survey->get_question_context_paths());
+//        
+//        $progress = $answer_count / $question_count * 100;
         
         $this->participant_tracker->set_progress($progress);
         $this->participant_tracker->set_status(SurveyParticipantTracker :: STATUS_FINISHED);
@@ -116,12 +117,12 @@ class SurveyManagerTakerComponent extends SurveyManager
 
     function save_answer($complex_question_id, $answer, $context_path)
     {
-        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->participant_tracker->get_id());
+       	$conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->participant_tracker->get_id());
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $complex_question_id);
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_PATH, $context_path);
         $condition = new AndCondition($conditions);
         $tracker = $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: CLASS_NAME, SurveyManager :: APPLICATION_NAME, $condition, 0, 1)->next_result();
-        
+     
         if ($tracker)
         {
             $tracker->set_answer($answer);
@@ -135,8 +136,8 @@ class SurveyManagerTakerComponent extends SurveyManager
             $parameters[SurveyQuestionAnswerTracker :: PROPERTY_ANSWER] = $answer;
             $parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_PATH] = $context_path;
             $parameters[SurveyQuestionAnswerTracker :: PROPERTY_PUBLICATION_ID] = $this->publication_id;
-            $parameters[SurveyQuestionAnswerTracker :: PROPERTY_USER_ID] = $this->user_id;
-            
+            $parameters[SurveyQuestionAnswerTracker :: PROPERTY_USER_ID] = $this->get_user_id();
+          
             $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($this->survey_id);
             
             if ($survey->has_context())
@@ -155,7 +156,6 @@ class SurveyManagerTakerComponent extends SurveyManager
                 $parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID] = 0;
                 $parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = 0;
             }
-            
             Event :: trigger(SurveyQuestionAnswerTracker :: SAVE_QUESTION_ANSWER_EVENT, SurveyManager :: APPLICATION_NAME, $parameters);
         }
     }

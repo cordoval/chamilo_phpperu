@@ -21,7 +21,7 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
         $question = $this->get_question();
         $type = $question->get_question_type();
         $formvalidator = $this->get_formvalidator();
-        
+
         switch ($type)
         {
             case AssessmentOpenQuestion :: TYPE_DOCUMENT :
@@ -43,7 +43,7 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = 150;
         $html_editor_options['toolbar'] = 'Assessment';
-        
+
         $element_template = array();
         $element_template[] = '<div><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
         $element_template[] = '<div class="clear">&nbsp;</div>';
@@ -52,7 +52,7 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
         $element_template[] = '</div>';
         $element_template = implode("\n", $element_template);
         $renderer = $this->get_renderer();
-        
+
         $name = $clo_question->get_id() . '_0';
         $formvalidator->add_html_editor($name, '', false, $html_editor_options);
         $renderer->setElementTemplate($element_template, $name);
@@ -68,17 +68,20 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
             $html[] = '</div>';
             $formvalidator->addElement('html', implode("\n", $html));
         }
-        
+
         $name_1 = $clo_question->get_id() . '_1';
         $name_2 = $clo_question->get_id() . '_2';
-        
+
         $group = array();
-        $group[] = & $formvalidator->createElement('text', ($name_2 . '_title'), '', array('class' => 'select_file_text', 'disabled' => 'disabled', 'style' => 'width: 200px; height: 20px'));
+        $group[] = & $formvalidator->createElement('text', ($name_2 . '_title'), '', array(
+                'class' => 'select_file_text',
+                'disabled' => 'disabled',
+                'style' => 'width: 200px; height: 20px'));
         $group[] = & $formvalidator->createElement('hidden', $name_2);
-        
+
         $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . RepoViewerLauncher :: APPLICATION_NAME . '&' . RepoViewerLauncher :: PARAM_ELEMENT_NAME . '=' . $name_2;
         $group[] = & $formvalidator->createElement('static', null, null, '<a class="button normal_button select_file_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseContentObjects') . '</a>');
-        
+
         $formvalidator->addGroup($group, '');
     }
 
@@ -92,11 +95,11 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
         $instruction = array();
         $question = $this->get_question();
         $type = $question->get_question_type();
-        
+
         if ($question->has_description())
         {
             $instruction[] = '<div class="splitter">';
-            
+
             if ($type == AssessmentOpenQuestion :: TYPE_DOCUMENT)
             {
                 $instruction[] = Translation :: get('SelectDocument');
@@ -105,15 +108,29 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
             {
                 $instruction[] = Translation :: get('EnterAnswer');
             }
-            
+
             $instruction[] = '</div>';
         }
         else
         {
             $instruction = array();
         }
-        
+
         return implode("\n", $instruction);
+    }
+
+    function add_footer($formvalidator)
+    {
+        $formvalidator = $this->get_formvalidator();
+        $hint_name = 'hint_' . $this->get_complex_content_object_question()->get_id();
+
+        $html[] = '<div class="splitter">' . Translation :: get('Hint') . '</div>';
+        $html[] = '<div class="with_borders"><a id="' . $hint_name . '" class="button hint_button">' . Translation :: get('GetAHint') . '</a></div>';
+
+        $footer = implode("\n", $html);
+        $formvalidator->addElement('html', $footer);
+
+        parent :: add_footer($formvalidator);
     }
 }
 ?>

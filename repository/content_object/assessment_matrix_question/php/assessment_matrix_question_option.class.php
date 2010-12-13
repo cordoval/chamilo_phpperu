@@ -1,25 +1,24 @@
 <?php
-
 namespace repository\content_object\assessment_matrix_question;
 
 use common\libraries\Path;
-use repository\MatrixQuestionOption;
 
 /**
  * $Id: assessment_matrix_question_option.class.php $
  * @package repository.lib.content_object.matrix_question
  */
-require_once Path :: get_repository_path() . '/question_types/matrix_question/matrix_question_option.class.php';
 
 /**
  * This class represents an option in a matrix question.
  */
-class AssessmentMatrixQuestionOption extends MatrixQuestionOption
+class AssessmentMatrixQuestionOption
 {
+    const PROPERTY_VALUE = 'value';
     const PROPERTY_SCORE = 'score';
     const PROPERTY_FEEDBACK = 'feedback';
     const PROPERTY_MATCHES = 'matches';
 
+    private $value;
     private $score;
     private $feedback;
     private $matches;
@@ -32,10 +31,19 @@ class AssessmentMatrixQuestionOption extends MatrixQuestionOption
      */
     function __construct($value = '', $matches = array(), $score = 1, $feedback = '')
     {
-        parent :: __construct($value);
+        $this->value = $value;
         $this->score = $score;
         $this->feedback = $feedback;
         $this->matches = $matches;
+    }
+
+    /**
+     * Gets the value of this option
+     * @return string
+     */
+    function get_value()
+    {
+        return $this->value;
     }
 
     /**

@@ -15,13 +15,12 @@ use repository\ContentObject;
  */
 class RatingQuestionDisplay extends ContentObjectDisplay
 {
-	function get_description()
-	{
-		$question =  $this->get_content_object();
-		$min = $question->get_low();
+
+    function get_description()
+    {
+        $question = $this->get_content_object();
+        $min = $question->get_low();
         $max = $question->get_high();
-
-
 
         $html = array();
         $html[] = parent :: get_description();
@@ -29,17 +28,17 @@ class RatingQuestionDisplay extends ContentObjectDisplay
         $html[] = '<div class="answer">';
         $html[] = '<select class="rating_slider">';
         $html[] = '</option>';
-		for($i = $min; $i <= $max; $i ++)
+        for($i = $min; $i <= $max; $i ++)
         {
             $scores[$i] = $i;
-            $html[] = '<option value="'.$i.'" > '.$i.'';
+            $html[] = '<option value="' . $i . '" > ' . $i . '';
             $html[] = '</option>';
         }
         $html[] = '</select>';
         $html[] = '</div>';
         $html[] = '</div>';
-		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/rating_question.js');
-		return implode("\n", $html);
-	}
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/rating_question.js');
+        return implode("\n", $html);
+    }
 }
 ?>

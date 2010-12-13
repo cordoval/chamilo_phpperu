@@ -8,12 +8,12 @@ $(function ()
 	
     function getDeleteIconMatches()
     {
-		return $('.data_table.matches > tbody > tr:first > td:last .remove_match').attr('src').replace('_na.png', '.png');
+		return $('.data_table.matches > tbody > tr:first td:last .remove_match').attr('src').replace('_na.png', '.png');
     }
     
     function getDeleteIconOptions()
     {
-		return $('.data_table.options > tbody > tr:first > td:last .remove_option').attr('src').replace('_na.png', '.png');
+		return $('.data_table.options > tbody > tr:first td:last .remove_option').attr('src').replace('_na.png', '.png');
     }
     
     function getSelectOptions()
@@ -96,7 +96,7 @@ $(function ()
 		destroyHtmlEditor('value['+ id +']');
 		destroyHtmlEditor('feedback['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
-		doAjaxPost("./common/libraries/php/ajax/matching_question.php", { action: 'skip_option', value: id });
+		doAjaxPost("./repository/content_object/assessment_matrix_question/php/ajax/assessment_matrix_question.php", { action: 'skip_option', value: id });
 		
 		rows = $('tr', tableBody);
 		rows.each(function ()
@@ -166,7 +166,7 @@ $(function ()
 		destroyHtmlEditor('match['+ id +']');
 		$('tr#match_' + id, tableBody).remove();
 		
-		doAjaxPost("./common/libraries/php/ajax/matching_question.php", { action: 'skip_match', value: id });
+		doAjaxPost("./repository/content_object/assessment_matrix_question/php/ajax/assessment_matrix_question.php", { action: 'skip_match', value: id });
 		
 		rows = $('tr', tableBody);
 		rows.each(function ()

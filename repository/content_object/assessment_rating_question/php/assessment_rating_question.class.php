@@ -3,26 +3,30 @@ namespace repository\content_object\assessment_rating_question;
 
 use common\libraries\Utilities;
 use common\libraries\Path;
-use repository\RatingQuestion;
+use common\libraries\Versionable;
+
+use repository\ContentObject;
 
 /**
  * $Id: assessment_rating_question.class.php $
  * @package repository.lib.content_object.rating_question
  */
-require_once Path :: get_repository_path() . '/question_types/rating_question/rating_question.class.php';
 /**
  * This class represents an open question
  */
-class AssessmentRatingQuestion extends RatingQuestion
+class AssessmentRatingQuestion extends ContentObject implements Versionable
 {
+    const PROPERTY_LOW = 'low';
+    const PROPERTY_HIGH = 'high';
     const PROPERTY_CORRECT = 'correct';
+    const PROPERTY_HINT = 'hint';
 
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name()
-	{
-		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
-	}
+    static function get_type_name()
+    {
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
+    }
 
     function get_correct()
     {
@@ -34,9 +38,43 @@ class AssessmentRatingQuestion extends RatingQuestion
         $this->set_additional_property(self :: PROPERTY_CORRECT, $value);
     }
 
+    function get_low()
+    {
+        return $this->get_additional_property(self :: PROPERTY_LOW);
+    }
+
+    function get_high()
+    {
+        return $this->get_additional_property(self :: PROPERTY_HIGH);
+    }
+
+    function set_low($value)
+    {
+        $this->set_additional_property(self :: PROPERTY_LOW, $value);
+    }
+
+    function set_high($value)
+    {
+        $this->set_additional_property(self :: PROPERTY_HIGH, $value);
+    }
+
+    public function set_hint($hint)
+    {
+        return $this->set_additional_property(self :: PROPERTY_HINT, $hint);
+    }
+
+    public function get_hint()
+    {
+        return $this->get_additional_property(self :: PROPERTY_HINT);
+    }
+
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_LOW, self :: PROPERTY_HIGH, self :: PROPERTY_CORRECT);
+        return array(
+                self :: PROPERTY_LOW,
+                self :: PROPERTY_HIGH,
+                self :: PROPERTY_CORRECT,
+                self :: PROPERTY_HINT);
     }
 }
 ?>

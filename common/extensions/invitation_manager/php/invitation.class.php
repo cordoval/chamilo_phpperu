@@ -1,6 +1,10 @@
 <?php
 namespace common\extensions\invitation_manager;
+
 use common\libraries\DataClass;
+use common\libraries\Utilities;
+use admin\AdminDataManager;
+
 /**
  * @package admin.lib
  * @author Hans De Bisschop
@@ -160,13 +164,14 @@ class Invitation extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function create()
     {
         $this->set_code(md5(uniqid()));
         $this->set_date(time());
+        $this->set_user_created(0);
         parent :: create();
     }
 }

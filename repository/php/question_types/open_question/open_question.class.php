@@ -14,6 +14,7 @@ use repository\ContentObject;
  */
 abstract class OpenQuestion extends ContentObject implements Versionable
 {
+
     function get_table()
     {
         return 'open_question';

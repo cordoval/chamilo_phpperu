@@ -16,7 +16,7 @@ class AdaptiveAssessmentDisplay extends ComplexDisplay
     const PARAM_STEP = 'step';
     const PARAM_SHOW_PROGRESS = 'show_progress';
     const PARAM_DETAILS = 'details';
-    const PARAM_LEARNING_PATH_ITEM_ID = 'adaptive_assessment_item_id';
+    const PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID = 'adaptive_assessment_item_id';
 
     const DEFAULT_ACTION = self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT;
 

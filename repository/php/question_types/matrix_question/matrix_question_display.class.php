@@ -8,6 +8,7 @@ use repository\ContentObject;
  */
 class MatrixQuestionDisplay extends ContentObjectDisplay
 {
+
     function get_full_html()
     {
         $html = parent :: get_full_html();
@@ -50,12 +51,12 @@ class MatrixQuestionDisplay extends ContentObjectDisplay
                 if ($type == MatrixQuestion :: MATRIX_TYPE_RADIO)
                 {
                     $answer_name = $question_id . '_' . $index . '_0';
-                	$html[] = '<td style="text-align: center;"><input type="radio" name="' .$answer_name. '"/></td>';
+                    $html[] = '<td style="text-align: center;"><input type="radio" name="' . $answer_name . '"/></td>';
                 }
                 elseif ($type == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)
                 {
-                	$answer_name = $question_id . '_' . $index . '[' . $j . ']';
-                    $html[] = '<td style="text-align: center;"><input type="checkbox" name="' .$answer_name. '"/></td>';
+                    $answer_name = $question_id . '_' . $index . '[' . $j . ']';
+                    $html[] = '<td style="text-align: center;"><input type="checkbox" name="' . $answer_name . '"/></td>';
                 }
             }
 

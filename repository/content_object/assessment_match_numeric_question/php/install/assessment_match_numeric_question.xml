@@ -4,6 +4,7 @@
 		<property name="id" type="integer" unsigned="1" notnull="1" />
 		<property name="options" type="text" notnull="1" />
 		<property name="tolerance_type" type="text" notnull="1" />
+		<property name="hint" type="text" notnull="1" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />

@@ -39,7 +39,7 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
         }
         else
         {
-            $this->set_parameter(AdaptiveAssessmentDisplay :: PARAM_LEARNING_PATH_ITEM_ID, Request :: get(AdaptiveAssessmentDisplay :: PARAM_LEARNING_PATH_ITEM_ID));
+            $this->set_parameter(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID, Request :: get(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID));
             $this->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, Request :: get(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID));
             return parent :: get_root_content_object();
         }

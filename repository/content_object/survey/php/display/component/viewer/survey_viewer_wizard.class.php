@@ -38,13 +38,18 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
 
 //        $invitee_id = Request :: get(self :: PARAM_INVITEE_ID);
         
+         $context_path = Request :: get(self :: PARAM_CONTEXT_PATH);
+        
         $invitee_id = $this->parent->get_user_id();
         $this->survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
 
         $this->survey->initialize($invitee_id);
-
+		
 
         $this->add_pages();
+        
+//    dump($context_path);
+        
         $this->addAction('next', new SurveyViewerWizardNext($this));
         $this->addAction('process', new SurveyViewerWizardProcess($this));
         $this->addAction('display', new SurveyViewerWizardDisplay($this));
@@ -59,7 +64,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
        
     	$page_context_paths = $this->survey->get_page_context_paths();
 		
-//    	dump($page_context_paths);
+//  	dump($page_context_paths);
 //    	exit;
     	
 //        dump($page_context_paths);
@@ -71,7 +76,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         {
             foreach ($page_context_paths as $page_context_path)
             {
-                   $this->addPage(new SurveyQuestionViewerWizardPage('page_' . $page_context_path, $this, $page_context_path, $this->survey));
+               $this->addPage(new SurveyQuestionViewerWizardPage('page_' . $page_context_path, $this, $page_context_path, $this->survey));
             }
         }
         else
