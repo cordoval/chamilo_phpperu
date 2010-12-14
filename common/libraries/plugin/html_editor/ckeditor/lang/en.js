@@ -514,6 +514,9 @@ CKEDITOR.lang.en = {
 		validateType : 'Type has to be defined.',
 		standby : 'Loading video ...'
 	},
+        chamiloHandbookLink : {
+            title : 'chamilo handbook link title'
+            },
 	chamiloaudio : {
 		properties : 'Audio Properties',
 		propertiesTab : 'Properties',
