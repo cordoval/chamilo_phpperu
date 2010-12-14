@@ -130,7 +130,7 @@ class GroupDataManager implements DataManagerInterface
 
             $counter++;
             
-            self :: fix_nested_values($group->get_id(), $counter);
+            self :: fix_nested_values_batch($group->get_id(), $counter);
             
             if($group->get_right_value() != $counter)
             {
