@@ -6,6 +6,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\DataManagerInterface;
 use user\UserDataManager;
 use common\libraries\AndCondition;
+use common\libraries\ObjectTableOrder;
 /**
  * $Id: group_data_manager.class.php 157 2009-11-10 13:44:02Z vanpouckesven $
  * @package group.lib
