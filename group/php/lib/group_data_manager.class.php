@@ -113,5 +113,39 @@ class GroupDataManager implements DataManagerInterface
 
         return self :: $group_rel_user_cache[$group_code][$official_code];
     }
+
+    static function fix_nested_values_batch($parent_id = 0, $counter = 1)
+    {
+        $groups = self :: get_instance()->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id), null, null, new ObjectTableOrder(Group :: PROPERTY_LEFT_VALUE));
+        while($group = $groups->next_result())
+        {
+            $update = false;
+
+            if($group->get_left_value() != $counter)
+            {
+                $group->set_left_value($counter);
+                $update = true;
+            }
+
+            $counter++;
+            
+            self :: fix_nested_values($group->get_id(), $counter);
+            
+            if($group->get_right_value() != $counter)
+            {
+                $group->set_right_value($counter);
+                $update = true;
+            }
+            
+            if($update)
+            {
+                $group->update();
+            }
+
+            $counter++;
+            
+        }
+
+    }
 }
 ?>

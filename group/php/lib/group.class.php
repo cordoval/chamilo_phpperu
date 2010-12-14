@@ -342,6 +342,12 @@ class Group extends DataClass
         return $this->get_data_manager()->truncate_group($this);
     }
 
+    function create_batch()
+    {
+        $gdm = $this->get_data_manager();
+        return $gdm->create_group($this);
+    }
+
     function create($previous_id = 0)
     {
         $gdm = $this->get_data_manager();
