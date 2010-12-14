@@ -6,13 +6,14 @@
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
 >
-    
-    <testsuite name="Complete">
-        <!--  Every files in these directory directive ending by 'Test.php' will be considered as a test case -->
-        <directory >./functional</directory>
-        <directory >./unit</directory>
-        <directory >./acceptance</directory>
-        <directory >./performance</directory>
-    </testsuite>    
+
+    <testsuites>
+        <testsuite name="Complete">
+            <!--  Every files in these directory directive ending by 'Test.php' will be considered as a test case -->
+            <directory >./functional</directory>
+            <directory >./unit</directory>
+            <directory >./acceptance</directory>
+            <directory >./performance</directory>
+        </testsuite>
 
 </phpunit>
