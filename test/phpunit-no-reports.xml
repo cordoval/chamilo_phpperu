@@ -15,5 +15,6 @@
             <directory >./acceptance</directory>
             <directory >./performance</directory>
         </testsuite>
+    </testsuites>
 
 </phpunit>
