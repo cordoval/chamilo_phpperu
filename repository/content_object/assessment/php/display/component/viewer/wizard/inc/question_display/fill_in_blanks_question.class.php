@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
 
+use repository\content_object\fill_in_blanks_question;
+
 use repository\ContentObject;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
@@ -39,8 +41,6 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
         $renderer = $this->get_renderer();
         $renderer->setElementTemplate($element_template, 'select');
 
-        $this->get_formvalidator()->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'fill_in_blanks_question/resources/javascript/hint.js'));
-
         $index = 0;
         foreach ($parts as $part)
         {
@@ -54,7 +54,7 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
             $this->add_html($part);
             $index ++;
 
-     //$renderer->setElementTemplate($element_template, $name);
+        //$renderer->setElementTemplate($element_template, $name);
         }
         $this->add_html('</div>');
         $this->add_html('<div class="clear"></div>');
@@ -72,21 +72,21 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
         $table_header[] = '<tbody>';
         $this->add_html($table_header);
 
+        $parts = preg_split(FillInBlanksQuestionAnswer :: QUESTIONS_REGEX, $answer_text);
+        array_shift($parts);
         $index = 0;
         foreach ($parts as $part)
         {
             $name = $clo_question->get_id() . "[$index]";
             $this->add_question($name, $index, $question_type, $answers);
             $index ++;
-
-            $renderer->setElementTemplate('<tr class="' . ($index % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $index);
-            $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $index);
         }
 
         $table_footer = array();
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $this->add_html($table_footer);
+        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'assessment/resources/javascript/hint.js'));
     }
 
     function add_html($html)
@@ -107,8 +107,7 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
         // TODO: Making this box a specific width is a hint in and of itself ...
         $size = 75;
         $formvalidator = $this->get_formvalidator();
-        return $formvalidator->createElement('text', $name, null, array(
-                'size' => $size));
+        return $formvalidator->createElement('text', $name, null, array('size' => $size));
     }
 
     function add_question($name, $index, $question_type, $answers)
@@ -134,10 +133,20 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
             $group[] = $this->add_text($name, $size);
         }
 
-        $hint_name = 'hint_' . $this->get_complex_content_object_question()->get_id() . '_' . $index;
-        $group[] = $formvalidator->createElement('static', null, null, '<a id="' . $hint_name . '" class="button hint_button">' . Translation :: get('GetAHint') . '</a>');
+        if ($this->get_question()->get_best_answer_for_question($index)->has_hint() || $question_type == FillInBlanksQuestion :: TYPE_TEXT)
+        {
+            $hint_name = 'hint_' . $this->get_complex_content_object_question()->get_id() . '_' . $index;
+            $group[] = $formvalidator->createElement('static', null, null, '<a id="' . $hint_name . '" class="button hint_button">' . Translation :: get('GetAHint') . '</a>');
+        }
+        else
+        {
+            $group[] = $formvalidator->createElement('static', null, null, '');
+        }
 
         $formvalidator->addGroup($group, 'option_' . $index, null, '', false);
+        $renderer = $this->get_renderer();
+        $renderer->setElementTemplate('<tr class="' . ($index % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $index);
+        $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $index);
     }
 
     function get_question_options($index, $answers)

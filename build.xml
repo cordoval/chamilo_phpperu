@@ -105,7 +105,7 @@
     <!-- ============================================  -->
     <target name="phpcpd" depends="clean,  prepare" >
         <exec   dir="${basedir}"
-                command="php ${basedir}/script/phpcpd.php --log-pmd ${pmd-report-file} --exclude ${plugin-dir} ${basedir}"
+                command="php ${basedir}/script/phpcpd.php --log-pmd ${pmd-report-file} --exclude ${plugin-dir} ${classes-dirs-space}"
                 
         />
     </target>
