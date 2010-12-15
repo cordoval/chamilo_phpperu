@@ -54,6 +54,8 @@ class SurveyContextManager extends SubManager
     const ACTION_VIEW_CONTEXT_REGISTRATION = 'registration_viewer';
     const ACTION_BROWSE_CONTEXT_REGISTRATION = 'registration_browser';
     const ACTION_CONTEXT_REGISTRATION_RIGHTS_EDITOR = 'registration_rights_editor';
+    const ACTION_IMPORT_CONTEXT = 'context_importer';
+    
     
     const ACTION_CREATE_CONTEXT_TEMPLATE = 'context_template_creator';
     const ACTION_EDIT_CONTEXT_TEMPLATE = 'context_template_updater';
@@ -81,6 +83,7 @@ class SurveyContextManager extends SubManager
     const ACTION_CREATE_TEMPLATE = 'template_creator';
     const ACTION_EDIT_TEMPLATE = 'template_updater';
     const ACTION_DELETE_TEMPLATE = 'template_deleter';
+    const ACTION_IMPORT_TEMPLATE = 'template_importer';
     
     const ACTION_DELETE_SURVEY_REL_CONTEXT_TEMPLATE = 'survey_context_deleter';
     
@@ -122,7 +125,12 @@ class SurveyContextManager extends SubManager
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_CONTEXT_REGISTRATION, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration->get_id()));
     }
-
+	
+	function get_context_import_url($context_registration)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_CONTEXT, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration->get_id()));
+    }
+    
     function get_context_creation_url($context_registration)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTEXT, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration->get_id()));
@@ -167,7 +175,12 @@ class SurveyContextManager extends SubManager
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template->get_id()));
     }
-
+	
+	function get_template_import_url($context_template)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template->get_id()));
+    }
+    
     function get_template_update_url($template)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_TEMPLATE, self :: PARAM_TEMPLATE_ID => $template->get_id()));

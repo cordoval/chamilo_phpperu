@@ -6,10 +6,8 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Security;
 
-//require_once dirname(__FILE__) . '/inc/survey_question_display.class.php';
 
-
-class SurveyQuestionViewerForm extends FormValidator
+class SurveyViewerForm extends FormValidator
 {
     
     const BACK_BUTTON = 'back';
@@ -29,7 +27,7 @@ class SurveyQuestionViewerForm extends FormValidator
      */
     private $survey;
 
-    function SurveyQuestionViewerForm($name, $parent, $context_path, $survey, $action, $page_order)
+    function SurveyViewerForm($name, $parent, $context_path, $survey, $action, $page_order)
     {
         //        parent :: __construct($form_name, $method, $action);
         parent :: __construct($name, 'post', $action);
@@ -126,10 +124,10 @@ class SurveyQuestionViewerForm extends FormValidator
         foreach ($form_values as $key => $value)
         {
             
-            if (in_array($key, array(SurveyQuestionViewerForm :: FINISH_BUTTON, SurveyQuestionViewerForm :: NEXT_BUTTON, SurveyQuestionViewerForm :: BACK_BUTTON)))
+            if (in_array($key, array(SurveyViewerForm :: FINISH_BUTTON, SurveyViewerForm :: NEXT_BUTTON, SurveyViewerForm :: BACK_BUTTON)))
             {
                 $this->next_context_path = $value;
-                if ($key == SurveyQuestionViewerForm :: FINISH_BUTTON)
+                if ($key == SurveyViewerForm :: FINISH_BUTTON)
                 {
                     $this->finished = true;
                     $this->parent->finished($this->parent->get_progress());

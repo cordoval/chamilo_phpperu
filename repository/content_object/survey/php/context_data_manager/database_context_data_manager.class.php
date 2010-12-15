@@ -92,6 +92,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
     function delete_survey_context($context)
     {
         
+    	
         if ($context->get_additional_properties())
         {
             $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());

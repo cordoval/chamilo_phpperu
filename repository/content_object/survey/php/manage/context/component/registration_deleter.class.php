@@ -14,7 +14,7 @@ class SurveyContextManagerRegistrationDeleterComponent extends SurveyContextMana
      */
     function run()
     {
-        $ids = $_GET[SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID];
+        $ids = $_GET[self :: PARAM_CONTEXT_REGISTRATION_ID];
         $failures = 0;
 		        
         if (! empty($ids))
@@ -57,7 +57,7 @@ class SurveyContextManagerRegistrationDeleterComponent extends SurveyContextMana
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_BROWSE_CONTEXT_REGISTRATION));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_REGISTRATION));
         }
         else
         {
