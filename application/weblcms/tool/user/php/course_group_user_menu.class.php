@@ -87,7 +87,10 @@ class CourseGroupUserMenu extends HTML_Menu
         foreach ($group_relations as $group_relation)
         {
             $group = $group_relation->get_group_object();
-            $sub_menu_items[] = $this->get_group_menu_item($group);
+            if($group)
+            {
+                $sub_menu_items[] = $this->get_group_menu_item($group);
+            }
         }
 
         if (count($sub_menu_items) > 0)
