@@ -73,8 +73,8 @@ class UserDataManager
             {
                 if (strpos($authentication_method, '.') === false && is_dir($authentication_dir->path . '/' . $authentication_method) && PlatformSetting :: get('enable_' . $authentication_method . '_authentication'))
                 {
-                    $authentication_class_file = $authentication_dir->path . '/' . $authentication_method . '/' . $authentication_method . '_authentication.class.php';
-                    $authentication_class = ucfirst($authentication_method) . 'Authentication';
+                    $authentication_class_file = $authentication_dir->path . $authentication_method . '/' . $authentication_method . '_authentication.class.php';
+                    $authentication_class = 'common\libraries\\' . ucfirst($authentication_method) . 'Authentication';
                     require_once $authentication_class_file;
                     $authentication = new $authentication_class();
                     if ($authentication instanceof UserRegistrationSupport)
