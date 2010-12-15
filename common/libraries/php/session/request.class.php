@@ -55,4 +55,3 @@ class Request
 		return $value;
 	}
 }
-?>

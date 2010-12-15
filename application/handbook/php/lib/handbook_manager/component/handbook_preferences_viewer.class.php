@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../handbook_manager.class.php';
  *
  * @author nblocry
  */
-class handbook_preferences_viewer extends HandbookManager
+class HandbookManagerHandbookPreferencesViewerComponent extends HandbookManager
 {
     private $handbook_publication_id;
 
@@ -21,6 +21,7 @@ class handbook_preferences_viewer extends HandbookManager
     {
         $this->handbook_publication_id = Request :: get(HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID);
         $preferences = HandbookManager::get_preferences($this->handbook_publication_id);
-        echo $preferences;
+        echo $this->handbook_publication_id . ' preferences: ' . $preferences;
     }
 }
+?>
