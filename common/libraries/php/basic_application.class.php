@@ -48,14 +48,11 @@ abstract class BasicApplication extends Application
 
     static function is_application($application)
     {
-        if (WebApplication :: is_application($application) || CoreApplication :: is_application($application))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        if (WebApplication :: is_application($application))  return true;
+        if (CoreApplication :: is_application($application))  return true;
+        
+        return false;
+        
     }
 
     static function get_application_web_path($application_name)

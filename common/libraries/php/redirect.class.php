@@ -135,10 +135,25 @@ class Redirect
     {
         if (count($parameters))
         {
+            //remove anchor
+            $anchor = strstr($url, "#", false);
+            if($anchor)
+            {
+                $url = strstr($url, "#", true);
+            }
+            if(strpos($url, '?') === false)
+            {
+                $url .= '?';
+            }
+            else
+            {
+                $url .= self :: ARGUMENT_SEPARATOR;
+            }
             // Because the argument separator can be defined in the php.ini
             // file, we explicitly add it as a parameter here to avoid
             // trouble when parsing the resulting urls
-            $url .= '?' . http_build_query($parameters, '', self :: ARGUMENT_SEPARATOR);
+            $url .= http_build_query($parameters, '', self :: ARGUMENT_SEPARATOR);
+            $url .= $anchor;
         }
 
         if ($encode_entities)
@@ -204,6 +219,8 @@ class Redirect
         {
             $port = '';
         }
+        
+
         return $protocol . $host . $port . $php_request_uri;
     }
 }
