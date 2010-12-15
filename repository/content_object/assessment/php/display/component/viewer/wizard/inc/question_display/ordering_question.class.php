@@ -51,6 +51,7 @@ class OrderingQuestionDisplay extends QuestionDisplay
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $formvalidator->addElement('html', implode("\n", $table_footer));
+        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'assessment/resources/javascript/hint.js'));
     }
 
     function add_border()
@@ -88,13 +89,17 @@ class OrderingQuestionDisplay extends QuestionDisplay
     function add_footer($formvalidator)
     {
         $formvalidator = $this->get_formvalidator();
-        $hint_name = 'hint_' . $this->get_complex_content_object_question()->get_id();
 
-        $html[] = '<div class="splitter">' . Translation :: get('Hint') . '</div>';
-        $html[] = '<div class="with_borders"><a id="' . $hint_name . '" class="button hint_button">' . Translation :: get('GetAHint') . '</a></div>';
+        if ($this->get_question()->has_hint())
+        {
+            $hint_name = 'hint_' . $this->get_complex_content_object_question()->get_id();
 
-        $footer = implode("\n", $html);
-        $formvalidator->addElement('html', $footer);
+            $html[] = '<div class="splitter">' . Translation :: get('Hint') . '</div>';
+            $html[] = '<div class="with_borders"><a id="' . $hint_name . '" class="button hint_button">' . Translation :: get('GetAHint') . '</a></div>';
+
+            $footer = implode("\n", $html);
+            $formvalidator->addElement('html', $footer);
+        }
 
         parent :: add_footer($formvalidator);
     }

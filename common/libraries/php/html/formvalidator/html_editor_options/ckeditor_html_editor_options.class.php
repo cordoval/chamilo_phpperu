@@ -36,9 +36,17 @@ class FormValidatorCkeditorHtmlEditorOptions extends FormValidatorHtmlEditorOpti
 	function set_defaults()
 	{
 	    parent :: set_defaults();
-
-	    $path = Path :: get(REL_PATH) . 'common/libraries/php/configuration/html_editor/ckeditor_configuration.js';
-	    $this->set_option(self :: OPTION_CONFIGURATION, $path);
+            $application = Request :: get('application');
+            $app_sys_path = Path :: get(SYS_APP_PATH).$application.'/'.Path::RESOURCES_PATH.'/'.Path::RESOURCES_JAVASCRIPT_PATH.'/html_editor/ckeditor_configuration.js';
+            if(\file_exists($app_sys_path))
+            {
+                $path = Path :: get(WEB_APP_PATH).$application.'/'.Path::RESOURCES_PATH.'/'.Path::RESOURCES_JAVASCRIPT_PATH.'/html_editor/ckeditor_configuration.js';
+            }
+            else
+            {
+                 $path = Path :: get(REL_PATH) . 'common/libraries/php/configuration/html_editor/ckeditor_configuration.js';
+            }
+	   $this->set_option(self :: OPTION_CONFIGURATION, $path);
 	    $this->set_option(self :: OPTION_TEMPLATES, array(Path :: get(REL_PATH) . 'common/libraries/php/html/formvalidator/form_validator_html_editor_templates_instance.php'));
 	}
 }

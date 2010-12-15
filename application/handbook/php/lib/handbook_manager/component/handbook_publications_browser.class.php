@@ -71,6 +71,7 @@ class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManage
 
 
         $table = new HandbookPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => 'handbook', Application :: PARAM_ACTION => HandbookManager :: ACTION_BROWSE), $this->get_condition());
+        
 
         $html = array();
         $html[] = $table->as_html();

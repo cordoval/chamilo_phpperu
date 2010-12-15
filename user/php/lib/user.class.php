@@ -483,7 +483,7 @@ class User extends DataClass
         $this->delete_picture();
         $path = Path :: get(SYS_USER_PATH);
         Filesystem :: create_dir($path);
-        $img_file = Filesystem :: create_unique_name($path, $this->get_id() . '-' . $this->get_fullname() . '-' . $file_info['name']);
+        $img_file = Filesystem :: create_unique_name($path, $this->get_id() . '-' . $file_info['name']);
         move_uploaded_file($file_info['tmp_name'], $path . $img_file);
         $image_manipulation = ImageManipulation :: factory($path . $img_file);
         //Scale image to fit in 400x400 box. Should be configurable somewhere
@@ -636,25 +636,25 @@ class User extends DataClass
         //}
 
 
-        if (! UserRights :: create_location_in_users_subtree($this->get_fullname(), $this->get_id(), UserRights :: get_users_subtree_root_id()))
-        {
-            $this->delete();
-            return false;
-        }
+//        if (! UserRights :: create_location_in_users_subtree($this->get_fullname(), $this->get_id(), UserRights :: get_users_subtree_root_id()))
+//        {
+//            $this->delete();
+//            return false;
+//        }
 
         return $succes;
     }
 
     function delete()
     {
-        $location = UserRights :: get_location_by_identifier_from_users_subtree($this->get_id());
-        if ($location)
-        {
-            if (! $location->remove())
-            {
-                return false;
-            }
-        }
+//        $location = UserRights :: get_location_by_identifier_from_users_subtree($this->get_id());
+//        if ($location)
+//        {
+//            if (! $location->remove())
+//            {
+//                return false;
+//            }
+//        }
 
         return parent :: delete();
     }

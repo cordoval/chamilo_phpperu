@@ -62,6 +62,7 @@ class GroupRights extends RightsUtilities
 
     static function is_allowed_in_groups_subtree($right, $location, $tree_identifier = 0)
     {
+        return true;
         return RightsUtilities :: is_allowed($right, $location, self :: TYPE_GROUP, GroupManager :: APPLICATION_NAME, null, $tree_identifier, self :: TYPE_ROOT);
     }
 

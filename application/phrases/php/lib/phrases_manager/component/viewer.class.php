@@ -19,6 +19,7 @@ use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
 
 use repository\content_object\assessment\AssessmentComplexDisplaySupport;
+use repository\content_object\assessment\FeedbackDisplayConfiguration;
 
 use repository\content_object\adaptive_assessment\AdaptiveAssessmentComplexDisplaySupport;
 use repository\content_object\adaptive_assessment\AdaptiveAssessmentContentObjectDisplay;
@@ -165,6 +166,11 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
      */
     function get_assessment_go_back_url()
     {
+    }
+
+    function get_assessment_feedback_configuration()
+    {
+        return new FeedbackDisplayConfiguration();
     }
 
     /**

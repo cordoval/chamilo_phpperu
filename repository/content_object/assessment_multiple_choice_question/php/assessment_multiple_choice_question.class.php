@@ -79,6 +79,12 @@ class AssessmentMultipleChoiceQuestion extends ContentObject implements
                 self :: PROPERTY_HINT);
     }
 
+    function has_hint()
+    {
+        $hint = trim(strip_tags($this->get_hint()));
+        return !empty($hint);
+    }
+
     static function get_type_name()
     {
         return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);

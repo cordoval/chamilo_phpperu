@@ -50,6 +50,7 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
         const ACTION_EDIT_RIGHTS = 'rights_editor';
         const ACTION_VIEW_PREFERENCES = 'handbook_preferences_viewer';
         const ACTION_VIEW_HANDBOOK_PUBLICATION = 'handbook_publications_browser';
+        const ACTION_TOPIC_PICKER = 'topic_picker';
         const PARAM_HANDBOOK_OWNER_ID = 'handbook_owner';
 
         const PARAM_COMPLEX_OBJECT_ID = 'coid';
