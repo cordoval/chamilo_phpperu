@@ -1,0 +1,89 @@
+<?php
+
+namespace application\package;
+
+use common\libraries\WebApplication;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
+/**
+ * @package package.tables.variable_table
+ */
+require_once WebApplication :: get_application_class_lib_path('package') . 'package_manager/component/variable_browser/variable_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('package') . 'tables/variable_table/default_variable_table_cell_renderer.class.php';
+
+/**
+ * Cell rendere for the learning object browser table
+ *
+ * @author Sven Vanpoucke
+ * @author Hans De Bisschop
+ */
+
+class VariableBrowserTableCellRenderer extends DefaultVariableTableCellRenderer
+{
+	/**
+	 * The browser component
+	 */
+	private $browser;
+
+	/**
+	 * Constructor
+	 * @param ApplicationComponent $browser
+	 */
+	function __construct($browser)
+	{
+		parent :: __construct();
+		$this->browser = $browser;
+	}
+
+	// Inherited
+	function render_cell($column, $variable)
+	{
+		if ($column === VariableBrowserTableColumnModel :: get_modification_column())
+		{
+			return $this->get_modification_links($variable);
+		}
+
+		return parent :: render_cell($column, $variable);
+	}
+
+	/**
+	 * Gets the action links to display
+	 * @param ContentObject $content_object The learning object for which the
+	 * action links should be returned
+	 * @return string A HTML representation of the action links
+	 */
+	private function get_modification_links($variable)
+	{
+		$toolbar = new Toolbar();
+
+		$can_edit = PackageRights :: is_allowed(PackageRights :: EDIT_RIGHT, PackageRights :: LOCATION_VARIABLES, 'manager');
+		$can_delete = PackageRights :: is_allowed(PackageRights :: DELETE_RIGHT, PackageRights :: LOCATION_VARIABLES, 'manager');
+
+		if ($can_edit)
+		{
+			$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
+    				Theme :: get_common_image_path() . 'action_edit.png', 
+    				$this->browser->get_update_variable_url($variable), 
+    				ToolbarItem :: DISPLAY_ICON
+    				));
+		}
+
+		if ($can_delete)
+		{
+			$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
+    				Theme :: get_common_image_path() . 'action_delete.png', 
+    				$this->browser->get_delete_variable_url($variable), 
+    				ToolbarItem :: DISPLAY_ICON,
+    				true
+    				));
+		}
+
+		return $toolbar->as_html();
+	}
+}
+?>

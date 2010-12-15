@@ -1,0 +1,82 @@
+<?php
+
+namespace application\package;
+
+use common\libraries\WebApplication;
+use common\libraries\Display;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
+/**
+ * @package package.tables.variable_translation_table
+ */
+require_once WebApplication :: get_application_class_lib_path('package') . 'package_manager/component/historic_variable_translation_browser/historic_variable_translation_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('package') . 'tables/historic_variable_translation_table/default_historic_variable_translation_table_cell_renderer.class.php';
+
+/**
+ * Cell renderer for the historic variable translation browser table
+ *
+ * @author Sven Vanpoucke
+ * @author Hans De Bisschop
+ */
+
+class HistoricVariableTranslationBrowserTableCellRenderer extends DefaultHistoricVariableTranslationTableCellRenderer
+{
+	/**
+	 * The browser component
+	 */
+	private $browser;
+
+	/**
+	 * Constructor
+	 * @param ApplicationComponent $browser
+	 */
+	function __construct($browser)
+	{
+		parent :: __construct();
+		$this->browser = $browser;
+	}
+
+	// Inherited
+	function render_cell($column, $historic_variable_translation)
+	{
+		if ($column === HistoricVariableTranslationBrowserTableColumnModel :: get_modification_column())
+		{
+			return $this->get_modification_links($historic_variable_translation);
+		}
+
+		switch ($column->get_name())
+		{
+			case Translation :: get('Rating') :
+				$percentage = $historic_variable_translation->get_relative_rating() * 10;
+				return Display :: get_rating_bar($percentage, false);
+		}
+
+		return parent :: render_cell($column, $historic_variable_translation);
+	}
+
+	/**
+	 * Gets the action links to display
+	 * @param ContentObject $content_object The learning object for which the
+	 * action links should be returned
+	 * @return string A HTML representation of the action links
+	 */
+	private function get_modification_links($historic_variable_translation)
+	{
+		$toolbar = new Toolbar();
+
+		$can_delete = PackageRights :: is_allowed_in_languages_subtree(PackageRights :: EDIT_RIGHT, $historic_variable_translation->get_variable_translation()->get_language_id(), 'package_language');
+
+		if ($can_delete)
+		{
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_historic_variable_translation_url($historic_variable_translation), ToolbarItem :: DISPLAY_ICON, true));
+
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Revert', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_revert.png', $this->browser->get_revert_historic_variable_translation_url($historic_variable_translation), ToolbarItem :: DISPLAY_ICON, true));
+		}
+
+		return $toolbar->as_html();
+	}
+}
+?>
