@@ -88,7 +88,7 @@ class UserDataManager
                 }
             }
             $authentication_dir->close();
-            exit();
+            //exit();
             return Translation :: get('UsernameNotAvailable');
         }
     }
