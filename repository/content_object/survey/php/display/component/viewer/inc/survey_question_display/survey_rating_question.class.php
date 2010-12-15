@@ -45,7 +45,8 @@ class SurveyRatingQuestionDisplay extends SurveyQuestionDisplay
         
         if ($answer)
         {
-            $formvalidator->setDefaults(array($question_name => $answer[0]));
+            dump($answer);
+        	$formvalidator->setDefaults(array($question_name => $answer[0]));
         }
         
         $renderer->setElementTemplate($element_template, $question_name);

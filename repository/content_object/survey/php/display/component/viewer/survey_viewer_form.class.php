@@ -6,10 +6,8 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Security;
 
-
 class SurveyViewerForm extends FormValidator
 {
-    
     const BACK_BUTTON = 'back';
     const NEXT_BUTTON = 'next';
     const FINISH_BUTTON = 'finish';
@@ -29,32 +27,20 @@ class SurveyViewerForm extends FormValidator
 
     function SurveyViewerForm($name, $parent, $context_path, $survey, $action, $page_order)
     {
-        //        parent :: __construct($form_name, $method, $action);
         parent :: __construct($name, 'post', $action);
         $this->context_path = $context_path;
         $this->parent = $parent;
         $this->survey = $survey;
         $this->page_order = $page_order;
-        //        dump($this->context_path);
         $this->page_number = $this->survey->get_page_nr($this->context_path);
-        
         $this->survey_page = $this->survey->get_survey_page($this->context_path);
         $this->buildForm();
     }
 
     function buildForm()
     {
-        //        $this->_formBuilt = true;
-        
-
-        //        dump('in form');
-        
-
         $this->addElement('hidden', 'survey_page', $this->survey_page->get_id());
         
-        //        dump($this->page_number);
-        
-
         // Add buttons
         if ($this->page_number > 1)
         {
@@ -73,30 +59,14 @@ class SurveyViewerForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         
         // Add question forms
-        
-
         $complex_questions = $this->survey->get_page_complex_questions($this->context_path);
         
         foreach ($complex_questions as $complex_question)
         {
             
             $question_context_path = $this->context_path . '_' . $complex_question->get_id();
-//           dump('getanswerpath') ;
-//            dump($question_context_path);
-            //            if ($this->survey->has_context())
-            //            {
             $answer = $this->parent->get_answer($complex_question->get_id(), $question_context_path);
-            
-            //            }
-            //            else
-            //            {
-            //                $answer = $this->parent->get_answer($complex_question->get_id(), $complex_question->get_id());
-            //            
-            //            }
-            
-
             $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $question_context_path, $this->survey);
-            
             $question_display->display();
         }
         
@@ -106,10 +76,6 @@ class SurveyViewerForm extends FormValidator
         $renderer = $this->defaultRenderer();
         $renderer->setElementTemplate('<div style="float: right;">{element}</div><br /><br />', 'buttons');
         $renderer->setGroupElementTemplate('{element}', 'buttons');
-    
-     //        $this->setDefaultAction('next');
-    
-
     }
 
     function process_answers()
@@ -118,9 +84,8 @@ class SurveyViewerForm extends FormValidator
         $form_values = $this->exportValues();
         $values = array();
         
-        //        dump($form_values);
+//        dump($form_values);
         
-
         foreach ($form_values as $key => $value)
         {
             
@@ -157,8 +122,8 @@ class SurveyViewerForm extends FormValidator
             }
         }
         
-        //        dump($values);
-        //        exit;
+//            dump($values);
+//            exit;
         $complex_question_ids = array_keys($values);
         
         if (count($complex_question_ids) > 0)
@@ -169,14 +134,8 @@ class SurveyViewerForm extends FormValidator
                 
                 if (count($answers) > 0)
                 {
-//                    if ($this->survey->has_context())
-//                    {
-                        $this->parent->save_answer($complex_question_id, serialize($answers), $this->context_path . '_' . $complex_question_id);
-//                    }
-//                    else
-//                    {
-//                        $this->parent->save_answer($complex_question_id, serialize($answers), $complex_question_id);
-//                    }
+//                    dump($answer);
+                	$this->parent->save_answer($complex_question_id, serialize($answers), $this->context_path . '_' . $complex_question_id);
                 }
             }
         }
