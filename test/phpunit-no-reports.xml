@@ -1,0 +1,20 @@
+<phpunit
+    bootstrap="./TestBootstrap.php" 
+    colors="true" 
+    syntaxCheck="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+>
+
+    <testsuites>
+        <testsuite name="Complete">
+            <!--  Every files in these directory directive ending by 'Test.php' will be considered as a test case -->
+            <directory >./functional</directory>
+            <directory >./unit</directory>
+            <directory >./acceptance</directory>
+            <directory >./performance</directory>
+        </testsuite>
+    </testsuites>
+
+</phpunit>
