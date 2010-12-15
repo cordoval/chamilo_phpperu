@@ -4,6 +4,9 @@ namespace repository\content_object\adaptive_assessment;
 use repository\ComplexDisplaySupport;
 
 /**
+ * Implement this interface to support the displaying and
+ * execution of adaptive assessments
+ *
  * @author Hans De Bisschop
  * @package repository.content_object.adaptive_assessment
  */

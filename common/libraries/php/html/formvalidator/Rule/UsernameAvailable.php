@@ -1,4 +1,10 @@
 <?php
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+use user\User;
+use user\UserDataManager;
+
+
 /**
  * @package common.html.formvalidator.Rule
  */

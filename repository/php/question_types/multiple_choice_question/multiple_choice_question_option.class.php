@@ -10,17 +10,17 @@ namespace repository;
 class MultipleChoiceQuestionOption
 {
     const PROPERTY_VALUE = 'value';
-    
+
     private $value;
-    
+
     function __construct($value)
     {
-		$this->value = $value;
-	}
-    
+        $this->value = $value;
+    }
+
     function get_value()
     {
-    	return $this->value;
+        return $this->value;
     }
 }
 ?>

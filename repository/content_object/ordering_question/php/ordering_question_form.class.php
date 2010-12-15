@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 use repository\ContentObjectForm;
 
@@ -23,6 +24,20 @@ class OrderingQuestionForm extends ContentObjectForm
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/ordering_question/resources/javascript/ordering_question.js'));
         $this->add_options();
         $this->addElement('category');
+
+        $this->addElement('category', Translation :: get('Hint'));
+
+        $html_editor_options = array();
+        $html_editor_options['width'] = '100%';
+        $html_editor_options['height'] = '100';
+        $html_editor_options['collapse_toolbar'] = true;
+        $html_editor_options['show_tags'] = false;
+        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
+
+        $renderer = $this->defaultRenderer();
+        $this->add_html_editor(OrderingQuestion :: PROPERTY_HINT, Translation :: get('Hint', array(), Utilities :: get_namespace_from_object($this)), false, $html_editor_options);
+        $renderer->setElementTemplate('{element}<div class="clear"></div>', OrderingQuestion :: PROPERTY_HINT);
+        $this->addElement('category');
     }
 
     protected function build_editing_form()
@@ -32,6 +47,20 @@ class OrderingQuestionForm extends ContentObjectForm
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/ordering_question.js'));
         $this->add_options();
         $this->addElement('category');
+
+        $this->addElement('category', Translation :: get('Hint'));
+
+        $html_editor_options = array();
+        $html_editor_options['width'] = '100%';
+        $html_editor_options['height'] = '100';
+        $html_editor_options['collapse_toolbar'] = true;
+        $html_editor_options['show_tags'] = false;
+        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
+
+        $renderer = $this->defaultRenderer();
+        $this->add_html_editor(OrderingQuestion :: PROPERTY_HINT, Translation :: get('Hint', array(), Utilities :: get_namespace_from_object($this)), false, $html_editor_options);
+        $renderer->setElementTemplate('{element}<div class="clear"></div>', OrderingQuestion :: PROPERTY_HINT);
+        $this->addElement('category');
     }
 
     function setDefaults($defaults = array ())
@@ -39,6 +68,7 @@ class OrderingQuestionForm extends ContentObjectForm
         if (! $this->isSubmitted())
         {
             $object = $this->get_content_object();
+            $defaults[OrderingQuestion :: PROPERTY_HINT] = $object->get_hint();
             if ($object->get_number_of_options() != 0)
             {
                 $options = $object->get_options();
@@ -49,13 +79,13 @@ class OrderingQuestionForm extends ContentObjectForm
                 }
             }
         }
-        //print_r($defaults);
         parent :: setDefaults($defaults);
     }
 
     function create_content_object()
     {
         $object = new OrderingQuestion();
+        $object->set_hint($this->exportValue(OrderingQuestion :: PROPERTY_HINT));
         $this->set_content_object($object);
         $this->add_options_to_object();
         return parent :: create_content_object();
@@ -63,6 +93,7 @@ class OrderingQuestionForm extends ContentObjectForm
 
     function update_content_object()
     {
+        $this->get_content_object()->set_hint($this->exportValue(OrderingQuestion :: PROPERTY_HINT));
         $this->add_options_to_object();
         return parent :: update_content_object();
     }

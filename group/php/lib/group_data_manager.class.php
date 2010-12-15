@@ -6,6 +6,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\DataManagerInterface;
 use user\UserDataManager;
 use common\libraries\AndCondition;
+use common\libraries\ObjectTableOrder;
 /**
  * $Id: group_data_manager.class.php 157 2009-11-10 13:44:02Z vanpouckesven $
  * @package group.lib
@@ -112,6 +113,42 @@ class GroupDataManager implements DataManagerInterface
         }
 
         return self :: $group_rel_user_cache[$group_code][$official_code];
+    }
+
+    private static $counter = 1;
+
+    static function fix_nested_values_batch($parent_id = 0)
+    {
+        $groups = self :: get_instance()->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id), null, null, new ObjectTableOrder(Group :: PROPERTY_LEFT_VALUE));
+        while($group = $groups->next_result())
+        {
+            $update = false;
+
+            if($group->get_left_value() != self :: $counter)
+            {
+                $group->set_left_value(self :: $counter);
+                $update = true;
+            }
+
+            self :: $counter++;
+            
+            self :: fix_nested_values_batch($group->get_id());
+            
+            if($group->get_right_value() != self :: $counter)
+            {
+                $group->set_right_value(self :: $counter);
+                $update = true;
+            }
+            
+            if($update)
+            {
+                $group->update();
+            }
+
+            self :: $counter++;
+            
+        }
+
     }
 }
 ?>

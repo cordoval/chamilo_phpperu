@@ -1,5 +1,5 @@
 <?php
-namespace application\weblcms;
+namespace application\phrases;
 
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;

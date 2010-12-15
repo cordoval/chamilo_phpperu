@@ -40,7 +40,7 @@ CKEDITOR.editorConfig = function( config )
 	
 	config.toolbar_Basic =
 		[
-		 	['Maximize','-','Styles','Format','Font','FontSize','-','Bold','Italic','Underline','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Table','Image','Chamiloflash'/*,'Chamiloflashvideo'*/,'Chamiloyoutube','Chamilovideo','Chamiloaudio','latex','-','Templates','SpecialChar','-','Source']
+		 	['Maximize','-','Styles','Format','Font','FontSize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','HorizontalRule','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Link','Unlink','-','TextColor','BGColor','-','Table','Image','Chamiloflash'/*,'Chamiloflashvideo'*/,'Chamiloyoutube','Chamilovideo','Chamiloaudio','latex','-','Templates','SpecialChar','-','Source']
 		];
 	
 	config.toolbar_BasicMarkup =
@@ -80,6 +80,7 @@ CKEDITOR.editorConfig = function( config )
 	config.filebrowserChamilovideoBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=video&repoviewer_action=browser';
 	config.filebrowserChamiloaudioBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=audio&repoviewer_action=browser';
 	config.filebrowserChamilodailymotionBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=dailymotion&repoviewer_action=browser';
+	config.filebrowserChamiloHandbookLinkBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=handbook_topic&repoviewer_action=browser';
 	config.filebrowserChamilovimeoBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=vimeo&repoviewer_action=browser';
 	config.latexDialogUrl = web_path + 'common/libraries/plugin/html_editor/ckeditor/plugins/latex/dialogs/latex.html?a=b';
 	

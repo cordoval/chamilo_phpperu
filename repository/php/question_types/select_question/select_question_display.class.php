@@ -11,6 +11,7 @@ use repository\ContentObject;
  */
 class SelectQuestionDisplay extends ContentObjectDisplay
 {
+
     function get_full_html()
     {
         $html = parent :: get_full_html();

@@ -14,8 +14,6 @@ use common\libraries\AndCondition;
 use common\libraries\InCondition;
 use repository\content_object\survey_page\SurveyPage;
 
-
-
 require_once (dirname(__FILE__) . '/../survey_context_template.class.php');
 require_once (dirname(__FILE__) . '/../survey_template.class.php');
 require_once (dirname(__FILE__) . '/../survey_context_registration.class.php');
@@ -26,11 +24,10 @@ require_once (dirname(__FILE__) . '/../survey_context_rel_user.class.php');
 require_once (dirname(__FILE__) . '/context_data_manager_interface.php');
 require_once Path :: get_repository_path() . 'lib/data_manager/database_repository_data_manager.class.php';
 
-
 class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager implements SurveyContextDataManagerInterface
 {
 
-  function retrieve_survey_contexts($type, $condition = null, $offset = null, $count = null, $order_property = null)
+    function retrieve_survey_contexts($type, $condition = null, $offset = null, $count = null, $order_property = null)
     {
         
         $type_table = $this->escape_table_name($type);
@@ -65,7 +62,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         {
             $type = $this->determine_survey_context_type($id);
         }
-        
+//        dump($type);
         $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $id);
         //context is always extended because SurveyContext is an abstact class        
         //        if ($this->is_extended_type($type))
@@ -124,7 +121,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         $props = array();
         $props[SurveyContext :: PROPERTY_ACTIVE] = $this->quote($context->get_default_property(SurveyContext :: PROPERTY_ACTIVE));
         $props[SurveyContext :: PROPERTY_NAME] = $this->quote($context->get_default_property(SurveyContext :: PROPERTY_NAME));
-      
+        
         $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
         $this->update_objects(Utilities :: camelcase_to_underscores(SurveyContext :: CLASS_NAME), $props, $condition);
         return true;
@@ -142,10 +139,11 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-//        $props[$this->escape_column_name(SurveyContext :: PROPERTY_ID)] = $context->get_id();
-//        $props[$this->escape_column_name(SurveyContext :: PROPERTY_TYPE)] = $context->get_type();
-//        $props[$this->escape_column_name(SurveyContext :: PROPERTY_ACTIVE)] = $context->get_active();
-//        $props[$this->escape_column_name(SurveyContext :: PROPERTY_CONTEXT_REGISTRATION_ID)] = $context->get_context_registration_id();
+            
+        //        $props[$this->escape_column_name(SurveyContext :: PROPERTY_ID)] = $context->get_id();
+        //        $props[$this->escape_column_name(SurveyContext :: PROPERTY_TYPE)] = $context->get_type();
+        //        $props[$this->escape_column_name(SurveyContext :: PROPERTY_ACTIVE)] = $context->get_active();
+        //        $props[$this->escape_column_name(SurveyContext :: PROPERTY_CONTEXT_REGISTRATION_ID)] = $context->get_context_registration_id();
         $props[$this->escape_column_name(SurveyContext :: PROPERTY_ID)] = $this->get_better_next_id('survey_context', 'id');
         $this->get_connection()->loadModule('Extended');
         $this->get_connection()->extended->autoExecute($this->get_table_name('survey_context'), $props, MDB2_AUTOQUERY_INSERT);
@@ -284,7 +282,6 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
     function retrieve_template_rel_pages($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $rel_alias = $this->get_alias(SurveyContextTemplateRelPage :: get_table_name());
-        
         $template_alias = $this->get_alias(SurveyContextTemplate :: get_table_name());
         $page_alias = $this->get_alias(SurveyPage :: get_table_name());
         
@@ -292,7 +289,6 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         $query .= ' FROM ' . $this->escape_table_name(SurveyContextTemplateRelPage :: get_table_name()) . ' AS ' . $rel_alias;
         $query .= ' JOIN ' . $this->escape_table_name(SurveyPage :: get_table_name()) . ' AS ' . $page_alias . ' ON ' . $this->escape_column_name(SurveyContextTemplateRelPage :: PROPERTY_PAGE_ID, $rel_alias) . ' = ' . $this->escape_column_name(SurveyPage :: PROPERTY_ID, $page_alias);
         $query .= ' JOIN ' . $this->escape_table_name(SurveyContextTemplate :: get_table_name()) . ' AS ' . $template_alias . ' ON ' . $this->escape_column_name(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $rel_alias) . ' = ' . $this->escape_column_name(SurveyContextTemplate :: PROPERTY_ID, $template_alias);
-        
         return $this->retrieve_object_set($query, SurveyContextTemplateRelPage :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyContextTemplateRelPage :: CLASS_NAME);
     }
 

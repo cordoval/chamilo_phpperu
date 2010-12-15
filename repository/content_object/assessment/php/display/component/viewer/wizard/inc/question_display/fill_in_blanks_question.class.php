@@ -1,7 +1,14 @@
 <?php
 namespace repository\content_object\assessment;
 
+use repository\content_object\fill_in_blanks_question;
+
+use repository\ContentObject;
+use common\libraries\Path;
+use common\libraries\ResourceManager;
 use common\libraries\Translation;
+use common\libraries\Theme;
+
 use repository\content_object\fill_in_blanks_question\FillInBlanksQuestion;
 use repository\content_object\fill_in_blanks_question\FillInBlanksQuestionAnswer;
 
@@ -17,29 +24,69 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
     function add_question_form()
     {
         $clo_question = $this->get_complex_content_object_question();
-        
+
         $question = $this->get_question();
         $answers = $question->get_answers();
         $question_type = $question->get_question_type();
         $answer_text = $question->get_answer_text();
         $answer_text = nl2br($answer_text);
-        
-        $parts = preg_split(FillInBlanksQuestionAnswer :: CLOZE_REGEX, $answer_text);
+
+        $parts = preg_split(FillInBlanksQuestionAnswer :: QUESTIONS_REGEX, $answer_text);
+
+        $this->add_html('<div class="with_borders">');
+        $this->add_html('<div class="fill_in_the_blanks_text">');
         $this->add_html(array_shift($parts));
-        $index = 0;
-        
+
         $element_template = ' {element} ';
         $renderer = $this->get_renderer();
         $renderer->setElementTemplate($element_template, 'select');
-        
+
+        $index = 0;
+        foreach ($parts as $part)
+        {
+            $name = $clo_question->get_id() . "[$index]";
+
+            $formvalidator = $this->get_formvalidator();
+            $this->add_html('<span class="fill_in_the_blanks_gap">' . Translation :: get('GapNumber', array(
+                    'NUMBER' => ($index + 1)), ContentObject :: get_content_object_type_namespace($question->get_type_name())) . '</span>');
+
+            //            $this->add_question($name, $index, $question_type, $answers);
+            $this->add_html($part);
+            $index ++;
+
+        //$renderer->setElementTemplate($element_template, $name);
+        }
+        $this->add_html('</div>');
+        $this->add_html('<div class="clear"></div>');
+        $this->add_html('</div>');
+
+        $table_header = array();
+        $table_header[] = '<table class="data_table take_assessment">';
+        $table_header[] = '<thead>';
+        $table_header[] = '<tr>';
+        $table_header[] = '<th class="checkbox"></th>';
+        $table_header[] = '<th>' . Translation :: get('Answers', null, ContentObject :: get_content_object_type_namespace($question->get_type_name())) . '</th>';
+        $table_header[] = '<th>' . Translation :: get('Hint') . '</th>';
+        $table_header[] = '</tr>';
+        $table_header[] = '</thead>';
+        $table_header[] = '<tbody>';
+        $this->add_html($table_header);
+
+        $parts = preg_split(FillInBlanksQuestionAnswer :: QUESTIONS_REGEX, $answer_text);
+        array_shift($parts);
+        $index = 0;
         foreach ($parts as $part)
         {
             $name = $clo_question->get_id() . "[$index]";
             $this->add_question($name, $index, $question_type, $answers);
-            $this->add_html($part);
             $index ++;
-            $renderer->setElementTemplate($element_template, $name);
         }
+
+        $table_footer = array();
+        $table_footer[] = '</tbody>';
+        $table_footer[] = '</table>';
+        $this->add_html($table_footer);
+        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'assessment/resources/javascript/hint.js'));
     }
 
     function add_html($html)
@@ -52,22 +99,28 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
     function add_select($name, $options)
     {
         $formvalidator = $this->get_formvalidator();
-        $formvalidator->addElement('select', $name, '', $options);
+        return $formvalidator->createElement('select', $name, '', $options);
     }
 
     function add_text($name, $size)
     {
+        // TODO: Making this box a specific width is a hint in and of itself ...
+        $size = 75;
         $formvalidator = $this->get_formvalidator();
-        $formvalidator->addElement('text', $name, null, array('size' => $size));
+        return $formvalidator->createElement('text', $name, null, array('size' => $size));
     }
 
     function add_question($name, $index, $question_type, $answers)
     {
         $formvalidator = $this->get_formvalidator();
+
+        $group = array();
+        $group[] = $formvalidator->createElement('static', null, null, ($index + 1));
+
         $options = $this->get_question_options($index, $answers);
         if ($question_type == FillInBlanksQuestion :: TYPE_SELECT)
         {
-            $this->add_select($name, $options);
+            $group[] = $this->add_select($name, $options);
         }
         else
         {
@@ -77,8 +130,23 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
                 $size = max($size, strlen($option));
             }
             $size = empty($size) ? 20 : $size;
-            $this->add_text($name, $size);
+            $group[] = $this->add_text($name, $size);
         }
+
+        if ($this->get_question()->get_best_answer_for_question($index)->has_hint() || $question_type == FillInBlanksQuestion :: TYPE_TEXT)
+        {
+            $hint_name = 'hint_' . $this->get_complex_content_object_question()->get_id() . '_' . $index;
+            $group[] = $formvalidator->createElement('static', null, null, '<a id="' . $hint_name . '" class="button hint_button">' . Translation :: get('GetAHint') . '</a>');
+        }
+        else
+        {
+            $group[] = $formvalidator->createElement('static', null, null, '');
+        }
+
+        $formvalidator->addGroup($group, 'option_' . $index, null, '', false);
+        $renderer = $this->get_renderer();
+        $renderer->setElementTemplate('<tr class="' . ($index % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $index);
+        $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $index);
     }
 
     function get_question_options($index, $answers)
@@ -98,27 +166,34 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 
     function add_borders()
     {
-        return true;
+        return false;
     }
 
     function get_instruction()
     {
         $instruction = array();
-        $question = $this->get_question();
-        
-        if ($question->has_description())
-        {
-            $instruction[] = '<div class="splitter">';
-            $instruction[] = Translation :: get('FillInTheBlanks');
-            $instruction[] = '</div>';
-        }
-        else
-        {
-            $instruction = array();
-        }
-        
         return implode("\n", $instruction);
     }
-}
 
+    function get_title()
+    {
+        return Translation :: get('FillInTheBlanks');
+    }
+
+    function get_description()
+    {
+        $html = array();
+
+        if ($this->get_question()->has_description())
+        {
+            $html[] = '<div class="description">';
+            $html[] = $this->get_question()->get_description();
+            $html[] = '<div class="clear">&nbsp;</div>';
+            $html[] = '</div>';
+            $html[] = '<div class="splitter">' . Translation :: get('QuestionText', null, ContentObject :: get_content_object_type_namespace($this->get_question()->get_type_name())) . '</div>';
+        }
+
+        return implode("\n", $html);
+    }
+}
 ?>

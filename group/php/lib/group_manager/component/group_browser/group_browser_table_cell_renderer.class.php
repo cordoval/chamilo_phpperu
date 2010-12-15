@@ -63,7 +63,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
                 //				}
                 return Utilities :: truncate_string($description);
             case Translation :: get('Users', null , 'user') :
-                return $group->count_users(true, true);
+                return $group->count_users();
             case Translation :: get('Subgroups') :
                 return $group->count_subgroups(true, true);
         }

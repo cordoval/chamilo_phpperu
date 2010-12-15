@@ -252,6 +252,7 @@ button,a.button {
 a.button {
 	padding-top: 8px;
 	padding-bottom: 8px;
+	display: inline-block;
 }
 
 button.positive,a.positive_button {

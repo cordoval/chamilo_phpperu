@@ -9,6 +9,6 @@ namespace repository;
  */
 class ComplexMatrixQuestion extends ComplexContentObjectItem
 {
-    
+
 }
 ?>

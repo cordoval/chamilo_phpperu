@@ -9,10 +9,10 @@ namespace repository;
  */
 class SelectQuestionOption
 {
-	const PROPERTY_VALUE = 'value';
-    
-    private $value;  
-	
+    const PROPERTY_VALUE = 'value';
+
+    private $value;
+
     /**
      * Creates a new option for a multiple choice question
      * @param string $value The value of the option
@@ -21,16 +21,16 @@ class SelectQuestionOption
      */
     function __construct($value)
     {
-    	$this->value = $value;
+        $this->value = $value;
     }
-    
-     /**
+
+    /**
      * Gets the value of this option
      * @return string
      */
     function get_value()
     {
-    	return $this->value;
+        return $this->value;
     }
 }
 ?>

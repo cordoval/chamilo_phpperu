@@ -35,7 +35,7 @@ class Autoloader
                 'phrases_publication_browser_table' => 'phrases_manager/component/phrases_publication_browser/phrases_publication_browser_table',
                 'results_export_form' => 'phrases_manager/component/results_export_form/results_export_form',
                 'export' => 'phrases_manager/component/results_export_form/export',
-                'phrases_adaptive_assessment_attempt_tracker' => 'phrases_adaptive_assessment_attempt_tracker',
+                'phrases_adaptive_assessment_attempt_tracker' => '../trackers/phrases_adaptive_assessment_attempt_tracker',
                 'phrases_adaptive_assessment_item_attempt_tracker' => '../trackers/phrases_adaptive_assessment_item_attempt_tracker',
                 'phrases_adaptive_assessment_question_attempts_tracker' => '../trackers/phrases_adaptive_assessment_question_attempts_tracker');
 

@@ -67,11 +67,13 @@ class Autoloader
             return true;
         }
 
-        if (self :: check_for_ims_files()){
+        if (self :: check_for_ims_files())
+        {
             return true;
         }
 
-        if (self :: check_for_webservice_files()){
+        if (self :: check_for_webservice_files())
+        {
             return true;
         }
 
@@ -81,8 +83,7 @@ class Autoloader
     static function check_for_webservice_files()
     {
         $list = array(
-            'rest_message_renderer' => 'rest/rest_message_renderer.class.php',
-        );
+                'rest_message_renderer' => 'rest/rest_message_renderer.class.php');
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (array_key_exists($lower_case, $list))
@@ -98,11 +99,10 @@ class Autoloader
     static function check_for_ims_files()
     {
         $list = array(
-            'ims_xml_reader' => 'common/reader/ims_xml_reader.class.php',
-            'ims_xml_writer' => 'common/writer/ims_xml_writer.class.php',
-            'qti_import_strategy_base' => 'qti/import_strategy/qti_import_strategy_base.class.php',
-            'qti_renderer_base' => 'qti/qti_renderer_base.class.php',
-        );
+                'ims_xml_reader' => 'common/reader/ims_xml_reader.class.php',
+                'ims_xml_writer' => 'common/writer/ims_xml_writer.class.php',
+                'qti_import_strategy_base' => 'qti/import_strategy/qti_import_strategy_base.class.php',
+                'qti_renderer_base' => 'qti/qti_renderer_base.class.php');
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (array_key_exists($lower_case, $list))
@@ -115,12 +115,9 @@ class Autoloader
         return false;
     }
 
-
     static function check_for_database_files()
     {
-        $list = array(
-            'result_set',
-        );
+        $list = array('result_set');
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (in_array($lower_case, $list))
@@ -134,7 +131,8 @@ class Autoloader
 
     static function check_for_calendar_files()
     {
-        $list = array('calendar_table',
+        $list = array(
+                'calendar_table',
                 'day_calendar',
                 'mini_day_calendar',
                 'mini_month_calendar',
@@ -155,7 +153,8 @@ class Autoloader
 
     static function load_files_with_same_directory_name()
     {
-        $list = array('authentication',
+        $list = array(
+                'authentication',
                 'configuration',
                 'database',
                 'datetime',
@@ -270,8 +269,7 @@ class Autoloader
                 'action_bar_renderer' => 'action_bar/action_bar_renderer.class.php',
                 'image_content_object_table' => "formvalidator/html_editor/html_editor_file_browser/html_editor_repo_viewer/image/component/image_content_object_table/image_content_object_table.class.php",
                 'html_editor_repo_viewer' => 'formvalidator/html_editor/html_editor_file_browser/html_editor_repo_viewer/html_editor_repo_viewer.class.php',
-                'template_cache' => 'layout/template_cache.class.php',
-            );
+                'template_cache' => 'layout/template_cache.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -288,9 +286,8 @@ class Autoloader
     static function check_for_fedora_files()
     {
         $list = array(
-            'fedora_fs_base' => 'fs/fedora_fs_base.class.php',
-            'fedora_fs_folder' => 'fs/fedora_fs_folder.class.php',
-        );
+                'fedora_fs_base' => 'fs/fedora_fs_base.class.php',
+                'fedora_fs_folder' => 'fs/fedora_fs_folder.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -333,7 +330,8 @@ class Autoloader
 
     static function check_for_general_files()
     {
-        $list = array('application_component',
+        $list = array(
+                'application_component',
                 'application',
                 'block',
                 'core_application_component',
@@ -364,28 +362,29 @@ class Autoloader
     static function check_for_special_files()
     {
         $list = array(
-            'platform_setting' => 'configuration/platform_setting.class.php',
-            'local_setting' => 'configuration/local_setting.class.php',
-            'array_result_set' => 'database/array_result_set.class.php',
-            'connection' => 'database/connection.class.php',
-            'object_result_set' => 'database/object_result_set.class.php',
-            'record_result_set' => 'database/record_result_set.class.php',
-            'database_alias_generator' => 'database/database_alias_generator.class.php',
-            'data_manager_interface' => 'database/data_manager_interface.class.php',
-            'data_class' => 'database/data_class.class.php',
-            'nested_tree_node' => 'database/nested_tree_node.class.php',
-            'nested_tree_database' => 'database/nested_tree_database.class.php',
-            'cookie' => 'session/cookie.class.php',
-            'request' => 'session/request.class.php',
-            'rss_icon_generator' => 'util/rss_icon_generator/rss_icon_generator.class.php',
-            'chamilo_test_suite' => 'test/chamilo_test_suite.class.php',
-            'file_logger' => 'filesystem/file_logger.class.php',
-            'timer' => 'datetime/timer.class.php',
-            'publication_r_s_s' => 'rss/publication_rss.class.php',
-            'chamilo_rest_server' => 'webservice/rest/chamilo_rest_server.class.php',
-            'database_backup' => 'database/backup/database_backup.class.php',
-            'webservice_authentication' => 'webservice/authentication/webservice_authentication.class.php',
-            );
+                'platform_setting' => 'configuration/platform_setting.class.php',
+                'local_setting' => 'configuration/local_setting.class.php',
+                'array_result_set' => 'database/array_result_set.class.php',
+                'connection' => 'database/connection.class.php',
+                'object_result_set' => 'database/object_result_set.class.php',
+                'record_result_set' => 'database/record_result_set.class.php',
+                'database_alias_generator' => 'database/database_alias_generator.class.php',
+                'data_manager_interface' => 'database/data_manager_interface.class.php',
+                'data_class' => 'database/data_class.class.php',
+                'nested_tree_node' => 'database/nested_tree_node.class.php',
+                'nested_tree_database' => 'database/nested_tree_database.class.php',
+                'cookie' => 'session/cookie.class.php',
+                'request' => 'session/request.class.php',
+                'rss_icon_generator' => 'util/rss_icon_generator/rss_icon_generator.class.php',
+                'chamilo_test_suite' => 'test/chamilo_test_suite.class.php',
+                'file_logger' => 'filesystem/file_logger.class.php',
+                'timer' => 'datetime/timer.class.php',
+                'ajax_manager' => 'ajax/ajax_manager.class.php',
+                'json_ajax_result' => 'ajax/json_ajax_result.class.php',
+                'publication_r_s_s' => 'rss/publication_rss.class.php',
+                'chamilo_rest_server' => 'webservice/rest/chamilo_rest_server.class.php',
+                'database_backup' => 'database/backup/database_backup.class.php',
+                'webservice_authentication' => 'webservice/authentication/webservice_authentication.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

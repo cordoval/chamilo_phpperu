@@ -2,18 +2,23 @@
 namespace application\assessment;
 
 use common\libraries\Request;
-use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
-use tracking\Tracker;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
+
+use tracking\Tracker;
 use tracking\Event;
+
 use repository\content_object\hotpotatoes\Hotpotatoes;
+
+use repository\RepositoryDataManager;
 use repository\ComplexDisplay;
+
 use repository\content_object\assessment\AssessmentComplexDisplaySupport;
+use repository\content_object\assessment\FeedbackDisplayConfiguration;
 
 /**
  * $Id: viewer.class.php 193 2009-11-13 11:53:37Z chellee $
@@ -184,6 +189,11 @@ class AssessmentManagerViewerComponent extends AssessmentManager implements
         return $this->get_url(array(
                 AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS,
                 AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => null));
+    }
+
+    function get_assessment_feedback_configuration()
+    {
+        return new FeedbackDisplayConfiguration();
     }
 
     /**

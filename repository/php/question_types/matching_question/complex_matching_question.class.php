@@ -9,6 +9,6 @@ namespace repository;
  */
 class ComplexMatchingQuestion extends ComplexContentObjectItem
 {
-    
+
 }
 ?>
