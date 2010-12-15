@@ -1,11 +1,13 @@
 <?php
 namespace repository\content_object\adaptive_assessment;
 
+use common\libraries\Utilities;
 use common\libraries\ComplexDisplayPreviewLauncher;
 use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Application;
 use common\libraries\Translation;
+use common\libraries\LauncherApplication;
 
 use repository\ComplexDisplayPreview;
 use repository\ComplexDisplay;
@@ -21,7 +23,9 @@ use repository\content_object\assessment\FeedbackDisplayConfiguration;
  * @package repository.content_object.adaptive_assessment
  */
 
-class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview implements AdaptiveAssessmentComplexDisplaySupport, AssessmentComplexDisplaySupport
+class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview implements
+        AdaptiveAssessmentComplexDisplaySupport,
+        AssessmentComplexDisplaySupport
 {
 
     /* (non-PHPdoc)
@@ -30,6 +34,21 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
     function run()
     {
         ComplexDisplay :: launch($this->get_root_content_object()->get_type(), $this);
+    }
+
+    function display_header()
+    {
+        LauncherApplication :: display_header();
+
+        $embedded_content_object_id = AdaptiveAssessmentContentObjectDisplay :: get_embedded_content_object_id();
+
+        if (! $embedded_content_object_id)
+        {
+            $html[] = '<div class="warning-banner">';
+            $html[] = Translation :: get('PreviewModeWarning', null, Utilities :: COMMON_LIBRARIES);
+            $html[] = '</div>';
+            echo implode("\n", $html);
+        }
     }
 
     /* (non-PHPdoc)
