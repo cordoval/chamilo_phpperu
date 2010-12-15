@@ -12,8 +12,10 @@ use repository\ComplexDisplay;
 use repository\RepositoryManager;
 use repository\RepositoryDataManager;
 
-use repository\content_object\learning_path\LearningPathComplexDisplaySupport;
 use repository\content_object\assessment\AssessmentComplexDisplaySupport;
+use repository\content_object\assessment\FeedbackDisplayConfiguration;
+
+use repository\content_object\learning_path\LearningPathComplexDisplaySupport;
 use repository\content_object\forum\ForumComplexDisplaySupport;
 use repository\content_object\wiki\WikiComplexDisplaySupport;
 use repository\content_object\blog\BlogComplexDisplaySupport;
@@ -146,6 +148,11 @@ class LearningPathComplexDisplayPreview extends ComplexDisplayPreview implements
     {
     }
 
+    function get_assessment_feedback_configuration()
+    {
+        return new FeedbackDisplayConfiguration();
+    }
+
     /**
      *
      *
@@ -175,74 +182,75 @@ class LearningPathComplexDisplayPreview extends ComplexDisplayPreview implements
     function retrieve_learning_path_tracker()
     {
         return new DummyLpAttemptTracker();
-//        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $this->get_course_id());
-//        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $this->get_publication()->get_id());
-//        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_USER_ID, $this->get_user_id());
-//        $condition = new AndCondition($conditions);
-//
-//        $dummy = new WeblcmsLpAttemptTracker();
-//        $trackers = $dummy->retrieve_tracker_items($condition);
-//        $learning_path_tracker = $trackers[0];
-//
-//        if (! $learning_path_tracker)
-//        {
-//            $parameters = array();
-//            $parameters[WeblcmsLpAttemptTracker :: PROPERTY_USER_ID] = $this->get_user_id();
-//            $parameters[WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID] = $this->get_course_id();
-//            $parameters[WeblcmsLpAttemptTracker :: PROPERTY_LP_ID] = $this->get_publication()->get_id();
-//            $parameters[WeblcmsLpAttemptTracker :: PROPERTY_PROGRESS] = 0;
-//
-//            $return = Event :: trigger('attempt_learning_path', WeblcmsManager :: APPLICATION_NAME, $parameters);
-//            $learning_path_tracker = $return[0];
-//        }
-//
-//        return $learning_path_tracker;
+
+     //        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $this->get_course_id());
+    //        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $this->get_publication()->get_id());
+    //        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_USER_ID, $this->get_user_id());
+    //        $condition = new AndCondition($conditions);
+    //
+    //        $dummy = new WeblcmsLpAttemptTracker();
+    //        $trackers = $dummy->retrieve_tracker_items($condition);
+    //        $learning_path_tracker = $trackers[0];
+    //
+    //        if (! $learning_path_tracker)
+    //        {
+    //            $parameters = array();
+    //            $parameters[WeblcmsLpAttemptTracker :: PROPERTY_USER_ID] = $this->get_user_id();
+    //            $parameters[WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID] = $this->get_course_id();
+    //            $parameters[WeblcmsLpAttemptTracker :: PROPERTY_LP_ID] = $this->get_publication()->get_id();
+    //            $parameters[WeblcmsLpAttemptTracker :: PROPERTY_PROGRESS] = 0;
+    //
+    //            $return = Event :: trigger('attempt_learning_path', WeblcmsManager :: APPLICATION_NAME, $parameters);
+    //            $learning_path_tracker = $return[0];
+    //        }
+    //
+    //        return $learning_path_tracker;
     }
 
     function retrieve_learning_path_tracker_items($learning_path_tracker)
     {
-//        $learning_path_item_attempt_data = array();
-//
-//        $condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $learning_path_tracker->get_id());
-//
-//        $dummy = new WeblcmsLpiAttemptTracker();
-//        $trackers = $dummy->retrieve_tracker_items($condition);
-//
-//        foreach ($trackers as $tracker)
-//        {
-//            $item_id = $tracker->get_lp_item_id();
-//
-//            if (! $learning_path_item_attempt_data[$item_id])
-//            {
-//                $learning_path_item_attempt_data[$item_id]['score'] = 0;
-//                $learning_path_item_attempt_data[$item_id]['time'] = 0;
-//            }
-//
-//            $learning_path_item_attempt_data[$item_id]['trackers'][] = $tracker;
-//            $learning_path_item_attempt_data[$item_id]['size'] ++;
-//            $learning_path_item_attempt_data[$item_id]['score'] += $tracker->get_score();
-//
-//            if ($tracker->get_total_time())
-//            {
-//                $learning_path_item_attempt_data[$item_id]['time'] += $tracker->get_total_time();
-//            }
-//
-//            if ($tracker->get_status() == 'completed' || $tracker->get_status() == 'passed')
-//            {
-//                $learning_path_item_attempt_data[$item_id]['completed'] = 1;
-//            }
-//            else
-//            {
-//                $learning_path_item_attempt_data[$item_id]['active_tracker'] = $tracker;
-//            }
-//        }
-//
-//        return $learning_path_item_attempt_data;
+        //        $learning_path_item_attempt_data = array();
+    //
+    //        $condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $learning_path_tracker->get_id());
+    //
+    //        $dummy = new WeblcmsLpiAttemptTracker();
+    //        $trackers = $dummy->retrieve_tracker_items($condition);
+    //
+    //        foreach ($trackers as $tracker)
+    //        {
+    //            $item_id = $tracker->get_lp_item_id();
+    //
+    //            if (! $learning_path_item_attempt_data[$item_id])
+    //            {
+    //                $learning_path_item_attempt_data[$item_id]['score'] = 0;
+    //                $learning_path_item_attempt_data[$item_id]['time'] = 0;
+    //            }
+    //
+    //            $learning_path_item_attempt_data[$item_id]['trackers'][] = $tracker;
+    //            $learning_path_item_attempt_data[$item_id]['size'] ++;
+    //            $learning_path_item_attempt_data[$item_id]['score'] += $tracker->get_score();
+    //
+    //            if ($tracker->get_total_time())
+    //            {
+    //                $learning_path_item_attempt_data[$item_id]['time'] += $tracker->get_total_time();
+    //            }
+    //
+    //            if ($tracker->get_status() == 'completed' || $tracker->get_status() == 'passed')
+    //            {
+    //                $learning_path_item_attempt_data[$item_id]['completed'] = 1;
+    //            }
+    //            else
+    //            {
+    //                $learning_path_item_attempt_data[$item_id]['active_tracker'] = $tracker;
+    //            }
+    //        }
+    //
+    //        return $learning_path_item_attempt_data;
     }
 
     function get_learning_path_tree_menu_url()
     {
-        return Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ComplexDisplayPreviewLauncher::APPLICATION_NAME . '&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $this->get_root_content_object()->get_id() . '&' . LearningPathDisplay :: PARAM_STEP . '=%s';
+        return Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ComplexDisplayPreviewLauncher :: APPLICATION_NAME . '&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $this->get_root_content_object()->get_id() . '&' . LearningPathDisplay :: PARAM_STEP . '=%s';
     }
 
     /**
@@ -264,27 +272,29 @@ class LearningPathComplexDisplayPreview extends ComplexDisplayPreview implements
     {
         $item_tracker = new DummyLpiAttemptTracker();
         $item_tracker->set_lp_item_id($learning_path_tracker->get_id());
-//        $item_tracker->set_lp_view_id($current_complex_content_object_item->get_id());
-//        $item_tracker->set_start_time(time());
-//        $item_tracker->set_total_time(0);
-//        $item_tracker->set_score(0);
-//        $item_tracker->set_min_score(0);
-//        $item_tracker->set_max_score(0);
-//        $item_tracker->set_status('completed');
+        //        $item_tracker->set_lp_view_id($current_complex_content_object_item->get_id());
+        //        $item_tracker->set_start_time(time());
+        //        $item_tracker->set_total_time(0);
+        //        $item_tracker->set_score(0);
+        //        $item_tracker->set_min_score(0);
+        //        $item_tracker->set_max_score(0);
+        //        $item_tracker->set_status('completed');
 
-        return $item_tracker;
-//        $parameters = array();
-//        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID] = $learning_path_tracker->get_id();
-//        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_LP_ITEM_ID] = $current_complex_content_object_item->get_id();
-//        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_START_TIME] = time();
-//        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_TOTAL_TIME] = 0;
-//        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_SCORE] = 0;
-//        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_MIN_SCORE] = 0;
-//        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_MAX_SCORE] = 0;
-//        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_STATUS] = 'not attempted';
-//
-//        $result = Event :: trigger('attempt_learning_path_item', WeblcmsManager :: APPLICATION_NAME, $parameters);
-//        return $result[0];
+
+        return $item_tracker;
+
+     //        $parameters = array();
+    //        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID] = $learning_path_tracker->get_id();
+    //        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_LP_ITEM_ID] = $current_complex_content_object_item->get_id();
+    //        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_START_TIME] = time();
+    //        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_TOTAL_TIME] = 0;
+    //        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_SCORE] = 0;
+    //        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_MIN_SCORE] = 0;
+    //        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_MAX_SCORE] = 0;
+    //        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_STATUS] = 'not attempted';
+    //
+    //        $result = Event :: trigger('attempt_learning_path_item', WeblcmsManager :: APPLICATION_NAME, $parameters);
+    //        return $result[0];
     }
 
     /**
@@ -292,12 +302,12 @@ class LearningPathComplexDisplayPreview extends ComplexDisplayPreview implements
      */
     function get_learning_path_content_object_item_details_url($complex_content_object_id)
     {
-//        return $this->get_url(array(
-//                Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
-//                Tool :: PARAM_PUBLICATION_ID => $this->publication->get_id(),
-//                LearningPathDisplay :: PARAM_SHOW_PROGRESS => 'true',
-//                ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id,
-//                'attempt_id' => Request :: get('attempt_id')));
+        //        return $this->get_url(array(
+    //                Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
+    //                Tool :: PARAM_PUBLICATION_ID => $this->publication->get_id(),
+    //                LearningPathDisplay :: PARAM_SHOW_PROGRESS => 'true',
+    //                ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id,
+    //                'attempt_id' => Request :: get('attempt_id')));
     }
 
     /**
@@ -308,12 +318,12 @@ class LearningPathComplexDisplayPreview extends ComplexDisplayPreview implements
      */
     function get_learning_path_content_object_assessment_result_url($complex_content_object_id, $details)
     {
-//        return $this->get_url(array(
-//                Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
-//                Tool :: PARAM_PUBLICATION_ID => $this->publication->get_id(),
-//                LearningPathDisplay :: PARAM_SHOW_PROGRESS => 'true',
-//                ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id,
-//                LearningPathDisplay :: PARAM_DETAILS => $details));
+        //        return $this->get_url(array(
+    //                Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
+    //                Tool :: PARAM_PUBLICATION_ID => $this->publication->get_id(),
+    //                LearningPathDisplay :: PARAM_SHOW_PROGRESS => 'true',
+    //                ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id,
+    //                LearningPathDisplay :: PARAM_DETAILS => $details));
     }
 
     /**
