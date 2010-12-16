@@ -96,14 +96,15 @@ abstract class Application
      */
     static function factory($application, $user = null)
     {
-        if (BasicApplication :: is_application($application))
+        if (BasicApplication :: exists($application))
         {
             return BasicApplication :: factory($application, $user);
         }
-        else
+        if (LauncherApplication :: exists($application))
         {
             return LauncherApplication :: factory($application, $user);
         }
+        throw new \RuntimeException("Unknown Application : ${application}");
     }
 
     /**

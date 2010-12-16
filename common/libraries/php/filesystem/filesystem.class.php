@@ -67,11 +67,17 @@ class Filesystem
             if (! mkdir($path, $mode, true))
             {
                 return false;
-            }
-            else
-            {
-                return chmod($path, $mode);
-            }
+            }            
+        }
+
+        $perms = \fileperms($path);
+        $current_perm_str = substr(decoct($perms), -4);
+        $target_perm_str = decoct($mode);
+        //only try to chmod if needed
+        // chmod often needs us to be owner which is sometimes problematic with mounted filesystem
+        if( $current_perm_str != $target_perm_str )
+        {
+            return chmod($path, $mode);
         }
         return true;
     }

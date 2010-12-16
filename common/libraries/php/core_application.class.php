@@ -13,14 +13,7 @@ abstract class CoreApplication extends BasicApplication
      */
     function is_active($application)
     {
-        if (self :: exists($application))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+    	return self :: exists($name);
     }
 
     /**
@@ -31,16 +24,7 @@ abstract class CoreApplication extends BasicApplication
      */
     public static function is_application($name)
     {
-        $application_path = self :: get_application_path($name);
-        
-        if (file_exists($application_path) && is_dir($application_path))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+    	return self :: exists($name);
     }
 
     public static function get_list()
