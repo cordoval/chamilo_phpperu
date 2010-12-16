@@ -185,11 +185,23 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
      $this->directory = $this->get_data_manager()->get_sys_path() . $old_rel_path;
         //$converted_filename = iconv('UTF-8', 'ISO-8859-1', $this->directory . $filename);
         $converted_filename = $this->directory . $filename;
+        $file_exists = file_exists($converted_filename);
         
         if (! $this->get_id() || ! $this->get_path() || ! $this->get_filetype() || ! $this->get_item_property() || ! $this->get_item_property()->get_ref() || ! 
-            $this->get_item_property()->get_insert_date() || !file_exists($converted_filename) || $this->get_filetype() == 'folder')
+            $this->get_item_property()->get_insert_date() || !$file_exists || $this->get_filetype() == 'folder')
         {
-            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'document', 'ID' => $this->get_id())));
+            if($this->get_filetype() == 'folder')
+            {
+                $this->set_message(Translation :: get('TypeFolderDeprecatedMessage', array('TYPE' => 'document', 'ID' => $this->get_id())));
+            }
+            else if(!$file_exists)
+            {
+                $this->set_message(Translation :: get('FileDoesNotExistMessage', array('TYPE' => 'document', 'ID' => $this->get_id(), 'ORIGINALFILENAME' => $this->get_path() , 'FILENAME' => $converted_filename)));
+            }
+            else
+            {
+                $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'document', 'ID' => $this->get_id())));
+            }
             $this->create_failed_element($this->get_id());
             return false;
         }

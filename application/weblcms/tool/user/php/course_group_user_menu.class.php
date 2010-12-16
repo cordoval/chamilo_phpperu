@@ -113,9 +113,13 @@ class CourseGroupUserMenu extends HTML_Menu
 
         $sub_menu_items = array();
         $children = $group->get_children(false);
-        while ($child = $children->next_result())
+
+        if($children)
         {
-            $sub_menu_items[] = $this->get_group_menu_item($child);
+            while ($child = $children->next_result())
+            {
+                $sub_menu_items[] = $this->get_group_menu_item($child);
+            }
         }
 
         if (count($sub_menu_items) > 0)
