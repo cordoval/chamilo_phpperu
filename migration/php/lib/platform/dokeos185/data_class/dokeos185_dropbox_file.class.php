@@ -6,8 +6,7 @@ use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use common\libraries\Path;
-use Path;
-use FileSystem;
+use common\libraries\FileSystem;
 
 /**
  * $Id: dokeos185_dropbox_file.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
