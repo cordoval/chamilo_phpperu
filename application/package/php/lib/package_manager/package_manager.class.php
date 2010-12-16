@@ -2,13 +2,19 @@
 namespace application\package;
 
 use common\libraries\WebApplication;
+use common\libraries\DynamicAction;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Theme;
+use common\libraries\Redirect;
 
 class PackageManager extends WebApplication
 {
     const APPLICATION_NAME = 'package';
-
+    
     const ACTION_PACKAGE_INSTANCE = 'package_instance';
-
+    const ACTION_AUTHOR = 'author';
+    
     const DEFAULT_ACTION = self :: ACTION_PACKAGE_INSTANCE;
 
     /**
@@ -49,5 +55,24 @@ class PackageManager extends WebApplication
     {
         return self :: DEFAULT_ACTION;
     }
+
+    /**
+     * Gets the available links to display in the platform admin
+     * @retun array of links and actions
+     */
+    public static function get_application_platform_admin_links()
+    {
+        $links = array();
+        $links[] = new DynamicAction(Translation :: get('InstanceManager', null, Utilities :: COMMON_LIBRARIES), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'admin/add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_PACKAGE_INSTANCE)));
+        $links[] = new DynamicAction(Translation :: get('AuthorManager', null, Utilities :: COMMON_LIBRARIES), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'admin/export.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_AUTHOR)));
+     
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
+        $info['links'] = $links;
+       
+        return $info;
+    }
+
 }
 ?>
