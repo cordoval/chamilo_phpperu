@@ -186,7 +186,7 @@ abstract class BasicApplication extends Application
     	return self :: get_application_web_resources_path($application) . Path :: RESOURCES_JAVASCRIPT_PATH . '/';
     }
 
-    static function exists($application)
+    function get_type($application)
     {
         if (WebApplication :: exists($application))
         {
@@ -196,6 +196,12 @@ abstract class BasicApplication extends Application
         {
         	return CoreApplication :: CLASS_NAME;
         }
+        return false;
+    }
+    static function exists($application)
+    {
+        if (WebApplication :: exists($application)) return true;
+        if (CoreApplication :: exists($application)) return true;
         return false;
     }
 }

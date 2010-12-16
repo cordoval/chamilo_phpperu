@@ -855,26 +855,20 @@ abstract class Application
     }
 
     /* static */
-
     function get_type($application)
     {
-        if (! BasicApplication :: exists($application))
+
+        if (BasicApplication :: exists($application))
         {
-            if (LauncherApplication :: exists($application))
-            {
-                return LauncherApplication :: CLASS_NAME;
-            }
-            else
-            {
-                return false;
-            }
+            return BasicApplication :: get_type($application);
         }
-        else
+
+        if (LauncherApplication :: exists($application))
         {
-            return BasicApplication :: exists($application);
+            return LauncherApplication :: CLASS_NAME;
         }
+
+        return false;
     }
 
 }
-
-?>
