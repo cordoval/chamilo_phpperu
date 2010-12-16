@@ -8,7 +8,7 @@ use common\libraries\ResourceManager;
 use common\libraries\Utilities;
 use user\UserDataManager;
 
-class SurveyTemplateForm extends FormValidator
+class SurveyTemplateUserForm extends FormValidator
 {
 
     const TYPE_CREATE = 1;
@@ -22,7 +22,7 @@ class SurveyTemplateForm extends FormValidator
     const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
     const PARAM_APPLICATION_NAME = 'survey_context_manager';
 
-    private $survey_template;
+    private $survey_template_user;
     private $user;
     private $form_type;
     private $manager;
@@ -30,11 +30,11 @@ class SurveyTemplateForm extends FormValidator
     /**
      * Creates a new LanguageForm
      */
-    function __construct($form_type, $action, $survey_template, $user, $manager)
+    function __construct($form_type, $action, $survey_template_user, $user, $manager)
     {
-        parent :: __construct('survey_template_form', 'post', $action);
+        parent :: __construct('survey_template_user_form', 'post', $action);
 
-        $this->survey_template = $survey_template;
+        $this->survey_template_user = $survey_template_user;
 
         $this->user = $user;
         $this->form_type = $form_type;
@@ -68,7 +68,7 @@ class SurveyTemplateForm extends FormValidator
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/survey_template_registration_form.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/survey_template_user_registration_form.js'));
     }
 
     /**
@@ -90,8 +90,8 @@ class SurveyTemplateForm extends FormValidator
 
         $this->add_receivers(self :: PARAM_APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET, Translation :: get('Users'), $attributes);
 
-        $survey_template = $this->survey_template;
-        $property_names = $survey_template->get_additional_property_names(true);
+        $survey_template_user = $this->survey_template_user;
+        $property_names = $survey_template_user->get_additional_property_names(true);
 
         foreach ($property_names as $property_name => $type)
         {
@@ -120,8 +120,8 @@ class SurveyTemplateForm extends FormValidator
     function build_editing_form()
     {
 
-//        $survey_template = $this->survey_template;
-//        $property_names = $survey_template->get_additional_property_names();
+//        $survey_template_user = $this->survey_template_user;
+//        $property_names = $survey_template_user->get_additional_property_names();
 //
 //        foreach ($property_names as $property_name)
 //        {
@@ -131,7 +131,7 @@ class SurveyTemplateForm extends FormValidator
 //        $this->build_footer('Update');
     }
 
-    function create_survey_template()
+    function create_survey_template_user()
     {
 
         $values = $this->exportValues();
@@ -189,8 +189,8 @@ class SurveyTemplateForm extends FormValidator
             $colomn_shift_values[$index] = $shift_value;
         }
 
-        $survey_template = $this->survey_template;
-        $property_names = $survey_template->get_additional_property_names();
+        $survey_template_user = $this->survey_template_user;
+        $property_names = $survey_template_user->get_additional_property_names();
         $check_level_count = count($property_names);
 
         if ($check_level_count != $level_count)
@@ -234,34 +234,34 @@ class SurveyTemplateForm extends FormValidator
         {
             foreach ($property_values as $values)
             {
-               	$survey_template = $this->survey_template;
-                $survey_template->set_user_id($user_id);
+               	$survey_template_user = $this->survey_template_user;
+                $survey_template_user->set_user_id($user_id);
                 foreach ($property_names as $property_name)
                 {
                     $split = explode('_', $property_name);
                     $level = $split[1];
                     $value = $values[$level];
-                   	$survey_template->set_additional_property($property_name, $value);
+                   	$survey_template_user->set_additional_property($property_name, $value);
 
                 }
-                $result = $survey_template->create();
+                $result = $survey_template_user->create();
              }
         }
 
         return $result;
     }
 
-    function update_survey_template()
+    function update_survey_template_user()
     {
-        $survey_template = $this->survey_template;
-        $property_names = $survey_template->get_additional_property_names();
+        $survey_template_user = $this->survey_template_user;
+        $property_names = $survey_template_user->get_additional_property_names();
 
         foreach ($property_names as $property_name)
         {
-            $survey_template->set_additional_property($property_name, $this->exportValue($property_name));
+            $survey_template_user->set_additional_property($property_name, $this->exportValue($property_name));
         }
 
-        return $survey_template->update();
+        return $survey_template_user->update();
     }
 
     /**
@@ -273,12 +273,12 @@ class SurveyTemplateForm extends FormValidator
 
         if ($this->form_type == self :: TYPE_EDIT)
         {
-            $survey_template = $this->survey_template;
-            $property_names = $survey_template->get_additional_property_names();
+            $survey_template_user = $this->survey_template_user;
+            $property_names = $survey_template_user->get_additional_property_names();
 
             foreach ($property_names as $property_name)
             {
-                $defaults[$property_name] = $survey_template->get_additional_property($property_name);
+                $defaults[$property_name] = $survey_template_user->get_additional_property($property_name);
             }
         }
 

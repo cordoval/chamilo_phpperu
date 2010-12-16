@@ -5,10 +5,10 @@ use common\libraries\Path;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 
-require_once Path :: get_repository_content_object_path() . '/survey/php/survey_template.class.php';
-require_once Path :: get_repository_content_object_path() . '/survey/php/context_data_manager/context_data_manager.class.php';
+//require_once Path :: get_repository_content_object_path() . '/survey/php/survey_template.class.php';
+//require_once Path :: get_repository_content_object_path() . '/survey/php/context_data_manager/context_data_manager.class.php';
 
-class DefaultSurveyTemplateTableColumnModel extends ObjectTableColumnModel
+class DefaultSurveyTemplateUserTableColumnModel extends ObjectTableColumnModel
 {
 
     private $survey_template_type;
@@ -30,11 +30,11 @@ class DefaultSurveyTemplateTableColumnModel extends ObjectTableColumnModel
     {
         $columns = array();
 
-        $template_alias = SurveyContextDataManager::get_instance()->get_alias(SurveyTemplate:: get_table_name());
+        $template_alias = SurveyContextDataManager::get_instance()->get_alias(SurveyTemplateUser:: get_table_name());
 
-        $columns[] = new ObjectTableColumn(SurveyTemplate::PROPERTY_USER_ID, true, $template_alias, false);
+        $columns[] = new ObjectTableColumn(SurveyTemplateUser::PROPERTY_USER_ID, true, $template_alias, false);
 
-        $survey_template = SurveyTemplate :: factory($this->survey_template_type);
+        $survey_template = SurveyTemplateUser :: factory($this->survey_template_type);
         $property_names = $survey_template->get_additional_property_names();
 
         foreach ($property_names as $property_name)

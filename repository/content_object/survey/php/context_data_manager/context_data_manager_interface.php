@@ -51,19 +51,19 @@ interface SurveyContextDataManagerInterface
     function create_survey_context_registration($context_registration);
     
     
-    function retrieve_survey_templates($type, $condition = null, $offset = null, $count = null, $order_property = null);
+    function retrieve_survey_template_users($type, $condition = null, $offset = null, $count = null, $order_property = null);
 
-    function count_survey_templates($type, $condition = null);
+    function count_survey_template_users($type, $condition = null);
     
-    function retrieve_survey_template_by_id($template_id, $type);
+    function retrieve_survey_template_user_by_id($template_id, $type);
 
-    function delete_survey_template($survey_template);
+    function delete_survey_template_user($survey_template_user);
 
-    function update_survey_template($survey_template);
+    function update_survey_template_user($survey_template_user);
 
-    function create_survey_template($survey_template);
+    function create_survey_template_user($survey_template_user);
 
-    function retrieve_additional_survey_template_properties($survey_template);
+    function retrieve_additional_survey_template_user_properties($survey_template_user);
     
     
     function delete_survey_context_rel_user($context_rel_user);

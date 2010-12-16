@@ -3,7 +3,7 @@ namespace repository\content_object\survey;
 
 use common\libraries\ObjectTableCellRenderer;
 
-class DefaultSurveyTemplateTableCellRenderer extends ObjectTableCellRenderer
+class DefaultSurveyTemplateUserTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**
@@ -21,7 +21,7 @@ class DefaultSurveyTemplateTableCellRenderer extends ObjectTableCellRenderer
 
     	$property_name = $column->get_name();
 
-    	if($property_name == SurveyTemplate::PROPERTY_USER_ID){
+    	if($property_name == SurveyTemplateUser::PROPERTY_USER_ID){
     		return $context_template->get_default_property($property_name);
     	}else{
     		return $context_template->get_additional_property($property_name);

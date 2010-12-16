@@ -8,12 +8,11 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\DynamicTabsRenderer;
 
+//require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/forms/template_form.class.php';
+//require_once Path :: get_repository_content_object_path() . 'survey/php/survey_template_user.class.php';
+//require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_template_viewer.class.php';
 
-require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/forms/template_form.class.php';
-require_once Path :: get_repository_content_object_path() . 'survey/php/survey_template.class.php';
-require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_template_viewer.class.php';
-
-class SurveyContextManagerTemplateCreatorComponent extends SurveyContextManager
+class SurveyContextManagerTemplateUserCreatorComponent extends SurveyContextManager
 {
 
     /**
@@ -28,24 +27,24 @@ class SurveyContextManagerTemplateCreatorComponent extends SurveyContextManager
         
         $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
         
-        $survey_template = SurveyTemplate :: factory($context_template->get_type());
+        $survey_template_user = SurveyTemplateUser :: factory($context_template->get_type());
         
-        $survey_template->set_context_template_id($context_template_id);
+        $survey_template_user->set_template_id($context_template_id);
         
-        $form = new SurveyTemplateForm(SurveyTemplateForm :: TYPE_CREATE, $this->get_url(), $survey_template, $this->get_user(), $this);
+        $form = new SurveyTemplateUserForm(SurveyTemplateUserForm :: TYPE_CREATE, $this->get_url(), $survey_template_user, $this->get_user(), $this);
         
         if ($form->validate())
         {
             $tab = SurveyContextManagerContextTemplateViewerComponent :: TAB_TEMPLATES;
             
-            $success = $form->create_survey_template();
+            $success = $form->create_survey_template_user();
             if ($success)
             {
-                $this->redirect(Translation :: get('SurveyTemplateCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_TEMPLATE, SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
+                $this->redirect(Translation :: get('SurveyTemplateUserCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_TEMPLATE, SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
             }
             else
             {
-                $this->redirect(Translation :: get('SurveyTemplateNotCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_TEMPLATE, SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
+                $this->redirect(Translation :: get('SurveyTemplateUserNotCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_TEMPLATE, SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
             }
         }
         else

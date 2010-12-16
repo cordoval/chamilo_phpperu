@@ -92,8 +92,6 @@ class SurveyMatchingQuestionDisplay extends SurveyQuestionDisplay
         $option_count = 0;
         foreach ($options as $option_id => $option)
         {
-//             $answer_name = $question_id . '_' . $answer_id.'_'.$this->get_context_path();
-        	
         	$option_name = $question_id . '_' . $option_id;
             
             $group = array();
@@ -105,8 +103,8 @@ class SurveyMatchingQuestionDisplay extends SurveyQuestionDisplay
             $formvalidator->addGroup($group, 'group_' . $option_name, null, '', false);
                      
             if(isset($answer)){
-            	if($answer[$option_id]){
-            		$formvalidator->setDefaults(array($option_name =>array_values($answer[$option_id])));
+            	if(isset($answer[$option_id])){
+            		$formvalidator->setDefaults(array($option_name =>$answer[$option_id]));
             	}
             }
             
