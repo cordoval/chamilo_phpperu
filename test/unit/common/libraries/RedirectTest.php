@@ -118,6 +118,43 @@ class RedirectTest extends \PHPUnit_Framework_TestCase{
         $this->assertURLQueryContainsExactly($expected,$return_value);
     }
 
+    public function test_get_link_should_call_run_script_when_type_is_application()
+    {
+        $return_value = Redirect :: get_link('customApplication', array(), array(), false, Redirect :: TYPE_APPLICATION);
+
+        $this->assertEquals('run.php?application=customApplication', $return_value);
+    }
+
+    public function test_get_link_should_call_core_script_when_type_is_core()
+    {
+        $return_value = Redirect :: get_link('coreApplication', array(), array(), false, Redirect :: TYPE_CORE);
+        $this->assertEquals('core.php?application=coreApplication', $return_value);
+    }
+
+    public function test_get_link_should_call_index_script_when_type_is_index()
+    {
+        $return_value = Redirect :: get_link('coreApplication', array(), array(), false, Redirect :: TYPE_INDEX);
+        $this->assertEquals('index.php', $return_value);
+    }
+
+    public function test_get_link_should_call_index_script_when_type_is_something_else()
+    {
+        $return_value = Redirect :: get_link('coreApplication', array(), array(), false, "unknown");
+        $this->assertEquals('index.php', $return_value);
+    }
+
+    public function test_get_web_link_encode_entities_when_specified()
+    {
+        $url = "un script nécessitant d'être encodé & including <different> entities";
+
+        $unencoded_return_value = Redirect :: get_web_link($url, array(), false);
+        $encoded_return_value = Redirect :: get_web_link($url, array(), true);
+
+
+        $this->assertEquals($url, $unencoded_return_value);
+        $this->assertEquals($url, \html_entity_decode($encoded_return_value));
+    }
+
 
 
     private function assertURLQueryContains(array $expected, $url)
