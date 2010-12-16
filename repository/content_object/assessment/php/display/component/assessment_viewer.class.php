@@ -30,17 +30,33 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
     private $questions;
 
     /**
+     * The form that displays the questions per page
+     * @var AssessmentViewerForm
+     */
+    private $question_form;
+
+    /**
      * Runs this component and displays its output.
      */
     function run()
     {
-//        $form = new AssessmentViewerForm($this, $this->get_root_content_object());
-//        $this->display_header();
-//        $form->display();
-//        $this->display_footer();
-
         $wizard = new AssessmentViewerWizard($this, $this->get_root_content_object());
         $wizard->run();
+//        $this->question_form = new AssessmentViewerForm($this, $this->get_root_content_object(), 'post', $this->get_url());
+
+//        if ($this->question_form->validate())
+//        {
+//            $question_form = new AssessmentViewerForm($this, $this->get_root_content_object(), 'post', $this->get_url());
+//            $this->display_header();
+//            $question_form->display();
+//            $this->display_footer();
+//        }
+//        else
+//        {
+//            $this->display_header();
+//            $this->question_form->display();
+//            $this->display_footer();
+//        }
     }
 
     function get_random_questions()
@@ -125,7 +141,7 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
 
     function get_questions($page_number)
     {
-        if (! isset($this->questions))
+        if (! isset($this->questions[$page_number]))
         {
             $assessment = $this->get_root_content_object();
             $questions_per_page = $assessment->get_questions_per_page();
@@ -152,10 +168,10 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
                 $stop = $questions_per_page;
             }
 
-            $this->questions = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition, array(), $start, $stop);
+            $this->questions[$page_number] = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition, array(), $start, $stop);
         }
 
-        return $this->questions;
+        return $this->questions[$page_number];
     }
 }
 ?>

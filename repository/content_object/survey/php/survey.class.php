@@ -20,7 +20,7 @@ use user\UserDataManager;
  * This class represents an survey
  */
 
-require_once (dirname(__FILE__) . '/survey_context.class.php');
+//require_once (dirname(__FILE__) . '/survey_context.class.php');
 
 class Survey extends ContentObject implements ComplexContentObjectSupport
 {
@@ -340,8 +340,11 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     {
         if (! $this->page_context_paths)
         {
-            $this->create_context_paths();
+//            dump('hi');
+        	$this->create_context_paths();
         }
+//        dump($this->context_paths);
+//        exit;
         return array_keys($this->page_context_paths);
     }
 
@@ -363,12 +366,12 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         {
             $context_template = $this->get_context_template(1);
                      
-            $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $this->invitee_id, SurveyTemplate :: get_table_name());
-            $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($context_template->get_type(), $condition);
+            $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_USER_ID, $this->invitee_id, SurveyTemplateUser :: get_table_name());
+            $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_template_users($context_template->get_type(), $condition);
             
             while ($template = $templates->next_result())
             {
-                
+//                dump($template);
                 $level = 1;
                 $property_names = $template->get_additional_property_names(true);
                               
@@ -389,7 +392,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                     
                     while ($template_rel_page = $template_rel_pages->next_result())
                     {
-                        $pages_ids = array();
+//                        dump($template_rel_page);
+                    	$pages_ids = array();
                         $survey_page = $this->get_page_by_id($template_rel_page->get_page_id());
                         $page_id = $survey_page->get_id();
                         $pages_ids[] = $page_id;
@@ -414,8 +418,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                         $context_path_tree[$level][$parent_id][$context_id][$page_id] = $pages_ids;
                     }
                     
-                    //                    dump($context_path_tree);
-                    
+//                                    dump($context_path_tree);
+//                    				dump($level);
 
                     //                  old bug ?  $context_path_tree[$level][$parent_id][$context_id] = $pages_ids;
                     
@@ -466,7 +470,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
 
     private function create_page_context_paths($path, $pages_context_as_tree)
     {
-        //        dump($pages_context_as_tree);
+//              dump($pages_context_as_tree);
         foreach ($pages_context_as_tree as $page_context_as_tree)
         {
             $page_id = $page_context_as_tree[0];
@@ -532,11 +536,17 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             $this->question_nr = 1;
         }
         
+//        dump('levek: '.$level);
+//        dump('path '.$path);
+        
         foreach ($this->context_path_tree[$level][$parent_id] as $id => $pages)
         {
-            if (is_int($id))
+//            dump('hi');
+//            dump($id);
+        	if (is_int($id))
             {
-                if ($level == 1)
+//                dump($id);
+            	if ($level == 1)
                 {
                     $path = null;
                     $this->question_nr = 1;
@@ -571,6 +581,9 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                 {
                     $path = $id;
                 }
+                
+//                dump('path2 '.$path);
+//                dump($pages);
                 
                 $this->create_page_context_paths($path, $pages);
                 

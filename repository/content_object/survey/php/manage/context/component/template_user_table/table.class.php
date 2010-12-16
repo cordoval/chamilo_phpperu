@@ -1,4 +1,4 @@
-<?php namespace repository\content_object\survey;
+<?php 
 namespace repository\content_object\survey;
 
 use common\libraries\Request;
@@ -13,18 +13,18 @@ require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once dirname(__FILE__) . '/table_cell_renderer.class.php';
 
 
-class SurveyTemplateTable extends ObjectTable
+class SurveyTemplateUserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'survey_template_table';
+    const DEFAULT_NAME = 'survey_template_user_table';
 
 
     function __construct($component, $parameters, $condition, $context_template)
     {
         $template_type = $context_template->get_type();
-    	$model = new SurveyTemplateTableColumnModel($template_type);
-        $renderer = new SurveyTemplateTableCellRenderer($component, $context_template->get_id());
-        $data_provider = new SurveyTemplateTableDataProvider($component, $condition, $template_type);
-        parent :: __construct($data_provider, SurveyTemplateTable :: DEFAULT_NAME, $model, $renderer);
+    	$model = new SurveyTemplateUserTableColumnModel($template_type);
+        $renderer = new SurveyTemplateUserTableCellRenderer($component, $context_template->get_id());
+        $data_provider = new SurveyTemplateUserTableDataProvider($component, $condition, $template_type);
+        parent :: __construct($data_provider, SurveyTemplateUserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
 
         $actions = new ObjectTableFormActions(__NAMESPACE__, SurveyContextManager :: PARAM_ACTION);

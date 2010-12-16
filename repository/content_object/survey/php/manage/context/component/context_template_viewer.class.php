@@ -19,9 +19,8 @@ use common\libraries\OrCondition;
 use common\libraries\AndCondition;
 use repository\ContentObject;
 
-
-require_once dirname(__FILE__) . '/template_table/table.class.php';
-require_once dirname(__FILE__) . '/survey_table/table.class.php';
+//require_once dirname(__FILE__) . '/template_table/table.class.php';
+//require_once dirname(__FILE__) . '/survey_table/table.class.php';
 
 class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextManager
 {
@@ -75,7 +74,7 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
 
 
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_TEMPLATES;
-        $table = new SurveyTemplateTable($this, $parameters, $this->get_condition(), $this->context_template);
+        $table = new SurveyTemplateUserTable($this, $parameters, $this->get_condition(), $this->context_template);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_TEMPLATES, Translation :: get('Templates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
 
         $html[] = $tabs->render();
@@ -141,8 +140,9 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
 
         $action_bar->set_search_url($this->get_url());
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_template_creation_url($this->context_template), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_template_user_creation_url($this->context_template), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Import', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_import.png', $this->get_template_user_import_url($this->context_template), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
         return $action_bar;
     }
     

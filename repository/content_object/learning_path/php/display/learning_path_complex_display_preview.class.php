@@ -6,6 +6,7 @@ use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Application;
 use common\libraries\Translation;
+use common\libraries\LauncherApplication;
 
 use repository\ComplexDisplayPreview;
 use repository\ComplexDisplay;
@@ -33,6 +34,21 @@ class LearningPathComplexDisplayPreview extends ComplexDisplayPreview implements
     function run()
     {
         ComplexDisplay :: launch($this->get_root_content_object()->get_type(), $this);
+    }
+
+    function display_header()
+    {
+        LauncherApplication :: display_header();
+
+        $embedded_content_object_id = LearningPathContentObjectDisplay :: get_embedded_content_object_id();
+
+        if (! $embedded_content_object_id)
+        {
+            $html[] = '<div class="warning-banner">';
+            $html[] = Translation :: get('PreviewModeWarning', null, Utilities :: COMMON_LIBRARIES);
+            $html[] = '</div>';
+            echo implode("\n", $html);
+        }
     }
 
     function get_root_content_object()

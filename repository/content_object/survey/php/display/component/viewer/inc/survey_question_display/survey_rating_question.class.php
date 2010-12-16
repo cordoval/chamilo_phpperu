@@ -15,15 +15,11 @@ class SurveyRatingQuestionDisplay extends SurveyQuestionDisplay
     {
         $formvalidator = $this->get_formvalidator();
         $renderer = $this->get_renderer();
-        //        $complex_question = $this->get_complex_question();
         $question = $this->get_question();
         
         $min = $question->get_low();
         $max = $question->get_high();
         $question_name = $this->get_complex_question()->get_id() . '_0';
-        
-        //        $question_name = $this->get_question()->get_id() . '_0'.'_'.$this->get_context_path();
-        
 
         for($i = $min; $i <= $max; $i ++)
         {
@@ -41,11 +37,10 @@ class SurveyRatingQuestionDisplay extends SurveyQuestionDisplay
         $formvalidator->addElement('select', $question_name, Translation :: get('Rating') . ': ', $scores, 'class="rating_slider"');
         
         $answer = $this->get_answer();
-       
         
         if ($answer)
         {
-            $formvalidator->setDefaults(array($question_name => $answer[0]));
+        	$formvalidator->setDefaults(array($question_name => $answer[0]));
         }
         
         $renderer->setElementTemplate($element_template, $question_name);
