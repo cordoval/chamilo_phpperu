@@ -44,6 +44,10 @@ class DefaultPackageTableCellRenderer extends ObjectTableCellRenderer
                 return $package->get_version();
             case Package :: PROPERTY_DESCRIPTION :
                 return $package->get_description();
+            case Package :: PROPERTY_CYCLE_PHASE :
+                return $package->get_cycle_phase();
+            case Package :: PROPERTY_STATUS :
+                return $package->get_status_string();    
             default :
                 return '&nbsp;';
         }

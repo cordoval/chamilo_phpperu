@@ -15,13 +15,11 @@ use common\libraries\Utilities;
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  **/
-class PackageForm extends FormValidator
+class AuthorForm extends FormValidator
 {
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
-    
-    const PHASE = 'phase';
-    
+        
     private $package;
     private $user;
 
@@ -51,26 +49,12 @@ class PackageForm extends FormValidator
         $this->addElement('text', Package :: PROPERTY_NAME, Translation :: get('Name'));
         $this->addRule(Package :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
-        $this->addElement('text', Package :: PROPERTY_SECTION, Translation :: get('Section'));
-        $this->addRule(Package :: PROPERTY_SECTION, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-        
-        $this->addElement('text', Package :: PROPERTY_VERSION, Translation :: get('Version'));
-        $this->addRule(Package :: PROPERTY_VERSION, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-        
-        $this->addElement('select', Package :: PROPERTY_CYCLE_PHASE, Translation :: get('Phase'), Package :: get_phases(), array('class' => 'postback'));
-        $this->addRule(Package :: PROPERTY_CYCLE_PHASE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-        
-        $this->addElement('textarea', Package :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
-        
-        $this->addElement('text', Package :: PROPERTY_CODE, Translation :: get('Code'));
-        $this->addRule(Package :: PROPERTY_CODE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-        
-        $this->addElement('text', Package :: PROPERTY_CATEGORY, Translation :: get('Category'));
-        $this->addRule(Package :: PROPERTY_CATEGORY, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-        
-        $this->addElement('text', Package :: PROPERTY_FILENAME, Translation :: get('Filename'));
-        $this->addRule(Package :: PROPERTY_FILENAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-        
+        $this->addElement('text', Package :: PROPERTY_EMAIL, Translation :: get('Email'));
+        $this->addRule(Package :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+                
+        $this->addElement('text', Package :: PROPERTY_COMPANY, Translation :: get('Company'));
+        $this->addRule(Package :: PROPERTY_COMPANY, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+                
         $this->addElement('category');
         //		
         //		$this->addElement('category', Translation :: get('Moderators'));
@@ -132,13 +116,9 @@ class PackageForm extends FormValidator
         $values = $this->exportValues();
         
         $package->set_name($values[Package :: PROPERTY_NAME]);
-        $package->set_version($values[Package :: PROPERTY_VERSION]);
-        $package->set_description($values[Package :: PROPERTY_DESCRIPTION]);
-        $package->set_section($values[Package :: PROPERTY_SECTION]);
-        $package->set_cycle_phase($values[Package :: PROPERTY_CYCLE_PHASE]);
-        $package->set_code($values[Package :: PROPERTY_CODE]);
-        $package->set_category($values[Package :: PROPERTY_CATEGORY]);
-        $package->set_filename($values[Package :: PROPERTY_FILENAME]);
+        $package->set_email($values[Package :: PROPERTY_EMAIL]);
+        $package->set_company($values[Package :: PROPERTY_COMPANY]);
+
         
         if (! $package->update())
         {
@@ -178,13 +158,8 @@ class PackageForm extends FormValidator
         $values = $this->exportValues();
         
         $package->set_name($values[Package :: PROPERTY_NAME]);
-        $package->set_version($values[Package :: PROPERTY_VERSION]);
-        $package->set_description($values[Package :: PROPERTY_DESCRIPTION]);
-        $package->set_section($values[Package :: PROPERTY_SECTION]);
-        $package->set_cycle_phase($values[Package :: PROPERTY_CYCLE_PHASE]);
-        $package->set_code($values[Package :: PROPERTY_CODE]);
-        $package->set_category($values[Package :: PROPERTY_CATEGORY]);
-        $package->set_filename($values[Package :: PROPERTY_FILENAME]);
+        $package->set_email($values[Package :: PROPERTY_EMAIL]);
+        $package->set_company($values[Package :: PROPERTY_COMPANY]);
 //        dump($package);
         if (! $package->create())
         {
@@ -215,13 +190,9 @@ class PackageForm extends FormValidator
         $package = $this->package;
         
         $defaults[Package :: PROPERTY_NAME] = $package->get_name();
-        $defaults[Package :: PROPERTY_VERSION] = $package->get_version();
-        $defaults[Package :: PROPERTY_DESCRIPTION] = $package->get_description();
-        $defaults[Package :: PROPERTY_SECTION] = $package->get_section();
-        $defaults[Package :: PROPERTY_CYCLE_PHASE] = $package->get_cycle_phase();
-        $defaults[Package :: PROPERTY_CODE] = $package->get_code();
-        $defaults[Package :: PROPERTY_CATEGORY] = $package->get_category();
-        $defaults[Package :: PROPERTY_FILENAME] = $package->get_filename();   
+        $defaults[Package :: PROPERTY_EMAIL] = $package->get_email();
+        $defaults[Package :: PROPERTY_COMPANY] = $package->get_company();
+
         parent :: setDefaults($defaults);
     }
     

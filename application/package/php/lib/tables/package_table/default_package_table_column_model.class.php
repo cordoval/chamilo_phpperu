@@ -36,7 +36,9 @@ class DefaultPackageTableColumnModel extends ObjectTableColumnModel
 		$columns[] = new ObjectTableColumn(Package :: PROPERTY_SECTION);
 		$columns[] = new ObjectTableColumn(Package :: PROPERTY_NAME);
 		$columns[] = new ObjectTableColumn(Package :: PROPERTY_VERSION);
-		$columns[] = new ObjectTableColumn(Package :: PROPERTY_DESCRIPTION);		
+		$columns[] = new ObjectTableColumn(Package :: PROPERTY_CYCLE_PHASE);
+		$columns[] = new ObjectTableColumn(Package :: PROPERTY_DESCRIPTION);
+		$columns[] = new ObjectTableColumn(Package :: PROPERTY_STATUS);
 
 		return $columns;
 	}

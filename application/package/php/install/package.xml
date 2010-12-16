@@ -9,7 +9,8 @@
 		<property name="category" type="text" length="255" fixed="true" />
 		<property name="authors" type="text" />
 		<property name="version" type="text" length="255" fixed="true" />
-		<property name="cycle" type="text" />
+		<property name="cycle_phase" type="text" />
+		<property name="cycle_realm" type="text" />
 		<property name="filename" type="text" length="255" fixed="true" />
 		<property name="size" type="integer" notnull="0" default="0" />
 		<property name="md5" type="text" length="32" fixed="true" />
@@ -21,6 +22,7 @@
 		<property name="homepage" type="text" length="255" fixed="true" />
 		<property name="dependencies" type="text" />
 		<property name="extra" type="text" />
+		<property name="status" type="integer" length="1"/>
 	</properties>
 	<index name="code" type="unique">
 		<indexproperty name="code" />

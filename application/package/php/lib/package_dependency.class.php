@@ -2,7 +2,6 @@
 namespace application\package;
 
 use common\libraries\Utilities;
-use common\libraries\Translation;
 use common\libraries\DataClass;
 use common\libraries\NotCondition;
 use common\libraries\EqualityCondition;
@@ -24,9 +23,9 @@ class Package extends DataClass
     const PROPERTY_NAME = 'name';
     const PROPERTY_SECTION = 'section';
     const PROPERTY_CATEGORY = 'category';
-//    const PROPERTY_AUTHORS = 'authors';
+    const PROPERTY_AUTHORS = 'authors';
     const PROPERTY_VERSION = 'version';
-    //    const PROPERTY_CYCLE = 'cycle';
+    const PROPERTY_CYCLE = 'cycle';
     const PROPERTY_FILENAME = 'filename';
     const PROPERTY_SIZE = 'size';
     const PROPERTY_MD5 = 'md5';
@@ -38,11 +37,10 @@ class Package extends DataClass
     const PROPERTY_HOMEPAGE = 'homepage';
     const PROPERTY_DEPENDENCIES = 'dependencies';
     const PROPERTY_EXTRA = 'extra';
-    const PROPERTY_STATUS = 'status';
     
     // Sub-properties
-    const PROPERTY_CYCLE_PHASE = 'cycle_phase';
-    const PROPERTY_CYCLE_REALM = 'cycle_realm';
+    const PROPERTY_CYCLE_PHASE = 'phase';
+    const PROPERTY_CYCLE_REALM = 'realm';
     
     // Release phases
     const PHASE_ALPHA = 'alpha';
@@ -53,11 +51,6 @@ class Package extends DataClass
     // Release realm
     const REALM_MAIN = 'main';
     const REALM_UNIVERSE = 'universe';
-    
-    //status
-    const STATUS_PENDING = 1;
-    const STATUS_ACCEPTED = 2;
-    const STATUS_REJECTED = 3;
 
     /**
      * Get the default properties
@@ -65,26 +58,10 @@ class Package extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CODE, 
-                self :: PROPERTY_NAME, 
-                self :: PROPERTY_SECTION, 
-                self :: PROPERTY_CATEGORY, 
-//                self :: PROPERTY_AUTHORS, 
-                self :: PROPERTY_VERSION, 
-                self :: PROPERTY_FILENAME, 
-                self :: PROPERTY_SIZE, 
-                self :: PROPERTY_MD5, 
-                self :: PROPERTY_SHA1, 
-                self :: PROPERTY_SHA256, 
-                self :: PROPERTY_SHA512, 
-                self :: PROPERTY_TAGLINE, 
-                self :: PROPERTY_DESCRIPTION, 
-                self :: PROPERTY_HOMEPAGE, 
-                self :: PROPERTY_DEPENDENCIES, 
-                self :: PROPERTY_EXTRA, 
-                self :: PROPERTY_CYCLE_PHASE, 
-                self :: PROPERTY_CYCLE_REALM,
-                self :: PROPERTY_STATUS));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_CODE, self :: PROPERTY_NAME, self :: PROPERTY_SECTION, self :: PROPERTY_CATEGORY, self :: PROPERTY_AUTHORS, self :: PROPERTY_VERSION, self :: PROPERTY_CYCLE, self :: PROPERTY_FILENAME, 
+                self :: PROPERTY_SIZE, self :: PROPERTY_MD5, self :: PROPERTY_SHA1, self :: PROPERTY_SHA256, self :: PROPERTY_SHA512, self :: PROPERTY_TAGLINE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_HOMEPAGE, 
+                self :: PROPERTY_DEPENDENCIES, self :: PROPERTY_EXTRA));
     }
 
     /**
@@ -176,14 +153,14 @@ class Package extends DataClass
         return unserialize($this->get_default_property(self :: PROPERTY_AUTHORS));
     }
 
-//    /**
-//     * Sets the authors of this Package.
-//     * @param authors
-//     */
-//    function set_authors($authors)
-//    {
-//        $this->set_default_property(self :: PROPERTY_AUTHORS, serialize($authors));
-//    }
+    /**
+     * Sets the authors of this Package.
+     * @param authors
+     */
+    function set_authors($authors)
+    {
+        $this->set_default_property(self :: PROPERTY_AUTHORS, serialize($authors));
+    }
 
     /**
      * Returns the version of this Package.
@@ -203,24 +180,23 @@ class Package extends DataClass
         $this->set_default_property(self :: PROPERTY_VERSION, $version);
     }
 
-    //    /**
-    //     * Returns the cycle of this Package.
-    //     * @return the cycle.
-    //     */
-    //    function get_cycle()
-    //    {
-    //        return unserialize($this->get_default_property(self :: PROPERTY_CYCLE));
-    //    }
-    //
-    //    /**
-    //     * Sets the cycle of this Package.
-    //     * @param cycle
-    //     */
-    //    function set_cycle($cycle)
-    //    {
-    //        $this->set_default_property(self :: PROPERTY_CYCLE, serialize($cycle));
-    //    }
-    
+    /**
+     * Returns the cycle of this Package.
+     * @return the cycle.
+     */
+    function get_cycle()
+    {
+        return unserialize($this->get_default_property(self :: PROPERTY_CYCLE));
+    }
+
+    /**
+     * Sets the cycle of this Package.
+     * @param cycle
+     */
+    function set_cycle($cycle)
+    {
+        $this->set_default_property(self :: PROPERTY_CYCLE, serialize($cycle));
+    }
 
     /**
      * Returns the cycle phase of this Package.
@@ -228,12 +204,15 @@ class Package extends DataClass
      */
     function get_cycle_phase()
     {
-        return $this->get_default_property(self :: PROPERTY_CYCLE_PHASE);
+        $cycle = $this->get_cycle();
+        return $cycle[self :: PROPERTY_CYCLE_PHASE];
     }
 
-    function set_cycle_phase($phase_cycle)
+    function set_cycle_phase()
     {
-        $this->set_default_property(self :: PROPERTY_CYCLE_PHASE, $phase_cycle);
+    	$cycle = $this->get_cycle();
+   	
+        $this->set_default_property(self :: PROPERTY_CYCLE_PHASE, $cycle[self :: PROPERTY_CYCLE_PHASE]);
     }
 
     /**
@@ -245,39 +224,6 @@ class Package extends DataClass
         $cycle = $this->get_cycle();
         return $cycle[self :: PROPERTY_CYCLE_REALM];
     }
-
-    static function get_phases()
-    {
-        return array(self :: PHASE_ALPHA => Translation :: get(self :: PHASE_ALPHA), 
-                self :: PHASE_BETA => Translation :: get(self :: PHASE_BETA), 
-                self :: PHASE_GENERAL_AVAILABILITY => Translation :: get(self :: PHASE_GENERAL_AVAILABILITY), 
-                self :: PHASE_RELEASE_CANDIDATE => Translation :: get(self :: PHASE_RELEASE_CANDIDATE));
-    }
-
-    //    static function convert_phase_to_string($phase)
-    //    {
-    //        switch ($phase)
-    //        {
-    //            case '1' :
-    //                return "general_availability";
-    //                break;
-    //            case '2' :
-    //                return "alpha";
-    //                break;
-    //            case '3' :
-    //                return "beta";
-    //                break;
-    //            case '4' :
-    //                return "release_candidate";
-    //                break;
-    //        }
-    //    }
-    //
-    //    function get_phase_string()
-    //    {
-    //        return self :: convert_phase_to_string($this->get_cycle_phase());
-    //    }
-    
 
     /**
      * Returns the filename of this Package.
@@ -439,40 +385,6 @@ class Package extends DataClass
     function set_extra($extra)
     {
         $this->set_default_property(self :: PROPERTY_EXTRA, serialize($extra));
-    }
-
-    /**
-     * Returns the status of this Package.
-     * @return the status.
-     */
-    function get_status()
-    {
-        return $this->get_default_property(self :: PROPERTY_STATUS);
-    }
-
-    /**
-     * Sets the status of this Package.
-     * @param status
-     */
-    function set_status($status)
-    {
-        $this->set_default_property(self :: PROPERTY_STATUS, $status);
-    }
-
-    function get_status_string()
-    {
-        switch ($this->get_status())
-        {
-            case 1 :
-                return Translation :: get('Pending');
-                break;
-            case 2 :
-                return Translation :: get('Accepted');
-                break;
-            case 3 :
-                return Translation :: get('Rejected');
-                break;
-        }
     }
 
     /**
