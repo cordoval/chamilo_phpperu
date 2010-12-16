@@ -1,4 +1,4 @@
-<?php namespace repository\content_object\survey;
+<?php 
 namespace repository\content_object\survey;
 
 use common\libraries\Translation;
@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/table_column_model.class.php';
 /**
  * Cell rendere for the learning object component table
  */
-class SurveyTemplateTableCellRenderer extends DefaultSurveyTemplateTableCellRenderer
+class SurveyTemplateUserTableCellRenderer extends DefaultSurveyTemplateUserTableCellRenderer
 {
 
     private $component;
@@ -32,7 +32,7 @@ class SurveyTemplateTableCellRenderer extends DefaultSurveyTemplateTableCellRend
     // Inherited
     function render_cell($column, $template)
     {
-        if ($column === SurveyTemplateTableColumnModel :: get_modification_column())
+        if ($column === SurveyTemplateUserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($template);
         }
@@ -41,7 +41,7 @@ class SurveyTemplateTableCellRenderer extends DefaultSurveyTemplateTableCellRend
         switch ($column->get_name())
         {
             // Exceptions that need post-processing go here ...
-        //            case SurveyTemplate :: PROPERTY_NAME :
+        //            case SurveyTemplateUser :: PROPERTY_NAME :
         //                $title = parent :: render_cell($column, $template);
         //                $title_short = $title;
         //                if (strlen($title_short) > 53)
@@ -50,7 +50,7 @@ class SurveyTemplateTableCellRenderer extends DefaultSurveyTemplateTableCellRend
         //                }
         //
         //                return '<a href="' . htmlentities($this->component->get_context_template_viewing_url($template)) . '" title="' . $title . '">' . $title_short . '</a>';
-        //            case SurveyTemplate :: PROPERTY_DESCRIPTION :
+        //            case SurveyTemplateUser :: PROPERTY_DESCRIPTION :
         //                $description = strip_tags(parent :: render_cell($column, $template));
         //                if (strlen($description) > 175)
         //                {
@@ -64,11 +64,11 @@ class SurveyTemplateTableCellRenderer extends DefaultSurveyTemplateTableCellRend
         return parent :: render_cell($column, $template);
     }
 
-    private function get_modification_links($template)
+    private function get_modification_links($template_user)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->component->get_template_update_url($template), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->component->get_template_user_delete_url($template_user), ToolbarItem :: DISPLAY_ICON));
         return $toolbar->as_html();
     }
 }

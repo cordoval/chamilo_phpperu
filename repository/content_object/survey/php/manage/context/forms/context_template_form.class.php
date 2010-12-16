@@ -257,7 +257,7 @@ class SurveyContextTemplateForm extends FormValidator
             }
             if ($index == 0)
             {
-                $type = 'survey_template' . $parent_id;
+                $type = 'survey_template_user' . $parent_id;
                 $context_template->set_type($type);
                 $this->context_template = $context_template;
                 $context_template->update();
@@ -334,10 +334,10 @@ class SurveyContextTemplateForm extends FormValidator
         $context_class = array();
 
         $context_class[] = '<?php namespace repository\content_object\survey;';
-        $context_class[] = 'use common\libraries\Path;';
-        $context_class[] = 'require_once (Path :: get_repository_content_object_path().' . '\'' . 'survey/php/survey_template.class.php\');';
+//        $context_class[] = 'use common\libraries\Path;';
+//        $context_class[] = 'require_once (Path :: get_repository_content_object_path().' . '\'' . 'survey/php/survey_template.class.php\');';
 
-        $context_class[] = 'class ' . Utilities :: underscores_to_camelcase($type) . ' extends SurveyTemplate';
+        $context_class[] = 'class ' . Utilities :: underscores_to_camelcase($type) . ' extends SurveyTemplateUser';
         $context_class[] = '{';
 
         $context_class[] = ' const CLASS_NAME = __CLASS__;';

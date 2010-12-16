@@ -1,11 +1,11 @@
-<?php namespace repository\content_object\survey;
+<?php 
 namespace repository\content_object\survey;
 
 use common\libraries\Path;
 use common\libraries\StaticTableColumn;
 
 
-class SurveyTemplateTableColumnModel extends DefaultSurveyTemplateTableColumnModel
+class SurveyTemplateUserTableColumnModel extends DefaultSurveyTemplateUserTableColumnModel
 {
     /**
      * The tables modification column
@@ -15,9 +15,9 @@ class SurveyTemplateTableColumnModel extends DefaultSurveyTemplateTableColumnMod
     /**
      * Constructor
      */
-    function __construct($survey_template)
+    function __construct($survey_template_user)
     {
-        parent :: __construct($survey_template);
+        parent :: __construct($survey_template_user);
         $this->set_default_order_column(0);
         $this->add_column(self :: get_modification_column());
     }

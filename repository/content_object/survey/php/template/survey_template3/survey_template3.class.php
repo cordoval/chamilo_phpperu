@@ -4,7 +4,7 @@ namespace repository\content_object\survey;
 use common\libraries\Path;
 
 
-class SurveyTemplate3 extends SurveyTemplate
+class SurveyTemplateUser3 extends SurveyTemplateUser
 {
  const CLASS_NAME = __CLASS__;
 

@@ -17,7 +17,12 @@ class Autoloader
         $list = array(
             'survey' => 'survey',
             'survey_context_template' => 'survey_context_template',
-            'survey_context' => 'survey_context',
+            'survey_context_data_manager' => 'context_data_manager/database_context_data_manager',
+            'survey_table' => 'manage/context/component/survey_table/table',
+        	'survey_template_user_table' => 'manage/context/component/template_user_table/table',
+                        'survey_template_user_form' => 'manage/context/forms/template_user_form',
+        
+        	'survey_context' => 'survey_context',
             'survey_builder' => 'builder/survey_builder',
             'survey_display' => 'display/survey_display',
             'survey_analyzer' => 'analyzer/analyzer',
@@ -36,7 +41,8 @@ class Autoloader
             'survey_viewer_form' => 'display/component/viewer/survey_viewer_form',
             'survey_display_survey_viewer_component' => 'display/component/survey_viewer',
             'survey_menu' => 'display/component/survey_menu',
-        
+            'default_survey_template_user_table_cell_renderer' => 'manage/context/tables/template_user_table/default_template_user_table_cell_renderer',
+        	'default_survey_template_user_table_column_model' => 'manage/context/tables/template_user_table/default_template_user_table_column_model',
             'survey_viewer_form' => 'display/component/viewer/survey_viewer_form',
             'survey_question_display' => 'display/component/viewer/inc/survey_question_display',
             'survey_context_manager' => 'manage/context/survey_context_manager',

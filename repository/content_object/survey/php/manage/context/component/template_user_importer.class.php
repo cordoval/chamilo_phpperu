@@ -7,7 +7,7 @@ use common\libraries\Translation;
 use common\libraries\Request;
 
 
-class SurveyContextManagerTemplateImporterComponent extends SurveyContextManager
+class SurveyContextManagerTemplateUserImporterComponent extends SurveyContextManager
 {
 
     /**

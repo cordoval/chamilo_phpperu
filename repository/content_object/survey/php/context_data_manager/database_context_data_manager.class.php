@@ -15,7 +15,7 @@ use common\libraries\InCondition;
 use repository\content_object\survey_page\SurveyPage;
 
 require_once (dirname(__FILE__) . '/../survey_context_template.class.php');
-require_once (dirname(__FILE__) . '/../survey_template.class.php');
+require_once (dirname(__FILE__) . '/../survey_template_user.class.php');
 require_once (dirname(__FILE__) . '/../survey_context_registration.class.php');
 require_once (dirname(__FILE__) . '/../survey_context_template_rel_page.class.php');
 require_once (dirname(__FILE__) . '/../survey_context.class.php');
@@ -357,35 +357,35 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         return $this->update($survey_context_registration, $condition);
     }
 
-    function retrieve_survey_templates($type, $condition = null, $offset = null, $count = null, $order_property = null)
+    function retrieve_survey_template_users($type, $condition = null, $offset = null, $count = null, $order_property = null)
     {
         
         require_once dirname(__FILE__) . '/../template/' . $type . '/' . $type . '.class.php';
         
         $type_table = $this->escape_table_name($type);
         
-        $query = 'SELECT * FROM ' . $this->escape_table_name(SurveyTemplate :: get_table_name()) . ' AS ' . $this->get_alias(SurveyTemplate :: get_table_name());
+        $query = 'SELECT * FROM ' . $this->escape_table_name(SurveyTemplateUser :: get_table_name()) . ' AS ' . $this->get_alias(SurveyTemplateUser :: get_table_name());
         
-        $query .= ' JOIN ' . $type_table . ' AS ' . $this->get_alias($type) . ' ON ' . $this->escape_column_name(SurveyTemplate :: PROPERTY_ID, $this->get_alias(SurveyTemplate :: get_table_name())) . '=' . $this->escape_column_name(SurveyTemplate :: PROPERTY_ID, $this->get_alias($type));
+        $query .= ' JOIN ' . $type_table . ' AS ' . $this->get_alias($type) . ' ON ' . $this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID, $this->get_alias(SurveyTemplateUser :: get_table_name())) . '=' . $this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID, $this->get_alias($type));
         
         return $this->retrieve_object_set($query, $type, $condition, $offset, $count, $order_property);
     }
 
-    function count_survey_templates($type, $condition = null)
+    function count_survey_template_users($type, $condition = null)
     {
         
         require_once dirname(__FILE__) . '/../template/' . $type . '/' . $type . '.class.php';
         
         $type_table = $this->escape_table_name($type);
         
-        $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(SurveyTemplate :: get_table_name()) . ' AS ' . $this->get_alias(SurveyTemplate :: get_table_name());
+        $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(SurveyTemplateUser :: get_table_name()) . ' AS ' . $this->get_alias(SurveyTemplateUser :: get_table_name());
         
-        $query .= ' JOIN ' . $type_table . ' AS ' . $this->get_alias($type) . ' ON ' . $this->escape_column_name(SurveyTemplate :: PROPERTY_ID, $this->get_alias(SurveyTemplate :: get_table_name())) . '=' . $this->escape_column_name(SurveyTemplate :: PROPERTY_ID, $this->get_alias($type));
+        $query .= ' JOIN ' . $type_table . ' AS ' . $this->get_alias($type) . ' ON ' . $this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID, $this->get_alias(SurveyTemplateUser :: get_table_name())) . '=' . $this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID, $this->get_alias($type));
         
         return $this->count_result_set($query, $type, $condition);
     }
 
-    function retrieve_survey_template_by_id($id, $type)
+    function retrieve_survey_template_user_by_id($id, $type)
     {
         if (! isset($id) || strlen($id) == 0 || $id == DataClass :: NO_UID || $id == 0)
         {
@@ -394,35 +394,35 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         
         if (is_null($type))
         {
-            $type = $this->determine_survey_template_type($id);
+            $type = $this->determine_survey_template_user_type($id);
         }
         
-        $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_ID, $id);
+        $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_ID, $id);
         
-        $survey_template_alias = $this->get_alias(SurveyTemplate :: get_table_name());
+        $survey_template_user_alias = $this->get_alias(SurveyTemplateUser :: get_table_name());
         
-        $query = 'SELECT * FROM ' . $this->escape_table_name(SurveyTemplate :: get_table_name()) . ' AS ' . $survey_template_alias;
-        $query .= ' JOIN ' . $this->escape_table_name($type) . ' AS ' . self :: ALIAS_TYPE_TABLE . ' ON ' . $this->escape_column_name(SurveyTemplate :: PROPERTY_ID, $survey_template_alias) . '=' . $this->escape_column_name(SurveyTemplate :: PROPERTY_ID, self :: ALIAS_TYPE_TABLE);
+        $query = 'SELECT * FROM ' . $this->escape_table_name(SurveyTemplateUser :: get_table_name()) . ' AS ' . $survey_template_user_alias;
+        $query .= ' JOIN ' . $this->escape_table_name($type) . ' AS ' . self :: ALIAS_TYPE_TABLE . ' ON ' . $this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID, $survey_template_user_alias) . '=' . $this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID, self :: ALIAS_TYPE_TABLE);
         
-        $record = $this->retrieve_row($query, SurveyTemplate :: get_table_name(), $condition);
+        $record = $this->retrieve_row($query, SurveyTemplateUser :: get_table_name(), $condition);
         
-        return self :: record_to_survey_template($record, isset($type));
+        return self :: record_to_survey_template_user($record, isset($type));
     }
 
-    function delete_survey_template($template)
+    function delete_survey_template_user($template)
     {
         
         if ($template->get_additional_properties())
         {
-            $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_ID, $template->get_id());
+            $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_ID, $template->get_id());
             $this->delete_objects(Utilities :: camelcase_to_underscores(get_class($template)), $condition);
         }
         
-        $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_ID, $template->get_id());
-        $this->delete_objects(SurveyTemplate :: get_table_name(), $condition);
+        $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_ID, $template->get_id());
+        $this->delete_objects(SurveyTemplateUser :: get_table_name(), $condition);
     }
 
-    function update_survey_template($template)
+    function update_survey_template_user($template)
     {
         
         if ($template->get_additional_properties())
@@ -433,24 +433,24 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
             {
                 $properties[$property_name] = $this->quote($template->get_additional_property($property_name));
             }
-            $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_ID, $template->get_id());
+            $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_ID, $template->get_id());
             $this->update_objects(Utilities :: camelcase_to_underscores(get_class($context)), $properties, $condition);
         }
     }
 
-    function create_survey_template($template)
+    function create_survey_template_user($template)
     {
         $props = array();
         foreach ($template->get_default_properties() as $key => $value)
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-        $props[$this->escape_column_name(SurveyTemplate :: PROPERTY_ID)] = $template->get_id();
-        $props[$this->escape_column_name(SurveyTemplate :: PROPERTY_TYPE)] = $template->get_type();
-        $props[$this->escape_column_name(SurveyTemplate :: PROPERTY_ID)] = $this->get_better_next_id('survey_template', 'id');
+        $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $template->get_id();
+        $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_TYPE)] = $template->get_type();
+        $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $this->get_better_next_id('survey_template_user', 'id');
         $this->get_connection()->loadModule('Extended');
-        $this->get_connection()->extended->autoExecute($this->get_table_name('survey_template'), $props, MDB2_AUTOQUERY_INSERT);
-        $template->set_id($this->get_connection()->extended->getAfterID($props[$this->escape_column_name(SurveyTemplate :: PROPERTY_ID)], 'survey_template'));
+        $this->get_connection()->extended->autoExecute($this->get_table_name('survey_template_user'), $props, MDB2_AUTOQUERY_INSERT);
+        $template->set_id($this->get_connection()->extended->getAfterID($props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)], 'survey_template_user'));
         if ($template->get_additional_properties())
         {
             $props = array();
@@ -458,24 +458,24 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
             {
                 $props[$this->escape_column_name($key)] = $value;
             }
-            $props[$this->escape_column_name(SurveyTemplate :: PROPERTY_ID)] = $template->get_id();
+            $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $template->get_id();
             $this->get_connection()->extended->autoExecute($this->get_table_name($template->get_type()), $props, MDB2_AUTOQUERY_INSERT);
         }
         return true;
     }
 
-    function retrieve_additional_survey_template_properties($survey_template)
+    function retrieve_additional_survey_template_user_properties($survey_template_user)
     {
-        $type = $survey_template->get_type();
+        $type = $survey_template_user->get_type();
         
-        $array = array_map(array($this, 'escape_column_name'), $survey_template->get_additional_property_names());
+        $array = array_map(array($this, 'escape_column_name'), $survey_template_user->get_additional_property_names());
         
         if (count($array) == 0)
         {
             $array = array("*");
         }
         
-        $query = 'SELECT ' . implode(',', $array) . ' FROM ' . $this->escape_table_name($type) . ' WHERE ' . $this->escape_column_name(SurveyTemplate :: PROPERTY_ID) . '=' . $survey_template->get_id();
+        $query = 'SELECT ' . implode(',', $array) . ' FROM ' . $this->escape_table_name($type) . ' WHERE ' . $this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID) . '=' . $survey_template_user->get_id();
         
         $this->set_limit(1);
         $res = $this->query($query);
@@ -487,26 +487,26 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
     }
 
     // Inherited.
-    function determine_survey_template_type($id)
+    function determine_survey_template_user_type($id)
     {
-        $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_ID, $id);
-        $record = $this->retrieve_record(SurveyTemplate :: get_table_name(), $condition);
-        return $record[SurveyTemplate :: PROPERTY_TYPE];
+        $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_ID, $id);
+        $record = $this->retrieve_record(SurveyTemplateUser :: get_table_name(), $condition);
+        return $record[SurveyTemplateUser :: PROPERTY_TYPE];
     }
 
-    function record_to_survey_template($record, $additional_properties_known = false)
+    function record_to_survey_template_user($record, $additional_properties_known = false)
     {
         if (! is_array($record) || ! count($record))
         {
             throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
         }
         $defaultProp = array();
-        foreach (SurveyTemplate :: get_default_property_names() as $prop)
+        foreach (SurveyTemplateUser :: get_default_property_names() as $prop)
         {
             $defaultProp[$prop] = $record[$prop];
         }
         
-        $survey_template = SurveyTemplate :: factory($record[SurveyTemplate :: PROPERTY_TYPE], $defaultProp);
+        $survey_template_user = SurveyTemplateUser :: factory($record[SurveyTemplateUser :: PROPERTY_TYPE], $defaultProp);
         
         if ($additional_properties_known)
         {
@@ -528,11 +528,11 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         
         foreach ($additionalProp as $name => $value)
         {
-            $survey_template->set_additional_property($name, $value);
+            $survey_template_user->set_additional_property($name, $value);
         
         }
         
-        return $survey_template;
+        return $survey_template_user;
     }
 
     function delete_survey_context_rel_user($context_rel_user)

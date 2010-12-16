@@ -6,18 +6,8 @@ use common\libraries\SubManager;
 use common\libraries\Application;
 use common\libraries\Request;
 
-
-require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/context_data_manager.class.php';
-require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context_manager_rights.class.php';
-//require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_rel_user_table/table.class.php';
-//require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_rel_group_table/table.class.php';
-//require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/registration_browser/browser_table.class.php';
-//require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_table/table.class.php';
-
-//require_once dirname(__FILE__) . '/component/context_template_browser/browser_table.class.php';
-//require_once dirname(__FILE__) . '/component/context_template_rel_page_browser/rel_page_browser_table.class.php';
-//require_once dirname(__FILE__) . '/component/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
-
+//require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/context_data_manager.class.php';
+//require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context_manager_rights.class.php';
 
 /**
  * @package repository.lib.content_object.survey.manage.context
@@ -36,6 +26,8 @@ class SurveyContextManager extends SubManager
     const PARAM_CONTEXT_TEMPLATE_ID = 'context_template_id';
     const PARAM_CONTEXT_ID = 'context_id';
     const PARAM_TEMPLATE_ID = 'template_id';
+    const PARAM_TEMPLATE_USER_ID = 'template_user_id';
+    
     const PARAM_CONTEXT = 'context';
     const PARAM_CONTEXT_REL_USER_ID = 'context_template_id';
     const PARAM_CONTEXT_REL_GROUP_ID = 'context_template_id';
@@ -80,10 +72,9 @@ class SurveyContextManager extends SubManager
     const ACTION_UNSUBSCRIBE_USER = 'unsubscribe_user';
     const ACTION_UNSUBSCRIBE_GROUP = 'unsubscribe_group';
     
-    const ACTION_CREATE_TEMPLATE = 'template_creator';
-    const ACTION_EDIT_TEMPLATE = 'template_updater';
-    const ACTION_DELETE_TEMPLATE = 'template_deleter';
-    const ACTION_IMPORT_TEMPLATE = 'template_importer';
+    const ACTION_CREATE_TEMPLATE_USER = 'template_user_creator';
+    const ACTION_DELETE_TEMPLATE_USER = 'template_user_deleter';
+    const ACTION_IMPORT_TEMPLATE_USER = 'template_user_importer';
     
     const ACTION_DELETE_SURVEY_REL_CONTEXT_TEMPLATE = 'survey_context_deleter';
     
@@ -171,19 +162,19 @@ class SurveyContextManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template->get_id()));
     }
 
-    function get_template_creation_url($context_template)
+    function get_template_user_creation_url($template)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_TEMPLATE_USER, self :: PARAM_TEMPLATE_ID => $template->get_id()));
     }
 	
-	function get_template_import_url($context_template)
+	function get_template_user_import_url($template)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE_USER, self :: PARAM_TEMPLATE_ID => $template->get_id()));
     }
     
-    function get_template_update_url($template)
+    function get_template_user_delete_url($context_template_user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_TEMPLATE, self :: PARAM_TEMPLATE_ID => $template->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE_USER, self :: PARAM_TEMPLATE_USER_ID => $context_template_user->get_id()));
     }
 
     function get_context_subscribe_user_url($context)

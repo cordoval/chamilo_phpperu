@@ -36,6 +36,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $this->survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
         
         $this->survey->initialize($invitee_id);
+        $paths = $this->survey->get_context_paths();
         $page_context_paths = $this->survey->get_page_context_paths();
         
         $this->context_paths = array();
@@ -48,6 +49,8 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
             $this->context_paths[$page_context_path] = $page_count;
         }
         
+//        dump($paths);
+        
         if (! $this->context_path)
         {
             $this->context_path = $page_context_paths[0];
@@ -55,7 +58,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         
         $current_page = $this->survey->get_survey_page($this->context_path);
         $this->current_page = $current_page;
-        
+              
         $this->started();
         
         $action = $this->get_parent()->get_url();
