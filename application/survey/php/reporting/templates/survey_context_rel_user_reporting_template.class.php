@@ -5,14 +5,13 @@ use reporting\ReportingTemplate;
 use common\libraries\Request;
 use common\libraries\DynamicFormTabsRenderer;
 use common\libraries\Translation;
+use repository\content_object\survey\SurveyAnalyzer;
 
+require_once dirname(__FILE__) . '/../blocks/survey_context_rel_user_reporting_block.class.php';
 
 class SurveyContextRelUserReportingTemplate extends ReportingTemplate implements SurveyLevelReportingTemplateInterface
 {
-    
-    private $filter_parameters;
-    //private $wizard;
-    private $aggregated;
+    //private $aggregated;
 
     function __construct($parent)
     {
@@ -28,16 +27,21 @@ class SurveyContextRelUserReportingTemplate extends ReportingTemplate implements
         
         foreach ($complex_question_ids as $complex_question_id)
         {
-            $this->add_reporting_block(new SurveyQuestionReportingBlock($this, $complex_question_id, $publication_id, SurveyAnalyzer::TYPE_ABSOLUTE));
-        }
+            $this->add_reporting_block(new SurveyContextRelUserReportingBlock($this, $complex_question_id, $publication_id, SurveyAnalyzer::TYPE_ABSOLUTE));
+         }
             
     }
-
+    
     public function display_context()
     {
-    
+    	
     }
-
+    
+    public function get_user_id()
+    {
+   		return $this->parent->get_user_id();
+    }
+	
     function get_application()
     {
         return SurveyManager :: APPLICATION_NAME;
