@@ -4,6 +4,7 @@ use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\learning_path\LearningPath;
 /**
  * $Id: dokeos185_lp_item.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185

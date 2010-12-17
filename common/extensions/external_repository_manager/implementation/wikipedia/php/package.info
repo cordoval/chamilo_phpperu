@@ -4,7 +4,7 @@
 		<name>Wikipedia</name>
 		<code>wikipedia</code>
 		<section>external_repository_manager</section>
-		<category>image</category>
+		<category>document</category>
 		<authors>
 			<author>
 				<name>Sven Francornel</name>
