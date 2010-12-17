@@ -7,6 +7,7 @@ use repository\content_object\assessment_multiple_choice_question\AssessmentMult
 use repository\content_object\fill_in_blanks_question\FillInBlanksQuestion;
 use repository\content_object\assessment_matching_question\AssessmentMatchingQuestion;
 use repository\content_object\assessment_multiple_choice_question\AssessmentMultipleChoiceQuestionOption;
+use repository\content_object\assessment_matching_question\AssessmentMatchingQuestionOption;
 /**
  * $Id: dokeos185_quiz_answer.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185

@@ -254,7 +254,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
             {
                 return array(
                         Installer :: INSTALL_SUCCESS => false,
-                        Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedFailed'));
+                        Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedFailed')
+                    );
             }
         }
         return array(

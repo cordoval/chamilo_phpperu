@@ -24,8 +24,11 @@
 			min: minValue,
 			max: maxValue,
 			stop: setValue,
-			slide: setValue
+			slide: setValue,
+			value: $(this).val()
 			});
+		$("#slider_caption_" + id).html($(this).val());
+
 	}
 	
 	$(document).ready( function() 

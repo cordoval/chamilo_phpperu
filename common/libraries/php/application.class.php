@@ -96,14 +96,15 @@ abstract class Application
      */
     static function factory($application, $user = null)
     {
-        if (BasicApplication :: is_application($application))
+        if (BasicApplication :: exists($application))
         {
             return BasicApplication :: factory($application, $user);
         }
-        else
+        if (LauncherApplication :: exists($application))
         {
             return LauncherApplication :: factory($application, $user);
         }
+        throw new \RuntimeException("Unknown Application : ${application}");
     }
 
     /**
@@ -854,26 +855,20 @@ abstract class Application
     }
 
     /* static */
-
     function get_type($application)
     {
-        if (! BasicApplication :: exists($application))
+
+        if (BasicApplication :: exists($application))
         {
-            if (LauncherApplication :: exists($application))
-            {
-                return LauncherApplication :: CLASS_NAME;
-            }
-            else
-            {
-                return false;
-            }
+            return BasicApplication :: get_type($application);
         }
-        else
+
+        if (LauncherApplication :: exists($application))
         {
-            return BasicApplication :: exists($application);
+            return LauncherApplication :: CLASS_NAME;
         }
+
+        return false;
     }
 
 }
-
-?>

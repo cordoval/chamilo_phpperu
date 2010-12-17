@@ -59,5 +59,10 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
     function get_assessment_go_back_url()
     {
     }
+
+    function get_assessment_feedback_configuration()
+    {
+        return new FeedbackDisplayConfiguration();
+    }
 }
 ?>

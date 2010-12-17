@@ -6,6 +6,8 @@ use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use repository\content_object\document\Document;
+use repository\content_object\forum_post\ForumPost;
+use common\libraries\Path;
 
 /**
  * $Id: dokeos185_forum_forum.class.php 221 2009-11-13 14:36:41Z vanpouckesven $

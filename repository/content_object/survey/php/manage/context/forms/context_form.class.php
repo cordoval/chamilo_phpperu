@@ -121,7 +121,6 @@ class SurveyContextForm extends FormValidator
         {
             $survey_context->set_additional_property($property_name, $this->exportValue($property_name));
         }
-        
         return $survey_context->create();
     }
 

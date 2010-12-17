@@ -49,7 +49,21 @@ class TrackingManager extends CoreApplication
     function __construct($user)
     {
         parent :: __construct($user);
-        $this->tdm = TrackingDataManager :: get_instance();
+        //$this->tdm = TrackingDataManager :: get_instance();
+    }
+
+    private function get_tracking_data_manager()
+    {
+        if($this->tdm == null)
+        {
+            $this->tdm = $this->tdm = TrackingDataManager :: get_instance();
+        }
+        return $this->tdm;
+    }
+
+    public function set_tracking_data_manager(TrackingDataManager $tdm)
+    {
+        $this->tdm = $tdm;
     }
 
     function get_application_name()
@@ -135,7 +149,9 @@ class TrackingManager extends CoreApplication
      */
     function retrieve_events($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->tdm->retrieve_events($condition, $offset, $count, $order_property);
+        return $this
+            ->get_tracking_data_manager()
+            ->retrieve_events($condition, $offset, $count, $order_property);
     }
 
     /**
@@ -144,7 +160,9 @@ class TrackingManager extends CoreApplication
      */
     function count_events($conditions = null)
     {
-        return $this->tdm->count_events($conditions);
+        return $this
+            ->get_tracking_data_manager()
+            ->count_events($conditions);
     }
 
     /**
@@ -154,7 +172,9 @@ class TrackingManager extends CoreApplication
      */
     function retrieve_event($event_id)
     {
-        return $this->tdm->retrieve_event($event_id);
+        return $this
+            ->get_tracking_data_manager()
+            ->retrieve_event($event_id);
     }
 
     /**
@@ -164,7 +184,9 @@ class TrackingManager extends CoreApplication
      */
     function retrieve_trackers_from_event($event_id)
     {
-        return $this->tdm->retrieve_trackers_from_event($event_id, false);
+        return $this
+            ->get_tracking_data_manager()
+            ->retrieve_trackers_from_event($event_id, false);
     }
 
     /**
@@ -175,7 +197,9 @@ class TrackingManager extends CoreApplication
      */
     function retrieve_event_tracker_relation($event_id, $tracker_id)
     {
-        return $this->tdm->retrieve_event_tracker_relation($event_id, $tracker_id);
+        return $this
+            ->get_tracking_data_manager()
+            ->retrieve_event_tracker_relation($event_id, $tracker_id);
     }
 
     /**
@@ -185,7 +209,9 @@ class TrackingManager extends CoreApplication
      */
     function retrieve_tracker_registration($tracker_id)
     {
-        return $this->tdm->retrieve_tracker_registration($tracker_id);
+        return $this
+            ->get_tracking_data_manager()
+            ->retrieve_tracker_registration($tracker_id);
     }
 
     /**
@@ -195,12 +221,19 @@ class TrackingManager extends CoreApplication
      */
     function retrieve_event_by_name($eventname)
     {
-        return $this->tdm->retrieve_event_by_name($eventname);
+        return $this
+            ->get_tracking_data_manager()
+            ->retrieve_event_by_name($eventname);
     }
 
     function get_manage_rights_url($event_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS, self :: PARAM_EVENT_ID => $event_id));
+        return $this->get_url(
+                array(
+                    self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS,
+                    self :: PARAM_EVENT_ID => $event_id
+                )
+        );
     }
 
     /**
@@ -218,4 +251,3 @@ class TrackingManager extends CoreApplication
         return self :: DEFAULT_ACTION;
     }
 }
-?>

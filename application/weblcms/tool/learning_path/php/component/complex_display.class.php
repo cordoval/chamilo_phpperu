@@ -13,9 +13,13 @@ use common\libraries\Display;
 
 use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
+
 use repository\content_object\learning_path\LearningPathComplexDisplaySupport;
 use repository\content_object\learning_path\LearningPathDisplay;
+
 use repository\content_object\assessment\AssessmentComplexDisplaySupport;
+use repository\content_object\assessment\FeedbackDisplayConfiguration;
+
 use repository\content_object\forum\ForumComplexDisplaySupport;
 use repository\content_object\wiki\WikiComplexDisplaySupport;
 use repository\content_object\blog\BlogComplexDisplaySupport;
@@ -110,17 +114,14 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
-                Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('LearningPathToolBrowserComponent')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
-                Tool :: PARAM_ACTION => Tool :: ACTION_VIEW,
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('LearningPathToolBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW,
                 Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('LearningPathToolViewerComponent')));
     }
 
     function get_additional_parameters()
     {
-        return array(
-                Tool :: PARAM_PUBLICATION_ID);
+        return array(Tool :: PARAM_PUBLICATION_ID);
     }
 
     function retrieve_learning_path_tracker()
@@ -200,8 +201,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
      */
     function get_learning_path_previous_url($total_steps)
     {
-        return $this->get_url(array(
-                Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
+        return $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
                 LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID),
                 'step' => $total_steps));
     }
@@ -234,8 +234,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
      */
     function get_learning_path_content_object_item_details_url($complex_content_object_id)
     {
-        return $this->get_url(array(
-                Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
+        return $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
                 Tool :: PARAM_PUBLICATION_ID => $this->publication->get_id(),
                 LearningPathDisplay :: PARAM_SHOW_PROGRESS => 'true',
                 ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id,
@@ -250,8 +249,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
      */
     function get_learning_path_content_object_assessment_result_url($complex_content_object_id, $details)
     {
-        return $this->get_url(array(
-                Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
+        return $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
                 Tool :: PARAM_PUBLICATION_ID => $this->publication->get_id(),
                 LearningPathDisplay :: PARAM_SHOW_PROGRESS => 'true',
                 ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id,
@@ -336,6 +334,11 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
     {
     }
 
+    function get_assessment_feedback_configuration()
+    {
+        return new FeedbackDisplayConfiguration();
+    }
+
     function forum_topic_viewed($complex_topic_id)
     {
         require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_forum_topic_views_tracker.class.php';
@@ -360,19 +363,19 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
         return $dummy->count_tracker_items($condition);
     }
 
-    public function get_wiki_page_statistics_reporting_template_name() {
+    public function get_wiki_page_statistics_reporting_template_name()
+    {
 
     }
 
-    public function get_wiki_statistics_reporting_template_name() {
+    public function get_wiki_statistics_reporting_template_name()
+    {
 
     }
 
     public function get_wiki_publication()
     {
-        throw new Exception("Unimplemented method : "
-               . "application\\weblcms\\tool\\learning_path\\" . _CLASS__
-               . "get_wiki_publication()");
+        throw new Exception("Unimplemented method : " . "application\\weblcms\\tool\\learning_path\\" . _CLASS__ . "get_wiki_publication()");
     }
 }
 ?>

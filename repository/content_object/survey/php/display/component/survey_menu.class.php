@@ -64,8 +64,8 @@ class SurveyMenu extends HTML_Menu
         $this->survey = $survey;
         $this->survey_id = $this->survey->get_id();
         
-        $this->user_id = $parent->get_parameter(SurveyViewerWizard :: PARAM_INVITEE_ID);
-        $this->publication_id = $parent->get_parameter(SurveyViewerWizard :: PARAM_PUBLICATION_ID);
+        $this->user_id = $parent->get_parameter(SurveyDisplaySurveyViewerComponent :: PARAM_INVITEE_ID);
+        $this->publication_id = $parent->get_parameter(SurveyDisplaySurveyViewerComponent :: PARAM_PUBLICATION_ID);
         
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();

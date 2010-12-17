@@ -53,6 +53,11 @@ class AssessmentDisplay extends ComplexDisplay
         return dirname(__FILE__) . '/component/';
     }
 
+    function get_feedback_display_configuration()
+    {
+        return $this->get_parent()->get_assessment_feedback_configuration();
+    }
+
     /**
      * Helper function for the SubManager class,
      * pending access to class constants via variables in PHP 5.3

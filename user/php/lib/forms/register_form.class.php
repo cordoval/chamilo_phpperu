@@ -11,6 +11,8 @@ use common\libraries\Text;
 use common\libraries\Hashing;
 use common\libraries\Mail;
 use common\libraries\Utilities;
+use common\libraries\Session;
+use tracking\Event;
 
 use repository\RepositoryDataManager;
 
