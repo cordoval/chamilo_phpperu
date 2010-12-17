@@ -450,12 +450,12 @@ class boxclient {
 	
 	function UploadFile ($file, $params = array()) {	
 	  
-		$filename_header = "Content-Disposition: form-data; name=\"Filename\"\r\n\r\n" . $file['name'] ."\r\nBoundary:";
-        $filename_header1 = "Content-Disposition: form-data name=\"Filedata\";filename=\"". rawurlencode($file['name']) ."\"\r\n\r\n";
+		//$filename_header = "Content-Disposition: form-data; name=\"Filename\"\r\n\r\n" . $file['name'] ."\r\nBoundary:";
+        //$filename_header1 = "Content-Disposition: form-data name=\"Filedata\";filename=\"". rawurlencode($file['name']) ."\"\r\n\r\n";
         $curl = curl_init($this->_box_api_upload_url.'/'.$this->auth_token.'/0');
 		//curl_setopt($curl, CURLOPT_HTTPHEADER, array($filename_header, $filename_header1));
-        curl_setopt($curl, CURLOPT_POST, true);        
-        curl_setopt($curl, CURLOPT_POSTFIELDS, array('file' => ('@'.$file['name'])));		
+        curl_setopt($curl, CURLOPT_POST, true);            
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array('file' => ('@'.$file['tmp_name'])));		
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);		 
 		$response = curl_exec($curl);		
 		curl_close($curl);		

@@ -68,7 +68,7 @@ class BoxExternalRepositoryManagerForm extends FormValidator
     {
         if ($this->form_type == self :: TYPE_EDIT)
         {
-            $this->add_information_message('box_api_move', null, Translation :: get('DropboxAPIMoveImpossible'));
+            $this->add_information_message('box_api_move', null, Translation :: get('BoxAPIMoveImpossible'));
         }        
     }
 
@@ -110,8 +110,8 @@ class BoxExternalRepositoryManagerForm extends FormValidator
 
         $this->addElement('file', self :: FILE, Translation :: get('FileName'));
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -124,8 +124,8 @@ class BoxExternalRepositoryManagerForm extends FormValidator
         $this->addElement('hidden', 'folder');
         $this->setDefaults(array('folder' => Request :: get('folder')));
         
-    	$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+    	$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);    	
     }

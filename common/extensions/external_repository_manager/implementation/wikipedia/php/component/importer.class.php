@@ -43,10 +43,7 @@ class WikipediaExternalRepositoryManagerImporterComponent extends WikipediaExter
             $wiki->set_owner_id($this->get_user_id());
             $wiki->set_filename($external_object->get_title() . '.' . 'html');
 
-            $wiki->set_in_memory_file($external_object->get_content_data());
-
-//            var_dump($external_object->get_content_data());
-//            exit;
+            $wiki->set_in_memory_file($external_object->get_content_data($external_object));
 
             if ($wiki->create())
             {

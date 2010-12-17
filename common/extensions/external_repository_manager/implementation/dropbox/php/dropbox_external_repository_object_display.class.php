@@ -11,8 +11,6 @@ class DropboxExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDis
         $object = $this->get_object();
 
         $properties = parent :: get_display_properties();
-        $properties[Translation :: get('Name')] = $object->get_name();
-        $properties[Translation :: get('Size')] = $object->get_size();
 		return $properties;
     }
 

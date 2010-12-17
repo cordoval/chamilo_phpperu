@@ -1,6 +1,14 @@
 <?php
 namespace application\survey;
 
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use repository\content_object\survey\SurveyContext;
+use repository\content_object\survey\SurveyContextRelUser;
+use repository\content_object\survey\SurveyContextDataManager;
+use reporting\ReportingData;
+
 //require_once dirname(__FILE__) . '/../survey_reporting_block.class.php';
 //require_once dirname(__FILE__) . '/../../survey_manager/survey_manager.class.php';
 //require_once (dirname(__FILE__) . '/../../trackers/survey_question_answer_tracker.class.php');

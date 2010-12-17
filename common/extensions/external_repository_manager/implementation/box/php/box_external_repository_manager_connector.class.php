@@ -87,7 +87,9 @@ class BoxExternalRepositoryManagerConnector extends ExternalRepositoryManagerCon
     function retrieve_external_repository_objects($condition = null, $order_property, $offset, $count)
     {
         $tree = $this->retrieve_files($order_property, $offset, $count);
-    	$folders = array();
+    	$file_count = 0;
+        
+        $folders = array();
     	foreach($tree as $fold)
     	{
     		if($fold['file_name'] != '')
@@ -100,7 +102,12 @@ class BoxExternalRepositoryManagerConnector extends ExternalRepositoryManagerCon
             	$object->set_modified(date("m.d.y", $fold['updated']));
             	$object->set_description($fold['description']);
             	$object->set_rights($this->determine_rights());
-            	$objects[] = $object;
+            	
+    			$file_count++;
+            	if($file_count > $offset && $file_count <= ($count + $offset))
+            	{
+            		$objects[] = $object;             		
+            	}
     		}            
     	}
     	return new ArrayResultSet($objects);
@@ -131,8 +138,17 @@ class BoxExternalRepositoryManagerConnector extends ExternalRepositoryManagerCon
      */
     function count_external_repository_objects($condition)
     {
-        $files = $this->retrieve_files($condition, $order_property, 1, 1);
-        return $files['total'];
+        $count = 0;
+    	$tree = $this->retrieve_files($order_property, $offset, $count);
+    	$folders = array();
+    	foreach($tree as $fold)
+    	{
+    		if($fold['file_name'] != '')
+    		{    			
+    			$count++;
+    		}            
+    	}
+    	return $count;
     }
 
     /**
@@ -204,7 +220,7 @@ class BoxExternalRepositoryManagerConnector extends ExternalRepositoryManagerCon
         $object->set_id($file['file_id']);
         $object->set_title($file['file_name']);
         $object->set_created($file['created']);
-        $object->set_modified($file['modified']);                
+        $object->set_modified($file['modified']);                       
         $object->set_rights($this->determine_rights());  
         return $object;
     }    

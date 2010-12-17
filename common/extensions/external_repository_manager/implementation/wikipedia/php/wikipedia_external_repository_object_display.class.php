@@ -20,7 +20,8 @@ class WikipediaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
     function get_preview($is_thumbnail = false)
     {
         $object = $this->get_object();
-        $url = $object->get_urls();
+        $url = $object->get_render_url();
+        
         $html = array();
 
         if ($is_thumbnail || !$url)

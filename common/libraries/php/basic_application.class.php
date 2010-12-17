@@ -48,11 +48,7 @@ abstract class BasicApplication extends Application
 
     static function is_application($application)
     {
-        if (WebApplication :: is_application($application))  return true;
-        if (CoreApplication :: is_application($application))  return true;
-        
-        return false;
-        
+    	return self :: exists($application);
     }
 
     static function get_application_web_path($application_name)
@@ -190,20 +186,22 @@ abstract class BasicApplication extends Application
     	return self :: get_application_web_resources_path($application) . Path :: RESOURCES_JAVASCRIPT_PATH . '/';
     }
 
-    static function exists($application)
+    function get_type($application)
     {
         if (WebApplication :: exists($application))
         {
         	return WebApplication :: CLASS_NAME;
         }
-        elseif (CoreApplication :: exists($application))
+        if (CoreApplication :: exists($application))
         {
         	return CoreApplication :: CLASS_NAME;
         }
-        else
-        {
-            return false;
-        }
+        return false;
+    }
+    static function exists($application)
+    {
+        if (WebApplication :: exists($application)) return true;
+        if (CoreApplication :: exists($application)) return true;
+        return false;
     }
 }
-?>
