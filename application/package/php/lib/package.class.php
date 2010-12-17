@@ -36,7 +36,7 @@ class Package extends DataClass
     const PROPERTY_TAGLINE = 'tagline';
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_HOMEPAGE = 'homepage';
-    const PROPERTY_DEPENDENCIES = 'dependencies';
+//    const PROPERTY_DEPENDENCIES = 'dependencies';
     const PROPERTY_EXTRA = 'extra';
     const PROPERTY_STATUS = 'status';
     
@@ -80,7 +80,7 @@ class Package extends DataClass
                 self :: PROPERTY_TAGLINE, 
                 self :: PROPERTY_DESCRIPTION, 
                 self :: PROPERTY_HOMEPAGE, 
-                self :: PROPERTY_DEPENDENCIES, 
+//                self :: PROPERTY_DEPENDENCIES, 
                 self :: PROPERTY_EXTRA, 
                 self :: PROPERTY_CYCLE_PHASE, 
                 self :: PROPERTY_CYCLE_REALM,
@@ -502,14 +502,14 @@ class Package extends DataClass
         return unserialize($this->get_default_property(self :: PROPERTY_DEPENDENCIES));
     }
 
-    /**
-     * Sets the dependencies of this Package.
-     * @param dependencies
-     */
-    function set_dependencies($dependencies)
-    {
-        $this->set_default_property(self :: PROPERTY_DEPENDENCIES, serialize($dependencies));
-    }
+//    /**
+//     * Sets the dependencies of this Package.
+//     * @param dependencies
+//     */
+//    function set_dependencies($dependencies)
+//    {
+//        $this->set_default_property(self :: PROPERTY_DEPENDENCIES, serialize($dependencies));
+//    }
 
     static function get_table_name()
     {

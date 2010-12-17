@@ -12,7 +12,6 @@ use common\libraries\Utilities;
 /**
  * @package application.package.package.component
  */
-require_once WebApplication :: get_application_class_lib_path('package') . 'forms/package_form.class.php';
 
 /**
  * Component to create a new package_language object
@@ -43,7 +42,7 @@ class PackageInstanceManagerCreatorComponent extends PackageInstanceManager impl
             $object = Translation :: get('Package');
             $message = $success ? Translation :: get('ObjectCreated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
             
-            $this->redirect($message, ! $success, array(PackageManager :: PARAM_ACTION => PackageManager :: ACTION_BROWSE_PACKAGE));
+            $this->redirect($message, ! $success, array(PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => PackageInstanceManager :: ACTION_BROWSE));
         }
         else
         {
@@ -56,7 +55,7 @@ class PackageInstanceManagerCreatorComponent extends PackageInstanceManager impl
     function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add_help('package_creator');
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_ACTION => PackageManager :: ACTION_BROWSE_PACKAGE)), Translation :: get('PackageManagerAdminBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => PackageInstanceManager :: ACTION_BROWSE)), Translation :: get('PackageManagerBrowserComponent')));
     }
 
 }
