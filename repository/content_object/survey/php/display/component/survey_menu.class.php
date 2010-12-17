@@ -69,7 +69,7 @@ class SurveyMenu extends HTML_Menu
         
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
-        
+//        dump('context_path: '.$current_context_path);
         parent :: __construct($menu);
         $this->forceCurrentUrl($this->get_url($current_context_path));
     }
@@ -83,13 +83,17 @@ class SurveyMenu extends HTML_Menu
     function create_context_path_relations()
     {
         $context_paths = $this->survey->get_context_paths();
+               
+        $context_paths = array_reverse($context_paths);
+            
+//        dump($context_paths);
         
         $this->context_path_relations = array();
         
         $has_context = $this->survey->has_context();
         
         $page_count = 0;
-        
+              
         foreach ($context_paths as $index => $context_path)
         {
             
@@ -288,7 +292,7 @@ class SurveyMenu extends HTML_Menu
                 $type = $context_path_relation[self :: MENU_ITEM_TYPE];
                 
                 $menu_item = array();
-                
+                $visible = true;
                 switch ($type)
                 {
                     case self :: TYPE_SURVYEY :
@@ -313,33 +317,53 @@ class SurveyMenu extends HTML_Menu
                     case self :: TYPE_QUESTION :
                         $complex_question_id = $context_path_relation[self :: QUESTION_ID];
                         $complex_question = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_question_id);
-                        $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_question->get_ref());
-                        $title = $question->get_title();
                         $answer = $this->parent->get_answer($complex_question_id, $context_path);
-                        if ($answer)
+                        
+                        if (! $complex_question->is_visible())
                         {
-                            $title = $title . Theme :: get_common_image('status_ok_mini');
-                            $this->finished_questions[] = $context_path;
+//                            dump($complex_question_id);
+                            if (! $answer)
+                            {
+//                                dump('invisible');
+                                $visible = false;
+                            }
                         }
-                        $menu_item['class'] = self :: TYPE_QUESTION;
-                        $menu_item['url'] = $current_url.'#'.$complex_question_id;
+                        if ($visible)
+                        {
+//                            dump('visible');
+//                            dump($complex_question_id);
+                            $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_question->get_ref());
+                            $title = $question->get_title();
+                            //                        $answer = $this->parent->get_answer($complex_question_id, $context_path);
+                            if ($answer)
+                            {
+                                $title = $title . Theme :: get_common_image('status_ok_mini');
+                                $this->finished_questions[] = $context_path;
+                            }
+                            $menu_item['class'] = self :: TYPE_QUESTION;
+                            $menu_item['url'] = $current_url . '#' . $complex_question_id;
+                        }
+                        
                         break;
                     default :
                         ;
                         break;
                 }
                 
-                $menu_item['title'] = $title;
-                
-                $sub_menu_items = $this->get_menu_items($context_path_relation[self :: ID], $context_path, $current_url);
-                
-                if (count($sub_menu_items))
+                if ($visible)
                 {
-                    $menu_item['sub'] = $sub_menu_items;
+                    $menu_item['title'] = $title;
+                    
+                    $sub_menu_items = $this->get_menu_items($context_path_relation[self :: ID], $context_path, $current_url);
+                    
+                    if (count($sub_menu_items))
+                    {
+                        $menu_item['sub'] = $sub_menu_items;
+                    }
+                    
+                    $menu_item[OptionsMenuRenderer :: KEY_ID] = $context_path;
+                    $menu[$context_path] = $menu_item;
                 }
-                
-                $menu_item[OptionsMenuRenderer :: KEY_ID] = $context_path;
-                $menu[$context_path] = $menu_item;
             
             }
             else
@@ -350,14 +374,15 @@ class SurveyMenu extends HTML_Menu
         
         //        dump($this->page_contexts);
         
-
+// dump($menu);
+// exit;
         return $menu;
     }
 
     function get_url($context_path)
     {
         $test = sprintf($this->urlFmt, $this->publication_id, $this->survey_id, $context_path);
-//        $test = $test . '&display_action=survey_viewer&_qf_page_' . $context_path . '_display=true';
+        //        $test = $test . '&display_action=survey_viewer&_qf_page_' . $context_path . '_display=true';
         $test = $test . '&display_action=survey_viewer';
         return htmlentities($test);
     }
