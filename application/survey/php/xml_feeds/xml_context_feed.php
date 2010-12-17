@@ -1,15 +1,16 @@
 <?php
+namespace application\survey;
+
+use common\libraries\Translation;
+use common\libraries\Authentication;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use repository\content_object\survey\SurveyContextRelUser;
+use repository\content_object\survey\SurveyContextDataManager;
+use repository\content_object\survey\SurveyContext;
+
+
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
-require_once Path :: get_application_path() . '/lib/survey/survey_data_manager.class.php';
-require_once Path :: get_library_path() . 'utilities.class.php';
-require_once Path :: get_user_path() . 'lib/user.class.php';
-require_once Path :: get_library_path() . 'condition/equality_condition.class.php';
-require_once Path :: get_library_path() . 'condition/not_condition.class.php';
-require_once Path :: get_library_path() . 'condition/and_condition.class.php';
-require_once Path :: get_library_path() . 'condition/or_condition.class.php';
-require_once Path :: get_application_path() . '/lib/survey/survey_manager/survey_manager.class.php';
-require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context.class.php';
-require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_rel_user.class.php';
 
 Translation :: set_application(SurveyManager :: APPLICATION_NAME);
 

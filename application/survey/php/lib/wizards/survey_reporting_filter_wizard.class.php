@@ -166,13 +166,14 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         
         if ($context_template_id)
         {
-            $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/lib/survey/xml_feeds/xml_context_feed.php?' . SurveyManager :: PARAM_USER_ID . '=' . $this->user->get_id() . '&' . self :: PARAM_CONTEXT_TEMPLATE_ID . '=' . $context_template_id . '&' . SurveyContext :: PROPERTY_ACTIVE . '=1';
+            $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/survey/php/xml_feeds/xml_context_feed.php?' . SurveyManager :: PARAM_USER_ID . '=' . $this->user->get_id() . '&' . self :: PARAM_CONTEXT_TEMPLATE_ID . '=' . $context_template_id . '&' . SurveyContext :: PROPERTY_ACTIVE . '=1';
             $this->addElement('hidden', self :: PARAM_CONTEXT_TEMPLATE_ID, $context_template_id);
         }
         else
         {
-            $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/lib/survey/xml_feeds/xml_context_feed.php?' . SurveyManager :: PARAM_USER_ID . '=' . $this->user->get_id() . '&' . SurveyContext :: PROPERTY_ACTIVE . '=1';
+            $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/survey/php/xml_feeds/xml_context_feed.php?' . SurveyManager :: PARAM_USER_ID . '=' . $this->user->get_id() . '&' . SurveyContext :: PROPERTY_ACTIVE . '=1';
         }
+       
         
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseContext');
@@ -207,7 +208,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         $this->addElement('html', '<p>' . Translation :: get('SelectAvailableGroups') . '</p>');
         
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/php/xml_feeds/xml_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseGroup');
         $locale['Searching'] = Translation :: get('Searching');
@@ -231,7 +232,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         $this->addElement('html', '<p>' . Translation :: get('SelectAvailableUsers') . '</p>');
         
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'user/xml_feeds/xml_user_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'user/php/xml_feeds/xml_user_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseUsers');
         $locale['Searching'] = Translation :: get('Searching');
@@ -260,14 +261,14 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         
         if ($context_template_id)
         {
-            $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/lib/survey/xml_feeds/xml_question_feed.php?' . SurveyManager :: PARAM_PUBLICATION_ID . '=' . $this->publication_id . '&' . self :: PARAM_CONTEXT_TEMPLATE_ID . '=' . $context_template_id;
+            $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/survey/php/xml_feeds/xml_question_feed.php?' . SurveyManager :: PARAM_PUBLICATION_ID . '=' . $this->publication_id . '&' . self :: PARAM_CONTEXT_TEMPLATE_ID . '=' . $context_template_id;
             $this->addElement('hidden', self :: PARAM_CONTEXT_TEMPLATE_ID, $context_template_id);
         }
         else
         {
-            $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/lib/survey/xml_feeds/xml_question_feed.php?' . SurveyManager :: PARAM_PUBLICATION_ID . '=' . $this->publication_id;
+            $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/survey/php/xml_feeds/xml_question_feed.php?' . SurveyManager :: PARAM_PUBLICATION_ID . '=' . $this->publication_id;
         }
-        
+              
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseQuestions');
         $locale['Searching'] = Translation :: get('Searching');
