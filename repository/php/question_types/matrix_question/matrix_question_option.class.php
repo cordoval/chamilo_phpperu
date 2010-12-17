@@ -9,7 +9,7 @@ namespace repository;
  */
 class MatrixQuestionOption
 {
-	const PROPERTY_VALUE = 'value';
+    const PROPERTY_VALUE = 'value';
 
     private $value;
 

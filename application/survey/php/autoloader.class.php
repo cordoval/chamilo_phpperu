@@ -52,7 +52,18 @@ class Autoloader
          	'survey_user_browser_table' => 'survey_manager/component/user_browser/user_browser_table.class.php',
          	'default_survey_user_table_cell_renderer' => 'tables/user_table/default_user_table_cell_renderer.class.php',
             'default_survey_user_table_column_model' => 'tables/user_table/default_user_table_column_model.class.php',
-        	'survey_reporting_filter_wizard' => 'wizards/survey_reporting_filter_wizard.class.php');
+        	'survey_reporting_filter_wizard' => 'wizards/survey_reporting_filter_wizard.class.php',
+        	'survey_manager_taker_component' => 'survey_manager/component/taker.class.php',
+        	'survey_inactive_context_reporting_block' => '../reporting/blocks/survey_inactive_context_reporting_block.class.php',
+        	'survey_total_result_view_reporting_block' => '../reporting/blocks/survey_total_result_view_reporting_block.class.php',
+        	'survey_context_question_reporting_block' => '../reporting/blocks/survey_context_question_reporting_block.class.php',
+        	'survey_context_reporting_block' => '../reporting/blocks/survey_context_reporting_block.class.php',
+        	'survey_context_template_reporting_block' => '../reporting/blocks/survey_context_template_reporting_block.class.php',
+        	'survey_participant_mail_reporting_block' => '../reporting/blocks/survey_participant_mail_reporting_block.class.php',
+        	'survey_participant_reporting_block' => '../reporting/blocks/survey_participant_reporting_block.class.php',
+        	'survey_question_reporting_block' => '../reporting/blocks/ssurvey_question_reporting_block.class.php',
+        	'survey_question_type_view_reporting_block' => '../reporting/blocks/survey_question_type_view_reporting_block.class.php',
+        	'survey_total_user_result_view_reporting_block' => '../reporting/blocks/survey_total_user_result_view_reporting_block.class.php');
 
 
 

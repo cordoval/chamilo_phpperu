@@ -5,14 +5,10 @@ use common\libraries\WebApplication;
 use common\libraries\Installer;
 
 /**
- * $Id: phrases_installer.class.php 201 2009-11-13 12:34:51Z chellee $
- * @package application.personal_calendar.install
+ * @author Hans De Bisschop
+ * @package application.phrases
  */
-require_once WebApplication :: get_application_class_lib_path('phrases') . 'phrases_data_manager.class.php';
-/**
- *	This installer can be used to create the storage structure for the
- * personal calendar application.
- */
+
 class PhrasesInstaller extends Installer
 {
 

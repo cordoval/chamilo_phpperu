@@ -4,10 +4,11 @@ namespace repository\content_object\adaptive_assessment;
 use repository\ComplexDisplaySupport;
 
 /**
- * A class implements the <code>AdaptiveAssessmentComplexDisplaySupport</code> interface to
- * indicate that it will serve as a launch base for a AdaptiveAssessmentComplexDisplay.
+ * Implement this interface to support the displaying and
+ * execution of adaptive assessments
  *
- * @author  Hans De Bisschop
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
 
 interface AdaptiveAssessmentComplexDisplaySupport extends ComplexDisplaySupport

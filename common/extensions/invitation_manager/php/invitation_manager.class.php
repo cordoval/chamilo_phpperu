@@ -1,6 +1,10 @@
 <?php
 namespace common\extensions\invitation_manager;
+
 use common\libraries\SubManager;
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * @author Hans De Bisschop
  */

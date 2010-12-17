@@ -18,15 +18,10 @@ use common\libraries\Path;
 use common\libraries\Translation;
 
 /**
- * $Id: adaptive_assessment_tree.class.php 216 2009-11-13 14:08:06Z kariboe $
- * @package application.lib.weblcms.tool.adaptive_assessment.component.adaptive_assessment_viewer
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
-require_once dirname(__FILE__) . '/rule_condition_translator.class.php';
-/**
- * This class provides a navigation menu to allow a user to browse through his
- * categories of learning objects.
- * @author Sven Vanpoucke
- */
+
 class AdaptiveAssessmentTree extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
@@ -46,7 +41,6 @@ class AdaptiveAssessmentTree extends HTML_Menu
     private $current_tracker;
     private $current_parent;
     private $objects = array();
-    private $translator;
 
     private $dm;
 
@@ -69,7 +63,6 @@ class AdaptiveAssessmentTree extends HTML_Menu
         $this->lp = $this->dm->retrieve_content_object($lp_id);
         $this->urlFmt = $url_format;
         $this->lpi_tracker_data = $lpi_tracker_data;
-        $this->translator = new RuleConditionTranslator();
 
         $menu = $this->get_menu($lp_id);
         parent :: __construct($menu);
@@ -91,28 +84,29 @@ class AdaptiveAssessmentTree extends HTML_Menu
     {
         $menu = array();
         $lo = $this->lp;
-        $lp_item = array();
-        $lp_item['title'] = $lo->get_title();
+        $adaptive_assessment_item = array();
+        $adaptive_assessment_item['title'] = $lo->get_title();
         //$menu_item['url'] = $this->get_url($lp_id);
 
 
         $sub_menu_items = $this->get_menu_items($lo);
         if (count($sub_menu_items) > 0)
         {
-            $lp_item['sub'] = $sub_menu_items;
+            $adaptive_assessment_item['sub'] = $sub_menu_items;
         }
-        $lp_item['class'] = 'type_' . $lo->get_type();
+        $adaptive_assessment_item['class'] = 'type_' . $lo->get_type();
         //$menu_item['class'] = 'type_category';
-        $lp_item[OptionsMenuRenderer :: KEY_ID] = - 1;
+        $adaptive_assessment_item[OptionsMenuRenderer :: KEY_ID] = - 1;
 
         $menu_item = array();
         $menu_item['title'] = Translation :: get('Progress');
         $menu_item['url'] = $this->get_progress_url();
         $menu_item['class'] = 'type_statistics';
         $menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;
-        $lp_item['sub'] = array_merge($lp_item['sub'], array($menu_item));
+        $adaptive_assessment_item['sub'] = array_merge($adaptive_assessment_item['sub'], array(
+                $menu_item));
 
-        $menu[] = $lp_item;
+        $menu[] = $adaptive_assessment_item;
 
         return $menu;
     }

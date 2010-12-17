@@ -2,18 +2,17 @@
 namespace repository\content_object\assessment_matrix_question;
 
 use common\libraries\Path;
-use repository\ComplexMatrixQuestion;
+use repository\ComplexContentObjectItem;
 
 /**
  * $Id: complex_assessment_matrix_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.matrix_question
  */
-require_once Path :: get_repository_path() . '/question_types/matrix_question/complex_matrix_question.class.php';
 
 /**
  * This class represents a complex assessment (used to create complex learning objects)
  */
-class ComplexAssessmentMatrixQuestion extends ComplexMatrixQuestion
+class ComplexAssessmentMatrixQuestion extends ComplexContentObjectItem
 {
 
     const PROPERTY_WEIGHT = 'weight';

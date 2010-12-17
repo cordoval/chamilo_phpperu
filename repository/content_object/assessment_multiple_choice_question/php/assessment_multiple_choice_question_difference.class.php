@@ -10,7 +10,7 @@ use repository\ContentObjectDifference;
 /**
  * This class can be used to get the difference between multiple choice questions
  */
-class MultipleChoiceQuestionDifference extends ContentObjectDifference
+class AssessmentMultipleChoiceQuestionDifference extends ContentObjectDifference
 {
 }
 ?>

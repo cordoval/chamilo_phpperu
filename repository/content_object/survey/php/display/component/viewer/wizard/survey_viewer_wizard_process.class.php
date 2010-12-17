@@ -8,9 +8,9 @@ use common\libraries\Translation;
 
 class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 {
-    private $parent;
+ private $parent;
 
-    public function __construct($parent)
+    public function SurveyViewerWizardProcess($parent)
     {
         //        dump($parent);
         //        exit;
@@ -26,15 +26,16 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
         $html[] = '<div class="assessment">';
         $html[] = '<h2>' . $this->parent->get_survey()->get_title() . '</h2>';
         $html[] = '</div>';
-
+        
         $context_path = $page->get_context_path();
         
         $survey_values = $page->controller->exportValues();
-       
+        
         $values = array();
         
         foreach ($survey_values as $key => $value)
         {
+            
             $value = Security :: remove_XSS($value);
             $split_key = split('_', $key);
             $count = count($split_key);
@@ -70,7 +71,17 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
                 
                 if (count($answers) > 0)
                 {
-                    $this->parent->save_answer($complex_question_id, serialize($answers), $context_path . '_' . $complex_question_id);
+                    
+                    if ($this->parent->get_survey()->has_context())
+                    {
+                        $this->parent->save_answer($complex_question_id, serialize($answers), $context_path . '_' . $complex_question_id);
+                    
+                    }
+                    else
+                    {
+                        $this->parent->save_answer($complex_question_id, serialize($answers), $complex_question_id);
+                    
+                    }
                 }
             }
         }

@@ -2,8 +2,10 @@
 namespace repository\content_object\adaptive_assessment;
 
 /**
+ * @author Hans De Bisschop
  * @package repository.content_object.adaptive_assessment
  */
+
 class PrerequisitesTranslator
 {
     private $adaptive_assessment_item_attempt_data;

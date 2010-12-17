@@ -199,7 +199,7 @@ class GroupMenu extends HTML_Menu
      */
     function render_as_tree()
     {
-        $renderer = new TreeMenuRenderer($this->get_tree_name(), Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_menu_feed.php');
+        $renderer = new TreeMenuRenderer($this->get_tree_name(), Path :: get(WEB_PATH) . 'group/php/xml_feeds/xml_group_menu_feed.php');
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }

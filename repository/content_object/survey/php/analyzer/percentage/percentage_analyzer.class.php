@@ -5,12 +5,14 @@ use reporting\ReportingData;
 use repository\content_object\survey_matrix_question\SurveyMatrixQuestion;
 use repository\content_object\survey_multiple_choice_question\SurveyMultipleChoiceQuestion;
 use repository\content_object\survey_open_question\SurveyOpenQuestion;
+use common\libraries\Translation;
+use repository\content_object\survey_select_question\SurveySelectQuestion;
 
 class SurveyPercentageAnalyzer extends SurveyAnalyzer
 {
     
-    const NO_ANSWER = 'noAnswer';
-    const COUNT = 'count';
+  const NO_ANSWER = 'noAnswer';
+    const COUNT = 'percentage';
     const TOTAL = 'total';
 
     function analyse()
@@ -22,7 +24,7 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
         
         $reporting_data = new ReportingData();
         
-     //option and matches of question
+        //option and matches of question
         $options = array();
         $matches = array();
         
@@ -53,6 +55,7 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
                 $matches[] = Translation :: get(self :: COUNT);
                 
                 //create answer matrix for answer counting
+                
 
                 $option_count = count($options) - 1;
                 
@@ -69,10 +72,11 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
                 }
                 
                 //count answers from all answer trackers
+                
 
                 foreach ($answers as $answer)
                 {
-                       $options_answered = array();
+                    $options_answered = array();
                     foreach ($answer as $key => $option)
                     {
                         $options_answered[] = $key;
@@ -94,13 +98,14 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
                 
                 //creating actual reporing data
                 
+
                 foreach ($matches as $match)
                 {
                     $reporting_data->add_row(strip_tags($match));
                 }
                 
                 $totals = array();
-
+                
                 //percentage figures 
                 //total count
                 foreach ($options as $option_key => $option)
@@ -132,10 +137,10 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
                         $summary_totals[$index] = $percentage;
                     }
                 }
-
+                
                 $match_count = count($matches);
                 $total_index = $match_count - 1;
-         
+                
                 foreach ($options as $option_key => $option)
                 {
                     $reporting_data->add_category($option);
@@ -143,9 +148,9 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
                     //                    dump('option: '.$option);
                     foreach ($matches as $match_key => $match)
                     {
-                                               if ($match_key == $total_index)
+                        if ($match_key == $total_index)
                         {
-                        	$value = $answer_count[$option_key][$match_key] / $total_count;
+                            $value = $answer_count[$option_key][$match_key] / $total_count;
                             $percentage = number_format($value * 100, 2);
                             $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
                         }
@@ -157,11 +162,11 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
                         }
                     }
                 }
-
+                
                 if (count($options) > 1)
                 {
                     $reporting_data->add_category(Translation :: get(self :: TOTAL));
-                  
+                    
                     foreach ($matches as $match_key => $match)
                     {
                         $reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), strip_tags($match), $summary_totals[$match_key]);
@@ -177,23 +182,25 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
                 {
                     $options[] = $option->get_value();
                 }
-
+                
                 $matches[] = Translation :: get(self :: COUNT);
                 
                 //create answer matrix for answer counting
                 
+
                 $option_count = count($options) - 1;
                 while ($option_count >= 0)
                 {
                     $answer_count[$option_count] = 0;
                     $option_count --;
                 }
-
+                
                 //count answers from all answer trackers
+                
 
                 foreach ($answers as $answer)
                 {
-                                   
+                    
                     foreach ($answer as $key => $option)
                     {
                         if ($question->get_answer_type() == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
@@ -208,7 +215,7 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
                 }
                 
                 //totalcount
-         		$total_count = 0;
+                $total_count = 0;
                 foreach ($options as $option_key => $option)
                 {
                     
@@ -220,19 +227,20 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
                 }
                 
                 //creating actual reporing data
+                
 
                 foreach ($matches as $match)
                 {
                     $reporting_data->add_row(strip_tags($match));
                 }
-                            
+                
                 foreach ($options as $option_key => $option)
                 {
                     
                     $reporting_data->add_category($option);
                     foreach ($matches as $match)
                     {
-                        $value = $answer_count[$option_key]/ $total_count;
+                        $value = $answer_count[$option_key] / $total_count;
                         $percentage = number_format($value * 100, 2);
                         $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
                     }
@@ -248,7 +256,7 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
                 }
                 
                 break;
-                case SurveyOpenQuestion :: get_type_name() :
+            case SurveyOpenQuestion :: get_type_name() :
                 $reporting_data->add_category('answer');
                 $stripped_answers = array();
                 foreach ($answers as $answer)
@@ -282,6 +290,87 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
                     $reporting_data->add_data_category_row($nr, $answer_row, $answer);
                 }
                 break;
+            case SurveySelectQuestion :: get_type_name() :
+                
+         		$opts = $question->get_options();
+                foreach ($opts as $option)
+                {
+                    $options[] = $option->get_value();
+                }
+                
+                $matches[] = Translation :: get(self :: COUNT);
+                
+                //create answer matrix for answer counting
+                
+
+                $option_count = count($options) - 1;
+                while ($option_count >= 0)
+                {
+                    $answer_count[$option_count] = 0;
+                    $option_count --;
+                }
+                
+                //count answers from all answer trackers
+                
+
+                foreach ($answers as $answer)
+                {
+                    
+                    foreach ($answer as $key => $option)
+                    {
+                        if ($question->get_answer_type() == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
+                        {
+                            $answer_count[$key] ++;
+                        }
+                        else
+                        {
+                            $answer_count[$option] ++;
+                        }
+                    }
+                }
+                
+                //totalcount
+                $total_count = 0;
+                foreach ($options as $option_key => $option)
+                {
+                    
+                    foreach ($matches as $match)
+                    {
+                        $total_count = $total_count + $answer_count[$option_key];
+                    }
+                
+                }
+                
+                //creating actual reporing data
+                
+
+                foreach ($matches as $match)
+                {
+                    $reporting_data->add_row(strip_tags($match));
+                }
+                
+                foreach ($options as $option_key => $option)
+                {
+                    
+                    $reporting_data->add_category($option);
+                    foreach ($matches as $match)
+                    {
+                        $value = $answer_count[$option_key] / $total_count;
+                        $percentage = number_format($value * 100, 2);
+                        $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
+                    }
+                
+                }
+                if (count($options) > 1)
+                {
+                    $reporting_data->add_category(Translation :: get(self :: TOTAL));
+                    foreach ($matches as $match)
+                    {
+                        $reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), strip_tags($match), 100);
+                    }
+                }
+                break;
+            
             default :
                 ;
                 break;
@@ -290,5 +379,4 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
     }
 
 }
-
 ?>

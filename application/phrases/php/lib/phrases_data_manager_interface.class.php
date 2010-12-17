@@ -1,110 +1,55 @@
 <?php
 namespace application\phrases;
 
+/**
+ * @author Hans De Bisschop
+ * @package application.phrases
+ */
+
 interface PhrasesDataManagerInterface
 {
 
-    /**
-     * Initializes the data manager.
-     */
     function initialize();
 
-    /**
-     * Creates a storage unit in the personal calendar storage system
-     * @param string $name
-     * @param array $properties
-     * @param array $indexes
-     */
     function create_storage_unit($name, $properties, $indexes);
 
-    /**
-     * @see Application::content_object_is_published()
-     */
-    function content_object_is_published($object_id);
+    function create_phrases_publication($phrases_publication);
 
-    /**
-     * @see Application::any_content_object_is_published()
-     */
-    function any_content_object_is_published($object_ids);
+    function update_phrases_publication($phrases_publication);
 
-    /**
-     * @see Application::get_content_object_publication_attributes()
-     */
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null);
+    function delete_phrases_publication($phrases_publication);
 
-    /**
-     * @see Application::get_content_object_publication_attribute()
-     */
-    function get_content_object_publication_attribute($publication_id);
+    function count_phrases_publications($conditions = null);
 
-    /**
-     * @see Application::count_publication_attributes()
-     */
-    function count_publication_attributes($user = null, $object_id = null, $condition = null);
-
-    /**
-     * @see Application::delete_content_object_publications()
-     */
-    function delete_content_object_publications($object_id);
-
-    /**
-     * @see Application::update_content_object_publication_id()
-     */
-    function update_content_object_publication_id($publication_attr);
-
-    /**
-     * Retrieve a profile publication
-     * @param int $id
-     * @return ProfilerPublication
-     */
     function retrieve_phrases_publication($id);
 
-    /**
-     * Retrieve a series of profile publications
-     * @param Condition $condition
-     * @param array $order_by
-     * @param int $offset
-     * @param int $max_objects
-     * @return ProfilePublicationResultSet
-     */
-    function retrieve_phrases_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
+    function retrieve_phrases_publications($condition = null, $offset = null, $count = null, $order_property = null);
 
-    /**
-     * Update the publication
-     * @param ProfilerPublication $profile_publication
-     * @return boolean
-     */
-    function update_phrases_publication($publication);
+    function create_phrases_publication_category($phrases_category);
 
-    /**
-     * Delete the publication
-     * @param ProfilerPublication $profile_publication
-     * @return boolean
-     */
-    function delete_phrases_publication($publication);
+    function update_phrases_publication_category($phrases_category);
 
-    /**
-     * Delete the publications
-     * @param Array $object_id An array of publication ids
-     * @return boolean
-     */
-    function delete_phrases_publications($object_id);
+    function delete_phrases_publication_category($phrases_category);
 
-    /**
-     * Update the publication id
-     * @param ContentObjectPublicationAttribure $publication_attr
-     * @return boolean
-     */
-    function update_phrases_publication_id($publication_attr);
+    function count_phrases_publication_categories($conditions = null);
 
-    /**
-     * Create a publication
-     * @param PersonalMessagePublication $publication
-     * @return boolean
-     */
-    function create_phrases_publication($publication);
-    
-    function count_phrases_publications($condition);
+    function retrieve_phrases_publication_category($id);
+
+    function retrieve_phrases_publication_categories($condition = null, $offset = null, $count = null, $order_property = null);
+
+    function select_next_phrases_publication_category_display_order($parent);
+
+    function create_survey_invitation($survey_invitation);
+
+    function update_survey_invitation($survey_invitation);
+
+    function delete_survey_invitation($survey_invitation);
+
+    function count_survey_invitations($conditions = null);
+
+    function retrieve_survey_invitation($id);
+
+    function retrieve_survey_invitations($condition = null, $offset = null, $count = null, $order_property = null);
 
 }
 ?>

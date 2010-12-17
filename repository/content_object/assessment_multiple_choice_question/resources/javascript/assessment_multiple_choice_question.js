@@ -103,7 +103,7 @@ $(function ()
 		
 		rows = $('tr', tableBody);
 		
-		doAjaxPost("./common/libraries/php/ajax/mc_question.php", { action: 'skip_option', value: id });
+		doAjaxPost("./repository/content_object/assessment_multiple_choice_question/php/ajax/assessment_multiple_choice_question.php", { action: 'skip_option', value: id });
 		
 		rows.each(function ()
 		{

@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/inc/survey_question_display.class.php';
 class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
 {
     
-    private $page_number;
+	private $page_number;
     private $context_path;
     private $survey_page;
     
@@ -19,13 +19,13 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
      */
     private $survey;
 
-    function __construct($name, $parent, $context_path, $survey)
+    function SurveyQuestionViewerWizardPage($name, $parent, $context_path, $survey)
     {
         parent :: __construct($name, $parent);
         $this->context_path = $context_path;
         
         $this->survey = $survey;
-//        dump($this->context_path);
+        //        dump($this->context_path);
         $this->page_number = $this->survey->get_page_nr($this->context_path);
         $this->survey_page = $this->survey->get_survey_page($this->context_path);
     }
@@ -36,21 +36,23 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
         
         //        dump('in form');
         
-
+		$this->addElement('hidden', 'survey_page', $this->survey_page->get_id());
+        
+        
         // Add buttons
         if ($this->page_number > 1)
         {
-            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back', null, Utilities::COMMON_LIBRARIES), array('class' => 'previous'));
+            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back'), array('class' => 'previous'));
         }
         
         if ($this->page_number < $this->survey->count_pages())
         {
-            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES), array('class' => 'next'));
+            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'next'));
         
         }
         else
         {
-            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
+            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive'));
         }
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         
@@ -62,10 +64,20 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
         foreach ($complex_questions as $complex_question)
         {
             
-           	$question_context_path = $this->context_path.'_'.$complex_question->get_id();
-                      	
-           	$answer = $this->get_parent()->get_answer($complex_question->get_id(), $question_context_path);
-           	
+            $question_context_path = $this->context_path . '_' . $complex_question->get_id();
+            
+            //           	dump($question_context_path);
+            if ($this->survey->has_context())
+            {
+                $answer = $this->get_parent()->get_answer($complex_question->get_id(), $question_context_path);
+            
+            }
+            else
+            {
+                $answer = $this->get_parent()->get_answer($complex_question->get_id(), $complex_question->get_id());
+            
+            }
+            
             $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $question_context_path, $this->survey);
             
             $question_display->display();
@@ -95,11 +107,11 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
     {
         return $this->context_path;
     }
-    
-    function get_question_context_paths(){
-    	return $this->survey->get_page_question_context_paths($this->get_context_path());
-    }
-    
-}
 
+    function get_question_context_paths()
+    {
+        return $this->survey->get_page_question_context_paths($this->get_context_path());
+    }
+
+}
 ?>

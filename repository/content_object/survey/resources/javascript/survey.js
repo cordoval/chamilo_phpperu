@@ -2,9 +2,11 @@
 {
 	function processAnswers(e, ui)
 	{
-		var surveyPublicationId, checkedQuestions, checkedQuestionResults, displayResult;
+		var surveyPublicationId, surveyPageId,checkedQuestions, checkedQuestionResults, displayResult;
 		
-		surveyPublicationId = $.query.get('survey_publication');
+		surveyPublicationId = $.query.get('publication_id');
+		
+		surveyPageId = $("input[name=survey_page]").val();
 		
 		checkedQuestions = $(".question input:checked");
 		checkedQuestionResults = {};
@@ -14,7 +16,7 @@
 			checkedQuestionResults[$(this).attr('type') +  '_' + $(this).attr('name')] = $(this).val();
 		});
 		
-		displayResult = doAjaxPost("./common/javascript/ajax/survey.php", {"survey_publication" : surveyPublicationId, "results" : $.json.serialize(checkedQuestionResults)});
+		displayResult = doAjaxPost("./repository/content_object/survey/php/ajax/survey.php", {"survey_page" : surveyPageId, "survey_publication" : surveyPublicationId, "results" : $.json.serialize(checkedQuestionResults)});
 		
 //		alert(displayResult);
 		

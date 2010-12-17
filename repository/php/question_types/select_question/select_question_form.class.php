@@ -142,13 +142,19 @@ class SelectQuestionForm extends ContentObjectForm
             $switch_label = Translation :: get('SwitchToSingleSelect');
         }
 
-        $this->addElement('hidden', 'select_answer_type', $_SESSION['select_answer_type'], array('id' => 'select_answer_type'));
-        $this->addElement('hidden', 'select_number_of_options', $_SESSION['select_number_of_options'], array('id' => 'select_number_of_options'));
+        $this->addElement('hidden', 'select_answer_type', $_SESSION['select_answer_type'], array(
+                'id' => 'select_answer_type'));
+        $this->addElement('hidden', 'select_number_of_options', $_SESSION['select_number_of_options'], array(
+                'id' => 'select_number_of_options'));
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch', 'id' => 'change_answer_type'));
+        $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array(
+                'class' => 'normal switch',
+                'id' => 'change_answer_type'));
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddSelectOption'), array('class' => 'normal add', 'id' => 'add_option'));
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddSelectOption'), array(
+                'class' => 'normal add',
+                'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $html_editor_options = array();
@@ -171,11 +177,14 @@ class SelectQuestionForm extends ContentObjectForm
             if (! in_array($option_number, $_SESSION['select_skip_options']))
             {
                 $group = array();
-                $group[] = & $this->createElement('text', SelectQuestionOption :: PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), array('style' => 'width: 300px;'));
+                $group[] = & $this->createElement('text', SelectQuestionOption :: PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), array(
+                        'style' => 'width: 300px;'));
 
                 if ($number_of_options - count($_SESSION['select_skip_options']) > 2)
                 {
-                    $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
+                    $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array(
+                            'class' => 'remove_option',
+                            'id' => 'remove_' . $option_number));
                 }
                 else
                 {

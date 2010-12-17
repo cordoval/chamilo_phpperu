@@ -13,7 +13,7 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 
 
-class Initializer
+class TestInitializer
 {
     /**
      * Initialize the environment 
@@ -43,15 +43,16 @@ class Initializer
     {
         $pearPath = realpath(Path :: get_plugin_path() . 'pear');
         $googleLibraryPath = realpath(Path :: get_plugin_path() . 'google/library');
+        $scriptLibrariesPath = __DIR__ . '/../script/lib';
 
         $path = array(
             $pearPath,
-            $googleLibraryPath
+            $googleLibraryPath,
+            $scriptLibrariesPath,
         );
+        $new_include_path = implode(PATH_SEPARATOR, $path) . PATH_SEPARATOR .  get_include_path();
 
-
-        set_include_path(implode(PATH_SEPARATOR, $path) .  get_include_path());
-
+        set_include_path($new_include_path);
     }
 
 
@@ -64,9 +65,10 @@ class Initializer
     {
 	// I do not understand why but Fatal error aren't shown 
 	// when setting these parameters
-        //ini_set('error_reporting', 'E_ALL & ~E_DEPRECATED');
+        // Sven: the error reporting parameters are constants and should not be defined between quotes.
+        ini_set('error_reporting', E_ALL & ~E_DEPRECATED);
     }
 
 }
 
-Initializer::init();
+TestInitializer::init();

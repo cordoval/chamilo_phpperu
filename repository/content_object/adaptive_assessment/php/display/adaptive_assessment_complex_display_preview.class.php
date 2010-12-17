@@ -15,6 +15,11 @@ use repository\RepositoryDataManager;
 use repository\content_object\adaptive_assessment\AdaptiveAssessmentComplexDisplaySupport;
 use repository\content_object\assessment\AssessmentComplexDisplaySupport;
 
+/**
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
+ */
+
 class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview implements AdaptiveAssessmentComplexDisplaySupport, AssessmentComplexDisplaySupport
 {
 
@@ -34,7 +39,7 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
         }
         else
         {
-            $this->set_parameter(AdaptiveAssessmentDisplay :: PARAM_LEARNING_PATH_ITEM_ID, Request :: get(AdaptiveAssessmentDisplay :: PARAM_LEARNING_PATH_ITEM_ID));
+            $this->set_parameter(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID, Request :: get(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID));
             $this->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, Request :: get(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID));
             return parent :: get_root_content_object();
         }
@@ -125,7 +130,7 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
 
     function retrieve_adaptive_assessment_tracker()
     {
-        return new DummyLpAttemptTracker();
+        return new DummyAdaptiveAssessmentAttemptTracker();
         //        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $this->get_course_id());
     //        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $this->get_publication()->get_id());
     //        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_USER_ID, $this->get_user_id());
@@ -161,7 +166,7 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
     //
     //        foreach ($trackers as $tracker)
     //        {
-    //            $item_id = $tracker->get_lp_item_id();
+    //            $item_id = $tracker->get_adaptive_assessment_item_id();
     //
     //            if (! $adaptive_assessment_item_attempt_data[$item_id])
     //            {
@@ -213,9 +218,9 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
      */
     function create_adaptive_assessment_item_tracker($adaptive_assessment_tracker, $current_complex_content_object_item)
     {
-        $item_tracker = new DummyLpiAttemptTracker();
-        $item_tracker->set_lp_item_id($adaptive_assessment_tracker->get_id());
-        //        $item_tracker->set_lp_view_id($current_complex_content_object_item->get_id());
+        $item_tracker = new DummyAdaptiveAssessmentItemAttemptTracker();
+        $item_tracker->set_adaptive_assessment_item_id($adaptive_assessment_tracker->get_id());
+        //        $item_tracker->set_adaptive_assessment_view_id($current_complex_content_object_item->get_id());
         //        $item_tracker->set_start_time(time());
         //        $item_tracker->set_total_time(0);
         //        $item_tracker->set_score(0);

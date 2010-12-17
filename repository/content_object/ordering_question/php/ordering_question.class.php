@@ -15,12 +15,14 @@ require_once dirname(__FILE__) . '/ordering_question_option.class.php';
 class OrderingQuestion extends ContentObject implements Versionable
 {
     const PROPERTY_OPTIONS = 'options';
-	const CLASS_NAME = __CLASS__;
+    const PROPERTY_HINT = 'hint';
 
-	static function get_type_name()
-	{
-		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
-	}
+    const CLASS_NAME = __CLASS__;
+
+    static function get_type_name()
+    {
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
+    }
 
     public function add_option($option)
     {
@@ -43,6 +45,22 @@ class OrderingQuestion extends ContentObject implements Versionable
         return array();
     }
 
+    public function set_hint($hint)
+    {
+        return $this->set_additional_property(self :: PROPERTY_HINT, $hint);
+    }
+
+    public function get_hint()
+    {
+        return $this->get_additional_property(self :: PROPERTY_HINT);
+    }
+
+    function has_hint()
+    {
+        $hint = trim(strip_tags($this->get_hint()));
+        return !empty($hint);
+    }
+
     public function get_number_of_options()
     {
         return count($this->get_options());
@@ -50,7 +68,7 @@ class OrderingQuestion extends ContentObject implements Versionable
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_OPTIONS);
+        return array(self :: PROPERTY_OPTIONS, self :: PROPERTY_HINT);
     }
 }
 ?>

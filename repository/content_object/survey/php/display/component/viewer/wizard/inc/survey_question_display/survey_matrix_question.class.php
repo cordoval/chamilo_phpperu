@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../survey_question_display.class.php';
 class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
 {
 
-    function add_question_form()
+ function add_question_form()
     {
         $formvalidator = $this->get_formvalidator();
         $renderer = $this->get_renderer();
@@ -43,7 +43,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
         $question_id = $complex_question->get_id();
         
         $answer = $this->get_answer();
-        
+                
         foreach ($options as $i => $option)
         {
             $group = array();
@@ -59,7 +59,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
                     $radio = $formvalidator->createElement('radio', $option_name, null, null, $j);
                     if ($answer)
                     {
-                        if ($answer[$i] == $j)
+                        if ($answer[$i][0] == $j)
                         {
                             $formvalidator->setDefaults(array($option_name => $j));
                         }

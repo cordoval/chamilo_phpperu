@@ -9,6 +9,6 @@ namespace repository;
  */
 class ComplexMultipleChoiceQuestion extends ComplexContentObjectItem
 {
-   
+
 }
 ?>

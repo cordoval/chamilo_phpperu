@@ -14,9 +14,8 @@ class WebserviceRegistration extends DataClass
 
     const PROPERTY_NAME = 'name';
     const PROPERTY_DESCRIPTION = 'description';
-    const PROPERTY_PARENT = 'parent_id';
     const PROPERTY_ACTIVE = 'active';
-    const PROPERTY_APPLICATION = 'application';
+    const PROPERTY_CODE = 'code';
     const PROPERTY_CATEGORY = 'category_id';
 
     /**
@@ -25,7 +24,7 @@ class WebserviceRegistration extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT, self :: PROPERTY_ACTIVE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_CATEGORY, self :: PROPERTY_ACTIVE, self :: PROPERTY_CODE));
     }
 
     /**
@@ -37,11 +36,11 @@ class WebserviceRegistration extends DataClass
     }
 
     /**
-     * Returns the application of this webservice.
+     * Returns the code of this webservice.
      */
-    function get_application()
+    function get_code()
     {
-        return $this->get_default_property(self :: PROPERTY_APPLICATION);
+        return $this->get_default_property(self :: PROPERTY_CODE);
     }
 
     /**
@@ -62,11 +61,6 @@ class WebserviceRegistration extends DataClass
         return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
     }
 
-    function get_parent()
-    {
-        return $this->get_default_property(self :: PROPERTY_PARENT);
-    }
-
     function get_category()
     {
         return $this->get_default_property(self :: PROPERTY_CATEGORY);
@@ -83,11 +77,11 @@ class WebserviceRegistration extends DataClass
     }
 
     /**
-     * Sets the application of this webservice.
+     * Sets the code of this webservice.
      */
-    function set_application($application)
+    function set_code($code)
     {
-        $this->set_default_property(self :: PROPERTY_APPLICATION, $application);
+        $this->set_default_property(self :: PROPERTY_CODE, $code);
     }
 
     /**
@@ -108,14 +102,9 @@ class WebserviceRegistration extends DataClass
         $this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
     }
 
-    function set_parent($parent)
-    {
-        $this->set_default_property(self :: PROPERTY_PARENT, $parent);
-    }
-
     function set_active($active)
     {
-        $this->set_default_property(self :: PROPERTY_PARENT, $active);
+        $this->set_default_property(self :: PROPERTY_ACTIVE, $active);
     }
 
     static function get_table_name()
@@ -133,18 +122,10 @@ class WebserviceRegistration extends DataClass
         $wdm = WebserviceDataManager :: get_instance();
         $wdm->create_webservice($this);
 
-        /*$location = new Location();
-        $location->set_location($this->get_name());
-        $location->set_application('webservice');
-        $location->set_type('webservice');
-        $location->set_identifier($this->get_id());*/
 
-        //echo $location->get_location();
-
-
-        if ($this->get_parent())
+        if ($this->get_category())
         {
-            $parent_id = WebserviceRights :: get_location_id_by_identifier_from_webservices_subtree(WebserviceRights :: TYPE_WEBSERVICE_CATEGORY, $this->get_parent());
+            $parent_id = WebserviceRights :: get_location_id_by_identifier_from_webservices_subtree(WebserviceRights :: TYPE_WEBSERVICE_CATEGORY, $this->get_category());
         }
         else
         {

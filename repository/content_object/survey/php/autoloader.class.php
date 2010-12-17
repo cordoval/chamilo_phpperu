@@ -16,7 +16,8 @@ class Autoloader
     {
         $list = array(
             'survey' => 'survey',
-            'survey_context_template' => 'survey_context_template.class.php',
+            'survey_context_template' => 'survey_context_template',
+            'survey_context' => 'survey_context',
             'survey_builder' => 'builder/survey_builder',
             'survey_display' => 'display/survey_display',
             'survey_analyzer' => 'analyzer/analyzer',
@@ -32,10 +33,11 @@ class Autoloader
             'survey_context_template_browser_table' => 'manage/context/component/registration_browser/browser_table',
             'survey_template_table' => 'manage/context/component/registration_browser/browser_table',
             'survey_viewer_wizard_page' => 'display/component/viewer/wizard/survey_viewer_wizard_page',
+        	'survey_question_viewer_form' => 'display/component/viewer/survey_question_viewer_form',
             'survey_context_manager' => 'manage/context/survey_context_manager',
             'default_survey_page_table_column_model' => 'manage/context/tables/page_table/default_page_table_column_model',
             'default_survey_page_table_cell_renderer' => 'manage/context/tables/page_table/default_page_table_cell_renderer',
-            'survey_context_form' => 'manage/context/forms/context_form.class.php',
+            'survey_context_form' => 'manage/context/forms/context_form',
             'default_survey_context_table_column_model' => 'manage/context/tables/context_table/default_context_table_column_model',
             'default_survey_context_table_cell_renderer' => 'manage/context/tables/context_table/default_context_table_cell_renderer',
             'default_survey_context_template_table_column_model' => 'manage/context/tables/context_template_table/default_context_template_table_column_model',

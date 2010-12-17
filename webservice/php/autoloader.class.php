@@ -38,7 +38,7 @@ class Autoloader
 
     static function check_for_general_files()
     {
-        $list = array('webservice_category_menu', 'webservice_category', 'webservice_credential', 'webservice_data_manager', 'webservice_registration', 'webservice_rights');
+        $list = array('webservice_category_menu', 'webservice_category', 'webservice_data_manager', 'webservice_registration', 'webservice_rights');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -69,7 +69,7 @@ class Autoloader
 
     static function check_for_special_files()
     {
-        $list = array('webservice_manager' => 'webservice_manager/webservice_manager.class.php', 'webservice_manager_component' => 'webservice_manager/webservice_manager_component.class.php');
+        $list = array('webservice_manager' => 'webservice_manager/webservice_manager.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

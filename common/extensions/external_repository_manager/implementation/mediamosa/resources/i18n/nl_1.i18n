@@ -1,0 +1,16 @@
+Versions = "Versies"
+
+
+TranscodeNeeded = "De video moet worden gecompresseerd"
+Creator = ""
+NoTranscodeProfiles = "Er zijn geen transcode profielen ingesteld"
+UploadVideo = "Upload een video"
+PlayerNotAvailable = "De vereiste player is niet beschikbaar"
+MyVideos = "Mijn videos"
+SetMediamosaDefaults = "Stel de Mediamosa defaults in"
+UploadedOn = "Ge-upload op"
+ModifiedOn = "Aangepast op"
+PublishedBy = "Ge-upload door"
+CreatedBy = "Creator"
+TypeName = "Mediamosa"
+MediamosaExternalRepositoryManagerBrowserComponent = "Browse"

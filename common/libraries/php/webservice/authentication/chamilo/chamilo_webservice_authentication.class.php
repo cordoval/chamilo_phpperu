@@ -59,7 +59,12 @@ class ChamiloWebserviceAuthentication extends WebserviceAuthentication
 
         $signature = $this->calculate_signature($authorization, $user);
 
-        return ($signature == $authorization[self :: PARAM_SIGNATURE]);
+        if($signature == $authorization[self :: PARAM_SIGNATURE])
+        {
+            return $user;
+        }
+
+        return false;
     }
 
     private function calculate_signature($authorization, $user)

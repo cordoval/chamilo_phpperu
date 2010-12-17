@@ -89,13 +89,27 @@ abstract class QuestionDisplay
         $html[] = '</div>';
         $html[] = '<div class="text">';
         $html[] = '<div class="bevel">';
-        //$html[] = '<img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($this->question->get_type())) . 'logo/' . $this->question->get_icon_name(Theme :: ICON_MINI) . '.png" />';
-        $html[] = $this->question->get_title();
+        $html[] = $this->get_title();
         $html[] = '</div>';
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '<div class="answer">';
+        $html[] = $this->get_description();
+        $html[] = '<div class="clear"></div>';
+
+        $header = implode("\n", $html);
+        $formvalidator->addElement('html', $header);
+    }
+
+    function get_title()
+    {
+        return $this->question->get_title();
+    }
+
+    function get_description()
+    {
+        $html = array();
 
         $description = $this->question->get_description();
         if ($this->question->has_description())
@@ -106,10 +120,7 @@ abstract class QuestionDisplay
             $html[] = '</div>';
         }
 
-        $html[] = '<div class="clear"></div>';
-
-        $header = implode("\n", $html);
-        $formvalidator->addElement('html', $header);
+        return implode("\n", $html);
     }
 
     function add_footer($formvalidator)

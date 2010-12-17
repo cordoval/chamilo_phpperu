@@ -17,10 +17,10 @@ use repository\content_object\adaptive_assessment_item\ComplexAdaptiveAssessment
 
 use common\extensions\reporting_viewer\ReportingViewer;
 
-require_once dirname(__FILE__) . '/../adaptive_assessment_tree.class.php';
-require_once dirname(__FILE__) . '/../adaptive_assessment_content_object_display.class.php';
-require_once dirname(__FILE__) . '/../rule_condition_translator.class.php';
-require_once dirname(__FILE__) . '/../prerequisites_translator.class.php';
+/**
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
+ */
 
 class AdaptiveAssessmentDisplayViewerComponent extends AdaptiveAssessmentDisplay
 {
@@ -134,14 +134,14 @@ class AdaptiveAssessmentDisplayViewerComponent extends AdaptiveAssessmentDisplay
 
                 $this->adaptive_assessment_trackers[self :: TRACKER_LEARNING_PATH_ITEM] = $adaptive_assessment_item_tracker;
 
-                $this->set_parameter(self :: PARAM_LEARNING_PATH_ITEM_ID, $adaptive_assessment_item_attempt_data[$this->get_complex_content_object_item_id()]['active_tracker']->get_id());
+                $this->set_parameter(self :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID, $adaptive_assessment_item_attempt_data[$this->get_complex_content_object_item_id()]['active_tracker']->get_id());
                 $this->set_parameter(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
 
                 $this->display_header();
                 echo AdaptiveAssessmentContentObjectDisplay :: factory($this, $current_content_object->get_type())->display_content_object($current_content_object, $adaptive_assessment_item_attempt_data[$this->get_complex_content_object_item_id()], $this->adaptive_assessment_menu->get_continue_url(), $this->adaptive_assessment_menu->get_previous_url(), $this->adaptive_assessment_menu->get_jump_urls());
                 $this->display_footer();
             }
-            elseif($this->get_complex_content_object_item() && $this->get_complex_content_object_item() instanceof ComplexAdaptiveAssessment)
+            elseif ($this->get_complex_content_object_item() && $this->get_complex_content_object_item() instanceof ComplexAdaptiveAssessment)
             {
                 $this->display_header();
 

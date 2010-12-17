@@ -2,18 +2,18 @@
 namespace repository\content_object\assessment_rating_question;
 
 use common\libraries\Path;
-use repository\ComplexRatingQuestion;
+
+use repository\ComplexContentObjectItem;
 
 /**
  * $Id: complex_assessment_rating_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.rating_question
  */
-require_once Path :: get_repository_path() . '/question_types/rating_question/complex_rating_question.class.php';
 
 /**
  * This class represents a complex exercise (used to create complex learning objects)
  */
-class ComplexAssessmentRatingQuestion extends ComplexRatingQuestion
+class ComplexAssessmentRatingQuestion extends ComplexContentObjectItem
 {
 
     const PROPERTY_WEIGHT = 'weight';

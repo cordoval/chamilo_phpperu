@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/matrix_question_option.class.php';
 
 abstract class MatrixQuestion extends ContentObject implements Versionable
 {
-	const PROPERTY_OPTIONS = 'options';
+    const PROPERTY_OPTIONS = 'options';
     const PROPERTY_MATCHES = 'matches';
     const PROPERTY_MATRIX_TYPE = 'matrix_type';
 
@@ -84,7 +84,8 @@ abstract class MatrixQuestion extends ContentObject implements Versionable
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_MATCHES, self :: PROPERTY_OPTIONS, self :: PROPERTY_MATRIX_TYPE);
+        return array(self :: PROPERTY_MATCHES, self :: PROPERTY_OPTIONS,
+                self :: PROPERTY_MATRIX_TYPE);
     }
 }
 ?>

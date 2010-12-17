@@ -18,7 +18,7 @@ class SurveyContextReportingBlock extends SurveyReportingBlock {
 		require_once (dirname ( __FILE__ ) . '/../../trackers/survey_participant_tracker.class.php');
 
 
-		 $filter_parameters = $this->get_filter_parameters();
+		$filter_parameters = $this->get_filter_parameters();
         
         $publication_id = $filter_parameters[SurveyReportingFilterWizard :: PARAM_PUBLICATION_ID];
 		$survey_publication = SurveyDataManager::get_instance()->retrieve_survey_publication($publication_id);

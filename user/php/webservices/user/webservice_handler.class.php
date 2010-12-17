@@ -8,7 +8,7 @@ use common\libraries\SuccessRestMessage;
 
 class UserWebserviceHandler
 {
-    function get_list($data)
+    function get_list()
     { 
         return UserDataManager :: get_instance()->retrieve_users()->as_array();
     }
