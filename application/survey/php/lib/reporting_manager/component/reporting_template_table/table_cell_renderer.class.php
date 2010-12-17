@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace application\survey;
 
 use common\libraries\ObjectTableCellRenderer;
@@ -20,7 +20,7 @@ class SurveyReportingTemplateTableCellRenderer extends DefaultSurveyReportingTem
      * Constructor
      * @param RepositoryManagerComponent $browser
      */
-    function __construct($component)
+    function SurveyReportingTemplateTableCellRenderer($component)
     {
         parent :: __construct();
         $this->component = $component;

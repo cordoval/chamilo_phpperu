@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace application\survey;
 
 use common\libraries\ObjectTableCellRenderer;
@@ -19,7 +19,7 @@ class SurveyPublicationRelReportingTemplateTableCellRenderer extends DefaultSurv
      * Constructor
      * @param RepositoryManagerComponent $browser
      */
-    function __construct($component)
+    function SurveyPublicationRelReportingTemplateTableCellRenderer($component)
     {
         parent :: __construct();
         $this->component = $component;
@@ -44,7 +44,16 @@ class SurveyPublicationRelReportingTemplateTableCellRenderer extends DefaultSurv
                 {
                     $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
                 }
-                return '<a href="' . htmlentities($this->component->get_reporting_url($publication_rel_reporting_template)) . '" title="' . $title . '">' . $title_short . '</a>';
+                if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_VIEW, $publication_rel_reporting_template->get_id(), SurveyRights :: TYPE_REPORTING_TEMPLATE_REGISTRATION))
+                {
+                    return '<a href="' . htmlentities($this->component->get_reporting_url($publication_rel_reporting_template)) . '" title="' . $title . '">' . $title_short . '</a>';
+                
+                }
+                else
+                {
+                    return $title;
+                }
+            
             case SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_DESCRIPTION :
                 $description = strip_tags(parent :: render_cell($column, $publication_rel_reporting_template));
                 if (strlen($description) > 175)
