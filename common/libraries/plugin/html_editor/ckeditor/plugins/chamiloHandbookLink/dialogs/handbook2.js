@@ -6,8 +6,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 (function()
 {
 
-    var test = 'testtexttttttttttttt';
-var mySelection = 'test';
 
 function dialogShow()
 {
@@ -19,10 +17,6 @@ function dialogShow()
             } else {
                 selectedText = mySelection.getNative();
             }
-
-
-
-    this.mySelection = 'koekoek' ;
 
 }
 
@@ -62,24 +56,11 @@ CKEDITOR.dialog.add('chamiloHandbookLink',function(a){
                                                 target: 'tab1:uid',
                                                 params:
                                                     {
-                                                        parameter1: mySelection
+                                                        parameter1: 'testparam'
                                                     }
                                             },
                                         label : a.lang.chamiloHandbookLink.filebrowserLabel
                                         
-                                    },
-                                    {
-                                        type:'button',
-                                        id: 'tweedeknop',
-
-                                       label : 'tweede knop',
-                                       onClick: function()
-                                       {
-                                           mySelection = 'test2';
-                                       }
-
-
-
                                     }
                                     
                                 ]
@@ -92,7 +73,20 @@ CKEDITOR.dialog.add('chamiloHandbookLink',function(a){
         title: a.lang.chamiloHandbookLink.title,
         minWidth:390,
         minHeight:230,
-       
+        onOk: function() {
+            var mySelection = this.getParentEditor().getSelection();
+
+            if (CKEDITOR.env.ie) {
+                mySelection.unlock(true);
+                selectedText = mySelection.getNative().createRange().text;
+            } else {
+                selectedText = mySelection.getNative();
+            }
+
+            var selected_uid = this.getContentElement('tab1','uid')
+
+	    this.getParentEditor().insertHtml('<a href="' + web_path + '/run.php?go=handbook_viewer&amp;application=handbook&amp;uid='+ selected_uid.getValue() +'&blabla=blabla'  +'">'+selectedText+'</a>');
+        },
         contents:[{
             id:'tab1',
             label:'',

@@ -12,7 +12,7 @@ require_once Path :: get_common_extensions_path() . 'repo_viewer/php/component/v
  * This class represents a encyclopedia repo_viewer component which can be used
  * to create a new learning object before publishing it.
  */
-class HtmlEditorHandbookTopicRepoViewerViewerComponent extends RepoViewerViewerComponent
+class HtmlEditorHandbookItemRepoViewerViewerComponent extends RepoViewerViewerComponent
 {
 
 }

@@ -26,6 +26,8 @@ class HandbookBuilderItemCreatorComponent extends HandbookBuilder implements Rep
 
     function run()
     {
+
+        
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository learnpath builder');
 
@@ -91,6 +93,8 @@ class HandbookBuilderItemCreatorComponent extends HandbookBuilder implements Rep
 
             foreach ($objects as $object)
             {
+                
+
                 $content_object = new HandbookItem();
                 $content_object->set_title(HandbookItem :: get_type_name());
                 $content_object->set_description(HandbookItem :: get_type_name());

@@ -6,16 +6,16 @@ use common\extensions\repo_viewer\RepoViewer;
  * $Id: content_object_table.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component.content_object_table
  */
-require_once dirname(__FILE__) . '/handbook_topic_content_object_table_data_provider.class.php';
-require_once dirname(__FILE__) . '/handbook_topic_content_object_table_column_model.class.php';
-require_once dirname(__FILE__) . '/handbook_topic_content_object_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/handbook_item_content_object_table_data_provider.class.php';
+require_once dirname(__FILE__) . '/handbook_item_content_object_table_column_model.class.php';
+require_once dirname(__FILE__) . '/handbook_item_content_object_table_cell_renderer.class.php';
 /**
  * This class represents a table with learning objects which are candidates for
  * publication.
  */
-class HandbookTopicContentObjectTable extends ObjectTable
+class HandbookItemContentObjectTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'handbook_topic_content_object_table';
+    const DEFAULT_NAME = 'handbook_item_content_object_table';
 
     /**
      * Constructor.
@@ -31,10 +31,10 @@ class HandbookTopicContentObjectTable extends ObjectTable
      */
     function __construct($parent, $owner, $types, $query, $table_actions)
     {
-        $data_provider = new HandbookTopicContentObjectTableDataProvider($owner, $types, $query, $parent);
-        $column_model = new HandbookTopicContentObjectTableColumnModel();
-        $cell_renderer = new HandbookTopicContentObjectTableCellRenderer($table_actions);
-        parent :: __construct($data_provider, HandbookTopicContentObjectTable :: DEFAULT_NAME, $column_model, $cell_renderer);
+        $data_provider = new HandbookItemContentObjectTableDataProvider($owner, $types, $query, $parent);
+        $column_model = new HandbookItemContentObjectTableColumnModel();
+        $cell_renderer = new HandbookItemContentObjectTableCellRenderer($table_actions);
+        parent :: __construct($data_provider, HandbookItemContentObjectTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 
         if ($parent->get_maximum_select() != RepoViewer :: SELECT_SINGLE)
         {

@@ -2,7 +2,7 @@
 namespace common\libraries;
 
 use common\extensions\repo_viewer\RepoViewerCreatorComponent;
-use repository\content_object\handbook_topic\HandbookTopic;
+use repository\content_object\handbook_item\HandbookItem;
 
 
 /**
@@ -15,11 +15,11 @@ require_once Path :: get_common_extensions_path() . 'repo_viewer/php/component/c
  * This class represents a encyclopedia repo_viewer component which can be used
  * to create a new learning object before publishing it.
  */
-class HtmlEditorHandbookTopicRepoViewerCreatorComponent extends RepoViewerCreatorComponent
+class HtmlEditorHandbookItemRepoViewerCreatorComponent extends RepoViewerCreatorComponent
 {
     function get_object_form_variant()
     {
-        return HandbookTopic::get_type_name();
+        return HandbookItem::get_type_name();
     }
 }
 ?>

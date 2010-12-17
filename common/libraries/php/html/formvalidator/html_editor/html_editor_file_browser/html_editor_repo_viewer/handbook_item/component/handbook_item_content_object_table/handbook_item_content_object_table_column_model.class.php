@@ -11,7 +11,7 @@ require_once Path :: get_common_extensions_path() . 'repo_viewer/php/component/c
 /**
  * This class represents a column model for a publication candidate table
  */
-class HandbookTopicContentObjectTableColumnModel extends ContentObjectTableColumnModel
+class HandbookItemContentObjectTableColumnModel extends ContentObjectTableColumnModel
 {
 }
 ?>

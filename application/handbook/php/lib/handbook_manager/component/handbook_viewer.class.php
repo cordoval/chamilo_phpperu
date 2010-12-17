@@ -41,9 +41,10 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     const PARAMETER_SHOW_ALTERNATIVES = 'sa';
     const ALL_ALTERNATIVES = 'aa';
     const RELEVANT_ALTERNATIVES_ONLY = 'ro';
+    const SESSION_PARAMETER_PUBLICATION_ID = 'HPI';
 
     private $handbook_publication_id; //the id of the publication
-    private $handbook_id; //the id of the parent handbook
+    private $handbook_id; //the id of the parent handbook for the selection
     private $handbook_selection_id; //the id of the current selection
     private $complex_selection_id; //the id of the complex content object item wrapper
     private $top_handbook_id; //the id of the top handbook
@@ -113,18 +114,54 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     {
         $user_id = $this->get_user_id();
         $this->handbook_publication_id = Request :: get(HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID);
+        if(!$this->handbook_publication_id)
+        {
+            $this->check_for_uid();
+        }
         $location_id = HandbookRights::get_location_id_by_identifier_from_handbooks_subtree($this->handbook_publication_id);
         $this->view_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::VIEW_RIGHT, $this->handbook_publication_id, $user_id);
         $this->edit_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::EDIT_RIGHT, $this->handbook_publication_id, $user_id);
         
     }
 
+    function check_for_uid()
+    {
+        var_dump('check for uid');
+
+        $this->uid = Request :: get('uid');
+        $this->handbook_publication_id = $_SESSION[self::SESSION_PARAMETER_PUBLICATION_ID];
+
+        var_dump('uid: '. $this->uid . ' pid: '.$this->handbook_publication_id);
+
+
+        $hdm = HandbookDataManager::get_instance();
+
+        
+        $item_data = $hdm->retrieve_handbook_item_data_by_uuid($this->uid);
+
+        $this->handbook_selection_id = $item_dat[HandbookItem::PROPERTY_ID];
+        $content_object_id = $item_data[HandbookItem::PROPERTY_REFERENCE];
+       
+
+        if(!$this->handbook_publication_id)
+        {
+            //publication unknown ->search for possible publications
+        }
+                
+
+
+    }
+
     function get_content_objects()
     {
         $this->handbook_id = Request :: get(HandbookManager::PARAM_HANDBOOK_ID);
-        $this->handbook_selection_id = Request :: get(HandbookManager::PARAM_HANDBOOK_SELECTION_ID);
+        if(!$this->handbook_selection_id)
+        {
+            $this->handbook_selection_id = Request :: get(HandbookManager::PARAM_HANDBOOK_SELECTION_ID);
+        }
         $this->complex_selection_id =  Request :: get(HandbookManager::PARAM_COMPLEX_OBJECT_ID);
         $this->top_handbook_id =  Request :: get(HandbookManager::PARAM_TOP_HANDBOOK_ID);
+
 
 
         $rdm = RepositoryDataManager::get_instance();
@@ -145,7 +182,9 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                 $this->selected_object = $rdm->retrieve_content_object($publication->get_content_object_id());
             }
         }
+        
 
+        $_SESSION[self::SESSION_PARAMETER_PUBLICATION_ID] = $this->handbook_publication_id;
         $this->get_next_previous_items();
        
     }

@@ -3,7 +3,7 @@ namespace common\libraries;
 
 use common\extensions\repo_viewer\ContentObjectTableDataProvider;
 use repository\RepositoryDataManager;
-use repository\content_object\handbook_topic\HandbookTopic;
+use repository\content_object\handbook_item\HandbookItem;
 
 /**
  * $Id: content_object_table_data_provider.class.php 191 2009-11-13 11:50:28Z chellee $
@@ -13,7 +13,7 @@ require_once Path :: get_common_extensions_path() . 'repo_viewer/php/component/c
 /**
  * This class represents a data provider for a publication candidate table
  */
-class HandbookTopicContentObjectTableDataProvider extends ContentObjectTableDataProvider
+class HandbookItemContentObjectTableDataProvider extends ContentObjectTableDataProvider
 {
     /**
      * Constructor.
@@ -37,11 +37,13 @@ class HandbookTopicContentObjectTableDataProvider extends ContentObjectTableData
 
         if (! $this->get_parent()->is_shared_object_browser())
         {
-            return $dm->retrieve_type_content_objects(HandbookTopic :: get_type_name(), $this->get_condition(), $order_property, $offset, $count);
+            var_dump('1' . $dm->retrieve_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $order_property, $offset, $count));
+            return $dm->retrieve_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $order_property, $offset, $count);
         }
         else
         {
-            return $dm->retrieve_shared_type_content_objects(HandbookTopic :: get_type_name(), $this->get_condition(), $offset, $count, $order_property);
+            var_dump('2'. $dm->retrieve_shared_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $offset, $count, $order_property));
+            return $dm->retrieve_shared_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $offset, $count, $order_property);
         }
     }
 
@@ -54,24 +56,24 @@ class HandbookTopicContentObjectTableDataProvider extends ContentObjectTableData
 
         if (! $this->get_parent()->is_shared_object_browser())
         {
-            return $dm->count_type_content_objects(HandbookTopic::get_type_name(), $this->get_condition());
+            return $dm->count_type_content_objects(HandbookItem::get_type_name(), $this->get_condition());
         }
         else
         {
-            return $dm->count_shared_type_content_objects(HandbookTopic::get_type_name(), $this->get_condition());
+            return $dm->count_shared_type_content_objects(HandbookItem::get_type_name(), $this->get_condition());
         }
     }
 
     function get_type_conditions()
     {
-        $handbook_topic_types = array();
-        $handbook_topic_conditions = array();
-        foreach($handbook_topic_types as $handbook_topic_type)
+        $handbook_item_types = array();
+        $handbook_item_conditions = array();
+        foreach($handbook_item_types as $handbook_item_type)
         {
-            $handbook_topic_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $handbook_topic_type, Document :: get_type_name());
+            $handbook_item_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $handbook_item_type, Document :: get_type_name());
         }
 
-        return new OrCondition($handbook_topic_conditions);
+        return new OrCondition($handbook_item_conditions);
     }
 }
 ?>

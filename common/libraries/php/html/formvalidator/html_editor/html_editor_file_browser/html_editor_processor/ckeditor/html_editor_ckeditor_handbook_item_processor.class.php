@@ -6,7 +6,7 @@ use repository\RepositoryManager;
 
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';
 
-class HtmlEditorCkeditorHandbookTopicProcessor extends HtmlEditorProcessor
+class HtmlEditorCkeditorHandbookItemProcessor extends HtmlEditorProcessor
 {
 
     function run()
@@ -16,7 +16,8 @@ class HtmlEditorCkeditorHandbookTopicProcessor extends HtmlEditorProcessor
 
 
         //TODO: return link with UID
-        $handbook_topic_include_path = 'blablabla ' .$object->get_id();
+        $handbook_topic_include_path = $object->get_uuid();
+
 
         $html = array();
         $html[] = '<script type="text/javascript">';

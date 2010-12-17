@@ -2,13 +2,16 @@
 namespace common\libraries;
 
 use common\extensions\repo_viewer\RepoViewer;
-use repository\content_object\handbook_topic\HandbookTopic;
+use repository\content_object\handbook_item\HandbookItem;
 
-class HtmlEditorHandbookTopicRepoViewer extends HtmlEditorRepoViewer
+class HtmlEditorHandbookItemRepoViewer extends HtmlEditorRepoViewer
 {
 
     function __construct($parent, $types, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true)
     {
+        var_dump('HtmlEditorHandbookItemRepoViewer');
+        var_dump($types);
+        var_dump($parent);
         parent :: __construct($parent, $types, $maximum_select, $excluded_objects, $parse_input);
     }
 
@@ -19,7 +22,7 @@ class HtmlEditorHandbookTopicRepoViewer extends HtmlEditorRepoViewer
 
     static function get_allowed_content_object_types()
     {
-        return array(HandbookTopic :: get_type_name());
+        return array(HandbookItem :: get_type_name());
     }
 
     /**
