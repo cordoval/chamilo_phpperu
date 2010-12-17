@@ -10,6 +10,7 @@ use user\UserDataManager;
 use common\libraries\ObjectTableOrder;
 use user\User;
 use common\libraries\Utilities;
+use common\libraries\WebApplication;
 /**
  * This class describes the form for a PackageLanguage object.
  * @author Sven Vanpoucke
@@ -19,7 +20,9 @@ class AuthorForm extends FormValidator
 {
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
-        
+    
+    const PACKAGE = 'package';
+    
     private $package;
     private $user;
 
@@ -51,11 +54,39 @@ class AuthorForm extends FormValidator
         
         $this->addElement('text', Author :: PROPERTY_EMAIL, Translation :: get('Email'));
         $this->addRule(Author :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-                
+        
         $this->addElement('text', Author :: PROPERTY_COMPANY, Translation :: get('Company'));
         $this->addRule(Author :: PROPERTY_COMPANY, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-                
-        $this->addElement('category');   
+        
+        $url = WebApplication :: get_application_web_path('package') . 'php/xml_feeds/xml_package_feed.php';
+        $locale = array();
+        $locale['Display'] = Translation :: get('AddPackageAuthors');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
+        $hidden = true;
+        
+        $elem = $this->addElement('element_finder', self :: PACKAGE, Translation :: get('Packages'), $url, $locale, $this->packages_for_element_finder());
+        
+        $this->addElement('category');
+    }
+
+    function packages_for_element_finder()
+    {
+        $packages = $this->package->get_packages(false);
+        $return = array();
+        
+        while ($package = $packages->next_result())
+        {
+            $return_package = array();
+            $return_package['id'] = 'author_' . $package->get_id();
+            $return_package['classes'] = 'type type_package';
+            $return_package['title'] = $package->get_name();
+            $return_package['description'] = $package->get_name();
+            $return[$package->get_id()] = $return_package;
+        }
+        
+        return $return;
     }
 
     function build_editing_form()
@@ -65,8 +96,10 @@ class AuthorForm extends FormValidator
         //$this->addElement('hidden', PackageLanguage :: PROPERTY_ID);
         
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -75,68 +108,87 @@ class AuthorForm extends FormValidator
     {
         $this->build_basic_form();
         
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
-
-
     function update_author()
     {
-        $package = $this->package;
+        $author = $this->package;
         $values = $this->exportValues();
         
-        $package->set_name($values[Author :: PROPERTY_NAME]);
-        $package->set_email($values[Author :: PROPERTY_EMAIL]);
-        $package->set_company($values[Author :: PROPERTY_COMPANY]);
-
+        $author->set_name($values[Author :: PROPERTY_NAME]);
+        $author->set_email($values[Author :: PROPERTY_EMAIL]);
+        $author->set_company($values[Author :: PROPERTY_COMPANY]);
         
-        if (! $package->update())
+        if (! $author->update())
         {
             return false;
         }
-        //    	$original_moderators = $this->get_moderators();
-        //    	$current_moderators = $values['moderators']['user'];
-        //    	
-        //    	$moderators_to_remove = array_diff($original_moderators, $current_moderators);
-        //    	$moderators_to_add = array_diff($current_moderators, $original_moderators);
-        //    	
-        //    	$location = PackageRights :: get_location_id_by_identifier_from_languages_subtree($package_language->get_table_name(), $package_language->get_id());
-        //    	
-        //    	foreach ($moderators_to_remove as $moderator)
-        //    	{	    		
-        //	    	if (!RightsUtilities :: set_user_right_location_value(PackageRights :: EDIT_RIGHT, $moderator, $location, false))
-        //	    	{
-        //	    		return false;
-        //	    	}
-        //    	}
-        //    	
-        //        foreach ($moderators_to_add as $moderator)
-        //    	{
-        //    		if (!RightsUtilities :: set_user_right_location_value(PackageRights :: EDIT_RIGHT, $moderator, $location, true))
-        //	    	{
-        //	    		return false;
-        //	    	}
-        //    	}
-        
 
+        $original_packages = $author->get_packages();
+        $current_packages = $values[self :: PACKAGE][self :: PACKAGE];
+        $packages_to_remove = array_diff($original_packages, $current_packages);
+        $packages_to_add = array_diff($current_packages, $original_packages);
+        
+        foreach ($packages_to_add as $package)
+        {
+            $package_author = new PackageAuthor();
+            $package_author->set_author_id($author->get_id());
+            $package_author->set_package_id($package);
+            if (! $package_author->create())
+            {
+                return false;
+            }
+        }
+        
+        if (count($packages_to_remove) > 0)
+        {
+            $conditions = array();
+            $conditions[] = new InCondition(PackageAuthor :: PROPERTY_PACKAGE_ID, $packages_to_remove);
+            $conditions[] = new EqualityCondition(PackageAuthor :: PROPERTY_AUTHOR_ID, $author->get_id());
+            $condition = new AndCondition($conditions);
+            
+            if (! PackageDataManager :: get_instance()->delete_objects(PackageAuthor :: get_table_name(), $condition))
+            {
+                return false;
+            }
+        }
+        
         return true;
     }
 
     function create_author()
     {
-        $package = $this->package;
+        $author = $this->package;
         $values = $this->exportValues();
         
-        $package->set_name($values[Author :: PROPERTY_NAME]);
-        $package->set_email($values[Author :: PROPERTY_EMAIL]);
-        $package->set_company($values[Author :: PROPERTY_COMPANY]);
-//        dump($package);
-        if (! $package->create())
+        $author->set_name($values[Author :: PROPERTY_NAME]);
+        $author->set_email($values[Author :: PROPERTY_EMAIL]);
+        $author->set_company($values[Author :: PROPERTY_COMPANY]);
+        //        dump($package);
+        if (! $author->create())
         {
             return false;
+        }
+        else
+        {
+            $packages = $values[self :: PACKAGES];
+            foreach ($packages as $package)
+            {
+                $package_author = new PackageAuthor();
+                $package_author->set_author_id($author->get_id());
+                $package_author->set_package_id($package);
+                
+                if (! $package_author->create())
+                {
+                    return false;
+                }
+            }
         }
         
         return true;
@@ -153,7 +205,7 @@ class AuthorForm extends FormValidator
         $defaults[Author :: PROPERTY_NAME] = $package->get_name();
         $defaults[Author :: PROPERTY_EMAIL] = $package->get_email();
         $defaults[Author :: PROPERTY_COMPANY] = $package->get_company();
-
+        
         parent :: setDefaults($defaults);
     }
 }

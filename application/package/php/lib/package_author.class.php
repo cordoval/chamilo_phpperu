@@ -46,7 +46,7 @@ class PackageAuthor extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_PACKAGE_ID, self :: PROPERTY_AUTHOR_ID);
+        return parent :: get_default_property_names(array(self :: PROPERTY_PACKAGE_ID, self :: PROPERTY_AUTHOR_ID));
     }
 
     /**
@@ -54,7 +54,7 @@ class PackageAuthor extends DataClass
      */
     function get_data_manager()
     {
-        return GroupDataManager :: get_instance();
+        return PackageDataManager :: get_instance();
     }
 
     static function get_table_name()

@@ -3,6 +3,8 @@ namespace application\package;
 
 use common\libraries\DataClass;
 use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
 
 /**
  * This class describes a Package data object
@@ -19,6 +21,8 @@ class Author extends DataClass
     const PROPERTY_EMAIL = 'email';
     const PROPERTY_COMPANY = 'company';
 
+    const PACKAGES = 'packages';
+    
     /**
      * Get the default properties
      * @return array The property names.
@@ -36,6 +40,28 @@ class Author extends DataClass
         return PackageDataManager :: get_instance();
     }
 
+     function get_packages($only_ids = true)
+    {
+        $condition = new EqualityCondition(PackageAuthor :: PROPERTY_AUTHOR_ID, $this->get_id());
+        $package_authors = $this->get_data_manager()->retrieve_package_authors($condition);
+        $package_authors_ids = array();
+        while ($package_author = $package_authors->next_result())
+        {
+            $package_authors_ids[] = $package_author->get_package_id();  
+        }
+
+        if ($only_ids)
+        {
+            return $package_authors_ids;
+        }
+        else
+        {
+            $package_authors_ids[] = -1;
+            $condition = new InCondition(Package :: PROPERTY_ID, $package_authors_ids);
+            return $this->get_data_manager()->retrieve_packages($condition);
+        }
+    }
+    
     /**
      * Returns the code of this Package.
      * @return the code.
