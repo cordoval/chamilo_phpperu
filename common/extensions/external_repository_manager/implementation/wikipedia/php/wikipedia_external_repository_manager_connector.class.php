@@ -77,18 +77,17 @@ class WikipediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
         $parameters['action'] = 'query';
         $parameters['generator'] = 'search';
         $parameters['gsrsearch'] = urlencode($condition);
-        //define('WIKIPEDIA_FILE_NS', 6);
         $parameters['gsrnamespace'] = 0;
         $parameters['gsrlimit'] = $count;
         $parameters['gsroffset'] = $offset;
         $parameters['prop'] = 'info';
         $parameters['inprop'] = 'url';
         $parameters['format'] = 'xml';
-        $parameters['export'] = true;
+        $parameters['export'] = 'export';
         $parameters['redirects'] = true;
 
         $result = $this->wikipedia->request(WikipediaRestClient :: METHOD_GET, null, $parameters);
-
+		
         $objects = array();
         foreach ($result->get_response_content_xml()->query->pages->page as $page)
         {
@@ -109,7 +108,7 @@ class WikipediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
         $object->set_created($time);
         $object->set_modified($time);
 
-        $object->set_urls((string) $page->attributes()->fullurl);
+        $object->set_urls((string) str_replace('&action=edit', '', $page->attributes()->editurl));
 
         $object->set_rights($this->determine_rights());
 
@@ -131,7 +130,7 @@ class WikipediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
         $parameters['action'] = 'query';
         $parameters['generator'] = 'search';
         $parameters['gsrsearch'] = urlencode($condition);
-        $parameters['gsrnamespace'] = 4;
+        $parameters['gsrnamespace'] = 0;
         $parameters['gsrlimit'] = 1;
         $parameters['prop'] = 'info';
         $parameters['format'] = 'xml';
@@ -176,7 +175,7 @@ class WikipediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
         $parameters = array();
         $parameters['action'] = 'query';
         $parameters['pageids'] = $id;
-        $parameters['gsrnamespace'] = 4;
+        $parameters['gsrnamespace'] = 0;
         $parameters['prop'] = 'info';
         $parameters['inprop'] = 'url';
         $parameters['format'] = 'xml';
@@ -223,6 +222,18 @@ class WikipediaExternalRepositoryManagerConnector extends ExternalRepositoryMana
     function delete_external_repository_object($id)
     {
         return true;
+    }
+    
+	function download_external_repository_object($external_object)
+    {	
+    	$url = $external_object->get_render_url();
+    	$curl = curl_init();
+    	curl_setopt($curl, CURLOPT_URL, $url);
+    	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_USERAGENT, 'Chamilo2Bot/1.0');
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
     }
 }
 ?>

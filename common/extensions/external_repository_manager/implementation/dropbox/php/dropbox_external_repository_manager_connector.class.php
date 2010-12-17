@@ -32,7 +32,7 @@ class DropboxExternalRepositoryManagerConnector extends ExternalRepositoryManage
     private $key;
     private $secret;
     private $tokens;
-    private $oauth;    
+    private $oauth;
 
     const SORT_DATE_CREATED = 'date-created';    
 
@@ -126,22 +126,28 @@ class DropboxExternalRepositoryManagerConnector extends ExternalRepositoryManage
     function retrieve_external_repository_objects($condition = null, $order_property, $offset, $count)
     {
         $files = $this->retrieve_files($condition, $order_property, $offset, $count);
+        $file_count = 0;
         
         $objects = array();
-        
         foreach ($files['contents'] as $file)
         {
             if($file['is_dir']!=1)
             {
             	$object = new DropboxExternalRepositoryObject();            
-            	$object->set_id(substr($file['path'], 1));
+            	$object->set_id((string)substr($file['path'], 1));
             	$object->set_external_repository_id($this->get_external_repository_instance_id());
-            	$object->set_title(substr($file['path'], strripos($file['path'], '/')+1));
+            	$object->set_title((string) substr($file['path'], strripos($file['path'], '/')+1));
+            	$object->set_created($file['modified']);
             	$object->set_modified($file['modified']);
             	$object->set_type($file['icon']);
             	$object->set_description($file['size']);
             	$object->set_rights($this->determine_rights());
-            	$objects[] = $object;
+            	
+            	$file_count++;
+            	if($file_count > $offset && $file_count <= ($count + $offset))
+            	{
+            		$objects[] = $object;             		
+            	}            	           	
             }	
         }
         return new ArrayResultSet($objects);
@@ -192,8 +198,18 @@ class DropboxExternalRepositoryManagerConnector extends ExternalRepositoryManage
      */
     function count_external_repository_objects($condition)
     {
-        $files = $this->retrieve_files($condition, $order_property, 1, 1);
-        return $files['total'];
+        $files = $this->retrieve_files($condition, $order_property, $offset, $count);
+        
+        $objects = array();
+        $count = 0;
+        foreach ($files['contents'] as $file)
+        {
+            if($file['is_dir']!=1)
+            {
+            	$count++;   	           	
+            }	
+        }
+        return $count;
     }
 
     /**
@@ -264,9 +280,11 @@ class DropboxExternalRepositoryManagerConnector extends ExternalRepositoryManage
         $object->set_external_repository_id($this->get_external_repository_instance_id());
         $object->set_id($id);
         $object->set_title(str_replace('/', '', substr($id, strripos($id, '/'))));
+        $object->set_created($file['modified']);
         $object->set_modified($file['modified']);
         $object->set_type($file['icon']);
         $object->set_description($file['size']);
+        
         $object->set_rights($this->determine_rights());        
         return $object;
     }    

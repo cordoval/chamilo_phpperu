@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="slideshare">
+	<settings>
+		<category name="credentials">
+			<setting name="consumer_key" field="text" default="">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+			<setting name="consumer_secret" field="text" default="">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+			<setting name="username" field="text" default="">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>		
+			<setting name="password" field="text" default="">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>					
+		</category>
+	</settings>
+</application>
