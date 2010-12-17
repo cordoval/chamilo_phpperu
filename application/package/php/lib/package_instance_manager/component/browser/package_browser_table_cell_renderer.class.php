@@ -53,6 +53,10 @@ class PackageBrowserTableCellRenderer extends DefaultPackageTableCellRenderer
                 return $package->get_version();
             case Package :: PROPERTY_DESCRIPTION :
                 return $package->get_description();
+            case Package :: PROPERTY_CYCLE_PHASE :
+                return $package->get_cycle_phase();
+            case Package :: PROPERTY_STATUS :
+                return $package->get_status();
         }
         
         return parent :: render_cell($column, $package);
@@ -70,18 +74,18 @@ class PackageBrowserTableCellRenderer extends DefaultPackageTableCellRenderer
         
         //        if ($this->browser instanceof PackageManagerPackageBrowserComponent)
         //        {
-//        $can_edit = PackageRights :: is_allowed(PackageRights :: EDIT_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
-//        $can_delete = PackageRights :: is_allowed(PackageRights :: DELETE_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
-//        
-//        if ($can_edit)
-//        {
-//            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_package_url($package), ToolbarItem :: DISPLAY_ICON));
-//        }
-//        
-//        if ($can_delete)
-//        {
-//            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_package_url($package), ToolbarItem :: DISPLAY_ICON, true));
-//        }
+        //        $can_edit = PackageRights :: is_allowed(PackageRights :: EDIT_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
+        //        $can_delete = PackageRights :: is_allowed(PackageRights :: DELETE_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
+        //        
+        //        if ($can_edit)
+        //        {
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_package_url($package), ToolbarItem :: DISPLAY_ICON));
+        //        }
+        //        
+        //        if ($can_delete)
+        //        {
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_package_url($package), ToolbarItem :: DISPLAY_ICON, true));
+        //        }
         //        }
         //        else
         //        {

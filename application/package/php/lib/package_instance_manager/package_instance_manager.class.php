@@ -6,14 +6,17 @@ use common\libraries\SubManager;
 class PackageInstanceManager extends SubManager
 {
     const PARAM_PACKAGE_INSTANCE_ACTION = 'action';
-
+    
+    const PARAM_PACKAGE_ID = 'id';
+    
     const ACTION_CREATE = 'creator';
     const ACTION_BROWSE = 'browser';
     const ACTION_SYNCHRONIZE = 'synchronizer';
-//    const ACTION_UPDATE = 'updater';
-//    const ACTION_DELETE = 'deleter';
-//    const ACTION_ACTIVATE = 'activater';
-//    const ACTION_DEACTIVATE = 'deactivater';
+    const ACTION_UPDATE = 'updater';
+    const ACTION_DELETE = 'deleter';
+    //    const ACTION_ACTIVATE = 'activater';
+    //    const ACTION_DEACTIVATE = 'deactivater';
+    
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
@@ -63,6 +66,21 @@ class PackageInstanceManager extends SubManager
     static function launch($application)
     {
         parent :: launch(__CLASS__, $application);
+    }
+
+    function get_update_package_url($package)
+    {
+        return $this->get_url(array(
+                self :: PARAM_PACKAGE_INSTANCE_ACTION => self :: ACTION_UPDATE, 
+                self :: PARAM_PACKAGE_ID => $package->get_id()));
+    }
+
+    function get_delete_package_url($package)
+    {
+        return $this->get_url(array(
+                self :: PARAM_PACKAGE_INSTANCE_ACTION => self :: ACTION_DELETE, 
+                self :: PARAM_PACKAGE_ID => $package->get_id()));
+    
     }
 }
 ?>

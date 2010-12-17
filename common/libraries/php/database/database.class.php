@@ -363,6 +363,10 @@ class Database
             $translator = new ConditionTranslator($this);
             $condition = $translator->render_query($condition, false);
         }
+        else
+        {
+            return false;
+        }
 
         $this->connection->loadModule('Extended');
         $this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_UPDATE, $condition);

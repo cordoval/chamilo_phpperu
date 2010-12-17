@@ -3,20 +3,16 @@ namespace application\package;
 
 use common\libraries\SubManager;
 
-class AuthorManager extends SubManager
+class DependencyManager extends SubManager
 {
-    const PARAM_AUTHOR_ACTION = 'action';
+    const PARAM_PACKAGE_INSTANCE_ACTION = 'action';
 
-    const PARAM_AUTHOR_ID = 'id';
-    
-    const ACTION_CREATE = 'creator';
+//    const ACTION_CREATE = 'creator';
     const ACTION_BROWSE = 'browser';
-    const ACTION_UPDATE = 'updater';
-    const ACTION_DELETE = 'deleter';
+//    const ACTION_UPDATE = 'updater';
+//    const ACTION_DELETE = 'deleter';
 //    const ACTION_ACTIVATE = 'activater';
 //    const ACTION_DEACTIVATE = 'deactivater';
-
-    
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
@@ -57,7 +53,7 @@ class AuthorManager extends SubManager
      */
     static function get_action_parameter()
     {
-        return self :: PARAM_AUTHOR_ACTION;
+        return self :: PARAM_PACKAGE_INSTANCE_ACTION;
     }
 
     /**
@@ -66,21 +62,6 @@ class AuthorManager extends SubManager
     static function launch($application)
     {
         parent :: launch(__CLASS__, $application);
-    }
-    
-    function get_update_author_url($author)
-    {
-        return $this->get_url(array(
-                self :: PARAM_AUTHOR_ACTION => self :: ACTION_UPDATE, 
-                self :: PARAM_AUTHOR_ID => $author->get_id()));
-    }
-
-    function get_delete_author_url($author)
-    {
-        return $this->get_url(array(
-                self :: PARAM_AUTHOR_ACTION => self :: ACTION_DELETE, 
-                self :: PARAM_AUTHOR_ID => $author->get_id()));
-    
     }
 }
 ?>
