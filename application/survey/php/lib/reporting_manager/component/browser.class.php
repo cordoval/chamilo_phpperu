@@ -22,8 +22,7 @@ require_once dirname(__FILE__) . '/publication_rel_reporting_template_table/tabl
 
 class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
 {
-    
-const TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS = 1;
+    const TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS = 1;
     const TAB_TEMPLATE_REGISTRATIONS = 2;
     
     private $action_bar;
@@ -35,9 +34,9 @@ const TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS = 1;
     function run()
     {
         
-    	$this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+        $this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         
-    	if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_REPORTING, $this->publication_id, SurveyRights :: TYPE_PUBLICATION))
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_REPORTING, $this->publication_id, SurveyRights :: TYPE_PUBLICATION))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
@@ -45,28 +44,28 @@ const TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS = 1;
             exit();
         }
         
+        //        if (! empty($this->publication_ids))
+        //        {
+        //            if (! is_array($this->publication_ids))
+        //            {
+        //                $this->publication_ids = array($this->publication_ids);
+        //            }
         
+
+        $this->action_bar = $this->get_action_bar();
         
-//        if (! empty($this->publication_ids))
-//        {
-//            if (! is_array($this->publication_ids))
-//            {
-//                $this->publication_ids = array($this->publication_ids);
-//            }
-            
-            $this->action_bar = $this->get_action_bar();
-            
-            $output = $this->get_tabs_html();
-            
-            $this->display_header();
-            echo $this->action_bar->as_html() . '<br />';
-            echo $output;
-            $this->display_footer();
-//        }
-//        else
-//        {
-//            $this->display_error_page(htmlentities(Translation :: get('NoSurveyPublicationsSelected')));
-//        }
+        $output = $this->get_tabs_html();
+        
+        $this->display_header();
+        echo $this->action_bar->as_html() . '<br />';
+        echo $output;
+        $this->display_footer();
+    
+     //        }
+    //        else
+    //        {
+    //            $this->display_error_page(htmlentities(Translation :: get('NoSurveyPublicationsSelected')));
+    //        }
     }
 
     function get_tabs_html()
@@ -105,7 +104,7 @@ const TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS = 1;
         
         $reporting_template_registration_ids = array();
         $condition = new InCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_PUBLICATION_ID, $this->publication_id);
-       
+        
         $publication_rel_reporting_template_registrations = SurveyDataManager :: get_instance()->retrieve_survey_publication_rel_reporting_template_registrations($condition);
         while ($publication_rel_reporting_template_registration = $publication_rel_reporting_template_registrations->next_result())
         {

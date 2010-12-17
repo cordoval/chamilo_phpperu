@@ -10,6 +10,8 @@ use common\libraries\Translation;
 use repository\content_object\survey\SurveyAnalyzer;
 use common\libraries\Request;
 use repository\content_object\survey\SurveyContext;
+use repository\content_object\survey\SurveyContextDataManager;
+use repository\RepositoryDataManager;
 
 //require_once Path :: get_repository_content_object_path() . 'survey/php/analyzer/analyzer.class.php';
 
@@ -174,6 +176,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
             $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/survey/php/xml_feeds/xml_context_feed.php?' . SurveyManager :: PARAM_USER_ID . '=' . $this->user->get_id() . '&' . SurveyContext :: PROPERTY_ACTIVE . '=1';
         }
        
+      
         
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseContext');
