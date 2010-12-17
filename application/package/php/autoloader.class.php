@@ -25,6 +25,7 @@ class Autoloader
                 'author' => 'author', 
                 'package_form' => 'forms/package_form', 
                 'author_form' => 'forms/author_form', 
+                'package_author' => 'package_author', 
                 'package_browser_table' => 'package_instance_manager/component/browser/package_browser_table', 
                 'package_browser_table_data_provider' => 'package_instance_manager/component/browser/package_browser_table_data_provider', 
                 'package_browser_table_cell_renderer' => 'package_instance_manager/component/browser/package_browser_table_cell_renderer', 

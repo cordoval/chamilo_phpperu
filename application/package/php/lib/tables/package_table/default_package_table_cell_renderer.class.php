@@ -3,7 +3,7 @@
 namespace application\package;
 
 use common\libraries\ObjectTableCellRenderer;
-
+use common\libraries\Translation;
 /**
  * @package package.tables.package_language_table
  */
@@ -47,7 +47,25 @@ class DefaultPackageTableCellRenderer extends ObjectTableCellRenderer
             case Package :: PROPERTY_CYCLE_PHASE :
                 return $package->get_cycle_phase();
             case Package :: PROPERTY_STATUS :
-                return $package->get_status_string();    
+                return $package->get_status_string();
+            case Package :: AUTHORS :
+                
+                $authors = $package->get_authors(false);
+                if ($authors->size() > 0)
+                {
+                    $html = array();
+                    $html[] = '<select>';
+                    while ($author = $authors->next_result())
+                    {
+                        $html[] = '<option>' . $author->get_name() . '</option>';
+                    }
+                    $html[] = '</select>';
+                    return implode("\n", $html);
+                }
+                else
+                {
+                    return Translation :: get('NoAuthors');
+                }
             default :
                 return '&nbsp;';
         }

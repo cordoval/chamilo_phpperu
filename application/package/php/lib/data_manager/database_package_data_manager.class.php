@@ -70,6 +70,11 @@ class DatabasePackageDataManager extends Database implements PackageDataManagerI
     {
         return $this->retrieve_objects(Author :: get_table_name(), $condition, $offset, $max_objects, $order_by, Author :: CLASS_NAME);
     }
+    
+    function retrieve_package_authors($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(PackageAuthor :: get_table_name(), $condition, $offset, $max_objects, $order_by, PackageAuthor :: CLASS_NAME);
+    }
 
 }
 ?>

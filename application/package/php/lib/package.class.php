@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\DataClass;
 use common\libraries\NotCondition;
 use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
 /**
  * This class describes a Package data object
  *
@@ -24,7 +25,6 @@ class Package extends DataClass
     const PROPERTY_NAME = 'name';
     const PROPERTY_SECTION = 'section';
     const PROPERTY_CATEGORY = 'category';
-//    const PROPERTY_AUTHORS = 'authors';
     const PROPERTY_VERSION = 'version';
     //    const PROPERTY_CYCLE = 'cycle';
     const PROPERTY_FILENAME = 'filename';
@@ -36,7 +36,7 @@ class Package extends DataClass
     const PROPERTY_TAGLINE = 'tagline';
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_HOMEPAGE = 'homepage';
-//    const PROPERTY_DEPENDENCIES = 'dependencies';
+    //    const PROPERTY_DEPENDENCIES = 'dependencies';
     const PROPERTY_EXTRA = 'extra';
     const PROPERTY_STATUS = 'status';
     
@@ -59,6 +59,10 @@ class Package extends DataClass
     const STATUS_ACCEPTED = 2;
     const STATUS_REJECTED = 3;
 
+    const AUTHORS = 'authors';
+    
+    
+    
     /**
      * Get the default properties
      * @return array The property names.
@@ -69,7 +73,7 @@ class Package extends DataClass
                 self :: PROPERTY_NAME, 
                 self :: PROPERTY_SECTION, 
                 self :: PROPERTY_CATEGORY, 
-//                self :: PROPERTY_AUTHORS, 
+                //                self :: PROPERTY_AUTHORS, 
                 self :: PROPERTY_VERSION, 
                 self :: PROPERTY_FILENAME, 
                 self :: PROPERTY_SIZE, 
@@ -80,10 +84,10 @@ class Package extends DataClass
                 self :: PROPERTY_TAGLINE, 
                 self :: PROPERTY_DESCRIPTION, 
                 self :: PROPERTY_HOMEPAGE, 
-//                self :: PROPERTY_DEPENDENCIES, 
+                //                self :: PROPERTY_DEPENDENCIES, 
                 self :: PROPERTY_EXTRA, 
                 self :: PROPERTY_CYCLE_PHASE, 
-                self :: PROPERTY_CYCLE_REALM,
+                self :: PROPERTY_CYCLE_REALM, 
                 self :: PROPERTY_STATUS));
     }
 
@@ -171,19 +175,37 @@ class Package extends DataClass
      * Returns the authors of this Package.
      * @return the authors.
      */
-    function get_authors()
+    function get_authors($only_ids = true)
     {
-        return unserialize($this->get_default_property(self :: PROPERTY_AUTHORS));
+        $condition = new EqualityCondition(PackageAuthor :: PROPERTY_PACKAGE_ID, $this->get_id());
+        $package_authors = $this->get_data_manager()->retrieve_package_authors($condition);
+        $package_authors_ids = array();
+        while ($package_author = $package_authors->next_result())
+        {
+            $package_authors_ids[] = $package_author->get_author_id();  
+        }
+
+        if ($only_ids)
+        {
+            return $package_authors_ids;
+        }
+        else
+        {
+            $package_authors_ids[] = -1;
+            $condition = new InCondition(Author :: PROPERTY_ID, $package_authors_ids);
+            return $this->get_data_manager()->retrieve_authors($condition);
+        }
     }
 
-//    /**
-//     * Sets the authors of this Package.
-//     * @param authors
-//     */
-//    function set_authors($authors)
-//    {
-//        $this->set_default_property(self :: PROPERTY_AUTHORS, serialize($authors));
-//    }
+    //    /**
+    //     * Sets the authors of this Package.
+    //     * @param authors
+    //     */
+    //    function set_authors($authors)
+    //    {
+    //        $this->set_default_property(self :: PROPERTY_AUTHORS, serialize($authors));
+    //    }
+    
 
     /**
      * Returns the version of this Package.
@@ -502,14 +524,15 @@ class Package extends DataClass
         return unserialize($this->get_default_property(self :: PROPERTY_DEPENDENCIES));
     }
 
-//    /**
-//     * Sets the dependencies of this Package.
-//     * @param dependencies
-//     */
-//    function set_dependencies($dependencies)
-//    {
-//        $this->set_default_property(self :: PROPERTY_DEPENDENCIES, serialize($dependencies));
-//    }
+    //    /**
+    //     * Sets the dependencies of this Package.
+    //     * @param dependencies
+    //     */
+    //    function set_dependencies($dependencies)
+    //    {
+    //        $this->set_default_property(self :: PROPERTY_DEPENDENCIES, serialize($dependencies));
+    //    }
+    
 
     static function get_table_name()
     {
