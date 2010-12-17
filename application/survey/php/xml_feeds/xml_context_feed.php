@@ -5,6 +5,10 @@ use common\libraries\Translation;
 use common\libraries\Authentication;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\NotCondition;
+use common\libraries\OrCondition;
+
 use repository\content_object\survey\SurveyContextRelUser;
 use repository\content_object\survey\SurveyContextDataManager;
 use repository\content_object\survey\SurveyContext;

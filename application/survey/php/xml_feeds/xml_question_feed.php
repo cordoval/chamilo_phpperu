@@ -4,6 +4,8 @@ namespace application\survey;
 use common\libraries\Translation;
 use common\libraries\Authentication;
 use common\libraries\EqualityCondition;
+use common\libraries\PatternMatchCondition;
+
 use common\libraries\AndCondition;
 
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
@@ -33,9 +35,7 @@ if (Authentication :: is_valid())
     $query = $_GET['query'];
     if ($query)
     {
-        //       $conditions[] = new PatternMatchCondition(ContentObject:: PROPERTY_TITLE, '*'.$query.'*', ContentObject :: get_table_name());
-    
-
+//          $conditions[] = new PatternMatchCondition(ContentObject:: PROPERTY_TITLE, '*'.$query.'*', ContentObject :: get_table_name());
     }
     
     $c = array();

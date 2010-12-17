@@ -1,11 +1,14 @@
 <?php 
 namespace application\survey;
 
-//use common\libraries\Path;
 use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
 use common\libraries\AndCondition;
 use tracking\Tracker;
+use repository\content_object\survey\SurveyAnalyzer;
+
+
 
 //require_once dirname(__FILE__) . '/../survey_reporting_block.class.php';
 //require_once dirname(__FILE__) . '/../../survey_manager/survey_manager.class.php';
@@ -75,7 +78,7 @@ class SurveyContextQuestionReportingBlock extends SurveyReportingBlock
                 
         $condition = new AndCondition($conditions);
           
-        $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
+        $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: CLASS_NAME, SurveyManager :: APPLICATION_NAME, $condition);
         
         $answers = array();
         

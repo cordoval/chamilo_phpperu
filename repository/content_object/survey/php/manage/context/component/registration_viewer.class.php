@@ -10,6 +10,9 @@ use common\libraries\Theme;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+
 
 require_once dirname(__FILE__) . '/context_table/table.class.php';
 
