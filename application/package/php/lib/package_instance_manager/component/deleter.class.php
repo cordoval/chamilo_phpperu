@@ -25,14 +25,14 @@ class PackageInstanceManagerDeleterComponent extends PackageInstanceManager impl
      */
     function run()
     {
-        $can_delete = PackageRights :: is_allowed(PackageRights :: DELETE_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
+//        $can_delete = PackageRights :: is_allowed(PackageRights :: DELETE_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
+//        
+//        if (! $can_delete)
+//        {
+//            Display :: not_allowed();
+//        }
         
-        if (! $can_delete)
-        {
-            Display :: not_allowed();
-        }
-        
-        $ids = $_GET[PackageManager :: PARAM_PACKAGE];
+        $ids = $_GET[self :: PARAM_PACKAGE_ID];
         $failures = 0;
         
         if (! empty($ids))
@@ -44,7 +44,7 @@ class PackageInstanceManagerDeleterComponent extends PackageInstanceManager impl
             
             foreach ($ids as $id)
             {
-                $package_language = $this->retrieve_package($id);
+                $package_language = PackageDataManager::get_instance()->retrieve_package($id);
                 
                 if (! $package_language->delete())
                 {
@@ -75,7 +75,7 @@ class PackageInstanceManagerDeleterComponent extends PackageInstanceManager impl
                 }
             }
             
-            $this->redirect($message, ! $failures, array(PackageManager :: PARAM_ACTION => PackageManager :: ACTION_BROWSE_PACKAGE));
+            $this->redirect($message, ($failures > 0), array(self :: PARAM_PACKAGE_INSTANCE_ACTION => self :: ACTION_BROWSE));
         }
         else
         {
@@ -86,12 +86,12 @@ class PackageInstanceManagerDeleterComponent extends PackageInstanceManager impl
     function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add_help('package_deleter');
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_ACTION => PackageManager :: ACTION_BROWSE_PACKAGE)), Translation :: get('PackageManagerAdminPackageBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_PACKAGE_INSTANCE_ACTION => self :: ACTION_BROWSE)), Translation :: get('PackageInstanceManagerPackageBrowserComponent')));
     }
 
     function get_additional_parameters()
     {
-        return array(self :: PARAM_PACKAGE);
+        return array(self :: PARAM_PACKAGE_ID);
     }
 }
 ?>

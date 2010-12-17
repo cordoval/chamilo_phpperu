@@ -2,6 +2,7 @@
 namespace application\package;
 
 use common\libraries\DataClass;
+use common\libraries\Utilities;
 
 /**
  * This class describes a Package data object
@@ -87,6 +88,11 @@ class Author extends DataClass
     function set_company($company)
     {
         $this->set_default_property(self :: PROPERTY_COMPANY, $company);
+    }
+    
+    static function get_table_name()
+    {
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 
