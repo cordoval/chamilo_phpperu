@@ -385,6 +385,7 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
             $this->create_id_reference($this->get_code(), $chamilo_course->get_id());
 
             $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'course', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_course->get_code())));
+
         }
     }
 
