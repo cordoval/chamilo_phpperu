@@ -17,6 +17,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\ActionBarRenderer;
 use common\extensions\reporting_viewer\ReportingViewer;
+use common\libraries\ResourceManager;
 
 /**
  * $Id: reporting_template.class.php 215 2009-11-13 14:07:59Z vanpouckesven $

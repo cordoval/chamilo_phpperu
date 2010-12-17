@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="dependency">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="id" type="text" length="255" fixed="true" />
+		<property name="version" type="text" length="255" fixed="true" />
+		<property name="severity" type="integer" unsigned="1"/>
+
+	</properties>
+</object>

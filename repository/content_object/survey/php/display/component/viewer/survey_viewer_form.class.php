@@ -25,22 +25,30 @@ class SurveyViewerForm extends FormValidator
      */
     private $survey;
 
-    function SurveyViewerForm($name, $parent, $context_path, $survey, $action, $page_order)
+    function SurveyViewerForm($name, $parent, $context_path, $survey, $action, $page_order, $page_nr)
     {
         parent :: __construct($name, 'post', $action);
         $this->context_path = $context_path;
         $this->parent = $parent;
         $this->survey = $survey;
         $this->page_order = $page_order;
-        $this->page_number = $this->survey->get_page_nr($this->context_path);
+//        dump('context_path');
+//        dump($this->context_path);
+        $this->page_number = $page_nr;
+        
+//        $this->page_number = $this->survey->get_page_nr($this->context_path);
+        
         $this->survey_page = $this->survey->get_survey_page($this->context_path);
+//        dump('survey_page');
+
+//        dump($this->survey_page);
         $this->buildForm();
     }
 
     function buildForm()
     {
         $this->addElement('hidden', 'survey_page', $this->survey_page->get_id());
-        
+       
         // Add buttons
         if ($this->page_number > 1)
         {

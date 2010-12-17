@@ -13,14 +13,13 @@ use common\libraries\Utilities;
 /**
  * @package application.package.package.component
  */
-require_once WebApplication :: get_application_class_lib_path('package') . 'forms/package_form.class.php';
 
 /**
  * Component to edit an existing package_language object
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class PackageInstanceManagerUpdaterComponent extends PackageInstanceManager implements AdministrationComponent
+class AuthorManagerUpdaterComponent extends AuthorManager
 {
 
     /**
@@ -35,14 +34,14 @@ class PackageInstanceManagerUpdaterComponent extends PackageInstanceManager impl
 //            Display :: not_allowed();
 //        }
         
-        $package = PackageDataManager::get_instance()->retrieve_package(Request :: get(self :: PARAM_PACKAGE_ID));
-        $form = new PackageForm(PackageForm :: TYPE_EDIT, $package, $this->get_url(array(self :: PARAM_PACKAGE_ID => $package->get_id())), $this->get_user());
+        $package = PackageDataManager::get_instance()->retrieve_author(Request :: get(AuthorManager :: PARAM_AUTHOR_ID));
+        $form = new AuthorForm(AuthorForm :: TYPE_EDIT, $package, $this->get_url(array(AuthorManager :: PARAM_AUTHOR_ID => $package->get_id())), $this->get_user());
         if ($form->validate())
         {
-            $success = $form->update_package();
-            $object = Translation :: get('Package');
+            $success = $form->update_author();
+            $object = Translation :: get('Author');
             $message = $success ? Translation :: get('ObjectUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
-            $this->redirect($message, ! $success, array(PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => self :: ACTION_BROWSE));
+            $this->redirect($message, ! $success, array(PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => AuthorManager :: ACTION_BROWSE));
         }
         else
         {
@@ -54,13 +53,13 @@ class PackageInstanceManagerUpdaterComponent extends PackageInstanceManager impl
 
     function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add_help('package_updater');
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_PACKAGE_INSTANCE_ACTION => PackageInstanceManager :: ACTION_BROWSE)), Translation :: get('PackageInstanceManagerPackageBrowserComponent')));
+        $breadcrumbtrail->add_help('author_updater');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => AuthorManager :: ACTION_BROWSE)), Translation :: get('AuthorManagerAuthorBrowserComponent')));
     }
 
     function get_additional_parameters()
     {
-        return array(self :: PARAM_PACKAGE_ID);
+        return array(self :: PARAM_AUTHOR_ID);
     }
 }
 ?>

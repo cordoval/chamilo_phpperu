@@ -36,7 +36,9 @@ class PackageInstanceManagerBrowserComponent extends PackageInstanceManager
 
     function get_table()
     {
-        $table = new PackageBrowserTable($this, array(Application :: PARAM_APPLICATION => 'package', Application :: PARAM_ACTION => PackageInstanceManager :: ACTION_BROWSE), $this->get_condition());
+        $table = new PackageBrowserTable($this, array(
+                Application :: PARAM_APPLICATION => 'package', 
+                Application :: PARAM_ACTION => PackageInstanceManager :: ACTION_BROWSE), $this->get_condition());
         return $table->as_html();
     }
 
@@ -45,8 +47,10 @@ class PackageInstanceManagerBrowserComponent extends PackageInstanceManager
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
         
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application :: PARAM_ACTION => PackageInstanceManager :: ACTION_CREATE))));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('UpdateList'), Theme :: get_image_path() . 'action_update.png', $this->get_url(array(Application :: PARAM_ACTION => PackageInstanceManager :: ACTION_SYNCHRONIZE))));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(
+                PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => PackageInstanceManager :: ACTION_CREATE))));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('UpdateList'), Theme :: get_image_path() . 'action_update.png', $this->get_url(array(
+                PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => PackageInstanceManager :: ACTION_SYNCHRONIZE))));
         //        if (count($this->get_user_languages(PackageRights :: EDIT_RIGHT)) > 0)
         //        {
         //        	$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageApplications'), Theme :: get_image_path() . 'action_manage.png', $this->get_url(array(Application :: PARAM_ACTION => PackageManager :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS))));

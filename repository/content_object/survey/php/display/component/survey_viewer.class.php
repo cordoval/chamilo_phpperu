@@ -37,8 +37,15 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         
         $this->survey->initialize($invitee_id);
         $paths = $this->survey->get_context_paths();
-        $page_context_paths = $this->survey->get_page_context_paths();
+//        dump('surveypaths: ');
+//        dump($paths);
         
+        $page_context_paths = $this->survey->get_page_context_paths();
+//        dump('pagepaths: ');
+//        dump($page_context_paths);
+//        
+//        exit;
+//        
         $this->context_paths = array();
         $page_order = array();
         $page_count = 0;
@@ -47,22 +54,39 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
             $page_count ++;
             $page_order[$page_count - 1] = $page_context_path;
             $this->context_paths[$page_context_path] = $page_count;
-        }
+         }
+//             dump('surveycontextpaths: ');
+//   dump($this->context_paths);
         
-//        dump($paths);
+//        exit; 
         
         if (! $this->context_path)
         {
             $this->context_path = $page_context_paths[0];
         }
         
+//        dump($this->context_path);
+        
+       
+        
         $current_page = $this->survey->get_survey_page($this->context_path);
+        
+//        dump($current_page);
+//         exit;
+         
         $this->current_page = $current_page;
               
         $this->started();
         
         $action = $this->get_parent()->get_url();
-        $form = new SurveyViewerForm($this->context_path, $this, $this->context_path, $this->survey, $action, $page_order);
+        $page_nrs  = array_flip($page_order);
+//        dump($page_order);
+        $page_nr = $page_nrs[$this->context_path]+1;
+
+//        dump($page_nr);
+        
+        $form = new SurveyViewerForm($this->context_path, $this, $this->context_path, $this->survey, $action, $page_order, $page_nr);
+     
         
         if ($form->validate())
         {
@@ -75,9 +99,18 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
             else
             {
                 $this->context_path = $form->get_next_context_path();
-                $this->current_page = $this->survey->get_survey_page($this->context_path);
+//                dump($page_order);
+                $page_nrs  = array_flip($page_order);
+//                dump($pages);
+                
+            	$page_nr = $page_nrs[$this->context_path]+1;
+            	
+//            	dump($page_nr);
+//            	exit;
+            	
+            	$this->current_page = $this->survey->get_survey_page($this->context_path);
                 $action = $this->get_parent()->get_url(array(self :: PARAM_CONTEXT_PATH => $this->context_path));
-                $form = new SurveyViewerForm($this->context_path, $this, $this->context_path, $this->survey, $action, $page_order);
+                $form = new SurveyViewerForm($this->context_path, $this, $this->context_path, $this->survey, $action, $page_order, $page_nr);
                 $this->build_question_viewer($form);
             }
         }
@@ -102,23 +135,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $html[] = '</div>';
         $html[] = '<br />';
         
-        if (strlen(strip_tags($this->survey->get_header(), '<img>')) > 0)
-        {
-            $html[] = '<div class="description">';
-            $survey_header = $this->survey->get_header();
-            $html[] = $this->survey->parse($this->context_path, $survey_header);
-            $html[] = '</div>';
-        }
-        
-        $html[] = '<br />';
-        
-        if (strlen(strip_tags($this->current_page->get_introduction_text(), '<img>')) > 0)
-        {
-            $html[] = '<div class="description">';
-            $introduction = $this->current_page->get_introduction_text();
-            $html[] = $this->survey->parse($this->context_path, $introduction);
-            $html[] = '</div>';
-        }
+       
         
         $html[] = '</div>';
         $html[] = '<div>';
@@ -222,7 +239,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $this->get_menu_html();
         return $this->survey_menu->get_progress();
     }
-
+        
     function started()
     {
         $this->get_parent()->started();

@@ -14,6 +14,7 @@ class PackageManager extends WebApplication
     
     const ACTION_PACKAGE_INSTANCE = 'package_instance';
     const ACTION_AUTHOR = 'author';
+    const ACTION_DEPENDENCY = 'dependency';
     
     const DEFAULT_ACTION = self :: ACTION_PACKAGE_INSTANCE;
 
@@ -63,16 +64,16 @@ class PackageManager extends WebApplication
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('InstanceManager', null, Utilities :: COMMON_LIBRARIES), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'admin/add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('InstanceManager', null, Utilities :: COMMON_LIBRARIES), Translation :: get('InstanceManager'), Theme :: get_image_path() . 'admin/add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_PACKAGE_INSTANCE)));
-        $links[] = new DynamicAction(Translation :: get('AuthorManager', null, Utilities :: COMMON_LIBRARIES), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'admin/export.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('AuthorManager', null, Utilities :: COMMON_LIBRARIES), Translation :: get('AuthorManager'), Theme :: get_image_path() . 'admin/export.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_AUTHOR)));
-     
+        $links[] = new DynamicAction(Translation :: get('DependencyManager', null, Utilities :: COMMON_LIBRARIES), Translation :: get('DependencyManager'), Theme :: get_image_path() . 'admin/export.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_DEPENDENCY)));
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-       
+        
         return $info;
     }
-
 }
 ?>

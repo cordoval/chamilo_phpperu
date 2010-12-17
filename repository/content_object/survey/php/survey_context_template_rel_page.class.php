@@ -3,6 +3,7 @@ namespace repository\content_object\survey;
 
 use \common\libraries\DataClass;
 use \common\libraries\Utilities;
+use repository\RepositoryDataManager;
 
 
 class SurveyContextTemplateRelPage extends DataClass
