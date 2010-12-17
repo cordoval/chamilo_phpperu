@@ -12,6 +12,7 @@ use user\UserDataManager;
 use user\User;
 use common\libraries\ObjectResultSet;
 
+
 /**
  * Class that connects to the old dokeos185 system
  *
