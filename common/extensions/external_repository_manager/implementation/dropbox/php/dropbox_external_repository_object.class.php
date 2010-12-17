@@ -8,28 +8,10 @@ class DropboxExternalRepositoryObject extends ExternalRepositoryObject
 {
     const OBJECT_TYPE = 'dropbox';
 
-    const PROPERTY_NAME = 'name'; 
-    const PROPERTY_SIZE = 'size';
-	    
-	function get_name()
-    {
-        return $this->get_default_property(self :: PROPERTY_NAME);
-    }
-    
-    function set_name($name)
-    {
-        return $this->set_default_property(self :: PROPERTY_NAME, $name);
-    }
-
     static function get_object_type()
     {
     	return self :: OBJECT_TYPE;
-	}	    
-    
-    public function get_size()
-    {
-        return $this->get_default_property(self :: PROPERTY_SIZE);
-    }
+	}
     
     function get_content_data($external_object)
 	{		

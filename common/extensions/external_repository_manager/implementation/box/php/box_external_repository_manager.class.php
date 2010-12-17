@@ -108,8 +108,8 @@ class BoxExternalRepositoryManager extends ExternalRepositoryManager
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
 
-        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalSetting :: get_all()) > 0);
-
+        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalSetting :: get_all($this->get_external_repository()->get_id())) > 0);
+		
         if ($is_platform)
         {
             $actions[] = self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY;            
