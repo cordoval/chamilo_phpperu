@@ -55,7 +55,7 @@ class HandbookBuilderBrowserComponent extends HandbookBuilder implements Content
 
         $html[] =  '<br />';
         //         $types = array(Handbook :: get_type_name(), WikiPage:: get_type_name(), Link :: get_type_name(),  Document::get_type_name(), Youtube :: get_type_name(), Glossary::get_type_name());
-        $types = array(Handbook :: get_type_name(), HandbookTopic::get_type_name(), Glossary::get_type_name());
+        $types = array(Handbook :: get_type_name(), HandbookTopic::get_type_name(), Glossary::get_type_name(), Link::get_type_name(), Document::get_type_name());
 
         $html[] =  $this->get_creation_links($content_object, $types);
         $html[] =  '<div class="clear">&nbsp;</div><br />';
@@ -106,14 +106,14 @@ class HandbookBuilderBrowserComponent extends HandbookBuilder implements Content
     
     function get_content_object_type_creation_url($type)
     {
-//        if ($type == Handbook :: get_type_name())
-//        {
+        if ($type == Handbook :: get_type_name())
+        {
             return $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => ($this->get_complex_content_object_item() ? $this->get_complex_content_object_item()->get_id() : null)));
-//        }
-//        else
-//        {
-//            $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => HandbookBuilder :: ACTION_CREATE_PORTFOLIO_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
-//        }
+        }
+        else
+        {
+            return $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => HandbookBuilder :: ACTION_CREATE_HANDBOOK_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
+        }
     }
     
     function is_allowed_to_create($type)
