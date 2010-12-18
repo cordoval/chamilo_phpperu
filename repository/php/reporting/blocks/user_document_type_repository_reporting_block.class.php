@@ -1,6 +1,16 @@
 <?php
 namespace repository;
 
+use repository\content_object\document\Document;
+
+use reporting\ReportingManager;
+
+use reporting\ReportingChartFormatter;
+
+use reporting\ReportingFormatter;
+
+use reporting\ReportingData;
+
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
@@ -62,8 +72,8 @@ class UserDocumentTypeRepositoryReportingBlock extends RepositoryReportingBlock
         $modes[ReportingFormatter :: DISPLAY_TABLE] = Translation :: get('Table', null, ReportingManager :: APPLICATION_NAME);
         $modes[ReportingChartFormatter :: DISPLAY_BAR] = Translation :: get('Chart:Bar', null, ReportingManager :: APPLICATION_NAME);
         $modes[ReportingChartFormatter :: DISPLAY_PIE] = Translation :: get('Chart:Pie', null, ReportingManager :: APPLICATION_NAME);
-        $modes[ReportingChartFormatter::DISPLAY_LINE] = Translation :: get('Chart:Line', null, ReportingManager :: APPLICATION_NAME);
-        $modes[ReportingChartFormatter::DISPLAY_FILLED_CUBIC] = Translation :: get('Chart:FilledCubic', null, ReportingManager :: APPLICATION_NAME);
+        $modes[ReportingChartFormatter :: DISPLAY_LINE] = Translation :: get('Chart:Line', null, ReportingManager :: APPLICATION_NAME);
+        $modes[ReportingChartFormatter :: DISPLAY_FILLED_CUBIC] = Translation :: get('Chart:FilledCubic', null, ReportingManager :: APPLICATION_NAME);
 
         return $modes;
     }

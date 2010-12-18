@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Display;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ToolbarItem;
@@ -115,7 +117,9 @@ class SlideshowContentObjectRenderer extends ContentObjectRenderer
         {
             if (! $last)
             {
-                $autoplay_url = $this->get_url(array(self :: SLIDESHOW_AUTOPLAY => 1, self :: SLIDESHOW_INDEX => $slideshow_index + 1));
+                $autoplay_url = $this->get_url(array(
+                        self :: SLIDESHOW_AUTOPLAY => 1,
+                        self :: SLIDESHOW_INDEX => $slideshow_index + 1));
             }
             else
             {

@@ -1,13 +1,14 @@
 <?php
 namespace repository\content_object\survey;
 
+use repository\ComplexContentObjectItem;
+
 use repository\RepositoryDataManager;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
-
 
 class SurveyBuilderConfigureContextComponent extends SurveyBuilder
 {
@@ -53,7 +54,10 @@ class SurveyBuilderConfigureContextComponent extends SurveyBuilder
 
         $message = $succes ? Translation :: get('PagesAdded') : Translation :: get('PagesNotAdded');
 
-        $this->redirect($message, ! $succes, array(SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_BROWSE_CLO, SurveyBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), 'publish' => Request :: get('publish')));
+        $this->redirect($message, ! $succes, array(
+                SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_BROWSE_CLO,
+                SurveyBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(),
+                'publish' => Request :: get('publish')));
     }
 
 }

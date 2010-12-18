@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\hotpotatoes;
 
+use common\libraries\Filesystem;
+
 use common\libraries\Utilities;
 use common\libraries\Versionable;
 use common\libraries\Path;
@@ -36,16 +38,6 @@ class Hotpotatoes extends ContentObject implements Versionable
     function get_assessment_type()
     {
         return self :: TYPE_HOTPOTATOES;
-    }
-
-    function get_times_taken()
-    {
-        return WeblcmsDataManager :: get_instance()->get_num_user_assessments($this);
-    }
-
-    function get_average_score()
-    {
-        return WeblcmsDataManager :: get_instance()->get_average_score($this);
     }
 
     function get_maximum_score()

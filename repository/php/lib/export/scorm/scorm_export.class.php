@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use repository\content_object\learning_path\LearningPath;
+
 use common\libraries\Path;
 
 /**

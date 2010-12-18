@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\portfolio;
 
+use repository\ComplexBuilder;
+
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;

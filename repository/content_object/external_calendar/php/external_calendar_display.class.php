@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\external_calendar;
 
+use repository\ContentObject;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -8,6 +10,8 @@ use common\libraries\Theme;
 use common\libraries\DatetimeUtilities;
 
 use repository\ContentObjectDisplay;
+
+use IcalRecurrence;
 
 /**
  * $Id: external_calendar_display.class.php 200 2009-11-13 12:30:04Z kariboe $

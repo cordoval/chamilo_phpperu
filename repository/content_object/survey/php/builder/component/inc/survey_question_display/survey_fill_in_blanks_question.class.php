@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use repository\content_object\fill_in_blanks_question\FillInBlanksQuestion;
+
 use common\libraries\Translation;
 
 /**
@@ -39,7 +41,7 @@ class SurveyFillInBlanksQuestionDisplay extends SurveyQuestionDisplay
         $matches = $matches[0];
         foreach ($matches as $i => $match)
         {
-            $name = $clo_question->get_id() . '_' . $i.'_'.$this->get_page_nr();
+            $name = $clo_question->get_id() . '_' . $i . '_' . $this->get_page_nr();
 
             if ($question_type == FillInBlanksQuestion :: TYPE_SELECT)
             {
@@ -47,6 +49,7 @@ class SurveyFillInBlanksQuestionDisplay extends SurveyQuestionDisplay
                 $element = $formvalidator->createElement('select', $name, null, $answer_options);
             }
             else
+
             {
                 $answer = $answsers[$i];
                 $size = $answer->get_size();
@@ -65,7 +68,7 @@ class SurveyFillInBlanksQuestionDisplay extends SurveyQuestionDisplay
             $answer_text = substr($answer_text, $start, strlen($answer_text) - $start);
             $renderer->setElementTemplate('{element}', $name);
 
-        //$answer_text = str_replace($match, $element->toHtml(), $answer_text);
+     //$answer_text = str_replace($match, $element->toHtml(), $answer_text);
         }
 
         $formvalidator->addElement('html', $answer_text);

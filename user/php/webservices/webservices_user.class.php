@@ -1,6 +1,8 @@
 <?php
 namespace user;
 
+use common\libraries\Validator;
+
 use common\libraries\Translation;
 use common\libraries\Webservice;
 

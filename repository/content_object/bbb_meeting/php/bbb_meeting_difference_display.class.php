@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\bbb_meeting;
 
+use repository\ContentObject;
+
 use common\libraries\Theme;
 
 use repository\ContentObjectDifferenceDisplay;

@@ -1,6 +1,10 @@
 <?php
 namespace repository\content_object\hotpotatoes;
 
+use common\libraries\Filecompression;
+
+use common\libraries\Filesystem;
+
 use common\libraries\Translation;
 use common\libraries\Path;
 use repository\ContentObjectForm;

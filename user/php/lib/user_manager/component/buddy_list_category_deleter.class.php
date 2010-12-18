@@ -1,6 +1,10 @@
 <?php
 namespace user;
 
+use common\libraries\Application;
+
+use common\libraries\Translation;
+
 use common\libraries\Request;
 
 /**
@@ -64,7 +68,8 @@ class UserManagerBuddyListCategoryDeleterComponent extends UserManager
 
             $ajax = Request :: get('ajax');
             if (! $ajax)
-                $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
+                $this->redirect(Translation :: get($message), ($failures ? true : false), array(
+                        Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
         }
         else
         {

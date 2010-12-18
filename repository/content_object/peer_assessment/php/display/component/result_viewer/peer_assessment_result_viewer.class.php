@@ -1,6 +1,18 @@
 <?php
 namespace repository\content_object\peer_assessment;
 
+use group\GroupDataManager;
+
+use application\peer_assessment\PeerAssessmentPublicationUser;
+
+use application\peer_assessment\PeerAssessmentPublicationGroup;
+
+use application\peer_assessment\PeerAssessmentDataManager;
+
+use repository\ComplexContentObjectItem;
+
+use repository\RepositoryDataManager;
+
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use \HTML_QuickForm_Controller;

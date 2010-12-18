@@ -1,6 +1,11 @@
-<?php 
+<?php
 namespace repository\content_object\survey;
 
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\Utilities;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTable;
 
 require_once dirname(__FILE__) . '/subscribe_page_browser_table_data_provider.class.php';
@@ -17,7 +22,7 @@ class SurveyContextTemplateSubscribePageBrowserTable extends ObjectTable
     function __construct($browser, $parameters, $condition)
     {
 
-    	$model = new SurveyContextTemplateSubscribePageBrowserTableColumnModel();
+        $model = new SurveyContextTemplateSubscribePageBrowserTableColumnModel();
         $renderer = new SurveyContextTemplateSubscribePageBrowserTableCellRenderer($browser);
         $data_provider = new SurveyContextTemplateSubscribePageBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, SurveyContextTemplateSubscribePageBrowserTable :: DEFAULT_NAME, $model, $renderer);

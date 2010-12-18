@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Filesystem;
+
 use repository\content_object\hotpotatoes\Hotpotatoes;
 use repository\ContentObject;
 

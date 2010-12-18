@@ -1,6 +1,18 @@
 <?php
 namespace repository\content_object\peer_assessment;
 
+use group\GroupDataManager;
+
+use application\peer_assessment\PeerAssessmentPublicationUser;
+
+use application\peer_assessment\PeerAssessmentPublicationGroup;
+
+use repository\ComplexContentObjectItem;
+
+use application\peer_assessment\PeerAssessmentDataManager;
+
+use repository\RepositoryDataManager;
+
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use \HTML_QuickForm_Controller;
@@ -46,7 +58,7 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
             }
             else
             {
-            	$this->addPage(new IndicatorsPeerAssessmentViewerWizardPage('indicators_page_' . $this->total, $this, $this->total));
+            	//$this->addPage(new IndicatorsPeerAssessmentViewerWizardPage('indicators_page_' . $this->total, $this, $this->total));
             	$peer_assessment_page = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
             }
         }

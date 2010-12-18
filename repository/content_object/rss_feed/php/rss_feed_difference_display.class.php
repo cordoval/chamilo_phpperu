@@ -1,6 +1,10 @@
 <?php
 namespace repository\content_object\rss_feed;
 
+use repository\ContentObject;
+
+use common\libraries\Theme;
+
 use repository\ContentObjectDifferenceDisplay;
 
 /**

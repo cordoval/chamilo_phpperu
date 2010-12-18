@@ -4,6 +4,8 @@ namespace repository;
 use common\libraries\ImsQtiWriter;
 use common\libraries\Qti;
 use common\libraries\Translation;
+
+use Exception;
 /**
  * Base class for question serializers.
  *
@@ -38,7 +40,7 @@ class QtiQuestionSerializer extends QtiSerializerBase
         $title = $question->get_title();
         $adaptive = false;
         $time_dependent = false;
-    	$tool_name = self::get_tool_name();
+        $tool_name = self :: get_tool_name();
         $tool_version = Qti :: get_tool_version();
         $lang = Translation :: get_language();
         $lang = empty($lang) ? 'en' : $lang;
@@ -292,6 +294,5 @@ class QtiQuestionSerializer extends QtiSerializerBase
     }
 
 }
-
 
 ?>

@@ -1,4 +1,7 @@
 <?php
+namespace repository;
+
+use common\libraries\Authentication;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;

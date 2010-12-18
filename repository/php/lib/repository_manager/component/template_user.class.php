@@ -8,6 +8,8 @@ namespace repository;
  * @author Hans De Bisschop
  */
 
+use common\libraries\Request;
+
 require_once dirname(__FILE__) . '/content_object_copier.class.php';
 
 class RepositoryManagerTemplateUserComponent extends RepositoryManagerContentObjectCopierComponent

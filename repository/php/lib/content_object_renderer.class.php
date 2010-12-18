@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -11,6 +12,8 @@ use common\libraries\Theme;
 use common\libraries\ComplexContentObjectSupport;
 
 use repository\content_object\document\Document;
+
+use Exception;
 
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_search_form.class.php';
 

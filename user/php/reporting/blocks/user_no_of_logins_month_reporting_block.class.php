@@ -1,6 +1,12 @@
 <?php
 namespace user;
 
+use tracking\Tracker;
+
+use reporting\ReportingChartFormatter;
+use reporting\ReportingFormatter;
+use reporting\ReportingData;
+
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;

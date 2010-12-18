@@ -1,8 +1,12 @@
 <?php
 namespace repository;
 
-use common\libraries\BreadcrumbTrail;
+use repository\content_object\document\Document;
+
+use common\extensions\repo_viewer\RepoViewer;
 use common\extensions\repo_viewer\RepoViewerInterface;
+
+use common\libraries\BreadcrumbTrail;
 
 /**
  * $Id: repo_viewer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
@@ -21,8 +25,7 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManager implements 
     function run()
     {
 
-
-        if (!RepoViewer::is_ready_to_be_published())
+        if (! RepoViewer :: is_ready_to_be_published())
         {
             $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
@@ -31,7 +34,7 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManager implements 
         else
         {
             $html[] = '<script type="text/javascript">';
-            $html[] = 'window.parent.object_selected(' . RepoViewer::get_selected_objects() . ');';
+            $html[] = 'window.parent.object_selected(' . RepoViewer :: get_selected_objects() . ');';
             $html[] = '</script>';
         }
     }
@@ -41,9 +44,9 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManager implements 
         return array(Document :: get_type_name());
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('repository_repo_viewer');
+        $breadcrumbtrail->add_help('repository_repo_viewer');
     }
 }
 ?>

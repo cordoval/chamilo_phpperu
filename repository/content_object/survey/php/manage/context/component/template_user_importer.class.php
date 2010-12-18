@@ -15,9 +15,9 @@ class SurveyContextManagerTemplateUserImporterComponent extends SurveyContextMan
      */
     function run()
     {
-        
+
         $context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
-      
+
     	$form = new ImportTemplateForm($this, $this->get_url(), $context_template_id);
 
         if ($form->validate())
@@ -32,7 +32,7 @@ class SurveyContextManagerTemplateUserImporterComponent extends SurveyContextMan
             $this->display_footer();
         }
     }
-    
+
     function get_additional_parameters(){
     	return array(self :: PARAM_CONTEXT_TEMPLATE_ID);
     }

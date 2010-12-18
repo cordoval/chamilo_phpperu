@@ -1,6 +1,10 @@
 <?php
 namespace user;
 
+use reporting\ReportingChartFormatter;
+use reporting\ReportingFormatter;
+use reporting\ReportingData;
+
 use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../user_reporting_block.class.php';

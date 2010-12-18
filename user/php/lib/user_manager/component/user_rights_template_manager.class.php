@@ -1,6 +1,8 @@
 <?php
 namespace user;
 
+use common\libraries\Application;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Display;
@@ -23,13 +25,13 @@ class UserManagerUserRightsTemplateManagerComponent extends UserManager implemen
     {
         $user_id = Request :: get(UserManager :: PARAM_USER_USER_ID);
 
-    	if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user_id))
-	    {
-	      	$this->display_header();
-	        Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
-	        $this->display_footer();
-	        exit();
-	    }
+        if (! UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user_id))
+        {
+            $this->display_header();
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
+            $this->display_footer();
+            exit();
+        }
 
         if (! $user_id)
         {
@@ -41,12 +43,14 @@ class UserManagerUserRightsTemplateManagerComponent extends UserManager implemen
 
         $user = $this->retrieve_user($user_id);
 
-        $form = new UserRightsTemplateManagerForm($user, $this->get_user(), $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)));
+        $form = new UserRightsTemplateManagerForm($user, $this->get_user(), $this->get_url(array(
+                UserManager :: PARAM_USER_USER_ID => $user_id)));
 
         if ($form->validate())
         {
             $success = $form->update_user_rights_templates();
-            $this->redirect(Translation :: get($success ? 'UserRightsTemplatesChanged' : 'UserRightsTemplatesNotChanged'), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+            $this->redirect(Translation :: get($success ? 'UserRightsTemplatesChanged' : 'UserRightsTemplatesNotChanged'), ($success ? false : true), array(
+                    Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
         }
         else
         {
@@ -59,15 +63,16 @@ class UserManagerUserRightsTemplateManagerComponent extends UserManager implemen
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
-    	$breadcrumbtrail->add_help('user_role_manager');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+        $breadcrumbtrail->add_help('user_role_manager');
     }
 
     function get_additional_parameters()
     {
-    	return array(UserManager :: PARAM_USER_USER_ID);
+        return array(UserManager :: PARAM_USER_USER_ID);
     }
 }
 ?>

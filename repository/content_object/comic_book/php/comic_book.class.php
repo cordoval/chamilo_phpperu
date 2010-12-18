@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\comic_book;
 
+use repository\content_object\encyclopedia_item\EncyclopediaItem;
+
 use common\libraries\Utilities;
 use common\libraries\Versionable;
 

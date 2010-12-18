@@ -4,6 +4,8 @@ namespace repository\content_object\portfolio;
  * $Id: mover.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.component
  */
+use repository\ComplexBuilderComponent;
+
 require_once dirname(__FILE__) . '/../portfolio_builder.class.php';
 /**
  * Repository manager component which provides functionality to delete a

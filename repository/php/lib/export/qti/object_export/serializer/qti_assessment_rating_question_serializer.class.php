@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Qti;
+
 use repository\content_object\assessment_rating_question\AssessmentRatingQuestion;
 use repository\ContentObject;
 

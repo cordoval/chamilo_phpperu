@@ -1,4 +1,11 @@
-<?php namespace repository\content_object\survey;
+<?php
+namespace repository\content_object\survey;
+
+use common\extensions\rights_editor_manager\RightsEditorManager;
+
+use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\Request;
 
 class SurveyContextManagerContextTemplateRightsEditorComponent extends SurveyContextManager
 {
@@ -8,20 +15,19 @@ class SurveyContextManagerContextTemplateRightsEditorComponent extends SurveyCon
      */
     function run()
     {
-        
-    	$context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
-    	
+
+        $context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
+
         if (! SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: RIGHT_VIEW, $context_template_id, SurveyContextManagerRights :: TYPE_CONTEXT_TEMPLATE))
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get('NotAllowed', null, Utilities::COMMON_LIBRARIES));
+            $this->display_error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
-        
-        
+
         $location = SurveyContextManagerRights :: get_location_by_identifier_from_survey_context_manager_subtree($context_template_id, SurveyContextManagerRights :: TYPE_CONTEXT_TEMPLATE);
-             
+
         $manager = new RightsEditorManager($this, array($location));
         $manager->run();
     }
@@ -33,9 +39,9 @@ class SurveyContextManagerContextTemplateRightsEditorComponent extends SurveyCon
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-//        $component_id = Request :: get(self :: PARAM_COMPONENT_ID);
-//        $location = SurveyContextManagerRights :: get_location_by_identifier_from_survey_context_manager_subtree($component_id, SurveyContextManagerRights :: TYPE_COMPONENT);
-//    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMINISTRATION, self :: PARAM_COMPONENT_ID => Request :: get(self :: PARAM_COMPONENT_ID))), Translation :: get($location->get_location())));
+        //        $component_id = Request :: get(self :: PARAM_COMPONENT_ID);
+    //        $location = SurveyContextManagerRights :: get_location_by_identifier_from_survey_context_manager_subtree($component_id, SurveyContextManagerRights :: TYPE_COMPONENT);
+    //    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMINISTRATION, self :: PARAM_COMPONENT_ID => Request :: get(self :: PARAM_COMPONENT_ID))), Translation :: get($location->get_location())));
     }
 
     function get_additional_parameters()

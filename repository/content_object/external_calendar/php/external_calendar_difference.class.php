@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\external_calendar;
 
+use repository\Difference_Engine;
+
 use repository\ContentObjectDifference;
 
 /**

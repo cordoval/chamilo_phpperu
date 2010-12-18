@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\dailymotion;
 
+use common\libraries\Text;
+
 use common\libraries\Utilities;
 use common\libraries\Versionable;
 

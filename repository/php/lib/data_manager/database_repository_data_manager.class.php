@@ -163,7 +163,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_type_content_objects($type, $condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        
+
         $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
         $content_object_version_alias = $this->get_alias('content_object_version');
 
@@ -1549,33 +1549,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->retrieve_object_set($query, $table_name, $condition, $offset, $max_objects, $order_by);
     }
 
-    function create_external_sync_info($external_sync_info)
-    {
-        $created = $external_sync_info->get_creation_date();
-        if (is_numeric($created))
-        {
-            $external_sync_info->set_creation_date($external_sync_info->get_creation_date());
-        }
-
-        return $this->create($external_sync_info);
-    }
-
     function create_external_sync($external_sync)
     {
         return $this->create($external_sync);
-    }
-
-    function update_external_sync_info($external_sync_info)
-    {
-        $condition = new EqualityCondition(ExternalSyncInfo :: PROPERTY_ID, $external_sync_info->get_id());
-
-        $date = $external_sync_info->get_modification_date();
-        if (is_numeric($date))
-        {
-            $external_sync_info->set_modification_date($external_sync_info->get_modification_date());
-        }
-
-        return $this->update($external_sync_info, $condition);
     }
 
     function update_external_sync($external_sync)
@@ -1584,21 +1560,10 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->update($external_sync, $condition);
     }
 
-    function delete_external_sync_info($external_sync_info)
-    {
-        $condition = new EqualityCondition(ExternalSyncInfo :: PROPERTY_ID, $external_sync_info->get_id());
-        return $this->delete($external_sync_info->get_table_name(), $condition);
-    }
-
     function delete_external_sync($external_sync)
     {
         $condition = new EqualityCondition(ExternalSync :: PROPERTY_ID, $external_sync->get_id());
         return $this->delete($external_sync->get_table_name(), $condition);
-    }
-
-    function retrieve_external_sync_info($conditions)
-    {
-        return $this->retrieve_object(ExternalSyncInfo :: get_table_name(), $conditions, array(), ExternalSyncInfo :: CLASS_NAME);
     }
 
     function retrieve_external_sync($condition)

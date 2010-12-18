@@ -1,6 +1,10 @@
 <?php
 namespace user;
 
+use tracking\ChangesTracker;
+use tracking\Event;
+
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Display;
@@ -28,7 +32,7 @@ class UserManagerUserApproverComponent extends UserManager implements Administra
         $ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
         $choice = Request :: get(self :: PARAM_CHOICE);
 
-        if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER, UserRights :: TYPE_COMPONENT));
+        if (! UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER, UserRights :: TYPE_COMPONENT));
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
@@ -56,7 +60,9 @@ class UserManagerUserApproverComponent extends UserManager implements Administra
 
                     if ($user->update())
                     {
-                        Event :: trigger('update', UserManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $user->get_id(), ChangesTracker :: PROPERTY_USER_ID => $this->get_user()->get_id()));
+                        Event :: trigger('update', UserManager :: APPLICATION_NAME, array(
+                                ChangesTracker :: PROPERTY_REFERENCE_ID => $user->get_id(),
+                                ChangesTracker :: PROPERTY_USER_ID => $this->get_user()->get_id()));
                     }
                     else
                     {
@@ -72,7 +78,9 @@ class UserManagerUserApproverComponent extends UserManager implements Administra
 
                     if ($user->delete())
                     {
-                        Event :: trigger('delete', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
+                        Event :: trigger('delete', 'user', array(
+                                'target_user_id' => $user->get_id(),
+                                'action_user_id' => $this->get_user()->get_id()));
                     }
                     else
                     {
@@ -90,24 +98,27 @@ class UserManagerUserApproverComponent extends UserManager implements Administra
                 $message = $this->get_result($failures, count($ids), 'UserNotDenied', 'UsersNotDenied', 'UserDenied', 'UsersDenied');
             }
 
-            $this->redirect($message, ($failures > 0), array(Application :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER));
+            $this->redirect($message, ($failures > 0), array(
+                    Application :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER));
 
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected'), array('OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected'), array(
+                    'OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES));
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER)), Translation :: get('UserManagerUserApprovalBrowserComponent')));
-    	$breadcrumbtrail->add_help('user_approver');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                UserManager :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER)), Translation :: get('UserManagerUserApprovalBrowserComponent')));
+        $breadcrumbtrail->add_help('user_approver');
     }
 
     function get_additional_parameters()
     {
-    	return array(UserManager :: PARAM_USER_USER_ID, UserManager :: PARAM_CHOICE);
+        return array(UserManager :: PARAM_USER_USER_ID, UserManager :: PARAM_CHOICE);
     }
 }
 ?>

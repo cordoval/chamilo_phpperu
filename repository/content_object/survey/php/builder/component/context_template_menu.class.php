@@ -1,13 +1,16 @@
 <?php
 namespace repository\content_object\survey;
 
-use repository\RepositoryDataManager;
+use common\libraries\TreeMenuRenderer;
 use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\OptionsMenuRenderer;
 
+use repository\RepositoryDataManager;
+
+use HTML_Menu_ArrayRenderer;
 
 class SurveyContextTemplateMenu extends \HTML_Menu
 {

@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\learning_path;
 
+use repository\ContentObjectDisplay;
+
 use repository;
 
 use common\libraries\Request;
