@@ -3,6 +3,7 @@ namespace repository\content_object\survey_open_question;
 
 use common\libraries\Path;
 use repository\ContentObjectDifference;
+use repository\Difference_Engine;
 
 /**
  * @package repository.content_object.survey_open_question

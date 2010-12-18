@@ -2,6 +2,7 @@
 namespace repository\content_object\survey_rating_question;
 
 use common\libraries\Path;
+use common\libraries\ResourceManager;
 use repository\ContentObjectDisplay;
 
 /**

@@ -5,6 +5,8 @@ use repository\ContentObjectForm;
 
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use common\libraries\Translation;
+use common\libraries\Theme;
 
 /**
  * @package repository.content_object.survey_select_question

@@ -142,21 +142,6 @@ class Assessment extends ContentObject implements ComplexContentObjectSupport
         return self :: get_type_name();
     }
 
-    function get_times_taken()
-    {
-        return WeblcmsDataManager :: get_instance()->get_num_user_assessments($this);
-    }
-
-    function get_average_score()
-    {
-        return WeblcmsDataManager :: get_instance()->get_average_score($this);
-    }
-
-    function get_maximum_score()
-    {
-        return WeblcmsDataManager :: get_instance()->get_maximum_score($this);
-    }
-
     function get_types()
     {
         $types = array();

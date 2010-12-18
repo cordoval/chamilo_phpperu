@@ -1,8 +1,6 @@
 <?php
 namespace repository\content_object\adaptive_assessment;
 
-use repository;
-
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
@@ -31,6 +29,7 @@ use repository\content_object\note\Note;
 use repository\content_object\wiki\Wiki;
 use repository\content_object\youtube\Youtube;
 
+use repository\ContentObjectDisplay;
 use repository\RepositoryDataManager;
 use repository\RepositoryRights;
 use repository\ComplexBuilder;

@@ -117,7 +117,7 @@ class SurveyRatingQuestionForm extends ContentObjectForm
         else
             $object->set_low(0);
 
-        if (isset($values[SurveyRatingQuestion :: PROPERTY_HIGH]) && $values[RatingQuestion :: PROPERTY_HIGH] != '')
+        if (isset($values[SurveyRatingQuestion :: PROPERTY_HIGH]) && $values[SurveyRatingQuestion :: PROPERTY_HIGH] != '')
             $object->set_high($values[SurveyRatingQuestion :: PROPERTY_HIGH]);
         else
             $object->set_high(100);
@@ -131,13 +131,13 @@ class SurveyRatingQuestionForm extends ContentObjectForm
         $values = $this->exportValues();
         $object = parent :: get_content_object();
 
-        if (isset($values[RatingQuestion :: PROPERTY_LOW]) && $values[RatingQuestion :: PROPERTY_LOW] != '')
-            $object->set_low($values[RatingQuestion :: PROPERTY_LOW]);
+        if (isset($values[SurveyRatingQuestion :: PROPERTY_LOW]) && $values[SurveyRatingQuestion :: PROPERTY_LOW] != '')
+            $object->set_low($values[SurveyRatingQuestion :: PROPERTY_LOW]);
         else
             $object->set_low(0);
 
-        if (isset($values[RatingQuestion :: PROPERTY_HIGH]) && $values[SurveyRatingQuestion :: PROPERTY_HIGH] != '')
-            $object->set_high($values[RatingQuestion :: PROPERTY_HIGH]);
+        if (isset($values[SurveyRatingQuestion :: PROPERTY_HIGH]) && $values[SurveyRatingQuestion :: PROPERTY_HIGH] != '')
+            $object->set_high($values[SurveyRatingQuestion :: PROPERTY_HIGH]);
         else
             $object->set_high(100);
 

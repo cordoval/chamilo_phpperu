@@ -91,6 +91,6 @@ class ComplexSurveyMultipleChoiceQuestionForm extends ComplexContentObjectItemFo
     {
         $defaults = array_merge($defaults, $this->get_default_values());
         parent :: setDefaults($defaults);
-
+    }
 }
 ?>

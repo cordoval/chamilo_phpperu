@@ -3,6 +3,9 @@ namespace repository\content_object\survey_multiple_choice_question;
 
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use common\libraries\Translation;
+use common\libraries\Theme;
+
 use repository\ContentObjectForm;
 
 /**
@@ -91,19 +94,6 @@ class SurveyMultipleChoiceQuestionForm extends ContentObjectForm
             return false;
         }
         return parent :: validate();
-    }
-
-    function add_options_to_object()
-    {
-        $object = $this->get_content_object();
-        $values = $this->exportValues();
-        $options = array();
-        foreach ($values[SurveyMultipleChoiceQuestionOption :: PROPERTY_VALUE] as $option_id => $value)
-        {
-            $options[] = new SurveyMultipleChoiceQuestionOption($value);
-        }
-        $object->set_answer_type($_SESSION['mc_answer_type']);
-        $object->set_options($options);
     }
 
     /**

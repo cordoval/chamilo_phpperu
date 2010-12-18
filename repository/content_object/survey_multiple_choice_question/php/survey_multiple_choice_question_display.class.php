@@ -2,6 +2,8 @@
 namespace repository\content_object\survey_multiple_choice_question;
 
 use common\libraries\Path;
+use common\libraries\Translation;
+
 use repository\ContentObjectDisplay;
 
 /**

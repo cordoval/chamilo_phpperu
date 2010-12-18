@@ -1,7 +1,10 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\ResourceManager;
+
 use repository\content_object\match_question\MatchQuestion;
 
 /**

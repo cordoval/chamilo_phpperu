@@ -5,6 +5,9 @@ use repository\ContentObjectForm;
 
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Utilities;
 
 /**
  * @package repository.content_object.survey_matrix_question
@@ -60,13 +63,6 @@ class SurveyMatrixQuestionForm extends ContentObjectForm
         }
 
         parent :: setDefaults($defaults);
-    }
-
-    function setCsvValues($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
-        parent :: setValues($defaults);
     }
 
     function create_content_object()

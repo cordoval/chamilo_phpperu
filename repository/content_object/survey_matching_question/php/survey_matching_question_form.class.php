@@ -3,6 +3,10 @@ namespace repository\content_object\survey_matching_question;
 
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Utilities;
+
 use repository\ContentObjectForm;
 
 /**
