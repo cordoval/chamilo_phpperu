@@ -3,10 +3,13 @@ namespace repository\content_object\survey_page;
 
 use repository\ComplexBuilder;
 
-
+/**
+ * @package repository.content_object.survey_page
+ * @author Eduard Vossen
+ * @author Magali Gillard
+ */
 class SurveyPageBuilder extends ComplexBuilder //implements ComplexMenuSupport
 {
-  
 
     function get_application_component_path()
     {

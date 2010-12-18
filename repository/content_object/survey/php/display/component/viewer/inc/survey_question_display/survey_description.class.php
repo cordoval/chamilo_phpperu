@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace repository\content_object\survey;
 
 use common\libraries\Translation;
@@ -12,7 +12,7 @@ class SurveyDescriptionDisplay extends SurveyQuestionDisplay
     {
         $complex_question = $this->get_complex_question();
         $question = $this->get_question();
-        $formvalidator = $this->get_formvalidator ();
+        $formvalidator = $this->get_formvalidator();
 
         if ($question->has_description())
         {

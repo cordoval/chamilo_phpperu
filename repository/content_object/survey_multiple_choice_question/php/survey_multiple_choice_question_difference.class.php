@@ -4,8 +4,9 @@ namespace repository\content_object\survey_multiple_choice_question;
 use repository\ContentObjectDifference;
 
 /**
- * $Id: survey_multiple_choice_question_difference.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.survey_multiple_choice_question
+ * @package repository.content_object.survey_multiple_choice_question
+ * @author Eduard Vossen
+ * @author Magali Gillard
  */
 /**
  * This class can be used to get the difference between multiple choice questions

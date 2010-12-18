@@ -2,16 +2,19 @@
 namespace repository\content_object\survey_select_question;
 
 use common\libraries\Path;
-use repository\ComplexSelectQuestion;
+use repository\ComplexContentObjectItem;
 
-
-
+/**
+ * @package repository.content_object.survey_select_question
+ * @author Eduard Vossen
+ * @author Magali Gillard
+ */
 /**
  * This class represents a complex assessment (used to create complex learning objects)
  */
-class ComplexSurveySelectQuestion extends ComplexSelectQuestion
+class ComplexSurveySelectQuestion extends ComplexContentObjectItem
 {
-    
+
     const PROPERTY_VISIBLE = 'visible';
 
     static function get_additional_property_names()
