@@ -1,6 +1,9 @@
 <?php
-
 namespace common\libraries;
+
+use webservice\WebserviceManager;
+
+use Exception;
 
 /**
  * A REST message that will be returned when a REST server has been called.

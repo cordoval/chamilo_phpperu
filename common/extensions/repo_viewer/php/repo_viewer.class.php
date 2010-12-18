@@ -282,17 +282,17 @@ class RepoViewer extends SubManager
     {
         $action = Request :: get(RepoViewer :: PARAM_ACTION);
         $table_name = Request :: post('table_name');
-        if($table_name)
+        if ($table_name)
         {
-        	ContentObjectTable::handle_table_action();
-	        $table_action = Request :: post($table_name . '_action_value');
-	        if($table_action)
-	        {
-	            $action = $table_action;
-	        }
+            ContentObjectTable :: handle_table_action();
+            $table_action = Request :: post($table_name . '_action_value');
+            if ($table_action)
+            {
+                $action = $table_action;
+            }
         }
 
-        return (self :: any_object_selected() && $action == RepoViewer::ACTION_PUBLISHER);
+        return (self :: any_object_selected() && $action == RepoViewer :: ACTION_PUBLISHER);
     }
 
     function get_application_component_path()

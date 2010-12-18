@@ -1,4 +1,7 @@
 <?php
+namespace common\libraries;
+
+use HTML_QuickForm_Rule_HTML;
 
 //$Id: allowed_html_tags.php 128 2009-11-09 13:13:20Z vanpouckesven $
 /**
@@ -13,7 +16,8 @@ require_once (PATH :: get(SYS_LIB_PATH) . 'html/formvalidator/Rule/HTML.php');
 //$language_code = Database :: get_language_isocode($language_interface);
 $language_code = 'en';
 header('Content-Type: text/html; charset=' . $charset);
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xml:lang="<?php
 echo $language_code;

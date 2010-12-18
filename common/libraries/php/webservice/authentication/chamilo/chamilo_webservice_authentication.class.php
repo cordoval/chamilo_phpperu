@@ -15,12 +15,14 @@ namespace common\libraries;
  * GET /rest.php?application=user&object=user HTTP/1.1
  * Host: localhost
  * Authorization: Chamilo realm="Chamilo"
- *   username="admin",
- *   timestamp="137131200",
- *   nonce="wIjqoS",
- *   signature="74KNZJeDHnMBp0EMJ9ZHt%2FXKycU%3D"
+ * username="admin",
+ * timestamp="137131200",
+ * nonce="wIjqoS",
+ * signature="74KNZJeDHnMBp0EMJ9ZHt%2FXKycU%3D"
  *
  */
+use user\UserDataManager;
+
 class ChamiloWebserviceAuthentication extends WebserviceAuthentication
 {
     const PARAM_AUTHORIZATION = 'authorization';
@@ -29,15 +31,15 @@ class ChamiloWebserviceAuthentication extends WebserviceAuthentication
     const PARAM_TIMESTAMP = 'timestamp';
     const PARAM_NONCE = 'nonce';
     const PARAM_SIGNATURE = 'signature';
-    
+
     const PARAM_REMOTE_ADDRESS = 'REMOTE_ADDR';
-    
+
     const PARAM_HASH_ALGORITHM = 'sha512';
 
     public function is_valid()
     {
         $headers = apache_request_headers();
-        if(!$headers[self :: PARAM_AUTHORIZATION])
+        if (! $headers[self :: PARAM_AUTHORIZATION])
         {
             return false;
         }
@@ -46,20 +48,20 @@ class ChamiloWebserviceAuthentication extends WebserviceAuthentication
         $username = $authorization[self :: PARAM_USERNAME];
 
         $user = UserDataManager :: get_instance()->retrieve_user_by_username($username);
-        if(!$user)
+        if (! $user)
         {
             return false;
         }
 
         $timestamp = $authorization[self :: PARAM_TIMESTAMP];
-        if($timestamp < time())
+        if ($timestamp < time())
         {
             return false;
         }
 
         $signature = $this->calculate_signature($authorization, $user);
 
-        if($signature == $authorization[self :: PARAM_SIGNATURE])
+        if ($signature == $authorization[self :: PARAM_SIGNATURE])
         {
             return $user;
         }

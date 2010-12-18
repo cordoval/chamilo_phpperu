@@ -1,5 +1,7 @@
 <?php
 namespace home;
+
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\Authentication;
@@ -43,7 +45,7 @@ if ($user_home_allowed && Authentication :: is_valid())
         foreach ($blocks as $block_id)
         {
             $block = $hdm->retrieve_home_block($block_id);
-            if($block)
+            if ($block)
             {
                 $block->set_column($column->get_id());
                 $block->set_sort($i);

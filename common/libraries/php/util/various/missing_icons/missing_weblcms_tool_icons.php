@@ -19,7 +19,7 @@ foreach ($tools as $tool)
         $icon_path = Theme :: get_image_system_path(Tool :: get_tool_type_namespace($tool)) . 'logo/' . $size . '.png';
         if (! file_exists($icon_path))
         {
-            $failures++;
+            $failures ++;
             $data_row[] = '<img src="' . Theme :: get_common_image_path() . 'error/' . $size . '.png" />';
         }
         else
@@ -30,7 +30,7 @@ foreach ($tools as $tool)
         $icon_path = Theme :: get_image_system_path(Tool :: get_tool_type_namespace($tool)) . 'logo/' . $size . '_na.png';
         if (! file_exists($icon_path))
         {
-            $failures++;
+            $failures ++;
             $data_row[] = '<img src="' . Theme :: get_common_image_path() . 'error/' . $size . '.png" />';
         }
         else
@@ -41,7 +41,7 @@ foreach ($tools as $tool)
         $icon_path = Theme :: get_image_system_path(Tool :: get_tool_type_namespace($tool)) . 'logo/' . $size . '_new.png';
         if (! file_exists($icon_path))
         {
-            $failures++;
+            $failures ++;
             $data_row[] = '<img src="' . Theme :: get_common_image_path() . 'error/' . $size . '.png" />';
         }
         else
@@ -56,11 +56,11 @@ foreach ($tools as $tool)
 $table = new SortableTableFromArray($data, 0, 200);
 $table->set_header(0, 'Tool');
 
-foreach ($sizes as $key => $size)
+foreach ($sizes as $key => $value)
 {
-    $table->set_header(($key * 3) + 1, $size . ' x ' . $size);
-    $table->set_header(($key * 3) + 2, $size . ' x ' . $size . ' NA');
-    $table->set_header(($key * 3) + 3, $size . ' x ' . $size . ' NEW');
+    $table->set_header(($key * 3) + 1, $value . ' x ' . $value);
+    $table->set_header(($key * 3) + 2, $value . ' x ' . $value . ' NA');
+    $table->set_header(($key * 3) + 3, $value . ' x ' . $value . ' NEW');
 }
 
 echo $table->as_html();

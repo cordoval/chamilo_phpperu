@@ -1,4 +1,8 @@
 <?php
+use common\libraries\LocalSetting;
+use common\libraries\Authentication;
+use common\libraries\FormValidatorHtmlEditorTemplates;
+
 require_once dirname(__FILE__) . '/../../global.inc.php';
 
 $html_editor_templates = FormValidatorHtmlEditorTemplates :: factory(LocalSetting :: get('html_editor'));

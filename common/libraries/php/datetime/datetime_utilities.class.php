@@ -1,6 +1,9 @@
 <?php
 namespace common\libraries;
 
+use DateTimeZone;
+use DateTime;
+
 /**
  * $Id: datetime_utilities.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.datetime

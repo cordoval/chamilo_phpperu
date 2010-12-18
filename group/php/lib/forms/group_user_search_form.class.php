@@ -1,10 +1,15 @@
 <?php
 namespace group;
+
+use user\User;
+
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\FormValidator;
- 
+
 /**
  * $Id: group_user_search_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.forms
@@ -66,9 +71,9 @@ class GroupUserSearchForm extends FormValidator
         $this->renderer = clone $this->defaultRenderer();
         $this->manager = $manager;
         $this->frozen_elements = array();
-        
+
         $this->build_simple_search_form();
-        
+
         $this->autofreeze();
         $this->accept($this->renderer);
     }
@@ -108,8 +113,8 @@ class GroupUserSearchForm extends FormValidator
     private function build_simple_search_form()
     {
         $this->renderer->setElementTemplate('{element}');
-        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Search', null , Utilities :: COMMON_LIBRARIES), 'size="20" class="search_query"');
-        $this->addElement('submit', 'search', Translation :: get('Ok', null , Utilities :: COMMON_LIBRARIES));
+        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Search', null, Utilities :: COMMON_LIBRARIES), 'size="20" class="search_query"');
+        $this->addElement('submit', 'search', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
     }
 
     /**
@@ -140,16 +145,16 @@ class GroupUserSearchForm extends FormValidator
     private function get_search_conditions()
     {
         $values = $this->exportValues();
-        
+
         $query = $values[self :: PARAM_SIMPLE_SEARCH_QUERY];
-        
+
         if (isset($query) && $query != '')
         {
             $conditions = array();
             $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*');
             $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*');
             $conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*');
-            
+
             return new OrCondition($conditions);
         }
         else

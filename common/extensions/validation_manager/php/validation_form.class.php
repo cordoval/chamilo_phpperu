@@ -1,5 +1,10 @@
 <?php
 namespace common\extensions\validation_manager;
+
+use admin\Validation;
+use admin\AdminDataManager;
+
+use common\libraries\Translation;
 use common\libraries\FormValidator;
 /**
  * $Id: validation_form.class.php 191 2009-11-13 11:50:28Z chellee $
@@ -12,19 +17,18 @@ use common\libraries\FormValidator;
  * @author pieter
  */
 
-
 class ValidationForm extends FormValidator
 {
-    
+
     private $adm;
 
     function __construct($action)
     {
         parent :: __construct('validation_form', 'post', $action);
         $this->build_form();
-        
+
         $this->adm = AdminDataManager :: get_instance();
-    
+
     }
 
     function build_form()
@@ -32,16 +36,17 @@ class ValidationForm extends FormValidator
         //$this->createElement('style_submit_button', 'submit', Translation :: get('Validate'), array('class' => 'positive'));
         // $this->add_html_editor( FeedbackPublication :: PROPERTY_TEXT, 'comment', 'required');
         // $this->addRule( FeedbackPublication :: PROPERTY_TEXT, Translation :: get('ThisFieldIsRequired'), 'required');
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Validate'), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Validate'), array(
+                'class' => 'positive'));
         // $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     function create_validation($owner, $pid, $cid, $application)
     {
-        
+
         $val = new Validation();
         $val->set_cid($cid);
         $val->set_pid($pid);
@@ -49,7 +54,7 @@ class ValidationForm extends FormValidator
         $val->set_owner($owner);
         $today = date('Y-m-d G:i:s');
         $val->set_validated($today);
-        
+
         //echo 'pid -> '.$pid.' - cid ->'.$cid;
         return $fb->create();
     }

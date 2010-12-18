@@ -7,6 +7,10 @@ namespace common\libraries;
 /**
  * Class to display the footer of a HTML-page
  */
+use menu\MenuRenderer;
+
+use user\UserDataManager;
+
 class Footer
 {
 
@@ -82,6 +86,7 @@ class Footer
         //        $links[] = Translation :: get('License');
         //        $links[] = Translation :: get('PrivacyPolicy');
         //        $links[] = '<a href="http://www.chamilo.org">http://www.chamilo.org</a>';
+
 
         $world = PlatformSetting :: get('whoisonlineaccess');
 

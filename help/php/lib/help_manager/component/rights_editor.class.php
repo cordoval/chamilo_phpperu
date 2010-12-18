@@ -1,5 +1,7 @@
 <?php
 namespace help;
+
+use common\libraries\Display;
 use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -7,6 +9,7 @@ use common\libraries\Request;
 use common\libraries\AdministrationComponent;
 use common\libraries\DelegateComponent;
 use common\libraries\Breadcrumb;
+
 use common\extensions\rights_editor_manager\RightsEditorManager;
 
 require_once dirname(__FILE__) ."/../../help_rights.class.php";
@@ -40,7 +43,7 @@ class HelpManagerRightsEditorComponent extends HelpManager implements Administra
         if($this->get_user()->is_platform_admin())
         {
             $manager = new RightsEditorManager($this, $locations);
-        
+
             $manager->exclude_users(array($this->get_user_id()));
             $manager->run();
         }
@@ -52,19 +55,19 @@ class HelpManagerRightsEditorComponent extends HelpManager implements Administra
             exit();
         }
     }
-    
+
     function get_available_rights()
     {
         $array = HelpRights :: get_available_rights();
         return $array;
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)), Translation :: get('HelpManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('help_updater');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(HelpManager :: PARAM_HELP_ITEM);

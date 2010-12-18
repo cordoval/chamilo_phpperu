@@ -1,8 +1,6 @@
 <?php
 namespace common\extensions\rights_editor_manager;
 
-use common\libraries;
-
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
@@ -27,7 +25,10 @@ use common\libraries\DynamicVisualTab;
 use group\Group;
 use group\GroupMenu;
 use group\GroupDataManager;
+
 use rights\RightsUtilities;
+use rights\RightsTemplate;
+
 use user\User;
 
 /**

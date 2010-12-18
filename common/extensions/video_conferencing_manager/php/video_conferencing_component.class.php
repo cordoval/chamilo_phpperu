@@ -1,8 +1,12 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
 
+use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\SubManager;
+
+use Exception;
 
 abstract class VideoConferencingComponent extends SubManager
 {
@@ -14,9 +18,9 @@ abstract class VideoConferencingComponent extends SubManager
         {
             throw new Exception(Translation :: get('VideoConferencingComponentTypeDoesNotExist', array('type' => $type)));
         }
-        
+
         require_once $file;
-        
+
         $class = __NAMESPACE__ . '\\' . 'VideoConferencingComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
         return new $class($application);
     }

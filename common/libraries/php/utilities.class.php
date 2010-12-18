@@ -1,10 +1,11 @@
 <?php
 namespace common\libraries;
 
-use repository;
+use user\UserDataManager;
 
-use repository\RepositoryAutoloader;
+use repository\RepositoryDataManager;
 use repository\ContentObject;
+
 use XML_Unserializer;
 use PEAR;
 use Exception;
@@ -213,9 +214,7 @@ class Utilities
     {
         if (! isset(self :: $camel_us_map[$string]))
         {
-            self :: $camel_us_map[$string] = preg_replace(array(
-                    '/^([A-Z])/e',
-                    '/([A-Z])/e'), array(
+            self :: $camel_us_map[$string] = preg_replace(array('/^([A-Z])/e', '/([A-Z])/e'), array(
                     'strtolower("\1")',
                     '"_".strtolower("\1")'), $string);
         }
@@ -659,8 +658,7 @@ class Utilities
             return class_exists($classname);
         }
 
-        $other_plugin_classes = array(
-                'RestResult' => 'webservices/rest/client/rest_result.class.php');
+        $other_plugin_classes = array('RestResult' => 'webservices/rest/client/rest_result.class.php');
         if (array_key_exists($classname, $other_plugin_classes))
         {
             require_once Path :: get_plugin_path() . '/' . $other_plugin_classes[$classname];

@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\dynamic_form_manager;
-use common\libraries;
+
+use admin\AdminDataManager;
 
 use common\libraries\DataClass;
 use common\libraries\Utilities;

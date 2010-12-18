@@ -1,5 +1,7 @@
 <?php
 namespace group;
+
+use common\libraries\Display;
 use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -16,6 +18,7 @@ use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\ActionBarRenderer;
+
 use user\User;
 
 require_once dirname(__FILE__) . "/../../group_rights.class.php";

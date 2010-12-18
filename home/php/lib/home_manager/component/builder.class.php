@@ -1,5 +1,8 @@
 <?php
 namespace home;
+
+use common\libraries\Utilities;
+use common\libraries\Display;
 use common\libraries\Translation;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
@@ -20,7 +23,7 @@ class HomeManagerBuilderComponent extends HomeManager implements AdministrationC
     {
         $user = $this->get_user();
         $user_home_allowed = $this->get_platform_setting('allow_user_home');
-        
+
         if ($user_home_allowed && Authentication :: is_valid())
         {
             $this->build_user_id = $user->get_id();
@@ -30,14 +33,14 @@ class HomeManagerBuilderComponent extends HomeManager implements AdministrationC
             if (! $user->is_platform_admin())
             {
                 $this->display_header(null, false);
-                Display :: error_message(Translation :: get('NotAllowed', null, Utilities::COMMON_LIBRARIES));
+                Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
                 $this->display_footer();
                 exit();
             }
-            
+
             $this->build_user_id = '0';
         }
-        
+
         $bw = new BuildWizard($this);
         $bw->run();
     }
@@ -46,10 +49,10 @@ class HomeManagerBuilderComponent extends HomeManager implements AdministrationC
     {
         return $this->build_user_id;
     }
-    
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('home_builder');
+        $breadcrumbtrail->add_help('home_builder');
     }
 }
 ?>

@@ -1,11 +1,15 @@
 <?php
 namespace install;
+
+use common\libraries\Filesystem;
 use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Installer;
+
+use MDB2;
 /**
  * $Id: command_line_installation.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib
@@ -26,25 +30,32 @@ ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear'));
 
 function __autoload($classname)
 {
-	$autoloaders = array(Path :: get_common_path() . '/common_autoloader.class.php', Path :: get_repository_path() . 'repository_autoloader.class.php',
-						 Path :: get_user_path() . 'user_autoloader.class.php', Path :: get_admin_path() . 'admin_autoloader.class.php',
-					     Path :: get_group_path() . 'group_autoloader.class.php', Path :: get_help_path() . 'help_autoloader.class.php',
-					     Path :: get_home_path() . 'home_autoloader.class.php', Path :: get_menu_path() . 'menu_autoloader.class.php',
-					     Path :: get_reporting_path() . 'reporting_autoloader.class.php', Path :: get_rights_path() . 'rights_autoloader.class.php',
-					     Path :: get_tracking_path() . 'tracking_autoloader.class.php', Path :: get_webservice_path() . 'webservice_autoloader.class.php',
-					     Path :: get_common_extensions_path() . 'application_common_autoloader.class.php');
+    $autoloaders = array(
+            Path :: get_common_path() . '/common_autoloader.class.php',
+            Path :: get_repository_path() . 'repository_autoloader.class.php',
+            Path :: get_user_path() . 'user_autoloader.class.php',
+            Path :: get_admin_path() . 'admin_autoloader.class.php',
+            Path :: get_group_path() . 'group_autoloader.class.php',
+            Path :: get_help_path() . 'help_autoloader.class.php',
+            Path :: get_home_path() . 'home_autoloader.class.php',
+            Path :: get_menu_path() . 'menu_autoloader.class.php',
+            Path :: get_reporting_path() . 'reporting_autoloader.class.php',
+            Path :: get_rights_path() . 'rights_autoloader.class.php',
+            Path :: get_tracking_path() . 'tracking_autoloader.class.php',
+            Path :: get_webservice_path() . 'webservice_autoloader.class.php',
+            Path :: get_common_extensions_path() . 'application_common_autoloader.class.php');
 
-	foreach($autoloaders as $autoloader)
-	{
-		require_once $autoloader;
+    foreach ($autoloaders as $autoloader)
+    {
+        require_once $autoloader;
 
-		$classn = substr(basename($autoloader), 0, -10);
-		$classname_upp = Utilities :: underscores_to_camelcase($classn);
-		$class = new $classname_upp;
+        $classn = substr(basename($autoloader), 0, - 10);
+        $classname_upp = Utilities :: underscores_to_camelcase($classn);
+        $class = new $classname_upp();
 
-		if($class->load($classname))
-			break;
-	}
+        if ($class->load($classname))
+            break;
+    }
 }
 
 Filesystem :: remove(dirname(__FILE__) . '/../common/configuration/configuration.php');
@@ -69,7 +80,9 @@ function create_database()
 
     if (MDB2 :: isError($connection))
     {
-        return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('CouldNotConnectToDatabase') . $connection->getMessage()));
+        return array(
+                Installer :: INSTALL_SUCCESS => false,
+                Installer :: INSTALL_MESSAGE => (Translation :: get('CouldNotConnectToDatabase') . $connection->getMessage()));
     }
     else
     {
@@ -81,16 +94,22 @@ function create_database()
             $create_result = $connection->exec($create_query);
             if (! MDB2 :: isError($create_result))
             {
-            	return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('DBCreated'));
+                return array(
+                        Installer :: INSTALL_SUCCESS => true,
+                        Installer :: INSTALL_MESSAGE => Translation :: get('DBCreated'));
             }
             else
             {
-                return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('DBCreateError') . ' ' . mysql_error()));
+                return array(
+                        Installer :: INSTALL_SUCCESS => false,
+                        Installer :: INSTALL_MESSAGE => (Translation :: get('DBCreateError') . ' ' . mysql_error()));
             }
         }
         else
         {
-            return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('DBDropError') . ' ' . mysql_error()));
+            return array(
+                    Installer :: INSTALL_SUCCESS => false,
+                    Installer :: INSTALL_MESSAGE => (Translation :: get('DBDropError') . ' ' . mysql_error()));
         }
     }
 }
@@ -108,10 +127,14 @@ function create_folders()
 
         if (! Filesystem :: create_dir($path))
         {
-            return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedFailed'));
+            return array(
+                    Installer :: INSTALL_SUCCESS => false,
+                    Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedFailed'));
         }
     }
-    return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedSuccess'));
+    return array(
+            Installer :: INSTALL_SUCCESS => true,
+            Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedSuccess'));
 }
 
 function write_config_file()
@@ -122,7 +145,9 @@ function write_config_file()
 
     if ($content === false)
     {
-        return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
+        return array(
+                Installer :: INSTALL_SUCCESS => false,
+                Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
     }
 
     $config['{DATABASE_DRIVER}'] = $values['database_driver'];
@@ -151,16 +176,22 @@ function write_config_file()
         if (fwrite($fp, $content))
         {
             fclose($fp);
-            return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteSuccess'));
+            return array(
+                    Installer :: INSTALL_SUCCESS => true,
+                    Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteSuccess'));
         }
         else
         {
-            return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
+            return array(
+                    Installer :: INSTALL_SUCCESS => false,
+                    Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
         }
     }
     else
     {
-        return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
+        return array(
+                Installer :: INSTALL_SUCCESS => false,
+                Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
     }
 }
 
@@ -194,7 +225,8 @@ function install_applications()
                 unset($installer, $result);
                 flush();
             }
-            //			else
+
+     //			else
         //			{
         //				// TODO: Does this work ?
         //				$application_path = dirname(__FILE__).'/../../application/lib/' . $application . '/';
@@ -208,7 +240,8 @@ function install_applications()
         //				}
         //			}
         }
-        //flush();
+
+     //flush();
     }
 }
 
@@ -282,7 +315,18 @@ function process_result($application, $result, $message)
 }
 
 // Available applications
-$core_applications = array('webservice', 'admin', 'help', 'reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
+$core_applications = array(
+        'webservice',
+        'admin',
+        'help',
+        'reporting',
+        'tracking',
+        'repository',
+        'user',
+        'group',
+        'rights',
+        'home',
+        'menu');
 $applications = Filesystem :: get_directory_content(Path :: get_application_path() . 'lib/', Filesystem :: LIST_DIRECTORIES, false);
 
 // Extra Configuration values
@@ -300,8 +344,6 @@ process_result('database', $db_creation['success'], $db_creation['message']);
 // 2. Write the configuration file
 $config_file = write_config_file();
 process_result('config', $config_file['success'], $config_file['message']);
-
-
 
 // 3. Installing the applications
 install_applications();

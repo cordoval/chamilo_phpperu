@@ -12,6 +12,8 @@ use DOMAttr;
 use DOMXPath;
 use DateTimeZone;
 use DateTime;
+use Exception;
+use stdClass;
 
 /**
  * Helper class used to read an XML file.

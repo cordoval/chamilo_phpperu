@@ -1,6 +1,7 @@
 <?php
-
 namespace common\libraries;
+
+use user\User;
 
 use DOMDocument;
 
@@ -14,7 +15,8 @@ use DOMDocument;
  * @author laurent.opprecht@unige.ch
  *
  */
-class ObjectImportSettings {
+class ObjectImportSettings
+{
 
     private $path = '';
     private $filename = '';
@@ -28,11 +30,12 @@ class ObjectImportSettings {
     //private $cache = NULL;
     private $level = 0;
 
-    public function __construct($path='', $filename= '', $extention = '', $user=NULL, $category_id=0, Log $log=NULL, $metadata=NULL) {
+    public function __construct($path = '', $filename = '', $extention = '', $user = NULL, $category_id = 0, Log $log = NULL, $metadata = NULL)
+    {
         $this->path = $path;
         $this->filename = $filename;
         $this->extention = $extention;
-        $this->user = empty($user) ? User::get_data_manager()->retrieve_user(Session::get_user_id()) : $user;
+        $this->user = empty($user) ? User :: get_data_manager()->retrieve_user(Session :: get_user_id()) : $user;
         $this->category_id = $category_id;
         $this->log = empty($log) ? new Log() : $log;
         $this->metadata = $metadata;
@@ -40,14 +43,19 @@ class ObjectImportSettings {
         $this->cache = new ObjectCache();
     }
 
-    public function get_path() {
+    public function get_path()
+    {
         return $this->path;
     }
 
-    public function get_extention() {
-        if ($this->extention) {
+    public function get_extention()
+    {
+        if ($this->extention)
+        {
             $result = $this->extention;
-        } else {
+        }
+        else
+        {
             $path = $this->get_path();
             $parts = explode('.', $path);
             $result = end($parts);
@@ -55,43 +63,51 @@ class ObjectImportSettings {
         return $result;
     }
 
-    public function get_filename() {
+    public function get_filename()
+    {
         return $this->filename ? $this->filename : basename($this->get_path());
     }
 
-    public function get_directory() {
+    public function get_directory()
+    {
         $result = $this->directory ? $this->directory : dirname($this->get_path());
         $result = rtrim($result, '/') . '/';
         return $result;
     }
 
-    public function get_user() {
+    public function get_user()
+    {
         return $this->user;
     }
 
-    public function get_category_id() {
+    public function get_category_id()
+    {
         return $this->category_id;
     }
 
     /**
      * @return Log
      */
-    public function get_log() {
+    public function get_log()
+    {
         return $this->log;
     }
 
     /**
      * @return ObjectCache
      */
-    public function get_cache() {
+    public function get_cache()
+    {
         return $this->cache;
     }
 
-    public function get_metadata() {
+    public function get_metadata()
+    {
         return $this->get_metadata;
     }
 
-    public function get_type() {
+    public function get_type()
+    {
         return $this->type;
     }
 
@@ -99,11 +115,13 @@ class ObjectImportSettings {
      * Import level. Starts at 0, increment by one each time settings are copied.
      * Children of initial file have level 1. Grandchildren level 2, etc.
      */
-    public function get_level() {
+    public function get_level()
+    {
         return $this->level;
     }
 
-    public function copy($path, $filename='', $extention='', $type = '') {
+    public function copy($path, $filename = '', $extention = '', $type = '')
+    {
         $result = clone $this;
         $result->path = $path;
         $result->filename = $filename;
@@ -111,14 +129,15 @@ class ObjectImportSettings {
         $result->extention = $extention;
         $result->type = $type;
         $result->metadata = $metadata;
-        $result->level++;
+        $result->level ++;
         return $result;
     }
 
     /**
      * Clear cached results when cloning to ensure the cache is synchronized with new values.
      */
-    public function __clone() {
+    public function __clone()
+    {
         $this->reader = NULL;
         $this->manifest_reader = NULL;
         $this->dom = NULL;
@@ -130,17 +149,22 @@ class ObjectImportSettings {
      * Return an XML reader for the file pointed to. Function is memoized.
      * @return ImsXmlReader
      */
-    public function get_reader() {
-        if (!empty($this->reader)) {
+    public function get_reader()
+    {
+        if (! empty($this->reader))
+        {
             return $this->reader;
         }
 
         $path = $this->path;
         $ext = pathinfo($path, PATHINFO_EXTENSION);
-        if ($ext == 'xml') {
+        if ($ext == 'xml')
+        {
             return $this->reader = new ImsXmlReader($path);
-        } else {
-            return $this->reader = ImsXmlReader::get_empty_reader();
+        }
+        else
+        {
+            return $this->reader = ImsXmlReader :: get_empty_reader();
         }
     }
 
@@ -151,21 +175,26 @@ class ObjectImportSettings {
      *
      * @return ImsXmlReader
      */
-    public function get_manifest_reader() {
-        if (empty($this->manifest_reader)) {
+    public function get_manifest_reader()
+    {
+        if (empty($this->manifest_reader))
+        {
             $path = $this->get_path();
-            if (is_dir($path)) {
+            if (is_dir($path))
+            {
                 $dir = $path;
                 $files = scandir($path);
                 $files = array_diff($files, array('.', '..'));
-                foreach ($files as $file) {
-                    if (strtolower($file) == 'imsmanifest.xml') {
+                foreach ($files as $file)
+                {
+                    if (strtolower($file) == 'imsmanifest.xml')
+                    {
                         $path = $dir . '/' . $file;
                         return $this->manifest_reader = new ImscpManifestReader($dir . '/' . $file);
                     }
                 }
             }
-            return $this->manifest_reader = ImsXmlReader::get_empty_reader();
+            return $this->manifest_reader = ImsXmlReader :: get_empty_reader();
         }
         return $this->manifest_reader;
     }
@@ -175,15 +204,20 @@ class ObjectImportSettings {
     /**
      * @return DOMDocument
      */
-    public function get_dom() {
-        if ($this->dom) {
+    public function get_dom()
+    {
+        if ($this->dom)
+        {
             return $this->dom;
         }
 
         $doc = new DOMDocument();
-        if ($doc->loadHTMLFile($this->get_path())) {
+        if ($doc->loadHTMLFile($this->get_path()))
+        {
             return $this->dom = $doc;
-        } else {
+        }
+        else
+        {
             return NULL;
         }
     }

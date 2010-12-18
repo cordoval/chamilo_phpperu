@@ -1,5 +1,7 @@
 <?php
 namespace home;
+
+use common\libraries\Utilities;
 use common\libraries\Translation;
 /**
  * $Id: confirmation_build_wizard_page.class.php 141 2009-11-10 07:44:45Z kariboe $
@@ -15,7 +17,7 @@ class ConfirmationBuildWizardPage extends BuildWizardPage
      * The message which has to be confirmed by the user
      */
     private $message;
-    
+
     private $values;
 
     /**
@@ -40,10 +42,10 @@ class ConfirmationBuildWizardPage extends BuildWizardPage
     function buildForm()
     {
         $this->addElement('static', '', '', $this->message);
-        $this->addElement('checkbox', 'confirm', ' ', Translation :: get('Confirm', null, Utilities::COMMON_LIBRARIES));
-        $this->addRule('confirm', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back', null, Utilities::COMMON_LIBRARIES), '<< ' . Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES));
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next', null, Utilities::COMMON_LIBRARIES), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES) . ' >>');
+        $this->addElement('checkbox', 'confirm', ' ', Translation :: get('Confirm', null, Utilities :: COMMON_LIBRARIES));
+        $this->addRule('confirm', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back', null, Utilities :: COMMON_LIBRARIES), '<< ' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES));
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next', null, Utilities :: COMMON_LIBRARIES), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;

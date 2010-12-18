@@ -1,5 +1,29 @@
 <?php
 namespace common\libraries;
+
+use rights\Location;
+use rights\RightsUtilities;
+
+use webservice\WebserviceRegistration;
+use webservice\WebserviceDataManager;
+use webservice\WebserviceCategory;
+
+use admin\Registration;
+use admin\PackageInfo;
+use admin\AdminDataManager;
+use admin\Setting;
+
+use reporting\ReportingTemplateRegistration;
+use reporting\ReportingDataManager;
+use reporting\ReportingBlockRegistration;
+use reporting\Reporting;
+
+use tracking\EventRelTracker;
+use tracking\TrackerRegistration;
+use tracking\TrackingDataManager;
+
+use DOMDocument;
+
 /**
  * $Id: installer.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package common
@@ -45,7 +69,8 @@ abstract class Updater
         if (! $this->data_manager->storage_unit_exist($storage_unit_info['name']))
         {
             return false;
-            //return $this->update_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
+
+     //return $this->update_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
         }
         else
         {
@@ -71,12 +96,12 @@ abstract class Updater
                 }
                 else
                 {
-                	$storage_unit = self :: parse_xml_file($file);
-                    $backup = DatabaseBackup::factory('mysql', array($storage_unit['name']), $this->get_data_manager());
+                    $storage_unit = self :: parse_xml_file($file);
+                    $backup = DatabaseBackup :: factory('mysql', array($storage_unit['name']), $this->get_data_manager());
                     $output = $backup->backup();
                     $file = Path :: get_temp_path() . 'backup/' . $this->get_application() . '_' . time() . '.backup';
-                    Filesystem::write_to_file($file, $output, true);
-                	$this->add_message(self :: TYPE_WARNING, 'Xml file needed with changes');
+                    Filesystem :: write_to_file($file, $output, true);
+                    $this->add_message(self :: TYPE_WARNING, 'Xml file needed with changes');
 
                 }
             }
@@ -142,7 +167,8 @@ abstract class Updater
             $index_properties = $index->getElementsByTagname('indexproperty');
             foreach ($index_properties as $subkey => $index_property)
             {
-                $index_info['fields'][$index_property->getAttribute('name')] = array('length' => $index_property->getAttribute('length'));
+                $index_info['fields'][$index_property->getAttribute('name')] = array(
+                        'length' => $index_property->getAttribute('length'));
             }
             $indexes[$index->getAttribute('name')] = $index_info;
         }
@@ -193,7 +219,7 @@ abstract class Updater
 
     function get_data_manager()
     {
-    	return $this->data_manager;
+        return $this->data_manager;
     }
 
     function retrieve_message()
@@ -284,7 +310,7 @@ abstract class Updater
         return $result;
     }
 
-	function parse_application_rights($file)
+    function parse_application_rights($file)
     {
         $doc = new DOMDocument();
 
@@ -297,7 +323,16 @@ abstract class Updater
 
         foreach ($events as $index => $event)
         {
-            $rights[$event->getAttribute('name')] = array('identifier' => $event->getAttribute('identifier'), 'tree_identifier' => $event->getAttribute('tree_identifier'), 'type' => $event->getAttribute('type'), 'tree_type' => $event->getAttribute('tree_type'), 'update_type' => $event->getAttribute('update_type'), 'parent_identifier' => $event->getAttribute('parent_identifier'), 'parent_tree_identifier' => $event->getAttribute('parent_tree_identifier'), 'parent_type' => $event->getAttribute('parent_type'), 'parent_tree_type' => $event->getAttribute('parent_tree_type'));
+            $rights[$event->getAttribute('name')] = array(
+                    'identifier' => $event->getAttribute('identifier'),
+                    'tree_identifier' => $event->getAttribute('tree_identifier'),
+                    'type' => $event->getAttribute('type'),
+                    'tree_type' => $event->getAttribute('tree_type'),
+                    'update_type' => $event->getAttribute('update_type'),
+                    'parent_identifier' => $event->getAttribute('parent_identifier'),
+                    'parent_tree_identifier' => $event->getAttribute('parent_tree_identifier'),
+                    'parent_type' => $event->getAttribute('parent_type'),
+                    'parent_tree_type' => $event->getAttribute('parent_tree_type'));
         }
 
         return $rights;
@@ -316,7 +351,10 @@ abstract class Updater
 
         foreach ($events as $index => $event)
         {
-            $settings[$event->getAttribute('name')] = array('default' => $event->getAttribute('default'), 'user_setting' => $event->getAttribute('user_setting'), 'type' => $event->getAttribute('type'));
+            $settings[$event->getAttribute('name')] = array(
+                    'default' => $event->getAttribute('default'),
+                    'user_setting' => $event->getAttribute('user_setting'),
+                    'type' => $event->getAttribute('type'));
         }
 
         return $settings;
@@ -342,7 +380,9 @@ abstract class Updater
 
         foreach ($events as $index => $event)
         {
-            $reporting['template'][$event->getAttribute('name')] = array('platform' => $event->getAttribute('platform'), 'type' => $event->getAttribute('type'));
+            $reporting['template'][$event->getAttribute('name')] = array(
+                    'platform' => $event->getAttribute('platform'),
+                    'type' => $event->getAttribute('type'));
         }
 
         return $reporting;
@@ -361,7 +401,9 @@ abstract class Updater
 
         foreach ($events as $index => $event)
         {
-            $webservice[$event->getAttribute('name')] = array('type' => $event->getAttribute('type'), 'category' => $event->getAttribute('category'));
+            $webservice[$event->getAttribute('name')] = array(
+                    'type' => $event->getAttribute('type'),
+                    'category' => $event->getAttribute('category'));
         }
         return $webservice;
     }
@@ -637,14 +679,14 @@ abstract class Updater
                 }
                 else
                 {
-                	$conditions[] = new EqualityCondition(WebserviceRegistration::PROPERTY_APPLICATION, $application);
-                	$conditions[] = new EqualityCondition(WebserviceRegistration::PROPERTY_NAME, $name);
-                	$condition = new AndCondition($conditions);
+                    $conditions[] = new EqualityCondition(WebserviceRegistration :: PROPERTY_APPLICATION, $application);
+                    $conditions[] = new EqualityCondition(WebserviceRegistration :: PROPERTY_NAME, $name);
+                    $condition = new AndCondition($conditions);
 
-                	if (! WebserviceDataManager::get_instance()->delete_webservices($condition))
-                	{
-                		return $this->update_failed(Translation :: get('DeleteWebserviceRegistrationFailed') . ' : <em>' . $name . '</em>');
-                	}
+                    if (! WebserviceDataManager :: get_instance()->delete_webservices($condition))
+                    {
+                        return $this->update_failed(Translation :: get('DeleteWebserviceRegistrationFailed') . ' : <em>' . $name . '</em>');
+                    }
                 }
             }
         }
@@ -653,7 +695,7 @@ abstract class Updater
 
     function register_location()
     {
-    	$application = $this->get_application();
+        $application = $this->get_application();
 
         $rights_file = $this->get_path() . 'rights_locations.xml';
 
@@ -666,7 +708,7 @@ abstract class Updater
                 $type = $parameters['update_type'];
                 if ($type == 1)
                 {
-                	$location = new Location();
+                    $location = new Location();
                     $location->set_application($application);
                     $location->set_location($name);
                     $location->set_identifier($parameters['identifier']);
@@ -674,10 +716,10 @@ abstract class Updater
                     $location->set_type($parameters['type']);
                     $location->set_tree_type($parameters['tree_type']);
 
-                    $parent = RightsUtilities::get_location_by_identifier($application, $parameters['parent_type'], $parameters['parent_identifier'], $parameters['parent_tree_identifier'], $parameters['parent_tree_type']);
-				 	$location->set_parent($parent->get_id());
+                    $parent = RightsUtilities :: get_location_by_identifier($application, $parameters['parent_type'], $parameters['parent_identifier'], $parameters['parent_tree_identifier'], $parameters['parent_tree_type']);
+                    $location->set_parent($parent->get_id());
 
-                   	if (! $location->create())
+                    if (! $location->create())
                     {
                         $message = Translation :: get('ApplicationConfigurationFailed');
                         $this->update_failed($message);
@@ -685,7 +727,7 @@ abstract class Updater
                 }
                 else
                 {
-                    $location = RightsUtilities::get_location_by_identifier($application, $parameters['type'], $parameters['identifier'], $parameters['tree_identifier'], $parameters['tree_type']);
+                    $location = RightsUtilities :: get_location_by_identifier($application, $parameters['type'], $parameters['identifier'], $parameters['tree_identifier'], $parameters['tree_type']);
                     $location->delete();
                 }
             }

@@ -1,8 +1,8 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
 
-use common\libraries;
-
+use common\libraries\Display;
+use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
 
