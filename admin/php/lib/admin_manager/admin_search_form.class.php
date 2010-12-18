@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+
+use common\libraries\OrCondition;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
@@ -15,14 +17,14 @@ use common\libraries\FormValidator;
  * A form to search in the repository.
  * This form can have two representations
  * - A simple search form.
- *   This form only contains a text field and a submit
- *   button. The form will also contain a link to the advanced view of the
- *   search  form.
+ * This form only contains a text field and a submit
+ * button. The form will also contain a link to the advanced view of the
+ * search  form.
  * - An advanced search form.
- *   Using   the advanced search form, a user will be able to search on title,
- *   description,    type and has the choice in which part of the repository the
- *   system    should search (whole repository, current category, current
- *   category  + subcategories)
+ * Using   the advanced search form, a user will be able to search on title,
+ * description,    type and has the choice in which part of the repository the
+ * system    should search (whole repository, current category, current
+ * category  + subcategories)
  */
 class AdminSearchForm extends FormValidator
 {
@@ -126,7 +128,8 @@ class AdminSearchForm extends FormValidator
         $this->renderer->setElementTemplate('<div class="row"><div class="formw">{element}</div></div>');
 
         $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Search'), 'size="20"');
-        $this->addElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'normal search'));
+        $this->addElement('style_submit_button', 'submit', Translation :: get('Search'), array(
+                'class' => 'normal search'));
     }
 
     /**
@@ -157,22 +160,8 @@ class AdminSearchForm extends FormValidator
     private function get_search_conditions()
     {
         $values = $this->exportValues();
-
         $query = $values[self :: PARAM_SIMPLE_SEARCH_QUERY];
-
-        if (isset($query) && $query != '')
-        {
-            $conditions = array();
-            $conditions[] = new EqualityCondition(Course :: PROPERTY_ID, $values[self :: PARAM_SIMPLE_SEARCH_QUERY]);
-            $conditions[] = new EqualityCondition(Course :: PROPERTY_NAME, $values[self :: PARAM_SIMPLE_SEARCH_QUERY]);
-            $conditions[] = new EqualityCondition(Course :: PROPERTY_LANGUAGE, $values[self :: PARAM_SIMPLE_SEARCH_QUERY]);
-
-            return new OrCondition($conditions);
-        }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     /**

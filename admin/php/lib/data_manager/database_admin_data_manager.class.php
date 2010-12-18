@@ -1,6 +1,11 @@
 <?php
 namespace admin;
 
+use user\User;
+use user\UserDataManager;
+
+use repository\ContentObjectPublicationAttributes;
+
 use common\libraries\Session;
 use common\libraries\Database;
 use common\libraries\EqualityCondition;

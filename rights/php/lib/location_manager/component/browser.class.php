@@ -1,6 +1,9 @@
 <?php
 namespace rights;
 
+use common\libraries\ActionBarRenderer;
+use common\libraries\ObjectTableOrder;
+use common\libraries\ActionBarSearchForm;
 use common\libraries\Path;
 use common\libraries\Application;
 use common\libraries\BasicApplication;
@@ -47,7 +50,8 @@ class LocationManagerBrowserComponent extends LocationManager
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, 'root');
         $condition = new AndCondition($conditions);
-        $root = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
+        $root = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(
+                new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
 
         if (isset($location))
         {
@@ -69,11 +73,17 @@ class LocationManagerBrowserComponent extends LocationManager
         $this->display_header();
 
         $html = array();
-        $application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS, LocationManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
+        $application_url = $this->get_url(array(
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS,
+                LocationManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
         $html[] = BasicApplication :: get_selecter($application_url, $this->application);
         $html[] = $this->action_bar->as_html() . '<br />';
 
-        $url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS, LocationManager :: PARAM_LOCATION_ACTION => LocationManager :: ACTION_BROWSE_LOCATIONS, LocationManager :: PARAM_SOURCE => $this->application, LocationManager :: PARAM_LOCATION => '%s'));
+        $url_format = $this->get_url(array(
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS,
+                LocationManager :: PARAM_LOCATION_ACTION => LocationManager :: ACTION_BROWSE_LOCATIONS,
+                LocationManager :: PARAM_SOURCE => $this->application,
+                LocationManager :: PARAM_LOCATION => '%s'));
         $url_format = str_replace('=%25s', '=%s', $url_format);
         $location_menu = new LocationMenu($root->get_id(), $this->location->get_id(), $url_format);
         $html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
@@ -136,19 +146,21 @@ class LocationManagerBrowserComponent extends LocationManager
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->set_search_url($this->get_url(array(LocationManager :: PARAM_SOURCE => $this->application, LocationManager :: PARAM_LOCATION => $this->location->get_id())));
+        $action_bar->set_search_url($this->get_url(array(
+                LocationManager :: PARAM_SOURCE => $this->application,
+                LocationManager :: PARAM_LOCATION => $this->location->get_id())));
 
         return $action_bar;
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('rights_locations_browser');
+        $breadcrumbtrail->add_help('rights_locations_browser');
     }
 
-	function get_additional_parameters()
+    function get_additional_parameters()
     {
-    	return array(LocationManager :: PARAM_SOURCE, LocationManager :: PARAM_LOCATION);
+        return array(LocationManager :: PARAM_SOURCE, LocationManager :: PARAM_LOCATION);
     }
 }
 ?>

@@ -1,10 +1,16 @@
 <?php
 namespace reporting;
 
+use repository\ContentObject;
+
+use user\User;
+use user\UserDataManager;
+use user\UserManager;
+
 use common\libraries\Path;
 use common\libraries\Translation;
-use user\UserManager;
 use common\libraries\Validator;
+
 use application\weblcms\CourseUserRelation;
 use application\weblcms\WeblcmsManager;
 use application\weblcms\WeblcmsDataManager;
@@ -49,12 +55,21 @@ class ReportingValidator extends Validator
 
     private function get_required_course_rel_user_property_names()
     {
-        return array(CourseUserRelation :: PROPERTY_COURSE, CourseUserRelation :: PROPERTY_USER, CourseUserRelation :: PROPERTY_STATUS, CourseUserRelation :: PROPERTY_COURSE_GROUP, CourseUserRelation :: PROPERTY_TUTOR);
+        return array(
+                CourseUserRelation :: PROPERTY_COURSE,
+                CourseUserRelation :: PROPERTY_USER,
+                CourseUserRelation :: PROPERTY_STATUS,
+                CourseUserRelation :: PROPERTY_COURSE_GROUP,
+                CourseUserRelation :: PROPERTY_TUTOR);
     }
 
     private function get_required_course_group_property_names()
     {
-        return array(CourseGroup :: PROPERTY_COURSE_CODE, CourseGroup :: PROPERTY_NAME, CourseGroup :: PROPERTY_SELF_REG, CourseGroup :: PROPERTY_SELF_UNREG);
+        return array(
+                CourseGroup :: PROPERTY_COURSE_CODE,
+                CourseGroup :: PROPERTY_NAME,
+                CourseGroup :: PROPERTY_SELF_REG,
+                CourseGroup :: PROPERTY_SELF_UNREG);
     }
 
     function validate_retrieve(&$object)
@@ -77,13 +92,13 @@ class ReportingValidator extends Validator
     {
         $this->errorSource = Translation :: get('ErrorRetrievingUserCourses', null, WeblcmsManager :: APPLICATION_NAME);
 
-        if (empty($input_user[USER :: PROPERTY_USERNAME]))
+        if (empty($input_user[User :: PROPERTY_USERNAME]))
         {
             $this->errorMessage = Translation :: get('UsernameIsRequired', null, UserManager :: APPLICATION_NAME);
             return false;
         }
 
-        $user = $this->get_person_id($input_user[USER :: PROPERTY_USERNAME]);
+        $user = $this->get_person_id($input_user[User :: PROPERTY_USERNAME]);
         if ($user === false)
         {
             $this->errorMessage = Translation :: get('User', null, UserManager :: APPLICATION_NAME) . ' ' . $inputUser[User :: PROPERTY_USERNAME] . ' ' . Translation :: get('WasNotFoundInTheDatabase');

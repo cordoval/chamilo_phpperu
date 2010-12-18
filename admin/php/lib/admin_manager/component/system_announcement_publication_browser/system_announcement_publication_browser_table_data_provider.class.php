@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+
 use common\libraries\ObjectTableDataProvider;
 /**
  * $Id: system_announcement_publication_browser_table_data_provider.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
@@ -34,7 +35,7 @@ class SystemAnnouncementPublicationBrowserTableDataProvider extends ObjectTableD
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         return $this->get_browser()->retrieve_system_announcement_publications($this->get_condition(), $order_property, $offset, $count);
     }
 

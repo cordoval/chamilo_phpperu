@@ -14,10 +14,10 @@ require_once dirname(__FILE__) . '/../webservice_data_manager_interface.class.ph
 
 /**
  * ==============================================================================
- *	This is a data manager that uses a database for storage. It was written
- *	for MySQL, but should be compatible with most SQL flavors.
+ * This is a data manager that uses a database for storage. It was written
+ * for MySQL, but should be compatible with most SQL flavors.
  *
- *	@author Stefan Billiet
+ * @author Stefan Billiet
 ==============================================================================
  */
 
@@ -35,21 +35,10 @@ class DatabaseWebserviceDataManager extends Database implements WebserviceDataMa
         return $this->count_objects(WebserviceRegistration :: get_table_name(), $conditions);
     }
 
-    function count_webservice_categories($conditions = null)
-    {
-    	return $this->count_objects(WebserviceCategoryRegistration :: get_table_name(), $conditions);
-    }
-
     function truncate_webservice($webservice)
     {
         $condition = new EqualityCondition(WebserviceRegistration :: PROPERTY_WEBSERVICE_ID, $webservice->get_id());
         return $this->delete(WebserviceRegistration :: get_table_name(), $condition);
-    }
-
-    function truncate_webservice_category($webserviceCategory)
-    {
-        $condition = new EqualityCondition(WebserviceCategoryRegistration :: PROPERTY_WEBSERVICE_ID, $webservice->get_id());
-        return $this->delete(WebserviceCategoryRegistration :: get_table_name(), $condition);
     }
 
     function retrieve_webservice($id)
@@ -99,29 +88,13 @@ class DatabaseWebserviceDataManager extends Database implements WebserviceDataMa
 
     function delete_webservices($condition)
     {
-    	return $this->delete_objects(WebserviceRegistration :: get_table_name(), $condition);
-    }
-
-
-    function delete_webservice_category($webservice_category)
-    {
-        $condition = new EqualityCondition(WebserviceCategory :: PROPERTY_ID, $webservice->get_id());
-        $bool = $this->delete($webservice_category->get_table_name(), $condition);
-        $this->truncate_webservice_category($webservice_category);
-
-        return $bool;
+        return $this->delete_objects(WebserviceRegistration :: get_table_name(), $condition);
     }
 
     function update_webservice($webservice)
     {
         $condition = new EqualityCondition(WebserviceRegistration :: PROPERTY_ID, $webservice->get_id());
         return $this->update($webservice, $condition);
-    }
-
-    function update_webservice_category($webservice_category)
-    {
-        $condition = new EqualityCondition(WebserviceCategoryRegistration :: PROPERTY_ID, $webservice_category->get_id());
-        return $this->update($webservice_category, $condition);
     }
 
     function create_webservice($webservice)

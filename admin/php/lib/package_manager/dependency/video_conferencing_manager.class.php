@@ -8,7 +8,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\MessageLogger;
 
-use common\extensions\external_repository_manager\VideoConferencingManager;
+use common\extensions\video_conferencing_manager\VideoConferencingManager;
 
 /**
  * $Id: applications.class.php 126 2009-11-09 13:11:05Z vanpouckesven $

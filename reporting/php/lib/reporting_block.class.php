@@ -2,6 +2,7 @@
 namespace reporting;
 
 use common\extensions\reporting_viewer\ReportingViewer;
+
 use common\libraries\Export;
 use common\libraries\Utilities;
 use common\libraries\Path;
@@ -15,14 +16,13 @@ use common\libraries\Toolbar;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
+use Exception;
+
 /**
  * $Id: reporting_block.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib
  * @author Michael Kyndt
  */
-
-//class ReportingBlock extends DataClass
-
 
 require_once dirname(__FILE__) . '/forms/reporting_formatter_form.class.php';
 require_once PATH :: get_reporting_path() . '/lib/reporting_data.class.php';

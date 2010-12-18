@@ -4,6 +4,8 @@ namespace admin;
  * $Id: system_announcement_publication_browser_table_column_model.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.admin_manager.component.system_announcement_publication_table
  */
+use common\libraries\StaticTableColumn;
+
 require_once dirname(__FILE__) . '/../../../system_announcement_publication_table/default_system_announcement_publication_table_column_model.class.php';
 /**
  * Table column model for the publication browser table

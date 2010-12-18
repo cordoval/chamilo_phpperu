@@ -1,6 +1,8 @@
 <?php
 namespace rights;
 
+use reporting\ReportingTemplateRegistration;
+use reporting\ReportingDataManager;
 use reporting\ReportingTemplate;
 
 /**
@@ -12,9 +14,15 @@ class RightsDataReportingTemplate extends ReportingTemplate
 
     function __construct($parent, $id, $params)
     {
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsUsersPerRightsTemplate"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsNoOfRightsTemplates"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsGroupsPerRightsTemplate"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsUsersPerRightsTemplate"), array(
+                ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE,
+                ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsNoOfRightsTemplates"), array(
+                ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE,
+                ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsGroupsPerRightsTemplate"), array(
+                ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE,
+                ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
 
         parent :: __construct($parent, $id, $params);
     }
@@ -54,10 +62,11 @@ class RightsDataReportingTemplate extends ReportingTemplate
 
     function get_application()
     {
-    	return RightsManager::APPLICATION_NAME;
+        return RightsManager :: APPLICATION_NAME;
     }
 
     function display_context()
-    {}
+    {
+    }
 }
 ?>

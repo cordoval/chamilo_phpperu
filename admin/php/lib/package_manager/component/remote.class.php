@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+
+use common\libraries\PatternMatchCondition;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Breadcrumb;
@@ -9,7 +11,7 @@ use common\libraries\Theme;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\Utilities;
-//PatternMatchCondition
+
 /**
  * $Id: remote.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_manager.component
@@ -26,13 +28,14 @@ class PackageManagerRemoteComponent extends PackageManager
      */
     function run()
     {
-//        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
-//        {
-//            $this->display_header();
-//            $this->display_error_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
-//            $this->display_footer();
-//            exit();
-//        }
+        //        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
+        //        {
+        //            $this->display_header();
+        //            $this->display_error_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
+        //            $this->display_footer();
+        //            exit();
+        //        }
+
 
         $this->action_bar = $this->get_action_bar();
         $parameters = $this->get_parameters();
@@ -68,25 +71,30 @@ class PackageManagerRemoteComponent extends PackageManager
 
         $action_bar->set_search_url($this->get_url());
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('CurrentlyInstalled'), Theme :: get_image_path() . 'action_current.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('InstallLocal'), Theme :: get_image_path() . 'action_install_local.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_LOCAL_PACKAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('CurrentlyInstalled'), Theme :: get_image_path() . 'action_current.png', $this->get_url(array(
+                PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('InstallLocal'), Theme :: get_image_path() . 'action_install_local.png', $this->get_url(array(
+                PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_LOCAL_PACKAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('InstallRemote'), Theme :: get_image_path() . 'action_install_remote.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_REMOTE_PACKAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('InstallArchive'), Theme :: get_image_path() . 'action_install_archive.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_ARCHIVE_PACKAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('UpdateList'), Theme :: get_image_path() . 'action_refresh.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_SYNCHRONISE_REMOTE_PACKAGES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('UpdateList'), Theme :: get_image_path() . 'action_refresh.png', $this->get_url(array(
+                PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_SYNCHRONISE_REMOTE_PACKAGES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }
 
-function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManagerBrowserComponent')));
-    	$breadcrumbtrail->add_help('admin_package_manager_remote');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManagerBrowserComponent')));
+        $breadcrumbtrail->add_help('admin_package_manager_remote');
     }
 
- 	function get_additional_parameters()
+    function get_additional_parameters()
     {
-    	return array();
+        return array();
     }
 }
 ?>

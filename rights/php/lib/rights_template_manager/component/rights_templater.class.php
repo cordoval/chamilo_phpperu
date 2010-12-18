@@ -1,6 +1,10 @@
 <?php
 namespace rights;
 
+use common\libraries\Utilities;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\ObjectTableOrder;
 use common\libraries\Path;
 use common\libraries\Application;
 use common\libraries\WebApplication;

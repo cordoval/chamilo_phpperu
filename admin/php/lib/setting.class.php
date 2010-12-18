@@ -1,5 +1,9 @@
 <?php
 namespace admin;
+
+use user\UserDataManager;
+use user\UserSetting;
+
 use common\libraries\Utilities;
 use common\libraries\DataClass;
 use common\libraries\EqualityCondition;
@@ -24,7 +28,11 @@ class Setting extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_VARIABLE, self :: PROPERTY_VALUE, self :: PROPERTY_USER_SETTING));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_APPLICATION,
+                self :: PROPERTY_VARIABLE,
+                self :: PROPERTY_VALUE,
+                self :: PROPERTY_USER_SETTING));
     }
 
     /**

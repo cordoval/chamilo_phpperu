@@ -1,6 +1,9 @@
 <?php
 namespace admin;
 
+use repository\ContentObject;
+use repository\RepositoryDataManager;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Session;
@@ -55,18 +58,18 @@ class SettingsAdminConnector
 
     function get_time_zones()
     {
-		$content = file_get_contents(dirname(__FILE__) . '/timezones.txt');
-		$content = explode("\n", $content);
+        $content = file_get_contents(dirname(__FILE__) . '/timezones.txt');
+        $content = explode("\n", $content);
 
-		$timezones = array();
+        $timezones = array();
 
-		foreach($content as $timezone)
-		{
-			$timezone = trim($timezone);
-			$timezones[$timezone] = $timezone;
-		}
+        foreach ($content as $timezone)
+        {
+            $timezone = trim($timezone);
+            $timezones[$timezone] = $timezone;
+        }
 
-		return $timezones;
+        return $timezones;
     }
 
     function get_active_applications()
@@ -82,7 +85,7 @@ class SettingsAdminConnector
         $options = array();
         $options['home'] = Translation :: get('Homepage', array(), 'home');
 
-        while($registration = $registrations->next_result())
+        while ($registration = $registrations->next_result())
         {
             $options[$registration->get_name()] = Translation :: get('TypeName', null, Application :: determine_namespace($registration->get_name()));
         }
@@ -92,15 +95,15 @@ class SettingsAdminConnector
         return $options;
     }
 
-	function get_working_hours()
+    function get_working_hours()
     {
         $start = 0;
         $end = 24;
         $working_hours = array();
 
-        for($i = $start; $i <= $end; $i++)
+        for($i = $start; $i <= $end; $i ++)
         {
-        	$working_hours[$i] = $i;
+            $working_hours[$i] = $i;
         }
 
         return $working_hours;

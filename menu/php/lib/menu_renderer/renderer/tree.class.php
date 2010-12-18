@@ -1,6 +1,9 @@
 <?php
 namespace menu;
+
+use common\libraries\Header;
 use common\libraries\EqualityCondition;
+
 /**
  * @author Hans De Bisschop
  */

@@ -1,6 +1,9 @@
 <?php
 namespace rights;
 
+use common\extensions\rights_editor_manager\RightsEditorManager;
+
+use common\libraries\ObjectTableOrder;
 use common\libraries\Path;
 use common\libraries\Application;
 use common\libraries\BasicApplication;
