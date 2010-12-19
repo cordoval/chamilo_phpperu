@@ -1,6 +1,8 @@
 <?php
 namespace migration;
 
+use common\libraries\Utilities;
+
 /**
  * $Id: dokeos185_track_elastaccess.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -66,7 +68,13 @@ class Dokeos185TrackELastaccess extends Dokeos185MigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ACCESS_ID, self :: PROPERTY_ACCESS_USER_ID, self :: PROPERTY_ACCESS_DATE, self :: PROPERTY_ACCESS_COURS_CODE, self :: PROPERTY_ACCESS_TOOL, self :: PROPERTY_ACCESS_SESSION_ID);
+        return array(
+                self :: PROPERTY_ACCESS_ID,
+                self :: PROPERTY_ACCESS_USER_ID,
+                self :: PROPERTY_ACCESS_DATE,
+                self :: PROPERTY_ACCESS_COURS_CODE,
+                self :: PROPERTY_ACCESS_TOOL,
+                self :: PROPERTY_ACCESS_SESSION_ID);
     }
 
     /**
@@ -161,7 +169,8 @@ class Dokeos185TrackELastaccess extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
     static function get_class_name()

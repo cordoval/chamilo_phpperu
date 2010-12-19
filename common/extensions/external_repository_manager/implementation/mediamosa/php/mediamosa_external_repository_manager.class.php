@@ -1,6 +1,16 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
 
+use common\libraries\OrCondition;
+
+use repository\content_object\document\Document;
+
+use repository\content_object\mediamosa\Mediamosa;
+
+use common\libraries\BreadcrumbTrail;
+
+use common\libraries\Request;
+
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
@@ -51,20 +61,6 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     function get_application_component_path()
     {
         return Path :: get_common_extensions_path() . 'external_repository_manager/implementation/mediamosa/php/component/';
-    }
-
-    function retrieve_external_repository_server_object($id)
-    {
-        if (self :: $server)
-        {
-            if (self :: $server->get_id() == $id)
-            {
-                return self :: $server;
-            }
-        }
-        $dm = MediamosaExternalRepositoryDataManager :: get_instance($this);
-        self :: $server = $dm->retrieve_external_repository_server_object($id);
-        return self :: $server;
     }
 
     function retrieve_external_repository_asset($asset_id)

@@ -5,6 +5,7 @@ namespace migration;
  * @package migration.lib.platform.dokeos185
  */
 
+use Exception;
 
 /**
  * This class presents a Dokeos185 shared_survey_question
@@ -14,7 +15,7 @@ namespace migration;
 class Dokeos185SharedSurveyQuestion extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185SharedSurveyQuestion properties
      */
@@ -27,7 +28,7 @@ class Dokeos185SharedSurveyQuestion extends Dokeos185MigrationDataClass
     const PROPERTY_SORT = 'sort';
     const PROPERTY_CODE = 'code';
     const PROPERTY_MAX_VALUE = 'max_value';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -197,7 +198,7 @@ class Dokeos185SharedSurveyQuestion extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
-    
+
     }
 
     /**
@@ -208,11 +209,11 @@ class Dokeos185SharedSurveyQuestion extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = 'main_database';
         $tablename = 'shared_survey_question';
         $classname = 'Dokeos185SharedSurveyQuestion';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

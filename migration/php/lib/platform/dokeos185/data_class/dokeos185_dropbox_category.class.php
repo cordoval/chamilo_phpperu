@@ -1,6 +1,10 @@
 <?php
 namespace migration;
 
+use application\weblcms\WeblcmsDataManager;
+
+use application\weblcms\ContentObjectPublicationCategory;
+
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Translation;
@@ -70,7 +74,12 @@ class Dokeos185DropboxCategory extends Dokeos185CourseDataMigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_CAT_ID, self :: PROPERTY_CAT_NAME, self :: PROPERTY_RECEIVED, self :: PROPERTY_SENT, self :: PROPERTY_USER_ID);
+        return array(
+                self :: PROPERTY_CAT_ID,
+                self :: PROPERTY_CAT_NAME,
+                self :: PROPERTY_RECEIVED,
+                self :: PROPERTY_SENT,
+                self :: PROPERTY_USER_ID);
     }
 
     /**
@@ -152,7 +161,7 @@ class Dokeos185DropboxCategory extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_cat_name())
+        if (! $this->get_cat_name())
         {
             $this->create_failed_element($this->get_cat_id());
             return false;
@@ -182,7 +191,7 @@ class Dokeos185DropboxCategory extends Dokeos185CourseDataMigrationDataClass
 
         $condition = new AndCondition($conditions);
 
-        $category = WeblcmsDataManager::get_instance()->retrieve_content_object_publication_categories($condition)->next_result();
+        $category = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition)->next_result();
 
         $chamilo_course_dropbox_category->set_name($this->get_cat_name());
 
@@ -202,7 +211,8 @@ class Dokeos185DropboxCategory extends Dokeos185CourseDataMigrationDataClass
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
     static function get_class_name()

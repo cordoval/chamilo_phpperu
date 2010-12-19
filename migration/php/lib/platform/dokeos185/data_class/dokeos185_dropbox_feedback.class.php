@@ -1,6 +1,9 @@
 <?php
 namespace migration;
 
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\ContentObjectPublication;
+
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 use repository\RepositoryDataManager;

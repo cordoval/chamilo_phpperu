@@ -1,5 +1,4 @@
 <?php
-
 namespace migration;
 
 use admin\AdminDataManager;
@@ -15,6 +14,7 @@ use user\UserDataManager;
 use common\libraries\Authentication;
 use common\libraries\LocalSetting;
 use repository\content_object\profile\Profile;
+use common\libraries\Filesystem;
 
 /**
  * $Id: dokeos185_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $

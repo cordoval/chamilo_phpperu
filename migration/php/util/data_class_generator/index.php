@@ -8,6 +8,8 @@ namespace migration;
  * Collect the different tables and columns from a database and generate dataclasses
  */
 
+use MDB2;
+
 include (dirname(__FILE__) . '/settings.inc.php');
 include (dirname(__FILE__) . '/dataclassgenerator.class.php');
 include (dirname(__FILE__) . '/mytemplate.php');

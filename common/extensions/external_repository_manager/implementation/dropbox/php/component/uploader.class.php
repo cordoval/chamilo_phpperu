@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\dropbox;
 
+use common\libraries\Application;
+use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Redirect;
 use common\libraries\Translation;
@@ -19,7 +21,7 @@ class DropboxExternalRepositoryManagerUploaderComponent extends DropboxExternalR
         if ($form->validate())
         {
             $id = $form->upload_file();
-            if (!is_null($id))
+            if (! is_null($id))
             {
                 $parameters = $this->get_parameters();
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
@@ -37,7 +39,7 @@ class DropboxExternalRepositoryManagerUploaderComponent extends DropboxExternalR
             }
             else
             {
-                Request :: set_get(Application ::  PARAM_ERROR_MESSAGE, Translation :: get('DropboxUploadProblem'));
+                Request :: set_get(Application :: PARAM_ERROR_MESSAGE, Translation :: get('DropboxUploadProblem'));
                 $this->display_header();
                 $form->display();
                 $this->display_footer();

@@ -1,11 +1,12 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\soundcloud;
 
+use repository\content_object\document\Document;
+
 use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
-use common\libraries\Document;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\Utilities;

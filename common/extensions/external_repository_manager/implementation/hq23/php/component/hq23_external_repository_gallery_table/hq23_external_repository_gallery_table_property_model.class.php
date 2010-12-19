@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
 
+use common\libraries\GalleryObjectTableProperty;
+
 use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 use common\extensions\external_repository_manager\DefaultExternalRepositoryGalleryObjectTablePropertyModel;
 

@@ -7,13 +7,12 @@ require_once Path :: get_plugin_path(__NAMESPACE__) . 'dropbox-api/OAuth/PHP.php
 require_once Path :: get_plugin_path(__NAMESPACE__) . 'dropbox-api/OAuth/PEAR.php';
 /**
  * Dropbox OAuth
- * 
- * @package Dropbox 
+ *
+ * @package Dropbox
  * @copyright Copyright (C) 2010 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/dropbox-php/wiki/License MIT
  */
-
 
 /**
  * This class is an abstract OAuth class.
@@ -22,57 +21,57 @@ require_once Path :: get_plugin_path(__NAMESPACE__) . 'dropbox-api/OAuth/PEAR.ph
  * using different libraries.
  */
 
-abstract class Dropbox_OAuth {
+abstract class Dropbox_OAuth
+{
 
     /**
      * After a user has authorized access, dropbox can redirect the user back
      * to this url.
-     * 
+     *
      * @var string
      */
-    public $authorizeCallbackUrl = null; 
-   
+    public $authorizeCallbackUrl = null;
+
     /**
-     * Uri used to fetch request tokens 
-     * 
+     * Uri used to fetch request tokens
+     *
      * @var string
      */
     const URI_REQUEST_TOKEN = 'http://api.dropbox.com/0/oauth/request_token';
 
     /**
      * Uri used to redirect the user to for authorization.
-     * 
+     *
      * @var string
      */
     const URI_AUTHORIZE = 'http://api.dropbox.com/0/oauth/authorize';
 
     /**
-     * Uri used to 
-     * 
+     * Uri used to
+     *
      * @var string
      */
     const URI_ACCESS_TOKEN = 'http://api.dropbox.com/0/oauth/access_token';
 
     /**
-     * An OAuth request token. 
-     * 
-     * @var string 
+     * An OAuth request token.
+     *
+     * @var string
      */
     protected $oauth_token = null;
 
     /**
-     * OAuth token secret 
-     * 
-     * @var string 
+     * OAuth token secret
+     *
+     * @var string
      */
     protected $oauth_token_secret = null;
 
-
     /**
      * Constructor
-     * 
-     * @param string $consumerKey 
-     * @param string $consumerSecret 
+     *
+     * @param string $consumerKey
+     * @param string $consumerSecret
      */
     abstract public function __construct($consumerKey, $consumerSecret);
 
@@ -81,17 +80,21 @@ abstract class Dropbox_OAuth {
      *
      * The tokens can also be passed as an array into the first argument.
      * The array must have the elements token and token_secret.
-     * 
-     * @param string|array $token 
-     * @param string $token_secret 
+     *
+     * @param string|array $token
+     * @param string $token_secret
      * @return void
      */
-    public function setToken($token, $token_secret = null) {
+    public function setToken($token, $token_secret = null)
+    {
 
-        if (is_array($token)) {
+        if (is_array($token))
+        {
             $this->oauth_token = $token['token'];
             $this->oauth_token_secret = $token['token_secret'];
-        } else {
+        }
+        else
+        {
             $this->oauth_token = $token;
             $this->oauth_token_secret = $token_secret;
         }
@@ -102,56 +105,56 @@ abstract class Dropbox_OAuth {
      * Returns the oauth request tokens as an associative array.
      *
      * The array will contain the elements 'token' and 'token_secret'.
-     * 
-     * @return array 
+     *
+     * @return array
      */
-    public function getToken() {
+    public function getToken()
+    {
 
-        return array(
-            'token' => $this->oauth_token,
-            'token_secret' => $this->oauth_token_secret,
-        );
+        return array('token' => $this->oauth_token, 'token_secret' => $this->oauth_token_secret);
 
     }
 
     /**
      * Returns the authorization url
-     * 
-     * @param string $callBack Specify a callback url to automatically redirect the user back 
-     * @return string 
+     *
+     * @param string $callBack Specify a callback url to automatically redirect the user back
+     * @return string
      */
-    public function getAuthorizeUrl($callBack = null) {
-        
+    public function getAuthorizeUrl($callBack = null)
+    {
+
         // Building the redirect uri
         $token = $this->getToken();
-        $uri = self::URI_AUTHORIZE . '?oauth_token=' . $token['token'];
-        if ($callBack) $uri.='&oauth_callback=' . $callBack;
+        $uri = self :: URI_AUTHORIZE . '?oauth_token=' . $token['token'];
+        if ($callBack)
+            $uri .= '&oauth_callback=' . $callBack;
         return $uri;
     }
 
     /**
-     * Fetches a secured oauth url and returns the response body. 
-     * 
-     * @param string $uri 
-     * @param mixed $arguments 
-     * @param string $method 
-     * @param array $httpHeaders 
-     * @return string 
+     * Fetches a secured oauth url and returns the response body.
+     *
+     * @param string $uri
+     * @param mixed $arguments
+     * @param string $method
+     * @param array $httpHeaders
+     * @return string
      */
-    public abstract function fetch($uri, $arguments = array(), $method = 'GET', $httpHeaders = array()); 
+    public abstract function fetch($uri, $arguments = array(), $method = 'GET', $httpHeaders = array());
 
     /**
      * Requests the OAuth request token.
-     * 
-     * @return array 
+     *
+     * @return array
      */
-    abstract public function getRequestToken(); 
+    abstract public function getRequestToken();
 
     /**
      * Requests the OAuth access tokens.
      *
      * @return array
      */
-    abstract public function getAccessToken(); 
+    abstract public function getAccessToken();
 
 }

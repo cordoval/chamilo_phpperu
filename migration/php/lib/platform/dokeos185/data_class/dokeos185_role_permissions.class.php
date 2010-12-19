@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_role_permissions.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 /**
  * This class presents a Dokeos185 role_permissions
  *
@@ -13,7 +13,7 @@ namespace migration;
 class Dokeos185RolePermissions extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185RolePermissions properties
      */
@@ -21,7 +21,7 @@ class Dokeos185RolePermissions extends Dokeos185MigrationDataClass
     const PROPERTY_TOOL = 'tool';
     const PROPERTY_ACTION = 'action';
     const PROPERTY_DEFAULT_PERM = 'default_perm';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -157,11 +157,11 @@ class Dokeos185RolePermissions extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = $parameters['course']->get_db_name();
         $tablename = 'role_permissions';
         $classname = 'Dokeos185RolePermissions';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

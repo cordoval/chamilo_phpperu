@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_session.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 
 /**
  * This class presents a Dokeos185 session
@@ -14,7 +14,7 @@ namespace migration;
 class Dokeos185Session extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185Session properties
      */
@@ -26,7 +26,7 @@ class Dokeos185Session extends Dokeos185MigrationDataClass
     const PROPERTY_NBR_CLASSES = 'nbr_classes';
     const PROPERTY_DATE_START = 'date_start';
     const PROPERTY_DATE_END = 'date_end';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -183,11 +183,11 @@ class Dokeos185Session extends Dokeos185MigrationDataClass
     /**
      * migrate session, sets category
      * @param Array $array
-     * @return 
+     * @return
      */
     function convert_data()
     {
-    
+
     }
 
     /**
@@ -198,11 +198,11 @@ class Dokeos185Session extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = 'main_database';
         $tablename = 'session';
         $classname = 'Dokeos185Session';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

@@ -1,8 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\slideshare;
 
+use common\libraries\StringUtilities;
 use common\libraries\Cookie;
 use common\libraries\Path;
+
 use RestClient;
 use HTTP_Request;
 

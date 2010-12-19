@@ -4,6 +4,7 @@ namespace migration;
  * $Id: dokeos185_online_link.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
+use Exception;
 /**
  * This class presents a Dokeos185 online_link
  *
@@ -12,14 +13,14 @@ namespace migration;
 class Dokeos185OnlineLink extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185OnlineLink properties
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_NAME = 'name';
     const PROPERTY_URL = 'url';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -109,7 +110,7 @@ class Dokeos185OnlineLink extends Dokeos185MigrationDataClass
     /**
      * Check if the online link is valid
      * @param array $array the parameters for the validation
-     * @return true if the online link is valid 
+     * @return true if the online link is valid
      */
     function is_valid()
     {
@@ -146,11 +147,11 @@ class Dokeos185OnlineLink extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = $parameters['course']->get_db_name();
         $tablename = 'online_link';
         $classname = 'Dokeos185OnlineLink';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

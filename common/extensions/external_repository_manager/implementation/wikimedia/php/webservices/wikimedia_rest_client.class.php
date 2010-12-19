@@ -1,8 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\wikimedia;
 
+use common\libraries\StringUtilities;
 use common\libraries\Cookie;
 use common\libraries\Path;
+
 use RestClient;
 use HTTP_Request;
 
@@ -141,7 +143,7 @@ class WikimediaRestClient extends RestClient
         if ($proxy = $this->get_proxy())
             $request->setProxy($proxy['server'], $proxy['port']);
 
-        //add data
+     //add data
         $data_to_send = $this->get_data_to_send();
 
         if (isset($data_to_send))

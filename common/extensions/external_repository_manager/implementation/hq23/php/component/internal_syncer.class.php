@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
 
+use common\libraries\Application;
 use common\libraries\Utilities;
 use common\libraries\Redirect;
 use common\libraries\Translation;

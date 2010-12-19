@@ -1,6 +1,9 @@
 <?php
 namespace migration;
 
+use user\OsTracker;
+
+use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Path;
@@ -122,7 +125,7 @@ class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_os() || $this->get_counter() == null)
+        if (! $this->get_os() || $this->get_counter() == null)
         {
             $this->create_failed_element($this->get_id());
             return false;
@@ -140,7 +143,7 @@ class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
         $conditions[] = new EqualityCondition('type', 'os');
         $conditions[] = new EqualityCondition('name', $this->get_os());
         $condtion = new AndCondition($conditions);
-        $ostracker = new OSTracker();
+        $ostracker = new OsTracker();
         $trackeritems = $ostracker->retrieve_tracker_items($condtion);
 
         if (count($trackeritems) != 0)
@@ -161,7 +164,8 @@ class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
     static function get_class_name()
