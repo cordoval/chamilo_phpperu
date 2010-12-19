@@ -37,7 +37,7 @@ class SurveyRatingQuestionDisplay extends ContentObjectDisplay
         $html[] = '</select>';
         $html[] = '</div>';
         $html[] = '</div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/rating_question.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'survey_rating_question/resources/javascript/survey_rating_question.js');
         return implode("\n", $html);
     }
 }

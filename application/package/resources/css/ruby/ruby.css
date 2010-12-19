@@ -34,7 +34,7 @@
 }
 
 #progresstrail li.active {
-	background-color: #E5EDF9;
+	background-color: #EFEFEF;
 }
 
 #progresstrail li a,#progresstrail li.active a {
@@ -47,5 +47,5 @@
 }
 
 #progresstrail li.active a {
-	color: #4171b5;
+	color: #D90223;
 }

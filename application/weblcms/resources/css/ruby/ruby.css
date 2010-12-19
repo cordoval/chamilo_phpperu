@@ -142,7 +142,7 @@ div.level_1 {
 }
 
 div.level_2 {
-	background-color: #ecf4f8;
+	background-color: #FAFAEB;
 	color: #000000;
 }
 
@@ -156,13 +156,13 @@ div.announcements div.title {
 	font-weight: bold;
 	width: 60%;
 	padding-bottom: 0.4em;
-	color: #000066;
+	color: #B1071C;
 	font-size: 120%;
 	float: left;
 }
 
 div.announcements a {
-	color: #000066;
+	color: #B1071C;
 }
 
 div.announcements div.topactions {
@@ -224,8 +224,8 @@ div.questionform input[type=text],div.row div.questionform input[type=password],
 
 div.questionform input[type=text]:hover,div.row div.questionform input[type=text]:focus,div.row div.questionform input[type=password]:hover,div.row div.questionform input[type=password]:focus,div.row div.questionform select:hover,div.row div.questionform select:focus
 	{
-	background-color: #f7fbfd;
-	border-color: #4171B5;
+	background-color: #FDF8F7;
+	border-color: #D90223;
 }
 
 /*****************************************************
@@ -273,7 +273,7 @@ div.questionform input[type=text]:hover,div.row div.questionform input[type=text
 	margin-top: 15px;
 	min-width: 200px;
 	padding: 5px;
-	border: 1px solid #4271B5;
+	border: 1px solid #D90223;
 	background-color: #faf7f7;
 }
 

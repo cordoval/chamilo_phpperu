@@ -41,11 +41,11 @@
 	-moz-border-radius-topleft: 10px;
 	-webkit-border-top-right-radius: 10px;
 	-webkit-border-top-left-radius: 10px;
-	background-color: #2b3f71;
+	background-color: #A00007;
 }
 
 #header1 div.applications ul li.current {
-	background: #f2f2f2 url(../../images/aqua/background_header_current.png)
+	background: #f2f2f2 url(../../images/ruby/background_header_current.png)
 		repeat-x bottom left;
 	border-left: 1px solid white;
 	border-top: 1px solid white;
@@ -54,7 +54,7 @@
 }
 
 #header1 div.applications ul li:hover {
-	background-color: #304880;
+	background-color: #B40009;
 }
 
 #header1 div.applications ul li form {
@@ -89,7 +89,7 @@
 	padding: 4px 9px 4px 9px;
 	text-decoration: none;
 	font-weight: bold;
-	color: #8eadd8;
+	color: #FFFFFF;
 }
 
 #header1 div.applications ul li ul {
@@ -116,7 +116,7 @@
 	top: 23px;
 	margin-top: 1px;
 	left: -1px;
-	background-color: #304880;
+	background-color: #B40009;
 	clear: both;
 	border-top: none;
 	-moz-border-radius: 0px;
@@ -131,7 +131,7 @@
 #header1 div.applications ul li:hover ul li,#header1 div.applications ul li.current:hover ul li
 	{
 	margin-left: 0px;
-	background-color: #304880;
+	background-color: #B40009;
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;
 }
@@ -148,7 +148,7 @@
 	line-height: 16px;
 	padding: 4px 9px 4px 9px;
 	border-bottom: 1px dotted #dcdcdc;
-	color: #8eadd8;
+	color: #FFFFFF;
 }
 
 #header1 div.applications ul li.current:hover ul li a {
@@ -164,7 +164,7 @@
 #header1 div.applications ul li:hover ul li a:hover,#header1 div.applications ul li.current:hover ul li a:hover
 	{
 	text-decoration: none;
-	color: #c7d6eb;
+	color: #D9D9D9;
 }
 
 #header1 div.applications ul li.current:hover ul li a:hover {
@@ -173,13 +173,13 @@
 
 /*Color main cells hovering mode*/
 #header1 div.applications ul li a:hover {
-	color: #c7d6eb;
+	color: #D9D9D9;
 	text-decoration: none;
 	outline: none;
 }
 
 #header1 div.applications ul li a:active {
-	color: #fa8500;
+	color: #FFFFFF;
 	outline: none;
 }
 
@@ -201,7 +201,7 @@
 	height: 1px;
 	line-height: 1.3em;
 	padding: 4px 9px 4px 9px;
-	border-bottom: 1px dotted #E5EDF9;
+	border-bottom: 1px dotted #EFEFEF;
 }
 
 /*Color subcells hovering mode*/

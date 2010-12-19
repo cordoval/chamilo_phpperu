@@ -11,8 +11,8 @@ div.assessment h2 {
 
 div.assessment div.description {
 	padding: 6px 10px 6px 10px;
-	border: 1px solid #b5cae7;
-	background-color: #eef5fa;
+	border: 1px solid #CECECE;
+	background-color: #F4F4F4;
 }
 
 div.assessment div.description p {
@@ -41,15 +41,15 @@ div.question {
 }
 
 div.question div.title {
-	color: #4171b5;
+	color: #D90223;
 	font-weight: bold;
 	font-size: 12px;
 	/*margin-bottom: 10px;*/
 }
 
 div.question div.title div.number,div.question div.title div.text {
-	border: 1px solid #b5cae7;
-	background: #4171b5
+	border: 1px solid #CECECE;
+	background: #D90223
 		url(../../../../../../common/libraries/resources/images/ruby/background_table_header.png)
 		repeat-x;
 }
@@ -100,7 +100,7 @@ div.question div.answer {
 
 div.question div.answer div.description {
 	padding: 6px 10px 6px 10px;
-	border: 1px solid #B5CAE7;
+	border: 1px solid #CECECE;
 	border-top: 0px solid white;
 }
 
@@ -110,15 +110,15 @@ div.question div.answer div.empty {
 
 div.question div.answer div.with_borders {
 	padding: 10px;
-	border: 1px solid #B5CAE7;
+	border: 1px solid #CECECE;
 	border-top: 0px solid white;
 }
 
 div.question div.answer div.splitter {
-	border: 1px solid #b5cae7;
+	border: 1px solid #CECECE;
 	border-top: 0px solid white;
-	background: #EEF5FA;
-	color: #4171b5;
+	background: #F4F4F4;
+	color: #D90223;
 	font-weight: bold;
 	font-size: 11px;
 	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
@@ -133,17 +133,20 @@ div.question div.answer div.slider {
 	margin-left: 0.6em;
 	margin-top: 0.2em;
 	margin-bottom: 0.6em;
-	background-color: #EEF5FA;
+	background-color: #d4d4d4;
 }
 
 div.question div.answer div.slider .ui-slider-handle {
 	margin-top: 1px;
+	border: 1px solid #a50617;
+	background-color: #d90223;
+	background-image: none;
 }
 
 div.question div.answer div.caption {
 	float: left;
 	font-weight: bold;
-	color: #4171b5;
+	color: #D90223;
 	margin-left: 20px;
 }
 
@@ -152,7 +155,7 @@ div.question div.answer div.caption {
 }
 
 .hotspot_image_display {
-	border: 1px solid #b5cae7;
+	border: 1px solid #CECECE;
 	margin-bottom: 10px;
 }
 
@@ -166,7 +169,7 @@ div.question div.answer div.caption {
 	float: left;
 	position: relative;
 	padding: 1px;
-	background-color: #b5cae7;
+	background-color: #CECECE;
 }
 
 #hotspot_marking,.hotspot_marking {
@@ -186,7 +189,7 @@ div.question div.answer div.caption {
 
 div.description_hotspot {
 	padding: 10px 10px 10px 10px;
-	border: 1px solid #B5CAE7;
+	border: 1px solid #CECECE;
 	border-top: 0px solid white;
 }
 
@@ -207,8 +210,8 @@ img.save_hotspot {
 div.time_left {
 	float: left;
 	padding: 6px 10px 6px 10px;
-	border: 1px solid #b5cae7;
-	background-color: #eef5fa;
+	border: 1px solid #CECECE;
+	background-color: #F4F4F4;
 	border: 1px solid #ffd89b;
 	background-color: #fff8aa;
 	text-align: center;

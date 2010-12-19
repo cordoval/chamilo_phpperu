@@ -6,7 +6,7 @@ th.graph_header {
 }
 
 #laikaOverlay {
-	background-color: #E5EDF9;
+	background-color: #EFEFEF;
 	cursor: wait;
 }
 
@@ -14,7 +14,7 @@ th.graph_header {
 	position: fixed;
 	width: 400px;
 	background-color: #FFFFFF;
-	border: 2px solid #E5EDF9;
+	border: 2px solid #EFEFEF;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 }

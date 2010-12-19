@@ -35,7 +35,7 @@ div.block div.title {
 	width: 100%;
 	padding-bottom: 0.3em;
 	margin-bottom: 0.3em;
-	color: #000066;
+	color: #B1071C;
 	clear: both;
 	position: relative;
 	cursor: move;
@@ -46,7 +46,7 @@ div.block div.title a {
 	font-weight: normal;
 	font-size: 11px;
 	text-decoration: none;
-	color: #000066;
+	color: #B1071C;
 	cursor: pointer;
 	margin-left: 4px;
 }
@@ -128,8 +128,8 @@ div.empty_column {
 }
 
 #tab_menu li.normal:hover {
-	background-color: #E5EDF9;
-	border: 1px solid #4171B5;
+	background-color: #EFEFEF;
+	border: 1px solid #D90223;
 	border-bottom: 0px solid black;
 }
 

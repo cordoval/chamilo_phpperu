@@ -9,7 +9,7 @@ body {
 	color: #000;
 	margin: 0px;
 	padding: 0px;
-	background-color: #264269;
+	background-color: #000000;
 }
 
 img {
@@ -45,11 +45,11 @@ img.with_border {
 #header1 {
 	font-size: 12px;
 	padding: 0px;
-	background-color: #264269;
+	background-color: #C50C2E;
 	color: #ffffff;
 	/*border-bottom: 1px solid white;*/
-	height: 80px;
-	background-image: url('../../images/aqua/background_header.png');
+	height: 90px;
+	background-image: url('../../images/ruby/background_header.png');
 	background-repeat: repeat-x;
 	background-position: center left;
 }
@@ -66,16 +66,16 @@ img.with_border {
 
 #header1 div.banner {
 	float: left;
-	margin: 16px 19px 16px 19px;
-	height: 48px;
-	width: 243px;
+	margin: 16px 1% 16px 1%;
+	height: 58px;
+	width: 268px;
 }
 
 #header1 div.banner span.logo {
-	background-image: url('../../images/aqua/logo_header.png');
+	background-image: url('../../images/ruby/logo_header.png');
 	background-repeat: no-repeat;
-	height: 48px;
-	width: 243px;
+	height: 58px;
+	width: 280px;
 	display: block;
 
 }
@@ -112,7 +112,7 @@ img.with_border {
 #header2 {
 	font-size: 1.0em;
 	padding: 0px 0px 0px 0px;
-	background-color: #4271b5;
+	background-color: #D90223;
 	color: #ffffff;
 	/* border-bottom: 1px solid #666; */
 }
@@ -168,7 +168,7 @@ img.with_border {
 #breadcrumbtrail li a {
 	display: block;
 	padding: 0 15px 0 0;
-	background: url(../../images/aqua/background_breadcrumb.png) no-repeat
+	background: url(../../images/ruby/background_breadcrumb.png) no-repeat
 		right center;
 	color: #444444;
 }
@@ -178,7 +178,7 @@ img.with_border {
 }
 
 #breadcrumbtrail li a:active {
-	color: #fa8500;
+	color: #FFFFFF;
 	outline: none;
 }
 
@@ -196,34 +196,34 @@ img.with_border {
 	clear: both;
 	padding-left: 19px;
 	padding-right: 19px;
-	color: #4171b5;
+	color: #D90223;
 	text-align: center;
 	font-size: 10px;
 }
 
 #footer {
-	padding-top: 10px;
+	padding-top: 69px;
 	padding-bottom: 10px;
-	background-color: #264269;
-	background-image: url('../../images/aqua/background_footer.png');
+	background-color: #000000;
+	background-image: url('../../images/ruby/background_footer.png');
 	background-repeat: repeat-x;
 }
 
 #footer a {
-	color: #4171b5;
+	color: #B4B3B3;
 	outline: none;
 }
 
 #footer a:hover {
-	color: #8cabd6;
+	color: #FFFFFF;
 }
 
 #footer a:active {
-	color: #fa8500;
+	color: #FFFFFF;
 }
 
 #copyright {
-	color: #4171b5;
+	color: #B4B3B3;
 	clear: both;
 }
 
@@ -243,7 +243,7 @@ img.with_border {
 }
 
 #sitemap h1 {
-	color: #4171b5;
+	color: #D90223;
 	display: block;
 	font-size: 11px;
 	clear: both;
@@ -271,7 +271,7 @@ img.with_border {
 	margin-top: 19px;
 	padding: 0px 15px 0px 0px;
 	color: #264269;
-	/*border-right: 1px dotted #4171B5;*/
+	/*border-right: 1px dotted #D90223;*/
 	font-size: 10px;
 }
 
@@ -291,11 +291,15 @@ img.with_border {
 	position: relative; /* to avoid the IE peekabo bug*/
 	margin: 0px auto;
 	margin-top: 0px;
-	margin-bottom: 10px;
 	width: 98%;
-	padding: 0px 10px 10px 10px;
+	padding-left: 1%;
+	padding-right: 1%;
+	padding-bottom: 10px;
 	background-color: #FFFFFF;
 	min-height: 600px;
+	background-image: url('../../images/ruby/background_body.png');
+	background-repeat: repeat-x;
+	background-position: bottom;
 }
 
 /* "menu" classes for menu/navigation section in main index.php  */
@@ -303,8 +307,8 @@ img.with_border {
 	float: right;
 	width: 20%;
 	padding: 0 0 6px 0;
-	background-color: #E5EDF9;
-	border: 1px solid #4171B5;
+	background-color: #EFEFEF;
+	border: 1px solid #D90223;
 }
 
 .menucaption {
@@ -317,13 +321,13 @@ img.with_border {
 	width: auto;
 	margin: 24px 6px 0 6px;
 	padding-left: 10px;
-	border: 1px solid #4171B5;
+	border: 1px solid #D90223;
 }
 
 .menusectioncaption {
 	position: relative;
 	top: -9px;
-	background-color: #E5EDF9;
+	background-color: #EFEFEF;
 	font-size: 12px;
 	padding: 0 5px 0 5px;
 }
@@ -361,21 +365,21 @@ img.with_border {
 }
 
 .normal-message {
-	background-image: url('../../images/aqua/status_confirmation_mini.png');
+	background-image: url('../../images/ruby/status_confirmation_mini.png');
 	background-color: #E5EDF9;
 	border: 1px solid #b9d0ef;
 	color: #272761;
 }
 
 .error-message {
-	background-image: url('../../images/aqua/status_error_mini.png');
+	background-image: url('../../images/ruby/status_error_mini.png');
 	background-color: #FFD1D1;
 	border: 1px solid #ff9b9d;
 	color: #b40404;
 }
 
 .warning-message {
-	background-image: url('../../images/aqua/status_warning_mini.png');
+	background-image: url('../../images/ruby/status_warning_mini.png');
 	border: 1px solid #ffd89b;
 	background-color: #fff8aa;
 	color: #996900;
@@ -487,14 +491,14 @@ h5,h6 {
 a:link {
 	text-decoration: none;
 	font-weight: bold;
-	color: #4171b5;
+	color: #D90223;
 	outline: none;
 }
 
 a:visited {
 	text-decoration: none;
 	font-weight: bold;
-	color: #4171b5;
+	color: #D90223;
 	outline: none;
 }
 
@@ -508,7 +512,7 @@ a:hover {
 a:active {
 	text-decoration: none;
 	font-weight: bold;
-	color: #FA8500;
+	color: #FFFFFF;
 	outline: none;
 }
 
@@ -620,7 +624,7 @@ div.attachments {
 	border: 1px solid #F6F6F6;
 	margin: 0 0 1em 0;
 	padding: 10px 10px 10px 44px;
-	background: url(../../images/aqua/place_attachment.png) no-repeat 10px
+	background: url(../../images/ruby/place_attachment.png) no-repeat 10px
 		10px;
 }
 
@@ -705,12 +709,12 @@ div.versions,div.versions_na {
 }
 
 div.versions {
-	background: url(../../images/aqua/place_versions.png) no-repeat 10px 10px
+	background: url(../../images/ruby/place_versions.png) no-repeat 10px 10px
 		;
 }
 
 div.versions_na {
-	background: url(../../images/aqua/place_versions_na.png) no-repeat 10px
+	background: url(../../images/ruby/place_versions_na.png) no-repeat 10px
 		10px;
 }
 
@@ -739,12 +743,12 @@ div.version_stats,div.version_stats_na {
 }
 
 div.version_stats {
-	background: url(../../images/aqua/place_version_quota.png) no-repeat 10px
+	background: url(../../images/ruby/place_version_quota.png) no-repeat 10px
 		10px;
 }
 
 div.version_stats_na {
-	background: url(../../images/aqua/place_version_quota_na.png) no-repeat
+	background: url(../../images/ruby/place_version_quota_na.png) no-repeat
 		10px 10px;
 }
 
@@ -789,12 +793,12 @@ div.publications,div.publications_na {
 }
 
 div.publications {
-	background: url(../../images/aqua/place_publications.png) no-repeat 10px
+	background: url(../../images/ruby/place_publications.png) no-repeat 10px
 		10px;
 }
 
 div.publications_na {
-	background: url(../../images/aqua/place_publications_na.png) no-repeat
+	background: url(../../images/ruby/place_publications_na.png) no-repeat
 		10px 10px;
 }
 
@@ -994,10 +998,10 @@ div.survey-categories-header,div.survey-outline-header,div.survey-result-header
 	display: block;
 	margin: 0.25em 0 -1px 0;
 	padding: 0.25em 1em;
-	background: #E5EDF9;
-	color: #4171b5;
+	background: #EFEFEF;
+	color: #D90223;
 	text-decoration: none;
-	border: 1px solid #4271b5;
+	border: 1px solid #D90223;
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-topright: 5px;
 	-webkit-border-top-left-radius: 5px;
@@ -1009,7 +1013,7 @@ div.survey-categories-header,div.survey-outline-header,div.survey-result-header
 	margin-top: 0;
 	padding-bottom: 0.5em;
 	border-bottom-color: white;
-	color: #4171b5;
+	color: #D90223;
 }
 
 .tabbed-pane-tabs li a:active,.tabbed-pane-tabs li a.current,.tabbed-pane-tabs li a.current:hover
@@ -1019,7 +1023,7 @@ div.survey-categories-header,div.survey-outline-header,div.survey-result-header
 
 .tabbed-pane-content {
 	clear: both;
-	border: 1px solid #4271b5;
+	border: 1px solid #D90223;
 	margin: 0;
 	padding: 1em;
 	min-height: 15em;
@@ -1187,13 +1191,13 @@ ul.toolbar li span.legend,ul.toolbar_horizontal li span.legend,ul.toolbar_vertic
  * Actionbar styles
  *******************/
 div.action_bar_text {
-	border: 1px solid #b5cae7;
+	border: 1px solid #CECECE;
 	margin-bottom: 10px;
 	-moz-border-radius-topleft: 15px;
 	-moz-border-radius-bottomright: 15px;
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
-	background: #d4e0f1 url(../../images/aqua/background_action_bar.png)
+	background: #d4e0f1 url(../../images/ruby/background_action_bar.png)
 		no-repeat;
 }
 
@@ -1202,7 +1206,7 @@ div.action_bar_text img {
 }
 
 div.action_bar {
-	border: 1px solid #b5cae7;
+	border: 1px solid #CECECE;
 	margin-bottom: 10px;
 	position: relative;
 	-moz-border-radius-topleft: 15px;
@@ -1210,7 +1214,7 @@ div.action_bar {
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
 	/*height: 60px;*/
-	background: #d4e0f1 url(../../images/aqua/background_action_bar.png)
+	background: #d4e0f1 url(../../images/ruby/background_action_bar.png)
 		no-repeat;
 }
 
@@ -1263,7 +1267,7 @@ div.action_bar .action_bar_hide_container {
 	display: none;
 	text-align: center;
 	clear: both;
-	background-image: url(../../images/aqua/background_ajax_hide.png);
+	background-image: url(../../images/ruby/background_ajax_hide.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	height: 26px;
@@ -1285,7 +1289,7 @@ div.action_bar div.simple_search {
 }
 
 div.action_bar .split {
-	border-right: 1px solid #b5cae7;
+	border-right: 1px solid #CECECE;
 }
 
 div.action_bar .split_bevel {
@@ -1293,8 +1297,8 @@ div.action_bar .split_bevel {
 }
 
 div.action_bar_left {
-	background-color: #E5EDF9;
-	border: 1px solid #4271B5;
+	background-color: #EFEFEF;
+	border: 1px solid #D90223;
 	border-left: 0px;
 	padding: 10px;
 	position: fixed;
@@ -1311,7 +1315,7 @@ div.action_bar_wiki {
 }
 
 div.action_bar_left div.divider {
-	background-color: #4271B5;
+	background-color: #D90223;
 	margin: 10px 0px 10px 0px;
 	line-height: 1px;
 	height: 1px;
@@ -1335,7 +1339,7 @@ div.action_bar_left .action_bar_left_hide_container,div.action_bar_left .hide
 	right: 0px;
 	margin-right: -1px;
 	background-image:
-		url(../../images/aqua/action_action_bar_hide_background.png);
+		url(../../images/ruby/action_action_bar_hide_background.png);
 }
 
 div.action_bar_left .action_bar_left_hide_container,div.action_bar_left .show
@@ -1343,7 +1347,7 @@ div.action_bar_left .action_bar_left_hide_container,div.action_bar_left .show
 	right: -18px;
 	margin-left: 0px;
 	background-image:
-		url(../../images/aqua/action_action_bar_show_background.png);
+		url(../../images/ruby/action_action_bar_show_background.png);
 }
 
 .action_bar_left_show {
@@ -1362,14 +1366,14 @@ div.action_bar_left .action_bar_left_hide_container,div.action_bar_left .show
  * Reporting Filter styles
  *************************/
 div.reporting_filter_text {
-	border: 1px solid #b5cae7;
+	border: 1px solid #CECECE;
 	margin-bottom: 10px;
 	-moz-border-radius-topleft: 15px;
 	-moz-border-radius-bottomright: 15px;
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
 	background: #d4e0f1
-		url(../../images/aqua/background_reporting_filter.png) no-repeat;
+		url(../../images/ruby/background_reporting_filter.png) no-repeat;
 }
 
 div.reporting_filter_text img {
@@ -1377,7 +1381,7 @@ div.reporting_filter_text img {
 }
 
 div.reporting_filter {
-	border: 1px solid #b5cae7;
+	border: 1px solid #CECECE;
 	margin-bottom: 10px;
 	position: relative;
 	-moz-border-radius-topleft: 15px;
@@ -1386,7 +1390,7 @@ div.reporting_filter {
 	-webkit-border-bottom-right-radius: 15px;
 	/*height: 60px;*/
 	background: #d4e0f1
-		url(../../images/aqua/background_reporting_filter.png) no-repeat;
+		url(../../images/ruby/background_reporting_filter.png) no-repeat;
 }
 
 .reporting_filter_text {
@@ -1438,7 +1442,7 @@ div.reporting_filter .reporting_filter_hide_container {
 	display: none;
 	text-align: center;
 	clear: both;
-	background-image: url(../../images/aqua/background_ajax_hide.png);
+	background-image: url(../../images/ruby/background_ajax_hide.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	height: 26px;
@@ -1460,7 +1464,7 @@ div.reporting_filter div.simple_search {
 }
 
 div.reporting_filter .split {
-	border-right: 1px solid #b5cae7;
+	border-right: 1px solid #CECECE;
 }
 
 div.reporting_filter .split_bevel {
@@ -1468,8 +1472,8 @@ div.reporting_filter .split_bevel {
 }
 
 div.reporting_filter_left {
-	background-color: #E5EDF9;
-	border: 1px solid #4271B5;
+	background-color: #EFEFEF;
+	border: 1px solid #D90223;
 	border-left: 0px;
 	padding: 10px;
 	position: fixed;
@@ -1486,7 +1490,7 @@ div.reporting_filter_wiki {
 }
 
 div.reporting_filter_left div.divider {
-	background-color: #4271B5;
+	background-color: #D90223;
 	margin: 10px 0px 10px 0px;
 	line-height: 1px;
 	height: 1px;
@@ -1510,7 +1514,7 @@ div.reporting_filter_left .reporting_filter_left_hide_container,div.areporting_f
 	right: 0px;
 	margin-right: -1px;
 	background-image:
-		url(../../images/aqua/reporting_filter_hide_background.png);
+		url(../../images/ruby/reporting_filter_hide_background.png);
 }
 
 div.reporting_filter_left .reporting_filter_left_hide_container,div.reporting_filter_left .show
@@ -1518,7 +1522,7 @@ div.reporting_filter_left .reporting_filter_left_hide_container,div.reporting_fi
 	right: -18px;
 	margin-left: 0px;
 	background-image:
-		url(../../images/aqua/reporting_filter_show_background.png);
+		url(../../images/ruby/reporting_filter_show_background.png);
 }
 
 .reporting_filter_left_show {
@@ -1554,7 +1558,7 @@ div.block div.title {
 	width: 100%;
 	padding-bottom: 0.3em;
 	margin-bottom: 0.3em;
-	color: #000066;
+	color: #B1071C;
 	clear: both;
 	position: relative;
 }
@@ -1564,7 +1568,7 @@ div.block div.title a {
 	font-weight: normal;
 	font-size: 11px;
 	text-decoration: none;
-	color: #000066;
+	color: #B1071C;
 	cursor: pointer;
 	margin-left: 4px;
 }
@@ -1594,7 +1598,7 @@ div.padding_10 {
  * MODAL DIALOGS CSS
  **********************************/
 #modalOverlay {
-	background-color: #E5EDF9;
+	background-color: #EFEFEF;
 	cursor: wait;
 }
 
@@ -1603,7 +1607,7 @@ div.padding_10 {
 	width: 800px;
 	height: 600px;
 	background-color: #FFFFFF;
-	border: 2px solid #E5EDF9;
+	border: 2px solid #EFEFEF;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 }
@@ -1613,13 +1617,13 @@ div.padding_10 {
 	width: 1000px;
 	height: 550px;
 	background-color: #FFFFFF;
-	border: 2px solid #E5EDF9;
+	border: 2px solid #EFEFEF;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 }
 
 a.modalCloseImg {
-	background: url(../../images/aqua/background_modal_close.png) no-repeat;
+	background: url(../../images/ruby/background_modal_close.png) no-repeat;
 	width: 34px;
 	height: 34px;
 	display: inline;
@@ -1671,7 +1675,7 @@ a.modalCloseImg {
 }
 
 .togglePlus {
-	background: url(../../images/aqua/treemenu/bullet_toggle_plus.png)
+	background: url(../../images/ruby/treemenu/bullet_toggle_plus.png)
 		no-repeat;
 	height: 16px;
 	width: 13px;
@@ -1681,7 +1685,7 @@ a.modalCloseImg {
 }
 
 .toggleMinus {
-	background: url(../../images/aqua/treemenu/bullet_toggle_minus.png)
+	background: url(../../images/ruby/treemenu/bullet_toggle_minus.png)
 		no-repeat;
 	height: 16px;
 	width: 13px;
@@ -1702,7 +1706,7 @@ a.modalCloseImg {
  * AJAX loading... icons
  **********************************/
 .loadingMini {
-	background-image: url(../../images/aqua/action_loading_mini.gif);
+	background-image: url(../../images/ruby/action_loading_mini.gif);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 16px;
@@ -1711,7 +1715,7 @@ a.modalCloseImg {
 }
 
 .loadingSmall {
-	background-image: url(../../images/aqua/action_loading_small.gif);
+	background-image: url(../../images/ruby/action_loading_small.gif);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 22px;
@@ -1720,7 +1724,7 @@ a.modalCloseImg {
 }
 
 .loadingMedium {
-	background-image: url(../../images/aqua/action_loading_medium.gif);
+	background-image: url(../../images/ruby/action_loading_medium.gif);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 32px;
@@ -1729,7 +1733,7 @@ a.modalCloseImg {
 }
 
 .loadingLarge {
-	background-image: url(../../images/aqua/action_loading_large.gif);
+	background-image: url(../../images/ruby/action_loading_large.gif);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 48px;
@@ -1738,7 +1742,7 @@ a.modalCloseImg {
 }
 
 .loadingHuge {
-	background-image: url(../../images/aqua/action_loading_huge.gif);
+	background-image: url(../../images/ruby/action_loading_huge.gif);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 64px;
@@ -1747,7 +1751,7 @@ a.modalCloseImg {
 }
 
 .statusConfirmation {
-	background-image: url(../../images/aqua/status_confirmation_huge.png);
+	background-image: url(../../images/ruby/status_confirmation_huge.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 64px;
@@ -1756,7 +1760,7 @@ a.modalCloseImg {
 }
 
 .statusError {
-	background-image: url(../../images/aqua/status_error_huge.png);
+	background-image: url(../../images/ruby/status_error_huge.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 64px;
@@ -1778,40 +1782,40 @@ a.modalCloseImg {
 }
 
 .close_message {
-	background: url(../../images/aqua/action_close_message.png) no-repeat;
+	background: url(../../images/ruby/action_close_message.png) no-repeat;
 }
 
 .close_normal_message {
-	background: url(../../images/aqua/action_close_normal_message.png)
+	background: url(../../images/ruby/action_close_normal_message.png)
 		no-repeat;
 }
 
 .close_error_message {
-	background: url(../../images/aqua/action_close_error_message.png)
+	background: url(../../images/ruby/action_close_error_message.png)
 		no-repeat;
 }
 
 .close_warning_message {
-	background: url(../../images/aqua/action_close_warning_message.png)
+	background: url(../../images/ruby/action_close_warning_message.png)
 		no-repeat;
 }
 
 .rightTrue {
-	background: url(../../images/aqua/action_setting_true.png) no-repeat;
+	background: url(../../images/ruby/action_setting_true.png) no-repeat;
 	width: 16px;
 	height: 16px;
 	display: inline-block;
 }
 
 .rightFalse {
-	background: url(../../images/aqua/action_setting_false.png) no-repeat;
+	background: url(../../images/ruby/action_setting_false.png) no-repeat;
 	width: 16px;
 	height: 16px;
 	display: inline-block;
 }
 
 .rightInheritTrue {
-	background: url(../../images/aqua/action_setting_true_inherit.png)
+	background: url(../../images/ruby/action_setting_true_inherit.png)
 		no-repeat;
 	width: 16px;
 	height: 16px;
@@ -1819,7 +1823,7 @@ a.modalCloseImg {
 }
 
 .rightInheritFalse {
-	background: url(../../images/aqua/action_setting_false_inherit.png)
+	background: url(../../images/ruby/action_setting_false_inherit.png)
 		no-repeat;
 	width: 16px;
 	height: 16px;
@@ -1948,7 +1952,7 @@ div.reporting_template_menu ul ul li {
 	-moz-border-radius: 0.5em;
 	-webkit-border-radius: 0.5em;
 	border: none;
-	background-color: #E5EDF9;
+	background-color: #EFEFEF;
 	border-top: 1px solid #FFF;
 	border-left: 0;
 }
@@ -1976,7 +1980,7 @@ div.buddylist div.buddylist_header {
 }
 
 div.buddylist div.buddylist_header span.title {
-	color: #000066;
+	color: #B1071C;
 	font-size: 14px;
 	font-weight: bold;
 	position: relative;
@@ -2051,14 +2055,14 @@ div.buddylist span.info {
 }
 
 li.buddyDrop {
-	background-color: #4171B5;
+	background-color: #D90223;
 }
 
 /************************************
  * ADDITIONAL ELEMENT FINDER STYLES *
  ************************************/
 .element_finder_loading {
-	background-image: url(../../images/aqua/action_loading_huge.gif);
+	background-image: url(../../images/ruby/action_loading_huge.gif);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 100%;
@@ -2083,8 +2087,8 @@ div.assessment h2 {
 
 div.assessment div.description {
 	padding: 6px 10px 6px 10px;
-	border: 1px solid #b5cae7;
-	background-color: #eef5fa;
+	border: 1px solid #CECECE;
+	background-color: #F4F4F4;
 }
 
 div.assessment div.description p {
@@ -2113,15 +2117,15 @@ div.question {
 }
 
 div.question div.title {
-	color: #4171b5;
+	color: #D90223;
 	font-weight: bold;
 	font-size: 12px;
 	/*margin-bottom: 10px;*/
 }
 
 div.question div.title div.number,div.question div.title div.text {
-	border: 1px solid #b5cae7;
-	background: #4171b5 url(../../images/aqua/background_table_header.png)
+	border: 1px solid #CECECE;
+	background: #D90223 url(../../images/ruby/background_table_header.png)
 		repeat-x;
 }
 
@@ -2171,7 +2175,7 @@ div.question div.answer {
 
 div.question div.answer div.description {
 	padding: 6px 10px 6px 10px;
-	border: 1px solid #B5CAE7;
+	border: 1px solid #CECECE;
 	border-top: 0px solid white;
 }
 
@@ -2181,15 +2185,15 @@ div.question div.answer div.empty {
 
 div.question div.answer div.with_borders {
 	padding: 10px;
-	border: 1px solid #B5CAE7;
+	border: 1px solid #CECECE;
 	border-top: 0px solid white;
 }
 
 div.question div.answer div.splitter {
-	border: 1px solid #b5cae7;
+	border: 1px solid #CECECE;
 	border-top: 0px solid white;
-	background: #EEF5FA;
-	color: #4171b5;
+	background: #F4F4F4;
+	color: #D90223;
 	font-weight: bold;
 	font-size: 11px;
 	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
@@ -2204,17 +2208,20 @@ div.question div.answer div.slider {
 	margin-left: 0.6em;
 	margin-top: 0.2em;
 	margin-bottom: 0.6em;
-	background-color: #EEF5FA;
+	background-color: #F4F4F4;
 }
 
 div.question div.answer div.slider .ui-slider-handle {
 	margin-top: 1px;
+	border: 1px solid #a50617;
+	background-color: #d90223;
+	background-image: none;
 }
 
 div.question div.answer div.caption {
 	float: left;
 	font-weight: bold;
-	color: #4171b5;
+	color: #D90223;
 	margin-left: 20px;
 }
 
@@ -2223,7 +2230,7 @@ div.question div.answer div.caption {
 }
 
 .hotspot_image_display {
-	border: 1px solid #b5cae7;
+	border: 1px solid #CECECE;
 	margin-bottom: 10px;
 }
 
@@ -2237,7 +2244,7 @@ div.question div.answer div.caption {
 	float: left;
 	position: relative;
 	padding: 1px;
-	background-color: #b5cae7;
+	background-color: #CECECE;
 }
 
 #hotspot_marking,.hotspot_marking {
@@ -2257,7 +2264,7 @@ div.question div.answer div.caption {
 
 div.description_hotspot {
 	padding: 10px 10px 10px 10px;
-	border: 1px solid #B5CAE7;
+	border: 1px solid #CECECE;
 	border-top: 0px solid white;
 }
 
@@ -2278,8 +2285,8 @@ img.save_hotspot {
 div.time_left {
 	float: left;
 	padding: 6px 10px 6px 10px;
-	border: 1px solid #b5cae7;
-	background-color: #eef5fa;
+	border: 1px solid #CECECE;
+	background-color: #F4F4F4;
 	border: 1px solid #ffd89b;
 	background-color: #fff8aa;
 	text-align: center;
@@ -2350,11 +2357,11 @@ div.application_selecter div.application {
 }
 
 div.application_selecter div.application:hover {
-	background-color: #e1eaf5;
+	background-color: #EBEBEB;
 }
 
 div.application_selecter div.current {
-	background-color: #e1eaf5;
+	background-color: #EBEBEB;
 }
 
 div.select_complex_element {
@@ -2373,7 +2380,7 @@ div.select_complex_element span.title {
 	top: -11px;
 	background-color: #FFFFFF;
 	font-weight: bold;
-	color: #4271B5;
+	color: #D90223;
 	padding: 0px 5px 0px 5px;
 	height: 22px;
 	line-height: 22px;
@@ -2394,7 +2401,7 @@ div.complex_browser_display {
 }
 
 div.complex_browser_display div.content_object div.title {
-	color: #4271B5;
+	color: #D90223;
 }
 
 /*
@@ -2498,7 +2505,7 @@ div.no_thumbnail div.background,div.no_preview div.background {
 	background-color: #efefef;
 	padding: 15px;
 	width: 268px;
-	background-image: url(../../images/aqua/background_no_thumbnail.png);
+	background-image: url(../../images/ruby/background_no_thumbnail.png);
 	background-position: top cente;
 	background-repeat: repeat-x;
 }

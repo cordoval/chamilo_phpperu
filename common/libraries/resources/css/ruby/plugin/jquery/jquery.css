@@ -59,7 +59,7 @@
 	left: 0;
 	position: absolute;
 	opacity: 0;
-	filter: Alpha(Opacity =           0);
+	filter: Alpha(Opacity =             0);
 }
 
 /* Interaction Cues
@@ -109,7 +109,7 @@
 .ui-widget-content {
 	border: 1px solid #a6c9e2;
 	background: #fcfdfd
-		url(../../../../images/aqua/plugin/jquery/images/ui-bg_inset-hard_100_fcfdfd_1x100.png)
+		url(../../../../images/ruby/plugin/jquery/images/ui-bg_inset-hard_100_fcfdfd_1x100.png)
 		50% bottom repeat-x;
 	color: #222222;
 }
@@ -121,7 +121,7 @@
 .ui-widget-header {
 	border: 1px solid #4297d7;
 	background: #5c9ccc
-		url(../../../../images/aqua/plugin/jquery/images/ui-bg_gloss-wave_55_5c9ccc_500x100.png)
+		url(../../../../images/ruby/plugin/jquery/images/ui-bg_gloss-wave_55_5c9ccc_500x100.png)
 		50% 50% repeat-x;
 	color: #ffffff;
 	font-weight: bold;
@@ -136,16 +136,16 @@
 .ui-state-default,.ui-widget-content .ui-state-default {
 	border: 1px solid #c5dbec;
 	background: #dfeffc
-		url(../../../../images/aqua/plugin/jquery/images/ui-bg_glass_85_dfeffc_1x400.png)
+		url(../../../../images/ruby/plugin/jquery/images/ui-bg_glass_85_dfeffc_1x400.png)
 		50% 50% repeat-x;
 	font-weight: bold;
-	color: #2e6e9e;
+	color: #666666;
 	outline: none;
 }
 
 .ui-state-default a,.ui-state-default a:link,.ui-state-default a:visited
 	{
-	color: #2e6e9e;
+	color: #303030;
 	text-decoration: none;
 	outline: none;
 }
@@ -153,16 +153,16 @@
 .ui-state-hover,.ui-widget-content .ui-state-hover,.ui-state-focus,.ui-widget-content .ui-state-focus
 	{
 	border: 1px solid #79b7e7;
-	background: #d0e5f5
-		url(../../../../images/aqua/plugin/jquery/images/ui-bg_glass_75_d0e5f5_1x400.png)
+	background: #e2e2e2
+		url(../../../../images/ruby/plugin/jquery/images/ui-bg_glass_75_d0e5f5_1x400.png)
 		50% 50% repeat-x;
 	font-weight: bold;
-	color: #1d5987;
+	color: #d90223;
 	outline: none;
 }
 
 .ui-state-hover a,.ui-state-hover a:hover {
-	color: #1d5987;
+	color: #d90223;
 	text-decoration: none;
 	outline: none;
 }
@@ -170,15 +170,15 @@
 .ui-state-active,.ui-widget-content .ui-state-active {
 	border: 1px solid #79b7e7;
 	background: #f5f8f9
-		url(../../../../images/aqua/plugin/jquery/images/ui-bg_inset-hard_100_f5f8f9_1x100.png)
+		url(../../../../images/ruby/plugin/jquery/images/ui-bg_inset-hard_100_f5f8f9_1x100.png)
 		50% 50% repeat-x;
 	font-weight: bold;
-	color: #e17009;
+	color: #d90223;
 	outline: none;
 }
 
 .ui-state-active a,.ui-state-active a:link,.ui-state-active a:visited {
-	color: #e17009;
+	color: #d90223;
 	outline: none;
 	text-decoration: none;
 }
@@ -188,7 +188,7 @@
 .ui-state-highlight,.ui-widget-content .ui-state-highlight {
 	border: 1px solid #fad42e;
 	background: #fbec88
-		url(../../../../images/aqua/plugin/jquery/images/ui-bg_flat_55_fbec88_40x100.png)
+		url(../../../../images/ruby/plugin/jquery/images/ui-bg_flat_55_fbec88_40x100.png)
 		50% 50% repeat-x;
 	color: #363636;
 }
@@ -200,7 +200,7 @@
 .ui-state-error,.ui-widget-content .ui-state-error {
 	border: 1px solid #cd0a0a;
 	background: #fef1ec
-		url(../../../../images/aqua/plugin/jquery/images/ui-bg_glass_95_fef1ec_1x400.png)
+		url(../../../../images/ruby/plugin/jquery/images/ui-bg_glass_95_fef1ec_1x400.png)
 		50% 50% repeat-x;
 	color: #cd0a0a;
 }
@@ -215,7 +215,7 @@
 
 .ui-state-disabled,.ui-widget-content .ui-state-disabled {
 	opacity: .35;
-	filter: Alpha(Opacity =           35);
+	filter: Alpha(Opacity =             35);
 	background-image: none;
 }
 
@@ -225,7 +225,7 @@
 
 .ui-priority-secondary,.ui-widget-content .ui-priority-secondary {
 	opacity: .7;
-	filter: Alpha(Opacity =           70);
+	filter: Alpha(Opacity =             70);
 	font-weight: normal;
 }
 
@@ -235,50 +235,42 @@
 	width: 16px;
 	height: 16px;
 	background-image:
-		url(../../../../images/aqua/plugin/jquery/images/ui-icons_469bdd_256x240.png)
-		;
+		url(../../../../images/ruby/plugin/jquery/images/ui-icons_469bdd_256x240.png);
 }
 
 .ui-widget-content .ui-icon {
 	background-image:
-		url(../../../../images/aqua/plugin/jquery/images/ui-icons_469bdd_256x240.png)
-		;
+		url(../../../../images/ruby/plugin/jquery/images/ui-icons_469bdd_256x240.png);
 }
 
 .ui-widget-header .ui-icon {
 	background-image:
-		url(../../../../images/aqua/plugin/jquery/images/ui-icons_d8e7f3_256x240.png)
-		;
+		url(../../../../images/ruby/plugin/jquery/images/ui-icons_d8e7f3_256x240.png);
 }
 
 .ui-state-default .ui-icon {
 	background-image:
-		url(../../../../images/aqua/plugin/jquery/images/ui-icons_6da8d5_256x240.png)
-		;
+		url(../../../../images/ruby/plugin/jquery/images/ui-icons_6da8d5_256x240.png);
 }
 
 .ui-state-hover .ui-icon,.ui-state-focus .ui-icon {
 	background-image:
-		url(../../../../images/aqua/plugin/jquery/images/ui-icons_217bc0_256x240.png)
-		;
+		url(../../../../images/ruby/plugin/jquery/images/ui-icons_217bc0_256x240.png);
 }
 
 .ui-state-active .ui-icon {
 	background-image:
-		url(../../../../images/aqua/plugin/jquery/images/ui-icons_f9bd01_256x240.png)
-		;
+		url(../../../../images/ruby/plugin/jquery/images/ui-icons_f9bd01_256x240.png);
 }
 
 .ui-state-highlight .ui-icon {
 	background-image:
-		url(../../../../images/aqua/plugin/jquery/images/ui-icons_2e83ff_256x240.png)
-		;
+		url(../../../../images/ruby/plugin/jquery/images/ui-icons_2e83ff_256x240.png);
 }
 
 .ui-state-error .ui-icon,.ui-state-error-text .ui-icon {
 	background-image:
-		url(../../../../images/aqua/plugin/jquery/images/ui-icons_cd0a0a_256x240.png)
-		;
+		url(../../../../images/ruby/plugin/jquery/images/ui-icons_cd0a0a_256x240.png);
 }
 
 /* positioning */
@@ -1032,20 +1024,20 @@
 /* Overlays */
 .ui-widget-overlay {
 	background: #aaaaaa
-		url(../../../../images/aqua/plugin/jquery/images/ui-bg_flat_0_aaaaaa_40x100.png)
+		url(../../../../images/ruby/plugin/jquery/images/ui-bg_flat_0_aaaaaa_40x100.png)
 		50% 50% repeat-x;
 	opacity: .30;
-	filter: Alpha(Opacity =           30);
+	filter: Alpha(Opacity =             30);
 }
 
 .ui-widget-shadow {
 	margin: -8px 0 0 -8px;
 	padding: 8px;
 	background: #aaaaaa
-		url(../../../../images/aqua/plugin/jquery/images/ui-bg_flat_0_aaaaaa_40x100.png)
+		url(../../../../images/ruby/plugin/jquery/images/ui-bg_flat_0_aaaaaa_40x100.png)
 		50% 50% repeat-x;
 	opacity: .30;
-	filter: Alpha(Opacity =           30);
+	filter: Alpha(Opacity =             30);
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 }  /* Accordion
@@ -1635,9 +1627,9 @@
 
 #jSuggestContainer ul li {
 	padding: 2px 4px 2px 4px;
-	border-bottom: 1px dotted #b5cae7;
+	border-bottom: 1px dotted #CECECE;
 	color: #666666;
-	background: #eef5fa;
+	background: #F4F4F4;
 	cursor: pointer;
 }
 
@@ -1646,7 +1638,7 @@
 }
 
 #jSuggestContainer ul li.jSuggestHover {
-	background: #b5cae7;
+	background: #CECECE;
 	color: #333333;
 }
 
@@ -1852,7 +1844,7 @@ THE SOFTWARE.
 }
 
 .blue .pointyTip {
-	border-top-color: #e5edf9;
+	border-top-color: #EFEFEF;
 }
 
 .blue .pointyTipShadow {
@@ -1860,7 +1852,7 @@ THE SOFTWARE.
 }
 
 .blue .colorTip {
-	background-color: #e5edf9;
+	background-color: #EFEFEF;
 	border: 1px solid #b9d0ef;
 	color: #272761;
 }
