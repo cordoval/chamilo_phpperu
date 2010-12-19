@@ -55,7 +55,7 @@ class SurveyManagerBrowserComponent extends SurveyManager
         {
             $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = $type;
             $table = new SurveyPublicationBrowserTable($this, $parameters, $this->get_condition($type));
-            $tabs->add_tab(new DynamicContentTab($type, Translation :: get($type_name), Theme :: get_image_path('survey') . 'survey-16.png', $table->as_html()));
+            $tabs->add_tab(new DynamicContentTab($type, Translation :: get($type_name), Theme :: get_image_path() . 'logo/16.png', $table->as_html()));
 
         }
 

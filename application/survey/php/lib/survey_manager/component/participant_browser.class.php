@@ -60,13 +60,13 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         $parameters[self :: PARAM_PUBLICATION_ID] = $this->pid;
 
         $table = new SurveyParticipantBrowserTable($this, $parameters, $this->get_participant_condition());
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_PARTICIPANTS, Translation :: get('participants'), Theme :: get_image_path('survey') . 'survey-16.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_PARTICIPANTS, Translation :: get('participants'), Theme :: get_image_path() . 'logo/16.png', $table->as_html()));
 
         $table = new SurveyUserBrowserTable($this, $parameters, $this->get_invitee_condition(), $this->pid, SurveyUserBrowserTable :: TYPE_INVITEES);
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_INVITEES, Translation :: get('invitees'), Theme :: get_image_path('survey') . 'survey-16.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_INVITEES, Translation :: get('invitees'), Theme :: get_image_path() . 'logo/16.png', $table->as_html()));
 
         $table = new SurveyUserBrowserTable($this, $parameters, $this->get_no_participant_condition(), $this->pid, SurveyUserBrowserTable :: TYPE_NO_PARTICIPANTS);
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_NOT_PARTICIPANTS, Translation :: get('no_participants'), Theme :: get_image_path('survey') . 'survey-16.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_NOT_PARTICIPANTS, Translation :: get('no_participants'), Theme :: get_image_path() . 'logo/16.png', $table->as_html()));
 
         $html[] = $tabs->render();
 
