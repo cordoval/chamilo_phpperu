@@ -21,7 +21,6 @@ use user\UserDataManager;
 use repository\content_object\survey\SurveyContextDataManager;
 use repository\content_object\survey\SurveyTemplate;
 
-
 class SurveyManagerParticipantBrowserComponent extends SurveyManager
 {
 

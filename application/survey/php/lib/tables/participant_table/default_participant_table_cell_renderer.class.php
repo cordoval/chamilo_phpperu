@@ -1,7 +1,9 @@
-<?php 
+<?php
 namespace application\survey;
 
+use common\libraries\Translation;
 use common\libraries\ObjectTableCellRenderer;
+
 use user\UserDataManager;
 use user\User;
 
@@ -29,7 +31,7 @@ class DefaultParticipantTableCellRenderer extends ObjectTableCellRenderer
     {
         $user_id = $survey_participant_tracker->get_user_id();
         $user = UserDataManager :: get_instance()->retrieve_user($user_id);
-        
+
         switch ($column->get_name())
         {
             case User :: PROPERTY_USERNAME :
@@ -51,16 +53,16 @@ class DefaultParticipantTableCellRenderer extends ObjectTableCellRenderer
 
     private function get_total_time($s)
     {
-        
+
         $d = intval($s / 86400);
         $s -= $d * 86400;
-        
+
         $h = intval($s / 3600);
         $s -= $h * 3600;
-        
+
         $m = intval($s / 60);
         $s -= $m * 60;
-        
+
         if ($d)
             $str = $d . 'd ';
         if ($h)
@@ -69,9 +71,9 @@ class DefaultParticipantTableCellRenderer extends ObjectTableCellRenderer
             $str .= $m . 'm ';
         if ($s)
             $str .= $s . 's';
-        
+
         return $str;
-    
+
     }
 
     private function get_date($date)
@@ -83,7 +85,7 @@ class DefaultParticipantTableCellRenderer extends ObjectTableCellRenderer
         else
         {
             return date("Y-m-d H:i", $date);
-        
+
         }
     }
 

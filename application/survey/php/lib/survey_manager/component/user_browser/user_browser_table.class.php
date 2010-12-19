@@ -1,6 +1,8 @@
 <?php
 namespace application\survey;
 
+use common\libraries\Request;
+use common\libraries\Utilities;
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;

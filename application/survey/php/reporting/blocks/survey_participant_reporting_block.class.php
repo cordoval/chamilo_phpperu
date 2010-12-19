@@ -1,31 +1,38 @@
-<?php 
+<?php
 namespace application\survey;
 
 //require_once dirname(__FILE__) . '/../survey_reporting_block.class.php';
 //require_once dirname(__FILE__) . '/../../survey_manager/survey_manager.class.php';
+
+use reporting\ReportingChartFormatter;
+use reporting\ReportingFormatter;
+use reporting\ReportingData;
+
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
 
 class SurveyParticipantReportingBlock extends SurveyReportingBlock
 {
 
     public function count_data()
     {
-        
+
         require_once (dirname(__FILE__) . '/../../trackers/survey_participant_tracker.class.php');
-        
+
         $conditions = array();
-        
+
         $filter_parameters = $this->get_filter_parameters();
-        
+
         $publication_id = $filter_parameters[SurveyReportingFilterWizard :: PARAM_PUBLICATION_ID];
         $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $publication_id);
-        
+
         $tracker = new SurveyParticipantTracker();
         $trackers = $tracker->retrieve_tracker_items_result_set($condition);
-        
+
         $users[Translation :: get(SurveyParticipantTracker :: STATUS_FINISHED)] = 0;
         $users[Translation :: get(SurveyParticipantTracker :: STATUS_NOTSTARTED)] = 0;
         $users[Translation :: get(SurveyParticipantTracker :: STATUS_STARTED)] = 0;
-        
+
         while ($tracker = $trackers->next_result())
         {
             $status = $tracker->get_status();
@@ -40,18 +47,18 @@ class SurveyParticipantReportingBlock extends SurveyReportingBlock
                 case SurveyParticipantTracker :: STATUS_STARTED :
                     $users[Translation :: get(SurveyParticipantTracker :: STATUS_STARTED)] ++;
                     break;
-            
+
             }
         }
         $reporting_data = new ReportingData();
-        
+
         $reporting_data->set_categories(array(Translation :: get(SurveyParticipantTracker :: STATUS_FINISHED), Translation :: get(SurveyParticipantTracker :: STATUS_NOTSTARTED), Translation :: get(SurveyParticipantTracker :: STATUS_STARTED)));
         $reporting_data->set_rows(array(Translation :: get('Count')));
-        
+
         $reporting_data->add_data_category_row(Translation :: get(SurveyParticipantTracker :: STATUS_FINISHED), Translation :: get('Count'), $users[Translation :: get(SurveyParticipantTracker :: STATUS_FINISHED)]);
         $reporting_data->add_data_category_row(Translation :: get(SurveyParticipantTracker :: STATUS_NOTSTARTED), Translation :: get('Count'), $users[Translation :: get(SurveyParticipantTracker :: STATUS_NOTSTARTED)]);
         $reporting_data->add_data_category_row(Translation :: get(SurveyParticipantTracker :: STATUS_STARTED), Translation :: get('Count'), $users[Translation :: get(SurveyParticipantTracker :: STATUS_STARTED)]);
-        
+
         return $reporting_data;
     }
 
