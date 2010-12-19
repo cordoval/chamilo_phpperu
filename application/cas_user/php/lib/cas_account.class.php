@@ -1,6 +1,7 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\Theme;
 use common\libraries\DataClass;
 use common\libraries\PlatformSetting;
 

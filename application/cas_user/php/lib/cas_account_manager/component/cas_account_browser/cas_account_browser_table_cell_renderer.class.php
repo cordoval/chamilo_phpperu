@@ -4,6 +4,12 @@ namespace application\cas_user;
 /**
  * @package cda.tables.cas_account_table
  */
+use common\libraries\Theme;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+
 require_once dirname(__FILE__) . '/cas_account_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../tables/cas_account_table/default_cas_account_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/../../../cas_account.class.php';
@@ -60,18 +66,18 @@ class CasAccountBrowserTableCellRenderer extends DefaultCasAccountTableCellRende
     private function get_modification_links($cas_account)
     {
         $toolbar = new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON, true));
 
         if ($this->browser->get_user()->is_platform_admin())
         {
             if ($cas_account->is_enabled())
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Deactivate', null, Utilities::COMMON_LIBRARIES), Theme :: get_image_path() . 'action_deactivate.png', $this->browser->get_deactivate_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Deactivate', null, Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'action_deactivate.png', $this->browser->get_deactivate_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Activate', null, Utilities::COMMON_LIBRARIES), Theme :: get_image_path() . 'action_activate.png', $this->browser->get_activate_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Activate', null, Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'action_activate.png', $this->browser->get_activate_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON));
             }
         }
 

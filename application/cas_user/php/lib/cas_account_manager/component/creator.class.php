@@ -1,6 +1,7 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\Utilities;
 use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../../forms/cas_account_form.class.php';
@@ -21,11 +22,14 @@ class CasAccountManagerCreatorComponent extends CasAccountManager
             $success = $form->create_cas_account();
             if ($success)
             {
-                $this->redirect(Translation :: get('CasAccountCreated', null, Utilities::COMMON_LIBRARIES), (false), array(CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE, CasAccountManager :: PARAM_ACCOUNT_ID => $cas_account->get_id()));
+                $this->redirect(Translation :: get('CasAccountCreated', null, Utilities :: COMMON_LIBRARIES), (false), array(
+                        CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE,
+                        CasAccountManager :: PARAM_ACCOUNT_ID => $cas_account->get_id()));
             }
             else
             {
-                $this->redirect(Translation :: get('CasAccountNotCreated', null, Utilities::COMMON_LIBRARIES), (true), array(CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE));
+                $this->redirect(Translation :: get('CasAccountNotCreated', null, Utilities :: COMMON_LIBRARIES), (true), array(
+                        CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE));
             }
         }
         else

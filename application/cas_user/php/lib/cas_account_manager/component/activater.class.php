@@ -4,6 +4,10 @@ namespace application\cas_user;
 /**
  * @author Hans De Bisschop
  */
+use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\Request;
+
 class CasAccountManagerActivaterComponent extends CasAccountManager
 {
 
@@ -55,11 +59,12 @@ class CasAccountManagerActivaterComponent extends CasAccountManager
                     $message = 'SelectedCasAccountsActivated';
                 }
             }
-			$this->redirect(Translation :: get($message, null, Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE));
+            $this->redirect(Translation :: get($message, null, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(
+                    CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoCasAccountSelected', Translation :: get($message, null, Utilities::COMMON_LIBRARIES))));
+            $this->display_error_page(htmlentities(Translation :: get('NoCasAccountSelected', Translation :: get($message, null, Utilities :: COMMON_LIBRARIES))));
         }
     }
 }
