@@ -1,5 +1,9 @@
 <?php
 namespace group;
+
+use user\User;
+use user\UserDataManager;
+
 use common\libraries\Translation;
 use common\libraries\Validator;
 use common\libraries\EqualityCondition;
@@ -33,7 +37,12 @@ class GroupValidator extends Validator
 
     private function get_required_group_property_names()
     {
-        return array(Group :: PROPERTY_NAME, Group :: PROPERTY_SORT, Group :: PROPERTY_PARENT, Group :: PROPERTY_LEFT_VALUE, Group :: PROPERTY_RIGHT_VALUE);
+        return array(
+                Group :: PROPERTY_NAME,
+                Group :: PROPERTY_SORT,
+                Group :: PROPERTY_PARENT,
+                Group :: PROPERTY_LEFT_VALUE,
+                Group :: PROPERTY_RIGHT_VALUE);
     }
 
     private function get_required_group_rel_user_property_names()
@@ -157,7 +166,7 @@ class GroupValidator extends Validator
         $var = $this->get_person_id($input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID]);
         if (! $var)
         {
-            $this->errorMessage = Translation :: get('User', null , 'user') . ' ' . $input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('User', null, 'user') . ' ' . $input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else

@@ -1,6 +1,7 @@
 <?php
-
 namespace application\reservations;
+
+use user\User;
 
 use common\libraries\EqualityCondition;
 use common\libraries\InCondition;
@@ -8,8 +9,9 @@ use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\AndCondition;
 use common\libraries\InequalityCondition;
-use HTML_Table;
 use common\libraries\Theme;
+
+use HTML_Table;
 /**
  * $Id: reservations_calendar_day_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.calendar
@@ -65,7 +67,7 @@ class ReservationsCalendarListRenderer extends ReservationsCalendarRenderer
         $parameters['time'] = '-TIME-';
         return $this->get_calendar_navigation($this->get_parent()->get_url($parameters)) . $table->as_html();
     }
-    
+
     private function get_calendar_navigation($url_format)
     {
         $prev = strtotime('-1 Day', $this->get_time());
@@ -79,16 +81,16 @@ class ReservationsCalendarListRenderer extends ReservationsCalendarRenderer
         $navigation->setCellContents(0, 2, ' <a href="' . str_replace('-TIME-', $next, $url_format) . '"><img src="' . Theme :: get_common_image_path() . 'action_next.png" style="vertical-align: middle;" alt="&gt;&gt;"/></a> ');
         return $navigation->toHtml();
     }
-    
+
     private function get_start_time()
     {
-    	return strtotime(date('Y-m-d 00:00:00', $this->get_time()));
+        return strtotime(date('Y-m-d 00:00:00', $this->get_time()));
     }
-    
+
     private function get_end_time()
     {
-    	return strtotime(date('Y-m-d 23:59:59', $this->get_time()));
+        return strtotime(date('Y-m-d 23:59:59', $this->get_time()));
     }
-    
+
 }
 ?>

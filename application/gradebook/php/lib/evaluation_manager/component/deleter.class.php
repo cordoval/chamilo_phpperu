@@ -1,7 +1,7 @@
 <?php
-
 namespace application\gradebook;
 
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;
 
@@ -13,9 +13,9 @@ class EvaluationManagerDeleterComponent extends EvaluationManager
         $ids = Request :: get(EvaluationManager :: PARAM_EVALUATION_ID);
         $failures = 0;
 
-        if (!empty($ids))
+        if (! empty($ids))
         {
-            if (!is_array($ids))
+            if (! is_array($ids))
             {
                 $ids = array($ids);
             }
@@ -24,9 +24,9 @@ class EvaluationManagerDeleterComponent extends EvaluationManager
             {
                 $evaluation = $this->retrieve_evaluation($id);
 
-                if (!$evaluation->delete())
+                if (! $evaluation->delete())
                 {
-                    $failures++;
+                    $failures ++;
                 }
             }
 
@@ -53,11 +53,12 @@ class EvaluationManagerDeleterComponent extends EvaluationManager
                 }
             }
 
-            $this->redirect($message, $failures, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE));
+            $this->redirect($message, $failures, array(
+                    EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoEvaluationsSelected', null, Utilities::COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoEvaluationsSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
 

@@ -1,11 +1,13 @@
 <?php
-
 namespace application\reservations;
 
+use common\libraries\Display;
 use common\libraries\EqualityCondition;
-use tracking\Event;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+
+use tracking\Event;
+use tracking\ChangesTracker;
 /**
  * $Id: subscription_deleter.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -53,7 +55,9 @@ class ReservationsManagerSubscriptionDeleterComponent extends ReservationsManage
                 }
                 else
                 {
-                    Event :: trigger('delete_subscription', ReservationsManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $id, ChangesTracker :: PROPERTY_USER_ID => $this->get_user_id()));
+                    Event :: trigger('delete_subscription', ReservationsManager :: APPLICATION_NAME, array(
+                            ChangesTracker :: PROPERTY_REFERENCE_ID => $id,
+                            ChangesTracker :: PROPERTY_USER_ID => $this->get_user_id()));
                 }
 
                 $subscriptionuser = new SubscriptionUser();
@@ -64,17 +68,18 @@ class ReservationsManagerSubscriptionDeleterComponent extends ReservationsManage
             if (count($ids) == 1)
             {
                 $object = Translation :: get('Subscription');
-                $message = $bool ? Translation :: get('ObjectDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
-                                   Translation :: get('ObjectNotDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+                $message = $bool ? Translation :: get('ObjectDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotDeleted', array(
+                        'OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
             }
             else
             {
                 $objects = Translation :: get('Subscriptions');
-                $message = $bool ? Translation :: get('ObjectsDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES) :
-                                   Translation :: get('ObjectsNotDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES);
+                $message = $bool ? Translation :: get('ObjectsDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectsNotDeleted', array(
+                        'OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES);
             }
 
-            $this->redirect($message, !$bool, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTIONS));
+            $this->redirect($message, ! $bool, array(
+                    ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTIONS));
         }
         else
         {

@@ -1,7 +1,7 @@
 <?php
-
 namespace application\gradebook;
 
+use common\libraries\Utilities;
 use common\libraries\WebApplication;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
@@ -11,9 +11,10 @@ use common\libraries\Theme;
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'tables/evaluation_formats_table/default_evaluation_formats_table_cell_renderer.class.php';
 
 class EvaluationFormatsBrowserTableCellRenderer extends DefaultEvaluationFormatsTableCellRenderer
-{/**
- * The browser component
- */
+{
+    /**
+     * The browser component
+     */
 
     private $browser;
 
@@ -47,7 +48,7 @@ class EvaluationFormatsBrowserTableCellRenderer extends DefaultEvaluationFormats
     private function get_modification_links($evaluation_format)
     {
         $toolbar = new Toolbar();
-        $toolbar->add_item(new ToolbarItem(($evaluation_format->get_active() == 1) ? Translation :: get('Deactivate', null, Utilities::COMMON_LIBRARIES) : Translation :: get('Activate', null, Utilities::COMMON_LIBRARIES), ($evaluation_format->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png', $this->browser->get_change_evaluation_format_activation_url($evaluation_format), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(($evaluation_format->get_active() == 1) ? Translation :: get('Deactivate', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('Activate', null, Utilities :: COMMON_LIBRARIES), ($evaluation_format->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png', $this->browser->get_change_evaluation_format_activation_url($evaluation_format), ToolbarItem :: DISPLAY_ICON));
 
         return $toolbar->as_html();
     }

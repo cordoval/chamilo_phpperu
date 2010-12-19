@@ -1,15 +1,22 @@
 <?php
-
 namespace application\assessment;
 
-use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
+use application\weblcms\tool\assessment\AssessmentTool;
+use application\weblcms\Tool;
 
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
+use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
+use repository\content_object\document\Document;
+
+use common\libraries\AndCondition;
+use common\libraries\Filecompression;
+use common\libraries\Filesystem;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
-use repository\RepositoryDataManager;
 use common\libraries\Path;
 /**
  * $Id: document_downloader.class.php 193 2009-11-13 11:53:37Z chellee $

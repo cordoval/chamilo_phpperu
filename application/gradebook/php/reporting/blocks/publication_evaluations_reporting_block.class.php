@@ -1,16 +1,18 @@
 <?php
-
 namespace application\gradebook;
 
+use common\libraries\Utilities;
 use common\libraries\WebApplication;
-use reporting\ReportingData;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\DatetimeUtilities;
+use common\libraries\EqualityCondition;
+
 use repository\RepositoryDataManager;
 use user\UserDataManager;
-use common\libraries\DatetimeUtilities;
+
+use reporting\ReportingData;
 use reporting\ReportingFormatter;
-use common\libraries\EqualityCondition;
 
 require_once WebApplication :: get_application_class_path('gradebook') . 'reporting/evaluations_reporting_block.class.php';
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_manager/gradebook_manager.class.php';

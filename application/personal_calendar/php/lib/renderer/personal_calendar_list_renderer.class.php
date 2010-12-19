@@ -1,6 +1,8 @@
 <?php
-
 namespace application\personal_calendar;
+
+use application\internship_organizer\InternshipOrganizerDataManager;
+use application\weblcms\WeblcmsDataManager;
 
 use common\libraries\AttachmentSupport;
 use common\libraries\Translation;
@@ -33,17 +35,17 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
     public function render()
     {
         // Range from start (0) to 10 years in the future...
-        
+
 
         $events = $this->get_events(0, strtotime('+10 Years', time()));
         $dm = RepositoryDataManager :: get_instance();
         $html = array();
-        
+
         if (count($events) == 0)
         {
             $this->get_parent()->display_message(Translation :: get('NoPublications', null, Utilities :: COMMON_LIBRARIES));
         }
-        
+
         foreach ($events as $index => $event)
         {
             $html[$event->get_start_date()][] = $this->render_event($event);
@@ -61,7 +63,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
     {
         $html = array();
         $date_format = Translation :: get('DateTimeFormatLong', null, Utilities :: COMMON_LIBRARIES);
-        
+
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/calendar_event.png);">';
         $html[] = '<div class="title">' . htmlentities($event->get_title()) . '</div>';
         $html[] = '<div class="description">';
@@ -90,30 +92,30 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
         }
         //        $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 
     function get_publication_actions($event)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('View', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(
                 Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $event->get_id())), ToolbarItem :: DISPLAY_ICON));
-        
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_parent()->get_publication_editing_url($event), ToolbarItem :: DISPLAY_ICON));
-        
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_parent()->get_publication_deleting_url($event), ToolbarItem :: DISPLAY_ICON, true));
-        
+
         return $toolbar->as_html();
     }
 
     function get_external_publication_actions($event)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('View', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', html_entity_decode($event->get_url()), ToolbarItem :: DISPLAY_ICON));
-        
+
         return $toolbar->as_html();
     }
 
@@ -121,24 +123,24 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
     {
         if (is_null($event->get_id()))
             return;
-        
+
         if ($event->get_source() == 'weblcms')
         {
             $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($event->get_id());
             $object = $publication->get_content_object();
         }
-        
+
         elseif ($event->get_source() == 'internship_organizer_moment')
         {
             $object = InternshipOrganizerDataManager :: get_instance()->retrieve_moment($event->get_id());
-        
+
         }
         else
         {
             $publication = PersonalCalendarDataManager :: get_instance()->retrieve_personal_calendar_publication($event->get_id());
             $object = $publication->get_publication_object();
         }
-        
+
         if ($object instanceof AttachmentSupport)
         {
             $attachments = $object->get_attached_content_objects();

@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ImageManipulation;
+use common\libraries\Hashing;
 use common\libraries\Path;
 use common\libraries\ObjectTableCellRenderer;
 
@@ -12,7 +14,7 @@ use user\User;
 
 class DefaultInternshipOrganizerUserTableCellRenderer extends ObjectTableCellRenderer
 {
-    
+
     private $period;
 
     /**
@@ -56,7 +58,7 @@ class DefaultInternshipOrganizerUserTableCellRenderer extends ObjectTableCellRen
                 return $user->get_version_quota();
             case User :: PROPERTY_PICTURE_URI :
                 return $this->render_picture($user);
-            
+
             default :
                 return '&nbsp;';
         }
@@ -65,7 +67,7 @@ class DefaultInternshipOrganizerUserTableCellRenderer extends ObjectTableCellRen
     function render_id_cell($user)
     {
         return $this->period->get_id() . '|' . $user->get_id();
-    
+
     }
 
     private function render_picture($user)

@@ -1,6 +1,7 @@
 <?php
 namespace application\laika;
 
+use common\libraries\StaticTableColumn;
 use common\libraries\WebApplication;
 
 /**

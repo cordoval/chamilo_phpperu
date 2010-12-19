@@ -1,15 +1,17 @@
 <?php
-
 namespace application\cda;
 
+use common\libraries\InCondition;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
-use rights\RightsUtilities;
-use user\UserDataManager;
 use common\libraries\ObjectTableOrder;
-use user\User;
 use common\libraries\Utilities;
+
+use rights\RightsUtilities;
+
+use user\UserDataManager;
+use user\User;
 /**
  * This class describes the form for a CdaLanguage object.
  * @author Sven Vanpoucke
@@ -54,18 +56,18 @@ class CdaLanguageForm extends FormValidator
 
 		$this->addElement('text', CdaLanguage :: PROPERTY_ISOCODE, Translation :: get('Isocode'));
 		$this->addRule(CdaLanguage :: PROPERTY_ISOCODE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-		
+
 		$this->addElement('checkbox', CdaLanguage :: PROPERTY_RTL, Translation :: get('RightToLeft'));
-		
+
 		$this->addElement('category');
-		
+
 		$this->addElement('category', Translation :: get('Moderators'));
         $url = Path :: get(WEB_PATH) . 'user/php/xml_feeds/xml_user_feed.php';
-        
+
         $moderators = $this->get_moderator_users();
         $defaults = array();
         $current = array();
-        
+
         if ($moderators)
         {
 	        while($moderator = $moderators->next_result())
@@ -74,13 +76,13 @@ class CdaLanguageForm extends FormValidator
 	        	$defaults[$moderator->get_id()] = array('title' => $moderator->get_fullname(), 'description' => $moderator->get_username(), 'class' => 'user');
 	        }
         }
-        
+
         $locale = array();
         $locale['Display'] = Translation :: get('AddModerators');
         $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
         $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
         $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
-        
+
         $elem = $this->addElement('element_finder', 'moderators', Translation :: get('SelectModerators'), $url, $locale, $current, array('load_elements' => true));
 		$elem->setDefaults($defaults);
 		$this->addElement('category');
@@ -113,7 +115,7 @@ class CdaLanguageForm extends FormValidator
     {
     	$cda_language = $this->cda_language;
     	$values = $this->exportValues();
-    	
+
     	$cda_language->set_original_name($values[CdaLanguage :: PROPERTY_ORIGINAL_NAME]);
     	$cda_language->set_english_name($values[CdaLanguage :: PROPERTY_ENGLISH_NAME]);
     	$cda_language->set_isocode($values[CdaLanguage :: PROPERTY_ISOCODE]);
@@ -126,28 +128,28 @@ class CdaLanguageForm extends FormValidator
     	{
     		$cda_language->set_rtl(0);
     	}
-    	
+
     	if (!$cda_language->update())
     	{
     		return false;
     	}
-    	
+
     	$original_moderators = $this->get_moderators();
     	$current_moderators = $values['moderators']['user'];
-    	
+
     	$moderators_to_remove = array_diff($original_moderators, $current_moderators);
     	$moderators_to_add = array_diff($current_moderators, $original_moderators);
-    	
+
     	$location = CdaRights :: get_location_id_by_identifier_from_languages_subtree($cda_language->get_table_name(), $cda_language->get_id());
-    	
+
     	foreach ($moderators_to_remove as $moderator)
-    	{	    		
+    	{
 	    	if (!RightsUtilities :: set_user_right_location_value(CdaRights :: EDIT_RIGHT, $moderator, $location, false))
 	    	{
 	    		return false;
 	    	}
     	}
-    	
+
         foreach ($moderators_to_add as $moderator)
     	{
     		if (!RightsUtilities :: set_user_right_location_value(CdaRights :: EDIT_RIGHT, $moderator, $location, true))
@@ -155,7 +157,7 @@ class CdaLanguageForm extends FormValidator
 	    		return false;
 	    	}
     	}
-    	
+
     	return true;
     }
 
@@ -163,11 +165,11 @@ class CdaLanguageForm extends FormValidator
     {
     	$cda_language = $this->cda_language;
     	$values = $this->exportValues();
-    	
+
     	$cda_language->set_original_name($values[CdaLanguage :: PROPERTY_ORIGINAL_NAME]);
     	$cda_language->set_english_name($values[CdaLanguage :: PROPERTY_ENGLISH_NAME]);
     	$cda_language->set_isocode($values[CdaLanguage :: PROPERTY_ISOCODE]);
-   		
+
     	if($values[CdaLanguage :: PROPERTY_RTL])
     	{
     		$cda_language->set_rtl(1);
@@ -176,23 +178,23 @@ class CdaLanguageForm extends FormValidator
     	{
     		$cda_language->set_rtl(0);
     	}
-    	
+
     	if (!$cda_language->create())
     	{
     		return false;
     	}
-    	
+
     	$moderators = $values['moderators']['user'];
     	$location = CdaRights :: get_location_id_by_identifier_from_languages_subtree($cda_language->get_table_name(), $cda_language->get_id());
-    	
+
     	foreach ($moderators as $moderator)
-    	{	    		
+    	{
 	    	if (!RightsUtilities :: set_user_right_location_value(CdaRights :: EDIT_RIGHT, $moderator, $location, true))
 	    	{
 	    		return false;
 	    	}
     	}
-    	
+
     	return true;
     }
 
@@ -210,17 +212,17 @@ class CdaLanguageForm extends FormValidator
 
 		parent :: setDefaults($defaults);
 	}
-	
+
 	function get_moderators()
 	{
 		$cda_language = $this->cda_language;
 		return CdaRights :: get_allowed_users(CdaRights :: EDIT_RIGHT, $cda_language->get_id(), $cda_language->get_table_name());
 	}
-	
+
 	function get_moderator_users()
 	{
 		$users = $this->get_moderators();
-		
+
 		if(!empty($users))
 		{
 			$condition = new InCondition(User :: PROPERTY_ID, $users);

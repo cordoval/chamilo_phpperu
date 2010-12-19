@@ -1,13 +1,15 @@
 <?php
 namespace application\phrases;
 
+use common\libraries\Translation;
 use common\libraries\FormValidator;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
-use user\UserDataManager;
 use common\libraries\Theme;
 use common\libraries\Export;
 use common\libraries\Utilities;
+
+use user\UserDataManager;
 
 /**
  * @author Hans De Bisschop
@@ -50,14 +52,14 @@ class PhrasesResultsExportForm extends FormValidator
             $this->addElement('html', implode("\n", $html));
         }
         else
-            if (Request :: get(PhrasesTool :: PARAM_PUBLICATION_ID))
-            {
-                $aid = Request :: get(PhrasesTool :: PARAM_PUBLICATION_ID);
-                $publication = PhrasesDataManager :: get_instance()->retrieve_phrases_publication($aid);
-
-                $this->addElement('html', '<h3>Phrases: ' . $publication->get_content_object()->get_title() . '</h3><br/>');
-                $this->addElement('html', '<h3>Export results for user ' . $user->get_fullname() . '</h3><br />');
-            }
+//            if (Request :: get(PhrasesTool :: PARAM_PUBLICATION_ID))
+//            {
+//                $aid = Request :: get(PhrasesTool :: PARAM_PUBLICATION_ID);
+//                $publication = PhrasesDataManager :: get_instance()->retrieve_phrases_publication($aid);
+//
+//                $this->addElement('html', '<h3>Phrases: ' . $publication->get_content_object()->get_title() . '</h3><br/>');
+//                $this->addElement('html', '<h3>Export results for user ' . $user->get_fullname() . '</h3><br />');
+//            }
 
         $options = Export :: get_supported_filetypes(array('ical'));
         $this->addElement('select', 'filetype', 'Export to filetype:', $options);

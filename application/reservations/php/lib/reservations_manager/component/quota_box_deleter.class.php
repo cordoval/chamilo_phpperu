@@ -1,6 +1,7 @@
 <?php
 namespace application\reservations;
 
+use common\libraries\Display;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Utilities;
@@ -52,7 +53,9 @@ class ReservationsManagerQuotaBoxDeleterComponent extends ReservationsManager
                 }
                 else
                 {
-                    Event :: trigger('delete_quota_box', ReservationsManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $id, ChangesTracker :: PROPERTY_USER_ID => $this->get_user_id()));
+                    Event :: trigger('delete_quota_box', ReservationsManager :: APPLICATION_NAME, array(
+                            ChangesTracker :: PROPERTY_REFERENCE_ID => $id,
+                            ChangesTracker :: PROPERTY_USER_ID => $this->get_user_id()));
                 }
 
             }
@@ -60,17 +63,18 @@ class ReservationsManagerQuotaBoxDeleterComponent extends ReservationsManager
             if (count($ids) == 1)
             {
                 $object = Translation :: get('QuotaBox');
-                $message = $bool ? Translation :: get('ObjectDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
-                                   Translation :: get('ObjectNotDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+                $message = $bool ? Translation :: get('ObjectDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotDeleted', array(
+                        'OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
             }
             else
             {
                 $objects = Translation :: get('QuotaBoxes');
-                $message = $bool ? Translation :: get('ObjectsDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES) :
-                                   Translation :: get('ObjectsNotDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES);
+                $message = $bool ? Translation :: get('ObjectsDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectsNotDeleted', array(
+                        'OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES);
             }
 
-            $this->redirect($message, !$bool, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTA_BOXES));
+            $this->redirect($message, ! $bool, array(
+                    ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTA_BOXES));
         }
         else
         {

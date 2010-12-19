@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Toolbar;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Theme;
@@ -13,7 +14,7 @@ require_once Path :: get_user_path() . '/lib/user_table/default_user_table_cell_
 
 class InternshipOrganizerPeriodUserBrowserTableCellRenderer extends DefaultInternshipOrganizerUserTableCellRenderer
 {
-    
+
     private $browser;
     private $user_type;
 
@@ -27,13 +28,13 @@ class InternshipOrganizerPeriodUserBrowserTableCellRenderer extends DefaultInter
     // Inherited
     function render_cell($column, $user)
     {
-        
+
         switch ($column->get_name())
         {
             case Translation :: get('InternshipOrganizerAgreements') :
                 return $this->count_agreements($user);
         }
-        
+
         if ($column === InternshipOrganizerPeriodUserBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($user);
@@ -68,7 +69,7 @@ class InternshipOrganizerPeriodUserBrowserTableCellRenderer extends DefaultInter
             }
         }
         return $toolbar->as_html();
-    
+
     }
 
 }

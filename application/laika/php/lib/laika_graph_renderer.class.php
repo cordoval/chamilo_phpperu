@@ -1,6 +1,9 @@
 <?php
 namespace application\laika;
 
+use repository\content_object\document\Document;
+
+use common\libraries\Filesystem;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\EqualityCondition;
@@ -13,6 +16,7 @@ use common\libraries\Session;
 use common\libraries\SortableTableFromArray;
 
 use group\GroupDataManager;
+use group\Group;
 
 use pChart;
 /**

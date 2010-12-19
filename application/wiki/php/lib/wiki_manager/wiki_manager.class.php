@@ -1,10 +1,12 @@
 <?php
 namespace application\wiki;
 
+use common\libraries\ObjectTable;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Session;
+
 use repository\content_object\wiki\Wiki;
 
 /**
@@ -102,17 +104,23 @@ class WikiManager extends WebApplication
 
     function get_evaluation_publication_url($wiki_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, self :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION,
+                self :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
     }
 
     function get_update_wiki_publication_url($wiki_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_WIKI_PUBLICATION, self :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_WIKI_PUBLICATION,
+                self :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
     }
 
     function get_delete_wiki_publication_url($wiki_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_WIKI_PUBLICATION, self :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_WIKI_PUBLICATION,
+                self :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
     }
 
     function get_browse_wiki_publications_url()
@@ -191,7 +199,7 @@ class WikiManager extends WebApplication
         $publication->set_to_date(0);
 
         $publication->create();
-        return Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('Wiki')) , Utilities :: COMMON_LIBRARIES);
+        return Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('Wiki')), Utilities :: COMMON_LIBRARIES);
     }
 
     /**

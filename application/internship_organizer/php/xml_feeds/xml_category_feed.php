@@ -1,4 +1,9 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\OrCondition;
+use common\libraries\NotCondition;
+use common\libraries\Authentication;
 use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\CoreApplication;
@@ -19,13 +24,13 @@ Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
 if (Authentication :: is_valid())
 {
     $conditions = array();
-    
+
     $query_condition = Utilities :: query_to_condition($_GET['query'], array(InternshipOrganizerCategory :: PROPERTY_NAME, InternshipOrganizerCategory :: PROPERTY_DESCRIPTION));
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
     }
-    
+
     if (is_array($_GET['exclude']))
     {
         $c = array();
@@ -35,7 +40,7 @@ if (Authentication :: is_valid())
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     if (count($conditions) > 0)
     {
         $condition = new AndCondition($conditions);
@@ -44,10 +49,10 @@ if (Authentication :: is_valid())
     {
         $condition = null;
     }
-    
+
     $dm = InternshipOrganizerDataManager :: get_instance();
     $objects = $dm->retrieve_categories($condition);
-    
+
     while ($category = $objects->next_result())
     {
         $categories[] = $category;
@@ -67,18 +72,18 @@ function dump_tree($categories)
     if (contains_results($categories))
     {
         echo '<node id="0" classes="category unlinked" title="', Translation :: get('Categories'), '">', "\n";
-        
+
         foreach ($categories as $category)
         {
             $id = 'category_' . $category->get_id();
             $name = $category->get_name();
             $description = $category->get_description();
-            
+
             echo '<leaf id="' . $id . '" classes="" title="' . htmlentities($name) . '" description="' . htmlentities(isset($description) && ! empty($description) ? $description : $name), '"/>' . "\n";
         }
-        
+
         echo '</node>', "\n";
-    
+
     }
 }
 

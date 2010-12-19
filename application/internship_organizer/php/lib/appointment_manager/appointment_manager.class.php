@@ -6,22 +6,20 @@ use common\libraries\SubManager;
 
 class InternshipOrganizerAppointmentManager extends SubManager
 {
-    
+
     const PARAM_ACTION = 'action';
     const PARAM_APPOINTMENT_ID = 'appointment_id';
     const PARAM_MOMENT_ID = 'moment_id';
-       
+
     const ACTION_CREATE_APPOINTMENT = 'creator';
     const ACTION_BROWSE_APPOINTMENT = 'browser';
     const ACTION_EDIT_APPOINTMENT = 'editor';
     const ACTION_DELETE_APPOINTMENT = 'deleter';
     const ACTION_VIEW_APPOINTMENT = 'viewer';
     const ACTION_PUBLISH_APPOINTMENT = 'publisher';
-        
    	const ACTION_VIEW_MOMENT = 'moment_viewer';
-   
     const ACTION_REPORTING = 'reporting';
-       
+
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_APPOINTMENT;
 
@@ -35,7 +33,7 @@ class InternshipOrganizerAppointmentManager extends SubManager
         return WebApplication :: get_application_class_lib_path('internship_organizer') . 'appointment_manager/component/';
     }
 
-  
+
     //url creation
     function get_create_appointment_url($moment)
     {
@@ -56,7 +54,7 @@ class InternshipOrganizerAppointmentManager extends SubManager
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_APPOINTMENT));
     }
-   
+
     function get_browse_moments_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_MOMENTS));
@@ -66,7 +64,7 @@ class InternshipOrganizerAppointmentManager extends SubManager
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MOMENT, self :: PARAM_APPOINTMENT_ID => $appointment->get_id()));
     }
-  
+
 
     /**
      * Helper function for the SubManager class,

@@ -1,10 +1,12 @@
 <?php
 namespace application\phrases;
 
-use repository\RepositoryDataManager;
-
+use common\libraries\Display;
+use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
+
+use repository\RepositoryDataManager;
 
 /**
  * @author Hans De Bisschop

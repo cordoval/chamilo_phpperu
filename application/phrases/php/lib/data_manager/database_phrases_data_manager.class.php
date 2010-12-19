@@ -217,39 +217,6 @@ class DatabasePhrasesDataManager extends Database implements PhrasesDataManagerI
         return $this->retrieve_objects(PhrasesPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, PhrasesPublicationUser :: CLASS_NAME);
     }
 
-    function create_survey_invitation($survey_invitation)
-    {
-        return $this->create($survey_invitation);
-    }
-
-    function update_survey_invitation($survey_invitation)
-    {
-        $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
-        return $this->update($survey_invitation, $condition);
-    }
-
-    function delete_survey_invitation($survey_invitation)
-    {
-        $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
-        return $this->delete($survey_invitation->get_table_name(), $condition);
-    }
-
-    function count_survey_invitations($condition = null)
-    {
-        return $this->count_objects(SurveyInvitation :: get_table_name(), $condition);
-    }
-
-    function retrieve_survey_invitation($id)
-    {
-        $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $id);
-        return $this->retrieve_object(SurveyInvitation :: get_table_name(), $condition, null, SurveyInvitation :: CLASS_NAME);
-    }
-
-    function retrieve_survey_invitations($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return $this->retrieve_objects(SurveyInvitation :: get_table_name(), $condition, $offset, $count, $order_property, SurveyInvitation :: CLASS_NAME);
-    }
-
     function content_object_is_published($object_id)
     {
         return $this->any_content_object_is_published(array($object_id));

@@ -3,12 +3,15 @@ namespace application\phrases;
 
 use HTML_Menu;
 use HTML_Menu_ArrayRenderer;
+
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\OptionsMenuRenderer;
 use common\libraries\TreeMenuRenderer;
 use common\libraries\Utilities;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 
 /**
  * @author Hans De Bisschop

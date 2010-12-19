@@ -6,10 +6,11 @@ use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
-use repository\ComplexDisplay;
 use common\libraries\Path;
-use reporting\ReportingDataManager;
 use common\libraries\AndCondition;
+
+use reporting\ReportingDataManager;
+use repository\ComplexDisplay;
 
 /**
  * @author Hans De Bisschop
@@ -43,8 +44,7 @@ class PhrasesManagerResultsViewerComponent extends PhrasesManager
             else
             {
                 $condition = new EqualityCondition(PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_ID, $id);
-                $parameters = array(
-                        PhrasesManager :: PARAM_PHRASES_PUBLICATION => $pid);
+                $parameters = array(PhrasesManager :: PARAM_PHRASES_PUBLICATION => $pid);
             }
 
             $dummy = new PhrasesAdaptiveAssessmentAttemptTracker();
@@ -66,8 +66,7 @@ class PhrasesManagerResultsViewerComponent extends PhrasesManager
         }
         else
         {
-            $trail->add(new Breadcrumb($this->get_url(array(
-                    PhrasesManager :: PARAM_PHRASES_PUBLICATION => $pid)), Translation :: get('ViewPhrasesResults')));
+            $trail->add(new Breadcrumb($this->get_url(array(PhrasesManager :: PARAM_PHRASES_PUBLICATION => $pid)), Translation :: get('ViewPhrasesResults')));
 
             $details = Request :: get('details');
             if ($details)
@@ -115,28 +114,28 @@ class PhrasesManagerResultsViewerComponent extends PhrasesManager
 
     function display_summary_results()
     {
-        $current_category = Request :: get('category');
-        $current_category = $current_category ? $current_category : 0;
-        $parameters = array('category' => $current_category, 'url' => $this->get_url());
-        $database = ReportingDataManager :: get_instance();
-        $template_obj = $database->retrieve_reporting_template_object('phrases_attempts_summary_template');
-        $template = new PhrasesAttemptsSummaryTemplate($this, $template_obj->get_id(), $parameters, null);
-        //$template->set_reporting_blocks_function_parameters($parameters);
-        return $template->to_html();
+        //        $current_category = Request :: get('category');
+    //        $current_category = $current_category ? $current_category : 0;
+    //        $parameters = array('category' => $current_category, 'url' => $this->get_url());
+    //        $database = ReportingDataManager :: get_instance();
+    //        $template_obj = $database->retrieve_reporting_template_object('phrases_attempts_summary_template');
+    //        $template = new PhrasesAttemptsSummaryTemplate($this, $template_obj->get_id(), $parameters, null);
+    //        //$template->set_reporting_blocks_function_parameters($parameters);
+    //        return $template->to_html();
     }
 
     function display_phrases_results($pid)
     {
-        $url = $this->get_url(array(PhrasesManager :: PARAM_PHRASES_PUBLICATION => $pid));
-        $results_export_url = $this->get_results_exporter_url();
-        $parameters = array(PhrasesManager :: PARAM_PHRASES_PUBLICATION => $pid,
-                'url' => $url,
-                'results_export_url' => $results_export_url);
-        $database = ReportingDataManager :: get_instance();
-        $template_obj = $database->retrieve_reporting_template_object('phrases_attempts_template');
-        $template = new PhrasesAttemptsTemplate($this, $template_obj->get_id(), $parameters, null, $pid);
-        //$template->set_reporting_blocks_function_parameters($parameters);
-        return $template->to_html();
+        //        $url = $this->get_url(array(PhrasesManager :: PARAM_PHRASES_PUBLICATION => $pid));
+    //        $results_export_url = $this->get_results_exporter_url();
+    //        $parameters = array(PhrasesManager :: PARAM_PHRASES_PUBLICATION => $pid,
+    //                'url' => $url,
+    //                'results_export_url' => $results_export_url);
+    //        $database = ReportingDataManager :: get_instance();
+    //        $template_obj = $database->retrieve_reporting_template_object('phrases_attempts_template');
+    //        $template = new PhrasesAttemptsTemplate($this, $template_obj->get_id(), $parameters, null, $pid);
+    //        //$template->set_reporting_blocks_function_parameters($parameters);
+    //        return $template->to_html();
     }
 
     function retrieve_phrases_results()

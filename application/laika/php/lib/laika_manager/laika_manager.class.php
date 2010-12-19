@@ -1,9 +1,13 @@
 <?php
 namespace application\laika;
 
+use common\libraries\ObjectTable;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
 use common\libraries\Application;
+
+use user\UserDataManager;
 
 require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/laika_calculated_result_browser/laika_calculated_result_browser_table.class.php';
 
@@ -38,7 +42,7 @@ class LaikaManager extends WebApplication
 
     static function publish_content_object($content_object, $location)
     {
-        return Translation :: get('PublicationCreated', null, Utilities::COMMON_LIBRARIES);
+        return Translation :: get('PublicationCreated', null, Utilities :: COMMON_LIBRARIES);
     }
 
     function retrieve_laika_question($id)
@@ -179,22 +183,30 @@ class LaikaManager extends WebApplication
 
     function get_laika_attempt_viewing_url($laika_attempt)
     {
-        return $this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_VIEW_RESULTS, self :: PARAM_ATTEMPT_ID => $laika_attempt->get_id()));
+        return $this->get_url(array(
+                Application :: PARAM_ACTION => self :: ACTION_VIEW_RESULTS,
+                self :: PARAM_ATTEMPT_ID => $laika_attempt->get_id()));
     }
 
     function get_laika_user_viewing_url($user)
     {
-        return $this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_VIEW_RESULTS, self :: PARAM_USER_ID => $user->get_id()));
+        return $this->get_url(array(
+                Application :: PARAM_ACTION => self :: ACTION_VIEW_RESULTS,
+                self :: PARAM_USER_ID => $user->get_id()));
     }
 
     function get_group_statistics_viewing_url($group)
     {
-        return $this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_VIEW_STATISTICS, self :: PARAM_GROUP_ID => $group->get_id()));
+        return $this->get_url(array(
+                Application :: PARAM_ACTION => self :: ACTION_VIEW_STATISTICS,
+                self :: PARAM_GROUP_ID => $group->get_id()));
     }
 
     function get_laika_calculated_result_attempt_viewing_url($laika_calculated_result)
     {
-        return $this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_VIEW_RESULTS, self :: PARAM_ATTEMPT_ID => $laika_calculated_result->get_attempt_id()));
+        return $this->get_url(array(
+                Application :: PARAM_ACTION => self :: ACTION_VIEW_RESULTS,
+                self :: PARAM_ATTEMPT_ID => $laika_calculated_result->get_attempt_id()));
     }
 
     /**

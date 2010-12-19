@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use repository\content_object\document\Document;
 use repository\RepositoryDataManager;
 use repository\ContentObjectImport;
 /**
@@ -24,8 +25,8 @@ class DocumentImport extends ContentObjectImport
     public function import_content_object()
     {
         $category = $this->get_category();
-        $file = $this->get_content_object_file(); 
-        
+        $file = $this->get_content_object_file();
+
         $document = new Document();
         $document->set_title($file['name']);
         $document->set_description($file['name']);

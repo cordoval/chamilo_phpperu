@@ -1,25 +1,26 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ObjectTableOrder;
+use common\libraries\InequalityCondition;
 use common\libraries\WebApplication;
 use common\libraries\Database;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\InCondition;
+use common\libraries\Session;
+use common\libraries\ConditionTranslator;
 
 use repository\RepositoryDataManager;
 use repository\ContentObject;
+use repository\ContentObjectPublicationAttributes;
 
 use user\UserDataManager;
 use user\User;
 
 use group\Group;
 use group\GroupDataManager;
-
-use application\internship_organizer\InternshipOrganizerDataManagerInterface;
-use common\libraries\Session;
-use common\libraries\ConditionTranslator;
 /**
  * @package internship_organizer.datamanager
  */
@@ -961,7 +962,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerLocation :: get_table_name()) . ' AS ' . $location_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerAgreementRelLocation :: PROPERTY_LOCATION_ID, $agreement_rel_location_alias);
 
         return $this->count_result_set($query, InternshipOrganizerAgreementRelLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelUser :: CLASS_NAME);
-            }
+    }
 
     function retrieve_agreement_rel_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
@@ -1104,7 +1105,8 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         while ($gr = $regions->next_result())
         {
             $bool = $bool & $this->delete_internship_organizer_region($gr);
-            //mag dit? (i.e. recursieve oproep)
+
+     //mag dit? (i.e. recursieve oproep)
         }
 
         return $bool;

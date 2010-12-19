@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Toolbar;
 use common\libraries\WebApplication;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'appointment_manager/component/appointment/table_column_model.class.php';
@@ -8,7 +9,7 @@ require_once WebApplication :: get_application_class_lib_path('internship_organi
 
 class InternshipOrganizerAppointmentBrowserTableCellRenderer extends DefaultInternshipOrganizerAppointmentTableCellRenderer
 {
-    
+
     private $browser;
 
     function __construct($browser)
@@ -24,13 +25,13 @@ class InternshipOrganizerAppointmentBrowserTableCellRenderer extends DefaultInte
         {
             return $this->get_modification_links($appointment);
         }
-        
+
         return parent :: render_cell($column, $appointment);
     }
 
     function render_id_cell($appointment)
     {
-        
+
         return $appointment->get_id();
     }
 
@@ -42,9 +43,9 @@ class InternshipOrganizerAppointmentBrowserTableCellRenderer extends DefaultInte
      */
     private function get_modification_links($appointment)
     {
-       
+
         $toolbar = new Toolbar();
-        
+
 //        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_ADD, InternshipOrganizerRights :: LOCATION_APPOINTMENT, InternshipOrganizerRights :: TYPE_COMPONENT))
 //        {
 //          $toolbar->add_item(new ToolbarItem(Translation :: get('MakeAppointment'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->browser->get_create_appointment_url($appointment), ToolbarItem :: DISPLAY_ICON));

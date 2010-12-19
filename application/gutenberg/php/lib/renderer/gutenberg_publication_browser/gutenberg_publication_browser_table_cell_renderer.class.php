@@ -1,6 +1,7 @@
 <?php
 namespace application\gutenberg;
 
+use common\libraries\Utilities;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\ToolbarItem;
@@ -39,15 +40,15 @@ class GutenbergPublicationBrowserTableCellRenderer extends DefaultGutenbergPubli
         {
             return $this->get_modification_links($gutenberg_publication);
         }
-        
+
         switch ($column->get_name())
         {
-//            case ContentObject :: PROPERTY_TITLE :
-//                $title = parent :: render_cell($column, $gutenberg_publication);
-//                $title_short = Utilities :: truncate_string($title, 53, false);
-//                return '<a href="' . htmlentities($gutenberg_publication->get_publication_object()->get_url()) . '" title="' . $title . '">' . $title_short . '</a>';
+            //            case ContentObject :: PROPERTY_TITLE :
+        //                $title = parent :: render_cell($column, $gutenberg_publication);
+        //                $title_short = Utilities :: truncate_string($title, 53, false);
+        //                return '<a href="' . htmlentities($gutenberg_publication->get_publication_object()->get_url()) . '" title="' . $title . '">' . $title_short . '</a>';
         }
-        
+
         return parent :: render_cell($column, $gutenberg_publication);
     }
 
@@ -62,22 +63,22 @@ class GutenbergPublicationBrowserTableCellRenderer extends DefaultGutenbergPubli
         $toolbar = new Toolbar();
         $toolbar->add_items($this->browser->get_gutenberg_publication_actions($gutenberg_publication));
         return $toolbar->as_html();
-        
-    	$toolbar = new Toolbar(); 
-        
+
+        $toolbar = new Toolbar();
+
         $viewing_url = $this->browser->get_publication_viewing_url($gutenberg_publication);
-        
-        $toolbar->add_item(new ToolbarItem(Translation :: get('View', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_details.png', $viewing_url, ToolbarItem :: DISPLAY_ICON));
-        
+
+        $toolbar->add_item(new ToolbarItem(Translation :: get('View', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_details.png', $viewing_url, ToolbarItem :: DISPLAY_ICON));
+
         if ($this->browser->get_user()->is_platform_admin() || $gutenberg_publication->get_publisher() == $this->browser->get_user()->get_id())
         {
             $edit_url = $this->browser->get_publication_editing_url($gutenberg_publication);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON));
-            
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON));
+
             $delete_url = $this->browser->get_publication_deleting_url($gutenberg_publication);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON, true));
         }
-        
+
         return $toolbar->as_html();
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ObjectTableColumn;
 use common\libraries\WebApplication;
 
 use user\DefaultUserTableColumnModel;

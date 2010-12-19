@@ -1,4 +1,6 @@
 <?php
+namespace group;
+
 require_once (dirname(__FILE__) . '/../../../common/global.inc.php');
 
 ini_set('max_execution_time', - 1);

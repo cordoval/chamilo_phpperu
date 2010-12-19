@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
 use common\libraries\Utilities;
@@ -17,12 +19,11 @@ use common\libraries\Breadcrumb;
 
 use repository\RepositoryDataManager;
 use repository\ContentObject;
+use repository\content_object\document\Document;
+use repository\content_object\survey\Survey;
 
 use user\UserDataManager;
 use user\User;
-
-use repository\content_object\document\Document;
-use repository\content_object\survey\Survey;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/agreement_manager.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/moment_browser/browser_table.class.php';
@@ -113,12 +114,14 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
 
         // Publications table tab
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_PUBLICATIONS;
-        $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition(array(Document :: get_table_name())));
+        $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition(array(
+                Document :: get_table_name())));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_PUBLICATIONS, Translation :: get('InternshipOrganizerPublications'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
 
         // Evaluations table tab
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_EVALUATIONS;
-        $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition(array(Survey :: get_type_name())));
+        $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition(array(
+                Survey :: get_type_name())));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_EVALUATIONS, Translation :: get('InternshipOrganizerEvaluations'), Theme :: get_image_path('internship_organizer') . 'place_mini_survey.png', $table->as_html()));
 
         $count = $this->count_agreement_rel_locations($this->get_location_condition(InternshipOrganizerAgreementRelLocation :: APPROVED));
@@ -218,7 +221,8 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
             }
         }
 
-        $action_bar->set_search_url($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id())));
+        $action_bar->set_search_url($this->get_url(array(
+                InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id())));
 
         return $action_bar;
     }
@@ -236,10 +240,6 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
             $search_conditions = array();
             $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_NAME, '*' . $query . '*');
             $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_DESCRIPTION, '*' . $query . '*');
-            //            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_STREET_NUMBER, '*' . $query . '*');
-            //            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_CITY, '*' . $query . '*');
-
-
             $conditions[] = new OrCondition($search_conditions);
         }
         return new AndCondition($conditions);
@@ -363,7 +363,6 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PLACE_ID, $this->agreement->get_id());
         $conditions[] = new InCondition(InternshipOrganizerPublication :: PROPERTY_CONTENT_OBJECT_TYPE, $types);
 
-
         $query = $this->action_bar->get_query();
 
         if (isset($query) && $query != '')
@@ -388,7 +387,8 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
     }
 
     function get_additional_parameters()

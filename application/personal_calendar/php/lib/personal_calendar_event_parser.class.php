@@ -1,8 +1,8 @@
 <?php
 namespace application\personal_calendar;
 
-use common\libraries;
-
+use common\libraries\Display;
+use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;

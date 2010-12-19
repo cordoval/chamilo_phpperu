@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 use common\libraries\WebApplication;
 use common\libraries\Utilities;
 use common\libraries\Translation;
@@ -102,7 +104,6 @@ class InternshipOrganizerAppointmentManagerBrowserComponent extends InternshipOr
         $agreement_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerAgreement :: get_table_name());
         $period_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerPeriod :: get_table_name());
 
-
         $conditions = array();
         if (count($agreement_ids))
         {
@@ -129,7 +130,6 @@ class InternshipOrganizerAppointmentManagerBrowserComponent extends InternshipOr
             $search_conditions[] = new PatternMatchCondition(InternshipOrganizerAgreement :: PROPERTY_NAME, '*' . $query . '*', $agreement_alias, true);
             $search_conditions[] = new PatternMatchCondition(InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION, '*' . $query . '*', $agreement_alias, true);
             $search_conditions[] = new PatternMatchCondition(InternshipOrganizerPeriod :: PROPERTY_NAME, '*' . $query . '*', $period_alias, true);
-
 
             $conditions[] = new OrCondition($search_conditions);
         }

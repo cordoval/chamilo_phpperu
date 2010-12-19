@@ -1,6 +1,7 @@
 <?php
 namespace application\personal_calendar;
 
+use common\libraries\Translation;
 use common\libraries\Utilities;
 
 class PersonalCalendarEventTaskParser extends PersonalCalendarEventParser

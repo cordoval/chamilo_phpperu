@@ -1,7 +1,7 @@
 <?php
-
 namespace application\personal_messenger;
 
+use common\libraries\ObjectTable;
 use common\libraries\WebApplication;
 use common\libraries\Request;
 use common\libraries\Translation;
@@ -97,7 +97,9 @@ class PersonalMessengerManager extends WebApplication
         $extra_items[] = $create;
 
         $temp_replacement = '__FOLDER__';
-        $url_format = $this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => $temp_replacement));
+        $url_format = $this->get_url(array(
+                Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES,
+                PersonalMessengerManager :: PARAM_FOLDER => $temp_replacement));
         $url_format = str_replace($temp_replacement, '%s', $url_format);
         $user_menu = new PersonalMessengerMenu($this->get_folder(), $url_format, $extra_items);
 
@@ -270,7 +272,9 @@ class PersonalMessengerManager extends WebApplication
      */
     function get_publication_deleting_url($personal_message)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION,
+                self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
     }
 
     /**
@@ -280,12 +284,17 @@ class PersonalMessengerManager extends WebApplication
      */
     function get_publication_viewing_url($personal_message)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION,
+                self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
     }
 
     function get_publication_viewing_link($personal_message)
     {
-        return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), self :: PARAM_FOLDER => $this->get_folder()));
+        return $this->get_link(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION,
+                self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(),
+                self :: PARAM_FOLDER => $this->get_folder()));
     }
 
     /**
@@ -300,7 +309,10 @@ class PersonalMessengerManager extends WebApplication
 
     function get_publication_reply_url($personal_message)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION, 'reply' => $personal_message->get_id(), PersonalMessengerManager :: PARAM_USER_ID => $personal_message->get_sender()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION,
+                'reply' => $personal_message->get_id(),
+                PersonalMessengerManager :: PARAM_USER_ID => $personal_message->get_sender()));
     }
 
     /**

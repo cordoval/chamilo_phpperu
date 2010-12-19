@@ -1,7 +1,7 @@
 <?php
-
 namespace application\webconferencing;
 
+use common\libraries\ObjectTable;
 use common\libraries\WebApplication;
 /**
  * $Id: webconferencing_manager.class.php 220 2009-11-13 14:33:52Z kariboe $

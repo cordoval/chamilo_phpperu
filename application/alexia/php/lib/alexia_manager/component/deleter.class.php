@@ -1,7 +1,7 @@
 <?php
-
 namespace application\alexia;
 
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Application;
@@ -20,24 +20,24 @@ class AlexiaManagerDeleterComponent extends AlexiaManager
     {
         $ids = Request :: get(AlexiaManager :: PARAM_ALEXIA_ID);
         $failures = 0;
-        
+
         if (! empty($ids))
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             foreach ($ids as $id)
             {
                 $publication = $this->retrieve_alexia_publication($id);
-                
+
                 if (! $publication->delete())
                 {
                     $failures ++;
                 }
             }
-            
+
             if ($failures)
             {
                 if (count($ids) == 1)
@@ -60,12 +60,13 @@ class AlexiaManagerDeleterComponent extends AlexiaManager
                     $message = 'SelectedPublicationsDeleted';
                 }
             }
-            
-            $this->redirect(Translation :: get($message, null, Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS));
+
+            $this->redirect(Translation :: get($message, null, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(
+                    Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected', null, Utilities::COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

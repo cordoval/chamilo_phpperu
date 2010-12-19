@@ -1,4 +1,9 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\OrCondition;
+use common\libraries\NotCondition;
+use common\libraries\Authentication;
 use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\CoreApplication;
@@ -21,16 +26,16 @@ Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
 if (Authentication :: is_valid())
 {
     $conditions = array();
-    
+
     $organisation_id = $_GET[InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID];
     $conditions[] = new EqualityCondition(InternshipOrganizerOrganisationRelUser :: PROPERTY_ORGANISATION_ID, $organisation_id);
-    
+
     $query_condition = Utilities :: query_to_condition($_GET['query'], array(User :: PROPERTY_FIRSTNAME, User :: PROPERTY_LASTNAME, User :: PROPERTY_USERNAME));
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
     }
-    
+
     if (is_array($_GET['exclude']))
     {
         $c = array();
@@ -40,11 +45,11 @@ if (Authentication :: is_valid())
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     $condition = new AndCondition($conditions);
-    
+
     $objects = InternshipOrganizerDataManager::get_instance()->retrieve_organisation_rel_users($condition);
-    
+
     while ($organisation_rel_user = $objects->next_result())
     {
         $organisation_rel_users[] = $organisation_rel_user;
@@ -64,20 +69,20 @@ function dump_tree($organisation_rel_users)
     if (contains_results($organisation_rel_users))
     {
         echo '<node id="0" classes="category unlinked" title="', Translation :: get('Users'), '">', "\n";
-        
+
         foreach ($organisation_rel_users as $organisation_rel_user)
         {
             $id = 'user_' . $organisation_rel_user->get_user_id();
             $name = strip_tags($organisation_rel_user->get_optional_property(User :: PROPERTY_FIRSTNAME) . ' ' . $organisation_rel_user->get_optional_property(User :: PROPERTY_LASTNAME));
             //            $description = strip_tags($period->get_description());
             //            $description = preg_replace("/[\n\r]/", "", $description);
-            
+
 
             echo '<leaf id="' . $id . '" classes="" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
-        
+
         echo '</node>' . "\n";
-    
+
     }
 }
 

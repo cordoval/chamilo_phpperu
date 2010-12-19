@@ -1,8 +1,13 @@
 <?php
 namespace application\phrases;
 
-use common\libraries\EqualityCondition;
+use user\UserDataManager;
+
+use repository\content_object\feedback\Feedback;
+use repository\content_object\hotspot_question\HotspotQuestion;
 use repository\ComplexContentObjectItem;
+
+use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
 /**

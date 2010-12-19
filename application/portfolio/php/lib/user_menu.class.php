@@ -1,6 +1,7 @@
 <?php
 namespace application\portfolio;
 
+use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\BreadcrumbTrail;

@@ -1,15 +1,20 @@
 <?php
 namespace application\phrases;
 
-use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
-
+use common\libraries\Filecompression;
+use common\libraries\Filesystem;
+use common\libraries\AndCondition;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
-use repository\RepositoryDataManager;
 use common\libraries\Path;
+
+use repository\content_object\document\Document;
+use repository\ComplexContentObjectItem;
+use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
+use repository\RepositoryDataManager;
 
 /**
  * @author Hans De Bisschop
@@ -127,8 +132,8 @@ class PhrasesManagerDocumentDownloaderComponent extends PhrasesManager
 
     function redirect_to_previous($type, $id)
     {
-        $params = array(Tool :: PARAM_ACTION => PhrasesTool :: ACTION_VIEW_RESULTS, $type => $id);
-        $this->redirect(Translation :: get('NoDocumentsForPhrases'), false, $params);
+//        $params = array(Tool :: PARAM_ACTION => PhrasesTool :: ACTION_VIEW_RESULTS, $type => $id);
+//        $this->redirect(Translation :: get('NoDocumentsForPhrases'), false, $params);
     }
 
     function send_files($filenames, $phrases_id)

@@ -1,7 +1,7 @@
 <?php
-
 namespace application\gradebook;
 
+use common\libraries\Request;
 use common\libraries\WebApplication;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
@@ -14,13 +14,18 @@ class GradebookManagerExternalGradeEvaluationInputComponent extends GradebookMan
     function run()
     {
         $trail = $this->get_general_breadcrumbs();
-        $trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL)), Translation :: get('CreatingExternal')));
+        $trail->add(new Breadcrumb($this->get_url(array(
+                GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL)), Translation :: get('CreatingExternal')));
 
-        $grade_form = new ExternalGradeEvaluationInputForm(ExternalGradeEvaluationInputForm :: TYPE_CREATE, $this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL_GRADE, GradebookTreeMenuDataProvider :: PARAM_ID => Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID), 'values' => Request :: get('values'))), Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID), $this->get_user(), Request :: get('values'));
+        $grade_form = new ExternalGradeEvaluationInputForm(ExternalGradeEvaluationInputForm :: TYPE_CREATE, $this->get_url(array(
+                GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL_GRADE,
+                GradebookTreeMenuDataProvider :: PARAM_ID => Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID),
+                'values' => Request :: get('values'))), Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID), $this->get_user(), Request :: get('values'));
         if ($grade_form->validate())
         {
             $success = $grade_form->create_evaluation();
-            $this->redirect($success ? Translation :: get('ExternalGradesCreated') : Translation :: get('ExternalGradesNotCreated'), !$success, array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK));
+            $this->redirect($success ? Translation :: get('ExternalGradesCreated') : Translation :: get('ExternalGradesNotCreated'), ! $success, array(
+                    GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK));
         }
         else
         {

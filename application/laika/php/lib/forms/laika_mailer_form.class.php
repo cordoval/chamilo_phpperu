@@ -1,6 +1,7 @@
 <?php
 namespace application\laika;
 
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
 use common\libraries\Path;
@@ -35,9 +36,9 @@ class LaikaMailerForm extends FormValidator
         $url = Path :: get(WEB_PATH) . 'user/xml_feeds/xml_user_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
-        $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
-        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
-        $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $hidden = false;
 
         $recipients = $this->manager->get_selected_users();
@@ -46,8 +47,10 @@ class LaikaMailerForm extends FormValidator
         //$elem->excludeElements(array($this->user->get_id()));
         $elem->setDefaultCollapsed(false);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Send'), array('class' => 'positive send'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Send'), array(
+                'class' => 'positive send'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 

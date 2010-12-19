@@ -1,4 +1,9 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\OrCondition;
+use common\libraries\NotCondition;
+use common\libraries\Authentication;
 use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\CoreApplication;
@@ -19,13 +24,15 @@ Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
 if (Authentication :: is_valid())
 {
     $conditions = array();
-    
-    $query_condition = Utilities :: query_to_condition($_GET['query'], array(InternshipOrganizerPeriod :: PROPERTY_NAME, InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION));
+
+    $query_condition = Utilities :: query_to_condition($_GET['query'], array(
+            InternshipOrganizerPeriod :: PROPERTY_NAME,
+            InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION));
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
     }
-    
+
     if (is_array($_GET['exclude']))
     {
         $c = array();
@@ -35,7 +42,7 @@ if (Authentication :: is_valid())
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     if (count($conditions) > 0)
     {
         $condition = new AndCondition($conditions);
@@ -44,10 +51,10 @@ if (Authentication :: is_valid())
     {
         $condition = null;
     }
-    
+
     $dm = InternshipOrganizerDataManager :: get_instance();
     $objects = $dm->retrieve_periods($condition);
-    
+
     while ($period = $objects->next_result())
     {
         $periods[] = $period;
@@ -67,19 +74,19 @@ function dump_tree($periods)
     if (contains_results($periods))
     {
         echo '<node id="0" classes="category unlinked" title="' . Translation :: get('Periods') . '">' . "\n";
-        
+
         foreach ($periods as $period)
         {
             $id = 'period_' . $period->get_id();
             $name = strip_tags($period->get_name());
             $description = strip_tags($period->get_description());
             $description = preg_replace("/[\n\r]/", "", $description);
-            
+
             echo '<leaf id="' . $id . '" classes="" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
-        
+
         echo '</node>' . "\n";
-    
+
     }
 }
 

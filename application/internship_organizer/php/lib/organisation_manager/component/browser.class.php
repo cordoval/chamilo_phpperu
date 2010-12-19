@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 use common\libraries\WebApplication;
 use common\libraries\Utilities;
 use common\libraries\Translation;
@@ -16,7 +18,6 @@ use common\libraries\InCondition;
 require_once dirname(__FILE__) . '/../organisation_manager.class.php';
 require_once dirname(__FILE__) . '/browser/browser_table.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_rel_user.class.php';
-
 
 class InternshipOrganizerOrganisationManagerBrowserComponent extends InternshipOrganizerOrganisationManager
 {

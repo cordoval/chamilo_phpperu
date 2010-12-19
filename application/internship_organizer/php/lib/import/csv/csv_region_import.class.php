@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Import;
 use common\libraries\WebApplication;
 use common\libraries\Request;
 
@@ -16,22 +17,22 @@ class CsvRegionImport extends InternshipOrganizerImport
 
     public function import_internship_organizer_object()
     {
-        
+
         $file = $this->get_internship_organizer_file();
         $array = explode('.', $file['name']);
         $type = $array[count($array) - 1];
-        
+
         if ($type != 'csv')
         {
             return false;
         }
-        
+
         $region_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
-        
+
         $csvarray = Import :: read_csv($this->get_internship_organizer_file_property(self :: TEMP_FILE_NAME));
-        
+
         $csvcreator = new CsvRegionCreator($region_id);
-        
+
         $temparray = $csvcreator->csv_validate($csvarray);
         if (! ($temparray[0] == 'faultyarrayreturn'))
         {
@@ -39,7 +40,7 @@ class CsvRegionImport extends InternshipOrganizerImport
             {
                 $temparray[$i]->create();
             }
-            
+
             return true;
         }
         else
@@ -49,10 +50,10 @@ class CsvRegionImport extends InternshipOrganizerImport
             {
                 $errormessage = $errormessage . ' ' . $temparray[$i];
             }
-            
+
             return false;
         }
-    
+
     }
 
 }

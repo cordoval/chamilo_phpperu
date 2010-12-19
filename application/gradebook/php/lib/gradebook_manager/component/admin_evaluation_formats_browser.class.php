@@ -1,18 +1,20 @@
 <?php
-
 namespace application\gradebook;
 
+use common\libraries\Utilities;
+use common\libraries\DynamicTabsRenderer;
 use common\libraries\WebApplication;
 use common\libraries\Header;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Redirect;
-use admin\AdminManager;
 use common\libraries\Translation;
 use common\libraries\Display;
 
+use admin\AdminManager;
+
 // required table classes
-require_once WebApplication::get_application_class_lib_path('gradebook') . 'gradebook_manager/component/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_manager/component/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
 
 class GradebookManagerAdminEvaluationFormatsBrowserComponent extends GradebookManager
 {
@@ -21,14 +23,17 @@ class GradebookManagerAdminEvaluationFormatsBrowserComponent extends GradebookMa
     {
         Header :: set_section('admin');
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => GradebookManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Gradebook')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(
+                AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(
+                AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER,
+                DynamicTabsRenderer :: PARAM_SELECTED_TAB => GradebookManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Gradebook')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseEvaluationFormats')));
 
-        if (!$this->get_user()->is_platform_admin())
+        if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
-            Display :: error_message(Translation :: get("NotAllowed", null, Utilities::COMMON_LIBRARIES));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

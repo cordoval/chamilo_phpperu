@@ -1,6 +1,8 @@
 <?php
-
 namespace application\cda;
+
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
 
 require_once dirname(__FILE__) . '/variable_writer.class.php';
 
@@ -45,9 +47,9 @@ class DatabaseVariableWriter extends VariableWriter
             $condition = new AndCondition($conditions);
             $language_pack = $dm->retrieve_language_packs($condition)->next_result();
 
-            if (!$language_pack)
+            if (! $language_pack)
             {
-                $language_pack = new LanguagePack;
+                $language_pack = new LanguagePack();
                 $language_pack->set_branch(LanguagePack :: BRANCH_LCMS);
                 $language_pack->set_name($name);
                 $language_pack->set_type($type);

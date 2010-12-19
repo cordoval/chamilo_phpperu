@@ -1,5 +1,7 @@
-<?php 
+<?php
 namespace application\metadata;
+
+use common\libraries\ObjectTableColumn;
 use common\libraries\ObjectTableColumnModel;
 
 /**

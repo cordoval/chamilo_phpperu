@@ -2,6 +2,8 @@
 namespace application\laika;
 
 use rights\RightsUtilities;
+
+use ReflectionClass;
 /**
  * $Id: laika_rights.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika
@@ -24,22 +26,22 @@ class LaikaRights
     const LOCATION_INFORMER = 9;
 
     const TYPE_LAIKA_COMPONENT = 1;
-    
+
     function get_available_rights()
     {
         $reflect = new ReflectionClass('LaikaRights');
 
-	    $rights = $reflect->getConstants();
+        $rights = $reflect->getConstants();
 
-	    foreach($rights as $key => $right)
-		{
-			if(substr(strtolower($key), 0, 8) == 'location')
-			{
-				unset($rights[$key]);
-			}
-		}
+        foreach ($rights as $key => $right)
+        {
+            if (substr(strtolower($key), 0, 8) == 'location')
+            {
+                unset($rights[$key]);
+            }
+        }
 
-	    return $rights;
+        return $rights;
     }
 
     function is_allowed($right, $location, $type)

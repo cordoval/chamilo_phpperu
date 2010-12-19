@@ -1,7 +1,7 @@
 <?php
 namespace application\package;
 
-
+use common\libraries\OrCondition;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
@@ -11,8 +11,7 @@ use common\libraries\Authentication;
 use common\libraries\ObjectTableOrder;
 use common\libraries\Utilities;
 use common\libraries\Translation;
- 
- 
+
 /**
  * $Id: xml_package_feed.php 224 2009-11-13 14:40:30Z kariboe $
  * @package author.xml_feeds
