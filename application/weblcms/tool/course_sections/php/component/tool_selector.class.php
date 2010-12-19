@@ -1,7 +1,9 @@
 <?php
 namespace application\weblcms\tool\course_sections;
 
+use application\weblcms\Tool;
 use application\weblcms\WeblcmsDataManager;
+
 use common\libraries\Display;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
@@ -40,17 +42,23 @@ class CourseSectionsToolToolSelectorComponent extends CourseSectionsTool
         {
             $course_section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $id))->next_result();
 
-            $form = new CourseSectionToolSelectorForm($course_section, $this->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_SELECT_TOOLS_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $id)));
+            $form = new CourseSectionToolSelectorForm($course_section, $this->get_url(array(
+                    CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_SELECT_TOOLS_COURSE_SECTION,
+                    CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $id)));
 
             if ($form->validate())
             {
                 $success = $form->update_course_modules();
-                $this->redirect(Translation :: get($success ? 'CourseSectionUpdated' : 'CourseSectionNotUpdated'), ($success ? false : true), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
+                $this->redirect(Translation :: get($success ? 'CourseSectionUpdated' : 'CourseSectionNotUpdated'), ($success ? false : true), array(
+                        CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
             }
             else
             {
-                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS)), $course_section->get_name()));
-                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_SELECT_TOOLS_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $id)), Translation :: get('SelectTools')));
+                $trail->add(new Breadcrumb($this->get_url(array(
+                        Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS)), $course_section->get_name()));
+                $trail->add(new Breadcrumb($this->get_url(array(
+                        Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_SELECT_TOOLS_COURSE_SECTION,
+                        CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $id)), Translation :: get('SelectTools')));
                 $this->display_header();
                 $form->display();
                 $this->display_footer();

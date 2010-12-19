@@ -2,10 +2,13 @@
 namespace application\weblcms;
 
 use user\VisitTracker;
+
+use reporting\Reporting;
+use reporting\ReportingManager;
 use reporting\ReportingData;
 use reporting\ReportingFormatter;
+
 use common\libraries\PatternMatchCondition;
-use reporting\ReportingManager;
 use common\libraries\Redirect;
 use common\libraries\Application;
 use common\libraries\OrCondition;

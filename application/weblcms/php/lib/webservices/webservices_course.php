@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 require_once (dirname(__FILE__) . '/../../../../common/global.inc.php');
 require_once dirname(__FILE__) . '/webservices_course_class.php';
 

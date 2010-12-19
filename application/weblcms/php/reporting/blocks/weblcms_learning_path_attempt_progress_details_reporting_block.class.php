@@ -1,8 +1,18 @@
 <?php
 namespace application\weblcms;
 
+use tracking\Event;
+
+use common\libraries\Text;
+
+use application\weblcms\tool\learning_path\LearningPathToolStatisticsViewerComponent;
+use application\weblcms\tool\learning_path\LearningPathTool;
+
+use repository\content_object\learning_path\LearningPathTree;
+
 use reporting\ReportingData;
 use reporting\ReportingFormatter;
+
 use common\libraries\DatetimeUtilities;
 use common\libraries\NotCondition;
 use common\libraries\Redirect;

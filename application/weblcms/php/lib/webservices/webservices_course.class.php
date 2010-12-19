@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Validator;
 use common\libraries\Translation;
 
 /**
@@ -80,7 +81,6 @@ use common\libraries\Translation;
  * University College of Ghent
  */
 
-
 use common\libraries\Webservice;
 use common\libraries\InputUser;
 use user\DatabaseUserDataManager;
@@ -102,39 +102,39 @@ class WebServicesCourse
     function run()
     {
         $functions = array();
-        
+
         $functions['get_course'] = array('input' => new Course(), 'output' => new Course());
-        
+
         $functions['delete_course'] = array('input' => new Course());
-        
+
         $functions['delete_courses'] = array('array_input' => true, 'input' => array(new Course()));
-        
+
         $functions['update_course'] = array('input' => new Course());
-        
+
         $functions['update_courses'] = array('array_input' => true, 'input' => array(new Course()));
-        
+
         $functions['create_course'] = array('input' => new Course());
-        
+
         $functions['create_courses'] = array('array_input' => true, 'input' => array(new Course()));
-        
+
         $functions['subscribe_user'] = array('input' => new CourseUserRelation());
-        
+
         $functions['subscribe_users'] = array('array_input' => true, 'input' => array(new CourseUserRelation()));
-        
+
         $functions['unsubscribe_user'] = array('input' => new CourseUserRelation());
-        
+
         $functions['unsubscribe_users'] = array('array_input' => true, 'input' => array(new CourseUserRelation()));
-        
+
         $functions['subscribe_group'] = array('input' => new CourseGroup());
-        
+
         $functions['subscribe_groups'] = array('array_input' => true, 'input' => array(new CourseGroup()));
-        
+
         $functions['unsubscribe_group'] = array('input' => new CourseGroup());
-        
+
         $functions['unsubscribe_groups'] = array('array_input' => true, 'input' => array(new CourseGroup()));
-        
+
         $this->webservice->provide_webservice($functions);
-    
+
     }
 
     function get_course($input_course)
@@ -267,7 +267,7 @@ class WebServicesCourse
             {
                 return $this->webservice->raise_error($this->validator->get_error_message(), null, Translation :: get('Client'), $this->validator->get_error_source());
             }
-        
+
         }
         else
         {
@@ -316,7 +316,7 @@ class WebServicesCourse
             {
                 return $this->webservice->raise_error($this->validator->get_error_message(), null, Translation :: get('Client'), $this->validator->get_error_source());
             }
-        
+
         }
         else
         {
@@ -344,7 +344,7 @@ class WebServicesCourse
                 }
             }
             return $this->webservice->raise_message(Translation :: get('UsersSubscribed') . '.');
-        
+
         }
         else
         {

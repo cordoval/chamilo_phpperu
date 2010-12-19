@@ -1,11 +1,6 @@
 <?php
 namespace application\weblcms\tool\forum;
 
-use repository\ComplexDisplay;
-use application\weblcms\WeblcmsDataManager;
-use application\weblcms\WeblcmsRights;
-use application\weblcms\WeblcmsManager;
-use application\weblcms\Tool;
 use common\libraries\Display;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
@@ -17,10 +12,17 @@ use common\libraries\DelegateComponent;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
 
+use repository\ComplexDisplay;
 use repository\content_object\forum\Forum;
 use repository\content_object\forum\ForumComplexDisplaySupport;
+use repository\content_object\forum\ForumDisplay;
 
 use application\weblcms\WeblcmsForumTopicViewsTracker;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
+use application\weblcms\Tool;
+
 use tracking\Event;
 
 /**

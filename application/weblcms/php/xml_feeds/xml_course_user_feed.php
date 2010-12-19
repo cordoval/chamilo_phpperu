@@ -1,14 +1,16 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Authentication;
 use common\libraries\PatternMatchCondition;
 use common\libraries\NotCondition;
-use user\User;
-use user\UserDataManager;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
+
+use user\User;
+use user\UserDataManager;
 
 /**
  * $Id: xml_course_user_group_feed.php 218 2009-11-13 14:21:26Z kariboe $

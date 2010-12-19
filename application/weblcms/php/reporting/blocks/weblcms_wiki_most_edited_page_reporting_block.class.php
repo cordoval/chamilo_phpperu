@@ -3,7 +3,10 @@ namespace application\weblcms;
 
 use reporting\ReportingData;
 use reporting\ReportingFormatter;
+
 use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
+
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;

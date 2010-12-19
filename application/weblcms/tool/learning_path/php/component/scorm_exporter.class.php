@@ -1,7 +1,9 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\ContentObjectExport;
 use repository\RepositoryDataManager;
+
 use common\libraries\Request;
 
 /**

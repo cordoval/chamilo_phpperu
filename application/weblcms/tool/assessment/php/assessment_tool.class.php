@@ -1,19 +1,22 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
 use application\weblcms\WeblcmsRights;
-use repository\content_object\assessment\Assessment;
-use common\libraries\Categorizable;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use application\weblcms\Tool;
+
+use common\libraries\Categorizable;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
-use repository\content_object\hotpotatoes\Hotpotatoes;
 use common\libraries\Utilities;
+
+use repository\content_object\hotpotatoes\Hotpotatoes;
+use repository\content_object\assessment\Assessment;
 
 /**
  * $Id: assessment_tool.class.php 216 2009-11-13 14:08:06Z kariboe $

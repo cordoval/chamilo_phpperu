@@ -3,8 +3,6 @@ namespace application\weblcms;
 
 use common\libraries\PatternMatchCondition;
 use common\libraries\NotCondition;
-use user\User;
-use user\UserDataManager;
 use common\libraries\InCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\AndCondition;
@@ -13,6 +11,9 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Authentication;
+
+use user\User;
+use user\UserDataManager;
 
 /**
  * $Id: xml_course_user_group_feed.php 218 2009-11-13 14:21:26Z kariboe $
@@ -65,7 +66,7 @@ if (Authentication :: is_valid())
                 }
                 elseif ($id[0] == 'group')
                 {
-                    $condition = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $id[1]));
+                    $condition = new NotCondition(new EqualityCondition(CourseGroup :: PROPERTY_ID, $id[1]));
                 }
 
                 $exclude_conditions[$id[0]][] = $condition;
@@ -151,7 +152,8 @@ if (Authentication :: is_valid())
         if ($show_groups)
         {
             $groups = array();
-            $group_result_set = WeblcmsDataManager :: get_instance()->retrieve_course_groups($group_condition, null, null, array(new ObjectTableOrder(CourseGroup :: PROPERTY_NAME)));
+            $group_result_set = WeblcmsDataManager :: get_instance()->retrieve_course_groups($group_condition, null, null, array(
+                    new ObjectTableOrder(CourseGroup :: PROPERTY_NAME)));
             while ($group = $group_result_set->next_result())
             {
 

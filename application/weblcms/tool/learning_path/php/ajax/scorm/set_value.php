@@ -1,8 +1,14 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use tracking\Event;
+
+use application\weblcms\WeblcmsLpiAttemptObjectiveTracker;
+use application\weblcms\WeblcmsLpiAttemptTracker;
 use application\weblcms\WeblcmsManager;
+
 use repository\RepositoryDataManager;
+
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;

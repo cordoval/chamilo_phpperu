@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use application\weblcms\tool\learning_path\LearningPathTool;
 use common\libraries\Request;
 use reporting\ReportingTemplate;
 

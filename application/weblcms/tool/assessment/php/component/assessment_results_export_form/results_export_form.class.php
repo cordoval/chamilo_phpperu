@@ -1,9 +1,13 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
 use application\weblcms\WeblcmsDataManager;
+
 use repository\RepositoryDataManager;
 use user\UserDataManager;
+
+use common\libraries\Export;
 use common\libraries\FormValidator;
 use common\libraries\Theme;
 use common\libraries\EqualityCondition;
@@ -17,7 +21,6 @@ use common\libraries\WebApplication;
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_export_form.results_exporters
  */
 require_once WebApplication :: get_application_class_path('weblcms') . 'trackers/weblcms_assessment_attempts_tracker.class.php';
-
 
 class AssessmentResultsExportForm extends FormValidator
 {
@@ -68,7 +71,8 @@ class AssessmentResultsExportForm extends FormValidator
 
         $options = Export :: get_supported_filetypes(array('ical'));
         $this->addElement('select', 'filetype', 'Export to filetype:', $options);
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Export', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive export'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Export', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive export'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

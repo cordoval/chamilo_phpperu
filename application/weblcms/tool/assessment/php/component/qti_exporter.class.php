@@ -4,6 +4,7 @@ namespace application\weblcms\tool\assessment;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
 
+use common\libraries\Display;
 use common\libraries\Filesystem;
 use common\libraries\Request;
 

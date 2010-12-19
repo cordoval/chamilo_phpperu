@@ -4,15 +4,18 @@ namespace application\weblcms\tool\search;
 use application\weblcms\ContentObjectPublicationUser;
 use application\weblcms\ContentObjectPublicationGroup;
 use application\weblcms\ContentObjectPublicationCourseGroup;
-use repository\content_object\introduction\Introduction;
 use application\weblcms\ContentObjectPublication;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
-use common\libraries\PatternMatchCondition;
+
+use repository\content_object\introduction\Introduction;
 use repository\ContentObject;
-use common\libraries\ActionBarRenderer;
+
 use user\User;
+
+use common\libraries\PatternMatchCondition;
+use common\libraries\ActionBarRenderer;
 use common\libraries\Theme;
 use common\libraries\OrCondition;
 use common\libraries\InCondition;
@@ -23,6 +26,8 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Text;
+
+use Pager;
 
 /**
  * $Id: search_searcher.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -187,8 +192,7 @@ class SearchToolSearcherComponent extends SearchTool
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $action_bar->set_search_url($this->get_url(array(
-                Tool :: PARAM_ACTION => SearchTool :: ACTION_SEARCH)));
+        $action_bar->set_search_url($this->get_url(array(Tool :: PARAM_ACTION => SearchTool :: ACTION_SEARCH)));
 
         return $action_bar;
     }

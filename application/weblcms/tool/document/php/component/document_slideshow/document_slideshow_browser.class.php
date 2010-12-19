@@ -4,10 +4,18 @@ namespace application\weblcms\tool\document;
 use application\weblcms\ContentObjectPublication;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
+use application\weblcms\ContentObjectPublicationBrowser;
+use application\weblcms\ContentObjectPublicationCategoryTree;
+use application\weblcms\ContentObjectPublicationCourseGroup;
+use application\weblcms\ContentObjectPublicationUser;
+
+use repository\content_object\document\Document;
 use repository\ContentObject;
-use common\libraries\SubselectCondition;
 use repository\RepositoryDataManager;
+
 use user\User;
+
+use common\libraries\SubselectCondition;
 use common\libraries\OrCondition;
 use common\libraries\InCondition;
 use common\libraries\ObjectTableOrder;
@@ -15,8 +23,6 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
-use application\weblcms\ContentObjectPublicationBrowser;
-use application\weblcms\ContentObjectPublicationCategoryTree;
 
 /**
  * $Id: document_slideshow_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -88,7 +94,8 @@ class DocumentSlideshowBrowser extends ContentObjectPublicationBrowser
         if (! empty($user_id) || ! empty($course_group_ids))
         {
             $access[] = new AndCondition(array(
-                    new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+                    new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()),
+                    new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
         }
 
         $conditions[] = new OrCondition($access);
@@ -163,7 +170,8 @@ class DocumentSlideshowBrowser extends ContentObjectPublicationBrowser
         if (! empty($user_id) || ! empty($course_group_ids))
         {
             $access[] = new AndCondition(array(
-                    new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+                    new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()),
+                    new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
         }
 
         $conditions[] = new OrCondition($access);

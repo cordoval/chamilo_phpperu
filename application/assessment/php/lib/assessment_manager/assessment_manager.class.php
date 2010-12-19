@@ -43,7 +43,6 @@ class AssessmentManager extends WebApplication
     const ACTION_MOVE_ASSESSMENT_PUBLICATION = 'mover';
     const ACTION_EXPORT_RESULTS = 'results_exporter';
     const ACTION_DOWNLOAD_DOCUMENTS = 'document_downloader';
-    const ACTION_PUBLISH_SURVEY = 'survey_publisher';
     const ACTION_BUILD_ASSESSMENT = 'builder';
     const ACTION_EDIT_RIGHTS = 'rights_editor';
 
@@ -121,12 +120,16 @@ class AssessmentManager extends WebApplication
 
     function get_update_assessment_publication_url($assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_ASSESSMENT_PUBLICATION, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_ASSESSMENT_PUBLICATION,
+                self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
     }
 
     function get_delete_assessment_publication_url($assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_ASSESSMENT_PUBLICATION, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_ASSESSMENT_PUBLICATION,
+                self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
     }
 
     function get_browse_assessment_publications_url()
@@ -141,13 +144,17 @@ class AssessmentManager extends WebApplication
 
     function get_assessment_publication_viewer_url($assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ASSESSMENT_PUBLICATION, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_ASSESSMENT_PUBLICATION,
+                self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
     }
 
     function get_assessment_results_viewer_url($assessment_publication)
     {
         $id = $assessment_publication ? $assessment_publication->get_id() : null;
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS, self :: PARAM_ASSESSMENT_PUBLICATION => $id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS,
+                self :: PARAM_ASSESSMENT_PUBLICATION => $id));
     }
 
     function get_import_qti_url()
@@ -157,17 +164,23 @@ class AssessmentManager extends WebApplication
 
     function get_export_qti_url($assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_QTI, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EXPORT_QTI,
+                self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
     }
 
     function get_change_assessment_publication_visibility_url($assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY,
+                self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
     }
 
     function get_move_assessment_publication_url($assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_ASSESSMENT_PUBLICATION, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_MOVE_ASSESSMENT_PUBLICATION,
+                self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
     }
 
     function get_results_exporter_url($tracker_id)
@@ -177,22 +190,24 @@ class AssessmentManager extends WebApplication
 
     function get_download_documents_url($assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENTS, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
-    }
-
-    function get_publish_survey_url($assessment_publication)
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_SURVEY, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENTS,
+                self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
     }
 
     function get_build_assessment_url($assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_ASSESSMENT, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BUILD_ASSESSMENT,
+                self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
     }
 
     function get_rights_editor_url($category = null, $publication_ids = null)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_ASSESSMENT_PUBLICATION => $publication_ids, 'category' => $category));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS,
+                self :: PARAM_ASSESSMENT_PUBLICATION => $publication_ids,
+                'category' => $category));
     }
 
     static function content_object_is_published($object_id)

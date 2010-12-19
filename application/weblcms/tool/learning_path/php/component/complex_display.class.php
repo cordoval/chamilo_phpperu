@@ -36,19 +36,17 @@ use application\weblcms\WeblcmsForumTopicViewsTracker;
 
 use tracking\Event;
 
+use Exception;
+
 //require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_content_object_display.class.php';
 require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lp_attempt_tracker.class.php';
 require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lpi_attempt_tracker.class.php';
 require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lpi_attempt_objective_tracker.class.php';
 require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 
-class LearningPathToolComplexDisplayComponent extends LearningPathTool implements
-        LearningPathComplexDisplaySupport,
-        AssessmentComplexDisplaySupport,
-        ForumComplexDisplaySupport,
-        GlossaryComplexDisplaySupport,
-        BlogComplexDisplaySupport,
-        WikiComplexDisplaySupport
+class LearningPathToolComplexDisplayComponent extends LearningPathTool implements LearningPathComplexDisplaySupport,
+        AssessmentComplexDisplaySupport, ForumComplexDisplaySupport, GlossaryComplexDisplaySupport,
+        BlogComplexDisplaySupport, WikiComplexDisplaySupport
 {
 
     private $publication;
@@ -115,7 +113,8 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('LearningPathToolBrowserComponent')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW,
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Tool :: PARAM_ACTION => Tool :: ACTION_VIEW,
                 Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('LearningPathToolViewerComponent')));
     }
 
@@ -201,7 +200,8 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
      */
     function get_learning_path_previous_url($total_steps)
     {
-        return $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
+        return $this->get_url(array(
+                Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
                 LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID),
                 'step' => $total_steps));
     }
@@ -234,7 +234,8 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
      */
     function get_learning_path_content_object_item_details_url($complex_content_object_id)
     {
-        return $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
+        return $this->get_url(array(
+                Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
                 Tool :: PARAM_PUBLICATION_ID => $this->publication->get_id(),
                 LearningPathDisplay :: PARAM_SHOW_PROGRESS => 'true',
                 ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id,
@@ -249,7 +250,8 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
      */
     function get_learning_path_content_object_assessment_result_url($complex_content_object_id, $details)
     {
-        return $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
+        return $this->get_url(array(
+                Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
                 Tool :: PARAM_PUBLICATION_ID => $this->publication->get_id(),
                 LearningPathDisplay :: PARAM_SHOW_PROGRESS => 'true',
                 ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id,
