@@ -36,6 +36,7 @@ $core_applications = array(
         'webservice',
         'admin',
         'help',
+        'install',
         'reporting',
         'tracking',
         'repository',
@@ -80,19 +81,19 @@ foreach ($extensions as $extension)
 /*
  * EXTERNAL REPOSITORY MANAGERS
  */
-$external_repository_managers = Filesystem :: get_directory_content(Path :: get_common_extensions_path() . 'external_repository_manager/', Filesystem :: LIST_DIRECTORIES, false);
+$external_repository_managers = Filesystem :: get_directory_content(Path :: get_common_extensions_path() . 'external_repository_manager/implementation/', Filesystem :: LIST_DIRECTORIES, false);
 foreach ($external_repository_managers as $external_repository_manager)
 {
-    create_and_copy(Path :: get_common_extensions_path() . 'external_repository_manager/' . $external_repository_manager . '/');
+    create_and_copy(Path :: get_common_extensions_path() . 'external_repository_manager/implementation/' . $external_repository_manager . '/');
 }
 
 /*
  * VIDEO CONFERENCING MANAGERS
  */
-$video_conferencing_managers = Filesystem :: get_directory_content(Path :: get_common_extensions_path() . 'video_conferencing_manager/', Filesystem :: LIST_DIRECTORIES, false);
+$video_conferencing_managers = Filesystem :: get_directory_content(Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/', Filesystem :: LIST_DIRECTORIES, false);
 foreach ($video_conferencing_managers as $video_conferencing_manager)
 {
-    create_and_copy(Path :: get_common_extensions_path() . 'video_conferencing_manager/' . $video_conferencing_manager . '/');
+    create_and_copy(Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation/' . $video_conferencing_manager . '/');
 }
 
 /*

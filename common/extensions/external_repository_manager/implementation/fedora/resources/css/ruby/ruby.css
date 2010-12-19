@@ -1,0 +1,47 @@
+@CHARSET "ISO-8859-1";
+ul.tree-menu li div a.fedora {
+	background-image: url(../../images/ruby/logo/16.png);
+}
+
+ul.tree-menu li div a.type_fedora {
+	background-image: url(../../images/ruby/logo/16.png);
+}
+
+ul.tree-menu li div a.green_light {
+	background-image: url(../../images/ruby/treemenu/green_light.png);
+}
+
+ul.tree-menu li div a.red_light {
+	background-image: url(../../images/ruby/treemenu/red_light.png);
+}
+
+ul.tree-menu li div a.yellow_light {
+	background-image: url(../../images/ruby/treemenu/yellow_light.png);
+}
+
+ul.tree-menu li div a.fedora_history {
+	background-image: url(../../images/ruby/types/history_tree.png);
+}
+
+ul.tree-menu li div a.fedora_folder {
+	background-image: url(../../images/ruby/types/folder_tree.png);
+}
+
+button.dropdown,a.dropdown_button {
+	background-image: url(../../images/ruby/forms/button_dropdown.png);
+        background-position: center center;
+        height: 22px;
+        width:24px;
+        vertical-align: bottom;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-right: 2px;
+        padding-left: 2px;
+        color: #529214;
+
+}
+
+.highlight{
+    color: red;
+    font-weight: bold;
+}
