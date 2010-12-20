@@ -1,20 +1,16 @@
 <?php
+
 namespace application\package;
 
-use common\libraries\AndCondition;
-use common\libraries\EqualityCondition;
-use common\libraries\InCondition;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
+use rights\RightsUtilities;
+use user\UserDataManager;
+use common\libraries\ObjectTableOrder;
+use user\User;
 use common\libraries\Utilities;
 use common\libraries\WebApplication;
-use common\libraries\ObjectTableOrder;
-
-use rights\RightsUtilities;
-
-use user\UserDataManager;
-use user\User;
 /**
  * This class describes the form for a PackageLanguage object.
  * @author Sven Vanpoucke
@@ -24,20 +20,20 @@ class AuthorForm extends FormValidator
 {
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
-
+    
     const PACKAGE = 'package';
-
+    
     private $package;
     private $user;
 
     function __construct($form_type, $package, $action, $user)
     {
         parent :: __construct('author_settings', 'post', $action);
-
+        
         $this->package = $package;
         $this->user = $user;
         $this->form_type = $form_type;
-
+        
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
@@ -46,7 +42,7 @@ class AuthorForm extends FormValidator
         {
             $this->build_creation_form();
         }
-
+        
         $this->setDefaults();
     }
 
@@ -55,13 +51,13 @@ class AuthorForm extends FormValidator
         $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('text', Author :: PROPERTY_NAME, Translation :: get('Name'));
         $this->addRule(Author :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-
+        
         $this->addElement('text', Author :: PROPERTY_EMAIL, Translation :: get('Email'));
         $this->addRule(Author :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-
+        
         $this->addElement('text', Author :: PROPERTY_COMPANY, Translation :: get('Company'));
         $this->addRule(Author :: PROPERTY_COMPANY, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-
+        
         $url = WebApplication :: get_application_web_path('package') . 'php/xml_feeds/xml_package_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddPackageAuthors');
@@ -69,9 +65,9 @@ class AuthorForm extends FormValidator
         $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
         $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $hidden = true;
-
+        
         $elem = $this->addElement('element_finder', self :: PACKAGE, Translation :: get('Packages'), $url, $locale, $this->packages_for_element_finder());
-
+        
         $this->addElement('category');
     }
 
@@ -79,7 +75,7 @@ class AuthorForm extends FormValidator
     {
         $packages = $this->package->get_packages(false);
         $return = array();
-
+        
         while ($package = $packages->next_result())
         {
             $return_package = array();
@@ -89,34 +85,34 @@ class AuthorForm extends FormValidator
             $return_package['description'] = $package->get_name();
             $return[$package->get_id()] = $return_package;
         }
-
+        
         return $return;
     }
 
     function build_editing_form()
     {
         $this->build_basic_form();
-
+        
         //$this->addElement('hidden', PackageLanguage :: PROPERTY_ID);
-
+        
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array(
                 'class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
                 'class' => 'normal empty'));
-
+        
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     function build_creation_form()
     {
         $this->build_basic_form();
-
+        
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array(
                 'class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
                 'class' => 'normal empty'));
-
+        
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -124,11 +120,11 @@ class AuthorForm extends FormValidator
     {
         $author = $this->package;
         $values = $this->exportValues();
-
+        
         $author->set_name($values[Author :: PROPERTY_NAME]);
         $author->set_email($values[Author :: PROPERTY_EMAIL]);
         $author->set_company($values[Author :: PROPERTY_COMPANY]);
-
+        
         if (! $author->update())
         {
             return false;
@@ -138,7 +134,7 @@ class AuthorForm extends FormValidator
         $current_packages = $values[self :: PACKAGE][self :: PACKAGE];
         $packages_to_remove = array_diff($original_packages, $current_packages);
         $packages_to_add = array_diff($current_packages, $original_packages);
-
+        
         foreach ($packages_to_add as $package)
         {
             $package_author = new PackageAuthor();
@@ -149,20 +145,20 @@ class AuthorForm extends FormValidator
                 return false;
             }
         }
-
+        
         if (count($packages_to_remove) > 0)
         {
             $conditions = array();
             $conditions[] = new InCondition(PackageAuthor :: PROPERTY_PACKAGE_ID, $packages_to_remove);
             $conditions[] = new EqualityCondition(PackageAuthor :: PROPERTY_AUTHOR_ID, $author->get_id());
             $condition = new AndCondition($conditions);
-
+            
             if (! PackageDataManager :: get_instance()->delete_objects(PackageAuthor :: get_table_name(), $condition))
             {
                 return false;
             }
         }
-
+        
         return true;
     }
 
@@ -170,7 +166,7 @@ class AuthorForm extends FormValidator
     {
         $author = $this->package;
         $values = $this->exportValues();
-
+        
         $author->set_name($values[Author :: PROPERTY_NAME]);
         $author->set_email($values[Author :: PROPERTY_EMAIL]);
         $author->set_company($values[Author :: PROPERTY_COMPANY]);
@@ -181,20 +177,20 @@ class AuthorForm extends FormValidator
         }
         else
         {
-            $packages = $values[self :: PACKAGES];
+            $packages = $values[self :: PACKAGE];
             foreach ($packages as $package)
             {
                 $package_author = new PackageAuthor();
                 $package_author->set_author_id($author->get_id());
                 $package_author->set_package_id($package);
-
+                
                 if (! $package_author->create())
                 {
                     return false;
                 }
             }
         }
-
+        
         return true;
     }
 
@@ -205,11 +201,11 @@ class AuthorForm extends FormValidator
     function setDefaults($defaults = array ())
     {
         $package = $this->package;
-
+        
         $defaults[Author :: PROPERTY_NAME] = $package->get_name();
         $defaults[Author :: PROPERTY_EMAIL] = $package->get_email();
         $defaults[Author :: PROPERTY_COMPANY] = $package->get_company();
-
+        
         parent :: setDefaults($defaults);
     }
 }
