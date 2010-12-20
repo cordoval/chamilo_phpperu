@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Toolbar;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Theme;
@@ -11,7 +12,7 @@ require_once WebApplication :: get_application_class_lib_path('internship_organi
 
 class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganizerLocationTableCellRenderer
 {
-    
+
     private $browser;
     private $category;
 
@@ -29,7 +30,7 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
         {
             return $this->get_modification_links($location);
         }
-        
+
         return parent :: render_cell($column, $location);
     }
 
@@ -46,13 +47,13 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
      */
     private function get_modification_links($location)
     {
-        
+
         $toolbar = new Toolbar();
-        
+
         $subscribe_url = $this->browser->get_category_rel_location_subscribing_url($this->category, $location);
-        
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
-        
+
         return $toolbar->as_html();
     }
 }

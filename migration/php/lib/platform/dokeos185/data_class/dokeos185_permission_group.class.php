@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_permission_group.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 /**
  * This class presents a Dokeos185 permission_group
  *
@@ -13,7 +13,7 @@ namespace migration;
 class Dokeos185PermissionGroup extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185PermissionGroup properties
      */
@@ -21,7 +21,7 @@ class Dokeos185PermissionGroup extends Dokeos185MigrationDataClass
     const PROPERTY_GROUP_ID = 'group_id';
     const PROPERTY_TOOL = 'tool';
     const PROPERTY_ACTION = 'action';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -120,7 +120,7 @@ class Dokeos185PermissionGroup extends Dokeos185MigrationDataClass
     /**
      * Check if the group permission is valid
      * @param array $array the parameters for the validation
-     * @return true if the group permission is valid 
+     * @return true if the group permission is valid
      */
     function is_valid()
     {
@@ -157,11 +157,11 @@ class Dokeos185PermissionGroup extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = $parameters['course']->get_db_name();
         $tablename = 'permission_group';
         $classname = 'Dokeos185PermissionGroup';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

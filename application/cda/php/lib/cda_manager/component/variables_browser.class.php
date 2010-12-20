@@ -1,7 +1,7 @@
 <?php
-
 namespace application\cda;
 
+use common\libraries\Application;
 use common\libraries\WebApplication;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
@@ -11,7 +11,6 @@ use common\libraries\ActionBarRenderer;
 use common\libraries\Request;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
-
 
 /**
  * @package application.cda.cda.component
@@ -86,14 +85,14 @@ class CdaManagerVariablesBrowserComponent extends CdaManager
 
         return $action_bar->as_html();
     }
-    
+
 	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('CdaManagerCdaLanguagesBrowserComponent')));
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS, CdaManager :: PARAM_CDA_LANGUAGE => Request :: get(self :: PARAM_CDA_LANGUAGE))), Translation :: get('CdaManagerLanguagePacksBrowserComponent')));
     	$breadcrumbtrail->add_help('cda_variables_browser');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(CdaManager :: PARAM_LANGUAGE_PACK);

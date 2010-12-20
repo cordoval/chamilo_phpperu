@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Toolbar;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Theme;
@@ -13,7 +14,7 @@ require_once WebApplication :: get_application_class_lib_path('internship_organi
 
 class InternshipOrganizerMomentBrowserTableCellRenderer extends DefaultInternshipOrganizerMomentTableCellRenderer
 {
-    
+
     private $browser;
 
     function __construct($browser)
@@ -29,7 +30,7 @@ class InternshipOrganizerMomentBrowserTableCellRenderer extends DefaultInternshi
         {
             return $this->get_modification_links($moment);
         }
-        
+
         return parent :: render_cell($column, $moment);
     }
 
@@ -41,7 +42,7 @@ class InternshipOrganizerMomentBrowserTableCellRenderer extends DefaultInternshi
      */
     private function get_modification_links($moment)
     {
-        
+
         $toolbar = new Toolbar();
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, $moment->get_id(), InternshipOrganizerRights :: TYPE_MOMENT))
         {
@@ -55,12 +56,12 @@ class InternshipOrganizerMomentBrowserTableCellRenderer extends DefaultInternshi
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_moment_url($moment), ToolbarItem :: DISPLAY_ICON));
         }
-       
+
         if ($this->browser->get_user()->is_platform_admin() || $moment->get_owner() == $this->browser->get_user_id())
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_moment_rights_editor_url($moment), ToolbarItem :: DISPLAY_ICON));
         }
-        
+
         return $toolbar->as_html();
     }
 }

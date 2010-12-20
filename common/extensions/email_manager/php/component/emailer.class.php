@@ -1,12 +1,14 @@
 <?php
 namespace common\extensions\email_manager;
 
-use user\User;
+use common\libraries\Display;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\PlatformSetting;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Theme;
+
+use user\User;
 
 /**
  * $Id: emailer.class.php 191 2009-11-13 11:50:28Z chellee $

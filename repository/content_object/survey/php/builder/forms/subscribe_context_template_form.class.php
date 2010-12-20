@@ -1,11 +1,12 @@
-<?php namespace repository\content_object\survey;
+<?php
 namespace repository\content_object\survey;
+
+use common\libraries\Utilities;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
-
 
 class SubscribeContextTemplateForm extends FormValidator
 {
@@ -41,7 +42,7 @@ class SubscribeContextTemplateForm extends FormValidator
     {
 
         $this->addElement('select', Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, Translation :: get('SurveyContextTemplate'), $this->get_registered_context_templates());
-        $this->addRule(Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $this->addRule(Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
     }
 
@@ -52,8 +53,10 @@ class SubscribeContextTemplateForm extends FormValidator
 
         $this->addElement('hidden', SurveyContextTemplate :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -62,8 +65,10 @@ class SubscribeContextTemplateForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -87,10 +92,9 @@ class SubscribeContextTemplateForm extends FormValidator
 
         $values = $this->exportValues();
 
-        $this->survey->set_context_template_id( $values[Survey :: PROPERTY_CONTEXT_TEMPLATE_ID]);
+        $this->survey->set_context_template_id($values[Survey :: PROPERTY_CONTEXT_TEMPLATE_ID]);
 
         return $this->survey->update();
-
 
         //        if ($value)
         //        {

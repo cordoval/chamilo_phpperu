@@ -1,20 +1,24 @@
 <?php
 namespace common\libraries;
+
+use DomDocument;
+
 class DebugUtilities
 {
+
     public static function show($object, $title = null, $backtrace_index = 0)
     {
         echo '<div class="debug">';
-        
+
         $calledFrom = debug_backtrace();
         echo '<strong>' . $calledFrom[$backtrace_index]['file'] . '</strong>';
         echo ' (line <strong>' . $calledFrom[$backtrace_index]['line'] . '</strong>)';
-        
+
         if (isset($title))
         {
             echo '<h3>' . $title . '</h3>';
         }
-        
+
         echo ('<pre>');
         if (is_array($object))
         {
@@ -23,7 +27,7 @@ class DebugUtilities
         elseif (is_a($object, 'DOMDocument'))
         {
             echo 'DOMDocument:<br/><br/>';
-            
+
             $object->formatOutput = true;
             $xml_string = $object->saveXML();
             echo htmlentities($xml_string);
@@ -33,11 +37,11 @@ class DebugUtilities
             $dom = new DOMDocument();
             $debugElement = $dom->createElement('debug');
             $dom->appendChild($debugElement);
-            
+
             if (is_a($object, 'DOMNodeList'))
             {
                 echo 'DOMNodeList:<br/><br/>';
-                
+
                 foreach ($object as $node)
                 {
                     $node = $dom->importNode($node, true);
@@ -47,11 +51,11 @@ class DebugUtilities
             elseif (is_a($object, 'DOMElement'))
             {
                 echo 'DOMElement:<br/><br/>';
-                
+
                 $node = $dom->importNode($object, true);
                 $debugElement->appendChild($node);
             }
-            
+
             $dom->formatOutput = true;
             $xml_string = $dom->saveXML();
             echo htmlentities($xml_string);
@@ -64,7 +68,7 @@ class DebugUtilities
         {
             echo $object;
         }
-        
+
         echo ('</pre>');
         echo '</div>';
     }

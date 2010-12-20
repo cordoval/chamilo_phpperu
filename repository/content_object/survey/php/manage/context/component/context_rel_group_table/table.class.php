@@ -1,11 +1,12 @@
-<?php 
+<?php
 namespace repository\content_object\survey;
 
+use common\libraries\Request;
+use common\libraries\Utilities;
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Translation;
-
 
 require_once dirname(__FILE__) . '/table_data_provider.class.php';
 require_once dirname(__FILE__) . '/table_column_model.class.php';
@@ -26,10 +27,10 @@ class SurveyContextRelGroupTable extends ObjectTable
         $data_provider = new SurveyContextRelGroupTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, SurveyContextRelGroupTable :: DEFAULT_NAME, $model, $renderer);
         $actions = new ObjectTableFormActions(__NAMESPACE__, SurveyContextManager :: PARAM_ACTION);
-//        if (SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: SUBSCRIBE_GROUP_RIGHT, $browser->get_period()->get_id(), SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION))
-//        {
-            $actions->add_form_action(new ObjectTableFormAction(SurveyContextManager :: ACTION_UNSUBSCRIBE_GROUP, Translation :: get('Unsubscribe')));
-//        }
+        //        if (SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: SUBSCRIBE_GROUP_RIGHT, $browser->get_period()->get_id(), SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION))
+        //        {
+        $actions->add_form_action(new ObjectTableFormAction(SurveyContextManager :: ACTION_UNSUBSCRIBE_GROUP, Translation :: get('Unsubscribe')));
+        //        }
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
 

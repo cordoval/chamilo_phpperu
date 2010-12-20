@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Utilities;
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormActions;
 
@@ -36,7 +37,8 @@ class InternshipOrganizerPublicationTable extends ObjectTable
 
         $actions = new ObjectTableFormActions(__NAMESPACE__, InternshipOrganizerPeriodManager :: PARAM_ACTION);
 
-//         $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerAgreementManager :: ACTION_DELETE_PUBLICATION, Translation :: get('Delete')));
+        //         $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerAgreementManager :: ACTION_DELETE_PUBLICATION, Translation :: get('Delete')));
+
 
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
@@ -46,8 +48,9 @@ class InternshipOrganizerPublicationTable extends ObjectTable
     static function handle_table_action()
     {
         $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
-//        $ids = self :: get_selected_ids($class);
-//        Request :: set_get(InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID, $ids);
+
+     //        $ids = self :: get_selected_ids($class);
+    //        Request :: set_get(InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID, $ids);
     }
 }
 ?>

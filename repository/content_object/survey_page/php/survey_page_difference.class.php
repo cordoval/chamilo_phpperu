@@ -4,8 +4,9 @@ namespace repository\content_object\survey_page;
 use repository\ContentObjectDifference;
 
 /**
- * $Id: survey_page_difference.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.survey_page
+ * @package repository.content_object.survey_page
+ * @author Eduard Vossen
+ * @author Magali Gillard
  */
 /**
  * This class can be used to get the difference between assessments

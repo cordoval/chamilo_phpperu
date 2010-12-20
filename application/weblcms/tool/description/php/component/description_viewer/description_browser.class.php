@@ -1,15 +1,24 @@
 <?php
 namespace application\weblcms\tool\description;
 
+use application\weblcms\ContentObjectPublicationCourseGroup;
+use application\weblcms\ContentObjectPublicationUser;
+use application\weblcms\ListContentObjectPublicationListRenderer;
+use application\weblcms\ContentObjectPublicationDetailsRenderer;
 use application\weblcms\ContentObjectPublication;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
+use application\weblcms\ContentObjectPublicationBrowser;
+
+use repository\content_object\description\Description;
 use repository\ContentObject;
+use repository\RepositoryDataManager;
+
+use user\User;
+
 use common\libraries\ObjectTableFormAction;
 use common\libraries\SubselectCondition;
-use repository\RepositoryDataManager;
-use user\User;
 use common\libraries\OrCondition;
 use common\libraries\InCondition;
 use common\libraries\ObjectTableOrder;
@@ -19,7 +28,6 @@ use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Utilities;
-use application\weblcms\ContentObjectPublicationBrowser;
 
 /**
  * $Id: description_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -51,9 +59,9 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
             //$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected', null , Utilities :: COMMON_LIBRARIES), Tool :: ACTION_HIDE => Translation :: get('Hide', null , Utilities :: COMMON_LIBRARIES), Tool :: ACTION_SHOW => Translation :: get('Show', null , Utilities :: COMMON_LIBRARIES));
 
 
-            $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected', null , Utilities :: COMMON_LIBRARIES));
-            $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide', null , Utilities :: COMMON_LIBRARIES), false);
-            $actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show', null , Utilities :: COMMON_LIBRARIES), false);
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected', null, Utilities :: COMMON_LIBRARIES));
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide', null, Utilities :: COMMON_LIBRARIES), false);
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show', null, Utilities :: COMMON_LIBRARIES), false);
 
             $renderer->set_actions($actions);
         }
@@ -115,7 +123,8 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
         if (! empty($user_id) || ! empty($course_group_ids))
         {
             $access[] = new AndCondition(array(
-                    new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+                    new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()),
+                    new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
         }
 
         $conditions[] = new OrCondition($access);

@@ -1,6 +1,7 @@
 <?php
 namespace admin;
 
+use common\libraries\ObjectTableOrder;
 use common\libraries\Display;
 use common\libraries\Utilities;
 use common\libraries\Translation;
@@ -177,7 +178,12 @@ abstract class RegistrationDisplay
         $html[] = '<table class="data_table data_table_no_header">';
         $properties = $package_info->get_default_property_names();
 
-        $hidden_properties = array(RemotePackage :: PROPERTY_AUTHORS, RemotePackage :: PROPERTY_VERSION, RemotePackage :: PROPERTY_CYCLE, RemotePackage :: PROPERTY_DEPENDENCIES, RemotePackage :: PROPERTY_EXTRA);
+        $hidden_properties = array(
+                RemotePackage :: PROPERTY_AUTHORS,
+                RemotePackage :: PROPERTY_VERSION,
+                RemotePackage :: PROPERTY_CYCLE,
+                RemotePackage :: PROPERTY_DEPENDENCIES,
+                RemotePackage :: PROPERTY_EXTRA);
 
         foreach ($properties as $property)
         {

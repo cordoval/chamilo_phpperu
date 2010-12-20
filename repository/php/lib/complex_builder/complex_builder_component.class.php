@@ -6,6 +6,7 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\SubManager;
 
+use Exception;
 
 /**
  * $Id: complex_builder_component.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -21,27 +22,27 @@ use common\libraries\SubManager;
  */
 abstract class ComplexBuilderComponent extends SubManager
 {
-	const BROWSER_COMPONENT = 'browser';
-	const CREATOR_COMPONENT = 'creator';
-	const DELETER_COMPONENT = 'deleter';
-	const MOVER_COMPONENT = 'mover';
-	const PARENT_CHANGER_COMPONENT = 'parent_changer';
-	const UPDATER_COMPONENT = 'updater';
-	const VIEWER_COMPONENT = 'viewer';
+    const BROWSER_COMPONENT = 'browser';
+    const CREATOR_COMPONENT = 'creator';
+    const DELETER_COMPONENT = 'deleter';
+    const MOVER_COMPONENT = 'mover';
+    const PARENT_CHANGER_COMPONENT = 'parent_changer';
+    const UPDATER_COMPONENT = 'updater';
+    const VIEWER_COMPONENT = 'viewer';
 
-	static function factory($type, $application)
-	{
-		$file = dirname(__FILE__) . '/component/' . $type . '.class.php';
-    	if(!file_exists($file))
-    	{
-    		throw new Exception(Translation :: get('ComplexbuilderComponentTypeDoesNotExist', array('TYPE' => $type)));
-    	}
+    static function factory($type, $application)
+    {
+        $file = dirname(__FILE__) . '/component/' . $type . '.class.php';
+        if (! file_exists($file))
+        {
+            throw new Exception(Translation :: get('ComplexbuilderComponentTypeDoesNotExist', array('TYPE' => $type)));
+        }
 
-    	require_once $file;
-    	$class = __NAMESPACE__.'\\'.'ComplexBuilderComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
-    	
-    	return new $class($application);
-	}
+        require_once $file;
+        $class = __NAMESPACE__ . '\\' . 'ComplexBuilderComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
+
+        return new $class($application);
+    }
 
     function get_root_content_object()
     {
@@ -55,7 +56,7 @@ abstract class ComplexBuilderComponent extends SubManager
 
     function get_additional_links()
     {
-    	return $this->get_parent()->get_additional_links();
+        return $this->get_parent()->get_additional_links();
     }
 
     /**
@@ -87,20 +88,20 @@ abstract class ComplexBuilderComponent extends SubManager
         return $this->get_parent()->get_creation_links($content_object, $types, $additional_links);
     }
 
-	function get_complex_content_object_item_view_url($complex_content_object_item, $root_content_object_id)
+    function get_complex_content_object_item_view_url($complex_content_object_item, $root_content_object_id)
     {
-    	return $this->get_parent()->get_complex_content_object_item_view_url($complex_content_object_item, $root_content_object_id);
+        return $this->get_parent()->get_complex_content_object_item_view_url($complex_content_object_item, $root_content_object_id);
     }
 
     function get_complex_content_object_parent_changer_url($complex_content_object_item, $root_content_object_id)
     {
-    	return $this->get_complex_content_object_parent_changer_url($complex_content_object_item, $root_content_object_id);
+        return $this->get_complex_content_object_parent_changer_url($complex_content_object_item, $root_content_object_id);
     }
 
-	function get_application_component_path()
-	{
-		return Path :: get_repository_path() . 'lib/complex_builder/component/';
-	}
+    function get_application_component_path()
+    {
+        return Path :: get_repository_path() . 'lib/complex_builder/component/';
+    }
 
     function get_action_bar(ContentObject $content_object)
     {
@@ -142,7 +143,7 @@ abstract class ComplexBuilderComponent extends SubManager
      */
     static function launch($application)
     {
-       parent :: launch(__CLASS__, $application, false);
+        parent :: launch(__CLASS__, $application, false);
     }
 }
 

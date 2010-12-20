@@ -1,6 +1,14 @@
 <?php
 namespace application\weblcms\tool\calendar;
 
+use repository\content_object\calendar_event\CalendarEvent;
+
+use application\weblcms\ContentObjectPublicationCourseGroup;
+
+use application\weblcms\ContentObjectPublicationUser;
+
+use application\weblcms\WeekCalendarContentObjectPublicationListRenderer;
+
 use application\weblcms\CourseUserRelation;
 use application\weblcms\ContentObjectPublication;
 use application\weblcms\CourseGroup;

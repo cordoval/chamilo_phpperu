@@ -12,6 +12,8 @@ use common\libraries\ObjectTableOrder;
 
 use repository\ComplexContentObjectItem;
 
+use Exception;
+
 /**
  * Abstract class to define a blog layout so users are able to define new blog layouts and choose between them in the local settings
  * @author Sven Vanpoucke

@@ -1,10 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
 
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
+
 use common\libraries\Translation;
 use common\libraries\Utilities;
-
-use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 
 class MatterhornExternalRepositoryManagerExporterComponent extends MatterhornExternalRepositoryManager
 {

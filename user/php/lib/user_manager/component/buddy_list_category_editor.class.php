@@ -1,6 +1,9 @@
 <?php
 namespace user;
 
+use common\libraries\Utilities;
+
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
@@ -24,17 +27,20 @@ class UserManagerBuddyListCategoryEditorComponent extends UserManager
         if ($id)
         {
             $category = UserDataManager :: get_instance()->retrieve_buddy_list_categories(new EqualityCondition('id', $id))->next_result();
-            $form = new BuddyListCategoryForm(BuddyListCategoryForm :: TYPE_EDIT, $this->get_url(array(UserManager :: PARAM_BUDDYLIST_CATEGORY => $id)), $category, $this->get_user(), $this);
+            $form = new BuddyListCategoryForm(BuddyListCategoryForm :: TYPE_EDIT, $this->get_url(array(
+                    UserManager :: PARAM_BUDDYLIST_CATEGORY => $id)), $category, $this->get_user(), $this);
 
             if ($form->validate())
             {
                 $success = $form->update_category();
-                $this->redirect(Translation :: get($success ? 'CategoryUpdated' : 'CategoryNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
+                $this->redirect(Translation :: get($success ? 'CategoryUpdated' : 'CategoryNotUpdated'), ($success ? false : true), array(
+                        Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
             }
             else
             {
                 $trail = BreadcrumbTrail :: get_instance();
-                $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST)), Translation :: get('MyAccount')));
+                $trail->add(new Breadcrumb($this->get_url(array(
+                        Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST)), Translation :: get('MyAccount')));
                 $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_BUDDYLIST_CATEGORY => $id)), Translation :: get('UpdateBuddyListCategory')));
                 $trail->add_help('user general');
 

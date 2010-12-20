@@ -1,9 +1,14 @@
 <?php
 namespace rights;
 
+use common\libraries\TreeMenuRenderer;
+use common\libraries\OptionsMenuRenderer;
+use common\libraries\ObjectTableOrder;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
-use \HTML_Menu;
+
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
 /**
  * $Id: location_right_menu.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib
@@ -40,10 +45,10 @@ class LocationRightMenu extends HTML_Menu
      * this menu.
      * @param int $current_category The ID of the current category in the menu.
      * @param string $url_format The format to use for the URL of a category.
-     *                           Passed to sprintf(). Defaults to the string
-     *                           "?category=%s".
+     * Passed to sprintf(). Defaults to the string
+     * "?category=%s".
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      */
     function __construct($root_category, $current_category, $url_format = '?application=rights&go=browse&id=%s', $include_root = true, $exclude_children = false)
     {
@@ -55,7 +60,8 @@ class LocationRightMenu extends HTML_Menu
         if ($current_category == '0')
         {
             $condition = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
-            $location = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
+            $location = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(
+                    new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
 
             $this->current_category = $location->get_id();
         }
@@ -104,10 +110,10 @@ class LocationRightMenu extends HTML_Menu
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_menu_items($parent_id = 0)
     {
@@ -115,7 +121,8 @@ class LocationRightMenu extends HTML_Menu
         $current_category = $this->current_category;
 
         $condition = new EqualityCondition(Location :: PROPERTY_PARENT, $parent_id);
-        $locations = RightsDataManager :: get_instance()->retrieve_locations($condition, null, null, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)));
+        $locations = RightsDataManager :: get_instance()->retrieve_locations($condition, null, null, array(
+                new ObjectTableOrder(Location :: PROPERTY_LOCATION)));
 
         while ($location = $locations->next_result())
         {
@@ -188,7 +195,7 @@ class LocationRightMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-	function render_as_tree()
+    function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
@@ -197,6 +204,6 @@ class LocationRightMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-    	return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

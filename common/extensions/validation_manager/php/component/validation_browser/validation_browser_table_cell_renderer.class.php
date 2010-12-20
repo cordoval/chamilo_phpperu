@@ -4,6 +4,17 @@ namespace common\extensions\validation_manager;
  * $Id: validation_browser_table_cell_renderer.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.validation_manager.component.validation_browser
  */
+use common\libraries\Utilities;
+use common\libraries\Theme;
+use common\libraries\Translation;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\DatetimeUtilities;
+
+use admin\Validation;
+
+use user\User;
+
 require_once dirname(__FILE__) . '/validation_browser_table_column_model.class.php';
 /**
  * Cell renderer for the learning object browser table
@@ -30,7 +41,7 @@ class ValidationBrowserTableCellRenderer extends DefaultValidationTableCellRende
     {
         $user = $validation->get_validation_publisher();
 
-        if ($column === ValidationBrowserTableColumnMod :: get_modification_column())
+        if ($column === ValidationBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($validation);
         }

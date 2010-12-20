@@ -1,6 +1,9 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
 
+use common\libraries\Display;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 use common\libraries\SubManager;
 use common\libraries\LauncherApplication;
 use common\libraries\Utilities;
@@ -19,27 +22,29 @@ use admin\AdminDataManager;
 
 use repository\ExternalSetting;
 
+use Exception;
+
 abstract class VideoConferencingManager extends SubManager
 {
     const PARAM_VIDEO_CONFERENCING_MANAGER_ACTION = 'conferencing_action';
-    
+
     const ACTION_CREATE_MEETING = 'creator';
     const ACTION_JOIN_MEETING = 'joiner';
     const ACTION_CONFIGURE_VIDEO_CONFERENCING = 'configurer';
     const ACTION_BROWSER_VIDEO_CONFERENCING = 'browser';
     const ACTION_VIEW_VIDEO_CONFERENCING = 'viewer';
     const ACTION_END_VIDEO_CONFERENCING = 'ender';
-    
+
     const DEFAULT_ACTION = self :: ACTION_CREATE_MEETING;
-    
+
     const PARAM_VIDEO_CONFERENCING_ID = 'video_conferencing_id';
     const PARAM_VIDEO_CONFERENCING = 'external_instance';
     const PARAM_QUERY = 'query';
     const PARAM_RENDERER = 'renderer';
-    
+
     const NAMESPACE_NAME = __NAMESPACE__;
     const CLASS_NAME = __CLASS__;
-    
+
     private $video_conferencing;
 
     /**
@@ -49,15 +54,15 @@ abstract class VideoConferencingManager extends SubManager
     {
         parent :: __construct($application);
         $this->video_conferencing = $application->get_external_instance();
-        
+
         $video_conferencing_manager_action = Request :: get(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION);
         if ($video_conferencing_manager_action)
         {
             $this->set_parameter(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION, $video_conferencing_manager_action);
         }
-        
+
         $this->set_optional_parameters();
-        
+
         if ($this->validate_settings($this->video_conferencing))
         {
             $this->initialize_video_conferencing($this);
@@ -108,21 +113,21 @@ abstract class VideoConferencingManager extends SubManager
     static function launch($application)
     {
         $video_conferencing = $application->get_external_instance();
-        
+
         $type = $video_conferencing->get_type();
-        
+
         $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_video_conferencing_manager.class.php';
         if (! file_exists($file))
         {
             throw new Exception(Translation :: get('VideoConferencingManagerTypeDoesNotExist', array('type' => $type)));
         }
-        
+
         require_once $file;
-        
+
         $class = self :: NAMESPACE_NAME . '\implementation\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'VideoConferencingManager';
-        
+
         $settings_validated = call_user_func(array($class, 'validate_settings'), $video_conferencing);
-        
+
         if (! $settings_validated)
         {
             if ($application->get_user()->is_platform_admin())
@@ -160,7 +165,7 @@ abstract class VideoConferencingManager extends SubManager
     //    {
     //        return Path :: get_common_extensions_path() . 'external_repository_manager/component/';
     //    }
-    
+
 
     /**
      * @return string
@@ -174,17 +179,17 @@ abstract class VideoConferencingManager extends SubManager
     {
         $action = $this->get_action();
         parent :: display_header();
-        
+
         $html = array();
         $video_conferencing_actions = $this->get_video_conferencing_actions();
-        
+
         if ($action == self :: ACTION_VIEW_VIDEO_CONFERENCING)
         {
             $video_conferencing_actions[] = self :: ACTION_VIEW_VIDEO_CONFERENCING;
         }
-        
+
         $tabs = new DynamicVisualTabsRenderer(Utilities :: get_classname_from_object($this, true));
-        
+
         foreach ($video_conferencing_actions as $video_conferencing_action)
         {
             if ($action == $video_conferencing_action)
@@ -195,24 +200,24 @@ abstract class VideoConferencingManager extends SubManager
             {
                 $selected = false;
             }
-            
+
             $parameters = $this->get_parameters();
             $parameters[self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION] = $video_conferencing_action;
-            
+
             if ($video_conferencing_action == self :: ACTION_VIEW_VIDEO_CONFERENCING)
             {
                 $parameters[self :: PARAM_VIDEO_CONFERENCING_ID] = Request :: get(self :: PARAM_VIDEO_CONFERENCING_ID);
             }
-            
+
             $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($video_conferencing_action) . 'Title'));
             $link = $this->get_url($parameters);
-            
+
             $tabs->add_tab(new DynamicVisualTab($video_conferencing_action, $label, Theme :: get_common_image_path() . 'place_tab_' . $video_conferencing_action . '.png', $link, $selected));
         }
-        
+
         $html[] = $tabs->header();
         $html[] = DynamicVisualTabsRenderer :: body_header();
-        
+
         echo implode("\n", $html);
     }
 
@@ -223,14 +228,14 @@ abstract class VideoConferencingManager extends SubManager
     {
         $actions = array();
         $actions[] = self :: ACTION_CREATE_MEETING;
-        
+
         $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalSetting :: get_all($this->get_video_conferencing()->get_id())) > 0);
-        
+
         if ($is_platform)
         {
             $actions[] = self :: ACTION_CONFIGURE_VIDEO_CONFERENCING;
         }
-        
+
         return $actions;
     }
 
@@ -240,7 +245,7 @@ abstract class VideoConferencingManager extends SubManager
         $html[] = DynamicVisualTabsRenderer :: body_footer();
         $html[] = DynamicVisualTabsRenderer :: footer();
         echo implode("\n", $html);
-        
+
         parent :: display_footer();
     }
 
@@ -303,7 +308,7 @@ abstract class VideoConferencingManager extends SubManager
      * @return string
      */
     //abstract function get_video_conferencing_object_viewing_url(VideoConferencingObject $object);
-    
+
 
     /**
      * @param string $id
@@ -331,7 +336,7 @@ abstract class VideoConferencingManager extends SubManager
     //    {
     //        return $this->get_external_repository_manager_connector()->export_external_repository_object($id);
     //    }
-    
+
 
     /**
      * @param VideoConferencingObject $object
@@ -340,7 +345,7 @@ abstract class VideoConferencingManager extends SubManager
     function get_video_conferencing_object_actions(ExternalRepositoryObject $object)
     {
         $toolbar_items = array();
-        
+
         return $toolbar_items;
     }
 
@@ -350,7 +355,7 @@ abstract class VideoConferencingManager extends SubManager
     function get_renderer()
     {
         $renderer = Request :: get(self :: PARAM_RENDERER);
-        
+
         if ($renderer && in_array($renderer, $this->get_available_renderers()))
         {
             return $renderer;
@@ -374,7 +379,7 @@ abstract class VideoConferencingManager extends SubManager
      * @return Condition
      */
     //abstract function get_content_object_type_conditions();
-    
+
 
     /**
      * @param string $type
@@ -385,7 +390,7 @@ abstract class VideoConferencingManager extends SubManager
         $path = Path :: get_common_extensions_path() . 'video_conferencing_manager/implementation';
         $video_conferencing_path = $path . '/' . $type;
         $video_conferencing_manager_path = $video_conferencing_path . '/php/' . $type . '_video_conferencing_manager.class.php';
-        
+
         if (file_exists($video_conferencing_path) && is_dir($video_conferencing_path) && file_exists($video_conferencing_manager_path))
         {
             return true;
@@ -402,12 +407,12 @@ abstract class VideoConferencingManager extends SubManager
         {
             $application = $this;
         }
-        
+
         $manager_class = get_class($application);
         $application_component_path = $application->get_application_component_path();
-        
+
         $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
-        
+
         if (! file_exists($file) || ! is_file($file))
         {
             $message = array();
@@ -419,21 +424,21 @@ abstract class VideoConferencingManager extends SubManager
             $message[] = '<li>' . Translation :: get($manager_class) . '</li>';
             $message[] = '<li>' . Translation :: get($type) . '</li>';
             $message[] = '</ul>';
-            
+
             $application_name = Application :: application_to_class($this->get_application_name());
-            
+
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
-            
+
             Display :: header($trail);
             Display :: error_message(implode("\n", $message));
             Display :: footer();
             exit();
         }
-        
+
         $class = $manager_class . $type . 'Component';
         require_once $file;
-        
+
         return new $class($application->get_video_conferencing(), $application->get_parent());
     }
 
@@ -448,7 +453,7 @@ abstract class VideoConferencingManager extends SubManager
             return __NAMESPACE__;
         }
     }
-    
+
     static function get_object_viewing_parameters($external_instance_sync)
     {
     	return array(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_VIEW_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $external_instance_sync->get_id());
@@ -459,7 +464,7 @@ abstract class VideoConferencingManager extends SubManager
         $conditions = array();
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_VIDEO_CONFERENCING_MANAGER);
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_STATUS, $status);
-        
+
         return AdminDataManager :: get_instance()->retrieve_registrations(new AndCondition($conditions));
     }
 }

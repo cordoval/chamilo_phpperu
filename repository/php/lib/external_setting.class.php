@@ -37,7 +37,11 @@ class ExternalSetting extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_EXTERNAL_ID, self :: PROPERTY_VARIABLE, self :: PROPERTY_VALUE, self :: PROPERTY_USER_SETTING));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_EXTERNAL_ID,
+                self :: PROPERTY_VARIABLE,
+                self :: PROPERTY_VALUE,
+                self :: PROPERTY_USER_SETTING));
     }
 
     /**

@@ -9,6 +9,8 @@ use common\libraries\Path;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 
+use Exception;
+
 require_once Path :: get_common_libraries_class_path() . 'html/action_bar/action_bar_search_form.class.php';
 
 abstract class PhotoGalleryPublicationRenderer
@@ -16,7 +18,7 @@ abstract class PhotoGalleryPublicationRenderer
     const TYPE_TABLE = 'table';
     const TYPE_GALLERY = 'gallery_table';
     const TYPE_SLIDESHOW = 'slideshow';
-    
+
     protected $browser;
 
     function __construct($browser)
@@ -34,11 +36,12 @@ abstract class PhotoGalleryPublicationRenderer
         $file = dirname(__FILE__) . '/renderer/' . $type . '_photo_gallery_publication_renderer.class.php';
         if (! file_exists($file))
         {
-            throw new Exception(Translation :: get('PhotoGalleryPublicationRendererTypeDoesNotExist', array('type' => $type)));
+            throw new Exception(Translation :: get('PhotoGalleryPublicationRendererTypeDoesNotExist', array(
+                    'type' => $type)));
         }
-        
+
         require_once $file;
-        
+
         $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'PhotoGalleryPublicationRenderer';
         return new $class($browser);
     }
@@ -54,7 +57,7 @@ abstract class PhotoGalleryPublicationRenderer
         //            $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
         //        }
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->get_browser()->get_action_bar()->get_query();
-        
+
         return $parameters;
     }
 
@@ -91,19 +94,19 @@ abstract class PhotoGalleryPublicationRenderer
     function get_photo_gallery_actions(PhotoGallery $photo_gallery)
     {
         $actions = array();
-        
+
         $viewing_url = $this->get_browser()->get_publication_viewing_url($photo_gallery);
         $actions[] = new ToolbarItem(Translation :: get('View', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_details.png', $viewing_url, ToolbarItem :: DISPLAY_ICON);
-        
+
         if ($this->get_browser()->get_user()->is_platform_admin() || $photo_gallery->get_publisher() == $this->get_browser()->get_user_id())
         {
             $edit_url = $this->get_browser()->get_publication_editing_url($photo_gallery);
             $actions[] = new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON);
-            
+
             $delete_url = $this->get_browser()->get_publication_deleting_url($photo_gallery);
             $actions[] = new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON, true);
         }
-        
+
         return $actions;
     }
 

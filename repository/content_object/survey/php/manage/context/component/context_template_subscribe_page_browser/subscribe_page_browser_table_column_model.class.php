@@ -1,7 +1,7 @@
 <?php
-
 namespace repository\content_object\survey;
 
+use common\libraries\StaticTableColumn;
 
 class SurveyContextTemplateSubscribePageBrowserTableColumnModel extends DefaultSurveyPageTableColumnModel
 {

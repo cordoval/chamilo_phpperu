@@ -1,7 +1,14 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
-use \HTML_Menu;
-use \HTML_Menu_ArrayRenderer;
+
+use common\libraries\Utilities;
+use common\libraries\TreeMenuRenderer;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
 
 class VideoConferencingMenu extends HTML_Menu
 {

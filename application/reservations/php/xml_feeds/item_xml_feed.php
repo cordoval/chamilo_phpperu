@@ -1,7 +1,7 @@
-<?php 
-
+<?php
 namespace application\reservations;
 
+use common\libraries\OrCondition;
 use common\libraries\WebApplication;
 use common\libraries\Authentication;
 use common\libraries\EqualityCondition;
@@ -21,20 +21,20 @@ require_once WebApplication :: get_application_class_lib_path('reservations') . 
 if (Authentication :: is_valid())
 {
     $conditions = array();
-    
+
     $conditions[] = new EqualityCondition(Item :: PROPERTY_STATUS, Item :: STATUS_NORMAL);
-    
+
     if (isset($_GET['query']))
     {
         $q = '*' . $_GET['query'] . '*';
         $query_condition = new PatternMatchCondition(Item :: PROPERTY_NAME, $q);
-        
+
         if (isset($query_condition))
         {
             $conditions[] = $query_condition;
         }
     }
-    
+
     if (is_array($_GET['exclude']))
     {
         $c = array();
@@ -44,7 +44,7 @@ if (Authentication :: is_valid())
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     if (isset($_GET['query']) || is_array($_GET['exclude']))
     {
         $condition = new AndCondition($conditions);
@@ -53,10 +53,10 @@ if (Authentication :: is_valid())
     {
         $condition = null;
     }
-    
+
     $dm = ReservationsDataManager :: get_instance();
     $objects = $dm->retrieve_items($condition);
-    
+
     while ($item = $objects->next_result())
     {
         $items[] = $item;

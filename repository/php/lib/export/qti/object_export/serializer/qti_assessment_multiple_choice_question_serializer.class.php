@@ -29,7 +29,7 @@ class QtiAssessmentMultipleChoiceQuestionSerializer extends QtiQuestionSerialize
 
     protected function get_question_score($question)
     {
-        $single_answer = $question->get_answer_type() == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO;
+        $single_answer = $question->get_answer_type() == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO;
 
         $answers = $question->get_options();
         if ($single_answer)
@@ -62,7 +62,7 @@ class QtiAssessmentMultipleChoiceQuestionSerializer extends QtiQuestionSerialize
 
     protected function add_response_declaration(ImsQtiWriter $item, $question)
     {
-        $cardinality = $question->get_answer_type() == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO ? Qti :: CARDINALITY_SINGLE : Qti :: CARDINALITY_MULTIPLE;
+        $cardinality = $question->get_answer_type() == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO ? Qti :: CARDINALITY_SINGLE : Qti :: CARDINALITY_MULTIPLE;
         $question_score = $this->get_question_score($question);
         $declaration = $item->add_responseDeclaration(Qti :: RESPONSE, $cardinality, Qti :: BASETYPE_IDENTIFIER);
         $correct = $declaration->add_correctResponse();
@@ -89,7 +89,7 @@ class QtiAssessmentMultipleChoiceQuestionSerializer extends QtiQuestionSerialize
 
     protected function add_interaction(ImsQtiWriter $body, $question)
     {
-        $max_choices = $question->get_answer_type() == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO ? 1 : 0;
+        $max_choices = $question->get_answer_type() == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO ? 1 : 0;
         $shuffle = true;
         $label = 'display=optionlist';
         $result = $body->add_choiceInteraction(Qti :: RESPONSE, $max_choices, $shuffle, '', '', '', $label);

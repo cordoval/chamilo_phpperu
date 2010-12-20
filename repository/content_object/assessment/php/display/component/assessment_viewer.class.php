@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\InCondition;
 use common\libraries\Session;
 use common\libraries\EqualityCondition;
 

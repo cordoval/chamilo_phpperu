@@ -74,8 +74,10 @@ class SurveyContextRegistrationForm extends FormValidator
         $this->addElement('html', '<div style="clear: both;"></div>');
         $this->addElement('html', '</div>');
 
-        $buttons[] = $this->createElement('style_submit_button', 'create', Translation :: get($action_name), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'create', Translation :: get($action_name), array(
+                'class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/survey/resources/javascript/survey_context_registration_form.js'));
@@ -84,7 +86,8 @@ class SurveyContextRegistrationForm extends FormValidator
     function add_property_field($number = null)
     {
 
-        $element = $this->createElement('text', self :: PROPERTIES . $number, Translation :: get('SurveyContextRegistrationProperty'), array("size" => "50"));
+        $element = $this->createElement('text', self :: PROPERTIES . $number, Translation :: get('SurveyContextRegistrationProperty'), array(
+                "size" => "50"));
         //$this->addRule(PlatformCategory :: PROPERTY_NAME . $number, Translation :: get('ThisFieldIsRequired'), 'required');
         return $element;
     }
@@ -141,14 +144,16 @@ class SurveyContextRegistrationForm extends FormValidator
                 $group[] = $this->add_property_key_field($option_number);
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 1)
                 {
-                    $group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_list_remove.png', array('style="border: 0px;"'));
+                    $group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_list_remove.png', array(
+                            'style="border: 0px;"'));
                 }
                 $this->addGroup($group, self :: PROPERTIES . $option_number, Translation :: get('SurveyContextRegistrationProperty'), '', false);
-                $this->addRule(self :: PROPERTIES . $option_number, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+                $this->addRule(self :: PROPERTIES . $option_number, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
             }
         }
 
-        $this->addElement('image', 'add[]', Theme :: get_common_image_path() . 'action_list_add.png', array('style="border: 0px;"'));
+        $this->addElement('image', 'add[]', Theme :: get_common_image_path() . 'action_list_add.png', array(
+                'style="border: 0px;"'));
         $this->build_footer('Create');
     }
 
@@ -265,11 +270,9 @@ class SurveyContextRegistrationForm extends FormValidator
         $repository_directory = Path :: get_repository_content_object_path();
 
         $path = $repository_directory . self :: ROOT_DIR;
-        
-        
-        
+
         $new_dir = $path . self :: CONTEXT . '/' . $type;
-        
+
         $result = Filesystem :: create_dir($new_dir);
 
         if ($result)
@@ -298,7 +301,7 @@ class SurveyContextRegistrationForm extends FormValidator
 
         $context_class[] = '<?php namespace repository\content_object\survey;';
         $context_class[] = 'use common\libraries\Path;';
-        
+
         $context_class[] = 'require_once (Path :: get_repository_content_object_path().' . '\'' . 'survey/php/survey_context.class.php\');';
 
         $context_class[] = 'class ' . Utilities :: underscores_to_camelcase($type) . ' extends SurveyContext';
@@ -436,7 +439,8 @@ class SurveyContextRegistrationForm extends FormValidator
             $index_properties = $index->getElementsByTagname('indexproperty');
             foreach ($index_properties as $subkey => $index_property)
             {
-                $index_info['fields'][$index_property->getAttribute('name')] = array('length' => $index_property->getAttribute('length'));
+                $index_info['fields'][$index_property->getAttribute('name')] = array(
+                        'length' => $index_property->getAttribute('length'));
             }
             $indexes[$index->getAttribute('name')] = $index_info;
         }

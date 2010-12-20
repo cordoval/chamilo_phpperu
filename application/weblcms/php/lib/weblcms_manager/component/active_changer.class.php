@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use tracking\Event;
+
 use common\libraries\Display;
 use common\libraries\Application;
 use common\libraries\BreadcrumbTrail;

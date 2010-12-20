@@ -1,6 +1,9 @@
 <?php
 namespace common\libraries;
 
+use rights\RightsManagerRightRequesterComponent;
+
+use user\UserDataManager;
 use user\User;
 /**
  * @package common.authentication
@@ -478,7 +481,7 @@ abstract class ExternalAuthentication extends Authentication
         $link_params = array('go' => 'request_rights');
         if ($as_new_user)
         {
-            $link_params[RightsManagerRoleRequesterComponent :: PARAM_IS_NEW_USER] = '1';
+            $link_params[RightsManagerRightRequesterComponent :: PARAM_IS_NEW_USER] = '1';
         }
 
         //header('Location: ' . Configuration :: get_instance()->get_parameter('general', 'root_web') . '/' . Redirect :: get_link('rights', $link_params, null, false, Redirect :: TYPE_CORE));

@@ -3,10 +3,18 @@ namespace repository\content_object\survey_page;
 
 use repository\ComplexBuilder;
 
-
+/**
+ * @package repository.content_object.survey_page
+ * @author Eduard Vossen
+ * @author Magali Gillard
+ */
 class SurveyPageBuilder extends ComplexBuilder //implements ComplexMenuSupport
 {
-  
+    const ACTION_MERGE_SURVEY_PAGE = 'merger';
+    const ACTION_SELECT_QUESTIONS = 'question_selecter';
+
+    const PARAM_QUESTION_ID = 'question';
+    const PARAM_SURVEY_PAGE_ID = 'survey_page';
 
     function get_application_component_path()
     {

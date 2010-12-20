@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\soundcloud;
 
+use repository\ContentObject;
+
 use common\libraries\Theme;
 
 use repository\ContentObjectDifferenceDisplay;

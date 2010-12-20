@@ -44,14 +44,14 @@ class QtiSurveyMultipleChoiceQuestionSerializer extends QtiQuestionSerializer
 
     protected function add_response_declaration(ImsQtiWriter $item, $question)
     {
-        $cardinality = $question->get_answer_type() == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO ? Qti :: CARDINALITY_SINGLE : Qti :: CARDINALITY_MULTIPLE;
+        $cardinality = $question->get_answer_type() == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_RADIO ? Qti :: CARDINALITY_SINGLE : Qti :: CARDINALITY_MULTIPLE;
         $declaration = $item->add_responseDeclaration(Qti :: RESPONSE, $cardinality, Qti :: BASETYPE_IDENTIFIER);
         return $declaration;
     }
 
     protected function add_interaction(ImsQtiWriter $body, $question)
     {
-        $max_choices = $question->get_answer_type() == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO ? 1 : 0;
+        $max_choices = $question->get_answer_type() == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_RADIO ? 1 : 0;
         $label = 'display=optionlist';
         $result = $body->add_choiceInteraction(Qti :: RESPONSE, $max_choices, $shuffle = true, '', '', '', $label);
         $answers = $question->get_options();

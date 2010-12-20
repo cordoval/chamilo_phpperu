@@ -1,6 +1,10 @@
 <?php
 namespace repository\content_object\survey;
 
+use repository\content_object\survey_page\SurveyPage;
+
+use common\libraries\Utilities;
+
 use repository\RepositoryDataManager;
 use common\libraries\Request;
 use common\libraries\Translation;
@@ -46,8 +50,8 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilder
 
             echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_template.png);">';
             echo '<div class="title">' . Translation :: get('SurveyContextTemplateDetails') . '</div>';
-            echo '<b>' . Translation :: get('Name', null, Utilities::COMMON_LIBRARIES) . '</b>: ' . $template->get_name();
-            echo '<br /><b>' . Translation :: get('Description', null, Utilities::COMMON_LIBRARIES) . '</b>: ' . $template->get_description();
+            echo '<b>' . Translation :: get('Name', null, Utilities :: COMMON_LIBRARIES) . '</b>: ' . $template->get_name();
+            echo '<br /><b>' . Translation :: get('Description', null, Utilities :: COMMON_LIBRARIES) . '</b>: ' . $template->get_description();
             echo '<div class="clear">&nbsp;</div>';
             echo '</div>';
             echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_users.png);">';
@@ -64,7 +68,7 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilder
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities::COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
 
@@ -136,7 +140,8 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilder
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE)), Translation :: get('BrowseSurvey')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE)), Translation :: get('BrowseSurvey')));
     }
 
     function get_additional_parameters()

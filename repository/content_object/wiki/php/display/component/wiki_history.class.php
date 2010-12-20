@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\wiki;
 
+use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -10,6 +11,7 @@ use common\libraries\ResourceManager;
 use common\libraries\BasicApplication;
 use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;
+
 use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
 use repository\RepositoryVersionBrowserTable;
@@ -88,7 +90,8 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
         }
         else
         {
-            $this->redirect(null, false, array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI));
+            $this->redirect(null, false, array(
+                    ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI));
         }
     }
 
@@ -105,7 +108,8 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
     function get_content_object_viewing_url($content_object)
     {
         return $this->get_url(array(
-                ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_wiki_page_id,
+                ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE,
+                ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_wiki_page_id,
                 self :: PARAM_WIKI_VERSION_ID => $content_object->get_id()));
     }
 
@@ -119,7 +123,8 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
         }
 
         return $this->get_url(array(
-                ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VERSION_DELETE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_wiki_page_id,
+                ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VERSION_DELETE,
+                ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_wiki_page_id,
                 self :: PARAM_WIKI_VERSION_ID => $content_object->get_id()));
     }
 
@@ -133,7 +138,8 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
         }
 
         return $this->get_url(array(
-                ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VERSION_REVERT, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_wiki_page_id,
+                ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VERSION_REVERT,
+                ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_wiki_page_id,
                 self :: PARAM_WIKI_VERSION_ID => $content_object->get_id()));
     }
 }

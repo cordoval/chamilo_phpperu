@@ -1,7 +1,5 @@
 <?php
-
 namespace application\personal_calendar;
-
 
 /**
  * $Id: personal_calendar_renderer.class.php 127 2009-11-09 13:11:56Z vanpouckesven $
@@ -10,6 +8,8 @@ namespace application\personal_calendar;
 /**
  * A renderer to display a personal calendar to the end user
  */
+use common\libraries\Translation;
+
 abstract class PersonalCalendarRenderer
 {
     /**
@@ -45,7 +45,7 @@ abstract class PersonalCalendarRenderer
      */
     public function get_events($from_date, $to_date)
     {
-    	return $this->personal_calendar->get_events($from_date, $to_date);
+        return $this->personal_calendar->get_events($from_date, $to_date);
     }
 
     /**

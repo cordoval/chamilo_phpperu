@@ -1,6 +1,11 @@
-<?php 
+<?php
 namespace application\survey;
 
+use repository\content_object\survey\Survey;
+use repository\ContentObject;
+
+use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\ObjectTableCellRenderer;
 
 /**
@@ -14,7 +19,7 @@ require_once dirname(__FILE__) . '/../../survey_publication.class.php';
  * Default cell renderer for the survey_publication table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author
  */
 class DefaultResultQuestionTableCellRenderer extends ObjectTableCellRenderer
 {
@@ -36,25 +41,25 @@ class DefaultResultQuestionTableCellRenderer extends ObjectTableCellRenderer
     function render_cell($column, $survey_publication)
     {
         $content_object = $survey_publication->get_publication_object();
-        
+
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_TITLE :
-                
+
                 if ($survey_publication->get_hidden())
                 {
                     return '<span style="color: #999999;">' . $content_object->get_title() . '</span>';
                 }
-                
+
                 return $content_object->get_title();
             case ContentObject :: PROPERTY_DESCRIPTION :
                 $description = Utilities :: truncate_string($content_object->get_description(), 200);
-                
+
                 if ($survey_publication->get_hidden())
                 {
                     return '<span style="color: #999999;">' . $description . '</span>';
                 }
-                
+
                 return $description;
             case ContentObject :: PROPERTY_TYPE :
                 $type = Translation :: get($content_object->get_type());
@@ -62,12 +67,12 @@ class DefaultResultQuestionTableCellRenderer extends ObjectTableCellRenderer
                 {
                     $type = $content_object->get_survey_type();
                 }
-                
+
                 if ($survey_publication->get_hidden())
                 {
                     return '<span style="color: #999999;">' . $type . '</span>';
                 }
-                
+
                 return $type;
             case SurveyPublication :: PROPERTY_FROM_DATE :
                 return $survey_publication->get_from_date();

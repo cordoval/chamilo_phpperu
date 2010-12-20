@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\learning_path;
 
+use application\weblcms\WeblcmsLpiAttemptObjectiveTracker;
+
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
@@ -36,7 +38,9 @@ class RuleConditionTranslator
             {
                 $ids = array();
                 foreach ($tracker_data['trackers'] as $tracker)
+                {
                     $ids[] = $tracker->get_id();
+                }
 
                 if (count($ids) == 0)
                 {

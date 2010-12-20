@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_blog_rel_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 /**
  * This class presents a Dokeos185 blog_rel_user
  *
@@ -13,13 +13,13 @@ namespace migration;
 class Dokeos185BlogRelUser extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185BlogRelUser properties
      */
     const PROPERTY_BLOG_ID = 'blog_id';
     const PROPERTY_USER_ID = 'user_id';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -106,17 +106,21 @@ class Dokeos185BlogRelUser extends Dokeos185MigrationDataClass
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
-    public static function get_table_name() {
+    public static function get_table_name()
+    {
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
-    public static function get_class_name() {
+    public static function get_class_name()
+    {
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
-    public function get_database_name() {
+    public function get_database_name()
+    {
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
+
     /**
      * Convert to new blog user relation
      * @param array $array the parameters for the conversion
@@ -133,11 +137,11 @@ class Dokeos185BlogRelUser extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = $parameters['course']->get_db_name();
         $tablename = 'blog_post_rel_user';
         $classname = 'Dokeos185BlogPostRelUser';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

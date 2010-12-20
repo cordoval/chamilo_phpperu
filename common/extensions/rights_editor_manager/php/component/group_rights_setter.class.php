@@ -1,10 +1,13 @@
 <?php
 namespace common\extensions\rights_editor_manager;
-use rights\RightsUtilities;
+
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
+
+use rights\RightsUtilities;
 /**
  * $Id: group_rights_setter.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager.component
@@ -13,9 +16,9 @@ require_once dirname(__FILE__) . '/browser.class.php';
 
 class RightsEditorManagerGroupRightsSetterComponent extends RightsEditorManager
 {
-	const PARAM_GROUP_ID = 'group_id';
-	const PARAM_RIGHT_ID = 'right_id';
-	
+    const PARAM_GROUP_ID = 'group_id';
+    const PARAM_RIGHT_ID = 'right_id';
+
     /**
      * Runs this component and displays its output.
      */
@@ -23,9 +26,9 @@ class RightsEditorManagerGroupRightsSetterComponent extends RightsEditorManager
     {
         $group = Request :: get(self :: PARAM_GROUP_ID);
         $right = Request :: get(self :: PARAM_RIGHT_ID);
-        
+
         $locations = $this->get_locations();
-        
+
         if (isset($group) && isset($right) && isset($locations) && count($locations) > 0)
         {
             $succes = true;
@@ -33,18 +36,22 @@ class RightsEditorManagerGroupRightsSetterComponent extends RightsEditorManager
             {
                 $success = RightsUtilities :: invert_group_right_location($right, $group, $location->get_id());
             }
-            
-            $this->redirect(Translation :: get($success == true ? 'ObjectUpdated' : 'ObjectFailedUpdated', array('OBJECT' => Translation :: get('Right')), Utilities :: COMMON_LIBRARIES), ! $success, array_merge($this->get_parameters(), array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS, RightsEditorManagerBrowserComponent :: PARAM_TYPE => RightsEditorManagerBrowserComponent :: TYPE_GROUP)));
+
+            $this->redirect(Translation :: get($success == true ? 'ObjectUpdated' : 'ObjectFailedUpdated', array(
+                    'OBJECT' => Translation :: get('Right')), Utilities :: COMMON_LIBRARIES), ! $success, array_merge($this->get_parameters(), array(
+                    RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS,
+                    RightsEditorManagerBrowserComponent :: PARAM_TYPE => RightsEditorManagerBrowserComponent :: TYPE_GROUP)));
         }
         else
         {
             $trail = BreadcrumbTrail :: get_instance();
-	        $trail->add_help('rights_editor_group_rights_setter');
-	        $trail->add(new Breadcrumb($this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS)), Translation :: get('RightsEditorManagerBrowserComponent')));
-	        $this->set_parameter(self :: PARAM_GROUP_ID, Request :: get(self :: PARAM_GROUP_ID));
-	        $this->set_parameter(self :: PARAM_RIGHT_ID, Request :: get(self :: PARAM_RIGHT_ID));
-	        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('RightsEditorManagerGroupRightsSetterComponent')));
-        	$this->display_error_page(htmlentities(Translation :: get('NoLocationSelected')));
+            $trail->add_help('rights_editor_group_rights_setter');
+            $trail->add(new Breadcrumb($this->get_url(array(
+                    RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS)), Translation :: get('RightsEditorManagerBrowserComponent')));
+            $this->set_parameter(self :: PARAM_GROUP_ID, Request :: get(self :: PARAM_GROUP_ID));
+            $this->set_parameter(self :: PARAM_RIGHT_ID, Request :: get(self :: PARAM_RIGHT_ID));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('RightsEditorManagerGroupRightsSetterComponent')));
+            $this->display_error_page(htmlentities(Translation :: get('NoLocationSelected')));
         }
     }
 }

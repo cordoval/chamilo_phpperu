@@ -1,5 +1,15 @@
 <?php
+namespace application\laika;
 
+use user\User;
+use user\UserManager;
+use user\UserDataManager;
+
+use common\libraries\OrCondition;
+use common\libraries\AndCondition;
+use common\libraries\NotCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\Authentication;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 /**
@@ -63,7 +73,7 @@ function dump_tree($users)
 {
     if (contains_results($users))
     {
-        echo '<nodes classes="category unlinked" id="recipients" title="' . Translation :: get('User', null, Utilities::USER) . '">';
+        echo '<nodes classes="category unlinked" id="recipients" title="' . Translation :: get('User', null, UserManager :: APPLICATION_NAME) . '">';
         foreach ($users as $lo)
         {
             echo '<leaf id="user|' . $lo->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlentities($lo->get_fullname()) . '" description="' . htmlentities($lo->get_username()) . '"/>' . "\n";

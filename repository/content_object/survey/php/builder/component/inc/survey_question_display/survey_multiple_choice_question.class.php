@@ -1,8 +1,9 @@
 <?php
 namespace repository\content_object\survey;
 
+use repository\content_object\survey_multiple_choice_question\SurveyMultipleChoiceQuestion;
+
 use common\libraries\Translation;
-use repository\MultipleChoiceQuestion;
 
 /**
  * $Id: survey_multiple_choice_question.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -40,15 +41,15 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
         {
             $group = array();
 
-            if ($type == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO )
+            if ($type == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_RADIO)
             {
-                $answer_name = $question_id . '_0'.'_'.$this->get_page_nr();
+                $answer_name = $question_id . '_0' . '_' . $this->get_page_nr();
                 $group[] = $formvalidator->createElement('radio', $answer_name, null, null, $i);
                 $group[] = $formvalidator->createElement('static', null, null, $answer->get_value());
             }
-            elseif ($type == MultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
+            elseif ($type == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
             {
-                $answer_name = $question_id . '_' . ($i).'_'.$this->get_page_nr();
+                $answer_name = $question_id . '_' . ($i) . '_' . $this->get_page_nr();
                 $group[] = $formvalidator->createElement('checkbox', $answer_name);
                 $group[] = $formvalidator->createElement('static', null, null, $answer->get_value());
             }
@@ -74,11 +75,11 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
         $question = $this->get_question();
         $type = $question->get_answer_type();
 
-        if ($type == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO && $question->has_description())
+        if ($type == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_RADIO && $question->has_description())
         {
             $title = Translation :: get('SelectYourChoice');
         }
-        elseif ($type == MultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX && $question->has_description())
+        elseif ($type == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX && $question->has_description())
         {
             $title = Translation :: get('SelectYourChoices');
         }

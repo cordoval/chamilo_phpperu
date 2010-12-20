@@ -1,17 +1,20 @@
 <?php
 namespace common\extensions\feedback_manager;
 
-use common\libraries\BbcodeParser;
-use repository\ContentObjectDisplay;
-use common\libraries\DatetimeUtilities;
-use user\UserManager;
-use common\libraries\Utilities;
+use repository\ContentObject;
 use repository\RepositoryDataManager;
+use repository\ContentObjectDisplay;
+
+use common\libraries\BbcodeParser;
+use common\libraries\DatetimeUtilities;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
-use admin\AdminDataManager;
 use common\libraries\Translation;
+
+use admin\AdminDataManager;
+use user\UserManager;
 /**
  * $Id: browser.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.feedback_manager.component
@@ -119,21 +122,28 @@ class FeedbackManagerBrowserOnlyComponent extends FeedbackManager
 
     function render_delete_action($feedback)
     {
-        $delete_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_DELETE_FEEDBACK, FeedbackManager :: PARAM_FEEDBACK_ID => $feedback->get_id(), FeedbackManager :: PARAM_OLD_ACTION => $this->get_action()));
+        $delete_url = $this->get_url(array(
+                FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_DELETE_FEEDBACK,
+                FeedbackManager :: PARAM_FEEDBACK_ID => $feedback->get_id(),
+                FeedbackManager :: PARAM_OLD_ACTION => $this->get_action()));
         $delete_link = '<a href="' . $delete_url . '" onclick="return confirm(\'' . addslashes(Translation :: get('Confirm', null, Utilities :: COMMON_LIBRARIES)) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_delete.png"  alt=""/></a>';
         return $delete_link;
     }
 
     function render_update_action($feedback)
     {
-        $update_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_UPDATE_FEEDBACK, FeedbackManager :: PARAM_FEEDBACK_ID => $feedback->get_id(), FeedbackManager :: PARAM_OLD_ACTION => $this->get_action()));
+        $update_url = $this->get_url(array(
+                FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_UPDATE_FEEDBACK,
+                FeedbackManager :: PARAM_FEEDBACK_ID => $feedback->get_id(),
+                FeedbackManager :: PARAM_OLD_ACTION => $this->get_action()));
         $update_link = '<a href="' . $update_url . '"><img src="' . Theme :: get_common_image_path() . 'action_edit.png"  alt=""/></a>';
         return $update_link;
     }
 
     function render_create_action()
     {
-        $create_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_CREATE_FEEDBACK));
+        $create_url = $this->get_url(array(
+                FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_CREATE_FEEDBACK));
         $item = new ToolbarItem(Translation :: get('AddFeedback', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_create.png', $create_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         $this->get_parent()->add_actionbar_item($item);
     }

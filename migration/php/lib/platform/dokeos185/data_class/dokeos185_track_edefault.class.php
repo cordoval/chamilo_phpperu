@@ -1,6 +1,8 @@
 <?php
 namespace migration;
 
+use common\libraries\Utilities;
+
 /**
  * $Id: dokeos185_track_edefault.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -67,7 +69,14 @@ class Dokeos185TrackEDefault extends Dokeos185MigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_DEFAULT_ID, self :: PROPERTY_DEFAULT_USER_ID, self :: PROPERTY_DEFAULT_COURS_CODE, self :: PROPERTY_DEFAULT_DATE, self :: PROPERTY_DEFAULT_EVENT_TYPE, self :: PROPERTY_DEFAULT_VALUE_TYPE, self :: PROPERTY_DEFAULT_VALUE);
+        return array(
+                self :: PROPERTY_DEFAULT_ID,
+                self :: PROPERTY_DEFAULT_USER_ID,
+                self :: PROPERTY_DEFAULT_COURS_CODE,
+                self :: PROPERTY_DEFAULT_DATE,
+                self :: PROPERTY_DEFAULT_EVENT_TYPE,
+                self :: PROPERTY_DEFAULT_VALUE_TYPE,
+                self :: PROPERTY_DEFAULT_VALUE);
     }
 
     /**
@@ -171,7 +180,8 @@ class Dokeos185TrackEDefault extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
     static function get_class_name()

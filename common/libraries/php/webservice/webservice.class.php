@@ -17,7 +17,7 @@ namespace common\libraries;
  * matches the input hash, hash 2 will be created, stored in a credential and written to the database.
  * Hash 2 is created as follows: hash(client IP + hash1).
  * Hereafter, hash 3 is sent back to the client, which is created as follows: hash(client IP + hash2).
- * 
+ *
  * So the chain goes as follows:
  * input hash = hash 1 = hash(*external IP address of client caller*.*his hashed password as stored in the server database*)
  * hash 2 = hash(client IP + hash1). This is stored in the database in the credential table.
@@ -32,6 +32,12 @@ namespace common\libraries;
  * Stefan Billiet & Nick De Feyter
  * University College of Ghent
  */
+
+use user\UserDataManager;
+
+use webservice\WebserviceDataManager;
+
+use webservice\WebserviceRights;
 
 abstract class Webservice
 {
@@ -48,7 +54,7 @@ abstract class Webservice
     {
         $file_protocol = Utilities :: camelcase_to_underscores($protocol);
         $file_implementation = Utilities :: camelcase_to_underscores($implementation);
-        
+
         require_once dirname(__FILE__) . '/' . $file_protocol . '/' . $file_implementation . '/' . $file_protocol . '_' . $file_implementation . '_webservice.class.php';
         $class = $protocol . $implementation . 'Webservice';
         return new $class($webservice_handler);
@@ -62,13 +68,13 @@ abstract class Webservice
      * @param $functions - array of functionnames, parameters and handler function
      * ex :: array(0 => (array('name' => functionname, 'parameters' => array of parameters, 'handler' => handler function)))
      */
-    
+
     abstract function call_webservice($wsdl, $functions);
 
     abstract function raise_message($message);
 
     //abstract function raise_error($faultstring = 'unknown error', $faultcode = 'Client', $faultactor = NULL, $detail = NULL, $mode = null, $options = null);
-    
+
 
     function validate_function($hash3) //hash 3
     {
@@ -80,14 +86,14 @@ abstract class Webservice
         {
             foreach ($credentials as $c) //werkt
             {
-                $h = Hashing :: hash($_SERVER['REMOTE_ADDR'] . $c->get_hash()); //hash 3 based on hash 2               
-                
+                $h = Hashing :: hash($_SERVER['REMOTE_ADDR'] . $c->get_hash()); //hash 3 based on hash 2
+
 
                 if (strcmp($h, $hash3) === 0) //zijn gelijk
                 {
                     return $c->get_user_id();
                 }
-            
+
             }
         }
         else
@@ -99,7 +105,7 @@ abstract class Webservice
     function get_end_time()
     {
         return (time() + (10 * 60)); //timeframe 10 mins
-    
+
 
     }
 
@@ -126,28 +132,29 @@ abstract class Webservice
 
     function validate_login($username, $input_hash) //hash 1 = ip+password
     {
-        $udm = UserDataManager :: get_instance();
-        $user = $udm->retrieve_user_by_username($username);
-        if (isset($user))
-        {
-            $hash = Hashing :: hash($_SERVER['REMOTE_ADDR'] . $user->get_password()); //hash 1
-            if (strcmp($hash, $input_hash) == 0) //loginservice validate succesful, credential needed to validate the other webservices
-            {
-                $this->credential = new WebserviceCredential(array('user_id' => $user->get_id(), 'hash' => Hashing :: hash($_SERVER['REMOTE_ADDR'] . $hash), 'time_created' => time(), 'end_time' => $this->get_end_time(), 'ip' => $_SERVER['REMOTE_ADDR']));
-                $this->credential->create(); //create credential with hash 2
-                return Hashing :: hash($_SERVER['REMOTE_ADDR'] . $this->credential->get_default_property('hash')); //hash 3 based on hash 2, which resides in the credential object (as seen 2 lines above)
-            }
-            else
-            {
-                $this->message = Translation :: get('WrongHashValueSubmitted') . '.';
-                return false;
-            }
-        }
-        else
-        {
-            $this->message = Translation :: get('LoginError') . ': ' . Translation :: get('User', null, 'user') . $username . Translation :: get('DoesNotExist') . '.';
-            return false;
-        }
+        //        $udm = UserDataManager :: get_instance();
+        //        $user = $udm->retrieve_user_by_username($username);
+        //        if (isset($user))
+        //        {
+        //            $hash = Hashing :: hash($_SERVER['REMOTE_ADDR'] . $user->get_password()); //hash 1
+        //            if (strcmp($hash, $input_hash) == 0) //loginservice validate succesful, credential needed to validate the other webservices
+        //            {
+        //                $this->credential = new WebserviceCredential(array('user_id' => $user->get_id(), 'hash' => Hashing :: hash($_SERVER['REMOTE_ADDR'] . $hash), 'time_created' => time(), 'end_time' => $this->get_end_time(), 'ip' => $_SERVER['REMOTE_ADDR']));
+        //                $this->credential->create(); //create credential with hash 2
+        //                return Hashing :: hash($_SERVER['REMOTE_ADDR'] . $this->credential->get_default_property('hash')); //hash 3 based on hash 2, which resides in the credential object (as seen 2 lines above)
+        //            }
+        //            else
+        //            {
+        //                $this->message = Translation :: get('WrongHashValueSubmitted') . '.';
+        //                return false;
+        //            }
+        //        }
+        //        else
+        //        {
+        $this->message = Translation :: get('LoginError') . ': ' . Translation :: get('User', null, 'user') . $username . Translation :: get('DoesNotExist') . '.';
+        return false;
+
+     //        }
     }
 
     public function check_rights($webservicename, $userid)
@@ -171,7 +178,7 @@ abstract class Webservice
             $this->message = Translation :: get('NoWebserviceByThatName');
             return false;
         }
-    
+
     }
 
     public function can_execute($input_user, $webservicename)

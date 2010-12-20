@@ -1,5 +1,9 @@
-<?php 
+<?php
 namespace application\survey;
+
+use repository\ComplexBuilder;
+
+use common\libraries\Request;
 
 class SurveyManagerBuilderComponent extends SurveyManager
 {
@@ -11,9 +15,9 @@ class SurveyManagerBuilderComponent extends SurveyManager
         $publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($publication_id);
         $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publication_id);
         $this->content_object = $publication->get_publication_object();
-        
+
         ComplexBuilder :: launch($this->content_object->get_type(), $this, false);
-    
+
     }
 
     function get_root_content_object()

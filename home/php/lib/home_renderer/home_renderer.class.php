@@ -13,6 +13,8 @@ use common\libraries\Application;
 
 use user\UserDataManager;
 
+use Exception;
+
 /**
  * @author Hans De Bisschop
  */

@@ -1,5 +1,13 @@
 <?php
 namespace admin;
+
+use repository\ContentObjectDisplay;
+
+use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\Breadcrumb;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\AdministrationComponent;
@@ -35,7 +43,8 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManager impleme
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('SystemAnnouncement')), Utilities :: COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array(
+                    'OBJECT' => Translation :: get('SystemAnnouncement')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 
@@ -55,15 +64,16 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManager impleme
         return $toolbar->as_html();
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('AdminManagerSystemAnnouncementBrowserComponent')));
-    	$breadcrumbtrail->add_help('admin_system_announcements_viewer');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('AdminManagerSystemAnnouncementBrowserComponent')));
+        $breadcrumbtrail->add_help('admin_system_announcements_viewer');
     }
 
     function get_additional_parameters()
     {
-    	return array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
+        return array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
     }
 }
 ?>

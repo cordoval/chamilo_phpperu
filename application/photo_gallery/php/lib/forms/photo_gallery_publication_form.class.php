@@ -15,7 +15,7 @@ use common\libraries\Utilities;
 
 class PhotoGalleryPublicationForm extends FormValidator
 {
-     /**#@+
+    /**#@+
      * Constant defining a form parameter
      */
 
@@ -117,8 +117,10 @@ class PhotoGalleryPublicationForm extends FormValidator
 
     function add_footer()
     {
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive publish'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive publish'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -134,7 +136,7 @@ class PhotoGalleryPublicationForm extends FormValidator
         $users = $values[self :: PARAM_SHARE_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_SHARE_ELEMENTS]['group'];
 
-        $pub = new PersonalCalendarPublication();
+        $pub = new PhotoGalleryPublication();
         $pub->set_content_object($this->content_object->get_id());
         $pub->set_publisher($this->form_user->get_id());
         $pub->set_published(time());

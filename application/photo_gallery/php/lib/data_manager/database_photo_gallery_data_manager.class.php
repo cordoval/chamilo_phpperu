@@ -1,14 +1,18 @@
 <?php
 namespace application\photo_gallery;
 
+use common\libraries\Session;
+use common\libraries\ConditionTranslator;
+use common\libraries\InCondition;
 use common\libraries\Utilities;
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
 
+use repository\ContentObjectPublicationAttributes;
 use repository\ContentObject;
 use repository\RepositoryDataManager;
 /**
- * $Id: database_photo_gallery_data_manager.class.php 
+ * $Id: database_photo_gallery_data_manager.class.php
  * @package application.lib.photo_gallery.data_manager
  */
 
@@ -24,7 +28,7 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
 
     function initialize()
     {
-    	parent :: initialize();
+        parent :: initialize();
         $this->set_prefix('photo_gallery_');
     }
 
@@ -52,23 +56,23 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
                 $rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->get_alias(PhotoGalleryPublication :: get_table_name());
-                
+
                 $query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . $this->escape_table_name(PhotoGalleryPublication :: get_table_name()) . ' AS ' . $pub_alias . ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . ' ON ' . $this->escape_column_name(PhotoGalleryPublication :: PROPERTY_CONTENT_OBJECT_ID, $pub_alias) . '=' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
-                
+
                 $condition = new EqualityCondition(PhotoGalleryPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
                 $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
-                
+
                 $order = array();
                 foreach ($order_properties as $order_property)
                 {
                     if ($order_property->get_property() == 'application')
                     {
-                    
+
                     }
                     elseif ($order_property->get_property() == 'location')
                     {
-                    
+
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
@@ -79,7 +83,7 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
                         $order[] = $this->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
-                
+
                 if (count($order) > 0)
                     $query .= ' ORDER BY ' . implode(', ', $order);
             }
@@ -91,10 +95,10 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
             $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
-        
+
         $this->set_limit($offset, $count);
         $res = $this->query($query);
-        
+
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
@@ -110,9 +114,9 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
             $info->set_publication_object_id($record[PhotoGalleryPublication :: PROPERTY_CONTENT_OBJECT_ID]);
             $publication_attr[] = $info;
         }
-        
+
         $res->free();
-        
+
         return $publication_attr;
     }
 
@@ -122,7 +126,7 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
     public function get_content_object_publication_attribute($publication_id)
     {
         $record = $this->retrieve_photo_gallery_publication($publication_id);
-        
+
         $info = new ContentObjectPublicationAttributes();
         $info->set_id($record->get_id());
         $info->set_publisher_user_id($record->get_publisher());
@@ -156,12 +160,12 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
         $publication_user_alias = $this->get_alias(PhotoGalleryPublicationUser :: get_table_name());
         $publication_group_alias = $this->get_alias(PhotoGalleryPublicationGroup :: get_table_name());
         $object_alias = $this->get_alias(ContentObject :: get_table_name());
-        
+
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(PhotoGalleryPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(PhotoGalleryPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->escape_table_name(PhotoGalleryPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->escape_column_name(PhotoGalleryPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(PhotoGalleryPublicationUser :: PROPERTY_PUBLICATION, $publication_user_alias);
         $query .= ' LEFT JOIN ' . $this->escape_table_name(PhotoGalleryPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(PhotoGalleryPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(PhotoGalleryPublicationGroup :: PROPERTY_PUBLICATION, $publication_group_alias);
-        
+
         return $this->count_result_set($query, PhotoGalleryPublication :: get_table_name(), $condition);
     }
 
@@ -201,16 +205,16 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
 
     //Inherited.
     function retrieve_photo_gallery_publications($condition = null, $offset = 0, $max_objects = -1, $order_by = array ())
-    {        
+    {
         $rdm = RepositoryDataManager :: get_instance();
         $publication_alias = $this->get_alias(PhotoGalleryPublication :: get_table_name());
         $object_alias = RepositoryDataManager :: get_instance()->get_alias(ContentObject :: get_table_name());
-        
+
         $query = 'SELECT DISTINCT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(PhotoGalleryPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(PhotoGalleryPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->escape_table_name('publication_user') . ' AS ' . $this->get_alias('publication_user') . ' ON ' . $this->get_alias(PhotoGalleryPublication :: get_table_name()) . '.id = ' . $this->get_alias('publication_user') . '.publication_id';
         $query .= ' LEFT JOIN ' . $this->escape_table_name('publication_group') . ' AS ' . $this->get_alias('publication_group') . ' ON ' . $this->get_alias(PhotoGalleryPublication :: get_table_name()) . '.id = ' . $this->get_alias('publication_group') . '.publication_id';
-        
+
         return $this->retrieve_object_set($query, PhotoGalleryPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, PhotoGalleryPublication :: CLASS_NAME);
     }
 
@@ -219,7 +223,7 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
         $query = 'SELECT DISTINCT ' . $this->get_alias(PhotoGalleryPublication :: get_table_name()) . '.* FROM ' . $this->escape_table_name(PhotoGalleryPublication :: get_table_name()) . ' AS ' . $this->get_alias(PhotoGalleryPublication :: get_table_name());
         $query .= ' LEFT JOIN ' . $this->escape_table_name('publication_user') . ' AS ' . $this->get_alias('publication_user') . ' ON ' . $this->get_alias(PhotoGalleryPublication :: get_table_name()) . '.id = ' . $this->get_alias('publication_user') . '.publication_id';
         $query .= ' LEFT JOIN ' . $this->escape_table_name('publication_group') . ' AS ' . $this->get_alias('publication_group') . ' ON ' . $this->get_alias(PhotoGalleryPublication :: get_table_name()) . '.id = ' . $this->get_alias('publication_group') . '.publication_id';
-        
+
         return $this->retrieve_object_set($query, PhotoGalleryPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, PhotoGalleryPublication :: CLASS_NAME);
     }
 
@@ -230,18 +234,18 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
         $condition = new EqualityCondition('publication_id', $calendar_event_publication->get_id());
         $this->delete_objects(PhotoGalleryPublicationUser :: get_table_name(), $condition);
         $this->delete_objects(PhotoGalleryPublicationGroup :: get_table_name(), $condition);
-        
+
         // Add updated target users and groups
         if (! $this->create_photo_gallery_publication_users($calendar_event_publication))
         {
             return false;
         }
-        
+
         if (! $this->create_photo_gallery_publication_groups($calendar_event_publication))
         {
             return false;
         }
-        
+
         $condition = new EqualityCondition(PhotoGalleryPublication :: PROPERTY_ID, $calendar_event_publication->get_id());
         return $this->update($calendar_event_publication, $condition);
     }
@@ -283,17 +287,17 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
         {
             return false;
         }
-        
+
         if (! $this->create_photo_gallery_publication_users($publication))
         {
             return false;
         }
-        
+
         if (! $this->create_photo_gallery_publication_groups($publication))
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -305,19 +309,19 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
     function create_photo_gallery_publication_users($publication)
     {
         $users = $publication->get_target_users();
-        
+
         foreach ($users as $index => $user_id)
         {
             $publication_user = new PhotoGalleryPublicationUser();
             $publication_user->set_publication($publication->get_id());
             $publication_user->set_user($user_id);
-            
+
             if (! $publication_user->create())
             {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -329,19 +333,19 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
     function create_photo_gallery_publication_groups($publication)
     {
         $groups = $publication->get_target_groups();
-        
+
         foreach ($groups as $index => $group_id)
         {
             $publication_group = new PhotoGalleryPublicationGroup();
             $publication_group->set_publication($publication->get_id());
             $publication_group->set_group_id($group_id);
-            
+
             if (! $publication_group->create())
             {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -349,13 +353,13 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
     {
         $condition = new EqualityCondition(PhotoGalleryPublicationGroup :: PROPERTY_PUBLICATION, $calendar_event_publication->get_id());
         $groups = $this->retrieve_objects(PhotoGalleryPublicationGroup :: get_table_name(), $condition, null, null, array(), PhotoGalleryPublicationGroup :: CLASS_NAME);
-        
+
         $target_groups = array();
         while ($group = $groups->next_result())
         {
             $target_groups[] = $group->get_group_id();
         }
-        
+
         return $target_groups;
     }
 
@@ -363,13 +367,13 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
     {
         $condition = new EqualityCondition(PhotoGalleryPublicationUser :: PROPERTY_PUBLICATION, $calendar_event_publication->get_id());
         $users = $this->retrieve_objects(PhotoGalleryPublicationUser :: get_table_name(), $condition, null, null, array(), PhotoGalleryPublicationUser :: CLASS_NAME);
-        
+
         $target_users = array();
         while ($user = $users->next_result())
         {
             $target_users[] = $user->get_user();
         }
-        
+
         return $target_users;
     }
 }

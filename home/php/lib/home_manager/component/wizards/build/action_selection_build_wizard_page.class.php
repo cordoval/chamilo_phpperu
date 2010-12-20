@@ -1,5 +1,7 @@
 <?php
 namespace home;
+
+use common\libraries\Utilities;
 use common\libraries\Translation;
 
 /**
@@ -29,18 +31,19 @@ class ActionSelectionBuildWizardPage extends BuildWizardPage
      * Constant defining the action to completely remove a course
      */
     const ACTION_DELETE = 4;
-    
+
     const ACTION_BUILD = 5;
 
     function buildForm()
     {
         $this->addElement('radio', 'action', Translation :: get('BuildUsers'), Translation :: get('Build'), self :: ACTION_BUILD);
-        $this->addRule('action', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES) . ' >>');
+        $this->addRule('action', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;
     }
+
     //	/**
 //	 * Determines if an action is available
 //	 * @param const $action On of the actions defined in this class

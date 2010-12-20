@@ -1,8 +1,9 @@
 <?php
 namespace repository\content_object\competence;
 
-use common\libraries\Path;
+use repository\ComplexBuilderComponent;
 
+use common\libraries\Path;
 
 class CompetenceBuilderViewerComponent extends CompetenceBuilder
 {

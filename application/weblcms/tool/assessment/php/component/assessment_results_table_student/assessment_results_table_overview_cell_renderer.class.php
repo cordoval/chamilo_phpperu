@@ -1,13 +1,17 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
 use application\weblcms\Tool;
+
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\Path;
 use common\libraries\Translation;
+
 use repository\DefaultContentObjectTableCellRenderer;
+use repository\content_object\assessment\Assessment;
 
 /**
  * $Id: assessment_results_table_overview_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $

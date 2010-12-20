@@ -5,6 +5,9 @@ namespace migration;
  * $Id: dokeos185_track_ecourse_access.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
+use user\VisitTracker;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
 /**
@@ -66,7 +69,13 @@ class Dokeos185TrackECourseAccess extends Dokeos185MigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_COURSE_ACCESS_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_USER_ID, self :: PROPERTY_LOGIN_COURSE_DATE, self :: PROPERTY_LOGOUT_COURSE_DATE, self :: PROPERTY_COUNTER);
+        return array(
+                self :: PROPERTY_COURSE_ACCESS_ID,
+                self :: PROPERTY_COURSE_CODE,
+                self :: PROPERTY_USER_ID,
+                self :: PROPERTY_LOGIN_COURSE_DATE,
+                self :: PROPERTY_LOGOUT_COURSE_DATE,
+                self :: PROPERTY_COUNTER);
     }
 
     /**
@@ -150,7 +159,7 @@ class Dokeos185TrackECourseAccess extends Dokeos185MigrationDataClass
     {
         $new_user_id = $this->get_id_reference($this->get_user_id(), 'main_database.user');
 
-        if (!$new_user_id) //if the user id doesn't exist anymore, the data can be ignored
+        if (! $new_user_id) //if the user id doesn't exist anymore, the data can be ignored
         {
             $this->create_failed_element($this->get_id());
             return false;
@@ -168,7 +177,7 @@ class Dokeos185TrackECourseAccess extends Dokeos185MigrationDataClass
         $new_course_id = $this->get_id_reference($this->get_course_code(), 'main_database.course');
         $new_user_id = $this->get_id_reference($this->get_user_id(), 'main_database.user');
 
-        $url="/hg/run.php?go=courseviewer&course=$new_course_id&application=weblcms";
+        $url = "/hg/run.php?go=courseviewer&course=$new_course_id&application=weblcms";
 
         $visit_tracker->set_enter_date(strtotime($this->get_login_course_date()));
         $visit_tracker->set_leave_date(strtotime($this->get_logout_course_date()));
@@ -180,7 +189,8 @@ class Dokeos185TrackECourseAccess extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
     static function get_class_name()

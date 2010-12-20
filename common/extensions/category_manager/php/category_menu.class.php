@@ -1,14 +1,18 @@
 <?php
 namespace common\extensions\category_manager;
+
 use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
+
+use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\OptionsMenuRenderer;
-use HTML_Menu_ArrayRenderer;
 use common\libraries\TreeMenuRenderer;
 use common\libraries\Utilities;
 use common\libraries\BreadcrumbTrail;
+
 use application\reservations\Category;
 /**
  * $Id: category_menu.class.php 191 2009-11-13 11:50:28Z chellee $

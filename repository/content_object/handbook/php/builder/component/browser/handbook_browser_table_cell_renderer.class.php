@@ -1,7 +1,7 @@
 <?php
-
-
 namespace repository\content_object\handbook;
+
+use repository\ComplexBuilder;
 use repository\ComplexBrowserTableCellRenderer;
 use repository\RepositoryDataManager;
 use common\libraries\Path;
@@ -28,14 +28,14 @@ class HandbookBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
     {
         parent :: __construct($browser, $condition);
     }
-    
+
     private $lpi_ref_object;
 
     // Inherited
     function render_cell($column, $complex_content_object_item)
     {
         $content_object = $this->retrieve_content_object($complex_content_object_item->get_ref());
-        
+
         if ($content_object->get_type() == HandbookItem :: get_type_name())
         {
             if (! $this->lpi_ref_object || $this->lpi_ref_object->get_id() != $content_object->get_reference())
@@ -52,23 +52,23 @@ class HandbookBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         {
             $ref_content_object = $content_object;
         }
-        
+
         switch ($column->get_name())
         {
             case Translation :: get('Title', null, __NAMESPACE__) :
                 $title = htmlspecialchars($ref_content_object->get_title());
                 $title_short = $title;
-                
+
                 $title_short = Utilities :: truncate_string($title_short, 53, false);
-                
+
                 if ($ref_content_object->get_type() == Handbook :: get_type_name())
                 {
                     $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id())) . '">' . $title_short . '</a>';
                 }
-                
+
                 return $title_short;
         }
-        
+
         return parent :: render_cell($column, $complex_content_object_item, $ref_content_object);
     }
 

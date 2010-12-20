@@ -1,6 +1,8 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\Text;
+use common\libraries\Theme;
 use common\libraries\DataClass;
 
 use user\UserDataManager;

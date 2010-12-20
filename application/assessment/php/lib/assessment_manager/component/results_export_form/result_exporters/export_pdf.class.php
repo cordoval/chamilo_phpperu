@@ -1,9 +1,13 @@
 <?php
-
 namespace application\assessment;
 
-use common\libraries\EqualityCondition;
+use user\UserDataManager;
+
+use repository\content_object\feedback\Feedback;
+use repository\content_object\hotspot_question\HotspotQuestion;
 use repository\ComplexContentObjectItem;
+
+use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 /**
  * $Id: export_pdf.class.php 193 2009-11-13 11:53:37Z chellee $
@@ -12,7 +16,7 @@ use common\libraries\AndCondition;
 class ResultsPdfExport extends ResultsExport
 {
     private $data;
-    
+
     const PROPERTY_ASSESSMENT_TITLE = 'Title';
     const PROPERTY_ASSESSMENT_DESCRIPTION = 'Description';
     const PROPERTY_ASSESSMENT_TYPE = 'Type';
@@ -76,7 +80,7 @@ class ResultsPdfExport extends ResultsExport
         $data[self :: PROPERTY_RESULT] = $user_assessment->get_total_score();
         $data[self :: PROPERTY_DATE_TIME_TAKEN] = $user_assessment->get_date();
         $this->data[] = array('key' => 'Result', 'data' => array($data));
-        
+
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment_id, ComplexContentObjectItem :: get_table_name());
         $clo_questions = $this->rdm->retrieve_complex_content_object_items($condition);
         while ($clo_question = $clo_questions->next_result())
@@ -95,14 +99,14 @@ class ResultsPdfExport extends ResultsExport
     function export_question($clo_question, $user_assessment)
     {
         $question = $this->rdm->retrieve_content_object($clo_question->get_ref());
-        
+
         $track = new AssessmentQuestionAttemptsTracker();
         $condition_q = new EqualityCondition(AssessmentQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $clo_question->get_id());
         $condition_a = new EqualityCondition(AssessmentQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
         $condition = new AndCondition(array($condition_q, $condition_a));
         $user_answers = $track->retrieve_tracker_items($condition);
         $user_answer = $user_answers[0];
-        
+
         $data[self :: PROPERTY_QUESTION_TITLE] = $question->get_title();
         $data[self :: PROPERTY_QUESTION_TYPE] = $question->get_type();
         $data[self :: PROPERTY_QUESTION_DESCRIPTION] = strip_tags($question->get_description());
@@ -110,7 +114,7 @@ class ResultsPdfExport extends ResultsExport
         $data['score'] = $user_answer->get_score();
         $data['feedback'] = htmlspecialchars($user_answer->get_feedback());
         $this->data[] = array('key' => 'Question', 'data' => array($data));
-        
+
         $data = array();
         $answers = unserialize($user_answer->get_answer());
         foreach ($answers as $answer)
@@ -126,11 +130,11 @@ class ResultsPdfExport extends ResultsExport
             {
                 $data['Answers'][] = htmlspecialchars($answer);
             }
-        
+
         }
-        
+
         $this->data[] = array('key' => 'Answers', 'data' => $data);
-    
+
     }
 
     function export_feedback($feedback_id)

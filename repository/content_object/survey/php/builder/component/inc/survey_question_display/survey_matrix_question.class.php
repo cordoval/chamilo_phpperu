@@ -1,12 +1,13 @@
-<?php 
+<?php
 namespace repository\content_object\survey;
 
-use repository\MatrixQuestion;
+use repository\content_object\survey_matrix_question\SurveyMatrixQuestion;
 
 /**
  * $Id: survey_matrix_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.survey.component.viewer.wizard.inc.question_display
  */
+
 require_once dirname(__FILE__) . '/../survey_question_display.class.php';
 
 class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
@@ -40,9 +41,9 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
         $formvalidator->addElement('html', implode("\n", $table_header));
 
         $question_id = $clo_question->get_id();
-		
+
         $answer = $this->get_answer();
-                
+
         foreach ($options as $i => $option)
         {
             $group = array();
@@ -51,35 +52,31 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
 
             foreach ($matches as $j => $match)
             {
-                if ($type == MatrixQuestion :: MATRIX_TYPE_RADIO)
+                if ($type == SurveyMatrixQuestion :: MATRIX_TYPE_RADIO)
                 {
-                    $answer_name = $question_id . '_' . $i . '_0_'.$this->get_page_nr();
+                    $answer_name = $question_id . '_' . $i . '_0_' . $this->get_page_nr();
                     $radio = $formvalidator->createElement('radio', $answer_name, null, null, $j);
-//					if($answer[$i][0]==$j){
-//						$radio->setChecked(true);
-//					}	
                     $group[] = $radio;
                 }
-                elseif ($type == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)
+                elseif ($type == SurveyMatrixQuestion :: MATRIX_TYPE_CHECKBOX)
                 {
-                    $answer_name = $question_id . '_' . $i . '_' . $j . '_'.$this->get_page_nr();
-                    $checkbox = $formvalidator->createElement('checkbox', $answer_name, '', '', array('checked'=>'checked'));
+                    $answer_name = $question_id . '_' . $i . '_' . $j . '_' . $this->get_page_nr();
+                    $checkbox = $formvalidator->createElement('checkbox', $answer_name, '', '', array(
+                            'checked' => 'checked'));
                     $group[] = $checkbox;
                 }
             }
 
-            
             $formvalidator->addGroup($group, 'matrix_option_' . $i, null, '', false);
 
             $renderer->setElementTemplate('<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'matrix_option_' . $i);
             $renderer->setGroupElementTemplate('<td style="text-align: center;">{element}</td>', 'matrix_option_' . $i);
         }
-		    
-        
+
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $formvalidator->addElement('html', implode("\n", $table_footer));
-        
+
     }
 
     function add_border()

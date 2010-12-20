@@ -1,6 +1,8 @@
 <?php
 namespace application\laika;
 
+use common\libraries\AndCondition;
+use common\libraries\NotCondition;
 use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;
@@ -31,13 +33,14 @@ class LaikaManagerViewerComponent extends LaikaManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME)), Translation :: get('Laika')));
+        $trail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME)), Translation :: get('Laika')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewLaikaResult')));
 
         if (! LaikaRights :: is_allowed(LaikaRights :: RIGHT_VIEW, LaikaRights :: LOCATION_VIEWER, LaikaRights :: TYPE_LAIKA_COMPONENT))
         {
             $this->display_header($trail);
-            $this->display_error_message(Translation :: get('NotAllowed', null, Utilities::COMMON_LIBRARIES));
+            $this->display_error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -82,7 +85,8 @@ class LaikaManagerViewerComponent extends LaikaManager
             if ($attempts_count > 1)
             {
                 $html[] = '<h3>' . Translation :: get('OtherLaikaResultsFromSameUser') . '</h3>';
-                $table = new LaikaAttemptBrowserTable($this, array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME), $this->get_attempt_condition());
+                $table = new LaikaAttemptBrowserTable($this, array(
+                        Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME), $this->get_attempt_condition());
                 $html[] = $table->as_html();
             }
         }
@@ -148,7 +152,9 @@ class LaikaManagerViewerComponent extends LaikaManager
         $attempt = $this->get_laika_attempt();
 
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('SendMail'), Theme :: get_common_image_path() . 'action_mail.png', $this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_MAIL_LAIKA, LaikaManager :: PARAM_RECIPIENTS => $attempt->get_user()->get_id()))));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('SendMail'), Theme :: get_common_image_path() . 'action_mail.png', $this->get_url(array(
+                Application :: PARAM_ACTION => LaikaManager :: ACTION_MAIL_LAIKA,
+                LaikaManager :: PARAM_RECIPIENTS => $attempt->get_user()->get_id()))));
         //$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('laika'));
 
 

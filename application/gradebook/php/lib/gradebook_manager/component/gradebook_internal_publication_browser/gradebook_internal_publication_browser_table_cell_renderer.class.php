@@ -1,24 +1,26 @@
 <?php
-
 namespace application\gradebook;
 
+use common\libraries\Utilities;
 use common\libraries\WebApplication;
 use common\libraries\Path;
-use repository\RepositoryDataManager;
-use repository\ContentObject;
 use common\libraries\DatetimeUtilities;
 use common\libraries\Translation;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'tables/gradebook_publication_table/default_gradebook_publication_table_cell_renderer.class.php';
 require_once Path :: get_common_libraries_class_path() . '/datetime/datetime_utilities.class.php';
 
 class GradebookInternalPublicationBrowserTableCellRenderer extends DefaultGradebookPublicationTableCellRenderer
-{/**
- * The browser component
- */
+{
+    /**
+     * The browser component
+     */
 
     private $browser;
 
@@ -41,7 +43,7 @@ class GradebookInternalPublicationBrowserTableCellRenderer extends DefaultGradeb
         }
         $application_manager = WebApplication :: factory($internal_item->get_application());
         $attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
-        if (!$attributes)
+        if (! $attributes)
         {
             return null;
         }
@@ -67,7 +69,7 @@ class GradebookInternalPublicationBrowserTableCellRenderer extends DefaultGradeb
     private function get_modification_links($content_object)
     {
         $toolbar = new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Browser', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_internal_evaluations_on_publications_viewer_url($content_object), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Browser', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_internal_evaluations_on_publications_viewer_url($content_object), ToolbarItem :: DISPLAY_ICON));
 
         return $toolbar->as_html();
     }

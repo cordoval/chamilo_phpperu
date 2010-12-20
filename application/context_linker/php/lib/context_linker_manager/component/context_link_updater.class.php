@@ -1,8 +1,12 @@
 <?php
 namespace application\context_linker;
 
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Utilities;
 
+use application\metadata\MetadataDataManager;
 
 /**
  * Component to edit an existing context_link object
@@ -11,6 +15,7 @@ use common\libraries\Utilities;
  */
 class ContextLinkerManagerContextLinkUpdaterComponent extends ContextLinkerManager
 {
+
     /**
      * Runs this component and displays its output.
      */
@@ -27,12 +32,17 @@ class ContextLinkerManagerContextLinkUpdaterComponent extends ContextLinkerManag
         $condition = new EqualityCondition(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID, $context_link->get_original_content_object_id());
         $metadata_property_values = $mdm->retrieve_full_metadata_property_values($condition);
 
-        $form = new ContextLinkForm(ContextLinkForm :: TYPE_EDIT, $context_link, $metadata_property_values, $this->get_url(array_merge($params, array(ContextLinkerManager :: PARAM_CONTEXT_LINK => $context_link->get_id())), $this->get_user()));
+        $form = new ContextLinkForm(ContextLinkForm :: TYPE_EDIT, $context_link, $metadata_property_values, $this->get_url(array_merge($params, array(
+                ContextLinkerManager :: PARAM_CONTEXT_LINK => $context_link->get_id())), $this->get_user()));
 
-        if($form->validate())
+        if ($form->validate())
         {
-                $success = $form->update_context_link();
-                $this->redirect($success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES), !$success, array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $context_link->get_original_content_object_id()));
+            $success = $form->update_context_link();
+            $this->redirect($success ? Translation :: get('ObjectUpdated', array(
+                    'OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array(
+                    'OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES), ! $success, array(
+                    ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS,
+                    ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $context_link->get_original_content_object_id()));
         }
         else
         {

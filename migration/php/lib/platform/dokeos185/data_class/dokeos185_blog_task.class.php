@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_blog_task.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 
 /**
  * This class presents a Dokeos185 blog_task
@@ -14,7 +14,7 @@ namespace migration;
 class Dokeos185BlogTask extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185BlogTask properties
      */
@@ -24,7 +24,7 @@ class Dokeos185BlogTask extends Dokeos185MigrationDataClass
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_COLOR = 'color';
     const PROPERTY_SYSTEM_TASK = 'system_task';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -175,11 +175,11 @@ class Dokeos185BlogTask extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = $parameters['course']->get_db_name();
         $tablename = 'blog_task';
         $classname = 'Dokeos185BlogTask';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

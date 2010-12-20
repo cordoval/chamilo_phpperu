@@ -1,10 +1,14 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\extensions\email_manager\EmailManager;
+
 use application\weblcms\WeblcmsRights;
 use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
+
 use user\UserDataManager;
+
 use common\libraries\Display;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
@@ -48,7 +52,8 @@ class UserToolEmailerComponent extends UserTool
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('User')))));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array(
+                    'OBJECT' => Translation :: get('User')))));
         }
     }
 

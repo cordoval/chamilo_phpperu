@@ -1,6 +1,8 @@
 <?php
 namespace rights;
 
+use help\HelpItem;
+
 use common\libraries\Request;
 use common\libraries\Theme;
 use common\libraries\Display;

@@ -1,6 +1,8 @@
 <?php
-
 namespace application\cda;
+
+use user\UserDataManager;
+use user\User;
 
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
@@ -9,7 +11,6 @@ use common\libraries\Display;
 use common\libraries\WebApplication;
 use common\libraries\Application;
 use common\libraries\InCondition;
-use user\User;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\SubselectCondition;
@@ -33,13 +34,13 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManager
 {
 	private $user_languages;
 	private $action_bar;
-	
+
 	function run()
 	{
 		$this->user_languages = $this->get_user_languages();
-		
+
 		$this->action_bar = $this->get_action_bar();
-		
+
 		if (count($this->user_languages) == 0 && !$this->get_user()->is_platform_admin())
 		{
 			Display :: not_allowed();
@@ -56,24 +57,24 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManager
 
 	function get_table()
 	{
-		$table = new TranslatorApplicationBrowserTable($this, 
-			array(Application :: PARAM_APPLICATION => 'cda', Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS), 
+		$table = new TranslatorApplicationBrowserTable($this,
+			array(Application :: PARAM_APPLICATION => 'cda', Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS),
 				$this->get_condition());
-			
+
 		return $table->as_html();
 	}
-	
+
 	function get_condition()
-	{		
+	{
 		$user = $this->get_user();
-		
+
 		if (!$user->is_platform_admin())
 		{
 			$condition = new InCondition(TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID, $this->user_languages, TranslatorApplication :: get_table_name());
 		}
-		
+
 		$query = $this->action_bar->get_query();
-		
+
 		if($query && $query != '')
 		{
 			$subconditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', User :: get_table_name());
@@ -81,18 +82,18 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManager
 			$subcondition = new OrCondition($subconditions);
 			$conditions[] = new SubselectCondition(TranslatorApplication :: PROPERTY_USER_ID,
 												   User :: PROPERTY_ID, User :: get_table_name(), $subcondition, null, UserDataManager :: get_instance());
-			
+
 			$subcondition = new PatternMatchCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, '*' . $query . '*', CdaLanguage :: get_table_name());
 			$conditions[] = new SubselectCondition(TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID,
 												   CdaLanguage :: PROPERTY_ID, CdaLanguage :: get_table_name(), $subcondition);
 			$conditions[] = new SubselectCondition(TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID,
 												   CdaLanguage :: PROPERTY_ID, CdaLanguage :: get_table_name(), $subcondition);
-			
+
 			$orcondition = new OrCondition($conditions);
-			
+
 			if(!$condition)
 			{
-				$condition = $orcondition;	
+				$condition = $orcondition;
 			}
 			else
 			{
@@ -102,41 +103,41 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManager
 				$condition = new AndCondition($conditions);
 			}
 		}
-		
+
 		return $condition;
 
 	}
-	
+
  	function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         $action_bar->set_search_url($this->get_url());
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url()));
-        
+
         return $action_bar;
     }
-    
+
     function get_user_languages()
     {
 		$language_location = CdaRights :: get_languages_subtree_root();
 		$languages = $language_location->get_children();
-		
+
 		$available_languages = array();
-		
+
 		while ($language = $languages->next_result())
 		{
 			$can_edit = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $language->get_identifier(), $language->get_type());
-			
+
 			if ($can_edit)
 			{
 				$available_languages[] = $language->get_identifier();
 			}
 		}
-		
+
 		return $available_languages;
     }
-    
+
 	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('CdaManagerCdaLanguagesBrowserComponent')));

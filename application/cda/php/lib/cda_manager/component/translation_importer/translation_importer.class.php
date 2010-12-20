@@ -1,13 +1,14 @@
 <?php
-
 namespace application\cda;
 
-use Exception;
+use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Filesystem;
 use common\libraries\Filecompression;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+
+use Exception;
 /*
  * @author Sven Vanpoucke
  */
@@ -17,11 +18,11 @@ abstract class TranslationImporter
 	private $user;
 	private $options;
 	private $branch;
-	
+
 	const OPTION_CREATE_NEW_LANGUAGES = 1;
 	const OPTION_CREATE_NEW_LANGUAGE_PACKS = 2;
 	const OPTION_CREATE_NEW_VARIABLES = 3;
-	
+
 	/**
      * Constructor
      */
@@ -32,7 +33,7 @@ abstract class TranslationImporter
     	$this->set_options($options);
     	set_time_limit(0);
     }
-    
+
 	/**
 	 * @return the $user
 	 */
@@ -64,12 +65,12 @@ abstract class TranslationImporter
 	{
 		$this->options = $options;
 	}
-	
+
 	public function set_option($option, $value)
 	{
 		$this->options[$option] = $value;
 	}
-	
+
 	public function get_option($option)
 	{
 		return $this->options[$option];
@@ -95,7 +96,7 @@ abstract class TranslationImporter
     {
         $file = dirname(__FILE__) . '/importer/chamilo' . $branch . '_translation_importer.class.php';
         $class = __NAMESPACE__ . '\\Chamilo' . $branch . 'TranslationImporter';
-        
+
         if (file_exists($file))
         {
             require_once ($file);
@@ -106,33 +107,33 @@ abstract class TranslationImporter
         	throw new Exception(Translation :: get('TranslationImporterNotFound'));
         }
     }
-    
+
     public function import($file)
     {
     	$temp = Path :: get(SYS_TEMP_PATH) . '/' . $this->user->get_id() . '/';
-    	
+
     	if(!is_dir($temp))
     	{
     		Filesystem :: create_dir($temp);
     	}
-    	
+
     	$path = $temp . 'languages.zip';
-    	
+
     	move_uploaded_file($file['tmp_name'], $path);
-    	
+
     	$filecompression = Filecompression :: factory();
     	$root = $filecompression->extract_file($path);
 
     	$this->import_translations($root);
-    	
+
     	Filesystem :: remove($root);
     	Filesystem :: remove($path);
     }
-    
+
     private function import_translations($root)
     {
     	$languages = $this->scan_for_languages($root);
-    	
+
     	foreach($languages as $language)
     	{
     		$system_language = $this->get_language($language);
@@ -140,18 +141,18 @@ abstract class TranslationImporter
     		{
     			continue;
     		}
-    		
+
     		$is_translator = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: VIEW_RIGHT, $system_language->get_id(), 'cda_language');
 			$is_moderator = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $system_language->get_id(), 'cda_language');
-	    		
+
 			if(!$is_translator && !$is_moderator)
 			{
 				continue;
 			}
-			
+
     		$language_directory = $root . '/' . $language;
     		$language_packs = $this->scan_for_language_packs($language_directory);
-    		
+
     		foreach($language_packs as $language_pack)
     		{
     			$system_language_pack = $this->get_language_pack($language_pack);
@@ -159,10 +160,10 @@ abstract class TranslationImporter
     			{
     				continue;
     			}
-    			
+
     			$file = $language_directory . '/' . $language_pack . '.inc.phps';
     			$translations = $this->scan_for_language_translations($file);
-    			
+
     			foreach($translations as $variable => $translation)
     			{
     				$system_variable = $this->get_variable($system_language_pack, $variable);
@@ -170,9 +171,9 @@ abstract class TranslationImporter
     				{
     					continue;
     				}
-    				
+
     				$system_translation = $this->get_translation($system_language, $system_variable);
-    				
+
     				if($translation && trim($translation) != '' && is_object($system_translation))
     				{
     					$system_translation->set_translation($translation);
@@ -180,11 +181,11 @@ abstract class TranslationImporter
     					$system_translation->set_date(time());
     					$system_translation->update();
     				}
-    			}	
+    			}
     		}
     	}
     }
-    
+
     private function scan_for_languages($root)
     {
     	$directories = Filesystem :: get_directory_content($root, Filesystem :: LIST_DIRECTORIES, false);
@@ -192,13 +193,13 @@ abstract class TranslationImporter
     	{
     		if(substr($directory, 0, 1) == '.')
     			continue;
-    			
+
     		$languages[] = $directory;
     	}
-    	
+
     	return $languages;
     }
-    
+
     private function scan_for_language_packs($language_directory)
     {
     	$files = Filesystem :: get_directory_content($language_directory, Filesystem :: LIST_FILES, false);
@@ -206,21 +207,21 @@ abstract class TranslationImporter
     	{
     		if(substr($file, -9) != '.inc.phps')
     			continue;
-			
+
     		$language_packs[] = substr($file, 0, -9);
     	}
-    	
+
     	return $language_packs;
     }
-    
-	abstract function scan_for_language_translations($file);    
-    
-	
+
+	abstract function scan_for_language_translations($file);
+
+
 	private function get_language($language_name)
 	{
 		$dm = CdaDataManager :: get_instance();
 		$condition = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, $language_name);
-		
+
 		$language = $dm->retrieve_cda_languages($condition)->next_result();
 		if(!$language && $this->get_option(self :: OPTION_CREATE_NEW_LANGUAGES))
 		{
@@ -231,18 +232,18 @@ abstract class TranslationImporter
 			$language->set_isocode(substr($language_name, 0, 2));
 			$language->create();
 		}
-		
+
 		return $language;
 	}
-	
+
 	private function get_language_pack($language_pack_name)
 	{
 		$dm = CdaDataManager :: get_instance();
-		
+
 		$conditions[] = new EqualityCondition(LanguagePack :: PROPERTY_NAME, $language_pack_name);
 		$conditions[] = new EqualityCondition(LanguagePack :: PROPERTY_BRANCH, $this->get_branch());
 		$condition = new AndCondition($conditions);
-		
+
 		$language_pack = $dm->retrieve_language_packs($condition)->next_result();
 		if(!$language_pack && $this->get_option(self :: OPTION_CREATE_NEW_LANGUAGE_PACKS))
 		{
@@ -252,18 +253,18 @@ abstract class TranslationImporter
 			$language_pack->set_type(LanguagePack :: TYPE_APPLICATION);
 			$language_pack->create();
 		}
-		
+
 		return $language_pack;
 	}
-	
+
 	private function get_variable($language_pack, $variable_name)
 	{
 		$dm = CdaDataManager :: get_instance();
-		
+
 		$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
 		$conditions[] = new EqualityCondition(Variable :: PROPERTY_VARIABLE, $variable_name);
 		$condition = new AndCondition($conditions);
-		
+
 		$variable = $dm->retrieve_variables($condition)->next_result();
 		if(!$variable && $this->get_option(self :: OPTION_CREATE_NEW_VARIABLES))
 		{
@@ -272,18 +273,18 @@ abstract class TranslationImporter
 			$variable->set_variable($variable_name);
 			$variable->create();
 		}
-		
+
 		return $variable;
 	}
-	
+
 	private function get_translation($language, $variable)
 	{
 		$dm = CdaDataManager :: get_instance();
-		
+
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable->get_id());
 		$condition = new AndCondition($conditions);
-		
+
 		return $dm->retrieve_variable_translations($condition)->next_result();
 	}
 }

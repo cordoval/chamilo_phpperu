@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\physical_location;
 
+use repository\Difference_Engine;
+
 use repository\ContentObjectDifference;
 
 /**

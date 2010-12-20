@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\hotpotatoes;
 
+use repository\Difference_Engine;
+
 use repository\ContentObjectDifference;
 /**
  * $Id: hotpotatoes_difference.class.php 200 2009-11-13 12:30:04Z kariboe $

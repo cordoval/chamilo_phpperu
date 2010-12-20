@@ -2,12 +2,14 @@
 namespace application\weblcms;
 
 use common\extensions\reporting_viewer\ReportingViewer;
-use reporting\ReportingManager;
-use repository\RepositoryDataManager;
-use user\UserDataManager;
+
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
+
+use reporting\ReportingManager;
+use repository\RepositoryDataManager;
+use user\UserDataManager;
 
 /**
  * $Id: reporting_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -72,7 +74,7 @@ class ToolComponentReportingViewerComponent extends ToolComponent
         }
         if (! empty($user) && Request :: get(Tool :: PARAM_TEMPLATE_NAME) == 'course_student_tracker_detail_reporting_template')
         {
-            $user = DatabaseUserDataManager :: get_instance()->retrieve_user($user);
+            $user = UserDataManager :: get_instance()->retrieve_user($user);
             $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => $user)), $user->get_firstname() . ' ' . $user->get_lastname()));
         }
 

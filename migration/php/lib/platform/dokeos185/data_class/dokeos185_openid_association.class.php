@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_openid_association.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 /**
  * This class presents a Dokeos185 openid_association
  *
@@ -13,7 +13,7 @@ namespace migration;
 class Dokeos185OpenidAssociation extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185OpenidAssociation properties
      */
@@ -25,7 +25,7 @@ class Dokeos185OpenidAssociation extends Dokeos185MigrationDataClass
     const PROPERTY_EXPIRES_IN = 'expires_in';
     const PROPERTY_MAC_KEY = 'mac_key';
     const PROPERTY_CREATED = 'created';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -160,7 +160,7 @@ class Dokeos185OpenidAssociation extends Dokeos185MigrationDataClass
     /**
      * Check if the open id association is valid
      * @param array $array the parameters for the validation
-     * @return true if the open id association is valid 
+     * @return true if the open id association is valid
      */
    function is_valid()
     {
@@ -186,7 +186,7 @@ class Dokeos185OpenidAssociation extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
-    
+
     }
 
     /**
@@ -197,11 +197,11 @@ class Dokeos185OpenidAssociation extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = 'main_database';
         $tablename = 'openid_association';
         $classname = 'Dokeos185OpenidAssociation';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

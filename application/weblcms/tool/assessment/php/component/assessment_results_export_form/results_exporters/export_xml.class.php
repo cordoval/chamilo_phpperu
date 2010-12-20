@@ -1,8 +1,16 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use repository\content_object\feedback\Feedback;
+use repository\content_object\hotspot_question\HotspotQuestion;
+use repository\ComplexContentObjectItem;
+
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
+use application\weblcms\WeblcmsQuestionAttemptsTracker;
 use application\weblcms\WeblcmsDataManager;
+
 use user\UserDataManager;
+
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\WebApplication;

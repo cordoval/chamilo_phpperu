@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Toolbar;
 use common\libraries\WebApplication;
 use common\libraries\CoreApplication;
 use common\libraries\Translation;
@@ -11,7 +12,7 @@ require_once WebApplication :: get_application_class_lib_path('internship_organi
 require_once CoreApplication :: get_application_class_lib_path('user') . 'user_table/default_user_table_cell_renderer.class.php';
 class InternshipOrganizerPeriodAgreementUserBrowserTableCellRenderer extends DefaultInternshipOrganizerUserTableCellRenderer
 {
-    
+
     private $browser;
     private $user_type;
 
@@ -25,7 +26,7 @@ class InternshipOrganizerPeriodAgreementUserBrowserTableCellRenderer extends Def
     // Inherited
     function render_cell($column, $user)
     {
-        
+
         if ($column === InternshipOrganizerPeriodAgreementUserBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($user);
@@ -50,7 +51,7 @@ class InternshipOrganizerPeriodAgreementUserBrowserTableCellRenderer extends Def
             }
         }
         return $toolbar->as_html();
-    
+
     }
 
 }

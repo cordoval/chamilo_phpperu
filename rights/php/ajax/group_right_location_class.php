@@ -1,4 +1,10 @@
 <?php
+namespace rights;
+
+use user\UserDataManager;
+
+use common\libraries\Session;
+use common\libraries\Utilities;
 use common\libraries\Authentication;
 use common\libraries\Translation;
 use common\libraries\Theme;

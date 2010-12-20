@@ -1,6 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\google_docs;
 
+use repository\content_object\document\Document;
+
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Utilities;

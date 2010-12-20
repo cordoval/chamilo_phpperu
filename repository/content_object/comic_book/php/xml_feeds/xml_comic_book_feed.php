@@ -1,4 +1,11 @@
 <?php
+namespace repository\content_object\comic_book;
+
+use repository\RepositoryDataManager;
+
+use repository\ContentObject;
+
+use common\libraries\Authentication;
 use repository\RepositoryCategory;
 use common\libraries\Request;
 use common\libraries\Translation;
@@ -22,16 +29,16 @@ Translation :: set_application('repository');
 if (Authentication :: is_valid())
 {
     $conditions = array();
-    
+
     $query_condition = Utilities :: query_to_condition(Request :: get('query'), ContentObject :: PROPERTY_TITLE);
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
     }
-    
+
     $owner_condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
     $conditions[] = $owner_condition;
-    
+
     if (is_array(Request :: get('exclude')))
     {
         $c = array();
@@ -41,12 +48,12 @@ if (Authentication :: is_valid())
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     $condition = new AndCondition($conditions);
-    
+
     $dm = RepositoryDataManager :: get_instance();
     $objects = $dm->retrieve_type_content_objects(ComicBook :: get_type_name(), $condition, array(new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)), array(SORT_ASC));
-    
+
     while ($lo = $objects->next_result())
     {
         /*$cat = $dm->retrieve_categories(new EqualityCondition('id', $lo->get_parent_id()))->next_result();
@@ -61,14 +68,14 @@ if (Authentication :: is_valid())
             $objects_by_cat[$cid] = array($lo);
         }
     }
-    
+
     $categories = array();
     $root = new RepositoryCategory();
     $root->set_id(0);
     $root->set_name(Translation :: get('MyRepository'));
     $root->set_parent(- 1);
     $categories[- 1] = array($root);
-    
+
     $cats = $dm->retrieve_categories(new EqualityCondition('user_id', Session :: get_user_id()));
     while ($cat = $cats->next_result())
     {
@@ -82,7 +89,7 @@ if (Authentication :: is_valid())
             $categories[$parent] = array($cat);
         }
     }
-    
+
     $tree = get_tree(- 1, $categories);
 }
 else
@@ -131,7 +138,7 @@ function dump_tree($tree, $objects)
         {
             $title = $node['obj']->get_title();
         }
-        
+
         echo '<node id="category_' . $id . '" classes="category unlinked" title="' . htmlentities($title) . '">', "\n";
         dump_tree($node['sub'], $objects);
         foreach ($objects[$id] as $lo)

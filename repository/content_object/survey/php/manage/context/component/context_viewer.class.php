@@ -1,5 +1,11 @@
-<?php 
+<?php
 namespace repository\content_object\survey;
+
+use group\GroupDataManager;
+use group\Group;
+
+use user\UserDataManager;
+use user\User;
 
 use common\libraries\Path;
 use common\libraries\ActionBarRenderer;
@@ -38,9 +44,9 @@ class SurveyContextManagerContextViewerComponent extends SurveyContextManager
      */
     function run()
     {
-   	
+
     	$context_id = Request :: get(self :: PARAM_CONTEXT_ID);
-          	
+
     	$this->context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
 
         $this->ab = $this->get_action_bar();

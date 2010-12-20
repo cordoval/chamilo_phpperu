@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\assessment;
+
+use repository\content_object\assessment_match_numeric_question\AssessmentMatchNumericQuestion;
+use Exception;
+
 /**
  * @package repository.lib.complex_display.assessment.component.viewer.wizard.inc.score_calculator
  */
@@ -20,7 +24,7 @@ class AssessmentMatchNumericScoreCalculator extends ScoreCalculator
         $tolerance_type = $question->get_tolerance_type();
         $max_score = $this->max_score($question);
         $options = $question->get_options();
-        
+
         $result = 0;
         foreach ($options as $option)
         {
@@ -30,7 +34,7 @@ class AssessmentMatchNumericScoreCalculator extends ScoreCalculator
                 $result = max($result, $option_score);
             }
         }
-        
+
         return $result;
     }
 
@@ -42,12 +46,12 @@ class AssessmentMatchNumericScoreCalculator extends ScoreCalculator
                 $min = $value - abs($tolerance);
                 $max = $value + abs($tolerance);
                 return $min <= $user_answer && $user_answer <= $max;
-            
+
             case AssessmentMatchNumericQuestion :: TOLERANCE_TYPE_RELATIVE :
                 $min = $value - abs($value * $tolerance / 100);
                 $max = $value + abs($value * $tolerance / 100);
                 return $min <= $user_answer && $user_answer <= $max;
-            
+
             default :
                 throw new Exception('Unknown tolerance type');
         }

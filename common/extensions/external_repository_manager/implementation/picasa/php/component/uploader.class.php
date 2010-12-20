@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\picasa;
 
+use common\libraries\Application;
+use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Redirect;
 use common\libraries\Translation;

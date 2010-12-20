@@ -1,7 +1,7 @@
 <?php
-
 namespace application\webconferencing;
 
+use common\libraries\InequalityCondition;
 use common\libraries\Application;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
@@ -52,7 +52,9 @@ class WebconferencingManagerWebconferencesBrowserComponent extends Webconferenci
 
     function get_table()
     {
-        $table = new WebconferenceBrowserTable($this, array(Application :: PARAM_APPLICATION => 'webconferencing', Application :: PARAM_ACTION => WebconferencingManager :: ACTION_BROWSE_WEBCONFERENCES), $this->get_condition());
+        $table = new WebconferenceBrowserTable($this, array(
+                Application :: PARAM_APPLICATION => 'webconferencing',
+                Application :: PARAM_ACTION => WebconferencingManager :: ACTION_BROWSE_WEBCONFERENCES), $this->get_condition());
         return $table->as_html();
     }
 
@@ -67,7 +69,7 @@ class WebconferencingManagerWebconferencesBrowserComponent extends Webconferenci
 
         $action_bar->set_search_url($this->get_url());
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateWebconference'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_webconference_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }
 
@@ -105,7 +107,9 @@ class WebconferencingManagerWebconferencesBrowserComponent extends Webconferenci
         $access[] = new InCondition(WebconferenceGroup :: PROPERTY_GROUP_ID, $groups, WebconferenceGroup :: get_table_name());
         if (! empty($user_id) || ! empty($groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition(WebconferenceUser :: PROPERTY_USER, null, WebconferenceUser :: get_table_name()), new EqualityCondition(WebconferenceGroup :: PROPERTY_GROUP_ID, null, WebconferenceGroup :: get_table_name())));
+            $access[] = new AndCondition(array(
+                    new EqualityCondition(WebconferenceUser :: PROPERTY_USER, null, WebconferenceUser :: get_table_name()),
+                    new EqualityCondition(WebconferenceGroup :: PROPERTY_GROUP_ID, null, WebconferenceGroup :: get_table_name())));
         }
         $conditions[] = new OrCondition($access);
 
@@ -117,8 +121,12 @@ class WebconferencingManagerWebconferencesBrowserComponent extends Webconferenci
             $conditions[] = new OrCondition($visibility);
 
             $dates = array();
-            $dates[] = new AndCondition(array(new InequalityCondition(Webconference :: PROPERTY_FROM_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time()), new InequalityCondition(Webconference :: PROPERTY_TO_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time())));
-            $dates[] = new AndCondition(array(new EqualityCondition(Webconference :: PROPERTY_FROM_DATE, 0), new EqualityCondition(Webconference :: PROPERTY_TO_DATE, 0)));
+            $dates[] = new AndCondition(array(
+                    new InequalityCondition(Webconference :: PROPERTY_FROM_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time()),
+                    new InequalityCondition(Webconference :: PROPERTY_TO_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time())));
+            $dates[] = new AndCondition(array(
+                    new EqualityCondition(Webconference :: PROPERTY_FROM_DATE, 0),
+                    new EqualityCondition(Webconference :: PROPERTY_TO_DATE, 0)));
             $dates[] = new EqualityCondition(Webconference :: PROPERTY_USER_ID, $user->get_id());
             $conditions[] = new OrCondition($dates);
 

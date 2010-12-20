@@ -1,7 +1,7 @@
 <?php
-
 namespace application\gradebook;
 
+use common\libraries\Utilities;
 use common\libraries\WebApplication;
 use common\libraries\ObjectTableColumn;
 use repository\ContentObject;
@@ -35,9 +35,9 @@ class GradebookInternalPublicationBrowserTableColumnModel extends DefaultGradebo
      */
     static function get_modification_column()
     {
-        if (!isset(self :: $modification_column))
+        if (! isset(self :: $modification_column))
         {
-            self :: $modification_column = new StaticTableColumn(Translation :: get('Action', null, Utilities::COMMON_LIBRARIES));
+            self :: $modification_column = new StaticTableColumn(Translation :: get('Action', null, Utilities :: COMMON_LIBRARIES));
         }
         return self :: $modification_column;
     }

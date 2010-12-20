@@ -1,5 +1,7 @@
 <?php
 namespace common\extensions\category_manager;
+
+use common\libraries\Display;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\BreadcrumbTrail;

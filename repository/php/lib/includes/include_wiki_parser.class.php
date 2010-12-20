@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Text;
 
@@ -49,7 +50,7 @@ class IncludeWikiParser extends ContentObjectIncludeParser
                     $search_path = str_replace($base_path, '', $tag['src']);
 
                     $rdm = RepositoryDataManager :: get_instance();
-                    $condition = new Equalitycondition('path', $search_path);
+                    $condition = new EqualityCondition('path', $search_path);
 
                     $search_objects = $rdm->retrieve_type_content_objects(Document :: get_type_name(), $condition);
 

@@ -1,6 +1,7 @@
 <?php
 namespace rights;
 
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Breadcrumb;
@@ -31,11 +32,20 @@ class UserRightManagerSetterComponent extends UserRightManager
 
             if ($location->get_parent() == 0)
             {
-                $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS, UserRightManager :: PARAM_SOURCE => $location->get_application(), UserRightManager :: PARAM_USER => $user));
+                $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(
+                        Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS,
+                        UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS,
+                        UserRightManager :: PARAM_SOURCE => $location->get_application(),
+                        UserRightManager :: PARAM_USER => $user));
             }
             else
             {
-                $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS, UserRightManager :: PARAM_SOURCE => $location->get_application(), UserRightManager :: PARAM_LOCATION => $location->get_parent(), UserRightManager :: PARAM_USER => $user));
+                $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(
+                        Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS,
+                        UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS,
+                        UserRightManager :: PARAM_SOURCE => $location->get_application(),
+                        UserRightManager :: PARAM_LOCATION => $location->get_parent(),
+                        UserRightManager :: PARAM_USER => $user));
             }
         }
         else
@@ -44,23 +54,27 @@ class UserRightManagerSetterComponent extends UserRightManager
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$ids = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
-    	$location_id = $ids[0];
+        $ids = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
+        $location_id = $ids[0];
 
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS,
-    															  UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS,
-    															  UserRightManager :: PARAM_SOURCE => Request :: get(UserRightManager :: PARAM_SOURCE),
-            													  UserRightManager :: PARAM_LOCATION => $location_id,
-            													  UserRightManager :: PARAM_USER => Request :: get(UserRightManager :: PARAM_USER))),
-    										 Translation :: get('RightsTemplateManagerConfigurerComponent')));
-    	$breadcrumbtrail->add_help('rights_user_setter');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS,
+                UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS,
+                UserRightManager :: PARAM_SOURCE => Request :: get(UserRightManager :: PARAM_SOURCE),
+                UserRightManager :: PARAM_LOCATION => $location_id,
+                UserRightManager :: PARAM_USER => Request :: get(UserRightManager :: PARAM_USER))), Translation :: get('RightsTemplateManagerConfigurerComponent')));
+        $breadcrumbtrail->add_help('rights_user_setter');
     }
 
-	function get_additional_parameters()
+    function get_additional_parameters()
     {
-    	return array(UserRightManager :: PARAM_LOCATION, UserRightManager :: PARAM_USER, 'right_id', UserRightManager :: PARAM_SOURCE);
+        return array(
+                UserRightManager :: PARAM_LOCATION,
+                UserRightManager :: PARAM_USER,
+                'right_id',
+                UserRightManager :: PARAM_SOURCE);
     }
 }
 ?>

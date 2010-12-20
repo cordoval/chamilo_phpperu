@@ -1,5 +1,10 @@
 <?php
 namespace common\extensions\validation_manager;
+
+use admin\Validation;
+
+use user\User;
+
 use common\libraries\ObjectTableCellRenderer;
 /**
  * $Id: default_validation_table_cell_renderer.class.php 191 2009-11-13 11:50:28Z chellee $

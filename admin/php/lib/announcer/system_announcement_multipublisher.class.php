@@ -1,5 +1,14 @@
 <?php
 namespace admin;
+
+use repository\ContentObject;
+
+use repository\RepositoryDataManager;
+
+use common\extensions\repo_viewer\RepoViewer;
+
+use common\libraries\Theme;
+use common\libraries\InCondition;
 use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Translation;
@@ -43,7 +52,8 @@ class SystemAnnouncerMultipublisher
 
 
             $html[] = '<div class="content_object padding_10">';
-            $html[] = '<div class="title">' . Translation :: get('SelectedObjects', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES) . '</div>';
+            $html[] = '<div class="title">' . Translation :: get('SelectedObjects', array(
+                    'OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES) . '</div>';
             $html[] = '<div class="description">';
             $html[] = '<ul class="attachments_list">';
 
@@ -68,7 +78,8 @@ class SystemAnnouncerMultipublisher
 
             if (! $publication)
             {
-                $message = Translation :: get('ObjectNotPublished', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
+                $message = Translation :: get('ObjectNotPublished', array(
+                        'OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
             }
             else
             {

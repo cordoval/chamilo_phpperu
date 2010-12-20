@@ -1,6 +1,8 @@
 <?php
 namespace application\wiki;
 
+use user\VisitTracker;
+
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
@@ -13,7 +15,6 @@ use user\userDataManager;
 use reporting\ReportingData;
 use reporting\ReportingFormatter;
 use tracking\TrackingDataManager;
-use tracking\VisitTracker;
 
 class WikiMostVisitedPageReportingBlock extends WikiReportingBlock
 {

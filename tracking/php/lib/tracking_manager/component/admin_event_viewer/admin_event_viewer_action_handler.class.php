@@ -1,6 +1,7 @@
 <?php
 namespace tracking;
 
+use common\libraries\Application;
 use common\libraries\Translation;
 
 /**
@@ -36,7 +37,10 @@ class AdminEventViewerActionHandler
      */
     function get_actions()
     {
-        return array('enable' => Translation :: get('Enable_selected_trackers'), 'disable' => Translation :: get('Disable_selected_trackers'), TrackingManager :: ACTION_EMPTY_TRACKER => Translation :: get('Empty_selected_trackers'));
+        return array(
+                'enable' => Translation :: get('Enable_selected_trackers'),
+                'disable' => Translation :: get('Disable_selected_trackers'),
+                TrackingManager :: ACTION_EMPTY_TRACKER => Translation :: get('Empty_selected_trackers'));
     }
 
     /**
@@ -58,11 +62,20 @@ class AdminEventViewerActionHandler
 
             if ($action == 'enable' || $action == 'disable')
             {
-                $this->eventviewer->redirect(null, null, array(Application :: PARAM_ACTION => TrackingManager :: ACTION_CHANGE_ACTIVE, TrackingManager :: PARAM_EVENT_ID => $this->event->get_id(), TrackingManager :: PARAM_TRACKER_ID => $ids, TrackingManager :: PARAM_TYPE => 'tracker', TrackingManager :: PARAM_EXTRA => $action));
+                $this->eventviewer->redirect(null, null, array(
+                        Application :: PARAM_ACTION => TrackingManager :: ACTION_CHANGE_ACTIVE,
+                        TrackingManager :: PARAM_EVENT_ID => $this->event->get_id(),
+                        TrackingManager :: PARAM_TRACKER_ID => $ids,
+                        TrackingManager :: PARAM_TYPE => 'tracker',
+                        TrackingManager :: PARAM_EXTRA => $action));
             }
             else
             {
-                $this->eventviewer->redirect(null, null, array(Application :: PARAM_ACTION => $action, TrackingManager :: PARAM_EVENT_ID => $this->event->get_id(), TrackingManager :: PARAM_TRACKER_ID => $ids, TrackingManager :: PARAM_TYPE => 'tracker'));
+                $this->eventviewer->redirect(null, null, array(
+                        Application :: PARAM_ACTION => $action,
+                        TrackingManager :: PARAM_EVENT_ID => $this->event->get_id(),
+                        TrackingManager :: PARAM_TRACKER_ID => $ids,
+                        TrackingManager :: PARAM_TYPE => 'tracker'));
             }
         }
     }

@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\forum_topic;
 
+use repository\Difference_Engine;
+
 use repository\ContentObjectDifference;
 
 /**

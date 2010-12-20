@@ -1,10 +1,14 @@
 <?php
 namespace common\extensions\rights_editor_manager;
+
+use common\libraries\Toolbar;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+
 use group\Group;
 use group\DefaultGroupTableCellRenderer;
+
 use rights\RightsUtilities;
 
 /**
@@ -40,12 +44,12 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
         {
             return $this->get_modification_links($group);
         }
-        
+
         if (LocationGroupBrowserTableColumnModel :: is_rights_column($column))
         {
             return $this->get_rights_column_value($column, $group);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -70,7 +74,7 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
             case Translation :: get('Subgroups', null, 'group') :
                 return $group->count_subgroups(true);
         }
-        
+
         return parent :: render_cell($column, $group);
     }
 
@@ -93,7 +97,7 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
         $locked_parent = $locations[0]->get_locked_parent();
         $rights = $this->browser->get_available_rights();
         $group_id = $group->get_id();
-        
+
         $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $locations[0]->get_id())));
         foreach ($rights as $right_name => $right_id)
         {

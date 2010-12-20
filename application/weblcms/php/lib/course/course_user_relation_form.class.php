@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\InequalityCondition;
 use common\libraries\SubselectCondition;
 use common\libraries\FormValidator;
 use common\libraries\ObjectTableOrder;
@@ -61,8 +62,10 @@ class CourseUserRelationForm extends FormValidator
         $this->addElement('select', CourseUserRelation :: PROPERTY_CATEGORY, Translation :: get('Category'), $cat_options);
 
         //$this->addElement('submit', 'course_user_category', Translation :: get('Ok'));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES ), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES ), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -97,7 +100,7 @@ class CourseUserRelationForm extends FormValidator
         $conditions[] = new SubselectCondition(CourseUserRelation :: PROPERTY_COURSE, Course :: PROPERTY_ID, Course :: get_table_name(), $subcondition);
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_user_relation->get_user());
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $old_category);
-        $conditions[] = new InEqualityCondition(CourseUserRelation :: PROPERTY_SORT, InEqualityCondition :: GREATER_THAN, $counter);
+        $conditions[] = new InequalityCondition(CourseUserRelation :: PROPERTY_SORT, InEqualityCondition :: GREATER_THAN, $counter);
         $condition = new AndCondition($conditions);
 
         $course_user_relations = $wdm->retrieve_course_user_relations($condition, null, null, new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT));

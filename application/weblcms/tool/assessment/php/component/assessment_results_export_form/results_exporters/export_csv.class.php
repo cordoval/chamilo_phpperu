@@ -1,8 +1,16 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use repository\content_object\feedback\Feedback;
+use repository\content_object\hotspot_question\HotspotQuestion;
+use repository\ComplexContentObjectItem;
+
+use application\weblcms\WeblcmsQuestionAttemptsTracker;
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
 use application\weblcms\WeblcmsDataManager;
+
 use user\UserDataManager;
+
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 
@@ -65,9 +73,16 @@ class ResultsCsvExport extends ResultsExport
         $this->currentrow = array();
         $this->data[] = $this->currentrow;
         $this->currentrow = array(
-                self :: PROPERTY_USERNAME, self :: PROPERTY_RESULT, self :: PROPERTY_DATE_TIME_TAKEN, self :: PROPERTY_QUESTION_TITLE, self :: PROPERTY_QUESTION_DESCRIPTION, self :: PROPERTY_QUESTION_TYPE, self :: PROPERTY_WEIGHT, //self :: PROPERTY_FEEDBACK_TITLE,
-//self :: PROPERTY_FEEDBACK_DESCRIPTION,
-                self :: PROPERTY_ANSWER, self :: PROPERTY_SCORE,
+                self :: PROPERTY_USERNAME,
+                self :: PROPERTY_RESULT,
+                self :: PROPERTY_DATE_TIME_TAKEN,
+                self :: PROPERTY_QUESTION_TITLE,
+                self :: PROPERTY_QUESTION_DESCRIPTION,
+                self :: PROPERTY_QUESTION_TYPE,
+                self :: PROPERTY_WEIGHT,  //self :: PROPERTY_FEEDBACK_TITLE,
+                //self :: PROPERTY_FEEDBACK_DESCRIPTION,
+                self :: PROPERTY_ANSWER,
+                self :: PROPERTY_SCORE,
                 'feedback');
         $this->data[] = $this->currentrow;
         $this->currentrow = array();

@@ -1,13 +1,20 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use group\GroupRelUser;
 use group\DefaultGroupTableCellRenderer;
+use group\GroupDataManager;
+
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\Tool;
-use group\GroupDataManager;
+use application\weblcms\CourseGroupRelation;
+
+use user\User;
+
+use group\Group;
+
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
-use user\User;
 use common\libraries\Theme;
 use common\libraries\InCondition;
 use common\libraries\Utilities;
@@ -15,8 +22,6 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
-use group\Group;
-use application\weblcms\CourseGroupRelation;
 
 /**
  * $Id: subscribe_group_browser_table_cell_renderer.class.php 218 2009-11-13 14:21:26Z kariboe $

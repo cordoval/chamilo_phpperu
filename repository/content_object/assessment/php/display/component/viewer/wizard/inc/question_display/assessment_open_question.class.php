@@ -1,9 +1,12 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\RepoViewerLauncher;
 use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\Path;
+use common\libraries\ResourceManager;
+
 use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
 
 /**

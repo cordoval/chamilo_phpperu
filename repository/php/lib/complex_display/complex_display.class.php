@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\ObjectTable;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -70,7 +72,8 @@ abstract class ComplexDisplay extends SubManager
         {
             $this->selected_complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($selected_complex_content_object_item_id);
         }
-        //$this->parse_input_from_table();
+
+     //$this->parse_input_from_table();
     }
 
     static function factory($parent, $type)
@@ -180,7 +183,8 @@ abstract class ComplexDisplay extends SubManager
 
     protected function build_complex_content_object_menu()
     {
-        $this->menu = new ComplexMenu($this->get_root_content_object(), $this->get_complex_content_object_item(), $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT)));
+        $this->menu = new ComplexMenu($this->get_root_content_object(), $this->get_complex_content_object_item(), $this->get_url(array(
+                self :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT)));
     }
 
     //url building
@@ -189,14 +193,16 @@ abstract class ComplexDisplay extends SubManager
     function get_complex_content_object_item_update_url($complex_content_object_item)
     {
         return $this->get_url(array(
-                self :: PARAM_DISPLAY_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
+                self :: PARAM_DISPLAY_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM,
+                self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
                 self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
     function get_complex_content_object_item_delete_url($complex_content_object_item)
     {
         return $this->get_url(array(
-                self :: PARAM_DISPLAY_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
+                self :: PARAM_DISPLAY_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM,
+                self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
                 self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 

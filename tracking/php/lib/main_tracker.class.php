@@ -1,6 +1,7 @@
 <?php
 namespace tracking;
 
+use common\libraries\InequalityCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
@@ -207,9 +208,13 @@ abstract class MainTracker
         $conditions = array();
 
         if ($start_date)
-            $conditions[] = new InEqualityCondition('date', InEqualityCondition :: GREATER_THAN_OR_EQUAL, $db_start_date);
+        {
+            $conditions[] = new InequalityCondition('date', InEqualityCondition :: GREATER_THAN_OR_EQUAL, $db_start_date);
+        }
         if ($end_date)
-            $conditions[] = new InEqualityCondition('date', InEqualityCondition :: LESS_THAN_OR_EQUAL, $db_end_date);
+        {
+            $conditions[] = new InequalityCondition('date', InEqualityCondition :: LESS_THAN_OR_EQUAL, $db_end_date);
+        }
 
         $conditions2 = array_merge($optional_conditions, $conditions);
 

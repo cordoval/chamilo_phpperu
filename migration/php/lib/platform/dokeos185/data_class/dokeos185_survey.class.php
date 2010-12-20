@@ -1,6 +1,12 @@
 <?php
 namespace migration;
 
+use application\weblcms\ContentObjectPublication;
+use repository\RepositoryDataManager;
+use repository\content_object\survey\Survey;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . "/../dokeos185_course_data_migration_data_class.class.php";
 /**
  * $Id: dokeos185_survey.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -76,7 +82,25 @@ class Dokeos185Survey extends Dokeos185CourseDataMigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_SURVEY_ID, self :: PROPERTY_CODE, self :: PROPERTY_TITLE, self :: PROPERTY_SUBTITLE, self :: PROPERTY_AUTHOR, self :: PROPERTY_LANG, self :: PROPERTY_AVAIL_FROM, self :: PROPERTY_AVAIL_TILL, self :: PROPERTY_IS_SHARED, self :: PROPERTY_TEMPLATE, self :: PROPERTY_INTRO, self :: PROPERTY_SURVEYTHANKS, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_INVITED, self :: PROPERTY_ANSWERED, self :: PROPERTY_INVITE_MAIL, self :: PROPERTY_REMINDER_MAIL, self :: PROPERTY_ANONYMOUS);
+        return array(
+                self :: PROPERTY_SURVEY_ID,
+                self :: PROPERTY_CODE,
+                self :: PROPERTY_TITLE,
+                self :: PROPERTY_SUBTITLE,
+                self :: PROPERTY_AUTHOR,
+                self :: PROPERTY_LANG,
+                self :: PROPERTY_AVAIL_FROM,
+                self :: PROPERTY_AVAIL_TILL,
+                self :: PROPERTY_IS_SHARED,
+                self :: PROPERTY_TEMPLATE,
+                self :: PROPERTY_INTRO,
+                self :: PROPERTY_SURVEYTHANKS,
+                self :: PROPERTY_CREATION_DATE,
+                self :: PROPERTY_INVITED,
+                self :: PROPERTY_ANSWERED,
+                self :: PROPERTY_INVITE_MAIL,
+                self :: PROPERTY_REMINDER_MAIL,
+                self :: PROPERTY_ANONYMOUS);
     }
 
     /**
@@ -266,10 +290,12 @@ class Dokeos185Survey extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_title() || !$this->get_creation_date())
+        if (! $this->get_title() || ! $this->get_creation_date())
         {
             $this->create_failed_element($this->get_survey_id());
-            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'survey', 'ID' => $this->get_survey_id())));
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array(
+                    'TYPE' => 'survey',
+                    'ID' => $this->get_survey_id())));
 
             return false;
         }
@@ -288,7 +314,7 @@ class Dokeos185Survey extends Dokeos185CourseDataMigrationDataClass
         $this->create_id_reference($this->get_survey_id(), $new_user_id, 'dokeos_DOKEOSCOURSE.survey.temp_user');
         $new_course_code = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
 
-        if (!$new_user_id)
+        if (! $new_user_id)
         {
             $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         }
@@ -297,7 +323,7 @@ class Dokeos185Survey extends Dokeos185CourseDataMigrationDataClass
         $chamilo_survey = new Survey();
 
         // Category for surveys already exists?
-        $repository_category_id = RepositoryDataManager::get_repository_category_by_name_or_create_new($new_user_id, 'Surveys');
+        $repository_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, 'Surveys');
         $chamilo_survey->set_parent_id($repository_category_id);
 
         $chamilo_survey->set_title($this->get_title());
@@ -339,7 +365,7 @@ class Dokeos185Survey extends Dokeos185CourseDataMigrationDataClass
         else
             $publication->set_email_sent(0);
 
-        //create publication in database
+     //create publication in database
         $publication->create();
 
         return $chamilo_survey;
@@ -352,7 +378,8 @@ class Dokeos185Survey extends Dokeos185CourseDataMigrationDataClass
 
     public static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
 }

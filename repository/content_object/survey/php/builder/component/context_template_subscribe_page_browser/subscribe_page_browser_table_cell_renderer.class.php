@@ -1,6 +1,8 @@
 <?php namespace repository\content_object\survey;
 namespace repository\content_object\survey;
 
+use common\libraries\Toolbar;
+
 use common\libraries\Translation;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
@@ -45,7 +47,7 @@ class SurveyContextTemplateSubscribePageBrowserTableCellRenderer extends Default
     {
         $template = $this->browser->get_survey_context_template();
 
-        $toolbar = New Toolbar();
+        $toolbar = new Toolbar();
 
         $toolbar->add_item(new ToolbarItem(
         			Translation :: get('Subscribe'),

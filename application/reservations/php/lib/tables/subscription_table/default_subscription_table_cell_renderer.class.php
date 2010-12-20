@@ -1,6 +1,7 @@
 <?php
-
 namespace application\reservations;
+
+use user\UserDataManager;
 
 use common\libraries\ObjectTableCellRenderer;
 use common\libraries\EqualityCondition;
@@ -22,9 +23,9 @@ class DefaultSubscriptionTableCellRenderer extends ObjectTableCellRenderer
      */
     function __construct($browser)
     {
-    
+
     }
-    
+
     protected $reservation;
 
     /**
@@ -40,7 +41,7 @@ class DefaultSubscriptionTableCellRenderer extends ObjectTableCellRenderer
         {
             $this->reservation = $this->browser->retrieve_reservations(new EqualityCondition(Reservation :: PROPERTY_ID, $subscription->get_reservation_id()))->next_result();
         }
-        
+
         if ($property = $column->get_name())
         {
             switch ($property)
@@ -76,12 +77,12 @@ class DefaultSubscriptionTableCellRenderer extends ObjectTableCellRenderer
                 case Subscription :: PROPERTY_ACCEPTED :
                     if ($subscription->get_accepted())
                         return Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES);
-                    
+
                     return Translation :: get('No', null, Utilities :: COMMON_LIBRARIES);
             }
-        
+
         }
-        
+
         return '&nbsp;';
     }
 

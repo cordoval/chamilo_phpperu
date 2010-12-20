@@ -1,5 +1,6 @@
 <?php
 namespace migration;
+use Exception;
 /**
  * $Id: dokeos185_gradebook_score_display.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -13,14 +14,14 @@ namespace migration;
 class Dokeos185GradebookScoreDisplay extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185GradebookScoreDisplay properties
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_SCORE = 'score';
     const PROPERTY_DISPLAY = 'display';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -110,7 +111,7 @@ class Dokeos185GradebookScoreDisplay extends Dokeos185MigrationDataClass
     /**
      * Check if the gradebook score display is valid
      * @param array $array the parameters for the validation
-     * @return true if the gradebook score display is valid 
+     * @return true if the gradebook score display is valid
      */
     function is_valid()
     {
@@ -136,7 +137,7 @@ class Dokeos185GradebookScoreDisplay extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
-    
+
     }
 
     /**
@@ -147,11 +148,11 @@ class Dokeos185GradebookScoreDisplay extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = 'main_database';
         $tablename = 'gradebook_score_display';
         $classname = 'Dokeos185GradebookScoreDisplay';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

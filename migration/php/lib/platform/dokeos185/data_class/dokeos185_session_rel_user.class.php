@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_session_rel_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 
 /**
  * This class presents a Dokeos185 session_rel_user
@@ -14,13 +14,13 @@ namespace migration;
 class Dokeos185SessionRelUser extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185SessionRelUser properties
      */
     const PROPERTY_ID_SESSION = 'id_session';
     const PROPERTY_ID_USER = 'id_user';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -127,7 +127,7 @@ class Dokeos185SessionRelUser extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
-    
+
     }
 
     /**
@@ -138,11 +138,11 @@ class Dokeos185SessionRelUser extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = 'main_database';
         $tablename = 'session_rel_user';
         $classname = 'Dokeos185SessionRelUser';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

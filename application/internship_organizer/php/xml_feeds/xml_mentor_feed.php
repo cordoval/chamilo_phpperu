@@ -1,4 +1,9 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\NotCondition;
+use common\libraries\OrCondition;
+use common\libraries\Authentication;
 use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\CoreApplication;
@@ -20,17 +25,17 @@ Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
 if (Authentication :: is_valid())
 {
     $conditions = array();
-    
+
     $location_id =  $_GET[InternshipOrganizerOrganisationManager :: PARAM_LOCATION_ID];
     $conditions[] = new EqualityCondition(InternshipOrganizerMentorRelLocation ::PROPERTY_LOCATION_ID, $location_id);
-    
-    
+
+
     $query_condition = Utilities :: query_to_condition($_GET['query'], array(InternshipOrganizerMentor :: PROPERTY_FIRSTNAME, InternshipOrganizerMentor :: PROPERTY_LASTNAME, InternshipOrganizerMentor :: PROPERTY_TITLE, InternshipOrganizerMentor :: PROPERTY_EMAIL));
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
     }
-    
+
     if (is_array($_GET['exclude']))
     {
         $c = array();
@@ -40,7 +45,7 @@ if (Authentication :: is_valid())
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     if (count($conditions) > 0)
     {
         $condition = new AndCondition($conditions);
@@ -49,10 +54,10 @@ if (Authentication :: is_valid())
     {
         $condition = null;
     }
-      
+
     $dm = InternshipOrganizerDataManager :: get_instance();
     $objects = $dm->retrieve_mentor_rel_locations($condition);
-    
+
     while ($mentor = $objects->next_result())
     {
         $mentors[] = $mentor;
@@ -72,19 +77,19 @@ function dump_tree($mentors)
     if (contains_results($mentors))
     {
         echo '<node id="0" classes="category unlinked" title="' . Translation :: get('InternshipOrganizerMentors') . '">' . "\n";
-        
+
         foreach ($mentors as $mentor)
         {
             $id = 'mentor_' . $mentor->get_mentor_id();
             $name = strip_tags($mentor->get_optional_property(InternshipOrganizerMentor :: PROPERTY_FIRSTNAME ).' '.$mentor->get_optional_property(InternshipOrganizerMentor :: PROPERTY_LASTNAME ));
             $description = strip_tags($mentor->get_optional_property(InternshipOrganizerMentor :: PROPERTY_TITLE ).' '.$mentor->get_optional_property(InternshipOrganizerMentor :: PROPERTY_EMAIL ));
             $description = preg_replace("/[\n\r]/", "", $description);
-            
+
             echo '<leaf id="' . $id . '" classes="' . '' . '" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
-        
+
         echo '</node>' . "\n";
-    
+
     }
 }
 

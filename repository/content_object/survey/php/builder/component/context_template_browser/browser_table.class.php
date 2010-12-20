@@ -1,5 +1,8 @@
-<?php namespace repository\content_object\survey;
+<?php
 namespace repository\content_object\survey;
+namespace repository\content_object\survey;
+
+use common\libraries\Utilities;
 
 use common\libraries\Translation;
 use common\libraries\ObjectTable;
@@ -28,7 +31,7 @@ class SurveyContextTemplateBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
 
-        $actions[] = new ObjectTableFormAction(SurveyBuilder :: PARAM_TRUNCATE_SELECTED, Translation :: get('TruncateSelected', null, Utilities::COMMON_LIBRARIES));
+        $actions[] = new ObjectTableFormAction(SurveyBuilder :: PARAM_TRUNCATE_SELECTED, Translation :: get('TruncateSelected', null, Utilities :: COMMON_LIBRARIES));
 
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

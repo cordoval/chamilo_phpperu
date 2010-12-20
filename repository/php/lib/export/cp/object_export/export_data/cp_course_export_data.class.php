@@ -1,7 +1,22 @@
 <?php
 namespace repository;
 
+use application\weblcms\ContentObjectPublication;
+
+use application\weblcms\CourseGroup;
+
+use application\weblcms\WeblcmsDataManager;
+
+use application\weblcms\CourseSection;
+
+use user\User;
+
+use repository\content_object\document\Document;
+
 use application\weblcms\Course;
+
+use common\libraries\Chamilo;
+use common\libraries\ImscpObjectWriter;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
@@ -41,7 +56,7 @@ class CpCourseExportData extends CpeObjectExportBase
 
     protected function add_object(ImscpObjectWriter $writer, DataClass $object)
     {
-        $catalog = chamilo :: get_local_catalogue_name();
+        $catalog = Chamilo :: get_local_catalogue_name();
         $id = $object->get_id();
         $type = $this->get_object_type($object);
         $writer = $writer->get_objects()->add_object($catalog, $id, $type);
@@ -98,7 +113,7 @@ class CpCourseExportData extends CpeObjectExportBase
             return;
         }
 
-        $children = chamilo :: get_course_user_relations($object->get_id());
+        $children = Chamilo :: get_course_user_relations($object->get_id());
         $relations = (count($children) > 0) ? $writer->add_user_relations() : null;
         foreach ($children as $child)
         {

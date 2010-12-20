@@ -1,6 +1,8 @@
 <?php
 namespace user;
 
+use common\libraries\Utilities;
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
@@ -52,7 +54,8 @@ class UserManagerBuddyListItemStatusChangerComponent extends UserManager
 
             $ajax = Request :: get('ajax');
             if (! $ajax)
-                $this->redirect(Translation :: get($succes ? 'StatusChanged' : 'StatusNotChanged'), ! $succes, array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
+                $this->redirect(Translation :: get($succes ? 'StatusChanged' : 'StatusNotChanged'), ! $succes, array(
+                        Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
         }
         else
         {

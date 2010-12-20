@@ -1,8 +1,13 @@
 <?php
 namespace application\phrases;
 
-use common\libraries\EqualityCondition;
+use repository\content_object\hotspot_question\HotspotQuestion;
+use repository\content_object\feedback\Feedback;
 use repository\ComplexContentObjectItem;
+
+use user\UserDataManager;
+
+use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
 /**
@@ -25,8 +30,7 @@ class ResultsXmlExport extends ResultsExport
             $user_data['user_phrases'] = $this->export_user_phrases($user_phrases, $phrases->get_id());
         }
         $phrases_data = $this->export_phrases($phrases);
-        $data['phrases_results'] = array('phrases' => $phrases_data,
-                'results' => $user_data);
+        $data['phrases_results'] = array('phrases' => $phrases_data, 'results' => $user_data);
         return $data;
     }
 
@@ -40,8 +44,7 @@ class ResultsXmlExport extends ResultsExport
         $phrases = $publication->get_publication_object();
         $phrases_data = $this->export_phrases($phrases);
         $user_data['user_phrases'] = $this->export_user_phrases($user_phrases, $phrases->get_id());
-        $data['phrases_results'] = array('phrases' => $phrases_data,
-                'results' => $user_data);
+        $data['phrases_results'] = array('phrases' => $phrases_data, 'results' => $user_data);
         return $data;
     }
 

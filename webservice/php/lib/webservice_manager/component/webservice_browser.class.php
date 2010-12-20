@@ -1,6 +1,7 @@
 <?php
 namespace webservice;
 
+use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Display;
 use common\libraries\EqualityCondition;
@@ -54,10 +55,10 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager impl
     function get_user_html()
     {
         $parameters = $this->get_parameters();
-    	$parameters[WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID] = $this->get_webservice_category();
+        $parameters[WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID] = $this->get_webservice_category();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
 
-    	$table = new WebserviceBrowserTable($this, $parameters, $this->get_condition());
+        $table = new WebserviceBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
         $html[] = '<div style="float: right; width: 80%;">';
@@ -112,15 +113,16 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager impl
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->set_search_url($this->get_url(array(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID => $this->get_webservice_category())));
+        $action_bar->set_search_url($this->get_url(array(
+                WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID => $this->get_webservice_category())));
         $action_bar->add_common_action($this->get_tool_bar_item($this->get_webservice_category()));
 
         return $action_bar;
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('webservice_rights_editor');
+        $breadcrumbtrail->add_help('webservice_rights_editor');
     }
 }
 ?>

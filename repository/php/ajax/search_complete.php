@@ -1,4 +1,8 @@
 <?php
+namespace repository;
+
+use common\libraries\Authentication;
+
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\Session;
@@ -26,7 +30,8 @@ if (Authentication :: is_valid())
     $conditions[] = new OrCondition($or_conditions);
     $condition = new AndCondition($conditions);
 
-    $objects = RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, array(new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)));
+    $objects = RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, array(
+            new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)));
 
     $html[] = '<ul>';
     while ($object = $objects->next_result())

@@ -1,6 +1,8 @@
 <?php
 namespace application\gutenberg;
 
+use user\UserDataManager;
+
 use common\libraries\DataClass;
 
 use repository\RepositoryDataManager;
@@ -15,7 +17,7 @@ class GutenbergPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
-    
+
     /**
      * GutenbergPublication properties
      */
@@ -32,7 +34,13 @@ class GutenbergPublication extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_CONTENT_OBJECT,
+                self :: PROPERTY_FROM_DATE,
+                self :: PROPERTY_TO_DATE,
+                self :: PROPERTY_HIDDEN,
+                self :: PROPERTY_PUBLISHER,
+                self :: PROPERTY_PUBLISHED));
     }
 
     /**
@@ -173,8 +181,7 @@ class GutenbergPublication extends DataClass
 
     function get_publication_publisher()
     {
-        $udm = UserDataManager :: get_instance();
-        return $udm->retrieve_user($this->get_publisher());
+        return UserDataManager :: get_instance()->retrieve_user($this->get_publisher());
     }
 }
 ?>

@@ -1,11 +1,11 @@
 <?php
-
 namespace common\libraries;
 
 use Exception;
 use DOMDocument;
 use DateTimeZone;
 use DateTime;
+use DOMException;
 
 require_once dirname(__FILE__) . '/rest_config.class.php';
 require_once dirname(__FILE__) . '/rest_client.class.php';
@@ -18,27 +18,32 @@ require_once dirname(__FILE__) . '/rest_client.class.php';
  * @author Nicolas Rod, laurent.opprecht@unige.ch
  *
  */
-abstract class RestProxyBase {
+abstract class RestProxyBase
+{
 
     /**
      * Offset in hours between the current timezone and GMT.
      *
      */
-    public static function timezone_offset() {
+    public static function timezone_offset()
+    {
         static $result = false;
-        if ($result !== false) {
+        if ($result !== false)
+        {
             return $result;
         }
 
         $timezone = date_default_timezone_get();
         $timezone = new DateTimeZone($timezone);
         $result = (int) timezone_offset_get($timezone, new DateTime());
-        $result /=3600;
+        $result /= 3600;
         return $result;
     }
 
-    public static function parse_date($text, $add_time_zone_offset = true) {
-        if (empty($text)) {
+    public static function parse_date($text, $add_time_zone_offset = true)
+    {
+        if (empty($text))
+        {
             return 0;
         }
         $text = strtoupper($text);
@@ -53,8 +58,9 @@ abstract class RestProxyBase {
         $minute = is_numeric($pieces[4]) ? $pieces[4] : 0;
         $second = is_numeric($pieces[5]) ? $pieces[5] : 0;
 
-        if ($add_time_zone_offset) {
-            $offset = self::timezone_offset();
+        if ($add_time_zone_offset)
+        {
+            $offset = self :: timezone_offset();
             $hour += $offset;
         }
         return mktime($hour, $minute, $second, $month, $day, $year);
@@ -69,26 +75,31 @@ abstract class RestProxyBase {
      */
     private $config = null;
 
-    public function __construct($config = null) {
-        $this->config = empty($config) ? RestConfig::get_test_config() : $config;
+    public function __construct($config = null)
+    {
+        $this->config = empty($config) ? RestConfig :: get_test_config() : $config;
     }
 
     /**
      * @return RestConfig
      */
-    public function get_config() {
+    public function get_config()
+    {
         return $this->config;
     }
 
-    public function set_config($value) {
+    public function set_config($value)
+    {
         $this->config = $value;
     }
 
     /**
      * @return RestClient
      */
-    protected function get_rest_client() {
-        if (!empty($this->rest_client)) {
+    protected function get_rest_client()
+    {
+        if (! empty($this->rest_client))
+        {
             return $this->rest_client;
         }
         $result = new RestClient($this->get_config());
@@ -107,12 +118,15 @@ abstract class RestProxyBase {
         return $this->rest_client = $result;
     }
 
-    public function execute($verb, $parameters = array(), $http_method='get', $data_to_send=null, $mime_type='') {
+    public function execute($verb, $parameters = array(), $http_method = 'get', $data_to_send = null, $mime_type = '')
+    {
         $base = $this->get_config()->get_base_url();
         $base = rtrim($base, '/');
         $args = array();
-        foreach ($parameters as $key => $value) {
-            if (is_bool($value)) {
+        foreach ($parameters as $key => $value)
+        {
+            if (is_bool($value))
+            {
                 $value = $value ? 'true' : 'false';
             }
             $args[] = $key . '=' . urlencode($value);
@@ -122,32 +136,42 @@ abstract class RestProxyBase {
 
         $url = "$base/{$verb}{$args}";
 
-        try {
+        try
+        {
             $result = $this->get_rest_xml_response($url, $http_method, $data_to_send, $mime_type);
             return $result;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             throw $e;
         }
     }
 
-    public function execute_post($verb, $post = array()) {
+    public function execute_post($verb, $post = array())
+    {
         $base = $this->get_config()->get_base_url();
         $base = rtrim($base, '/');
         $url = "$base/{$verb}";
-        try {
+        try
+        {
             $result = $this->get_post_xml_response($url, $post);
             return $result;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             throw $e;
         }
     }
 
-    public function execute_raw($verb, $parameters, $http_method, $data_to_send=null, $mime_type='') {
+    public function execute_raw($verb, $parameters, $http_method, $data_to_send = null, $mime_type = '')
+    {
         $base = $this->get_config()->get_base_url();
         $base = rtrim($base, '/');
         $args = array();
-        foreach ($parameters as $key => $value) {
-            if (is_bool($value)) {
+        foreach ($parameters as $key => $value)
+        {
+            if (is_bool($value))
+            {
                 $value = $value ? 'true' : 'false';
             }
             $args[] = $key . '=' . urlencode($value);
@@ -156,22 +180,29 @@ abstract class RestProxyBase {
         $args = $args ? '?' . $args : '';
         $url = "$base/$verb{$args}";
 
-        try {
+        try
+        {
             $result = $this->get_rest_response($url, $http_method, $data_to_send, $mime_type);
             return $result;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             throw $e;
         }
     }
 
-    public function execute_post_raw($verb, $post = array()) {
+    public function execute_post_raw($verb, $post = array())
+    {
         $base = $this->get_config()->get_base_url();
         $base = rtrim($base, '/');
         $url = "$base/{$verb}";
-        try {
+        try
+        {
             $result = $this->get_post_response($url, $post);
             return $result;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             throw $e;
         }
     }
@@ -184,15 +215,20 @@ abstract class RestProxyBase {
      * @param $content_mimetype The mimetype of the content to send with the REST request
      * @return DOMDocument or null if the response is not well formed XML
      */
-    protected function get_rest_xml_response($url, $http_method, $data_to_send = null, $content_mimetype = null) {
+    protected function get_rest_xml_response($url, $http_method, $data_to_send = null, $content_mimetype = null)
+    {
         $client = $this->get_rest_client();
         $client->set_url($url);
         $client->set_http_method($http_method);
         $client->set_check_target_certificate(false);
-        if (!empty($data_to_send)) {
-            if (!is_array($data_to_send) && file_exists($data_to_send) && empty($content_mimetype)) {
+        if (! empty($data_to_send))
+        {
+            if (! is_array($data_to_send) && file_exists($data_to_send) && empty($content_mimetype))
+            {
                 $content_mimetype = $this->get_file_mimetype($data_to_send);
-            } else {
+            }
+            else
+            {
                 $content_mimetype = null;
             }
             $client->set_data_to_send($data_to_send, $content_mimetype);
@@ -202,25 +238,33 @@ abstract class RestProxyBase {
 
         $response_content = $result->get_response_content();
 
-        if (!$result->has_error() && stripos($response_content, 'Exception') === false) {
+        if (! $result->has_error() && stripos($response_content, 'Exception') === false)
+        {
             $document = new DOMDocument();
-            if (!empty($response_content)) {
+            if (! empty($response_content))
+            {
                 set_error_handler(array($this, 'handle_xml_error'));
                 $document->loadXML($response_content);
                 restore_error_handler();
             }
 
             return $document;
-        } else {
-            if (stripos($response_content, 'Exception') === false) {
+        }
+        else
+        {
+            if (stripos($response_content, 'Exception') === false)
+            {
                 throw new Exception(htmlentities($result->get_response_error()));
-            } else {
+            }
+            else
+            {
                 throw new Exception('<h3>REST response:</h3><p><strong>URL : </strong>' . $result->get_request_url() . '<p><strong>POST data : </strong>' . htmlentities($result->get_request_sent_data()) . '</p><p><strong>Response : </strong>' . $response_content . '</p>');
             }
         }
     }
 
-    protected function get_post_xml_response($url, $post) {
+    protected function get_post_xml_response($url, $post)
+    {
         $client = $this->get_rest_client();
 
         $client->set_url($url);
@@ -231,19 +275,26 @@ abstract class RestProxyBase {
 
         $response_content = $result->get_response_content();
 
-        if (!$result->has_error() && stripos($response_content, 'Exception') === false) {
+        if (! $result->has_error() && stripos($response_content, 'Exception') === false)
+        {
             $document = new DOMDocument();
-            if (!empty($response_content)) {
+            if (! empty($response_content))
+            {
                 set_error_handler(array($this, 'handle_xml_error'));
                 $document->loadXML($response_content);
                 restore_error_handler();
             }
 
             return $document;
-        } else {
-            if (stripos($response_content, 'Exception') === false) {
+        }
+        else
+        {
+            if (stripos($response_content, 'Exception') === false)
+            {
                 throw new Exception(htmlentities($result->get_response_error()));
-            } else {
+            }
+            else
+            {
                 throw new Exception('<h3>REST response:</h3><p><strong>URL : </strong>' . $result->get_request_url() . '<p><strong>POST data : </strong>' . htmlentities($result->get_request_sent_data()) . '</p><p><strong>Response : </strong>' . $response_content . '</p>');
             }
         }
@@ -258,13 +309,16 @@ abstract class RestProxyBase {
      * @param $content_mimetype The mimetype of the content to send with the REST request
      * @return mixed
      */
-    protected function get_rest_response($url, $http_method, $data_to_send = null, $content_mimetype = null) {
+    protected function get_rest_response($url, $http_method, $data_to_send = null, $content_mimetype = null)
+    {
         $client = $this->get_rest_client();
         $client->set_url($url);
         $client->set_http_method($http_method);
 
-        if ($data_to_send) {
-            if (empty($content_mimetype) && file_exists($data_to_send)) {
+        if ($data_to_send)
+        {
+            if (empty($content_mimetype) && file_exists($data_to_send))
+            {
                 $content_mimetype = $this->get_file_mimetype($data_to_send);
             }
 
@@ -277,18 +331,25 @@ abstract class RestProxyBase {
 
         $response_content = $result->get_response_content();
 
-        if (!$result->has_error() && stripos($response_content, 'Exception') === false) {
+        if (! $result->has_error() && stripos($response_content, 'Exception') === false)
+        {
             return $response_content;
-        } else {
-            if (stripos($response_content, 'Exception') === false) {
+        }
+        else
+        {
+            if (stripos($response_content, 'Exception') === false)
+            {
                 throw new Exception(htmlentities($result->get_response_error()));
-            } else {
+            }
+            else
+            {
                 throw new Exception('<h3>REST response:</h3><p><strong>URL : </strong>' . $result->get_request_url() . '<p><strong>POST data : </strong>' . htmlentities($result->get_request_sent_data()) . '</p><p><strong>Response : </strong>' . $response_content . '</p>');
             }
         }
     }
 
-    protected function get_post_response($url, $post) {
+    protected function get_post_response($url, $post)
+    {
         $client = $this->get_rest_client();
         $client->set_url($url);
         $client->set_http_method('post');
@@ -300,72 +361,88 @@ abstract class RestProxyBase {
 
         $response_content = $result->get_response_content();
 
-        if (!$result->has_error() && stripos($response_content, 'Exception') === false) {
+        if (! $result->has_error() && stripos($response_content, 'Exception') === false)
+        {
             return $response_content;
-        } else {
-            if (stripos($response_content, 'Exception') === false) {
+        }
+        else
+        {
+            if (stripos($response_content, 'Exception') === false)
+            {
                 throw new Exception(htmlentities($result->get_response_error()));
-            } else {
+            }
+            else
+            {
                 throw new Exception('<h3>REST response:</h3><p><strong>URL : </strong>' . $result->get_request_url() . '<p><strong>POST data : </strong>' . htmlentities($result->get_request_sent_data()) . '</p><p><strong>Response : </strong>' . $response_content . '</p>');
             }
         }
     }
 
-    public function handle_xml_error($error_no, $error_str, $error_file, $error_line) {
-        if ($error_no == E_WARNING && substr_count($error_str, 'DOMDocument') > 0) {
+    public function handle_xml_error($error_no, $error_str, $error_file, $error_line)
+    {
+        if ($error_no == E_WARNING && substr_count($error_str, 'DOMDocument') > 0)
+        {
             throw new DOMException($error_str);
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
 
-    protected function get_file_mimetype($path_to_file) {
-        if (function_exists('finfo_open')) {
+    protected function get_file_mimetype($path_to_file)
+    {
+        if (function_exists('finfo_open'))
+        {
             /*
              * PHP >= 5.3 or PECL fileinfo installed
              */
             $handle = finfo_open(FILEINFO_MIME);
             return finfo_file($handle, $file);
-        } else {
+        }
+        else
+        {
             $path_info = pathinfo($path_to_file);
             return $this->get_mimetype_from_extension($path_info['extension']);
         }
     }
 
-    protected function get_mimetype_from_extension($extension) {
+    protected function get_mimetype_from_extension($extension)
+    {
         $extension = strtolower($extension);
-        switch ($extension) {
-            case 'txt':
+        switch ($extension)
+        {
+            case 'txt' :
                 return 'text';
-            case 'xml':
+            case 'xml' :
                 return 'text/xml';
-            case 'html':
+            case 'html' :
                 return 'text/html';
 
-            case 'pdf':
+            case 'pdf' :
                 return 'application/pdf';
-            case 'doc':
+            case 'doc' :
                 return 'application/word';
-            case 'xls':
+            case 'xls' :
                 return 'application/excel';
-            case 'ppt':
-            case 'pps':
+            case 'ppt' :
+            case 'pps' :
                 return 'application/powerpoint';
 
-            case 'jpg':
-            case 'jpe':
-            case 'jpeg':
+            case 'jpg' :
+            case 'jpe' :
+            case 'jpeg' :
                 return 'image/jpeg';
-            case 'gif':
+            case 'gif' :
                 return 'image/gif';
-            case 'png':
+            case 'png' :
                 return 'image/png';
-            case 'tiff':
+            case 'tiff' :
                 return 'image/tiff';
-            case 'bmp':
+            case 'bmp' :
                 return 'image/bmp';
 
-            default:
+            default :
                 return null;
         }
     }

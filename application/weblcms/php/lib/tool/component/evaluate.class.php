@@ -6,6 +6,8 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+
+use application\gradebook\EvaluationManager;
 use application\gradebook\EvaluationManagerInterface;
 
 class ToolComponentEvaluateComponent extends ToolComponent implements EvaluationManagerInterface

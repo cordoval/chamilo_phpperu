@@ -1,8 +1,11 @@
 <?php
 namespace user;
 
+use common\libraries\Application;
+use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Utilities;
+
 /**
  * $Id: buddy_list_item_deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component

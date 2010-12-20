@@ -8,6 +8,11 @@ namespace migration;
  * Script to see which courses are still in the database but not on the filesystem
  */
 
+use common\libraries\Filesystem;
+use common\libraries\Configuration;
+
+use MDB2;
+
 ini_set('include_path', realpath(dirname(__FILE__) . '/../common/libraries/plugin/pear'));
 require_once dirname(__FILE__) . '/../common/global.inc.php';
 
@@ -44,9 +49,9 @@ foreach ($coursenames as $code => $directory)
     }
 }
 
-foreach ($directories as $directory)
+foreach ($directories as $directory_output)
 {
-    if ($directory != '.svn')
-        echo ($directory . '<BR/>');
+    if ($directory_output != '.svn')
+        echo ($directory_output . '<BR/>');
 }
 ?>

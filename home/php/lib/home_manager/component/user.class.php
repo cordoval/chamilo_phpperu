@@ -1,5 +1,9 @@
 <?php
 namespace home;
+
+use user\UserManager;
+
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Authentication;
 use common\libraries\FormValidator;
@@ -23,15 +27,15 @@ class HomeManagerUserComponent extends HomeManager
     function render_as_html()
     {
         $html = array();
-        
+
         $html[] = '<div class="block" id="block_user" style="background-image: url(' . Theme :: get_common_image_path() . 'block_user.png);">';
-        $html[] = '<div class="title">' . Translation :: get('User', null, Utilities::USER) . '<a href="#" class="closeEl">[-]</a></div>';
+        $html[] = '<div class="title">' . Translation :: get('User', null, UserManager :: APPLICATION_NAME) . '<a href="#" class="closeEl">[-]</a></div>';
         $html[] = '<div class="description">';
         $html[] = $this->display_anonymous_right_menu();
         $html[] = '<div style="clear: both;"></div>';
         $html[] = '</div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 
@@ -39,18 +43,19 @@ class HomeManagerUserComponent extends HomeManager
     {
         global $loginFailed, $plugins;
         $html = array();
-        
+
         if (! Authentication :: is_valid())
         {
             // TODO: New languageform
             //api_display_language_form();
             $html[] = $this->display_login_form();
-            
+
             if ($loginFailed)
             {
                 $html[] = $this->handle_login_failed();
             }
-            //			if ($this->get_platform_setting('allow_lostpassword') == 'true' OR $this->get_platform_setting('allow_registration') == 'true')
+
+     //			if ($this->get_platform_setting('allow_lostpassword') == 'true' OR $this->get_platform_setting('allow_registration') == 'true')
         //			{
         //				$html[] = '<div class="menusection"><span class="menusectioncaption">'.Translation :: get('MenuUser').'</span><ul class="menulist">';
         //				if (get_setting('allow_registration') == 'true')
@@ -68,13 +73,13 @@ class HomeManagerUserComponent extends HomeManager
         {
             $html[] = '<a href="index.php?logout=true">Logout</a>';
         }
-        
+
         //		$html[] = '<div class="note">';
         //		$html[] = '</div>';
-        
+
 
         return implode("\n", $html);
-    
+
     }
 
     function handle_login_failed()
@@ -92,10 +97,10 @@ class HomeManagerUserComponent extends HomeManager
         $renderer->setElementTemplate('<div>{label}&nbsp;<!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required --></div><div>{element}</div>');
         $renderer->setElementTemplate('<div>{element}</div>', 'submitAuth');
         $form->addElement('text', 'login', Translation :: get('UserName'), array('size' => 15));
-        $form->addRule('login', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $form->addRule('login', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $form->addElement('password', 'password', Translation :: get('Pass'), array('size' => 15));
-        $form->addRule('password', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
-        $form->addElement('submit', 'submitAuth', Translation :: get('Ok', null, Utilities::COMMON_LIBRARIES));
+        $form->addRule('password', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $form->addElement('submit', 'submitAuth', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
         return $form->toHtml();
     }
 }

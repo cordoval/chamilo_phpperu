@@ -1,24 +1,27 @@
 <?php
 namespace application\portfolio;
 
+use common\extensions\repo_viewer\RepoViewer;
+use common\extensions\repo_viewer\ContentObjectTable;
+
 use common\libraries\WebApplication;
 use common\libraries\DynamicAction;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\Redirect;
-use repository\RepositoryDataManager;
-use repository\content_object\portfolio\Portfolio;
 use common\libraries\Session;
-use repository\content_object\portfolio_item\PortfolioItem;
-use common\extensions\repo_viewer\ContentObjectTable;
 use common\libraries\ObjectTable;
 use common\libraries\Path;
-use admin\AdminDataManager;
 use common\libraries\PlatformSetting;
 use common\libraries\Request;
 use common\libraries\Application;
 
+use admin\AdminDataManager;
+
+use repository\RepositoryDataManager;
+use repository\content_object\portfolio\Portfolio;
+use repository\content_object\portfolio_item\PortfolioItem;
 
 require_once dirname(__FILE__) . '/../portfolio_data_manager.class.php';
 require_once dirname(__FILE__) . '/../portfolio_publication.class.php';

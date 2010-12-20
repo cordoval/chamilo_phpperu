@@ -9,6 +9,7 @@
  * selected, 2 select-list show up. The user can move items between the 2
  * checkboxes.
  */
+use common\libraries\Translation;
 class HTML_QuickForm_receivers extends HTML_QuickForm_group
 {
     /**

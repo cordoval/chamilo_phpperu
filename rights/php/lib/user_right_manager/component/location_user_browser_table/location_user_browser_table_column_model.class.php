@@ -1,9 +1,15 @@
 <?php
 namespace rights;
 
+use common\libraries\Translation;
+use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableColumn;
 use common\libraries\Utilities;
 use common\libraries\Path;
+
+use user\User;
 use user\DefaultUserTableColumnModel;
+
 use rights\RightsUtilities;
 /**
  * $Id: location_user_browser_table_column_model.class.php 214 2009-11-13 13:57:37Z vanpouckesven $

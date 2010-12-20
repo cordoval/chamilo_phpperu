@@ -3,17 +3,19 @@ namespace repository\content_object\survey_open_question;
 
 use common\libraries\Utilities;
 use common\libraries\Path;
+use common\libraries\Versionable;
 
-use repository\OpenQuestion;
+use repository\ContentObject;
 
 /**
- * $Id: survey_open_question.class.php $
- * @package repository.lib.content_object.survey_open_question
+ * @package repository.content_object.survey_open_question
+ * @author Eduard Vossen
+ * @author Magali Gillard
  */
 /**
  * This class represents an open question
  */
-class SurveyOpenQuestion extends OpenQuestion
+class SurveyOpenQuestion extends ContentObject implements Versionable
 {
     const CLASS_NAME = __CLASS__;
 

@@ -1,8 +1,12 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use repository\content_object\assessment\Assessment;
+
 use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
+
+use common\libraries\Export;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;
@@ -40,16 +44,24 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
         if (Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))
         {
             $id = Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT);
-            $trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $id)), Translation :: get('ExportResults')));
+            $trail->add(new Breadcrumb($this->get_url(array(
+                    AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS,
+                    AssessmentTool :: PARAM_USER_ASSESSMENT => $id)), Translation :: get('ExportResults')));
             $type = 'user_assessment';
-            $export_form = new AssessmentResultsExportForm($this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $id)));
+            $export_form = new AssessmentResultsExportForm($this->get_url(array(
+                    Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS,
+                    AssessmentTool :: PARAM_USER_ASSESSMENT => $id)));
         }
         else
         {
             $id = Request :: get(AssessmentTool :: PARAM_PUBLICATION_ID);
-            $trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_PUBLICATION_ID => $id)), Translation :: get('ExportResults')));
+            $trail->add(new Breadcrumb($this->get_url(array(
+                    AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS,
+                    AssessmentTool :: PARAM_PUBLICATION_ID => $id)), Translation :: get('ExportResults')));
             $type = Assessment :: get_type_name();
-            $export_form = new AssessmentResultsExportForm($this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_PUBLICATION_ID => $id)));
+            $export_form = new AssessmentResultsExportForm($this->get_url(array(
+                    Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS,
+                    AssessmentTool :: PARAM_PUBLICATION_ID => $id)));
         }
 
         if ($export_form->validate())
@@ -89,10 +101,12 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
 
         if ($this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(
+                    AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Browse', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Browse', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(
+                AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         //results
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
@@ -103,12 +117,14 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
         {
             $action_name = Translation :: get('ViewResults');
         }
-        $action_bar->add_tool_action(new ToolbarItem($action_name, Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem($action_name, Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(
+                AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         //admin only functions
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportQti'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportQti'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(
+                    AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         return $action_bar;
@@ -118,7 +134,5 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
     {
 
     }
-
 }
-
 ?>

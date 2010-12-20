@@ -1,6 +1,12 @@
 <?php
 namespace common\libraries\content_object_generator;
 
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Filesystem;
+
+use DomDocument;
+
 ini_set('include_path', realpath(dirname(__FILE__) . '/../../../common/libraries/plugin/pear'));
 require_once dirname(__FILE__) . '/../../global.inc.php';
 include (dirname(__FILE__) . '/settings.inc.php');
@@ -13,10 +19,10 @@ include (dirname(__FILE__) . '/form_generator/form_generator.class.php');
 
 $author = $content_object['author'];
 
-$data_class_generator = new DataClassGeneratorForContentObject();
+$data_class_generator = new DataClassGenerator();
 $additional_class_generator = new AdditionalClassGenerator();
 $package_info_generator = new PackageInfoGenerator();
-$form_generator = new FormGeneratorForContentObject();
+$form_generator = new FormGenerator();
 
 $xml_path = dirname(__FILE__) . '/xml_schemas/';
 $xml_files = Filesystem :: get_directory_content($xml_path, Filesystem :: LIST_FILES, false);
@@ -177,7 +183,8 @@ function retrieve_properties_from_xml_file($file)
         $index_properties = $index->getElementsByTagname('indexproperty');
         foreach ($index_properties as $subkey => $index_property)
         {
-            $index_info['fields'][$index_property->getAttribute('name')] = array('length' => $index_property->getAttribute('length'));
+            $index_info['fields'][$index_property->getAttribute('name')] = array(
+                    'length' => $index_property->getAttribute('length'));
         }
         $indexes[$index->getAttribute('name')] = $index_info;
     }

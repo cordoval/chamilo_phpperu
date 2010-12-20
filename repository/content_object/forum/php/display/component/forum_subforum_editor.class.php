@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\forum;
 
+use repository\ComplexContentObjectItem;
+
 use repository\RepositoryDataManager;
 use common\libraries\Translation;
 use common\libraries\Utilities;

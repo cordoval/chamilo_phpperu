@@ -1,13 +1,17 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use repository\content_object\survey\Survey;
+use repository\content_object\assessment\Assessment;
+use repository\ContentObject;
+use repository\RepositoryDataManager;
+
 use application\weblcms\ContentObjectPublication;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
 use application\weblcms\WeblcmsManager;
-use repository\ContentObject;
+
 use common\libraries\SubselectCondition;
-use repository\RepositoryDataManager;
 use common\libraries\OrCondition;
 use common\libraries\InCondition;
 use common\libraries\Utilities;

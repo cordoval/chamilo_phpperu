@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_session_rel_course.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 /**
  * This class presents a Dokeos185 session_rel_course
  *
@@ -13,7 +13,7 @@ namespace migration;
 class Dokeos185SessionRelCourse extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185SessionRelCourse properties
      */
@@ -21,7 +21,7 @@ class Dokeos185SessionRelCourse extends Dokeos185MigrationDataClass
     const PROPERTY_COURSE_CODE = 'course_code';
     const PROPERTY_ID_COACH = 'id_coach';
     const PROPERTY_NBR_USERS = 'nbr_users';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -60,7 +60,11 @@ class Dokeos185SessionRelCourse extends Dokeos185MigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID_SESSION, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_ID_COACH, self :: PROPERTY_NBR_USERS);
+        return array(
+                self :: PROPERTY_ID_SESSION,
+                self :: PROPERTY_COURSE_CODE,
+                self :: PROPERTY_ID_COACH,
+                self :: PROPERTY_NBR_USERS);
     }
 
     /**
@@ -127,26 +131,29 @@ class Dokeos185SessionRelCourse extends Dokeos185MigrationDataClass
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
-    public static function get_table_name() {
+    public static function get_table_name()
+    {
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
-    public static function get_class_name() {
+    public static function get_class_name()
+    {
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
-    public function get_database_name() {
+    public function get_database_name()
+    {
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
     /**
      * migrate sessionrelcourse, sets category
      * @param Array $array
-     * @return 
+     * @return
      */
     function convert_data()
     {
-    
+
     }
 
     /**
@@ -157,11 +164,11 @@ class Dokeos185SessionRelCourse extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = 'main_database';
         $tablename = 'session_rel_course';
         $classname = 'Dokeos185SessionRelCourse';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

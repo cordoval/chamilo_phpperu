@@ -1,11 +1,17 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\ComplexDisplay;
 
+use application\weblcms\WeblcmsLearningPathQuestionAttemptsTracker;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsManager;
-use common\extensions\reporting_viewer\ReportingViewer;
 use application\weblcms\Tool;
+use application\weblcms\WeblcmsLpAttemptTracker;
+use application\weblcms\WeblcmsLpiAttemptTracker;
+
+use common\extensions\reporting_viewer\ReportingViewer;
+
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\AndCondition;
@@ -15,8 +21,6 @@ use common\libraries\Path;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
 use common\libraries\Utilities;
-use application\weblcms\WeblcmsLpAttemptTracker;
-use application\weblcms\WeblcmsLpiAttemptTracker;
 
 /**
  * $Id: learning_path_statistics_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $

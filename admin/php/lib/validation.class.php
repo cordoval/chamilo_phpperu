@@ -1,5 +1,8 @@
 <?php
 namespace admin;
+
+use user\UserDataManager;
+
 use common\libraries\Utilities;
 use common\libraries\DataClass;
 /**

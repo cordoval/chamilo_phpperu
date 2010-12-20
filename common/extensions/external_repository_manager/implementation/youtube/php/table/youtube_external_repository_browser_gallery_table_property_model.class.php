@@ -1,5 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\youtube;
+
+use common\libraries\GalleryObjectTableProperty;
 use common\extensions\external_repository_manager\ExternalRepositoryBrowserGalleryPropertyModel;
 
 class YoutubeExternalRepositoryBrowserGalleryPropertyModel extends ExternalRepositoryBrowserGalleryPropertyModel

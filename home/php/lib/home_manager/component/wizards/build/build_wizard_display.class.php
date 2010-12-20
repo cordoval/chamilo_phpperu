@@ -1,6 +1,9 @@
 <?php
 namespace home;
-use \HTML_QuickForm_Action_Display;
+
+use common\libraries\Display;
+
+use HTML_QuickForm_Action_Display;
 
 /**
  * $Id: build_wizard_display.class.php 227 2009-11-13 14:45:05Z kariboe $
@@ -16,7 +19,7 @@ class BuildWizardDisplay extends HTML_QuickForm_Action_Display
      * The repository tool in which the wizard runs
      */
     private $parent;
-    
+
     /**
      * @var BreadcrumbTrail;
      */
@@ -42,7 +45,7 @@ class BuildWizardDisplay extends HTML_QuickForm_Action_Display
         /* $breadcrumbs = array();
         $breadcrumbs[] = array('url' => $this->parent->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), 'name' => Translation :: get('Home'));
         $breadcrumbs[] = array('url' => $this->parent->get_url(), 'name' => Translation :: get('BuildHome'));*/
-        
+
         $this->parent->display_header($this->breadcrumbtrail, false, 'home build');
         if (isset($_SESSION['build_message']))
         {

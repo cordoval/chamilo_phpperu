@@ -4,8 +4,10 @@ namespace application\weblcms;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
-use user\DatabaseUserDataManager;
 use common\libraries\Validator;
+
+use user\DatabaseUserDataManager;
+use user\User;
 
 /**
  * $Id: course_validator.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -43,12 +45,21 @@ class CourseValidator extends Validator
 
     private function get_required_course_rel_user_property_names()
     {
-        return array(CourseUserRelation :: PROPERTY_COURSE, CourseUserRelation :: PROPERTY_USER, CourseUserRelation :: PROPERTY_STATUS, CourseUserRelation :: PROPERTY_COURSE_GROUP, CourseUserRelation :: PROPERTY_TUTOR);
+        return array(
+                CourseUserRelation :: PROPERTY_COURSE,
+                CourseUserRelation :: PROPERTY_USER,
+                CourseUserRelation :: PROPERTY_STATUS,
+                CourseUserRelation :: PROPERTY_COURSE_GROUP,
+                CourseUserRelation :: PROPERTY_TUTOR);
     }
 
     private function get_required_course_group_property_names()
     {
-        return array(CourseGroup :: PROPERTY_COURSE_CODE, CourseGroup :: PROPERTY_NAME, CourseGroup :: PROPERTY_SELF_REG, CourseGroup :: PROPERTY_SELF_UNREG);
+        return array(
+                CourseGroup :: PROPERTY_COURSE_CODE,
+                CourseGroup :: PROPERTY_NAME,
+                CourseGroup :: PROPERTY_SELF_REG,
+                CourseGroup :: PROPERTY_SELF_UNREG);
     }
 
     function validate_retrieve(&$courseProperties)
@@ -357,14 +368,14 @@ class CourseValidator extends Validator
 
     function validate_get_user_courses(&$input_user)
     {
-        if (empty($input_user[USER :: PROPERTY_USERNAME]))
+        if (empty($input_user[User :: PROPERTY_USERNAME]))
             return false;
 
-        $user = $this->get_person_id($input_user[USER :: PROPERTY_USERNAME]);
+        $user = $this->get_person_id($input_user[User :: PROPERTY_USERNAME]);
         if ($user === false)
             return false;
         else
-            $input_user[USER :: PROPERTY_ID] = $user;
+            $input_user[User :: PROPERTY_ID] = $user;
 
         return true;
     }

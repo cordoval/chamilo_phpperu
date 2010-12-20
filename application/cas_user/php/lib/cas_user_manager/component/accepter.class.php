@@ -4,6 +4,10 @@ namespace application\cas_user;
 /**
  * @author Hans De Bisschop
  */
+use common\libraries\Request;
+use common\libraries\Utilities;
+use common\libraries\Translation;
+
 class CasUserManagerAccepterComponent extends CasUserManager
 {
 
@@ -65,11 +69,12 @@ class CasUserManagerAccepterComponent extends CasUserManager
                 }
             }
 
-            $this->redirect(Translation :: get($message, null, Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(CasUserManager :: PARAM_ACTION => CasUserManager :: ACTION_BROWSE));
+            $this->redirect(Translation :: get($message, null, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(
+                    CasUserManager :: PARAM_ACTION => CasUserManager :: ACTION_BROWSE));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoCasUserRequestSelected', null, Utilities::COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoCasUserRequestSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

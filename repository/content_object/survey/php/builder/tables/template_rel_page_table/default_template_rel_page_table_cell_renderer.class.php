@@ -1,5 +1,7 @@
-<?php namespace repository\content_object\survey;
+<?php
 namespace repository\content_object\survey;
+
+use repository\content_object\survey_page\SurveyPage;
 
 use common\libraries\ObjectTableCellRenderer;
 

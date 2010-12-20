@@ -1,6 +1,16 @@
 <?php
 namespace repository;
 
+use repository\content_object\document\Document;
+
+use common\libraries\Chamilo;
+
+use common\libraries\ImsXmlWriter;
+
+use user\User;
+
+use common\libraries\Filesystem;
+use common\libraries\ImscpObjectWriter;
 use repository\content_object\learning_path\LearningPath;
 use repository\content_object\hotpotatoes\Hotpotatoes;
 use application\weblcms\Course;
@@ -27,7 +37,7 @@ class CpeObjectExportBase extends CpObjectExport
     public function get_type()
     {
         return ImscpObjectWriter :: get_format_full_name();
-	}
+    }
 
     public function export_content_object()
     {
@@ -51,8 +61,8 @@ class CpeObjectExportBase extends CpObjectExport
     }
 
     /**
-	 * Serialize object.
-	 * @return object xml data
+     * Serialize object.
+     * @return object xml data
      */
     public function serialize()
     {
@@ -60,7 +70,7 @@ class CpeObjectExportBase extends CpObjectExport
         $object = $this->get_object();
         $this->add_object($writer, $object);
         $this->object_data = $writer->saveXML();
-    	$this->object_data = $this->translate_text($this->object_data);
+        $this->object_data = $this->translate_text($this->object_data);
         return $this->object_data;
     }
 
@@ -72,7 +82,7 @@ class CpeObjectExportBase extends CpObjectExport
      */
     protected function add_object(ImscpObjectWriter $writer, DataClass $object)
     {
-    	return false;
+        return false;
     }
 
     /**
@@ -82,8 +92,7 @@ class CpeObjectExportBase extends CpObjectExport
     public function format_properties($properties)
     {
         $result = $properties;
-    	$names = array(	ContentObject::PROPERTY_CREATION_DATE,
-    					User::PROPERTY_REGISTRATION_DATE,);
+        $names = array(ContentObject :: PROPERTY_CREATION_DATE, User :: PROPERTY_REGISTRATION_DATE);
 
         foreach ($names as $name)
         {
@@ -91,7 +100,7 @@ class CpeObjectExportBase extends CpObjectExport
             {
                 $result[$name] = ImsXmlWriter :: format_datetime($result[$name]);
             }
-    	}
+        }
 
         $names = array(User :: PROPERTY_PASSWORD, User :: PROPERTY_SECURITY_TOKEN);
 
@@ -101,7 +110,7 @@ class CpeObjectExportBase extends CpObjectExport
             {
                 unset($result[$name]);
             }
-    	}
+        }
 
         return $result;
     }
@@ -138,7 +147,7 @@ class CpeObjectExportBase extends CpObjectExport
     protected function add_identifiers($writer, DataClass $object)
     {
         $identifers = $writer->add_identifiers();
-        $object_identifers = chamilo :: retrieve_identifiers($object);
+        $object_identifers = Chamilo :: retrieve_identifiers($object);
         foreach ($object_identifers as $catalog => $name)
         {
             $identifers->add_identifier($catalog, $name);

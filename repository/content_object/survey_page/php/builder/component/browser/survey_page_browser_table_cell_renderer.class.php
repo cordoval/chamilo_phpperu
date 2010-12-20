@@ -15,6 +15,11 @@ use repository\RepositoryManager;
 use common\libraries\Theme;
 use repository\ComplexBuilder;
 
+/**
+ * @package repository.content_object.survey_page
+ * @author Eduard Vossen
+ * @author Magali Gillard
+ */
 require_once Path :: get_repository_path() . 'lib/repository_manager/component/complex_browser/complex_browser_table_cell_renderer.class.php';
 /**
  * Cell rendere for the learning object browser table
@@ -28,7 +33,7 @@ class SurveyPageBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
      */
     function __construct($browser, $condition)
     {
-       parent :: __construct($browser, $condition);
+        parent :: __construct($browser, $condition);
     }
 
     private $lpi_ref_object;
@@ -52,7 +57,8 @@ class SurveyPageBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 
                 if ($lo instanceof ComplexContentObjectSupport)
                 {
-                    $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $cloi->get_id())) . '">' . $title_short . '</a>';
+                    $title_short = '<a href="' . $this->browser->get_url(array(
+                            ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $cloi->get_id())) . '">' . $title_short . '</a>';
                 }
                 else
                 {

@@ -1,9 +1,12 @@
 <?php
 namespace application\survey;
 
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
-use tracking\SimpleTracker;
 use common\libraries\Utilities;
+
+use tracking\SimpleTracker;
 
 //require_once Path :: get_application_path() . 'php/lib/survey/trackers/survey_question_answer_tracker.class.php';
 require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/database_context_data_manager.class.php';
@@ -57,8 +60,17 @@ class SurveyParticipantTracker extends SimpleTracker
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_USER_ID, self :: PROPERTY_SURVEY_PUBLICATION_ID, self :: PROPERTY_DATE, self :: PROPERTY_PROGRESS, self :: PROPERTY_STATUS, self :: PROPERTY_PARENT_ID, self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_CONTEXT_ID,
-                self :: PROPERTY_CONTEXT_TEMPLATE_ID, self :: PROPERTY_CONTEXT_NAME));
+                self :: PROPERTY_USER_ID,
+                self :: PROPERTY_SURVEY_PUBLICATION_ID,
+                self :: PROPERTY_DATE,
+                self :: PROPERTY_PROGRESS,
+                self :: PROPERTY_STATUS,
+                self :: PROPERTY_PARENT_ID,
+                self :: PROPERTY_START_TIME,
+                self :: PROPERTY_TOTAL_TIME,
+                self :: PROPERTY_CONTEXT_ID,
+                self :: PROPERTY_CONTEXT_TEMPLATE_ID,
+                self :: PROPERTY_CONTEXT_NAME));
     }
 
     function get_user_id()

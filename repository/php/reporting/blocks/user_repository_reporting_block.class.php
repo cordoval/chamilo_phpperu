@@ -1,6 +1,14 @@
 <?php
 namespace repository;
 
+use reporting\ReportingManager;
+
+use reporting\ReportingChartFormatter;
+
+use reporting\ReportingFormatter;
+
+use reporting\ReportingData;
+
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;

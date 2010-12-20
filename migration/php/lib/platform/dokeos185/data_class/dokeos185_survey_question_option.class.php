@@ -10,6 +10,14 @@ namespace migration;
  *
  * @author Sven Vanpoucke
  */
+use common\libraries\Utilities;
+use repository\content_object\survey_select_question\SurveySelectQuestionOption;
+use repository\content_object\survey_select_question\SurveySelectQuestion;
+use repository\content_object\survey_multiple_choice_question\SurveyMultipleChoiceQuestionOption;
+use repository\content_object\survey_multiple_choice_question\SurveyMultipleChoiceQuestion;
+use repository\RepositoryDataManager;
+use common\libraries\Translation;
+
 class Dokeos185SurveyQuestionOption extends Dokeos185CourseDataMigrationDataClass
 {
     const CLASS_NAME = __CLASS__;
@@ -62,7 +70,12 @@ class Dokeos185SurveyQuestionOption extends Dokeos185CourseDataMigrationDataClas
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_QUESTION_OPTION_ID, self :: PROPERTY_QUESTION_ID, self :: PROPERTY_SURVEY_ID, self :: PROPERTY_OPTION_TEXT, self :: PROPERTY_SORT);
+        return array(
+                self :: PROPERTY_QUESTION_OPTION_ID,
+                self :: PROPERTY_QUESTION_ID,
+                self :: PROPERTY_SURVEY_ID,
+                self :: PROPERTY_OPTION_TEXT,
+                self :: PROPERTY_SORT);
     }
 
     /**
@@ -139,7 +152,9 @@ class Dokeos185SurveyQuestionOption extends Dokeos185CourseDataMigrationDataClas
         if (! $this->get_option_text() || ! $this->get_id_reference($this->get_question_id(), $this->get_database_name() . '.survey_question'))
         {
             $this->create_failed_element($this->get_id());
-            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'survey_question_option', 'ID' => $this->get_question_id())));
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array(
+                    'TYPE' => 'survey_question_option',
+                    'ID' => $this->get_question_id())));
             return false;
         }
         return true;
@@ -181,7 +196,8 @@ class Dokeos185SurveyQuestionOption extends Dokeos185CourseDataMigrationDataClas
 
     public static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 }
 

@@ -1,6 +1,7 @@
 <?php
 namespace rights;
 
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Toolbar;
 
@@ -67,14 +68,20 @@ class LocationRightsTemplateBrowserTableCellRenderer extends DefaultRightsTempla
         $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
         $rights_template_id = $rights_template->get_id();
 
-        $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
+        $location_url = $browser->get_url(array(
+                'application' => $this->application,
+                'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
 
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Translation :: get(Utilities :: underscores_to_camelcase(strtolower($right_name)));
             if ($column->get_name() == $column_name)
             {
-                $rights_url = $browser->get_url(array(UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_SET_USER_RIGHTS, 'rights_template_id' => $rights_template_id, 'right_id' => $right_id, RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
+                $rights_url = $browser->get_url(array(
+                        UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_SET_USER_RIGHTS,
+                        'rights_template_id' => $rights_template_id,
+                        'right_id' => $right_id,
+                        RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
                 return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $rights_template, $location);
             }
         }

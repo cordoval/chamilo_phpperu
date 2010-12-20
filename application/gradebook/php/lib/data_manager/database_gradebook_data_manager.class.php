@@ -1,13 +1,16 @@
 <?php
-
 namespace application\gradebook;
 
 use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
-use user\UserDataManager;
-use repository\RepositoryDataManager;
 use common\libraries\Database;
+use common\libraries\Request;
+
+use user\UserDataManager;
+use user\User;
+
+use repository\RepositoryDataManager;
 
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'internal_item_instance.class.php';
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'external_item_instance.class.php';
@@ -117,15 +120,15 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
         $condition = new EqualityCondition(InternalItemInstance :: PROPERTY_EVALUATION_ID, $evaluation_id);
         return $this->retrieve_object(InternalItemInstance :: get_table_name(), $condition, null, InternalItemInstance :: CLASS_NAME);
     }
-    
+
     function retrieve_internal_item_instance($condition)
     {
-    	return $this->retrieve_object(InternalItemInstance :: get_table_name(), $condition, null, InternalItemInstance :: CLASS_NAME);
+        return $this->retrieve_object(InternalItemInstance :: get_table_name(), $condition, null, InternalItemInstance :: CLASS_NAME);
     }
-    
+
     function count_internal_item_instance($condition)
     {
-    	return $this->count_objects(InternalItemInstance :: get_table_name(), $condition);
+        return $this->count_objects(InternalItemInstance :: get_table_name(), $condition);
     }
 
     function create_internal_item_instance($internal_item_instance)
@@ -179,11 +182,11 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
         $condition = new AndCondition($conditions);
         return $this->retrieve_object_set($query, Evaluation :: get_table_name(), $condition, $offset, $max_objects, $order_by, Evaluation :: CLASS_NAME);
     }
-    
+
     function retrieve_all_evaluations_on_external_publication($condition, $offset = null, $max_objects = null, $order_by = null)
     {
         $udm = UserDataManager :: get_instance();
-        
+
         $gradebook_evaluation_alias = $this->get_alias(Evaluation :: get_table_name());
         $gradebook_external_item_alias = $this->get_alias(ExternalItem :: get_table_name());
         $gradebook_external_item_instance_alias = $this->get_alias(ExternalItemInstance :: get_table_name());
@@ -191,9 +194,9 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
         $evaluator_alias = $this->get_alias(User :: get_table_name());
         $user_alias = $this->get_alias(User :: get_table_name());
         $gradebook_format_alias = $this->get_alias(Format :: get_table_name());
-        
-    	$query = 'SELECT ' . $gradebook_evaluation_alias . '.' . $this->escape_column_name(Evaluation :: PROPERTY_ID) . ', ' . $gradebook_evaluation_alias . '.' . $this->escape_column_name(Evaluation :: PROPERTY_EVALUATION_DATE) . ', ' . $gradebook_evaluation_alias . '.' . $this->escape_column_name(Evaluation :: PROPERTY_EVALUATOR_ID) . ', ' . $gradebook_evaluation_alias . '.' . $this->escape_column_name(Evaluation :: PROPERTY_FORMAT_ID);
-    	$query .= ', CONCAT(' . $user_alias . '.' . $this->escape_column_name(User :: PROPERTY_LASTNAME) . ', " ",' . $user_alias . '.' . $this->escape_column_name(User :: PROPERTY_FIRSTNAME) . ') AS evaluator';
+
+        $query = 'SELECT ' . $gradebook_evaluation_alias . '.' . $this->escape_column_name(Evaluation :: PROPERTY_ID) . ', ' . $gradebook_evaluation_alias . '.' . $this->escape_column_name(Evaluation :: PROPERTY_EVALUATION_DATE) . ', ' . $gradebook_evaluation_alias . '.' . $this->escape_column_name(Evaluation :: PROPERTY_EVALUATOR_ID) . ', ' . $gradebook_evaluation_alias . '.' . $this->escape_column_name(Evaluation :: PROPERTY_FORMAT_ID);
+        $query .= ', CONCAT(' . $user_alias . '.' . $this->escape_column_name(User :: PROPERTY_LASTNAME) . ', " ",' . $user_alias . '.' . $this->escape_column_name(User :: PROPERTY_FIRSTNAME) . ') AS evaluator';
         $query .= ', ' . $gradebook_grade_evaluation_alias . '.' . $this->escape_column_name(GradeEvaluation :: PROPERTY_SCORE);
         $query .= ', ' . $gradebook_grade_evaluation_alias . '.' . $this->escape_column_name(GradeEvaluation :: PROPERTY_COMMENT);
         $query .= ', ' . $gradebook_format_alias . '.' . $this->escape_column_name(Format :: PROPERTY_TITLE);
@@ -203,7 +206,7 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
         $query .= ' JOIN ' . $this->escape_table_name(GradeEvaluation :: get_table_name()) . ' AS ' . $gradebook_grade_evaluation_alias . ' ON ' . $this->escape_column_name(GradeEvaluation :: PROPERTY_ID, $gradebook_grade_evaluation_alias) . ' = ' . $this->escape_column_name(Evaluation :: PROPERTY_ID, $gradebook_evaluation_alias);
         $query .= ' JOIN ' . $udm->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $udm->escape_column_name(User :: PROPERTY_ID, $user_alias) . ' = ' . $this->escape_column_name(Evaluation :: PROPERTY_USER_ID, $gradebook_evaluation_alias);
         $query .= ' JOIN ' . $this->escape_table_name(Format :: get_table_name()) . ' AS ' . $gradebook_format_alias . ' ON ' . $this->escape_column_name(Format :: PROPERTY_ID, $gradebook_format_alias) . ' = ' . $this->escape_column_name(Evaluation :: PROPERTY_FORMAT_ID, $gradebook_evaluation_alias);
-        
+
         return $this->retrieve_object_set($query, Evaluation :: get_table_name(), $condition, $offset, $max_objects, $order_by, Evaluation :: CLASS_NAME);
     }
 
@@ -226,7 +229,6 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
         return $this->count_result_set($query, InternalItemInstance :: get_table_name(), $condition);
     }
 
-
     function delete_evaluation($evaluation)
     {
         $condition = new EqualityCondition(Evaluation :: PROPERTY_ID, $evaluation->get_id());
@@ -238,6 +240,7 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
         $condition = new EqualityCondition(Evaluation :: PROPERTY_ID, $evaluation->get_id());
         return $this->update($evaluation, $condition);
     }
+
     function retrieve_evaluation($id)
     {
         $condition = new EqualityCondition(Evaluation :: PROPERTY_ID, $id);
@@ -305,17 +308,18 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
 
     //gradebook external item
 
-	function create_external_item($external_item)
-	{
-		return $this->create($external_item);
-	}
-	
-	function delete_external_item($external_item)
-	{
+
+    function create_external_item($external_item)
+    {
+        return $this->create($external_item);
+    }
+
+    function delete_external_item($external_item)
+    {
         $condition = new EqualityCondition(ExternalItem :: PROPERTY_ID, $external_item->get_id());
         return $this->delete(ExternalItem :: get_table_name(), $condition);
-	}
-    
+    }
+
     function create_external_item_by_content_object($content_object_id, $category)
     {
         $rdm = RepositoryDataManager :: get_instance();
@@ -328,38 +332,39 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
         return $external_item;
         return false;
     }
-    
+
     function retrieve_external_items($condition, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(ExternalItem :: get_table_name(), $condition, $offset, $count, $order_property, ExternalItem :: CLASS_NAME);
     }
-    
+
     function retrieve_external_item($id)
     {
         $condition = new EqualityCondition(ExternalItem :: PROPERTY_ID, $id);
         return $this->retrieve_object(ExternalItem :: get_table_name(), $condition, null, ExternalItem :: CLASS_NAME);
     }
-    
+
     function count_external_items($condition)
     {
         return $this->count_objects(ExternalItem :: get_table_name(), $condition);
     }
 
     //gradebook external item instance
-    
-	function create_external_item_instance($external_item_intance)
-	{
-		return $this->create($external_item_intance);
-	}
+
+
+    function create_external_item_instance($external_item_intance)
+    {
+        return $this->create($external_item_intance);
+    }
 
     function count_external_item_instance($condition)
     {
         return $this->count_objects(ExternalItemInstance :: get_table_name(), $condition);
     }
-    
+
     function delete_external_item_instance($external_item_instance)
     {
-    	$condition = new EqualityCondition(ExternalItemInstance :: PROPERTY_ID, $external_item_instance->get_id());
+        $condition = new EqualityCondition(ExternalItemInstance :: PROPERTY_ID, $external_item_instance->get_id());
         return $this->delete($external_item_instance->get_table_name(), $condition);
     }
 
@@ -401,13 +406,14 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
 
     function retrieve_external_item_instance($condition)
     {
-    	return $this->retrieve_object(ExternalItemInstance :: get_table_name(), $condition, null, ExternalItemInstance :: CLASS_NAME);
+        return $this->retrieve_object(ExternalItemInstance :: get_table_name(), $condition, null, ExternalItemInstance :: CLASS_NAME);
     }
 
     function retrieve_external_item_instances($condition)
     {
-    	return $this->retrieve_objects(ExternalItemInstance :: get_table_name(), $condition, null, null, null, ExternalItemInstance :: CLASS_NAME);
+        return $this->retrieve_objects(ExternalItemInstance :: get_table_name(), $condition, null, null, null, ExternalItemInstance :: CLASS_NAME);
     }
+
     // applications
     function retrieve_internal_item_applications()
     {

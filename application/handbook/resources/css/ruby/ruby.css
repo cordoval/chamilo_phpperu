@@ -1,15 +1,26 @@
-@CHARSET "ISO-8859-1";
 
-/*****************************************************
- *  HANDBOOK STYLES                                      *
- *****************************************************/
+.alternative_metadata
+{
+   font-style: italic;
+   font-size: xx-small;
+}
 
-div.content_bar_left {
+.alternative_title
+{
+   font-weight: bold;
+   text-decoration: underline;
+   font-size: x-small;
+}
+.alternative_text
+{
+   font-size: x-small;
+}
+.main_title
+{
+   font-weight: bold;
+   text-decoration: underline;
+}
+.main_text
+{
 
-	border-left: 0px;
-	left: 0px;
-	-moz-border-radius-bottomright: 10px;
-	-moz-border-radius-topright: 10px;
-	-webkit-border-top-right-radius: 10px;
-	-webkit-border-bottom-right-radius: 10px;
 }

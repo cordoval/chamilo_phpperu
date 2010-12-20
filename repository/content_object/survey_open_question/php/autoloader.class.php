@@ -1,21 +1,19 @@
 <?php
-
 namespace repository\content_object\survey_open_question;
 
 use common\libraries\Utilities;
 
 /**
- * $Id: user_autoloader.class.php 167 2009-11-12 11:17:52Z vanpouckesven $
- * @author vanpouckesven
- * @package group
+ * @package repository.content_object.survey_open_question
+ * @author Eduard Vossen
+ * @author Magali Gillard
  */
 class Autoloader
 {
 
     static function load($classname)
     {
-        $list = array(
-                'survey_open_question' => 'survey_open_question');
+        $list = array('survey_open_question' => 'survey_open_question');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

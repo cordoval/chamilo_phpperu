@@ -2,16 +2,30 @@
 namespace repository\content_object\survey_open_question;
 
 use common\libraries\Path;
-use repository\OpenQuestionDifference;
+use repository\ContentObjectDifference;
+use repository\Difference_Engine;
 
 /**
- * $Id: survey_open_question_difference.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.survey_open_question
+ * @package repository.content_object.survey_open_question
+ * @author Eduard Vossen
+ * @author Magali Gillard
  */
 /**
  * This class can be used to get the difference between open question
  */
-class SurveyOpenQuestionDifference extends OpenQuestionDifference
+class SurveyOpenQuestionDifference extends ContentObjectDifference
 {
 
+    function get_difference()
+    {
+        $object = $this->get_object();
+        $version = $this->get_version();
+
+        $object_string = $object->get_question_type();
+        $version_string = $version->get_question_type();
+
+        $td = new Difference_Engine($object_string, $version_string);
+
+        return array_merge($td->getDiff(), parent :: get_difference());
+    }
 }

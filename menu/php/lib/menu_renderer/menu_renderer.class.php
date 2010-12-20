@@ -1,7 +1,10 @@
 <?php
 namespace menu;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
+
+use Exception;
 /**
  * @author Hans De Bisschop
  */

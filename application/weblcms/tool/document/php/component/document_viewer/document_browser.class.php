@@ -1,8 +1,11 @@
 <?php
 namespace application\weblcms\tool\document;
 
-use application\weblcms\Tool;
+use repository\content_object\document\Document;
+
 use common\libraries\Request;
+
+use application\weblcms\Tool;
 use application\weblcms\ContentObjectPublicationBrowser;
 use application\weblcms\ContentObjectPublicationDetailsRenderer;
 use application\weblcms\ContentObjectPublicationCategoryTree;

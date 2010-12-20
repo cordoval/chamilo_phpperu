@@ -6,6 +6,9 @@ namespace common\extensions\dynamic_form_manager;
  * @author Sven Vanpoucke
  */
 
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 require_once dirname(__FILE__) . '/../dynamic_form_execute_form.class.php';
 
 class DynamicFormManagerExecuterComponent extends DynamicFormManager
@@ -14,7 +17,7 @@ class DynamicFormManagerExecuterComponent extends DynamicFormManager
     {
     	$trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('dynamic form general');
- 
+
         $form = new DynamicFormExecuteForm($this->get_form(), $this->get_url(), $this->get_user(), $this->get_dynamic_form_title());
 
         if ($form->validate())

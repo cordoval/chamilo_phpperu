@@ -1,6 +1,10 @@
 <?php
 namespace user;
 
+use tracking\ChangesTracker;
+use tracking\Event;
+
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Display;
@@ -27,7 +31,7 @@ class UserManagerMultiPasswordResetterComponent extends UserManager implements A
     {
         $ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
 
-        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, 0))
+        if (! UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, 0))
         {
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('user general');
@@ -64,7 +68,9 @@ class UserManagerMultiPasswordResetterComponent extends UserManager implements A
                     $mail = Mail :: factory($mail_subject, $mail_body, $user->get_email());
                     $mail->send();
 
-                    Event :: trigger('update', UserManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $user->get_id(), ChangesTracker :: PROPERTY_USER_ID => $this->get_user()->get_id()));
+                    Event :: trigger('update', UserManager :: APPLICATION_NAME, array(
+                            ChangesTracker :: PROPERTY_REFERENCE_ID => $user->get_id(),
+                            ChangesTracker :: PROPERTY_USER_ID => $this->get_user()->get_id()));
                 }
                 else
                 {
@@ -74,24 +80,27 @@ class UserManagerMultiPasswordResetterComponent extends UserManager implements A
 
             $message = $this->get_result($failures, count($ids), 'UserPasswordNotResetted', 'UserPasswordsNotResetted', 'UserPasswordResetted', 'UserPasswordsResetted');
 
-            $this->redirect($message, ($failures > 0), array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+            $this->redirect($message, ($failures > 0), array(
+                    Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array(
+                    'OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
-    	$breadcrumbtrail->add_help('user_password_resetter');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+        $breadcrumbtrail->add_help('user_password_resetter');
     }
 
     function get_additional_parameters()
     {
-    	return array(UserManager :: PARAM_USER_USER_ID);
+        return array(UserManager :: PARAM_USER_USER_ID);
     }
 }
 ?>

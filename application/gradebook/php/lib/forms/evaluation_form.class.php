@@ -1,11 +1,16 @@
 <?php
 namespace application\gradebook;
 
+use common\libraries\ResourceManager;
+use common\libraries\Utilities;
 use common\libraries\FormValidator;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\PlatformSetting;
+
+use ValidateScoreStepRule;
+use ValidateScoreBoundariesRule;
 
 require_once dirname(__FILE__) . '/rules/validate_score_boundaries_rule.class.php';
 require_once dirname(__FILE__) . '/rules/validate_score_step_rule.class.php';
@@ -81,15 +86,15 @@ class EvaluationForm extends FormValidator
             }
             $this->addElement('static', null, null, '<em>' . $this->evaluation_format->get_score_information() . '</em>');
             $this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('Score'));
-            $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ValueShouldBeNumeric', null, Utilities::COMMON_LIBRARIES), 'numeric');
-            $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('DecimalValueNotAllowed', null, Utilities::COMMON_LIBRARIES), $score_rule);
+            $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ValueShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric');
+            $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('DecimalValueNotAllowed', null, Utilities :: COMMON_LIBRARIES), $score_rule);
             $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule);
         }
         else
         {
             $this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('score'), $this->evaluation_format->get_score_set());
         }
-        $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->add_html_editor(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('Comment'), false);
     }
 
@@ -106,16 +111,20 @@ class EvaluationForm extends FormValidator
         {
             if (PlatformSetting :: get_instance()->get('allow_change_format_on_update', 'gradebook'))
             {
-                $select = $this->add_select(Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array, false, array('class' => 'change_evaluation_format'));
+                $select = $this->add_select(Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array, false, array(
+                        'class' => 'change_evaluation_format'));
                 $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/change_evaluation_format.js'));
-                $this->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array('class' => 'normal filter'));
+                $this->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array(
+                        'class' => 'normal filter'));
             }
         }
         else
         {
-            $select = $this->add_select(Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array, false, array('class' => 'change_evaluation_format'));
+            $select = $this->add_select(Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array, false, array(
+                    'class' => 'change_evaluation_format'));
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/change_evaluation_format.js'));
-            $this->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array('class' => 'normal filter'));
+            $this->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array(
+                    'class' => 'normal filter'));
         }
 
     }
@@ -136,8 +145,10 @@ class EvaluationForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -146,8 +157,10 @@ class EvaluationForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -261,7 +274,8 @@ class EvaluationForm extends FormValidator
             $this->setEvaluationDefaults();
             return parent :: validate();
         }
-        //        elseif($this->evaluation_format->get_evaluation_field_type() == 'text')
+
+     //        elseif($this->evaluation_format->get_evaluation_field_type() == 'text')
     //        {
     //        	$this->setEvaluationDefaults(true);
     //        	return false;

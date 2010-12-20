@@ -1,9 +1,11 @@
 <?php
 namespace common\extensions\rights_editor_manager;
 
+use common\libraries\Toolbar;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+
 use rights\DefaultRightsTemplateTableCellRenderer;
 use rights\RightsUtilities;
 /**
@@ -38,12 +40,12 @@ class LocationTemplateBrowserTableCellRenderer extends DefaultRightsTemplateTabl
         {
             return $this->get_modification_links($rights_template);
         }
-        
+
         if (LocationTemplateBrowserTableColumnModel :: is_rights_column($column))
         {
             return $this->get_rights_column_value($column, $rights_template);
         }
-        
+
         return parent :: render_cell($column, $rights_template);
     }
 
@@ -66,9 +68,9 @@ class LocationTemplateBrowserTableCellRenderer extends DefaultRightsTemplateTabl
         $locked_parent = $locations[0]->get_locked_parent();
         $rights = $this->browser->get_available_rights();
         $rights_template_id = $rights_template->get_id();
-        
+
         $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $locations[0]->get_id())));
-        
+
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Translation :: get(Utilities :: underscores_to_camelcase(strtolower($right_name)));

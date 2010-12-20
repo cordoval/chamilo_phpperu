@@ -1,5 +1,7 @@
 <?php
 namespace group;
+
+use common\libraries\NotCondition;
 use common\libraries\Utilities;
 use common\libraries\InequalityCondition;
 use common\libraries\EqualityCondition;
@@ -78,9 +80,14 @@ class Group extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION,
-                self :: PROPERTY_SORT, self :: PROPERTY_PARENT, self :: PROPERTY_LEFT_VALUE,
-                self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_CODE));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_NAME,
+                self :: PROPERTY_DESCRIPTION,
+                self :: PROPERTY_SORT,
+                self :: PROPERTY_PARENT,
+                self :: PROPERTY_LEFT_VALUE,
+                self :: PROPERTY_RIGHT_VALUE,
+                self :: PROPERTY_CODE));
     }
 
     /*

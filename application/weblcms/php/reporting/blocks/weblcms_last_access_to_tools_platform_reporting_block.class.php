@@ -2,9 +2,12 @@
 namespace application\weblcms;
 
 use user\VisitTracker;
+
+use reporting\Reporting;
 use reporting\ReportingData;
 use reporting\ReportingChartFormatter;
 use reporting\ReportingFormatter;
+
 use common\libraries\PatternMatchCondition;
 use common\libraries\Theme;
 use common\libraries\Utilities;
@@ -20,7 +23,10 @@ class WeblcmsLastAccessToToolsPlatformReportingBlock extends WeblcmsCourseReport
     public function count_data()
     {
         $reporting_data = new ReportingData();
-        $reporting_data->set_rows(array(Translation :: get('Tool'), Translation :: get('Clicks'), Translation :: get('Publications')));
+        $reporting_data->set_rows(array(
+                Translation :: get('Tool'),
+                Translation :: get('Clicks'),
+                Translation :: get('Publications')));
         require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
 
         $wdm = WeblcmsDataManager :: get_instance();

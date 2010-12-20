@@ -1,17 +1,23 @@
 <?php
 namespace application\gradebook;
 
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\FormValidator;
 use common\libraries\EqualityCondition;
+use common\libraries\Translation;
+
 use application\weblcms\CourseUserRelation;
 use application\weblcms\WeblcmsManager;
-use common\libraries\Translation;
+
 use user\UserDataManager;
 
+use ValidateScoreStepRule;
+use ValidateScoreBoundariesRule;
+
 require_once WebApplication :: get_application_class_lib_path('weblcms') . 'course/course_user_relation.class.php';
-require_once WebApplication :: get_application_class_lib_path('weblcms') .'weblcms_manager/weblcms_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('weblcms') . 'weblcms_manager/weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/rules/validate_score_boundaries_rule.class.php';
 require_once dirname(__FILE__) . '/rules/validate_score_step_rule.class.php';
 
@@ -76,8 +82,10 @@ class ExternalGradeEvaluationInputForm extends FormValidator
         $this->addElement('category', Translation :: get('ExternalGradeInput'));
         $this->grade_input_fields();
         $this->addElement('category');
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -94,50 +102,53 @@ class ExternalGradeEvaluationInputForm extends FormValidator
         {
             $group = array();
             $username = $udm->retrieve_user($user)->get_fullname();
-            if (!$this->evaluation_format->get_score_set())
+            if (! $this->evaluation_format->get_score_set())
             {
-//	    		$score_rule = new ValidateScoreStepRule($this->evaluation_format);
-//	    		$boundaries_rule = new ValidateScoreBoundariesRule($this->evaluation_format);
-//	    		if(!empty($values))
-//	    		{
-//		    		if(!$score_rule->validate($values[$this->evaluation_format->get_evaluation_field_name()]) || !$boundaries_rule->validate($values[$this->evaluation_format->get_evaluation_field_name()]) || !is_numeric($values[$this->evaluation_format->get_evaluation_field_name()]))
-//		    		{
-//		    			$this->grade_evaluation->set_score(null);
-//		    		}
-//	    		}
+                //	    		$score_rule = new ValidateScoreStepRule($this->evaluation_format);
+                //	    		$boundaries_rule = new ValidateScoreBoundariesRule($this->evaluation_format);
+                //	    		if(!empty($values))
+                //	    		{
+                //		    		if(!$score_rule->validate($values[$this->evaluation_format->get_evaluation_field_name()]) || !$boundaries_rule->validate($values[$this->evaluation_format->get_evaluation_field_name()]) || !is_numeric($values[$this->evaluation_format->get_evaluation_field_name()]))
+                //		    		{
+                //		    			$this->grade_evaluation->set_score(null);
+                //		    		}
+                //	    		}
 
-                $group[] = $this->createElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name() . $this->number_of_evaluations, false, array('size' => '4'));
+
+                $group[] = $this->createElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name() . $this->number_of_evaluations, false, array(
+                        'size' => '4'));
                 $group[] = $this->createElement('text', GradeEvaluation :: PROPERTY_COMMENT . $this->number_of_evaluations, Translation :: get('Comment'), false);
                 $this->addGroup($group, 'grades', $username, null, false);
-//	            $rule[$this->evaluation_format->get_evaluation_field_name() . $this->number_of_evaluations][] = array(Translation :: get('ValueShouldBeNumeric'), 'numeric');
-//	            $rule[$this->evaluation_format->get_evaluation_field_name() . $this->number_of_evaluations][] = array(Translation :: get('DecimalValueNotAllowed'), $score_rule);
-//	            $rule[$this->evaluation_format->get_evaluation_field_name() . $this->number_of_evaluations][] = array(Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule);
-//	            $this->addGroupRule('grades', array($this->evaluation_format->get_evaluation_field_name() . $number_of_evaluations => array(array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
-//	            $this->addGroupRule('grades', array($this->evaluation_format->get_evaluation_field_name() . $number_of_evaluations => array(array(Translation :: get('DecimalValueNotAllowed'), $score_rule))));
-//	            $this->addGroupRule('grades', array($this->evaluation_format->get_evaluation_field_name() . $number_of_evaluations => array(array(Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule))));
-//				$this->addGroupRule('grades', $rule);
-//	            $this->addGroupRule('grades', array(
-//	            	$this->evaluation_format->get_evaluation_field_name() . $this->number_of_evaluations => array(
-//	            	array(Translation :: get('ValueShouldBeNumeric'), 'numeric'),
-//	            	array(Translation :: get('DecimalValueNotAllowed'), $score_rule),
-//	            	array(Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule)
-//	            	)
-//	            	));
-                $this->number_of_evaluations++;
-//				$this->addRule($this->evaluation_format->get_evaluation_field_name() . $number_of_evaluations, Translation :: get('ThisFieldIsRequired'), 'required');
-//	    	$idGrp[] = &HTML_QuickForm::createElement('text', 'lastname', 'Name', array('size' => 30));
-//			$idGrp[] = &HTML_QuickForm::createElement('text', 'code', 'Code', array('size' => 5, 'maxlength' => 4));
-//			$form->addGroup($idGrp, 'id', 'ID:', ',&nbsp');
-//			// Complex rule for group's elements
-//			$form->addGroupRule('id', array(
-//			    'lastname' => array(
-//			        array('Name is letters only', 'lettersonly'),
-//			        array('Name is required', 'required')
-//			    ),
-//			    'code' => array(
-//			        array('Code must be numeric', 'numeric')
-//			    )
-//			));
+                //	            $rule[$this->evaluation_format->get_evaluation_field_name() . $this->number_of_evaluations][] = array(Translation :: get('ValueShouldBeNumeric'), 'numeric');
+                //	            $rule[$this->evaluation_format->get_evaluation_field_name() . $this->number_of_evaluations][] = array(Translation :: get('DecimalValueNotAllowed'), $score_rule);
+                //	            $rule[$this->evaluation_format->get_evaluation_field_name() . $this->number_of_evaluations][] = array(Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule);
+                //	            $this->addGroupRule('grades', array($this->evaluation_format->get_evaluation_field_name() . $number_of_evaluations => array(array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
+                //	            $this->addGroupRule('grades', array($this->evaluation_format->get_evaluation_field_name() . $number_of_evaluations => array(array(Translation :: get('DecimalValueNotAllowed'), $score_rule))));
+                //	            $this->addGroupRule('grades', array($this->evaluation_format->get_evaluation_field_name() . $number_of_evaluations => array(array(Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule))));
+                //				$this->addGroupRule('grades', $rule);
+                //	            $this->addGroupRule('grades', array(
+                //	            	$this->evaluation_format->get_evaluation_field_name() . $this->number_of_evaluations => array(
+                //	            	array(Translation :: get('ValueShouldBeNumeric'), 'numeric'),
+                //	            	array(Translation :: get('DecimalValueNotAllowed'), $score_rule),
+                //	            	array(Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule)
+                //	            	)
+                //	            	));
+                $this->number_of_evaluations ++;
+
+     //				$this->addRule($this->evaluation_format->get_evaluation_field_name() . $number_of_evaluations, Translation :: get('ThisFieldIsRequired'), 'required');
+            //	    	$idGrp[] = &HTML_QuickForm::createElement('text', 'lastname', 'Name', array('size' => 30));
+            //			$idGrp[] = &HTML_QuickForm::createElement('text', 'code', 'Code', array('size' => 5, 'maxlength' => 4));
+            //			$form->addGroup($idGrp, 'id', 'ID:', ',&nbsp');
+            //			// Complex rule for group's elements
+            //			$form->addGroupRule('id', array(
+            //			    'lastname' => array(
+            //			        array('Name is letters only', 'lettersonly'),
+            //			        array('Name is required', 'required')
+            //			    ),
+            //			    'code' => array(
+            //			        array('Code must be numeric', 'numeric')
+            //			    )
+            //			));
             }
             else
             {
@@ -146,17 +157,19 @@ class ExternalGradeEvaluationInputForm extends FormValidator
                 $group[] = $this->createElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name() . $this->number_of_evaluations, null, $score_set);
                 $group[] = $this->createElement('text', GradeEvaluation :: PROPERTY_COMMENT . $this->number_of_evaluations, Translation :: get('Comment'), false);
                 $this->addGroup($group, 'grades', $username, null, false);
-                $this->number_of_evaluations++;
-//	    		$this->addRule($this->evaluation_format->get_evaluation_field_name() . $number_of_evaluations, Translation :: get('ThisFieldIsRequired'), 'required');
+                $this->number_of_evaluations ++;
+
+     //	    		$this->addRule($this->evaluation_format->get_evaluation_field_name() . $number_of_evaluations, Translation :: get('ThisFieldIsRequired'), 'required');
             }
         }
-//		dump($groups);
-//    	foreach($groups as $group)
-//    	{
-//    		dump($group);
-//	    	$this->addGroup($group, 'grades', $username, null, false);
-//	    	$this->addGroupRule('grades', $rule);
-//    	}
+
+     //		dump($groups);
+    //    	foreach($groups as $group)
+    //    	{
+    //    		dump($group);
+    //	    	$this->addGroup($group, 'grades', $username, null, false);
+    //	    	$this->addGroupRule('grades', $rule);
+    //    	}
     }
 
     function create_evaluation()
@@ -165,24 +178,24 @@ class ExternalGradeEvaluationInputForm extends FormValidator
         $external_item = new ExternalItem();
         $external_item->set_title($this->title);
         $external_item->set_description($this->description);
-        if (!$this->course_id)
+        if (! $this->course_id)
             $external_item->set_category(null);
         else
             $external_item->set_category('C' . $this->course_id);
-        if (!$external_item->create())
+        if (! $external_item->create())
         {
             return false;
         }
-        for ($i = 0; $i < $this->number_of_evaluations; $i++)
+        for($i = 0; $i < $this->number_of_evaluations; $i ++)
         {
-            if (!$export_values[$this->evaluation_format->get_evaluation_field_name() . $i] == 'no_evaluation' || !$export_values[$this->evaluation_format->get_evaluation_field_name() . $i] == null)
+            if (! $export_values[$this->evaluation_format->get_evaluation_field_name() . $i] == 'no_evaluation' || ! $export_values[$this->evaluation_format->get_evaluation_field_name() . $i] == null)
             {
                 $evaluation = new Evaluation();
                 $evaluation->set_evaluator_id($this->user->get_id());
                 $evaluation->set_user_id($this->users[$i]);
                 $evaluation->set_evaluation_date(time());
                 $evaluation->set_format_id($this->format_id);
-                if (!$evaluation->create())
+                if (! $evaluation->create())
                 {
                     return false;
                 }
@@ -190,7 +203,7 @@ class ExternalGradeEvaluationInputForm extends FormValidator
                 $external_item_instance = new ExternalItemInstance();
                 $external_item_instance->set_external_item_id($external_item->get_id());
                 $external_item_instance->set_evaluation_id($evaluation->get_id());
-                if (!$external_item_instance->create())
+                if (! $external_item_instance->create())
                 {
                     return false;
                 }
@@ -199,7 +212,7 @@ class ExternalGradeEvaluationInputForm extends FormValidator
                 $grade_evaluation->set_score($export_values[$this->evaluation_format->get_evaluation_field_name() . $i]);
                 $grade_evaluation->set_comment($export_values['comment' . $i]);
                 $grade_evaluation->set_id($evaluation->get_id());
-                if (!$grade_evaluation->create(false))
+                if (! $grade_evaluation->create(false))
                 {
                     return false;
                 }
@@ -211,20 +224,20 @@ class ExternalGradeEvaluationInputForm extends FormValidator
     function validate()
     {
         $export_values = $this->exportValues();
-        if ($export_values && !$this->evaluation_format->get_score_set())
+        if ($export_values && ! $this->evaluation_format->get_score_set())
         {
             $failures = 0;
             $score_rule = new ValidateScoreStepRule($this->evaluation_format);
             $boundaries_rule = new ValidateScoreBoundariesRule($this->evaluation_format);
-            for ($i = 0; $i < $this->number_of_evaluations; $i++)
+            for($i = 0; $i < $this->number_of_evaluations; $i ++)
             {
-                if (!$score_rule->validate($export_values['points_evaluation' . $i]))
+                if (! $score_rule->validate($export_values['points_evaluation' . $i]))
                 {
-                    $failures++;
+                    $failures ++;
                 }
-                if (!$boundaries_rule->validate($export_values['points_evaluation' . $i]))
+                if (! $boundaries_rule->validate($export_values['points_evaluation' . $i]))
                 {
-                    $failures++;
+                    $failures ++;
                 }
             }
             if ($failures == 0)

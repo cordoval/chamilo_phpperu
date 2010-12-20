@@ -1,5 +1,7 @@
 <?php
 namespace menu;
+
+use common\libraries\Header;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;

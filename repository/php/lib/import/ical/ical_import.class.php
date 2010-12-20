@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use repository\content_object\calendar_event\CalendarEvent;
+
 use repository\ContentObject;
 
 /**
@@ -22,7 +24,6 @@ class IcalImport extends ContentObjectImport
     public function import_content_object()
     {
 
-
         $file = $this->get_content_object_file();
 
         $content = file_get_contents($file['tmp_name']);
@@ -31,20 +32,19 @@ class IcalImport extends ContentObjectImport
 
         //unset empty line
         $counter = 0;
-    	for($i = 0; $i < $count; $i ++)
+        for($i = 0; $i < $count; $i ++)
         {
             $line = trim($read_lines[$i]);
             if ($line != '')
             {
                 $lines[$counter] = $read_lines[$i];
-                $counter++;
+                $counter ++;
             }
         }
 
         for($i = 0; $i < $count; $i ++)
         {
             $line = rtrim($lines[$i]);
-
 
             if ($line == 'BEGIN:VEVENT')
             {
@@ -67,11 +67,11 @@ class IcalImport extends ContentObjectImport
         {
             $line = trim($lines[$i]);
 
-            while((substr($lines[$i+1], 0, 2) == '\t') || (substr($lines[$i+1], 0, 1) == ' '))
+            while ((substr($lines[$i + 1], 0, 2) == '\t') || (substr($lines[$i + 1], 0, 1) == ' '))
             {
-            	$trimmed_line = trim($lines[$i+1]);
-            	$i++;
-            	$line .= $trimmed_line;
+                $trimmed_line = trim($lines[$i + 1]);
+                $i ++;
+                $line .= $trimmed_line;
 
             }
 
@@ -95,35 +95,35 @@ class IcalImport extends ContentObjectImport
                 $start = substr($line, 8);
 
                 $timezone = substr($start, 0, 4);
-                if($timezone == 'TZID')
+                if ($timezone == 'TZID')
                 {
-                	$time_part = substr($start,strrpos($start,':')+1);
-                	$time = strtotime($time_part);
-                	$calendar_event->set_start_date($time);
-            	}
-            	else
-            	{
-                	$time = strtotime($start);
-                	$calendar_event->set_start_date($time);
-            	}
+                    $time_part = substr($start, strrpos($start, ':') + 1);
+                    $time = strtotime($time_part);
+                    $calendar_event->set_start_date($time);
+                }
+                else
+                {
+                    $time = strtotime($start);
+                    $calendar_event->set_start_date($time);
+                }
 
             }
 
             if (substr($line, 0, 5) == 'DTEND')
             {
-            	$end = substr($line, 6);
+                $end = substr($line, 6);
                 $timezone = substr($end, 0, 4);
-                if($timezone == 'TZID')
+                if ($timezone == 'TZID')
                 {
-                	$time_part = substr($end,strrpos($end,':')+1);
-                	$time = strtotime($time_part);
-                	$calendar_event->set_end_date($time);
-            	}
-            	else
-            	{
-	               	$time = strtotime($end);
-                	$calendar_event->set_end_date($time);
-            	}
+                    $time_part = substr($end, strrpos($end, ':') + 1);
+                    $time = strtotime($time_part);
+                    $calendar_event->set_end_date($time);
+                }
+                else
+                {
+                    $time = strtotime($end);
+                    $calendar_event->set_end_date($time);
+                }
             }
 
             if (substr($line, 0, 5) == 'RRULE')

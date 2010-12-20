@@ -1,6 +1,8 @@
 <?php
 namespace admin;
 
+use common\libraries\Display;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Request;
@@ -20,7 +22,7 @@ abstract class PackageRemover
     const TYPE_CONFIRM = '2';
     const TYPE_WARNING = '3';
     const TYPE_ERROR = '4';
-    
+
     private $parent;
     private $package;
     private $message;
@@ -61,7 +63,7 @@ abstract class PackageRemover
         $registration = AdminDataManager :: get_instance()->retrieve_registration($this->get_package());
         $package_info = PackageInfo :: factory($registration->get_type(), $registration->get_name());
         $package = $package_info->get_package();
-        
+
         $verifier = new PackageDependencyVerifier($package);
         $success = $verifier->is_removable();
         $this->add_message($verifier->get_logger()->render());
@@ -69,7 +71,7 @@ abstract class PackageRemover
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -80,7 +82,7 @@ abstract class PackageRemover
     static function factory($type, $parent)
     {
         $file = dirname(__FILE__) . '/type/' . $type . '.class.php';
-        
+
         if (file_exists($file) && is_file($file))
         {
             $class = __NAMESPACE__ . '\\' . 'Package' . Utilities :: underscores_to_camelcase($type) . 'Remover';
@@ -92,9 +94,9 @@ abstract class PackageRemover
             $parent->display_header();
             Display :: display_normal_message(Translation :: get('PackageTypeNotRemovable'));
             $parent->display_footer();
-            exit;
+            exit();
         }
-    
+
     }
 
     function add_message($message, $type = self :: TYPE_NORMAL)

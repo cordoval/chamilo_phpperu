@@ -1,6 +1,9 @@
 <?php
 namespace user;
 
+use tracking\Event;
+
+use common\libraries\Session;
 use common\libraries\ChangeablePassword;
 use common\libraries\Authentication;
 use common\libraries\Translation;
@@ -57,7 +60,9 @@ class UserManagerResetPasswordComponent extends UserManager
             if ($this->get_user_key($user) == $request_key)
             {
                 $this->create_new_password($user);
-                Event :: trigger('reset_password', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
+                Event :: trigger('reset_password', 'user', array(
+                        'target_user_id' => $user->get_id(),
+                        'action_user_id' => $user->get_id()));
                 Display :: normal_message('lang_your_password_has_been_emailed_to_you');
             }
             else
@@ -85,7 +90,7 @@ class UserManagerResetPasswordComponent extends UserManager
                 {
                     $failures = 0;
 
-                	foreach ($users as $index => $user)
+                    foreach ($users as $index => $user)
                     {
                         $auth_source = $user->get_auth_source();
                         $auth = Authentication :: factory($auth_source);
@@ -95,21 +100,21 @@ class UserManagerResetPasswordComponent extends UserManager
                         }
                         else
                         {
-                            if(!$this->send_reset_link($user))
+                            if (! $this->send_reset_link($user))
                             {
-                            	$failures++;
+                                $failures ++;
                             }
                         }
                     }
 
                     $message = $this->get_result($failures, count($users), 'ResetLinkHasNotBeenSend', 'ResetLinksHasNotBeenSend', 'ResetLinkHasBeenSend', 'ResetLinksHasBeenSend');
-                    if($failures == 0)
+                    if ($failures == 0)
                     {
-                    	Display :: normal_message($message);
+                        Display :: normal_message($message);
                     }
                     else
                     {
-                    	Display :: error_message($message);
+                        Display :: error_message($message);
                     }
                 }
             }
@@ -174,9 +179,9 @@ class UserManagerResetPasswordComponent extends UserManager
         return Hashing :: hash($security_key . $user->get_email());
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('user_password_resetter');
+        $breadcrumbtrail->add_help('user_password_resetter');
     }
 
 }

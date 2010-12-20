@@ -1,8 +1,10 @@
 <?php
 namespace common\libraries;
 
-use common\extensions\repo_viewer\RepoViewer;
+use repository\content_object\document\Document;
 use repository\RepositoryDataManager;
+
+use common\extensions\repo_viewer\RepoViewer;
 
 class RepoViewerLauncher extends LauncherApplication
 {

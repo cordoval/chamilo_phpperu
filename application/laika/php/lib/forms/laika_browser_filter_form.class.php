@@ -1,6 +1,7 @@
 <?php
 namespace application\laika;
 
+use common\libraries\InCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
@@ -11,6 +12,8 @@ use common\libraries\OptionsMenuRenderer;
 use common\libraries\AndCondition;
 
 use group\GroupMenu;
+use group\GroupDataManager;
+
 use common\libraries\Utilities;
 
 /**
@@ -79,8 +82,10 @@ class LaikaBrowserFilterForm extends FormValidator
         $this->addElement('select', self :: BROWSER_FILTER_SCALE, Translation :: get('Scale'), $scale_options);
         $this->addElement('select', self :: BROWSER_FILTER_GROUP, Translation :: get('Group', null, 'group'), $this->get_groups());
         $this->addElement('select', self :: BROWSER_FILTER_CODE, Translation :: get('Code'), $code_options);
-        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal search'));
-        //$this->addElement('submit', 'search', Translation :: get('Filter'));
+        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal search'));
+
+     //$this->addElement('submit', 'search', Translation :: get('Filter'));
     }
 
     function get_filter_conditions()

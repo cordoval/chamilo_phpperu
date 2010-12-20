@@ -1,6 +1,9 @@
 <?php
 namespace migration;
 
+use common\libraries\ObjectTableOrder;
+use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\PlatformSetting;
 
 use admin\AdminDataManager;

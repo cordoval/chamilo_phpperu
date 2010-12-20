@@ -1,9 +1,11 @@
 <?php
 namespace repository\content_object\task;
 
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\DatetimeUtilities;
 
+use repository\Difference_Engine;
 use repository\ContentObjectDifference;
 
 /**
@@ -25,7 +27,7 @@ class TaskDifference extends ContentObjectDifference
         $object = $this->get_object();
         $version = $this->get_version();
 
-        $object_string = htmlentities(Translation :: get('From') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $object->get_due_date()). ' ' . Translation :: get('Until') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $object->get_end_date()));
+        $object_string = htmlentities(Translation :: get('From') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $object->get_due_date()) . ' ' . Translation :: get('Until') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $object->get_end_date()));
         $object_string = explode("\n", strip_tags($object_string));
 
         $version_string = htmlentities(Translation :: get('From') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $version->get_due_date()) . ' ' . DatetimeUtilities :: format_locale_date($date_format, $version->get_end_date()));

@@ -1,7 +1,7 @@
 <?php
-
 namespace application\gradebook;
 
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;
 
@@ -12,9 +12,9 @@ class GradebookManagerDeleteExternalEvaluationComponent extends GradebookManager
     {
         $ids = Request :: get(GradebookManager :: PARAM_PUBLICATION_ID);
         $failures = 0;
-        if (!empty($ids))
+        if (! empty($ids))
         {
-            if (!is_array($ids))
+            if (! is_array($ids))
             {
                 $ids = array($ids);
             }
@@ -22,9 +22,9 @@ class GradebookManagerDeleteExternalEvaluationComponent extends GradebookManager
             {
                 $external_item = $this->retrieve_external_item($id);
 
-                if (!$external_item->delete())
+                if (! $external_item->delete())
                 {
-                    $failures++;
+                    $failures ++;
                 }
             }
         }
@@ -52,7 +52,10 @@ class GradebookManagerDeleteExternalEvaluationComponent extends GradebookManager
             }
         }
 
-        $this->redirect(Translation :: get($message, null, Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK, GradebookManager :: PARAM_PUBLICATION_TYPE => Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE), GradebookManager :: PARAM_PUBLICATION_APP => Request :: get(GradebookManager :: PARAM_PUBLICATION_APP)));
+        $this->redirect(Translation :: get($message, null, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(
+                GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK,
+                GradebookManager :: PARAM_PUBLICATION_TYPE => Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE),
+                GradebookManager :: PARAM_PUBLICATION_APP => Request :: get(GradebookManager :: PARAM_PUBLICATION_APP)));
     }
 
 }

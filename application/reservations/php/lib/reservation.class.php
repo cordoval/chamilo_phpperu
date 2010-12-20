@@ -1,7 +1,7 @@
 <?php
-
 namespace application\reservations;
 
+use common\libraries\EqualityCondition;
 use common\libraries\DataClass;
 use common\libraries\Utilities;
 /**
@@ -44,8 +44,18 @@ class Reservation extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_ITEM, self :: PROPERTY_TYPE, self :: PROPERTY_START_DATE, self :: PROPERTY_STOP_DATE, self :: PROPERTY_START_SUBSCRIPTION, self :: PROPERTY_STOP_SUBSCRIPTION, self :: PROPERTY_MAX_USERS, self :: PROPERTY_NOTES, self :: PROPERTY_TIMEPICKER_MIN,
-                self :: PROPERTY_TIMEPICKER_MAX, self :: PROPERTY_AUTO_ACCEPT, self :: PROPERTY_STATUS));
+                self :: PROPERTY_ITEM,
+                self :: PROPERTY_TYPE,
+                self :: PROPERTY_START_DATE,
+                self :: PROPERTY_STOP_DATE,
+                self :: PROPERTY_START_SUBSCRIPTION,
+                self :: PROPERTY_STOP_SUBSCRIPTION,
+                self :: PROPERTY_MAX_USERS,
+                self :: PROPERTY_NOTES,
+                self :: PROPERTY_TIMEPICKER_MIN,
+                self :: PROPERTY_TIMEPICKER_MAX,
+                self :: PROPERTY_AUTO_ACCEPT,
+                self :: PROPERTY_STATUS));
     }
 
     function get_data_manager()

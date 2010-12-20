@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
 
+use common\libraries\Translation;
 use common\libraries\Utilities;
 
 use repository\ExternalSync;
@@ -12,7 +13,7 @@ abstract class VideoConferencingManagerConnector
     private static $instances = array();
 
     private $video_conferencing_instance;
-    
+
     /**
      * @param VideoConferencing $video_conferencing_instance
      */
@@ -20,7 +21,7 @@ abstract class VideoConferencingManagerConnector
     {
         $this->video_conferencing_instance = $video_conferencing_instance;
     }
-    
+
     /**
      * @return VideoConferencing
      */
@@ -28,7 +29,7 @@ abstract class VideoConferencingManagerConnector
     {
         return $this->video_conferencing_instance;
     }
-    
+
     /**
      * @param VideoConferencing $video_conferencing_instance
      */
@@ -36,7 +37,7 @@ abstract class VideoConferencingManagerConnector
     {
         $this->video_conferencing_instance = $video_conferencing_instance;
     }
-    
+
     /**
      * @return int
      */
@@ -44,7 +45,7 @@ abstract class VideoConferencingManagerConnector
     {
         return $this->get_video_conferencing_instance()->get_id();
     }
-    
+
     /**
      * @param VideoConferencing $video_conferencing_instance
      * @return VideoConferencingManagerConnector
@@ -52,19 +53,20 @@ abstract class VideoConferencingManagerConnector
     static function factory($video_conferencing_instance)
     {
         $type = $video_conferencing_instance->get_type();
-        
+
         $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_video_conferencing_manager_connector.class.php';
         if (! file_exists($file))
         {
-            throw new Exception(Translation :: get('VideoConferencingManagerConnectorTypeDoesNotExist', array('type' => $type)));
+            throw new Exception(Translation :: get('VideoConferencingManagerConnectorTypeDoesNotExist', array(
+                    'type' => $type)));
         }
-        
+
         require_once $file;
-        
-        $class ='common\extensions\video_conferencing_manager\implementation\\' . $type .'\\'  . Utilities :: underscores_to_camelcase($type) . 'VideoConferencingManagerConnector';
+
+        $class = 'common\extensions\video_conferencing_manager\implementation\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'VideoConferencingManagerConnector';
         return new $class($video_conferencing_instance);
     }
-    
+
     /**
      * @param VideoConferencing $video_conferencing_instance
      * @return VideoConferencingManagerConnector
@@ -85,7 +87,7 @@ abstract class VideoConferencingManagerConnector
 
     function retrieve_external_object(ExternalSync $external_sync)
     {
-    	return $this->retrieve_video_conferencing_object($external_sync);
+        return $this->retrieve_video_conferencing_object($external_sync);
     }
 
     /**
@@ -97,9 +99,9 @@ abstract class VideoConferencingManagerConnector
     abstract function retrieve_video_conferencing_objects($condition, $order_property, $offset, $count);
 
     abstract function create_video_conferencing_object(VideoConferencingObject $video_conferencing_object);
-    
+
     abstract function join_video_conferencing_object(ExternalSync $external_sync, VideoConferencingRights $rights);
-    
+
     /**
      * @param mixed $condition
      */

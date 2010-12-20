@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries;
 
+use repository\content_object\document\Document;
+
 use common\extensions\repo_viewer\ContentObjectTableDataProvider;
 use repository\RepositoryDataManager;
 use repository\content_object\handbook_item\HandbookItem;
@@ -15,6 +17,7 @@ require_once Path :: get_common_extensions_path() . 'repo_viewer/php/component/c
  */
 class HandbookItemContentObjectTableDataProvider extends ContentObjectTableDataProvider
 {
+
     /**
      * Constructor.
      * @param int $owner The user id of the current active user.
@@ -42,7 +45,7 @@ class HandbookItemContentObjectTableDataProvider extends ContentObjectTableDataP
         }
         else
         {
-            var_dump('2'. $dm->retrieve_shared_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $offset, $count, $order_property));
+            var_dump('2' . $dm->retrieve_shared_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $offset, $count, $order_property));
             return $dm->retrieve_shared_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $offset, $count, $order_property);
         }
     }
@@ -56,11 +59,11 @@ class HandbookItemContentObjectTableDataProvider extends ContentObjectTableDataP
 
         if (! $this->get_parent()->is_shared_object_browser())
         {
-            return $dm->count_type_content_objects(HandbookItem::get_type_name(), $this->get_condition());
+            return $dm->count_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition());
         }
         else
         {
-            return $dm->count_shared_type_content_objects(HandbookItem::get_type_name(), $this->get_condition());
+            return $dm->count_shared_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition());
         }
     }
 
@@ -68,7 +71,7 @@ class HandbookItemContentObjectTableDataProvider extends ContentObjectTableDataP
     {
         $handbook_item_types = array();
         $handbook_item_conditions = array();
-        foreach($handbook_item_types as $handbook_item_type)
+        foreach ($handbook_item_types as $handbook_item_type)
         {
             $handbook_item_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $handbook_item_type, Document :: get_type_name());
         }

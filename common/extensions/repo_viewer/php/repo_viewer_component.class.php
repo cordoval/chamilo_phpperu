@@ -10,6 +10,10 @@ namespace common\extensions\repo_viewer;
  *	is included in the publisher's output.
 ==============================================================================
  */
+use common\libraries\Display;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+
 abstract class RepoViewerComponent
 {
     /**

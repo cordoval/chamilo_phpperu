@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . '/main.php';
 
 use common\libraries\FileUtil;
@@ -12,7 +14,6 @@ use common\libraries\EmptyObjectExport;
 use common\libraries\Filesystem;
 use common\libraries\Filecompression;
 use common\libraries\BufferedObjectExport;
-
 
 /**
  *
@@ -33,7 +34,7 @@ class CpExport extends ContentObjectExport
 
     /**
      * Returns a single object exporter.
-	 *
+     *
      * @param ObjectExportSettings $settings
      */
     public static function object_factory(ObjectExportSettings $settings)
@@ -53,7 +54,6 @@ class CpExport extends ContentObjectExport
     {
         return CpObjectExport :: accept($object);
     }
-
 
     /**
      * Returns the object's type name.
@@ -140,14 +140,14 @@ class CpExport extends ContentObjectExport
 
     protected function export_resource($to_directory)
     {
-    	$from_directory = dirname(__FILE__).'/resource/';
+        $from_directory = dirname(__FILE__) . '/resource/';
         $files = scandir($from_directory);
         foreach ($files as $file)
         {
             if ($file != '.' && $file != '..')
             {
                 Filesystem :: copy_file($from_directory . $file, $to_directory . '/resources/' . $file);
-			}
+            }
         }
     }
 

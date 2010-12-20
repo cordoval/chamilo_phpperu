@@ -1,6 +1,8 @@
 <?php
 namespace user;
 
+use common\libraries\Application;
+
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Display;
@@ -28,15 +30,15 @@ class UserManagerQuotaComponent extends UserManager implements AdministrationCom
 
         if ($id)
         {
-	        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $id))
-	        {
-	        	$this->display_header();
-	            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
-	            $this->display_footer();
-	            exit();
-	        }
+            if (! UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $id))
+            {
+                $this->display_header();
+                Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
+                $this->display_footer();
+                exit();
+            }
 
-        	$user = $this->retrieve_user($id);
+            $user = $this->retrieve_user($id);
 
             if (! $this->get_user()->is_platform_admin())
             {
@@ -50,7 +52,8 @@ class UserManagerQuotaComponent extends UserManager implements AdministrationCom
             if ($form->validate())
             {
                 $success = $form->update_quota();
-                $this->redirect(Translation :: get($success ? 'UserQuotaUpdated' : 'UserQuotaNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA));
+                $this->redirect(Translation :: get($success ? 'UserQuotaUpdated' : 'UserQuotaNotUpdated'), ($success ? false : true), array(
+                        Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA));
             }
             else
             {
@@ -61,19 +64,21 @@ class UserManagerQuotaComponent extends UserManager implements AdministrationCom
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array(
+                    'OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
-    	$breadcrumbtrail->add_help('user_quota');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+        $breadcrumbtrail->add_help('user_quota');
     }
 
     function get_additional_parameters()
     {
-    	return array(UserManager :: PARAM_USER_USER_ID);
+        return array(UserManager :: PARAM_USER_USER_ID);
     }
 }
 ?>

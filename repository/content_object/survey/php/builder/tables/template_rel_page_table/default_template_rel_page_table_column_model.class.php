@@ -1,5 +1,7 @@
-<?php namespace repository\content_object\survey;
+<?php
 namespace repository\content_object\survey;
+
+use repository\content_object\survey_page\SurveyPage;
 
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
@@ -22,15 +24,14 @@ class DefaultSurveyContextTemplateRelPageTableColumnModel extends ObjectTableCol
     private static function get_default_columns()
     {
         $dm = SurveyContextDataManager :: get_instance();
-//        $template_alias = $dm->get_alias(SurveyContextTemplate :: get_table_name());
+        //        $template_alias = $dm->get_alias(SurveyContextTemplate :: get_table_name());
         $page_alias = $dm->get_alias(SurveyPage :: get_table_name());
 
-
-    	$columns = array();
-//        $columns[] = new ObjectTableColumn(SurveyContextTemplate :: PROPERTY_NAME, true, $template_alias);
-//        $columns[] = new ObjectTableColumn(SurveyContextTemplate :: PROPERTY_DESCRIPTION, true, $template_alias);
+        $columns = array();
+        //        $columns[] = new ObjectTableColumn(SurveyContextTemplate :: PROPERTY_NAME, true, $template_alias);
+        //        $columns[] = new ObjectTableColumn(SurveyContextTemplate :: PROPERTY_DESCRIPTION, true, $template_alias);
         $columns[] = new ObjectTableColumn(SurveyPage :: PROPERTY_TITLE, true, $page_alias);
-        $columns[] = new ObjectTableColumn(SurveyPage:: PROPERTY_DESCRIPTION, true, $page_alias);
+        $columns[] = new ObjectTableColumn(SurveyPage :: PROPERTY_DESCRIPTION, true, $page_alias);
 
         return $columns;
     }

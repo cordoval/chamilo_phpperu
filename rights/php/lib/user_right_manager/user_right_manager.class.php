@@ -1,6 +1,8 @@
 <?php
 namespace rights;
 
+use user\UserDataManager;
+
 use common\libraries\Path;
 use common\libraries\Application;
 use common\libraries\SubManager;

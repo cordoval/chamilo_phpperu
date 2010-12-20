@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_blog_task_rel_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 /**
  * This class presents a Dokeos185 blog_task_rel_user
  *
@@ -13,7 +13,7 @@ namespace migration;
 class Dokeos185BlogTaskRelUser extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185BlogTaskRelUser properties
      */
@@ -21,7 +21,7 @@ class Dokeos185BlogTaskRelUser extends Dokeos185MigrationDataClass
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_TASK_ID = 'task_id';
     const PROPERTY_TARGET_DATE = 'target_date';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -159,11 +159,11 @@ class Dokeos185BlogTaskRelUser extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = $parameters['course']->get_db_name();
         $tablename = 'blog_task_rel_user';
         $classname = 'Dokeos185BlogTaskRelUser';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

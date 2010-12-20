@@ -1,13 +1,12 @@
 <?php
-
 namespace repository\content_object\survey_rating_question;
 
 use common\libraries\Utilities;
 
 /**
- * $Id: user_autoloader 167 2009-11-12 11:17:52Z vanpouckesven $
- * @author vanpouckesven
- * @package group
+ * @package repository.content_object.survey_rating_question
+ * @author Eduard Vossen
+ * @author Magali Gillard
  */
 class Autoloader
 {

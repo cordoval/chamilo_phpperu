@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Qti;
+
 use repository\ContentObject;
 use repository\content_object\ordering_question\OrderingQuestion;
 

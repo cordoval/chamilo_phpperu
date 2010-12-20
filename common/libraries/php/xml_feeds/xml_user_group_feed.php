@@ -1,5 +1,4 @@
 <?php
-
 namespace common\libraries;
 
 use group\GroupDataManager;
@@ -12,7 +11,8 @@ use group\Group;
  * @package common.xml_feeds
  * @author Hans De Bisschop
  * @author Dieter De Neef
- */require_once dirname(__FILE__) . '/../../../global.inc.php';
+ */
+require_once dirname(__FILE__) . '/../../../global.inc.php';
 
 if (Authentication :: is_valid())
 {
@@ -26,7 +26,10 @@ if (Authentication :: is_valid())
     {
         $q = '*' . $query . '*';
 
-        $user_conditions[] = new OrCondition(array(new PatternMatchCondition(User :: PROPERTY_USERNAME, $q), new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, $q), new PatternMatchCondition(User :: PROPERTY_LASTNAME, $q)));
+        $user_conditions[] = new OrCondition(array(
+                new PatternMatchCondition(User :: PROPERTY_USERNAME, $q),
+                new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, $q),
+                new PatternMatchCondition(User :: PROPERTY_LASTNAME, $q)));
         $group_conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, $q);
     }
 
@@ -68,13 +71,14 @@ if (Authentication :: is_valid())
         }
     }
 
-//    $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
-//
-//    if (! $user->is_platform_admin())
-//    {
-//        $group_ids = $user->get_allowed_groups();
-//        $group_conditions[] = new InCondition(Group :: PROPERTY_ID, $group_ids);
-//    }
+    //    $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+    //
+    //    if (! $user->is_platform_admin())
+    //    {
+    //        $group_ids = $user->get_allowed_groups();
+    //        $group_conditions[] = new InCondition(Group :: PROPERTY_ID, $group_ids);
+    //    }
+
 
     //if ($group_conditions)
     if (count($group_conditions) > 0)
@@ -91,7 +95,8 @@ if (Authentication :: is_valid())
     $groups = array();
     $allowed_users = array();
 
-    $group_result_set = $gdm->retrieve_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
+    $group_result_set = $gdm->retrieve_groups($group_condition, null, null, array(
+            new ObjectTableOrder(Group :: PROPERTY_NAME)));
     while ($group = $group_result_set->next_result())
     {
         //        if (! $user->is_platform_admin())
@@ -159,7 +164,9 @@ if (Authentication :: is_valid())
     }
 
     $udm = UserDataManager :: get_instance();
-    $user_result_set = $udm->retrieve_users($user_condition, null, null, array(new ObjectTableOrder(User :: PROPERTY_LASTNAME), new ObjectTableOrder(User :: PROPERTY_FIRSTNAME)));
+    $user_result_set = $udm->retrieve_users($user_condition, null, null, array(
+            new ObjectTableOrder(User :: PROPERTY_LASTNAME),
+            new ObjectTableOrder(User :: PROPERTY_FIRSTNAME)));
 
     $users = array();
     while ($user = $user_result_set->next_result())
@@ -195,7 +202,8 @@ function dump_tree($users, $groups)
         {
             //            echo '<node id="group" classes="category unlinked" title="Groups">', "\n";
             dump_groups_tree($groups);
-            //            echo '</node>', "\n";
+
+     //            echo '</node>', "\n";
         }
     }
 }
@@ -208,7 +216,7 @@ function dump_groups_tree($groups)
     {
         if (contains_results($group['children']))
         {
-//            echo '<node id="group_' . $group['group']->get_id() . '" classes="type type_group' . ((isset($group_ids) && !in_array($group['group']->get_id(), $group_ids)) ? ' disabled' : '') . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '">', "\n";
+            //            echo '<node id="group_' . $group['group']->get_id() . '" classes="type type_group' . ((isset($group_ids) && !in_array($group['group']->get_id(), $group_ids)) ? ' disabled' : '') . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '">', "\n";
             echo '<node id="group_' . $group['group']->get_id() . '" classes="type type_group" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '">', "\n";
             dump_groups_tree($group['children']);
             echo '</node>', "\n";

@@ -1,4 +1,7 @@
 <?php
+namespace reporting;
+
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\CoreApplication;
 
@@ -26,18 +29,18 @@ $url = Request :: post('url');
 $post_vars = split('&', $url);
 $params_final = array();
 $params_final['category'] = 0;
-foreach($post_vars as $key => $value)
+foreach ($post_vars as $key => $value)
 {
-	$post_var = split('=', $value);
-	$params_final[$post_var[0]] = $post_var[1];
+    $post_var = split('=', $value);
+    $params_final[$post_var[0]] = $post_var[1];
 }
 /*
  * Check whether it's a core application or not, assemble the URL and pass it to the parameters
  */
 if ($params_final['application'] == in_array(CoreApplication :: get_list()))
-	$params_final['url'] = 'core.php?' . $url;
+    $params_final['url'] = 'core.php?' . $url;
 else
-	$params_final['url'] = 'run.php?' . $url;
+    $params_final['url'] = 'run.php?' . $url;
 $rdm = ReportingDataManager :: get_instance();
 $block = $rdm->retrieve_reporting_block($block_id);
 $block->set_displaymode($type);

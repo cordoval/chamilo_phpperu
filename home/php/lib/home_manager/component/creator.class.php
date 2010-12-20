@@ -1,5 +1,7 @@
 <?php
 namespace home;
+
+use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
@@ -14,8 +16,7 @@ use common\libraries\Authentication;
 /**
  * Repository manager component to edit an existing learning object.
  */
-class HomeManagerCreatorComponent extends HomeManager implements
-        AdministrationComponent
+class HomeManagerCreatorComponent extends HomeManager implements AdministrationComponent
 {
 
     /**
@@ -111,8 +112,7 @@ class HomeManagerCreatorComponent extends HomeManager implements
 
     function get_additional_parameters()
     {
-        return array(
-                HomeManager :: PARAM_HOME_TYPE);
+        return array(HomeManager :: PARAM_HOME_TYPE);
     }
 }
 ?>

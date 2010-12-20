@@ -1,5 +1,11 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
+
+use common\libraries\DatetimeUtilities;
+use common\libraries\Translation;
+use common\libraries\PropertiesTable;
+use common\libraries\Utilities;
+
 abstract class VideoConferencingMeetingObjectDisplay
 {
     private $object;
@@ -66,7 +72,7 @@ abstract class VideoConferencingMeetingObjectDisplay
         $properties[Translation :: get('StartDate')] = DatetimeUtilities :: format_locale_date(null, $object->get_start_date());
         $properties[Translation :: get('EndTime')] = DatetimeUtilities :: format_locale_date(null, $object->get_end_time());
         $properties[Translation :: get('EndDate')] = DatetimeUtilities :: format_locale_date(null, $object->get_end_date());
-        
+
         $properties[Translation :: get('Participants')] = $object->get_participants();
 
         return $properties;

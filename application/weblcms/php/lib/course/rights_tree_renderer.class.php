@@ -1,9 +1,12 @@
 <?php
 namespace application\weblcms;
 
-use common\libraries\TreeMenuRenderer;
+use group\Group;
 use group\GroupDataManager;
+
 use HTML_Menu;
+
+use common\libraries\TreeMenuRenderer;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 

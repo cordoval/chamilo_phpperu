@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ObjectTableColumn;
 
 require_once dirname(__FILE__) . '/../../../tables/mentor_rel_location_table/default_mentor_rel_location_table_column_model.class.php';
 
@@ -17,7 +18,8 @@ class oldInternshipOrganizerMentorRelLocationBrowserTableColumnModel extends Def
     function InternshipOrganizerMentorRelLocationBrowserTableColumnModel($browser)
     {
         parent :: __construct();
-        //		$this->add_column(self :: get_modification_column());
+
+     //		$this->add_column(self :: get_modification_column());
     }
 
     static function get_modification_column()

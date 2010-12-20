@@ -31,29 +31,6 @@ class AssessmentBuilder extends ComplexBuilder
         return dirname(__FILE__) . '/component/';
     }
 
-    function parse_input_from_object_browser_table()
-    {
-        if (isset($_POST['action']))
-        {
-            $selected_ids = $_POST[ObjectBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_ADD_SELECTED_QUESTIONS :
-                    $this->set_action(self :: ACTION_SELECT_QUESTIONS);
-                    Request :: set_get(self :: PARAM_QUESTION_ID, $selected_ids);
-                    break;
-            }
-        }
-    }
-
     /**
      * Helper function for the SubManager class,
      * pending access to class constants via variables in PHP 5.3

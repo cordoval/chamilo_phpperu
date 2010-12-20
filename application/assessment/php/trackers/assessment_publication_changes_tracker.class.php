@@ -1,6 +1,7 @@
 <?php
-
 namespace application\assessment;
+
+use common\libraries\Utilities;
 
 use tracking\ChangesTracker;
 

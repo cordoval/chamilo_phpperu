@@ -36,10 +36,10 @@ class WeblcmsSurveyParticipantTracker extends SimpleTracker
 
     function validate_parameters(array $parameters = array())
     {
-        $status = $parameters[SurveyParticipantTracker :: PROPERTY_STATUS];
+        $status = $parameters[self :: PROPERTY_STATUS];
 
-        $this->set_user_id($parameters[SurveyParticipantTracker :: PROPERTY_USER_ID]);
-        $this->set_survey_publication_id($parameters[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID]);
+        $this->set_user_id($parameters[self :: PROPERTY_USER_ID]);
+        $this->set_survey_publication_id($parameters[self :: PROPERTY_SURVEY_PUBLICATION_ID]);
         $this->set_start_time(time());
 
         if ($status)
@@ -48,11 +48,11 @@ class WeblcmsSurveyParticipantTracker extends SimpleTracker
         }
 
         $this->set_date(time());
-        $this->set_progress($parameters[SurveyParticipantTracker :: PROPERTY_PROGRESS]);
-        $this->set_context_id($parameters[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID]);
-        $this->set_context_template_id($parameters[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID]);
-        $this->set_context_name($parameters[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME]);
-        $this->set_parent_id($parameters[SurveyParticipantTracker :: PROPERTY_PARENT_ID]);
+        $this->set_progress($parameters[self :: PROPERTY_PROGRESS]);
+        $this->set_context_id($parameters[self :: PROPERTY_CONTEXT_ID]);
+        $this->set_context_template_id($parameters[self :: PROPERTY_CONTEXT_TEMPLATE_ID]);
+        $this->set_context_name($parameters[self :: PROPERTY_CONTEXT_NAME]);
+        $this->set_parent_id($parameters[self :: PROPERTY_PARENT_ID]);
     }
 
     /**
@@ -61,8 +61,17 @@ class WeblcmsSurveyParticipantTracker extends SimpleTracker
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_USER_ID, self :: PROPERTY_SURVEY_PUBLICATION_ID, self :: PROPERTY_DATE, self :: PROPERTY_PROGRESS, self :: PROPERTY_STATUS, self :: PROPERTY_PARENT_ID, self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_CONTEXT_ID,
-                self :: PROPERTY_CONTEXT_TEMPLATE_ID, self :: PROPERTY_CONTEXT_NAME));
+                self :: PROPERTY_USER_ID,
+                self :: PROPERTY_SURVEY_PUBLICATION_ID,
+                self :: PROPERTY_DATE,
+                self :: PROPERTY_PROGRESS,
+                self :: PROPERTY_STATUS,
+                self :: PROPERTY_PARENT_ID,
+                self :: PROPERTY_START_TIME,
+                self :: PROPERTY_TOTAL_TIME,
+                self :: PROPERTY_CONTEXT_ID,
+                self :: PROPERTY_CONTEXT_TEMPLATE_ID,
+                self :: PROPERTY_CONTEXT_NAME));
     }
 
     function get_user_id()
@@ -203,8 +212,8 @@ class WeblcmsSurveyParticipantTracker extends SimpleTracker
     {
         $succes = parent :: delete();
 
-        $condition = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->get_id());
-        $dummy = new SurveyQuestionAnswerTracker();
+        $condition = new EqualityCondition(WeblcmsSurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->get_id());
+        $dummy = new WeblcmsSurveyQuestionAnswerTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
         foreach ($trackers as $tracker)
         {

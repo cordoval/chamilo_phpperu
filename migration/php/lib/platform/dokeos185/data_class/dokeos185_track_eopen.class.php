@@ -1,6 +1,8 @@
 <?php
 namespace migration;
 
+use common\libraries\Utilities;
+
 /**
  * $Id: dokeos185_track_eopen.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -64,7 +66,12 @@ class Dokeos185TrackEOpen extends Dokeos185MigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_OPEN_ID, self :: PROPERTY_OPEN_REMOTE_HOST, self :: PROPERTY_OPEN_AGENT, self :: PROPERTY_OPEN_REFERER, self :: PROPERTY_OPEN_DATE);
+        return array(
+                self :: PROPERTY_OPEN_ID,
+                self :: PROPERTY_OPEN_REMOTE_HOST,
+                self :: PROPERTY_OPEN_AGENT,
+                self :: PROPERTY_OPEN_REFERER,
+                self :: PROPERTY_OPEN_DATE);
     }
 
     /**
@@ -150,7 +157,8 @@ class Dokeos185TrackEOpen extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
     static function get_class_name()

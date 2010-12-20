@@ -1,6 +1,12 @@
 <?php
 namespace repository;
 
+use repository\content_object\portfolio_item\ComplexPortfolioItem;
+use repository\content_object\learning_path_item\ComplexLearningPathItem;
+
+use common\libraries\Chamilo;
+use common\libraries\ImscpObjectReader;
+use common\libraries\Ceo;
 use common\libraries\Path;
 
 use repository\content_object\learning_path_item\LearningPathItem;
@@ -71,7 +77,11 @@ class CpImportContentObject extends CpObjectImportBase
 
     protected function process_general(ContentObject $object, ImscpObjectReader $item)
     {
-        $properties = array(ContentObject :: PROPERTY_TITLE, ContentObject :: PROPERTY_DESCRIPTION, ContentObject :: PROPERTY_STATE, ContentObject :: PROPERTY_COMMENT);
+        $properties = array(
+                ContentObject :: PROPERTY_TITLE,
+                ContentObject :: PROPERTY_DESCRIPTION,
+                ContentObject :: PROPERTY_STATE,
+                ContentObject :: PROPERTY_COMMENT);
         $children = $item->get_general()->children();
         foreach ($children as $child)
         {

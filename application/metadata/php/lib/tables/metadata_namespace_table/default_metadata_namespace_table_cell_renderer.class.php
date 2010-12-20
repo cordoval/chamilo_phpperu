@@ -1,12 +1,14 @@
 <?php
 namespace application\metadata;
+
+use common\libraries\Theme;
 use common\libraries\ObjectTableCellRenderer;
 
 class DefaultMetadataNamespaceTableCellRenderer extends ObjectTableCellRenderer
 {
     function __construct($browser)
     {
-    
+
     }
 
     /**
@@ -27,14 +29,14 @@ class DefaultMetadataNamespaceTableCellRenderer extends ObjectTableCellRenderer
             case MetadataNamespace :: PROPERTY_NAME:
                 return $namespace->get_name();
         }
-        
+
         $title = $column->get_title();
         if ($title == '')
         {
             $img = Theme :: get_common_image_path() . ('treemenu_types/profile.png');
             return '<img src="' . $img . '"alt="namespace" />';
         }
-        
+
         return '&nbsp;';
     }
 

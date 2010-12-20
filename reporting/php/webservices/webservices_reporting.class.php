@@ -1,21 +1,34 @@
 <?php
 namespace reporting;
 
+use application\weblcms\ContentObjectPublication;
+use application\weblcms\WeblcmsManager;
+use application\weblcms\DatabaseWeblcmsDataManager;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\Course;
+use application\weblcms\CourseUserRelation;
+
+use user\DatabaseUserDataManager;
+use user\UserDataManager;
+use user\User;
+
+use repository\ContentObject;
+
+use common\libraries\Validator;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\InequalityCondition;
-use reporting\ContentObjectPublicationUser;
 use common\libraries\Webservice;
-use application\weblcms\CourseUserRelation;
+
+use reporting\ContentObjectPublicationUser;
 
 /**
  * $Id: webservices_reporting.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.webservices
  * @author Michael Kyndt
  */
-
 
 class WebServicesReporting
 {
@@ -32,17 +45,35 @@ class WebServicesReporting
     {
         $functions = array();
 
-        $functions['get_user_courses'] = array('input' => new User(), 'output' => array(new Course()), 'array_output' => true);
+        $functions['get_user_courses'] = array(
+                'input' => new User(),
+                'output' => array(new Course()),
+                'array_output' => true);
 
-        $functions['get_course_users'] = array('input' => new Course(), 'output' => array(new User()), 'array_output' => true);
+        $functions['get_course_users'] = array(
+                'input' => new Course(),
+                'output' => array(new User()),
+                'array_output' => true);
 
-        $functions['get_new_publications_in_course'] = array('input' => new CourseUserRelation(), 'output' => array(new ContentObject()), 'array_output' => true);
+        $functions['get_new_publications_in_course'] = array(
+                'input' => new CourseUserRelation(),
+                'output' => array(new ContentObject()),
+                'array_output' => true);
 
-        $functions['get_new_publications_in_course_tool'] = array('input' => new ContentObjectPublicationUser(), 'output' => array(new ContentObject()), 'array_output' => true);
+        $functions['get_new_publications_in_course_tool'] = array(
+                'input' => new ContentObjectPublicationUser(),
+                'output' => array(new ContentObject()),
+                'array_output' => true);
 
-        $functions['get_publications_for_user'] = array('input' => new User(), 'output' => array(new ContentObject()), 'array_output' => true);
+        $functions['get_publications_for_user'] = array(
+                'input' => new User(),
+                'output' => array(new ContentObject()),
+                'array_output' => true);
 
-        $functions['get_publications_for_course'] = array('input' => new Course(), 'output' => array(new ContentObject()), 'array_output' => true);
+        $functions['get_publications_for_course'] = array(
+                'input' => new Course(),
+                'output' => array(new ContentObject()),
+                'array_output' => true);
 
         $this->webservice->provide_webservice($functions);
 
@@ -113,7 +144,7 @@ class WebServicesReporting
                 $wdm = DatabaseWeblcmsDataManager :: get_instance();
                 $user = $udm->retrieve_user($input_course[input][CourseUserRelation :: PROPERTY_USER]);
                 $course = $wdm->retrieve_course($input_course[input][CourseUserRelation :: PROPERTY_COURSE]);
-                $weblcms = new Weblcms($user, null);
+                $weblcms = new WeblcmsManager($user, null);
                 $weblcms->set_course($course);
                 $weblcms->load_tools();
                 $conditions[1] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));
@@ -157,7 +188,7 @@ class WebServicesReporting
                 $wdm = WeblcmsDataManager :: get_instance();
                 $user = $udm->retrieve_user($input_course[input][ContentObjectPublicationUser :: PROPERTY_USER_ID]);
                 $course = $wdm->retrieve_course($input_course[input][ContentObjectPublicationUser :: PROPERTY_COURSE_ID]);
-                $weblcms = new Weblcms($user, null);
+                $weblcms = new WeblcmsManager($user, null);
                 $weblcms->set_course($course);
                 $weblcms->load_tools();
                 $conditions[1] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')));

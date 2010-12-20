@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_dropbox_post.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 /**
  * This class presents a Dokeos185 dropbox_post
  *
@@ -13,7 +13,7 @@ namespace migration;
 class Dokeos185DropboxPost extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185DropboxPost properties
      */
@@ -23,7 +23,7 @@ class Dokeos185DropboxPost extends Dokeos185MigrationDataClass
     const PROPERTY_FEEDBACK = 'feedback';
     const PROPERTY_CAT_ID = 'cat_id';
     const PROPERTY_SESSION_ID = 'session_id';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -140,7 +140,7 @@ class Dokeos185DropboxPost extends Dokeos185MigrationDataClass
     /**
      * Check if the dropbox post is valid
      * @param array $array the parameters for the validation
-     * @return true if the dropbox post is valid 
+     * @return true if the dropbox post is valid
      */
     function is_valid()
     {
@@ -177,11 +177,11 @@ class Dokeos185DropboxPost extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = $parameters['course']->get_db_name();
         $tablename = 'dropbox_post';
         $classname = 'Dokeos185DropboxPost';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

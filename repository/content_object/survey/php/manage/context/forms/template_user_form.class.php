@@ -1,5 +1,7 @@
-<?php 
+<?php
 namespace repository\content_object\survey;
+
+use group\GroupDataManager;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
@@ -64,8 +66,10 @@ class SurveyTemplateUserForm extends FormValidator
         $this->addElement('html', '<div style="clear: both;"></div>');
         $this->addElement('html', '</div>');
 
-        $buttons[] = $this->createElement('style_submit_button', 'create', Translation :: get($action_name), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'create', Translation :: get($action_name), array(
+                'class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array(
+                'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/survey_template_user_registration_form.js'));
@@ -80,10 +84,10 @@ class SurveyTemplateUserForm extends FormValidator
         $attributes = array();
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/xml_feeds/xml_user_group_feed.php';
         $locale = array();
-        $locale['Display'] = Translation :: get('ShareWith', null, Utilities::COMMON_LIBRARIES);
-        $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
-        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
-        $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
+        $locale['Display'] = Translation :: get('ShareWith', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
         $attributes['options'] = array('load_elements' => false);
@@ -98,14 +102,15 @@ class SurveyTemplateUserForm extends FormValidator
             $labels = explode('_', $property_name);
             $label = $labels[0] . ' ' . $labels[1];
             $url = Path :: get_repository_content_object_path(true) . 'survey/php/xml_feeds/xml_context_feed.php?context_type=' . $type;
-		            
+
             $locale = array();
             $locale['Display'] = Translation :: get('Choose');
-            $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
-            $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
-            $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
+            $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+            $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+            $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
 
-            $elem = $this->addElement('element_finder', self :: PARAM_TARGET_LEVEL . '_' . $labels[1], $label, $url, $locale, array(), array('load_elements' => true));
+            $elem = $this->addElement('element_finder', self :: PARAM_TARGET_LEVEL . '_' . $labels[1], $label, $url, $locale, array(), array(
+                    'load_elements' => true));
             $defaults = array();
             $elem->setDefaults($defaults);
             $elem->setDefaultCollapsed(false);
@@ -120,15 +125,15 @@ class SurveyTemplateUserForm extends FormValidator
     function build_editing_form()
     {
 
-//        $survey_template_user = $this->survey_template_user;
-//        $property_names = $survey_template_user->get_additional_property_names();
-//
-//        foreach ($property_names as $property_name)
-//        {
-//            $this->add_textfield($property_name, $property_name, true);
-//        }
-//        $this->addElement('hidden', SurveyTemplate :: PROPERTY_ID);
-//        $this->build_footer('Update');
+     //        $survey_template_user = $this->survey_template_user;
+    //        $property_names = $survey_template_user->get_additional_property_names();
+    //
+    //        foreach ($property_names as $property_name)
+    //        {
+    //            $this->add_textfield($property_name, $property_name, true);
+    //        }
+    //        $this->addElement('hidden', SurveyTemplate :: PROPERTY_ID);
+    //        $this->build_footer('Update');
     }
 
     function create_survey_template_user()
@@ -234,18 +239,18 @@ class SurveyTemplateUserForm extends FormValidator
         {
             foreach ($property_values as $values)
             {
-               	$survey_template_user = $this->survey_template_user;
+                $survey_template_user = $this->survey_template_user;
                 $survey_template_user->set_user_id($user_id);
                 foreach ($property_names as $property_name)
                 {
                     $split = explode('_', $property_name);
                     $level = $split[1];
                     $value = $values[$level];
-                   	$survey_template_user->set_additional_property($property_name, $value);
+                    $survey_template_user->set_additional_property($property_name, $value);
 
                 }
                 $result = $survey_template_user->create();
-             }
+            }
         }
 
         return $result;

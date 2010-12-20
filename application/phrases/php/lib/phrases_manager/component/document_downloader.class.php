@@ -1,14 +1,20 @@
 <?php
 namespace application\phrases;
 
+use common\libraries\Filecompression;
+use common\libraries\Filesystem;
+use common\libraries\AndCondition;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
-use repository\RepositoryDataManager;
-use repository\OpenQuestion;
 use common\libraries\Path;
+
+use repository\content_object\document\Document;
+use repository\ComplexContentObjectItem;
+use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
+use repository\RepositoryDataManager;
 
 /**
  * @author Hans De Bisschop
@@ -86,7 +92,7 @@ class PhrasesManagerDocumentDownloaderComponent extends PhrasesManager
             $question = RepositoryDataManager :: get_instance()->retrieve_content_object($clo_question->get_ref());
             if ($question->get_type() == 'open_question')
             {
-                if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT || $question->get_question_type() == OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT)
+                if ($question->get_question_type() == AssessmentOpenQuestion :: TYPE_DOCUMENT || $question->get_question_type() == AssessmentOpenQuestion :: TYPE_OPEN_WITH_DOCUMENT)
                 {
                     $c_questions[] = $clo_question;
                     $questions[] = $question;
@@ -104,7 +110,7 @@ class PhrasesManagerDocumentDownloaderComponent extends PhrasesManager
             $user_questions = $track->retrieve_tracker_items($condition);
             //print_r($condition);
             //dump($user_questions);
-            if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT)
+            if ($question->get_question_type() == AssessmentOpenQuestion :: TYPE_DOCUMENT)
             {
                 $user_question = $user_questions[0];
             }
@@ -126,9 +132,8 @@ class PhrasesManagerDocumentDownloaderComponent extends PhrasesManager
 
     function redirect_to_previous($type, $id)
     {
-        $params = array(Tool :: PARAM_ACTION => PhrasesTool :: ACTION_VIEW_RESULTS,
-                $type => $id);
-        $this->redirect(Translation :: get('NoDocumentsForPhrases'), false, $params);
+//        $params = array(Tool :: PARAM_ACTION => PhrasesTool :: ACTION_VIEW_RESULTS, $type => $id);
+//        $this->redirect(Translation :: get('NoDocumentsForPhrases'), false, $params);
     }
 
     function send_files($filenames, $phrases_id)

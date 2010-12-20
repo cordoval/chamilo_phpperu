@@ -1,5 +1,7 @@
 <?php
 namespace menu;
+
+use common\libraries\Display;
 use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\Translation;
@@ -129,7 +131,7 @@ class MenuManager extends CoreApplication
     {
         return self :: DEFAULT_ACTION;
     }
-    
+
     function get_menu()
     {
         if (! isset($this->menu))
@@ -146,7 +148,7 @@ class MenuManager extends CoreApplication
     {
         return $this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_BROWSE));
     }
-    
+
     function check_allowed()
     {
     	if (! $this->get_user()->is_platform_admin())
@@ -157,7 +159,7 @@ class MenuManager extends CoreApplication
             exit();
         }
     }
-    
+
     function display_form($form)
     {
     	$this->display_header();

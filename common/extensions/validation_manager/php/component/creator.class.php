@@ -10,27 +10,41 @@ namespace common\extensions\validation_manager;
  *
  * @author Pieter Hens
  */
+
+use admin\Validation;
+
+use application\portfolio\PortfolioManager;
+
+use common\libraries\Application;
+use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\Display;
+use common\libraries\Request;
+use common\libraries\BreadcrumbTrail;
+
 class ValidationManagerCreatorComponent extends ValidationManagerComponent
 {
 
-	function run()
+    function run()
     {
-    	$html = $this->as_html();
-    	
-    	$this->display_header(BreadcrumbTrail :: get_instance());
-    	echo $html;
-    	$this->display_footer();
+        $html = $this->as_html();
+
+        $this->display_header(BreadcrumbTrail :: get_instance());
+        echo $html;
+        $this->display_footer();
     }
-    
+
     function as_html()
     {
-        
+
         $pid = Request :: get('pid');
         $user_id = Request :: get('user_id');
         $cid = Request :: get('cid');
         $action = Request :: get('action');
         $application = $this->get_parent()->get_application();
-        
+
         if (! $this->get_user())
         {
             $this->display_header($this->get_breadcrumb_trail());
@@ -38,7 +52,7 @@ class ValidationManagerCreatorComponent extends ValidationManagerComponent
             $this->display_footer();
             exit();
         }
-        
+
         $id = $this->get_user()->get_id();
         $conditions = array();
         $conditions[] = new EqualityCondition(Validation :: PROPERTY_PID, $pid);
@@ -57,27 +71,27 @@ class ValidationManagerCreatorComponent extends ValidationManagerComponent
             $val->set_validated(1);
             $today = date('Y-m-d G:i:s');
             $now = time();
-            
+
             $val->set_validated($now);
-            
+
             if ($val->create($val))
             {
-                
+
                 $message = 'ValidationCreated';
                 $succes = true;
             }
-            
+
             else
             {
                 $message = 'ValidationNotCreated';
                 $succes = false;
             }
-        
+
         }
-        
+
         else
         {
-            
+
             $val = $this->retrieve_validations($condition)->next_result();
             $val->set_validated(time());
             if ($val->update())
@@ -90,10 +104,15 @@ class ValidationManagerCreatorComponent extends ValidationManagerComponent
                 $message = 'ValidationNotUpdated';
                 $succes = true;
             }
-        
+
         }
-        $this->redirect(Translation :: get($message), succes ? false : true, array(Application :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, 'pid' => $pid, 'cid' => $cid, 'user_id' => $user_id, 'action' => $action));
-    
+        $this->redirect(Translation :: get($message), succes ? false : true, array(
+                Application :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO,
+                'pid' => $pid,
+                'cid' => $cid,
+                'user_id' => $user_id,
+                'action' => $action));
+
     }
 }
 ?>

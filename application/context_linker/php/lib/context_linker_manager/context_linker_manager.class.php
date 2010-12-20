@@ -1,5 +1,7 @@
 <?php
 namespace application\context_linker;
+
+use common\libraries\ObjectTable;
 use common\libraries\WebApplication;
 use common\libraries\ArrayResultSet;
 
@@ -9,8 +11,8 @@ use common\libraries\ArrayResultSet;
  * @author Sven Vanpoucke
  * @author Jens Vanderheyden
  */
- class ContextLinkerManager extends WebApplication
- {
+class ContextLinkerManager extends WebApplication
+{
     const APPLICATION_NAME = 'context_linker';
 
     const ARRAY_TYPE_FLAT = '1';
@@ -47,103 +49,110 @@ use common\libraries\ArrayResultSet;
     const PROPERTY_ORIG_ID = 'orig_id';
     const PROPERTY_ORIG_TYPE = 'orig_type';
     const PROPERTY_ORIG_TITLE = 'orig_title';
-    
+
     /**
      * Constructor
      * @param User $user The current user
      */
     function __construct($user = null)
     {
-    	parent :: __construct($user);
-    	$this->parse_input_from_table();
+        parent :: __construct($user);
+        $this->parse_input_from_table();
     }
 
     private function parse_input_from_table()
     {
-        if (isset ($_POST['action']))
+        if (isset($_POST['action']))
         {
             switch ($_POST['action'])
             {
                 case self :: PARAM_DELETE_SELECTED_CONTEXT_LINKS :
 
-                        $selected_ids = $_POST[ContextLinkBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+                    $selected_ids = $_POST[ContextLinkBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 
-                        if (empty ($selected_ids))
-                        {
-                                $selected_ids = array ();
-                        }
-                        elseif (!is_array($selected_ids))
-                        {
-                                $selected_ids = array ($selected_ids);
-                        }
+                    if (empty($selected_ids))
+                    {
+                        $selected_ids = array();
+                    }
+                    elseif (! is_array($selected_ids))
+                    {
+                        $selected_ids = array($selected_ids);
+                    }
 
-                        $this->set_action(self :: ACTION_DELETE_CONTEXT_LINK);
-                        $_GET[self :: PARAM_CONTEXT_LINK] = $selected_ids;
-                        break;
+                    $this->set_action(self :: ACTION_DELETE_CONTEXT_LINK);
+                    $_GET[self :: PARAM_CONTEXT_LINK] = $selected_ids;
+                    break;
             }
         }
     }
 
     function get_application_name()
     {
-            return self :: APPLICATION_NAME;
+        return self :: APPLICATION_NAME;
     }
 
-    function get_default_action() {
+    function get_default_action()
+    {
         return self :: DEFAULT_ACTION;
 
     }
 
     // Data Retrieving
 
+
     function count_context_links($condition)
     {
-            return ContextLinkerDataManager :: get_instance()->count_context_links($condition);
+        return ContextLinkerDataManager :: get_instance()->count_context_links($condition);
     }
 
     function retrieve_context_links($condition = null, $offset = null, $count = null, $order_property = null)
     {
-            return ContextLinkerDataManager :: get_instance()->retrieve_context_links($condition, $offset, $count, $order_property);
+        return ContextLinkerDataManager :: get_instance()->retrieve_context_links($condition, $offset, $count, $order_property);
     }
 
     function retrieve_full_context_links($condition = null, $offset = null, $count = null, $order_property = null, $array_type = self :: ARRAY_TYPE_FLAT)
     {
         //return ContextLinkerDataManager :: get_instance()->retrieve_full_context_links_recursive($condition, $offset, $count, $order_property, array(), $array_type);
-        return new ArrayResultSet(ContextLinkerDataManager :: get_instance()->retrieve_full_context_links_recursive($condition, $offset, $count, $order_property,  $array_type));
+        return new ArrayResultSet(ContextLinkerDataManager :: get_instance()->retrieve_full_context_links_recursive($condition, $offset, $count, $order_property, $array_type));
     }
 
     function retrieve_context_link($id)
     {
-            return ContextLinkerDataManager :: get_instance()->retrieve_context_link($id);
+        return ContextLinkerDataManager :: get_instance()->retrieve_context_link($id);
     }
 
     // Url Creation
 
+
     function get_create_context_link_url()
     {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTEXT_LINK));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTEXT_LINK));
     }
 
     function get_update_context_link_url($context_link)
     {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTEXT_LINK,
-                                                                self :: PARAM_CONTEXT_LINK => $context_link[ContextLink:: PROPERTY_ID]));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_CONTEXT_LINK,
+                self :: PARAM_CONTEXT_LINK => $context_link[ContextLink :: PROPERTY_ID]));
     }
 
     function get_delete_context_link_url($context_link)
     {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_CONTEXT_LINK,
-                                                                self :: PARAM_CONTEXT_LINK => $context_link[ContextLink:: PROPERTY_ID]));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_CONTEXT_LINK,
+                self :: PARAM_CONTEXT_LINK => $context_link[ContextLink :: PROPERTY_ID]));
     }
 
     function get_browse_context_links_url($content_object)
     {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_LINKS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_LINKS,
+                self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     function get_browse_url()
     {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
     }
 }
 ?>

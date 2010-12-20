@@ -1,5 +1,7 @@
 <?php
 namespace home;
+
+use common\libraries\Utilities;
 use common\libraries\Translation;
 /**
  * $Id: introduction_build_wizard_page.class.php 141 2009-11-10 07:44:45Z kariboe $
@@ -37,7 +39,7 @@ class IntroductionBuildWizardPage extends BuildWizardPage
     function buildForm()
     {
         $this->addElement('static', '', '', $this->message);
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES) . ' >>');
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;

@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;

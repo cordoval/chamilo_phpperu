@@ -1,7 +1,9 @@
 <?php
-
 namespace application\gradebook;
 
+use common\libraries\Utilities;
+use common\libraries\Application;
+use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Display;
@@ -13,18 +15,18 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
     {
         $active = Request :: get(GradebookManager :: PARAM_ACTIVE);
 
-        if (!$this->get_user()->is_platform_admin())
+        if (! $this->get_user()->is_platform_admin())
         {
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('course_type_active_changer');
             $this->display_header($trail);
-            Display :: error_message(Translation :: get("NotAllowed", null, Utilities::COMMON_LIBRARIES));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
 
         $evaluation_format_id = Request :: get(GradebookManager :: PARAM_EVALUATION_FORMAT_ID);
-        if (!is_array($evaluation_format_id))
+        if (! is_array($evaluation_format_id))
         {
             $evaluation_format_id = array($evaluation_format_id);
         }
@@ -36,7 +38,7 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
             foreach ($evaluation_format_id as $id)
             {
                 $evaluation_format = $this->retrieve_evaluation_format($id);
-                if (!isset($active))
+                if (! isset($active))
                 {
                     if ($evaluation_format->get_active() == 1)
                         $active = 0;
@@ -45,9 +47,9 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
                 }
 
                 $evaluation_format->set_active($active);
-                if (!$evaluation_format->update())
+                if (! $evaluation_format->update())
                 {
-                    $failures++;
+                    $failures ++;
                 }
             }
 
@@ -56,11 +58,12 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
             else
                 $message = $this->get_result($failures, count($evaluation_format_id), 'EvaluationFormatNotActivated', 'EvaluationFormatsNotActivated', 'EvaluationFormatActivated', 'EvaluationFormatsActivated');
 
-            $this->redirect($message, ($failures > 0), array(Application :: PARAM_ACTION => GradebookManager:: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS));
+            $this->redirect($message, ($failures > 0), array(
+                    Application :: PARAM_ACTION => GradebookManager :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities::COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
 

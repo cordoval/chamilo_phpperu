@@ -1,13 +1,16 @@
 <?php
 namespace application\weblcms\tool\course_sections;
 
+use application\weblcms\CourseSection;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
+
 use common\libraries\Theme;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+
 use HTML_Table;
 
 /**
@@ -117,7 +120,9 @@ class CourseSectionsToolChangeSectionComponent extends CourseSectionsTool
                 // Show visibility-icon
                 if ($is_course_admin && $section->get_name() != 'course_admin')
                 {
-                    $html[] = '<a href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => $lcms_action, WeblcmsManager :: PARAM_TOOL => $tool->name)) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
+                    $html[] = '<a href="' . $parent->get_url(array(
+                            WeblcmsManager :: PARAM_COMPONENT_ACTION => $lcms_action,
+                            WeblcmsManager :: PARAM_TOOL => $tool->name)) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
                     $html[] = '&nbsp;&nbsp;&nbsp;';
                 }
 
@@ -126,7 +131,9 @@ class CourseSectionsToolChangeSectionComponent extends CourseSectionsTool
 
                 $html[] = '<img ' . $id . ' src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
                 $html[] = '&nbsp;';
-                $html[] = '<a href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $tool->name), true) . '" ' . $link_class . '>';
+                $html[] = '<a href="' . $parent->get_url(array(
+                        WeblcmsManager :: PARAM_COMPONENT_ACTION => null,
+                        WeblcmsManager :: PARAM_TOOL => $tool->name), true) . '" ' . $link_class . '>';
                 $html[] = $title;
                 $html[] = '</a>';
                 if ($section->get_type() == CourseSection :: TYPE_TOOL)

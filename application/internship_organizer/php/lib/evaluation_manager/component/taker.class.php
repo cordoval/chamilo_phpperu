@@ -11,26 +11,25 @@ require_once Path :: get_repository_content_object_path() . 'survey/php/display/
 
 class InternshipOrganizerEvaluationManagerTakerComponent extends InternshipOrganizerEvaluationManager
 {
-    
+
     private $survey_id;
     private $publication_id;
     private $invitee_id;
 
     function run()
     {
-        
-        $this->survey_id = Request :: get(SurveyViewerWizard :: PARAM_SURVEY_ID);
-        
-        $this->publication_id = Request :: get(self :: PARAM_PUBLICATION_ID);
-        
-        $this->invitee_id = Request :: get(SurveyViewerWizard :: PARAM_INVITEE_ID);
-        
-        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PARTICIPATE, $this->publication_id, InternshipOrganizerRights :: TYPE_PUBLICATION))
-        {
-            Display :: not_allowed();
-        }
-        
-        ComplexDisplay :: launch(Survey :: get_type_name(), $this, false);
+        //        $this->survey_id = Request :: get(SurveyViewerWizard :: PARAM_SURVEY_ID);
+    //
+    //        $this->publication_id = Request :: get(self :: PARAM_PUBLICATION_ID);
+    //
+    //        $this->invitee_id = Request :: get(SurveyViewerWizard :: PARAM_INVITEE_ID);
+    //
+    //        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PARTICIPATE, $this->publication_id, InternshipOrganizerRights :: TYPE_PUBLICATION))
+    //        {
+    //            Display :: not_allowed();
+    //        }
+    //
+    //        ComplexDisplay :: launch(Survey :: get_type_name(), $this, false);
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
@@ -40,30 +39,36 @@ class InternshipOrganizerEvaluationManagerTakerComponent extends InternshipOrgan
 
     function get_additional_parameters()
     {
-        return array(self :: PARAM_PUBLICATION_ID, SurveyViewerWizard :: PARAM_SURVEY_ID, SurveyViewerWizard :: PARAM_INVITEE_ID, SurveyViewerWizard :: PARAM_CONTEXT_PATH);
+        //        return array(
+    //                self :: PARAM_PUBLICATION_ID,
+    //                SurveyViewerWizard :: PARAM_SURVEY_ID,
+    //                SurveyViewerWizard :: PARAM_INVITEE_ID,
+    //                SurveyViewerWizard :: PARAM_CONTEXT_PATH);
     }
 
     //try out for interface SurveyTaker
-    
+
 
     function started()
     {
-    
+
     }
 
     function finish()
     {
-    
+
     }
 
     function save_answer($question_id, $answer, $context_path)
     {
-//      dump($context_path);
-    
+        //      dump($context_path);
+
+
     }
-	
-    function retrieve_answer($question_id, $context_path){
-    	
+
+    function retrieve_answer($question_id, $context_path)
+    {
+
     }
 }
 

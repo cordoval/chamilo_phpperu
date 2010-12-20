@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\forum_topic;
 
+use common\libraries\Utilities;
+
 use common\libraries\Translation;
 use common\libraries\Path;
 

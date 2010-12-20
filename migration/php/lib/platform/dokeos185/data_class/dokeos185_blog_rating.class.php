@@ -5,7 +5,7 @@ namespace migration;
  * $Id: dokeos185_blog_rating.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 /**
  * This class presents a Dokeos185 blog_rating
  *
@@ -14,7 +14,7 @@ namespace migration;
 class Dokeos185BlogRating extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185BlogRating properties
      */
@@ -24,7 +24,7 @@ class Dokeos185BlogRating extends Dokeos185MigrationDataClass
     const PROPERTY_ITEM_ID = 'item_id';
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_RATING = 'rating';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -63,7 +63,13 @@ class Dokeos185BlogRating extends Dokeos185MigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_RATING_ID, self :: PROPERTY_BLOG_ID, self :: PROPERTY_RATING_TYPE, self :: PROPERTY_ITEM_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_RATING);
+        return array(
+                self :: PROPERTY_RATING_ID,
+                self :: PROPERTY_BLOG_ID,
+                self :: PROPERTY_RATING_TYPE,
+                self :: PROPERTY_ITEM_ID,
+                self :: PROPERTY_USER_ID,
+                self :: PROPERTY_RATING);
     }
 
     /**
@@ -160,11 +166,13 @@ class Dokeos185BlogRating extends Dokeos185MigrationDataClass
         throw new Exception("Unimplemented method migration/php/lib/platform/dokeos185/data_class/dokeos185_blog_rating.class.php#get_database_name");
     }
 
-    public static function get_table_name() {
+    public static function get_table_name()
+    {
         throw new Exception("Unimplemented method migration/php/lib/platform/dokeos185/data_class/dokeos185_blog_rating.class.php#get_table_name");
     }
 
-    public static function get_class_name() {
+    public static function get_class_name()
+    {
         throw new Exception("Unimplemented method migration/php/lib/platform/dokeos185/data_class/dokeos185_blog_rating.class.php#get_class_name");
     }
 
@@ -175,11 +183,11 @@ class Dokeos185BlogRating extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = $parameters['course']->get_db_name();
         $tablename = 'blog_rating';
         $classname = 'Dokeos185BlogRating';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

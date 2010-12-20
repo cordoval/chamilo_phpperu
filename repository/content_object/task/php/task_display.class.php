@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\task;
 
+use common\libraries\Utilities;
+
 use common\libraries\Translation;
 use common\libraries\DatetimeUtilities;
 
@@ -17,6 +19,7 @@ use repository\ContentObjectDisplay;
  */
 class TaskDisplay extends ContentObjectDisplay
 {
+
     function get_description()
     {
         $description = parent :: get_description();

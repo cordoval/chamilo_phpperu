@@ -14,6 +14,8 @@ use common\libraries\AndCondition;
 use common\libraries\InCondition;
 use repository\content_object\survey_page\SurveyPage;
 
+use Exception;
+
 require_once (dirname(__FILE__) . '/../survey_context_template.class.php');
 require_once (dirname(__FILE__) . '/../survey_template_user.class.php');
 require_once (dirname(__FILE__) . '/../survey_context_registration.class.php');

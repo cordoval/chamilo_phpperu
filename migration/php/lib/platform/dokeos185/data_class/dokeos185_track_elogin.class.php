@@ -1,6 +1,8 @@
 <?php
 namespace migration;
+
 use user\LoginLogoutTracker;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
@@ -66,7 +68,12 @@ class Dokeos185TrackELogin extends Dokeos185MigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_LOGIN_ID, self :: PROPERTY_LOGIN_USER_ID, self :: PROPERTY_LOGIN_DATE, self :: PROPERTY_LOGIN_IP, self :: PROPERTY_LOGOUT_DATE);
+        return array(
+                self :: PROPERTY_LOGIN_ID,
+                self :: PROPERTY_LOGIN_USER_ID,
+                self :: PROPERTY_LOGIN_DATE,
+                self :: PROPERTY_LOGIN_IP,
+                self :: PROPERTY_LOGOUT_DATE);
     }
 
     /**
@@ -139,7 +146,7 @@ class Dokeos185TrackELogin extends Dokeos185MigrationDataClass
     function is_valid()
     {
 
-        if (!$this->get_login_user_id() || !$this->get_login_date() || !$this->get_login_ip() || !$this->get_id_reference($this->get_login_user_id(), 'main_database.user'))
+        if (! $this->get_login_user_id() || ! $this->get_login_date() || ! $this->get_login_ip() || ! $this->get_id_reference($this->get_login_user_id(), 'main_database.user'))
         {
             $this->create_failed_element($this->get_id());
             return false;
@@ -177,7 +184,8 @@ class Dokeos185TrackELogin extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
     static function get_class_name()

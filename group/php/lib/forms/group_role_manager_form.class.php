@@ -1,5 +1,9 @@
 <?php
 namespace group;
+
+use rights\RightsDataManager;
+use rights\RightsUtilities;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -22,10 +26,10 @@ class GroupRightsTemplateManagerForm extends FormValidator
     function __construct($group, $form_group, $action)
     {
         parent :: __construct('group_rights_template_manager_form', 'post', $action);
-        
+
         $this->group = $group;
         $this->form_group = $form_group;
-        
+
         $this->build_basic_form();
     }
 
@@ -36,32 +40,38 @@ class GroupRightsTemplateManagerForm extends FormValidator
     {
         // RightsTemplates element finder
         $group = $this->group;
-        
+
         $linked_rights_templates = $group->get_rights_templates();
         $group_rights_templates = RightsUtilities :: rights_templates_for_element_finder($linked_rights_templates);
-        
+
         $rights_templates = RightsDataManager :: get_instance()->retrieve_rights_templates();
         while ($rights_template = $rights_templates->next_result())
         {
-            $defaults[$rights_template->get_id()] = array('title' => $rights_template->get_name(), 'description', $rights_template->get_description(), 'class' => 'rights_template');
+            $defaults[$rights_template->get_id()] = array(
+                    'title' => $rights_template->get_name(),
+                    'description',
+                    $rights_template->get_description(),
+                    'class' => 'rights_template');
         }
-        
+
         $url = Path :: get(WEB_PATH) . 'rights/xml_feeds/xml_rights_template_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddRightsTemplates');
-        $locale['Searching'] = Translation :: get('Searching', null , Utilities :: COMMON_LIBRARIES);
-        $locale['NoResults'] = Translation :: get('NoResults', null , Utilities :: COMMON_LIBRARIES);
-        $locale['Error'] = Translation :: get('Error', null , Utilities :: COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $hidden = true;
-        
+
         $elem = $this->addElement('element_finder', 'rights_templates', null, $url, $locale, $group_rights_templates);
         $elem->setDefaults($defaults);
-        
+
         // Submit button
         //$this->addElement('submit', 'group_settings', 'OK');
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
-        
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 

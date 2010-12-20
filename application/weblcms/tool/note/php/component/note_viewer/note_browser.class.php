@@ -1,6 +1,18 @@
 <?php
 namespace application\weblcms\tool\note;
 
+use application\weblcms\ContentObjectPublicationCourseGroup;
+use application\weblcms\ContentObjectPublicationUser;
+use application\weblcms\ListContentObjectPublicationListRenderer;
+use application\weblcms\ContentObjectPublicationBrowser;
+use application\weblcms\CourseGroup;
+use application\weblcms\ContentObjectPublication;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\Tool;
+use application\weblcms\ContentObjectPublicationDetailsRenderer;
+use application\weblcms\ContentObjectPublicationListRenderer;
+
 use common\libraries\SubselectCondition;
 use common\libraries\OrCondition;
 use common\libraries\InCondition;
@@ -12,14 +24,8 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Utilities;
-use application\weblcms\ContentObjectPublicationBrowser;
-use application\weblcms\CourseGroup;
-use application\weblcms\ContentObjectPublication;
-use application\weblcms\WeblcmsDataManager;
-use application\weblcms\WeblcmsRights;
-use application\weblcms\Tool;
-use application\weblcms\ContentObjectPublicationDetailsRenderer;
-use application\weblcms\ContentObjectPublicationListRenderer;
+
+use repository\content_object\note\Note;
 use repository\RepositoryDataManager;
 use repository\ContentObject;
 

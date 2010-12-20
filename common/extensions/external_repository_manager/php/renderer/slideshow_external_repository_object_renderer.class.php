@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager;
 
+use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Toolbar;
@@ -41,19 +42,23 @@ class SlideshowExternalRepositoryObjectRenderer extends ExternalRepositoryObject
         if (Request :: get(self :: SLIDESHOW_AUTOPLAY))
         {
             $play_toolbar->add_item(new ToolbarItem(Translation :: get('Stop'), Theme :: get_common_image_path() . 'action_stop.png', $this->get_url(array(
-                    self :: SLIDESHOW_INDEX => Request :: get(self :: SLIDESHOW_INDEX), self :: SLIDESHOW_AUTOPLAY => null)), ToolbarItem :: DISPLAY_ICON));
+                    self :: SLIDESHOW_INDEX => Request :: get(self :: SLIDESHOW_INDEX),
+                    self :: SLIDESHOW_AUTOPLAY => null)), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
             $play_toolbar->add_item(new ToolbarItem(Translation :: get('Play'), Theme :: get_common_image_path() . 'action_play.png', $this->get_url(array(
-                    self :: SLIDESHOW_INDEX => Request :: get(self :: SLIDESHOW_INDEX), self :: SLIDESHOW_AUTOPLAY => 1)), ToolbarItem :: DISPLAY_ICON));
+                    self :: SLIDESHOW_INDEX => Request :: get(self :: SLIDESHOW_INDEX),
+                    self :: SLIDESHOW_AUTOPLAY => 1)), ToolbarItem :: DISPLAY_ICON));
         }
 
         $navigation_toolbar = new Toolbar();
         if (! $first)
         {
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('First'), Theme :: get_common_image_path() . 'action_first.png', $this->get_url(array(self :: SLIDESHOW_INDEX => 0)), ToolbarItem :: DISPLAY_ICON));
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Previous'), Theme :: get_common_image_path() . 'action_prev.png', $this->get_url(array(self :: SLIDESHOW_INDEX => $slideshow_index - 1)), ToolbarItem :: DISPLAY_ICON));
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('First'), Theme :: get_common_image_path() . 'action_first.png', $this->get_url(array(
+                    self :: SLIDESHOW_INDEX => 0)), ToolbarItem :: DISPLAY_ICON));
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Previous'), Theme :: get_common_image_path() . 'action_prev.png', $this->get_url(array(
+                    self :: SLIDESHOW_INDEX => $slideshow_index - 1)), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
@@ -63,8 +68,10 @@ class SlideshowExternalRepositoryObjectRenderer extends ExternalRepositoryObject
 
         if (! $last)
         {
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Next'), Theme :: get_common_image_path() . 'action_next.png', $this->get_url(array(self :: SLIDESHOW_INDEX => $slideshow_index + 1)), ToolbarItem :: DISPLAY_ICON));
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Last'), Theme :: get_common_image_path() . 'action_last.png', $this->get_url(array(self :: SLIDESHOW_INDEX => $publication_count - 1)), ToolbarItem :: DISPLAY_ICON));
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Next'), Theme :: get_common_image_path() . 'action_next.png', $this->get_url(array(
+                    self :: SLIDESHOW_INDEX => $slideshow_index + 1)), ToolbarItem :: DISPLAY_ICON));
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Last'), Theme :: get_common_image_path() . 'action_last.png', $this->get_url(array(
+                    self :: SLIDESHOW_INDEX => $publication_count - 1)), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
@@ -89,17 +96,19 @@ class SlideshowExternalRepositoryObjectRenderer extends ExternalRepositoryObject
         $table[] = '<tr><td colspan="3" style="background-color: #f9f9f9; text-align: center;">';
         $table[] = ExternalRepositoryObjectDisplay :: factory($external_repository_object)->get_preview();
         $table[] = '</td></tr>';
-        
+
         $table[] = '</tbody>';
         $table[] = '</table>';
-        
+
         $table[] = ExternalRepositoryObjectDisplay :: factory($external_repository_object)->get_properties_table();
 
         if (Request :: get(self :: SLIDESHOW_AUTOPLAY))
         {
             if (! $last)
             {
-                $autoplay_url = $this->get_url(array(self :: SLIDESHOW_AUTOPLAY => 1, self :: SLIDESHOW_INDEX => $slideshow_index + 1));
+                $autoplay_url = $this->get_url(array(
+                        self :: SLIDESHOW_AUTOPLAY => 1,
+                        self :: SLIDESHOW_INDEX => $slideshow_index + 1));
             }
             else
             {

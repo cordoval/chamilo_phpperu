@@ -21,7 +21,7 @@ class ComplexDisplayComponentFeedbackEditComponent extends ComplexDisplayCompone
         if ($this->is_allowed(EDIT_RIGHT))
         {
             $cid = Request :: get('selected_cloi') ? Request :: get('selected_cloi') : $_POST['selected_cloi'];
-            $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];
+            //$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];
             $fid = Request :: get(ContentObjectPubFeedback :: PROPERTY_FEEDBACK_ID) ? Request :: get(ContentObjectPubFeedback :: PROPERTY_FEEDBACK_ID) : $_POST[ContentObjectPubFeedback :: PROPERTY_FEEDBACK_ID];
 
             $datamanager = RepositoryDataManager :: get_instance();
@@ -30,7 +30,12 @@ class ComplexDisplayComponentFeedbackEditComponent extends ComplexDisplayCompone
             while ($feedback = $feedbacks->next_result())
             {
                 $feedback_display = $datamanager->retrieve_content_object($feedback->get_feedback_id());
-                $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $feedback_display, 'edit', 'post', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_EDIT_FEEDBACK, ContentObjectPubFeedback :: PROPERTY_FEEDBACK_ID => $fid, 'selected_cloi' => $cid, Tool :: PARAM_PUBLICATION_ID => $pid, 'details' => Request :: get('details'))));
+                $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $feedback_display, 'edit', 'post', $this->get_url(array(
+                        ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_EDIT_FEEDBACK,
+                        ContentObjectPubFeedback :: PROPERTY_FEEDBACK_ID => $fid,
+                        'selected_cloi' => $cid,
+                        //Tool :: PARAM_PUBLICATION_ID => $pid,
+                        'details' => Request :: get('details'))));
 
                 if ($form->validate() || Request :: get('validated'))
                 {
@@ -41,7 +46,8 @@ class ComplexDisplayComponentFeedbackEditComponent extends ComplexDisplayCompone
                         $feedback_display->update();
                     }*/
                     $feedback_display->update();
-                    $message = htmlentities(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObjectFeedback')), Utilities :: COMMON_LIBRARIES));
+                    $message = htmlentities(Translation :: get('ObjectUpdated', array(
+                            'OBJECT' => Translation :: get('ContentObjectFeedback')), Utilities :: COMMON_LIBRARIES));
 
                     $params = array();
                     if (Request :: get('pid') != null)

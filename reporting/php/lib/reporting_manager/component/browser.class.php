@@ -1,6 +1,8 @@
 <?php
 namespace reporting;
 
+use common\libraries\Utilities;
+use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BasicApplication;
 use common\libraries\CoreApplication;
@@ -39,8 +41,7 @@ use webservice\WebserviceManager;
  * @author Michael Kyndt
  */
 
-class ReportingManagerBrowserComponent extends ReportingManager implements
-        AdministrationComponent
+class ReportingManagerBrowserComponent extends ReportingManager implements AdministrationComponent
 {
     private $action_bar;
     private $application;
@@ -241,8 +242,7 @@ class ReportingManagerBrowserComponent extends ReportingManager implements
 
     function get_additional_parameters()
     {
-        return array(
-                ReportingManager :: PARAM_TEMPLATE_ID);
+        return array(ReportingManager :: PARAM_TEMPLATE_ID);
     }
 }
 ?>

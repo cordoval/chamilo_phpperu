@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
+use common\libraries\Filesystem;
+
 use common\libraries\Session;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -92,8 +94,10 @@ class FedoraImportForm extends FormValidator
 
     protected function build_footer()
     {
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -140,7 +144,11 @@ class FedoraImportForm extends FormValidator
 
         $onclick = 'toggle_dropdown(\'' . $dropdown_id . '\');return false;';
         $text = 'course_text';
-        $group[] = $this->createElement('text', $text, Translation :: get('Publish', null, Utilities::COMMON_LIBRARIES), array("size" => "50", 'id' => $text, 'readonly' => 'readonly', 'onclick' => $onclick));
+        $group[] = $this->createElement('text', $text, Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), array(
+                "size" => "50",
+                'id' => $text,
+                'readonly' => 'readonly',
+                'onclick' => $onclick));
 
         $group[] = $this->createElement('style_button', 'dd', '  ', array('class' => 'dropdown', 'onclick' => $onclick));
 

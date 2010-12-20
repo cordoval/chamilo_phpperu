@@ -1,6 +1,10 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
 
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\PropertiesTable;
+
 abstract class VideoConferencingParticipantObjectDisplay
 {
     private $object;

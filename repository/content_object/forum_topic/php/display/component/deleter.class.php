@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\forum_topic;
 
+use application\weblcms\tool\learning_path\ForumDisplay;
+
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;

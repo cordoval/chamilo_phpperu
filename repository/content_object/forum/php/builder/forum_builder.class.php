@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\forum;
 
+use common\libraries\ObjectTable;
+
 use common\libraries\Request;
 use repository\ComplexBuilder;
 /**
@@ -18,45 +20,22 @@ class ForumBuilder extends ComplexBuilder
         $action = Request :: post('action');
         $_POST['action'] = null;
         parent :: __construct($parent);
-        $this->parse_input_from_table($action);
-    }
-
-    protected function parse_input_from_table($action)
-    {
-        if ($action)
-        {
-            switch ($action)
-            {
-                case self :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_forum_table' :
-                    $selected_ids = $_POST['forum_table' . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-                    break;
-                case self :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_topic_table' :
-                    $selected_ids = $_POST['topic_table' . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-                    break;
-            }
-
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-
-            $this->set_action(self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM);
-            Request :: set_get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $selected_ids);
-        }
     }
 
     function get_complex_content_object_item_sticky_url($complex_content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_STICKY_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(), self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_BUILDER_ACTION => self :: ACTION_STICKY_COMPLEX_CONTENT_OBJECT_ITEM,
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(),
+                self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
     }
 
     function get_complex_content_object_item_important_url($complex_content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_IMPORTANT_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(), self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_BUILDER_ACTION => self :: ACTION_IMPORTANT_COMPLEX_CONTENT_OBJECT_ITEM,
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(),
+                self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
     }
 
     function get_application_component_path()

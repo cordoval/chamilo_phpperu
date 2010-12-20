@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\peer_assessment;
 
+use application\peer_assessment\PeerAssessmentPublicationResults;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Session;

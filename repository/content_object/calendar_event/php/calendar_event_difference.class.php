@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\calendar_event;
 
+use repository\Difference_Engine;
+
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\DatetimeUtilities;

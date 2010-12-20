@@ -1,5 +1,10 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
+
+use common\libraries\Utilities;
+use common\libraries\Request;
+use common\libraries\Theme;
+use common\libraries\Translation;
 use common\libraries\FormValidator;
 
 class VideoConferencingSearchForm extends FormValidator
@@ -8,12 +13,12 @@ class VideoConferencingSearchForm extends FormValidator
      * Search parameter
      */
     const PARAM_SIMPLE_SEARCH_QUERY = 'query';
-    
+
     /**
      * Name of the search form
      */
     const FORM_NAME = 'search';
-    
+
     /**
      * The renderer used to display the form
      */
@@ -32,15 +37,15 @@ class VideoConferencingSearchForm extends FormValidator
     {
         parent :: __construct(self :: FORM_NAME, 'post', $url);
         $this->renderer = clone $this->defaultRenderer();
-        
+
         $query = $this->get_query();
         if ($query)
         {
             $this->setDefaults(array(self :: PARAM_SIMPLE_SEARCH_QUERY => $query));
         }
-        
+
         $this->build_simple_search_form();
-        
+
         $this->accept($this->renderer);
     }
 

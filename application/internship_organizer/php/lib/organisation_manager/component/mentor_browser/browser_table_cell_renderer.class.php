@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Toolbar;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
@@ -13,7 +14,7 @@ require_once dirname(__FILE__) . '/../../../mentor.class.php';
 
 class InternshipOrganizerMentorBrowserTableCellRenderer extends DefaultInternshipOrganizerMentorTableCellRenderer
 {
-    
+
     private $browser;
 
     function __construct($browser)
@@ -29,7 +30,7 @@ class InternshipOrganizerMentorBrowserTableCellRenderer extends DefaultInternshi
         {
             return $this->get_modification_links($mentor);
         }
-        
+
         return parent :: render_cell($column, $mentor);
     }
 
@@ -41,9 +42,9 @@ class InternshipOrganizerMentorBrowserTableCellRenderer extends DefaultInternshi
      */
     private function get_modification_links($mentor_rel_location)
     {
-        
+
         $toolbar = new Toolbar();
-              
+
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_mentor_url($mentor_rel_location), ToolbarItem :: DISPLAY_ICON));

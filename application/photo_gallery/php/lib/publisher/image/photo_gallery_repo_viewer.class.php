@@ -1,17 +1,20 @@
 <?php
 namespace application\photo_gallery;
 
+use repository\content_object\document\Document;
+
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\SubManager;
 
 class PhotoGalleryRepoViewer extends RepoViewer
 {
-	function __construct($parent, $types, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true)
+
+    function __construct($parent, $types, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true)
     {
         parent :: __construct($parent, $types, $maximum_select, $excluded_objects, $parse_input);
     }
-	
-	function get_application_component_path()
+
+    function get_application_component_path()
     {
         return dirname(__FILE__) . '/component/';
     }
@@ -27,7 +30,7 @@ class PhotoGalleryRepoViewer extends RepoViewer
      */
     static function construct($application)
     {
-    	return SubManager :: construct(__CLASS__, $application);
+        return SubManager :: construct(__CLASS__, $application);
     }
 
     /**

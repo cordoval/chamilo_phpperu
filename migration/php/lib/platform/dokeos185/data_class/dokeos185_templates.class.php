@@ -3,6 +3,8 @@ namespace migration;
 use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
+
+use Exception;
 /**
  * $Id: dokeos185_templates.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -17,7 +19,7 @@ use common\libraries\Utilities;
 class Dokeos185Templates extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185Templates properties
      */
@@ -27,7 +29,7 @@ class Dokeos185Templates extends Dokeos185MigrationDataClass
     const PROPERTY_COURSE_CODE = 'course_code';
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_REF_DOC = 'ref_doc';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -181,11 +183,11 @@ class Dokeos185Templates extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = 'main_database';
         $tablename = 'templates';
         $classname = 'Dokeos185Templates';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

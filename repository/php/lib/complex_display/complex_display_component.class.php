@@ -6,6 +6,8 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\SubManager;
 
+use Exception;
+
 /**
  * $Id: complex_display_component.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display
@@ -39,34 +41,34 @@ abstract class ComplexDisplayComponent extends SubManager
         return new $class($application);
     }
 
-	function get_root_content_object()
+    function get_root_content_object()
     {
-    	return $this->get_parent()->get_root_content_object();
+        return $this->get_parent()->get_root_content_object();
     }
 
     function get_complex_content_object_item()
     {
-    	return $this->get_parent()->get_complex_content_object_item();
+        return $this->get_parent()->get_complex_content_object_item();
     }
 
-	function get_selected_complex_content_object_item()
+    function get_selected_complex_content_object_item()
     {
-    	return $this->get_parent()->get_selected_complex_content_object_item();
+        return $this->get_parent()->get_selected_complex_content_object_item();
     }
 
-	function get_root_content_object_id()
+    function get_root_content_object_id()
     {
         return $this->get_parent()->get_root_content_object_id();
     }
 
     function get_complex_content_object_item_id()
     {
-    	return $this->get_parent()->get_complex_content_object_item_id();
+        return $this->get_parent()->get_complex_content_object_item_id();
     }
 
-	function get_selected_complex_content_object_item_id()
+    function get_selected_complex_content_object_item_id()
     {
-    	return $this->get_parent()->get_selected_complex_content_object_item_id();
+        return $this->get_parent()->get_selected_complex_content_object_item_id();
     }
 
     /**
@@ -98,10 +100,10 @@ abstract class ComplexDisplayComponent extends SubManager
         return $this->get_parent()->get_action_bar($content_object);
     }
 
-	function get_application_component_path()
-	{
-		return Path :: get_repository_path() . 'lib/complex_display/component/';
-	}
+    function get_application_component_path()
+    {
+        return Path :: get_repository_path() . 'lib/complex_display/component/';
+    }
 
     function is_allowed($right)
     {

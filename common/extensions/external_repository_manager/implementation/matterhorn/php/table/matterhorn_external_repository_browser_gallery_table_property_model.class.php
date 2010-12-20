@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
+
+use common\libraries\GalleryObjectTableProperty;
+
 use common\extensions\external_repository_manager\ExternalRepositoryBrowserGalleryPropertyModel;
 
 require_once dirname(__FILE__) . '/../matterhorn_external_repository_manager_connector.class.php';

@@ -1,8 +1,10 @@
 <?php
 namespace application\photo_gallery;
 
-use common\libraries\DataClass;
+use user\UserDataManager;
 use repository\RepositoryDataManager;
+
+use common\libraries\DataClass;
 use common\libraries\Utilities;
 
 class PhotoGalleryPublication extends DataClass
@@ -69,7 +71,7 @@ class PhotoGalleryPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT, $content_object);
     }
-    
+
     /**
      * Sets the user of this CalendarEventPublication.
      * @param int $user the User.
@@ -170,8 +172,8 @@ class PhotoGalleryPublication extends DataClass
         {
             return true;
         }
-        
-    	
+
+
     	if ($this->is_for_nobody())
         {
             return false;
@@ -205,7 +207,7 @@ class PhotoGalleryPublication extends DataClass
     static function get_table_name()
     {
         return self :: TABLE_NAME;
-       
+
     }
 }
 ?>

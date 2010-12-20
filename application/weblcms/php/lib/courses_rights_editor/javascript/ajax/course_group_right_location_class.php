@@ -1,11 +1,14 @@
 <?php
 namespace application\weblcms;
 
-use user\UserDataManager;
+use common\libraries\Authentication;
 use common\libraries\Theme;
 use common\libraries\Session;
 use common\libraries\Utilities;
 use common\libraries\Translation;
+
+use user\UserDataManager;
+use rights\RightsDataManager;
 
 /**
  * $Id: course_group_right_location_class.php 214 2009-11-13 13:57:37Z vanpouckesven $

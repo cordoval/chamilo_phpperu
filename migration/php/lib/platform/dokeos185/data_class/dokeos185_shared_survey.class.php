@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_shared_survey.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 
 /**
  * This class presents a Dokeos185 shared_survey
@@ -14,7 +14,7 @@ namespace migration;
 class Dokeos185SharedSurvey extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185SharedSurvey properties
      */
@@ -29,7 +29,7 @@ class Dokeos185SharedSurvey extends Dokeos185MigrationDataClass
     const PROPERTY_SURVEYTHANKS = 'surveythanks';
     const PROPERTY_CREATION_DATE = 'creation_date';
     const PROPERTY_COURSE_CODE = 'course_code';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -68,7 +68,18 @@ class Dokeos185SharedSurvey extends Dokeos185MigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_SURVEY_ID, self :: PROPERTY_CODE, self :: PROPERTY_TITLE, self :: PROPERTY_SUBTITLE, self :: PROPERTY_AUTHOR, self :: PROPERTY_LANG, self :: PROPERTY_TEMPLATE, self :: PROPERTY_INTRO, self :: PROPERTY_SURVEYTHANKS, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_COURSE_CODE);
+        return array(
+                self :: PROPERTY_SURVEY_ID,
+                self :: PROPERTY_CODE,
+                self :: PROPERTY_TITLE,
+                self :: PROPERTY_SUBTITLE,
+                self :: PROPERTY_AUTHOR,
+                self :: PROPERTY_LANG,
+                self :: PROPERTY_TEMPLATE,
+                self :: PROPERTY_INTRO,
+                self :: PROPERTY_SURVEYTHANKS,
+                self :: PROPERTY_CREATION_DATE,
+                self :: PROPERTY_COURSE_CODE);
     }
 
     /**
@@ -198,15 +209,18 @@ class Dokeos185SharedSurvey extends Dokeos185MigrationDataClass
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
-    public static function get_table_name() {
+    public static function get_table_name()
+    {
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
-    public static function get_class_name() {
+    public static function get_class_name()
+    {
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
-    public function get_database_name() {
+    public function get_database_name()
+    {
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");
     }
 
@@ -217,7 +231,7 @@ class Dokeos185SharedSurvey extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
-    
+
     }
 
     /**
@@ -228,11 +242,11 @@ class Dokeos185SharedSurvey extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = 'main_database';
         $tablename = 'shared_survey';
         $classname = 'Dokeos185SharedSurvey';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

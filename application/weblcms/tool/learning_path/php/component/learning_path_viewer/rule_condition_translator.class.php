@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\WeblcmsLpiAttemptObjectiveTracker;
+
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;

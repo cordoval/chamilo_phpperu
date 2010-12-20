@@ -4,6 +4,8 @@
  * @package common.html.formvalidator.Element
  */
 
+use common\libraries\ResourceManager;
+
 class HTML_QuickForm_option_orderer extends HTML_QuickForm_hidden
 {
     private $options;

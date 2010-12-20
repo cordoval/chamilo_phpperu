@@ -1,6 +1,9 @@
-<?php 
+<?php
 namespace application\survey;
 
+use repository\ContentObject;
+
+use common\libraries\Utilities;
 use common\libraries\ObjectTableCellRenderer;
 
 class DefaultSurveyQuestionTableCellRenderer extends ObjectTableCellRenderer

@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Toolbar;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
@@ -13,7 +14,7 @@ require_once dirname(__FILE__) . '/../../../region_manager/region_manager.class.
 
 class InternshipOrganizerMentorRelLocationBrowserTableCellRenderer extends DefaultInternshipOrganizerMentorRelLocationTableCellRenderer
 {
-    
+
     private $browser;
 
     function __construct($browser)
@@ -29,20 +30,20 @@ class InternshipOrganizerMentorRelLocationBrowserTableCellRenderer extends Defau
         {
             return $this->get_modification_links($mentor_rel_location);
         }
-        
+
         switch ($column->get_name())
         {
             //            case InternshipOrganizerMentorRelLocation :: PROPERTY_NAME :
         //                $title = parent :: render_cell($column, $mentor_rel_location);
         //                $title_short = $title;
-        //                
+        //
         //                if (strlen($title_short) > 53)
         //                {
         //                    $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
         //                }
         //                return '<a href="' . htmlentities($this->browser->get_view_mentor_rel_location_url($mentor_rel_location)) . '" title="' . $title . '">' . $title_short . '</a>';
         }
-        
+
         return parent :: render_cell($column, $mentor_rel_location);
     }
 
@@ -55,7 +56,7 @@ class InternshipOrganizerMentorRelLocationBrowserTableCellRenderer extends Defau
     private function get_modification_links($mentor_rel_location)
     {
         $toolbar = new Toolbar();
-        
+
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_ADD, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_unsubscribe_location_url($mentor_rel_location), ToolbarItem :: DISPLAY_ICON, true));
