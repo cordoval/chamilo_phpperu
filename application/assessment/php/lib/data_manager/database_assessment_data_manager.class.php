@@ -16,12 +16,6 @@ use repository\content_object\assessment\Assessment;
  * $Id: database_assessment_data_manager.class.php 237 2009-11-16 13:04:53Z vanpouckesven $
  * @package application.lib.assessment.data_manager
  */
-require_once dirname(__FILE__) . '/../assessment_publication.class.php';
-require_once dirname(__FILE__) . '/../survey_invitation.class.php';
-require_once dirname(__FILE__) . '/../category_manager/assessment_publication_category.class.php';
-require_once dirname(__FILE__) . '/../assessment_publication_group.class.php';
-require_once dirname(__FILE__) . '/../assessment_publication_user.class.php';
-require_once dirname(__FILE__) . '/../assessment_data_manager_interface.class.php';
 
 /**
  *	This is a data manager that uses a database for storage. It was written

@@ -60,7 +60,8 @@ class TheCodeIsLoadableTest extends \PHPUnit_Framework_TestSuite
 
     public function addCommonClasses() {
         $path =  __DIR__ . '/../../common/';
-		$this->addTestForAllClassesInside($path);
+		$this->addTestForAllClassesInside($path . 'extensions');
+        $this->addTestForAllClassesInside($path . 'libraries/php');
 	}
 
     public function addGroupCoreAppClasses() {

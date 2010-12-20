@@ -375,5 +375,23 @@ class DatabasePhrasesDataManager extends Database implements PhrasesDataManagerI
             return false;
         }
     }
+
+    public function create_survey_invitation($survey_invitation) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+    public function update_survey_invitation($survey_invitation) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+    public function delete_survey_invitation($survey_invitation) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+    public function count_survey_invitations($conditions = null) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+    public function retrieve_survey_invitation($id) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
+    public function retrieve_survey_invitations($condition = null, $offset = null, $count = null, $order_property = null) {
+        throw new Exception("Unimplemented method : " . __METHOD__ . " :=> " . __FILE__ . ":" . __LINE__);
+    }
 }
-?>
