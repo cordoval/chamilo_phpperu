@@ -120,6 +120,34 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase{
         $return_value = $this->application_instance->factory('unknown');
     }
 
+    public function test_accessing_parameters_should_be_consistent_without_side_effect()
+    {
+        $params = array(
+            'first' => 1,
+            'second' => 2,
+        );
+
+        $this->assertEmpty($this->application_instance->get_parameters());
+        $this->application_instance->set_parameters($params);
+        $this->application_instance->set_parameter('third', 3);
+        $this->application_instance->set_parameter('first', 'newone');
+        $this->assertEquals(
+            array(
+                'first' => 'newone',
+                'second' => 2,
+                'third' => 3,
+            ),
+            $this->application_instance->get_parameters()
+        );
+        $this->assertEquals(
+                array(
+                    'first' => 1,
+                    'second' => 2,
+                ), $params
+        );
+               
+    }
+
 
 }
 
