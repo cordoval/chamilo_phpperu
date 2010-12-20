@@ -29,11 +29,7 @@ interface WebserviceDataManagerInterface
 
     function delete_webservice($webservice);
 
-    function delete_webservice_category($webservice_category);
-
     function update_webservice($webservice);
-
-    function update_webservice_category($webservice_category);
 
     function create_webservice($webservice);
 

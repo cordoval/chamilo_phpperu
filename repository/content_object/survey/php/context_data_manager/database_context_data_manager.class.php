@@ -13,6 +13,7 @@ use common\libraries\Utilities;
 use common\libraries\AndCondition;
 use common\libraries\InCondition;
 use repository\content_object\survey_page\SurveyPage;
+use common\libraries\Translation;
 
 use Exception;
 
@@ -424,25 +425,25 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         $this->delete_objects(SurveyTemplateUser :: get_table_name(), $condition);
     }
 
-    function update_survey_template_user($template)
+    function update_survey_template_user($template_user)
     {
         
-        if ($template->get_additional_properties())
+        if ($template_user->get_additional_properties())
         {
             $properties = Array();
-            $alias = $this->get_alias(Utilities :: camelcase_to_underscores(get_class($template)));
+            $alias = $this->get_alias(Utilities :: camelcase_to_underscores(get_class($template_user)));
             foreach ($template->get_additional_property_names() as $property_name)
             {
-                $properties[$property_name] = $this->quote($template->get_additional_property($property_name));
+                $properties[$property_name] = $this->quote($template_user->get_additional_property($property_name));
             }
-            $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_ID, $template->get_id());
-            $this->update_objects(Utilities :: camelcase_to_underscores(get_class($context)), $properties, $condition);
+            $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_ID, $template_user->get_id());
+            $this->update_objects(Utilities :: camelcase_to_underscores(get_class($template_user)), $properties, $condition);
         }
     }
 
     function create_survey_template_user($template_user)
     {
-        $props = array();
+      	$props = array();
         foreach ($template_user->get_default_properties() as $key => $value)
         {
             $props[$this->escape_column_name($key)] = $value;
@@ -453,6 +454,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         $this->get_connection()->loadModule('Extended');
         $this->get_connection()->extended->autoExecute($this->get_table_name('survey_template_user'), $props, MDB2_AUTOQUERY_INSERT);
         $template_user->set_id($this->get_connection()->extended->getAfterID($props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)], 'survey_template_user'));
+              
         if ($template_user->get_additional_properties())
         {
             $props = array();
@@ -461,7 +463,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
                 $props[$this->escape_column_name($key)] = $value;
             }
             $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $template_user->get_id();
-            $this->get_connection()->extended->autoExecute($this->get_table_name($template->get_type()), $props, MDB2_AUTOQUERY_INSERT);
+            $this->get_connection()->extended->autoExecute($this->get_table_name($template_user->get_type()), $props, MDB2_AUTOQUERY_INSERT);
         }
         return true;
     }
