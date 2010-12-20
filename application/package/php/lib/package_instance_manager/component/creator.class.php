@@ -26,13 +26,6 @@ class PackageInstanceManagerCreatorComponent extends PackageInstanceManager impl
      */
     function run()
     {
-//        $can_add = PackageRights :: is_allowed(PackageRights :: ADD_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
-//        
-//        if (! $can_add)
-//        {
-//            Display :: not_allowed();
-//        }
-        
         $package = new Package();
         $form = new PackageForm(PackageForm :: TYPE_CREATE, $package, $this->get_url(), $this->get_user());
         
@@ -40,9 +33,12 @@ class PackageInstanceManagerCreatorComponent extends PackageInstanceManager impl
         {
             $success = $form->create_package();
             $object = Translation :: get('Package');
-            $message = $success ? Translation :: get('ObjectCreated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+            $message = $success ? Translation :: get('ObjectCreated', array(
+                    'OBJECT' => $object), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array(
+                    'OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
             
-            $this->redirect($message, ! $success, array(PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => PackageInstanceManager :: ACTION_BROWSE));
+            $this->redirect($message, ! $success, array(
+                    PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => PackageInstanceManager :: ACTION_BROWSE));
         }
         else
         {
@@ -55,7 +51,8 @@ class PackageInstanceManagerCreatorComponent extends PackageInstanceManager impl
     function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add_help('package_creator');
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => PackageInstanceManager :: ACTION_BROWSE)), Translation :: get('PackageManagerBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => PackageInstanceManager :: ACTION_BROWSE)), Translation :: get('PackageManagerBrowserComponent')));
     }
 
 }

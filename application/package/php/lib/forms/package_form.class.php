@@ -81,7 +81,8 @@ class PackageForm extends FormValidator
         $this->addRule(Package :: PROPERTY_FILENAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
         //authors
-               
+        
+
         $url = WebApplication :: get_application_web_path('package') . 'php/xml_feeds/xml_author_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddPackageAuthors');
@@ -153,6 +154,7 @@ class PackageForm extends FormValidator
         $package->set_code($values[Package :: PROPERTY_CODE]);
         $package->set_category($values[Package :: PROPERTY_CATEGORY]);
         $package->set_filename($values[Package :: PROPERTY_FILENAME]);
+        $package->set_status($values[Package :: PROPERTY_STATUS]);
         
         if (! $package->update())
         {
@@ -204,6 +206,7 @@ class PackageForm extends FormValidator
         $package->set_code($values[Package :: PROPERTY_CODE]);
         $package->set_category($values[Package :: PROPERTY_CATEGORY]);
         $package->set_filename($values[Package :: PROPERTY_FILENAME]);
+        $package->set_status($values[Package :: PROPERTY_STATUS]);
         
         //        dump($package);
         if (! $package->create())
@@ -212,7 +215,7 @@ class PackageForm extends FormValidator
         }
         else
         {
-            $authors = $values[self :: AUTHORS];
+            $authors = $values[self :: AUTHOR];
             foreach ($authors as $author)
             {
                 $package_author = new PackageAuthor();
@@ -244,6 +247,7 @@ class PackageForm extends FormValidator
         $defaults[Package :: PROPERTY_CODE] = $package->get_code();
         $defaults[Package :: PROPERTY_CATEGORY] = $package->get_category();
         $defaults[Package :: PROPERTY_FILENAME] = $package->get_filename();
+        $defaults[Package :: PROPERTY_STATUS] = $package->get_status();
         parent :: setDefaults($defaults);
     }
     

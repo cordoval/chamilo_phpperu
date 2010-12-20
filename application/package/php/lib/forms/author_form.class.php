@@ -177,7 +177,7 @@ class AuthorForm extends FormValidator
         }
         else
         {
-            $packages = $values[self :: PACKAGES];
+            $packages = $values[self :: PACKAGE];
             foreach ($packages as $package)
             {
                 $package_author = new PackageAuthor();

@@ -25,13 +25,6 @@ class PackageInstanceManagerDeleterComponent extends PackageInstanceManager impl
      */
     function run()
     {
-//        $can_delete = PackageRights :: is_allowed(PackageRights :: DELETE_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
-//        
-//        if (! $can_delete)
-//        {
-//            Display :: not_allowed();
-//        }
-        
         $ids = $_GET[self :: PARAM_PACKAGE_ID];
         $failures = 0;
         

@@ -51,19 +51,6 @@ class PackageInstanceManagerBrowserComponent extends PackageInstanceManager
                 PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => PackageInstanceManager :: ACTION_CREATE))));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('UpdateList'), Theme :: get_image_path() . 'action_update.png', $this->get_url(array(
                 PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => PackageInstanceManager :: ACTION_SYNCHRONIZE))));
-        //        if (count($this->get_user_languages(PackageRights :: EDIT_RIGHT)) > 0)
-        //        {
-        //        	$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageApplications'), Theme :: get_image_path() . 'action_manage.png', $this->get_url(array(Application :: PARAM_ACTION => PackageManager :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS))));
-        //        }
-        //
-        //        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportTranslations'), Theme :: get_common_image_path() . 'action_export.png', $this->get_export_translations_url()));
-        //
-        //        if (count($this->get_user_languages(PackageRights :: VIEW_RIGHT)) > 0)
-        //        {
-        //        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ImportTranslations'), Theme :: get_common_image_path() . 'action_import.png', $this->get_import_variable_translations_url()));
-        //        }
-        //
-        //             $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url()));
         return $action_bar;
     }
 
@@ -74,27 +61,6 @@ class PackageInstanceManagerBrowserComponent extends PackageInstanceManager
         
         return $this->action_bar->get_conditions($properties);
     }
-
-    //    function get_user_languages($right)
-    //    {
-    //		$language_location = PackageRights :: get_languages_subtree_root();
-    //		$languages = $language_location->get_children();
-    //
-    //		$available_languages = array();
-    //
-    //		while ($language = $languages->next_result())
-    //		{
-    //			$has_right = PackageRights :: is_allowed_in_languages_subtree($right, $language->get_identifier(), $language->get_type());
-    //
-    //			if ($has_right)
-    //			{
-    //				$available_languages[] = $language->get_identifier();
-    //			}
-    //		}
-    //
-    //		return $available_languages;
-    //    }
-    
 
     function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
     {

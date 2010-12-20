@@ -72,64 +72,9 @@ class PackageBrowserTableCellRenderer extends DefaultPackageTableCellRenderer
     {
         $toolbar = new Toolbar();
         
-        //        if ($this->browser instanceof PackageManagerPackageBrowserComponent)
-        //        {
-        //        $can_edit = PackageRights :: is_allowed(PackageRights :: EDIT_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
-        //        $can_delete = PackageRights :: is_allowed(PackageRights :: DELETE_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
-        //        
-        //        if ($can_edit)
-        //        {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_package_url($package), ToolbarItem :: DISPLAY_ICON));
-        //        }
-        //        
-        //        if ($can_delete)
-        //        {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_package_url($package), ToolbarItem :: DISPLAY_ICON, true));
-        //        }
-        //        }
-        //        else
-        //        {
-        //            $can_translate = PackageRights :: is_allowed_in_languages_subtree(PackageRights :: VIEW_RIGHT, $package->get_id(), 'package_language');
-        //            $can_lock = PackageRights :: is_allowed_in_languages_subtree(PackageRights :: EDIT_RIGHT, $package->get_id(), 'package_language');
-        //
-        //            if ($can_lock)
-        //            {
-        //                if ($this->browser->can_language_be_locked($package))
-        //                {
-        //                    $toolbar->add_item(new ToolbarItem(Translation :: get('Lock'), Theme :: get_common_image_path() . 'action_lock.png', $this->browser->get_lock_language_url($package), ToolbarItem :: DISPLAY_ICON));
-        //                }
-        //                else
-        //                {
-        //                    $toolbar->add_item(new ToolbarItem(Translation :: get('LockNa'), Theme :: get_common_image_path() . 'action_lock_na.png', null, ToolbarItem :: DISPLAY_ICON));
-        //                }
-        //
-        //                if ($this->browser->can_language_be_unlocked($package))
-        //                {
-        //                    $toolbar->add_item(new ToolbarItem(Translation :: get('Unlock'), Theme :: get_common_image_path() . 'action_unlock.png', $this->browser->get_unlock_language_url($package), ToolbarItem :: DISPLAY_ICON));
-        //                }
-        //                else
-        //                {
-        //                    $toolbar->add_item(new ToolbarItem(Translation :: get('UnlockNa'), Theme :: get_common_image_path() . 'action_unlock_na.png', null, ToolbarItem :: DISPLAY_ICON));
-        //                }
-        //            }
-        //
-        //            if ($can_translate || $can_lock)
-        //            {
-        //                if (! $can_lock)
-        //                {
-        //                    $status = VariableTranslation :: STATUS_NORMAL;
-        //                }
-        //
-        //                $translation = $this->browser->retrieve_first_untranslated_variable_translation($package_language->get_id(), null, $status);
-        //
-        //                if ($translation)
-        //                {
-        //                    $toolbar->add_item(new ToolbarItem(Translation :: get('TranslateFirstEmptyTranslation'), Theme :: get_image_path() . 'action_quickstart.png', $this->browser->get_update_variable_translation_url($translation), ToolbarItem :: DISPLAY_ICON));
-        //                }
-        //            }
-        //        }
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_package_url($package), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_package_url($package), ToolbarItem :: DISPLAY_ICON, true));
         
-
         return $toolbar->as_html();
     }
 }
