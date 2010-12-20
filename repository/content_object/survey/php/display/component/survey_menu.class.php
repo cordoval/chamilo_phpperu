@@ -84,7 +84,7 @@ class SurveyMenu extends HTML_Menu
     {
         $context_paths = $this->survey->get_context_paths();
                
-        $context_paths = array_reverse($context_paths);
+//        $context_paths = array_reverse($context_paths);
             
 //        dump($context_paths);
         
@@ -308,8 +308,8 @@ class SurveyMenu extends HTML_Menu
                         break;
                     case self :: TYPE_PAGE :
                         $survey_page = $this->survey->get_page_by_id($context_path_relation[self :: PAGE_ID]);
-                        //                        $title = $survey_page->get_title();
-                        $title = 'page ' . $this->page_contexts[$context_path];
+                                              $title = $survey_page->get_title();
+                        $title = 'page ' . $this->page_contexts[$context_path].' title: '.$title;
                         $menu_item['class'] = self :: TYPE_PAGE;
                         $current_url = $this->get_url($context_path);
                         $menu_item['url'] = $current_url;

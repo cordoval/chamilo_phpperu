@@ -12,6 +12,8 @@ use admin\AdminDataManager;
 use rights\RightsDataManager;
 use common\libraries\Path;
 use PHPExcel_Reader_Excel2007;
+use PHPExcel_Reader_Excel5;
+use PHPExcel_Reader_OOCalc;
 
 require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 
@@ -68,16 +70,28 @@ class ImportContextForm extends FormValidator
         $values = $this->exportValues();
         $array = explode('.', $_FILES[self :: IMPORT_FILE_NAME]['name']);
         $type = $array[count($array) - 1];
-        
-        if ($type != 'xlsx')
+               
+        switch ($type)
         {
-            $success = false;
+            case 'xlsx' :
+                $PhpReader = new PHPExcel_Reader_Excel2007();
+                $excel = $PhpReader->load($_FILES[self :: IMPORT_FILE_NAME]['tmp_name']);
+                break;
+            case 'ods' :
+                $PhpReader = new PHPExcel_Reader_OOCalc();
+                $excel = $PhpReader->load($_FILES[self :: IMPORT_FILE_NAME]['tmp_name']);
+                break;
+            case 'xls' :
+                $PhpReader = new PHPExcel_Reader_Excel5();
+                $excel = $PhpReader->load($_FILES[self :: IMPORT_FILE_NAME]['tmp_name']);
+                break;
+            default :
+                return false;
+             	break;
         }
+         
         
-        $PhpReader = new PHPExcel_Reader_Excel2007();
-        $excel = $PhpReader->load($_FILES[self :: IMPORT_FILE_NAME]['tmp_name']);
-        $worksheet = $excel->getActiveSheet();
-        
+        $worksheet = $excel->getSheet(0);
         $excel_array = $worksheet->toArray();
         $contexts = array();
         

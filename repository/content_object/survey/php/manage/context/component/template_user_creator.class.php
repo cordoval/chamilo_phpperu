@@ -30,7 +30,7 @@ class SurveyContextManagerTemplateUserCreatorComponent extends SurveyContextMana
         $survey_template_user = SurveyTemplateUser :: factory($context_template->get_type());
         
         $survey_template_user->set_template_id($context_template_id);
-        
+               
         $form = new SurveyTemplateUserForm(SurveyTemplateUserForm :: TYPE_CREATE, $this->get_url(), $survey_template_user, $this->get_user(), $this);
         
         if ($form->validate())

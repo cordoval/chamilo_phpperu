@@ -438,27 +438,27 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         }
     }
 
-    function create_survey_template_user($template)
+    function create_survey_template_user($template_user)
     {
         $props = array();
-        foreach ($template->get_default_properties() as $key => $value)
+        foreach ($template_user->get_default_properties() as $key => $value)
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-        $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $template->get_id();
-        $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_TYPE)] = $template->get_type();
+//        $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $template_user->get_id();
+        $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_TYPE)] = $template_user->get_type();
         $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $this->get_better_next_id('survey_template_user', 'id');
         $this->get_connection()->loadModule('Extended');
         $this->get_connection()->extended->autoExecute($this->get_table_name('survey_template_user'), $props, MDB2_AUTOQUERY_INSERT);
-        $template->set_id($this->get_connection()->extended->getAfterID($props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)], 'survey_template_user'));
-        if ($template->get_additional_properties())
+        $template_user->set_id($this->get_connection()->extended->getAfterID($props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)], 'survey_template_user'));
+        if ($template_user->get_additional_properties())
         {
             $props = array();
-            foreach ($template->get_additional_properties() as $key => $value)
+            foreach ($template_user->get_additional_properties() as $key => $value)
             {
                 $props[$this->escape_column_name($key)] = $value;
             }
-            $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $template->get_id();
+            $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $template_user->get_id();
             $this->get_connection()->extended->autoExecute($this->get_table_name($template->get_type()), $props, MDB2_AUTOQUERY_INSERT);
         }
         return true;

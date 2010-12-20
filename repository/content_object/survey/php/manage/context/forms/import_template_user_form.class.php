@@ -17,34 +17,34 @@ use PHPExcel_Reader_Excel2007;
 
 require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 
-class ImportTemplateForm extends FormValidator
+class ImportTemplateUserForm extends FormValidator
 {
     
     const IMPORT_FILE_NAME = 'template_file';
     
-    private $template;
+    private $template_user;
     private $context_template;
     private $template_manager;
     private $valid_email_regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
 
     function __construct($template_manager, $action, $context_template_id)
     {
-        parent :: __construct('survey_import_template_form', 'post', $action);
+        parent :: __construct('survey_import_template_user_form', 'post', $action);
         $this->template_manager = $template_manager;
         $this->context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
-        $this->template = SurveyTemplate :: factory($this->context_template->get_type());
-        $this->template->set_context_template_id($context_template_id);
+        $this->template_user = SurveyTemplateUser:: factory($this->context_template->get_type());
+        $this->template_user->set_context_template_id($context_template_id);
         $this->build_form();
         $this->setDefaults();
     }
 
     function build_form()
     {
-        $this->addElement('category', Translation :: get('template'));
-        $template_properties = array();
-        $template_properties[] = Translation :: get('Email');
-        $template_properties = array_merge($template_properties, $this->template->get_additional_property_names());
-        $properties = implode(', ', $template_properties);
+        $this->addElement('category', Translation :: get('template_user'));
+        $template_user_properties = array();
+        $template_user_properties[] = Translation :: get('Email');
+        $template_user_properties = array_merge($template_user_properties, $this->template_user->get_additional_property_names());
+        $properties = implode(', ', $template_user_properties);
         $this->add_information_message(null, null, Translation :: get('ExcelfileWithFolowingPropertiesWithRespectOfOrder') . ' : ' . $properties);
         $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
         $this->addElement('category');
@@ -80,9 +80,9 @@ class ImportTemplateForm extends FormValidator
         $worksheet = $excel->getActiveSheet();
         
         $excel_array = $worksheet->toArray();
-        $templates = array();
+        $template_users = array();
         
-        $template_properties = $this->template->get_additional_property_names(true);
+        $template_user_properties = $this->template_user->get_additional_property_names(true);
         
         //each row in excel file except row 1 = headers !
         for($i = 2; $i < count($excel_array) + 1; $i ++)
@@ -92,9 +92,9 @@ class ImportTemplateForm extends FormValidator
             $users = UserDataManager :: get_instance()->retrieve_users_by_email($email);
             foreach ($users as $user)
             {
-                $this->template->set_user_id($user->get_id());
+                $this->template_user->set_user_id($user->get_id());
                 $index = 0;
-                foreach ($template_properties as $template_property => $context_type)
+                foreach ($template_user_properties as $template_user_property => $context_type)
                 {
                     $index++;
                    	$dummy_context = SurveyContext :: factory($context_type);
@@ -122,14 +122,14 @@ class ImportTemplateForm extends FormValidator
                            
                     if ($context)
                     {
-                        $this->template->set_additional_property($template_property, $context->get_id());
+                        $this->template_user->set_additional_property($template_user_property, $context->get_id());
                     }
                     else
                     {
                         continue;
                     }
                 }
-                $succes = $this->template->create();
+                $succes = $this->template_user->create();
             }
         }
         return $success;

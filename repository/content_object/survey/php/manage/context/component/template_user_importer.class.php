@@ -18,7 +18,7 @@ class SurveyContextManagerTemplateUserImporterComponent extends SurveyContextMan
         
         $context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
       
-    	$form = new ImportTemplateForm($this, $this->get_url(), $context_template_id);
+    	$form = new ImportTemplateUserForm($this, $this->get_url(), $context_template_id);
 
         if ($form->validate())
         {
