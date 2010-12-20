@@ -194,7 +194,7 @@ class MediamosaRestClient extends RestClient{
         }
         
         $response = $this->send_request();
-        if($response_type == self :: RESPONSE_TYPE_XML)
+       if($response_type == self :: RESPONSE_TYPE_XML)
         {
             $response->set_response_content_xml();
         }
