@@ -189,7 +189,7 @@ if (isset($_POST['login']))
     {
         Session :: unregister('_uid');
         header('Location: index.php?loginFailed=1&message=' . $user);
-        exit();
+        //exit();
     }
 }
 else

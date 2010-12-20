@@ -43,7 +43,7 @@ class MediamosaRestResult extends RestResult {
     //verifies if request has succeeded
     function check_result($error = false, $ok = false)
     {
-        $result_id = (int)$this->response_content_xml->header->request_result_id;
+        $result_id = (int)$this->get_response_content_xml()->header->request_result_id;
 
         if ($result_id != 601 && $result_id != 705)
         {
