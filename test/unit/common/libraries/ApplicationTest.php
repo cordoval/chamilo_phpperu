@@ -147,6 +147,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase{
         );
                
     }
+    
+    public function test_true_should_be_true()
+    {
+	$this->assertTrue(true);
+    }
 
 
 }
