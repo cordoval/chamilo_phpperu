@@ -116,6 +116,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         $this->handbook_publication_id = Request :: get(HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID);
         if(!$this->handbook_publication_id)
         {
+            var_dump('check for uid');
             $this->check_for_uid();
         }
         $location_id = HandbookRights::get_location_id_by_identifier_from_handbooks_subtree($this->handbook_publication_id);
@@ -126,26 +127,26 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function check_for_uid()
     {
-        var_dump('check for uid');
-
         $this->uid = Request :: get('uid');
         $this->handbook_publication_id = $_SESSION[self::SESSION_PARAMETER_PUBLICATION_ID];
-
-        var_dump('uid: '. $this->uid . ' pid: '.$this->handbook_publication_id);
-
 
         $hdm = HandbookDataManager::get_instance();
 
         
         $item_data = $hdm->retrieve_handbook_item_data_by_uuid($this->uid);
+        $this->handbook_selection_id = $item_data[HandbookItem::PROPERTY_REFERENCE];
+        var_dump('selection= '. $this->handbook_selection_id);
 
-        $this->handbook_selection_id = $item_dat[HandbookItem::PROPERTY_ID];
-        $content_object_id = $item_data[HandbookItem::PROPERTY_REFERENCE];
-       
-
-        if(!$this->handbook_publication_id)
+               if(!$this->handbook_publication_id)
         {
-            //publication unknown ->search for possible publications
+            //publication unknown ->TODO search for possible publications (that contain this item)
+            var_dump('no publication');
+        }
+        else
+        {
+            $hdm = HandbookDataManager::get_instance();
+            $pub = $hdm->retrieve_handbook_publication($this->handbook_publication_id);
+            $this->top_handbook_id = $pub->get_content_object_id();
         }
                 
 
@@ -160,8 +161,14 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $this->handbook_selection_id = Request :: get(HandbookManager::PARAM_HANDBOOK_SELECTION_ID);
         }
         $this->complex_selection_id =  Request :: get(HandbookManager::PARAM_COMPLEX_OBJECT_ID);
-        $this->top_handbook_id =  Request :: get(HandbookManager::PARAM_TOP_HANDBOOK_ID);
-
+        if(!$this->top_handbook_id)
+        {
+            $this->top_handbook_id =  Request :: get(HandbookManager::PARAM_TOP_HANDBOOK_ID);
+        }
+        if(!$this->handbook_id)
+        {
+            $this->handbook_id =  $this->top_handbook_id;
+        }
 
 
         $rdm = RepositoryDataManager::get_instance();
@@ -192,7 +199,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     function get_next_previous_items()
     {
         //TODO FINISH THIS FUNCTION
-        if($this->selected_object != null)
+        if($this->selected_object != null  && $this->complex_selection_id != null )
         {
             $rdm = RepositoryDataManager::get_instance();
 
@@ -225,7 +232,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                 $hpid = $this->handbook_publication_id;
 
 //                $menu = new HandbookMenu( 'run.php?application='.self::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'='.$this->handbook_id,  $this->top_handbook_id, null, $this->handbook_publication_id, $this->handbook_id);
-               $menu = new HandbookMenu( '',  $this->handbook_id, null, $this->handbook_publication_id, $this->top_handbook_id);
+               $menu = new HandbookMenu( '',  $this->handbook_id, $this->handbook_selection_id, $this->handbook_publication_id, $this->top_handbook_id);
                     $html[] = $menu->render_as_tree();
                 $html[] = '</div>';
             $html[] = '</div>';
@@ -288,7 +295,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $actions[] = new ToolbarItem(Translation :: get('EditPublicationRights'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
             $actions[] = new ToolbarItem(Translation :: get('ViewHandbookPreferences'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_VIEW_PREFERENCES, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
 
-            var_dump($this->handbook_id);
             $actions[] = new ToolbarItem(Translation :: get('AddNewItemToHandbook'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_handbook_item_url($this->handbook_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
 
         }

@@ -180,7 +180,6 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
        $handbook_item[HandbookItem :: PROPERTY_UUID] = $record[HandbookItem :: PROPERTY_UUID];
         $handbook_item[HandbookItem :: PROPERTY_REFERENCE] = $record[HandbookItem :: PROPERTY_REFERENCE];                                  
                                                      
-        var_dump($handbook_item);
         $res->free();
         return $handbook_item;
     }
