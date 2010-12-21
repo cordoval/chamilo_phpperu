@@ -10,13 +10,12 @@ namespace application\package;
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class DependencyManagerBrowserComponent extends PackageInstanceManager
+class PackageManagerDependencyComponent extends PackageManager
 {
-    private $action_bar;
 
     function run()
     {
-        echo('test');
+        DependencyManager :: launch($this);
     }
 }
 ?>

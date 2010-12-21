@@ -23,9 +23,12 @@ class Autoloader
                 'dependency_manager' => 'dependency_manager/dependency_manager', 
                 'package' => 'package', 
                 'author' => 'author', 
+                'dependency' => 'dependency', 
                 'package_form' => 'forms/package_form', 
                 'author_form' => 'forms/author_form', 
+                'dependency_form' => 'forms/dependency_form', 
                 'package_author' => 'package_author', 
+                'package_dependency' => 'package_dependency', 
                 'package_browser_table' => 'package_instance_manager/component/browser/package_browser_table', 
                 'package_browser_table_data_provider' => 'package_instance_manager/component/browser/package_browser_table_data_provider', 
                 'package_browser_table_cell_renderer' => 'package_instance_manager/component/browser/package_browser_table_cell_renderer', 
@@ -37,7 +40,13 @@ class Autoloader
                 'author_browser_table_cell_renderer' => 'author_manager/component/browser/author_browser_table_cell_renderer', 
                 'author_browser_table_column_model' => 'author_manager/component/browser/author_browser_table_column_model', 
                 'default_author_table_column_model' => 'tables/author_table/default_author_table_column_model', 
-                'default_author_table_cell_renderer' => 'tables/author_table/default_author_table_cell_renderer');
+                'default_author_table_cell_renderer' => 'tables/author_table/default_author_table_cell_renderer', 
+                'dependency_browser_table' => 'dependency_manager/component/browser/dependency_browser_table', 
+                'dependency_browser_table_data_provider' => 'dependency_manager/component/browser/dependency_browser_table_data_provider', 
+                'dependency_browser_table_cell_renderer' => 'dependency_manager/component/browser/dependency_browser_table_cell_renderer', 
+                'dependency_browser_table_column_model' => 'dependency_manager/component/browser/dependency_browser_table_column_model', 
+                'default_dependency_table_column_model' => 'tables/dependency_table/default_dependency_table_column_model', 
+                'default_dependency_table_cell_renderer' => 'tables/dependency_table/default_dependency_table_cell_renderer');
         
         $lower_case = Utilities :: camelcase_to_underscores($classname);
         

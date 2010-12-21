@@ -104,18 +104,30 @@ class PackageInstanceManagerSynchronizerComponent extends PackageInstanceManager
             $conditions[] = new AndCondition($package_conditions);
             
             $package['authors'] = serialize($package['authors']);
-            $package['cycle'] = serialize($package['cycle']);
+            $package['cycle'] = $package['cycle'];
             $package['dependencies'] = serialize($package['dependencies']);
             $package['extra'] = serialize($package['extra']);
             
             $condition = new EqualityCondition(Package :: PROPERTY_CODE, $package['code']);
-            
             $packages = $pdm->retrieve_packages($condition, array(), 0);
+
             if ($packages->size() === 1)
             {
+                
                 $package_result = $packages->next_result();
                 $package['id'] = $package_result->get_id();
-                $package_result->set_default_properties($package);
+                
+                $package_result->set_category($package['category']);
+                $package_result->set_code($package['code']);
+                $package_result->set_cycle_phase($package['cycle']['phase']);
+                $package_result->set_description($package['description']);
+                $package_result->set_name($package['name']);
+                $package_result->set_section($package['section']);
+                $package_result->set_version($package['version']);
+                $package_result->set_status(Package :: STATUS_ACCEPTED);
+                $package_result->set_category($package['category']);
+                $package_result->set_size($package['size']);
+                
                 if (! $package_result->update())
                 {
                     return false;
@@ -123,7 +135,18 @@ class PackageInstanceManagerSynchronizerComponent extends PackageInstanceManager
             }
             else
             {
-                $package_result = new Package($package);
+                $package_result = new Package();
+                $package_result->set_category($package['category']);
+                $package_result->set_code($package['code']);
+                $package_result->set_cycle_phase($package['cycle']['phase']);
+                $package_result->set_description($package['description']);
+                $package_result->set_name($package['name']);
+                $package_result->set_section($package['section']);
+                $package_result->set_version($package['version']);
+                $package_result->set_status(Package :: STATUS_ACCEPTED);
+                $package_result->set_category($package['category']);
+                $package_result->set_size($package['size']);
+
                 if (! $package_result->create())
                 {
                     return false;

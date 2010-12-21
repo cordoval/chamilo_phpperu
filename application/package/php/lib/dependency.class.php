@@ -2,6 +2,9 @@
 namespace application\package;
 
 use common\libraries\DataClass;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
 
 /**
  * This class describes a Package data object
@@ -14,7 +17,7 @@ class Dependency extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     
-    const PROPERTY_ID = 'id';
+    const PROPERTY_ID_DEPENDENCY = 'id_dependency';
     const PROPERTY_VERSION = 'version';
     const PROPERTY_SEVERITY = 'severity';
 
@@ -24,7 +27,9 @@ class Dependency extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_ID, self :: PROPERTY_VERSION, self :: PROPERTY_SEVERITY));
+        return parent :: get_default_property_names(array(self :: PROPERTY_ID_DEPENDENCY, 
+                self :: PROPERTY_VERSION, 
+                self :: PROPERTY_SEVERITY));
     }
 
     /**
@@ -39,20 +44,20 @@ class Dependency extends DataClass
      * Returns the id of this Package.
      * @return the id.
      */
-    function get_id()
+    function get_id_dependency()
     {
-        return $this->get_default_property(self :: PROPERTY_ID);
+        return $this->get_default_property(self :: PROPERTY_ID_DEPENDENCY);
     }
 
     /**
      * Sets the id of this Package.
      * @param id
      */
-    function set_id($id)
+    function set_id_dependency($id)
     {
-        $this->set_default_property(self :: PROPERTY_ID, $id);
+        $this->set_default_property(self :: PROPERTY_ID_DEPENDENCY, $id);
     }
-    
+
     /**
      * Returns the version of this Package.
      * @return the version.
@@ -70,12 +75,12 @@ class Dependency extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_VERSION, $version);
     }
-    
+
     /**
      * Returns the severity of this Package.
      * @return the severity.
      */
-    function get_company()
+    function get_severity()
     {
         return $this->get_default_property(self :: PROPERTY_SEVERITY);
     }
@@ -87,6 +92,34 @@ class Dependency extends DataClass
     function set_severity($severity)
     {
         $this->set_default_property(self :: PROPERTY_SEVERITY, $severity);
+    }
+
+    static function get_table_name()
+    {
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
+    }
+
+    function get_packages($only_ids = true)
+    {
+        $condition = new EqualityCondition(PackageDependency :: PROPERTY_DEPENDENCY_ID, $this->get_id());
+        $package_dependencies = $this->get_data_manager()->retrieve_package_dependencies($condition);
+        
+        $package_dependencies_ids = array();
+        while ($package_dependency = $package_dependencies->next_result())
+        {
+            $package_dependencies_ids[] = $package_dependencies->get_package_id();
+        }
+        
+        if ($only_ids)
+        {
+            return $package_dependencies_ids;
+        }
+        else
+        {
+            $package_dependencies_ids[] = - 1;
+            $condition = new InCondition(Package :: PROPERTY_ID, $package_dependencies_ids);
+            return $this->get_data_manager()->retrieve_packages($condition);
+        }
     }
 }
 

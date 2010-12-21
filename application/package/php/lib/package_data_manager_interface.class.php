@@ -29,5 +29,11 @@ interface PackageDataManagerInterface
     function retrieve_authors($condition = null, $offset = null, $count = null, $order_property = null);
     
     function retrieve_author($id);
+    
+    function count_dependencies($conditions = null);
+    
+    function retrieve_dependencies($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    function retrieve_dependency($id);
 }
 ?>

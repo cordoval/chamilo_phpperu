@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="package_author">
 	<properties>
-	<!-- <property name="id" type="integer" unsigned="1"
-			notnull="1" autoincrement="true" /> -->
+	<property name="id" type="integer" unsigned="1"
+			notnull="1" autoincrement="true" />
 		<property name="author_id" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="package_id" type="integer" unsigned="1"
 			notnull="1" />
 
 	</properties>
-	<index name="package_author_id" type="primary">
+	<index name="package_author_id">
 		<indexproperty name="author_id" />
 		<indexproperty name="package_id" />
 	</index>

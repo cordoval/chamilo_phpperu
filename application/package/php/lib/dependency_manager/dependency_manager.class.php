@@ -5,12 +5,14 @@ use common\libraries\SubManager;
 
 class DependencyManager extends SubManager
 {
-    const PARAM_PACKAGE_INSTANCE_ACTION = 'action';
-
-//    const ACTION_CREATE = 'creator';
+    const PARAM_DEPENDENCY_ACTION = 'action';
+    
+    const PARAM_DEPENDENCY_ID = 'id';
+    
+    const ACTION_CREATE = 'creator';
     const ACTION_BROWSE = 'browser';
-//    const ACTION_UPDATE = 'updater';
-//    const ACTION_DELETE = 'deleter';
+    const ACTION_UPDATE = 'updater';
+    const ACTION_DELETE = 'deleter';
 //    const ACTION_ACTIVATE = 'activater';
 //    const ACTION_DEACTIVATE = 'deactivater';
 
@@ -53,7 +55,7 @@ class DependencyManager extends SubManager
      */
     static function get_action_parameter()
     {
-        return self :: PARAM_PACKAGE_INSTANCE_ACTION;
+        return self :: PARAM_DEPENDENCY_ACTION;
     }
 
     /**
@@ -62,6 +64,22 @@ class DependencyManager extends SubManager
     static function launch($application)
     {
         parent :: launch(__CLASS__, $application);
+    }
+    
+    
+    function get_update_dependency_url($dependency)
+    {
+        return $this->get_url(array(
+                self :: PARAM_DEPENDENCY_ACTION => self :: ACTION_UPDATE, 
+                self :: PARAM_DEPENDENCY_ID => $dependency->get_id()));
+    }
+
+    function get_delete_dependency_url($dependency)
+    {
+        return $this->get_url(array(
+                self :: PARAM_DEPENDENCY_ACTION => self :: ACTION_DELETE, 
+                self :: PARAM_DEPENDENCY_ID => $dependency->get_id()));
+    
     }
 }
 ?>
