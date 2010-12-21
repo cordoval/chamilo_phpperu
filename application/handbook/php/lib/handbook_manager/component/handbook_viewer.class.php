@@ -116,7 +116,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         $this->handbook_publication_id = Request :: get(HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID);
         if(!$this->handbook_publication_id)
         {
-            var_dump('check for uid');
             $this->check_for_uid();
         }
         $location_id = HandbookRights::get_location_id_by_identifier_from_handbooks_subtree($this->handbook_publication_id);
@@ -135,11 +134,11 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         
         $item_data = $hdm->retrieve_handbook_item_data_by_uuid($this->uid);
         $this->handbook_selection_id = $item_data[HandbookItem::PROPERTY_REFERENCE];
-        var_dump('selection= '. $this->handbook_selection_id);
+       
 
-               if(!$this->handbook_publication_id)
+        if(!$this->handbook_publication_id)
         {
-            //publication unknown ->TODO search for possible publications (that contain this item)
+            //publication unknown ->TODO search for possible publications (that contain this item) and let user select the one to display
             var_dump('no publication');
         }
         else
@@ -302,7 +301,15 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         if($this->selected_object && $this->edit_right)
         {
             //create alternative context version
-            $actions[] = new ToolbarItem(Translation :: get('CreateContextLink'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->selected_object->get_id())));
+//            $redirect_url = 'handbook_viewer&application=handbook&thid='.$this->top_handbook_id.'&hid='.$this->handbook_id.'&hpid='.$this->handbook_publication_id.'&hsid='.$this->handbook_selection_id;
+            $redirect_url = array();
+            $redirect_url[Application :: PARAM_APPLICATION] = 'handbook';
+            $redirect_url[Application :: PARAM_ACTION] = HandbookManager :: ACTION_VIEW_HANDBOOK;
+            $redirect_url[HandbookManager::PARAM_TOP_HANDBOOK_ID] = $this->top_handbook_id;
+            $redirect_url[HandbookManager::PARAM_HANDBOOK_ID] = $this->handbook_id;
+            $redirect_url[HandbookManager::PARAM_HANDBOOK_SELECTION_ID] = $this->handbook_selection_id;
+
+            $actions[] = new ToolbarItem(Translation :: get('CreateContextLink'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->selected_object->get_id(), ContextLinkerManager::PARAM_REDIRECT_URL => $redirect_url)));
         }
         //view glossary
 

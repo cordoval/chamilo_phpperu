@@ -50,6 +50,8 @@ class ContextLinkerManager extends WebApplication
     const PROPERTY_ORIG_TYPE = 'orig_type';
     const PROPERTY_ORIG_TITLE = 'orig_title';
 
+    const PARAM_REDIRECT_URL = 'rurl';
+
     /**
      * Constructor
      * @param User $user The current user
