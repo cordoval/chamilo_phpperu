@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="package_dependency">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="dependency_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="package_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="compare" type="integer" unsigned="1"
+			notnull="1" length="1"/>
+		<property name="severity" type="integer" unsigned="1"
+			notnull="1" length="1"/>
+
+	</properties>
+	<index name="package_dependency_id">
+		<indexproperty name="dependency_id" />
+		<indexproperty name="package_id" />
+	</index>
+</object>

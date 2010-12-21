@@ -9,26 +9,26 @@ abstract class PackageDependency
 {
     const PROPERTY_ID = 'id';
     const PROPERTY_SEVERITY = 'severity';
-
+    
     const COMPARE_EQUAL = 1;
     const COMPARE_NOT_EQUAL = 2;
     const COMPARE_GREATER_THEN = 3;
     const COMPARE_GREATER_THEN_OR_EQUAL = 4;
     const COMPARE_LESS_THEN = 5;
     const COMPARE_LESS_THEN_OR_EQUAL = 6;
-
+    
     const FAILURE_CRITICAL = 1;
     const FAILURE_HIGH = 2;
     const FAILURE_MEDIUM = 3;
     const FAILURE_LOW = 4;
     const FAILURE_VERY_LOW = 5;
-
+    
     const TYPE_APPLICATIONS = 'applications';
     const TYPE_CONTENT_OBJECTS = 'content_objects';
     const TYPE_EXTENSIONS = 'extensions';
     const TYPE_SERVER = 'server';
     const TYPE_SETTINGS = 'settings';
-
+    
     private $id;
     private $severity;
     protected $logger;
@@ -69,7 +69,7 @@ abstract class PackageDependency
         return $this->severity;
     }
 
-    public function get_operator_name($operator)
+    static function get_operator_name($operator)
     {
         switch ($operator)
         {
@@ -92,6 +92,17 @@ abstract class PackageDependency
                 return Translation :: get('LessThenOrEqual', array(), Utilities :: COMMON_LIBRARIES);
                 break;
         }
+    }
+
+    static function get_severity_options()
+    {
+        $severity_options = array();
+        $severity_options[self :: FAILURE_CRITICAL] = self :: get_severity_name(self :: FAILURE_CRITICAL);
+        $severity_options[self :: FAILURE_HIGH] = self :: get_severity_name(self :: FAILURE_HIGH);
+        $severity_options[self :: FAILURE_MEDIUM] = self :: get_severity_name(self :: FAILURE_MEDIUM);
+        $severity_options[self :: FAILURE_LOW] = self :: get_severity_name(self :: FAILURE_LOW);
+        $severity_options[self :: FAILURE_VERY_LOW] = self :: get_severity_name(self :: FAILURE_VERY_LOW);
+        return $severity_options;
     }
 
     /**
@@ -131,6 +142,28 @@ abstract class PackageDependency
                 break;
             default :
                 return true;
+                break;
+        }
+    }
+
+    function get_severity_name($severity)
+    {
+        switch ($severity)
+        {
+            case self :: FAILURE_CRITICAL :
+                return Translation :: get('Critical', array(), Utilities :: COMMON_LIBRARIES);
+                break;
+            case self :: FAILURE_HIGH :
+                return Translation :: get('High', array(), Utilities :: COMMON_LIBRARIES);
+                break;
+            case self :: FAILURE_MEDIUM :
+                return Translation :: get('Medium', array(), Utilities :: COMMON_LIBRARIES);
+                break;
+            case self :: FAILURE_LOW :
+                return Translation :: get('Low', array(), Utilities :: COMMON_LIBRARIES);
+                break;
+            case self :: FAILURE_VERY_LOW :
+                return Translation :: get('VeryLow', array(), Utilities :: COMMON_LIBRARIES);
                 break;
         }
     }

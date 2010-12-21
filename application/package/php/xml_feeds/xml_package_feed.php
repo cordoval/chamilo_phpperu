@@ -75,42 +75,9 @@ if (Authentication :: is_valid())
     
     while ($package = $package_result_set->next_result())
     {
-        //        $package_parent_id = $package->get_parent();
-        //
-        //        if (! is_array($packages[$package_parent_id]))
-        //        {
-        //            $packages[$package_parent_id] = array();
-        //        }
-        //
-        //        if (! isset($packages[$package_parent_id][$package->get_id()]))
-        //        {
-        //            $packages[$package_parent_id][$package->get_id()] = $package;
-        //        }
-        //
-        //        if ($package_parent_id != 0)
-        //        {
-        //            $tree_parents = $package->get_parents(false);
-        //
-        //            while ($tree_parent = $tree_parents->next_result())
-        //            {
-        //                $tree_parent_parent_id = $tree_parent->get_parent();
-        //
-        //                if (! is_array($packages[$tree_parent_parent_id]))
-        //                {
-        //                    $packages[$tree_parent_parent_id] = array();
-        //                }
-        //
-        //                if (! isset($packages[$tree_parent_parent_id][$tree_parent->get_id()]))
-        //                {
-        //                    $packages[$tree_parent_parent_id][$tree_parent->get_id()] = $tree_parent;
-        //                }
-        //            }
-        //        }
         $packages[$package->get_section()][$package->get_category()][] = $package;
     
     }
-    
-//    $packages_tree = get_package_tree(0, $packages);
 }
 
 header('Content-Type: text/xml');

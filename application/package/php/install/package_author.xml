@@ -9,7 +9,7 @@
 			notnull="1" />
 
 	</properties>
-	<index name="package_author_id" type="primary">
+	<index name="package_author_id">
 		<indexproperty name="author_id" />
 		<indexproperty name="package_id" />
 	</index>

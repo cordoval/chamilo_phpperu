@@ -58,11 +58,10 @@ class Package extends DataClass
     const STATUS_PENDING = 1;
     const STATUS_ACCEPTED = 2;
     const STATUS_REJECTED = 3;
-
+    
     const AUTHORS = 'authors';
-    
-    
-    
+    const DEPENDENCIES = 'dependencies';
+
     /**
      * Get the default properties
      * @return array The property names.
@@ -182,30 +181,20 @@ class Package extends DataClass
         $package_authors_ids = array();
         while ($package_author = $package_authors->next_result())
         {
-            $package_authors_ids[] = $package_author->get_author_id();  
+            $package_authors_ids[] = $package_author->get_author_id();
         }
-
+        
         if ($only_ids)
         {
             return $package_authors_ids;
         }
         else
         {
-            $package_authors_ids[] = -1;
+            $package_authors_ids[] = - 1;
             $condition = new InCondition(Author :: PROPERTY_ID, $package_authors_ids);
             return $this->get_data_manager()->retrieve_authors($condition);
         }
     }
-
-    //    /**
-    //     * Sets the authors of this Package.
-    //     * @param authors
-    //     */
-    //    function set_authors($authors)
-    //    {
-    //        $this->set_default_property(self :: PROPERTY_AUTHORS, serialize($authors));
-    //    }
-    
 
     /**
      * Returns the version of this Package.
@@ -224,25 +213,6 @@ class Package extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_VERSION, $version);
     }
-
-    //    /**
-    //     * Returns the cycle of this Package.
-    //     * @return the cycle.
-    //     */
-    //    function get_cycle()
-    //    {
-    //        return unserialize($this->get_default_property(self :: PROPERTY_CYCLE));
-    //    }
-    //
-    //    /**
-    //     * Sets the cycle of this Package.
-    //     * @param cycle
-    //     */
-    //    function set_cycle($cycle)
-    //    {
-    //        $this->set_default_property(self :: PROPERTY_CYCLE, serialize($cycle));
-    //    }
-    
 
     /**
      * Returns the cycle phase of this Package.
@@ -275,31 +245,6 @@ class Package extends DataClass
                 self :: PHASE_GENERAL_AVAILABILITY => Translation :: get(self :: PHASE_GENERAL_AVAILABILITY), 
                 self :: PHASE_RELEASE_CANDIDATE => Translation :: get(self :: PHASE_RELEASE_CANDIDATE));
     }
-
-    //    static function convert_phase_to_string($phase)
-    //    {
-    //        switch ($phase)
-    //        {
-    //            case '1' :
-    //                return "general_availability";
-    //                break;
-    //            case '2' :
-    //                return "alpha";
-    //                break;
-    //            case '3' :
-    //                return "beta";
-    //                break;
-    //            case '4' :
-    //                return "release_candidate";
-    //                break;
-    //        }
-    //    }
-    //
-    //    function get_phase_string()
-    //    {
-    //        return self :: convert_phase_to_string($this->get_cycle_phase());
-    //    }
-    
 
     /**
      * Returns the filename of this Package.
@@ -519,20 +464,47 @@ class Package extends DataClass
      * Returns the dependencies of this Package.
      * @return the dependencies.
      */
-    function get_dependencies()
+    function get_dependencies($only_ids = true)
     {
-        return unserialize($this->get_default_property(self :: PROPERTY_DEPENDENCIES));
+        $package_dependencies = $this->get_package_dependencies();
+        
+        $package_dependencies_ids = array();
+        while ($package_dependency = $package_dependencies->next_result())
+        {
+            $package_dependencies_ids[] = $package_dependency->get_dependency_id();
+        }
+        
+        if ($only_ids)
+        {
+            return $package_dependencies_ids;
+        }
+        else
+        {
+            $package_dependencies_ids[] = - 1;
+            $condition = new InCondition(Package :: PROPERTY_ID, $package_dependencies_ids);
+            return $this->get_data_manager()->retrieve_packages($condition);
+        }
     }
 
-    //    /**
-    //     * Sets the dependencies of this Package.
-    //     * @param dependencies
-    //     */
-    //    function set_dependencies($dependencies)
-    //    {
-    //        $this->set_default_property(self :: PROPERTY_DEPENDENCIES, serialize($dependencies));
-    //    }
-    
+    function get_package_dependencies($only_ids = false)
+    {
+        $condition = new EqualityCondition(PackageDependency :: PROPERTY_PACKAGE_ID, $this->get_id());
+        $package_dependencies = $this->get_data_manager()->retrieve_package_dependencies($condition);
+        
+        if ($only_ids)
+        {
+            $package_dependencies_ids = array();
+            while ($package_dependency = $package_dependencies->next_result())
+            {
+                $package_dependencies_ids[] = $package_dependency->get_id();
+            }
+            return $package_dependencies_ids;
+        }
+        else
+        {
+            return $package_dependencies;
+        }
+    }
 
     static function get_table_name()
     {
@@ -549,49 +521,16 @@ class Package extends DataClass
         return $this->get_cycle_phase() == self :: PHASE_GENERAL_AVAILABILITY;
     }
 
-    function create()
-    {
-        $dm = $this->get_data_manager();
-        
-        $packages = $dm->retrieve_packages();
-        //		while($package = $packages->next_result())
-        //			if($packages->get_english_name() == $this->get_english_name())
-        //				return false;
-        
-
-        $succes = parent :: create();
-        
-        //		$variables = $dm->retrieve_variables();
-        //
-        //		while($variable = $variables->next_result())
-        //		{
-        //			$translation = new VariableTranslation();
-        //			$translation->set_user_id(0);
-        //			$translation->set_language_id($this->get_id());
-        //			$translation->set_variable_id($variable->get_id());
-        //			$translation->set_date(time());
-        //			$translation->set_rated(0);
-        //			$translation->set_rating(0);
-        //			$translation->set_translation(' ');
-        //			$translation->set_status(VariableTranslation :: STATUS_NORMAL);
-        //			if (! $translation->create())
-        //			{
-        //				return false;
-        //			}
-        //		}
-        
-
-        //	    $parent = PRights :: get_languages_subtree_root_id();
-        
-
-        //		if(!CdaRights :: create_location_in_languages_subtree($this->get_english_name(), CdaRights :: TYPE_LANGUAGE, $this->get_id(), $parent))
-        //		{
-        //			return false;
-        //		}
-        
-
-        return $succes;
-    }
+    //
+    //    function create()
+    //    {
+    //        $dm = $this->get_data_manager();
+    //              
+    //        $succes = parent :: create();
+    //        
+    //        return $succes;
+    //    }
+    
 
     function update()
     {
@@ -599,11 +538,7 @@ class Package extends DataClass
         
         $condition = new NotCondition(new EqualityCondition(Package :: PROPERTY_ID, $this->get_id()));
         $packages = $dm->retrieve_packages($condition);
-        //		while($package = $packages->next_result())
-        //			if($packages->get_english_name() == $this->get_english_name())
-        //				return false;
         
-
         return parent :: update();
     }
 
@@ -612,15 +547,6 @@ class Package extends DataClass
         $succes = parent :: delete();
         $dm = $this->get_data_manager();
         
-        //		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $this->get_id());
-        //		$translations = $dm->retrieve_variable_translations($condition);
-        //
-        //		while($translation = $translations->next_result())
-        //		{
-        //			$succes &= $translation->delete();
-        //		}
-        
-
         return $succes;
     
     }

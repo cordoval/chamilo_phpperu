@@ -18,18 +18,18 @@ use common\libraries\Utilities;
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class PackageBrowserTable extends ObjectTable
+class DependencyBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'package_browser_table';
+    const DEFAULT_NAME = 'dependency_browser_table';
 
     /**
      * Constructor
      */
     function __construct($browser, $parameters, $condition)
     {
-        $model = new PackageBrowserTableColumnModel();
-        $renderer = new PackageBrowserTableCellRenderer($browser);
-        $data_provider = new PackageBrowserTableDataProvider($browser, $condition);
+        $model = new DependencyBrowserTableColumnModel();
+        $renderer = new DependencyBrowserTableCellRenderer($browser);
+        $data_provider = new DependencyBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
