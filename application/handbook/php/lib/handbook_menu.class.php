@@ -56,25 +56,28 @@ class HandbookMenu extends HTML_Menu
         $this->handbook_publication_id = $handbook_publication_id;
         $this->top_handbook_id = $top_handbook_id;
         
-   
+ 
         $menu = $this->get_menu();
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
 
-        if (!$top_handbook_id && !$$handbook_selection_id)
+        if (!$this->top_handbook_id && !$this->$handbook_selection_id)
         {
             //NO HANDBOOK ID & NO SELECTION (SHOULD NOT EXIST)
             $this->forceCurrentUrl($this->get_root_url());
         }
-        elseif (!$handbook_selection_id && $top_handbook_id)
+        elseif (!$this->handbook_selection_id && $this->top_handbook_id)
         {
             //NO SELECTION
-            $this->forceCurrentUrl($this->get_publication_url($top_handbook_id, $handbook_publication_id));
+            $this->forceCurrentUrl($this->get_publication_url($this->top_handbook_id, $this->handbook_publication_id));
+
+
         }
         else
         {
-            //SELECTION
-            $this->forceCurrentUrl($this->get_sub_item_url($top_handbook_id, $handbook_selection_id, $handbook_publication_id, $handbook_id));
+            //SELECTION;
+            $this->get_selection_url();
+            
         }
 
     }
@@ -100,7 +103,7 @@ class HandbookMenu extends HTML_Menu
         $pub['title'] = $handbook->get_title();
         $pub['url'] = $this->get_publication_url($this->handbook_id, $this->handbook_publication_id);
         $pub['class'] = 'handbook';
-        $pub['sub'] = $this->get_handbook_items($this->top_handbook_id, $this->handbook_id);
+        $pub['sub'] = $this->get_handbook_items($this->top_handbook_id, $this->top_handbook_id);
         $menu[] = $pub;
 
 //        $udm = UserDataManager :: get_instance();
@@ -162,6 +165,7 @@ class HandbookMenu extends HTML_Menu
                     $item['sub'] = $items;
             }
 
+
             $alternatives = HandbookManager::get_alternatives($lo->get_id(), $this->handbook_id);
 
             if($alternatives['text_main'] != null)
@@ -180,7 +184,7 @@ class HandbookMenu extends HTML_Menu
 
             $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $handbook_id);
             $item['class'] = $lo->get_type();
-//            $item['class'] = 'test';
+
             $menu[] = $item;
         }
 
@@ -208,7 +212,6 @@ class HandbookMenu extends HTML_Menu
 
     private function get_sub_item_url($top_handbook_id, $handbook_selection_id, $hpid, $coid, $handbook_id)
     {
-       
         return htmlentities(sprintf($this->urlFmt, $top_handbook_id, $handbook_selection_id, $hpid, $coid, $handbook_id));
     }
 
@@ -244,5 +247,15 @@ class HandbookMenu extends HTML_Menu
     static function get_tree_name()
     {
     	return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
+    }
+
+    function get_selection_url()
+    {
+        $rdm = RepositoryDataManager::get_instance();
+        $complex_set = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->handbook_selection_id, ComplexContentObjectItem :: get_table_name()));
+               $cloid = $complex_set->next_result()->get_id();
+
+            return $this->forceCurrentUrl($this->get_sub_item_url($this->top_handbook_id, $this->handbook_selection_id, $this->handbook_publication_id, $cloid, $this->handbook_id));
+
     }
 }
