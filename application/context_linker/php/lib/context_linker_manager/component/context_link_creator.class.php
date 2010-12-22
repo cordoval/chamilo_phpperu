@@ -29,6 +29,8 @@ class ContextLinkerManagerContextLinkCreatorComponent extends ContextLinkerManag
         $trail->add(new Breadcrumb($this->get_url(array(ContextLinkerManager :: PARAM_ACTION => null)), Translation :: get('ContextLinker')));
         $trail->add(new Breadcrumb(Translation :: get('CreateObject', array('OBJECT' => Translation::get('ContextLink')), Utilities::COMMON_LIBRARIES)));
         $trail->add_help('ContextLinkCreator');
+
+        $redirect_url = Request :: get(ContextLinkerManager::PARAM_REDIRECT_URL);
         
         $rdm = RepositoryDataManager :: get_instance();
         if($this->content_object = $rdm->retrieve_content_object(Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID)))
@@ -37,6 +39,8 @@ class ContextLinkerManagerContextLinkCreatorComponent extends ContextLinkerManag
             {
                 $repo_viewer = RepoViewer :: construct($this);
                 $repo_viewer->set_parameter(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID, $this->content_object->get_id());
+                $repo_viewer->set_parameter(ContextLinkerManager::PARAM_REDIRECT_URL, $redirect_url);
+
                 $repo_viewer->run();
             }
             else
@@ -52,7 +56,7 @@ class ContextLinkerManagerContextLinkCreatorComponent extends ContextLinkerManag
 
                 foreach ($objects as $object_id)
                 {
-                    $this->redirect(Translation :: get('ObjectSelected', array('OBJECT' => Translation :: get('AlternativeContentObject')), Utilities :: COMMON_LIBRARIES), false, array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_PUBLISH_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID), ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID => $object_id));
+                    $this->redirect(Translation :: get('ObjectSelected', array('OBJECT' => Translation :: get('AlternativeContentObject')), Utilities :: COMMON_LIBRARIES), false, array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_PUBLISH_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID), ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID => $object_id, ContextLinkerManager::PARAM_REDIRECT_URL => $redirect_url));
                 }
             }
         }
