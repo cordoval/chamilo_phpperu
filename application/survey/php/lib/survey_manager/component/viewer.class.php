@@ -1,8 +1,9 @@
 <?php
 namespace application\survey;
 
+
 use common\libraries\Path;
-use repository\content_object\survey\SurveyViewerWizard;
+use repository\content_object\survey\SurveyDisplaySurveyViewerComponent;
 use repository\content_object\survey\Survey;
 use repository\RepositoryDataManager;
 use common\libraries\Breadcrumb;
@@ -33,11 +34,11 @@ class SurveyManagerViewerComponent extends SurveyManagerTakerComponent
     function run()
     {
 
-        $this->survey_id = Request :: get(SurveyViewerWizard :: PARAM_SURVEY_ID);
+        $this->survey_id = Request :: get(SurveyDisplaySurveyViewerComponent :: PARAM_SURVEY_ID);
 
         $this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
 
-        $this->invitee_id = Request :: get(SurveyViewerWizard :: PARAM_INVITEE_ID);
+        $this->invitee_id = Request :: get(SurveyDisplaySurveyViewerComponent :: PARAM_INVITEE_ID);
 
         if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION, $this->invitee_id))
         {
@@ -64,9 +65,9 @@ class SurveyManagerViewerComponent extends SurveyManagerTakerComponent
     {
         return array(
                 self :: PARAM_PUBLICATION_ID,
-                SurveyViewerWizard :: PARAM_SURVEY_ID,
-                SurveyViewerWizard :: PARAM_INVITEE_ID,
-                SurveyViewerWizard :: PARAM_CONTEXT_PATH);
+                SurveyDisplaySurveyViewerComponent :: PARAM_SURVEY_ID,
+                SurveyDisplaySurveyViewerComponent :: PARAM_INVITEE_ID,
+                SurveyDisplaySurveyViewerComponent :: PARAM_CONTEXT_PATH);
     }
 
     //try out for interface SurveyTaker

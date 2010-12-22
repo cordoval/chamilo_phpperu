@@ -19,7 +19,7 @@ use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use user\UserDataManager;
 use repository\content_object\survey\SurveyContextDataManager;
-use repository\content_object\survey\SurveyTemplate;
+use repository\content_object\survey\SurveyTemplateUser;
 
 class SurveyManagerParticipantBrowserComponent extends SurveyManager
 {
@@ -60,13 +60,13 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         $parameters[self :: PARAM_PUBLICATION_ID] = $this->pid;
 
         $table = new SurveyParticipantBrowserTable($this, $parameters, $this->get_participant_condition());
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_PARTICIPANTS, Translation :: get('participants'), Theme :: get_image_path() . 'logo/16.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_PARTICIPANTS, Translation :: get('Participants'), Theme :: get_image_path() . 'logo/16.png', $table->as_html()));
 
         $table = new SurveyUserBrowserTable($this, $parameters, $this->get_invitee_condition(), $this->pid, SurveyUserBrowserTable :: TYPE_INVITEES);
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_INVITEES, Translation :: get('invitees'), Theme :: get_image_path() . 'logo/16.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_INVITEES, Translation :: get('Invitees'), Theme :: get_image_path() . 'logo/16.png', $table->as_html()));
 
         $table = new SurveyUserBrowserTable($this, $parameters, $this->get_no_participant_condition(), $this->pid, SurveyUserBrowserTable :: TYPE_NO_PARTICIPANTS);
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_NOT_PARTICIPANTS, Translation :: get('no_participants'), Theme :: get_image_path() . 'logo/16.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_NOT_PARTICIPANTS, Translation :: get('NoParticipants'), Theme :: get_image_path() . 'logo/16.png', $table->as_html()));
 
         $html[] = $tabs->render();
 
@@ -85,7 +85,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         $parameters[self :: PARAM_PUBLICATION_ID] = $this->pid;
 
         $action_bar->set_search_url($this->get_url($parameters));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', array(), Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, SurveyRights :: LOCATION_PARTICIPANT_BROWSER, SurveyRights :: TYPE_COMPONENT))
         {
@@ -188,7 +188,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
 
             if (count($invited_users) > 0)
             {
-                $condition = new InCondition(SurveyTemplate :: PROPERTY_USER_ID, $invited_users, SurveyTemplate :: get_table_name());
+                $condition = new InCondition(SurveyTemplateUser :: PROPERTY_USER_ID, $invited_users, SurveyTemplateUser :: get_table_name());
 
             }
             else
@@ -196,7 +196,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
                 return $condition = new EqualityCondition(User :: PROPERTY_ID, 0);
             }
 
-            $templates = $cdm->retrieve_survey_templates($context_template->get_type(), $condition);
+            $templates = $cdm->retrieve_survey_template_users($context_template->get_type(), $condition);
             $template_users = array();
             while ($template = $templates->next_result())
             {

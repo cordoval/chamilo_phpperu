@@ -25,7 +25,7 @@ class SurveySelectQuestionDisplay extends SurveyQuestionDisplay
         {
             $answer_options[] = $option->get_value();
         }
-
+       
         $element_template = array();
         $element_template[] = '<div><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
         $element_template[] = '<div class="clear">&nbsp;</div>';

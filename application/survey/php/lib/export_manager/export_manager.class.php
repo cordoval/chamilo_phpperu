@@ -1,5 +1,4 @@
 <?php
-
 namespace application\survey;
 
 use common\libraries\Path;
@@ -22,7 +21,9 @@ class SurveyExportManager extends SubManager
     const PARAM_ERROR_MESSAGE = 'error_message';
     
     const ACTION_CREATE = 'creator';
-    const ACTION_BROWSE = 'browser';
+//    const ACTION_BROWSE = 'browser';
+    const ACTION_BROWSE = 'survey_opleiding_exporter';
+    
     const ACTION_EDIT = 'editor';
     const ACTION_EDIT_REPORTING_RIGHTS = 'rights_editor';
     const ACTION_DELETE = 'deleter';
@@ -37,7 +38,7 @@ class SurveyExportManager extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_application_path() . 'lib/survey/export_manager/component/';
+        return Path :: get_application_path() . '/survey/php/lib/export_manager/component/';
     }
 
     //url
