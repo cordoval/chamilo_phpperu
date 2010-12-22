@@ -2527,3 +2527,7 @@ a.cda_link {
 	width: 7px  !important;
 	background: none  !important;
 }
+
+.hidden {
+	display:none;
+}
