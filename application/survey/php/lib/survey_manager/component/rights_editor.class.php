@@ -56,8 +56,10 @@ class SurveyManagerRightsEditorComponent extends SurveyManager implements Delega
             }
         }
         
-        $user_ids = array_unique($user_ids);
         
+        
+        $user_ids = array_unique($user_ids);
+           
         $manager = new RightsEditorManager($this, $locations);
         
         if (count($user_ids) > 0)
@@ -69,7 +71,7 @@ class SurveyManagerRightsEditorComponent extends SurveyManager implements Delega
             $manager->limit_users(array(0));
         }
         
-        $manager->set_types(RightsEditorManager :: TYPE_USER);
+        $manager->set_types(array(RightsEditorManager :: TYPE_USER));
         $manager->run();
     }
 

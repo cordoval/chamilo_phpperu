@@ -65,7 +65,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         {
             $type = $this->determine_survey_context_type($id);
         }
-//        dump($type);
+        //        dump($type);
         $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $id);
         //context is always extended because SurveyContext is an abstact class        
         //        if ($this->is_extended_type($type))
@@ -95,7 +95,6 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
     function delete_survey_context($context)
     {
         
-    	
         if ($context->get_additional_properties())
         {
             $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
@@ -143,7 +142,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-            
+        
         //        $props[$this->escape_column_name(SurveyContext :: PROPERTY_ID)] = $context->get_id();
         //        $props[$this->escape_column_name(SurveyContext :: PROPERTY_TYPE)] = $context->get_type();
         //        $props[$this->escape_column_name(SurveyContext :: PROPERTY_ACTIVE)] = $context->get_active();
@@ -443,18 +442,18 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
 
     function create_survey_template_user($template_user)
     {
-      	$props = array();
+        $props = array();
         foreach ($template_user->get_default_properties() as $key => $value)
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-//        $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $template_user->get_id();
+        //        $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $template_user->get_id();
         $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_TYPE)] = $template_user->get_type();
         $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $this->get_better_next_id('survey_template_user', 'id');
         $this->get_connection()->loadModule('Extended');
         $this->get_connection()->extended->autoExecute($this->get_table_name('survey_template_user'), $props, MDB2_AUTOQUERY_INSERT);
         $template_user->set_id($this->get_connection()->extended->getAfterID($props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)], 'survey_template_user'));
-              
+        
         if ($template_user->get_additional_properties())
         {
             $props = array();
@@ -573,7 +572,6 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
 
     function retrieve_survey_context_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        
         $context_alias = $this->get_alias(SurveyContext :: get_table_name());
         $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
         $context_rel_user_alias = $this->get_alias(SurveyContextRelUser :: get_table_name());
@@ -586,7 +584,6 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(SurveyContextRelUser :: PROPERTY_USER_ID, $context_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
         
         return $this->retrieve_object_set($query, SurveyContextRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyContextRelUser :: CLASS_NAME);
-    
     }
 
     function retrieve_survey_context_rel_user($context_id, $user_id)
