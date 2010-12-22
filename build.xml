@@ -25,7 +25,7 @@
     <property name="plugin-dir" value="libraries/plugin" />
     <property name="phpunit-coverage-config-file" value="${test-dir}/phpunit-coverage.xml" />
     <property name="phpunit-config-file" value="${test-dir}/phpunit.xml" />
-    <property name="phpunit-no-report-config-file" value="${test-dir}/phpunit-coverage.xml" />
+    <property name="phpunit-no-report-config-file" value="${test-dir}/phpunit-no-reports.xml" />
     <property name="pdepend-report-file" value="${build-logs-dir}/pdepend.xml" />
     <property name="pdepend-summary-report-file" value="${build-logs-dir}/pdepend-summary.xml" />
     <property name="pmd-report-file" value="${build-logs-dir}/phpcpd.xml" />
