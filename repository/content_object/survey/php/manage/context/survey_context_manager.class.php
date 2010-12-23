@@ -71,11 +71,13 @@ class SurveyContextManager extends SubManager
     const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
     const ACTION_UNSUBSCRIBE_USER = 'unsubscribe_user';
     const ACTION_UNSUBSCRIBE_GROUP = 'unsubscribe_group';
+   const ACTION_IMPORT_CONTEXT_USER = 'context_user_importer';
+    
     
     const ACTION_CREATE_TEMPLATE_USER = 'template_user_creator';
     const ACTION_DELETE_TEMPLATE_USER = 'template_user_deleter';
     const ACTION_IMPORT_TEMPLATE_USER = 'template_user_importer';
-    
+        
     const ACTION_DELETE_SURVEY_REL_CONTEXT_TEMPLATE = 'survey_context_deleter';
     
     const ACTION_RIGHTS_EDITOR = 'rights_editor';
@@ -187,6 +189,11 @@ class SurveyContextManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_GROUP, self :: PARAM_CONTEXT_ID => $context->get_id()));
     }
 
+	function get_context_user_import_url($context_registration)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_CONTEXT_USER, self :: PARAM_CONTEXT_ID => $context_registration->get_id()));
+    }
+    
     function get_context_unsubscribe_user_url($context_rel_user)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USER, self :: PARAM_CONTEXT_REL_USER_ID => $context_rel_user->get_context_id() . '|' . $context_rel_user->get_user_id()));

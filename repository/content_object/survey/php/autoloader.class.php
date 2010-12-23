@@ -20,8 +20,9 @@ class Autoloader
             'survey_context_data_manager' => 'context_data_manager/database_context_data_manager',
             'survey_table' => 'manage/context/component/survey_table/table',
         	'survey_template_user_table' => 'manage/context/component/template_user_table/table',
-                        'survey_template_user_form' => 'manage/context/forms/template_user_form',
-        
+            'survey_template_user_form' => 'manage/context/forms/template_user_form',
+        	'import_context_user_form' => 'manage/context/forms/import_context_user_form',
+     
         	'survey_context' => 'survey_context',
             'survey_builder' => 'builder/survey_builder',
             'survey_display' => 'display/survey_display',

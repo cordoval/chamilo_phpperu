@@ -17,34 +17,33 @@ use PHPExcel_Reader_Excel2007;
 
 require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 
-class ImportTemplateUserForm extends FormValidator
+class ImportContextUserForm extends FormValidator
 {
     
-    const IMPORT_FILE_NAME = 'template_file';
+    const IMPORT_FILE_NAME = 'context_user_file';
     
-    private $template_user;
-    private $context_template;
-    private $template_manager;
+    private $context_registration_id;
+    private $context;
+    private $context_type;
     private $valid_email_regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
 
-    function __construct($template_manager, $action, $context_template_id)
+    function __construct($context_manager, $action, $context_registration_id)
     {
-        parent :: __construct('survey_import_template_user_form', 'post', $action);
-        $this->template_manager = $template_manager;
-        $this->context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
-        $this->template_user = SurveyTemplateUser:: factory($this->context_template->get_type());
-        $this->template_user->set_context_template_id($context_template_id);
+        parent :: __construct('survey_import_context_user_form', 'post', $action);
+        $context_registration = SurveyContextDataManager :: get_instance()->retrieve_survey_context_registration($context_registration_id);
+        $this->context_type = $context_registration->get_type();
+        $this->context = SurveyContext :: factory($this->context_type);
         $this->build_form();
         $this->setDefaults();
     }
 
     function build_form()
     {
-        $this->addElement('category', Translation :: get('template_user'));
-        $template_user_properties = array();
-        $template_user_properties[] = Translation :: get('Email');
-        $template_user_properties = array_merge($template_user_properties, $this->template_user->get_additional_property_names());
-        $properties = implode(', ', $template_user_properties);
+        $this->addElement('category', Translation :: get('context_user'));
+        $context_user_properties = array();
+        $context_user_properties[] = Translation :: get('Email');
+        $context_user_properties = array_merge($context_user_properties, $this->context->get_allowed_keys());
+        $properties = implode(', ', $context_user_properties);
         $this->add_information_message(null, null, Translation :: get('ExcelfileWithFolowingPropertiesWithRespectOfOrder') . ' : ' . $properties);
         $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
         $this->addElement('category');
@@ -90,11 +89,21 @@ class ImportTemplateUserForm extends FormValidator
         }
         
         $worksheet = $excel->getSheet(0);
-        
         $excel_array = $worksheet->toArray();
-        $template_users = array();
+               
+        $context_users = array();
+         
+        $context_user = new SurveyContextRelUser();
+              
+        $key_property_name = $excel_array[1][1];
+           
         
-        $template_user_properties = $this->template_user->get_additional_property_names(true);
+        $key_propertie_names = $this->context->get_allowed_keys();
+              
+        if (! in_array($key_property_name, $key_propertie_names))
+        {
+			return false;
+        }
         
         //each row in excel file except row 1 = headers !
         for($i = 2; $i < count($excel_array) + 1; $i ++)
@@ -104,44 +113,16 @@ class ImportTemplateUserForm extends FormValidator
             $users = UserDataManager :: get_instance()->retrieve_users_by_email($email);
             foreach ($users as $user)
             {
-                $this->template_user->set_user_id($user->get_id());
-                $index = 0;
-                foreach ($template_user_properties as $template_user_property => $context_type)
+                $context_user->set_user_id($user->get_id());
+                $value = $excel_array[$i][1];
+                $condition = new EqualityCondition($key_property_name, $value, $this->context->get_table_name());
+                $context = SurveyContextDataManager :: get_instance()->retrieve_survey_contexts($this->context_type, $condition)->next_result();
+                if (isset($context))
                 {
-                    $index++;
-                   	$dummy_context = SurveyContext :: factory($context_type);
-                    
-                    $key_propertie_names = $dummy_context->get_allowed_keys();
-                    
-                    if (count($key_propertie_names) > 0)
-                    {
-                        $conditions = array();
-                        $value = $excel_array[$i][$index];
-                        foreach ($key_propertie_names as $key_propertie_name)
-                        {
-                            $conditions[] = new EqualityCondition($key_propertie_name, $value);
-                        }
-                        $condition = new OrCondition($conditions);
-                        $contexts = SurveyContextDataManager :: get_instance()->retrieve_survey_contexts($context_type, $condition);
-                        $context = $contexts->next_result();
-                       
-                    }
-                    else
-                    {
-                        $context_id = $excel_array[$i][$index];
-                        $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id, $context_type);
-                    }
-                           
-                    if ($context)
-                    {
-                        $this->template_user->set_additional_property($template_user_property, $context->get_id());
-                    }
-                    else
-                    {
-                        continue;
-                    }
+                	$context_user->set_context_id($context->get_id());
+                    $succes = $context_user->create();
                 }
-                $succes = $this->template_user->create();
+            
             }
         }
         return $success;
