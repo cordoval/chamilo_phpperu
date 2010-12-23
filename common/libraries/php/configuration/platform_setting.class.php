@@ -29,7 +29,7 @@ class PlatformSetting
     /**
      * Constructor.
      */
-    private function __construct()
+    public function __construct()
     {
         $this->params = array();
         $this->load_platform_settings();
@@ -43,9 +43,14 @@ class PlatformSetting
     {
         if (! isset(self :: $instance))
         {
-            self :: $instance = new self();
+            self :: set_instance(new self());
         }
         return self :: $instance;
+    }
+    
+    static function set_instance($instance)
+    {
+        self :: $instance = $instance;
     }
 
     /**

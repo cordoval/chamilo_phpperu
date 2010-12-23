@@ -217,7 +217,7 @@ abstract class Application
      */
     function display_portal_header()
     {
-        Display :: header();
+        Display :: header(null);
     }
 
     /**

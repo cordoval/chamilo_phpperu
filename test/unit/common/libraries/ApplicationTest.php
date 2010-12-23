@@ -20,7 +20,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase{
 
 
 
-	public function test_handle_table_action_should_set_parameters_and_call_callback_function()
+    public function test_handle_table_action_should_set_parameters_and_call_callback_function()
     {
         $_POST['table_name'] = 'TableHandlerStub';
         $_POST['TableHandlerStub_namespace'] = 'common\\libraries\\stubs';
@@ -148,9 +148,21 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase{
                
     }
     
-    public function test_true_should_be_true()
+    public function test_display_portal_header()
     {
-	$this->assertTrue(true);
+        $platformSettingsMock = $this->getMock('common\\libraries\\PlatformSetting');
+        PlatformSetting::set_instance($platformSettingsMock);
+        \ob_start();
+	$this->application_instance->display_portal_header();
+        $output = \ob_get_flush();
+        $this->assertRegExp(
+            '%<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">%is', 
+            $output
+        );
+        $this->assertRegExp(
+            '%<html.*?>.*?<head>.*?<title>.*?</title>.*?</head>.*?<body .*?>%is',
+             $output
+        );
     }
 
 
