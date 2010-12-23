@@ -4,8 +4,6 @@ namespace repository\content_object\survey;
 use common\libraries\DataClass;
 use common\libraries\Utilities;
 
-//require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.class.php');
-
 abstract class SurveyTemplateUser extends DataClass
 {
 
@@ -13,7 +11,7 @@ abstract class SurveyTemplateUser extends DataClass
 
     const PROPERTY_TYPE = 'type';
     const PROPERTY_USER_ID = 'user_id';
-    const PROPERTY_TEMPLATE_ID = 'context_template_id';
+    const PROPERTY_TEMPLATE_ID = 'template_id';
 
     private $additionalProperties;
 
