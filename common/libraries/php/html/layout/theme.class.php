@@ -1,5 +1,7 @@
 <?php
 namespace common\libraries;
+
+use repository\ContentObject;
 /**
  * $Id: theme.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html
@@ -245,7 +247,8 @@ class Theme
 
     static function get_content_object_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
-        return self :: get_common_image('content_object/' . $image, $extension, $label, $href, $display, $confirmation);
+        //return self :: get_common_image('content_object/' . $image, $extension, $label, $href, $display, $confirmation);
+        return '<img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($image)) . 'logo/' . self :: ICON_SMALL . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($image))) . '"/>';
     }
 
     static function get_treemenu_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)

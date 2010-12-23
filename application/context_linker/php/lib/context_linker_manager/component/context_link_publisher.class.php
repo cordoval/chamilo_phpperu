@@ -10,6 +10,8 @@ use common\libraries\Utilities;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
+use repository\RepositoryDataManager;
+use common\libraries\Theme;
 
 /**
  * Component to create a new context_link object
@@ -102,12 +104,15 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
         }
         else
         {
+            $rdm = RepositoryDataManager :: get_instance();
+            $orig_content_object = $rdm->retrieve_content_object($context_link->get_original_content_object_id());
+            $alt_content_object = $rdm->retrieve_content_object($context_link->get_alternative_content_object_id());
             $this->display_header($trail);
             $html = array();
-            $html[] = '<table><tr><td><h4>'.Translation :: get('OriginalContentObject').'</h4>';
+            $html[] = '<table><tr><td><h3>' . Theme :: get_content_object_image($orig_content_object->get_type()) . $orig_content_object->get_title(). '</h3><h4>'.Translation :: get('OriginalContentObject').'</h4>';
             $html[] = '<div>' . $this->get_content_object_metadata_output(Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID)) . '</div>';
             $html[] = $original_form->toHtml() . '</td>';
-            $html[] = '<td><h4>'.Translation :: get('AlternativeContentObject').'</h4>' . $alternative_form->toHtml() . '</td></tr></table>';
+            $html[] = '<td><h3>' . Theme :: get_content_object_image($alt_content_object->get_type()) . $alt_content_object->get_title(). '</h3><h4>'.Translation :: get('AlternativeContentObject').'</h4>' . $alternative_form->toHtml() . '</td></tr></table>';
 
             echo implode("\n", $html);
 

@@ -5,6 +5,8 @@ use common\libraries\Translation;
 use application\metadata\MetadataDataManager;
 use application\metadata\MetadataPropertyValue;
 use application\metadata\MetadataForm;
+use common\libraries\Request;
+
 
 
 /**
@@ -36,8 +38,11 @@ class ContextLinkForm extends MetadataForm
 
         $this->form_type = $form_type;
 
+        
+
         if ($this->form_type == self :: TYPE_ORIGINAL)
         {
+                
                 $this->build_basic_form();
                 $this->setDefaults(array(parent :: PARENT_ID => $context_link->get_original_content_object_id()));
         }
@@ -50,6 +55,7 @@ class ContextLinkForm extends MetadataForm
 
     function build_basic_form()
     {
+
         $this->addElement('hidden', parent :: PARENT_ID);
 
         $this->addElement('hidden', ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID);
@@ -82,7 +88,8 @@ class ContextLinkForm extends MetadataForm
     	$context_link = $this->context_link;
     	$values = $this->exportValues();
 
-        if(!empty($values[MetadataPropertyValue :: PROPERTY_VALUE]))
+        $value = Request :: post(MetadataPropertyValue :: PROPERTY_VALUE);
+        if(!empty($value))
         {
             if(! $metadata_property_value = $this->create_metadata_property_value())
             {
