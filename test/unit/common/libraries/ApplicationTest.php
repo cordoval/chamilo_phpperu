@@ -6,6 +6,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase{
     private $application_instance;
 
     private $user_stub;
+    
+    protected $backupStaticAttributes = true;
 
     protected function setUp() {
         parent::setUp();
@@ -148,19 +150,32 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase{
                
     }
     
-    public function test_display_portal_header()
+    public function test_display_portal_header_should_produce_doctype_head_and_body_opening()
     {
         $platformSettingsMock = $this->getMock('common\\libraries\\PlatformSetting');
         PlatformSetting::set_instance($platformSettingsMock);
         \ob_start();
 	$this->application_instance->display_portal_header();
-        $output = \ob_get_flush();
+        $output = \ob_get_clean();
         $this->assertRegExp(
             '%<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">%is', 
             $output
         );
         $this->assertRegExp(
             '%<html.*?>.*?<head>.*?<title>.*?</title>.*?</head>.*?<body .*?>%is',
+             $output
+        );
+    }
+    
+    public function test_display_portal_footer_should_close_body_and_html()
+    {
+        
+        \ob_start();
+	$this->application_instance->display_portal_footer();
+        $output = \ob_get_clean();
+        
+        $this->assertRegExp(
+            '%id="footer".*?id="copyright".*?</body>.*?</html>%is',
              $output
         );
     }

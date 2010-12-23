@@ -123,14 +123,7 @@ class Translation
         $instance->application = $application;
     }
 
-    /**
-     * This comment does not fit here.
-     * Gets a parameter from the configuration.
-     * @param string $section The name of the section in which the parameter
-     * is located.
-     * @param string $name The parameter name.
-     * @return mixed The parameter value.
-     */
+    
     function translate($variable, $context = null)
     {
         $instance = self :: get_instance();
@@ -206,7 +199,8 @@ class Translation
     {
         $called_class = explode('\\', $context);
         $path = Path :: get(SYS_PATH) . implode('/', $called_class) . '/resources/i18n/' . substr($language, 0, 2) . '.i18n';
-
+        if (! is_readable($path)) return;
+        
         $strings = parse_ini_file($path);
 
         $instance = self :: get_instance();
