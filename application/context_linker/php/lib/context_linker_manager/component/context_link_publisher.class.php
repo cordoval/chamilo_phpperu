@@ -76,7 +76,7 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
             {
                 $this->redirect($success ? Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES), !$success, array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID), ContextLinkerManager::PARAM_REDIRECT_URL => $redirect_url));
             }
-            else 
+            else
             {
                 //redirect to previous application
                 $params[Application :: PARAM_APPLICATION] = 'context_linker';
@@ -95,7 +95,7 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
                 else
                 {
                     $this->redirect(Translation :: get('ObjectCreated'), $redirect_url);
-                }
+            }
             }
             else
             {

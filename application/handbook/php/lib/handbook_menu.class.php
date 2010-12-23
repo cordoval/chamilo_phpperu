@@ -166,7 +166,7 @@ class HandbookMenu extends HTML_Menu
             }
 
 
-            $alternatives = HandbookManager::get_alternatives($lo->get_id(), $this->handbook_id);
+            $alternatives = HandbookManager::get_alternatives_preferences_types($lo->get_id(), $this->handbook_id);
 
             if($alternatives['text_main'] != null)
             {

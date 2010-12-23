@@ -107,6 +107,11 @@
 		  			<severity>1</severity>
 				</dependency>
 			</extension>
+                        <application>
+                                    <id>context_linker</id>
+                                    <version type="4">1.0.0</version>
+		  		    <severity>1</severity>
+                        </application>
 		</dependencies>
 	</package>
 </packages>
