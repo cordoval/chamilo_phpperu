@@ -14,6 +14,8 @@ use admin\AdminDataManager;
 use rights\RightsDataManager;
 use common\libraries\Path;
 use PHPExcel_Reader_Excel2007;
+use PHPExcel_Reader_Excel5;
+use PHPExcel_Reader_OOCalc;
 
 require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 

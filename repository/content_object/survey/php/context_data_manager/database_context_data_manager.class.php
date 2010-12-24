@@ -282,6 +282,52 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         return true;
     }
 
+    function create_survey_template($survey_template)
+    {
+        return $this->create($survey_template);
+    }
+
+    function retrieve_survey_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(SurveyTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyTemplate :: CLASS_NAME);
+    }
+
+    function retrieve_survey_template($survey_template_id)
+    {
+        $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_ID, $survey_template_id);
+        return $this->retrieve_object(SurveyTemplate :: get_table_name(), $condition, array(), SurveyTemplate :: CLASS_NAME);
+    }
+
+    function count_survey_templates($condition = null)
+    {
+        return $this->count_objects(SurveyTemplate :: get_table_name(), $condition);
+    }
+
+    function update_survey_template($survey_template)
+    {
+        $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_ID, $survey_template->get_id());
+        return $this->update($survey_template, $condition);
+    }
+
+    function delete_survey_template($survey_template)
+    {
+        $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_ID, $survey_template->get_id());
+        return $this->delete(SurveyTemplate :: get_table_name(), $condition);
+    }
+
+    function truncate_survey_template($template_id)
+    {
+        
+        $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_TEMPLATE_ID, $template_id);
+        
+        $template_users = $this->retrieve_survey_template_users($condition);
+        while ($template_users = $template_users->next_result())
+        {
+            $this->delete_survey_template_user($template_users);
+        }
+        return true;
+    }
+
     function retrieve_template_rel_pages($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $rel_alias = $this->get_alias(SurveyContextTemplateRelPage :: get_table_name());

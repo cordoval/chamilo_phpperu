@@ -1,9 +1,9 @@
-<?php namespace repository\content_object\survey;
+<?php
 namespace repository\content_object\survey;
 
 use common\libraries\ObjectTableDataProvider;
 
-class SurveyContextTemplateBrowserTableDataProvider extends ObjectTableDataProvider
+class SurveyTemplateTableDataProvider extends ObjectTableDataProvider
 {
 
     function __construct($browser, $condition)
@@ -14,12 +14,12 @@ class SurveyContextTemplateBrowserTableDataProvider extends ObjectTableDataProvi
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        return SurveyContextDataManager :: get_instance()->retrieve_survey_context_templates($this->get_condition(), $offset, $count, $order_property);
+        return SurveyContextDataManager :: get_instance()->retrieve_survey_templates($this->get_condition(), $offset, $count, $order_property);
     }
 
     function get_object_count()
     {
-        return SurveyContextDataManager :: get_instance()->count_survey_context_templates($this->get_condition());
+        return SurveyContextDataManager :: get_instance()->count_survey_templates($this->get_condition());
     }
 }
 ?>
