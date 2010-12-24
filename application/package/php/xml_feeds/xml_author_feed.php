@@ -23,23 +23,23 @@ require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 if (Authentication :: is_valid())
 {
     $conditions = array();
-
+    
     $query_condition = Utilities :: query_to_condition($_GET['query'], array(Author :: PROPERTY_NAME));
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
     }
-
-    if (is_array($_GET['exclude']))
-    {
-        $c = array();
-        foreach ($_GET['exclude'] as $id)
-        {
-            $c[] = new EqualityCondition(Author :: PROPERTY_ID, $id);
-        }
-        $conditions[] = new NotCondition(new OrCondition($c));
-    }
-
+    
+//    if (is_array($_GET['exclude']))
+//    {
+//        $c = array();
+//        foreach ($_GET['exclude'] as $id)
+//        {
+//            $c[] = new EqualityCondition(Author :: PROPERTY_ID, $id);
+//        }
+//        $conditions[] = new NotCondition(new OrCondition($c));
+//    }
+    
     if (count($conditions) > 0)
     {
         $condition = new AndCondition($conditions);
@@ -48,9 +48,10 @@ if (Authentication :: is_valid())
     {
         $condition = null;
     }
-
+    
     $udm = PackageDataManager :: get_instance();
-    $authors = $udm->retrieve_authors($condition, null, null, array(new ObjectTableOrder(Author :: PROPERTY_NAME)));
+    $authors = $udm->retrieve_authors($condition, null, null, array(
+            new ObjectTableOrder(Author :: PROPERTY_NAME)));
 }
 else
 {
@@ -73,14 +74,14 @@ function dump_tree($authors)
     {
         return;
     }
-
+    
     echo '<node id="0" classes="category unlinked" title="' . Translation :: get('Authors') . '">' . "\n";
-
+    
     while ($author = $authors->next_result())
     {
         echo '<leaf id="author_' . $author->get_id() . '" classes="type type_author" title="' . htmlspecialchars($author->get_name()) . '" description="' . htmlspecialchars($author->get_name()) . '"/>' . "\n";
     }
-
+    
     echo '</node>' . "\n";
 }
 

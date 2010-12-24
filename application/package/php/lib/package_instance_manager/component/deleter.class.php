@@ -37,38 +37,44 @@ class PackageInstanceManagerDeleterComponent extends PackageInstanceManager impl
             
             foreach ($ids as $id)
             {
-                $package_language = PackageDataManager::get_instance()->retrieve_package($id);
+                $package_language = PackageDataManager :: get_instance()->retrieve_package($id);
                 
                 if (! $package_language->delete())
                 {
                     $failures ++;
                 }
             }
+            PackageDataManager :: generate_packages_xml();
             
             if ($failures)
             {
                 if (count($ids) == 1)
                 {
-                    $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('Package')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectNotDeleted', array(
+                            'OBJECT' => Translation :: get('Package')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsNotDeleted', array('OBJECTS' => Translation :: get('Package')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsNotDeleted', array(
+                            'OBJECTS' => Translation :: get('Package')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('Packages')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectDeleted', array(
+                            'OBJECT' => Translation :: get('Packages')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('Packages')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsDeleted', array(
+                            'OBJECTS' => Translation :: get('Packages')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             
-            $this->redirect($message, ($failures > 0), array(self :: PARAM_PACKAGE_INSTANCE_ACTION => self :: ACTION_BROWSE));
+            $this->redirect($message, ($failures > 0), array(
+                    self :: PARAM_PACKAGE_INSTANCE_ACTION => self :: ACTION_BROWSE));
         }
         else
         {
@@ -79,7 +85,8 @@ class PackageInstanceManagerDeleterComponent extends PackageInstanceManager impl
     function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add_help('package_deleter');
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_PACKAGE_INSTANCE_ACTION => self :: ACTION_BROWSE)), Translation :: get('PackageInstanceManagerPackageBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_PACKAGE_INSTANCE_ACTION => self :: ACTION_BROWSE)), Translation :: get('PackageInstanceManagerPackageBrowserComponent')));
     }
 
     function get_additional_parameters()

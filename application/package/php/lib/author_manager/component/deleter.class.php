@@ -25,13 +25,14 @@ class AuthorManagerDeleterComponent extends AuthorManager
      */
     function run()
     {
-//        $can_delete = PackageRights :: is_allowed(PackageRights :: DELETE_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
-//        
-//        if (! $can_delete)
-//        {
-//            Display :: not_allowed();
-//        }
+        //        $can_delete = PackageRights :: is_allowed(PackageRights :: DELETE_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
+        //        
+        //        if (! $can_delete)
+        //        {
+        //            Display :: not_allowed();
+        //        }
         
+
         $ids = $_GET[self :: PARAM_AUTHOR_ID];
         $failures = 0;
         
@@ -44,38 +45,44 @@ class AuthorManagerDeleterComponent extends AuthorManager
             
             foreach ($ids as $id)
             {
-                $package_language = PackageDataManager::get_instance()->retrieve_author($id);
+                $package_language = PackageDataManager :: get_instance()->retrieve_author($id);
                 
                 if (! $package_language->delete())
                 {
                     $failures ++;
                 }
             }
+            PackageDataManager :: generate_packages_xml();
             
             if ($failures)
             {
                 if (count($ids) == 1)
                 {
-                    $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('Package')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectNotDeleted', array(
+                            'OBJECT' => Translation :: get('Package')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsNotDeleted', array('OBJECTS' => Translation :: get('Package')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsNotDeleted', array(
+                            'OBJECTS' => Translation :: get('Package')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('Packages')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectDeleted', array(
+                            'OBJECT' => Translation :: get('Packages')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('Packages')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsDeleted', array(
+                            'OBJECTS' => Translation :: get('Packages')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             
-            $this->redirect($message, ($failures > 0), array(self :: PARAM_AUTHOR_ACTION => self :: ACTION_BROWSE));
+            $this->redirect($message, ($failures > 0), array(
+                    self :: PARAM_AUTHOR_ACTION => self :: ACTION_BROWSE));
         }
         else
         {
@@ -86,7 +93,8 @@ class AuthorManagerDeleterComponent extends AuthorManager
     function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add_help('author_deleter');
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_AUTHOR_ACTION => self :: ACTION_BROWSE)), Translation :: get('AuthorManagerPackageBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_AUTHOR_ACTION => self :: ACTION_BROWSE)), Translation :: get('AuthorManagerPackageBrowserComponent')));
     }
 
     function get_additional_parameters()

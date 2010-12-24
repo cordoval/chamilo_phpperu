@@ -32,6 +32,10 @@ class PackageInstanceManagerCreatorComponent extends PackageInstanceManager impl
         if ($form->validate())
         {
             $success = $form->create_package();
+            if ($success)
+            {
+               PackageDataManager::generate_packages_xml();
+            }
             $object = Translation :: get('Package');
             $message = $success ? Translation :: get('ObjectCreated', array(
                     'OBJECT' => $object), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array(

@@ -1,6 +1,8 @@
 <?php
 namespace application\package;
 
+use common\libraries;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\DataClass;
@@ -61,6 +63,8 @@ class Package extends DataClass
     
     const AUTHORS = 'authors';
     const DEPENDENCIES = 'dependencies';
+    
+    private $temporary_file_path;
 
     /**
      * Get the default properties
@@ -96,6 +100,74 @@ class Package extends DataClass
     function get_data_manager()
     {
         return PackageDataManager :: get_instance();
+    }
+
+    public function set_temporary_file_path($temporary_file_path)
+    {
+        if (StringUtilities :: has_value($temporary_file_path))
+        {
+            $this->temporary_file_path = $temporary_file_path;
+        }
+    }
+
+    function save_file()
+    {
+        $filename_hash = md5($this->get_filename());
+        $relative_folder_path = Text :: char_at($filename_hash, 0);
+        $full_folder_path = libraries\WebApplication :: get_application_web_path('package') . $relative_folder_path;
+        
+        Filesystem :: create_dir($full_folder_path);
+        $unique_hash = Filesystem :: create_unique_name($full_folder_path, $filename_hash);
+        
+        $relative_path = $relative_folder_path . '/' . $unique_hash;
+        $path_to_save = $full_folder_path . '/' . $unique_hash;
+        
+        //DebugUtilities :: show($full_path);
+        
+
+        $save_success = false;
+        if (StringUtilities :: has_value($this->temporary_file_path))
+        {
+            if (Filesystem :: move_file($this->temporary_file_path, $path_to_save, ! $as_new_version))
+            {
+                $save_success = true;
+            }
+            else
+            {
+                if (FileSystem :: copy_file($this->temporary_file_path, $path_to_save, ! $as_new_version))
+                {
+                    if (FileSystem :: remove($this->temporary_file_path))
+                    {
+                        $save_success = true;
+                    }
+                }
+            }
+        
+        }
+        elseif (StringUtilities :: has_value($this->in_memory_file) && Filesystem :: write_to_file($path_to_save, $this->in_memory_file))
+        {
+            $save_success = true;
+        }
+        
+        if ($save_success)
+        {
+            Filesystem :: chmod($path_to_save, PlatformSetting :: get('permissions_new_files'));
+            
+            $file_bytes = Filesystem :: get_disk_space($path_to_save);
+            
+            $this->set_filesize($file_bytes);
+            $this->set_path($relative_path);
+            $this->set_hash($unique_hash);
+            $this->set_content_hash(md5_file($path_to_save));
+        }
+        else
+        {
+            $this->add_error(Translation :: get('DocumentStoreError'));
+        }
+        
+        $this->add_error(Translation :: get('DocumentFilenameNotSet'));
+        
+        return $save_success;
     }
 
     /**
@@ -234,8 +306,12 @@ class Package extends DataClass
      */
     function get_cycle_realm()
     {
-        $cycle = $this->get_cycle();
-        return $cycle[self :: PROPERTY_CYCLE_REALM];
+        return $this->get_default_property(self :: PROPERTY_CYCLE_REALM);
+    }
+
+    function set_cycle_realm($realm_cycle)
+    {
+        $this->set_default_property(self :: PROPERTY_CYCLE_REALM, $realm_cycle);
     }
 
     static function get_phases()
@@ -244,6 +320,12 @@ class Package extends DataClass
                 self :: PHASE_BETA => Translation :: get(self :: PHASE_BETA), 
                 self :: PHASE_GENERAL_AVAILABILITY => Translation :: get(self :: PHASE_GENERAL_AVAILABILITY), 
                 self :: PHASE_RELEASE_CANDIDATE => Translation :: get(self :: PHASE_RELEASE_CANDIDATE));
+    }
+
+    static function get_realms()
+    {
+        return array(self :: REALM_MAIN => Translation :: get(self :: REALM_MAIN), 
+                self :: REALM_UNIVERSE => Translation :: get(self :: REALM_UNIVERSE));
     }
 
     /**
@@ -521,15 +603,14 @@ class Package extends DataClass
         return $this->get_cycle_phase() == self :: PHASE_GENERAL_AVAILABILITY;
     }
 
-    //
-    //    function create()
-    //    {
-    //        $dm = $this->get_data_manager();
-    //              
-    //        $succes = parent :: create();
-    //        
-    //        return $succes;
-    //    }
+    
+        function create()
+        {                
+            $succes = parent :: create();
+            $this->save_file();
+            
+            return $succes;
+        }
     
 
     function update()
