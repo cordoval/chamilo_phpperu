@@ -120,10 +120,7 @@ class Package extends DataClass
         $unique_hash = Filesystem :: create_unique_name($full_folder_path, $filename_hash);
         
         $relative_path = $relative_folder_path . '/' . $unique_hash;
-        $path_to_save = $full_folder_path . '/' . $unique_hash;
-        
-        //DebugUtilities :: show($full_path);
-        
+        $path_to_save = $full_folder_path . '/' . $unique_hash;      
 
         $save_success = false;
         if (StringUtilities :: has_value($this->temporary_file_path))
