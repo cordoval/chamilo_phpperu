@@ -337,7 +337,7 @@ class ObjectTable
         $cell_renderer = $this->get_cell_renderer();
         $cell_renderer->set_column_model($column_model);
 
-        while ($object = $objects->next_result())
+        while ($objects != null && $object = $objects->next_result())
         {
             $row = array();
             if ($this->has_form_actions())

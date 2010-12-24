@@ -48,7 +48,6 @@ class HandbookMenu extends HTML_Menu
     function __construct($url_format, $handbook_id, $handbook_selection_id, $handbook_publication_id, $top_handbook_id)
     {
         
-      //        $this->urlFmt = $url_format;
         $this->urlFmt ='run.php?go='.HandbookManager::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_TOP_HANDBOOK_ID.'=%s&'.HandbookManager::PARAM_HANDBOOK_SELECTION_ID.'=%s&'. HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID.'=%s&' . HandbookManager::PARAM_COMPLEX_OBJECT_ID . '=%s&' . HandbookManager::PARAM_HANDBOOK_ID . '=%s' ;
 
         $this->handbook_id = $handbook_id;
@@ -70,8 +69,6 @@ class HandbookMenu extends HTML_Menu
         {
             //NO SELECTION
             $this->forceCurrentUrl($this->get_publication_url($this->top_handbook_id, $this->handbook_publication_id));
-
-
         }
         else
         {
@@ -94,9 +91,6 @@ class HandbookMenu extends HTML_Menu
     {
 
         $menu = array();
-
-//        $handbooks = array();
-
         $hdm = HandbookDataManager :: get_instance();
         $rdm = RepositoryDataManager :: get_instance();
         $handbook = $rdm->retrieve_content_object($this->top_handbook_id);
@@ -105,28 +99,14 @@ class HandbookMenu extends HTML_Menu
         $pub['class'] = 'handbook';
         $pub['sub'] = $this->get_handbook_items($this->top_handbook_id, $this->top_handbook_id);
         $menu[] = $pub;
-
-//        $udm = UserDataManager :: get_instance();
-//        $handbooks['title'] = 'handbook';
-//        $handbooks['url'] = $this->get_root_url();
-//        $handbooks['class'] = 'home';
-//        $subs = $this->get_publications();
-
-//        if (count($subs) > 0)
-//            $handbooks['sub'] = $subs;
-
-//        $menu[] = $handbooks;
-
         return $menu;
     }
 
     private function get_publications()
     {
         $menu = array();
-
         $hdm = HandbookDataManager :: get_instance();
         $rdm = RepositoryDataManager :: get_instance();
-
         $handbook = $rdm->retrieve_content_object($this->handbook_id);
         if($handbook)
         {
@@ -137,8 +117,6 @@ class HandbookMenu extends HTML_Menu
                 $pub['sub'] = $this->get_handbook_items($this->top_handbook_id, $this->handbook_id);
                 $menu[] = $pub;
          }
-
-
         return $menu;
     }
 
@@ -146,13 +124,10 @@ class HandbookMenu extends HTML_Menu
     {
         $menu = array();
         $rdm = RepositoryDataManager :: get_instance();
-
         $children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $handbook_id, ComplexContentObjectItem :: get_table_name()));
-
         while ($child = $children->next_result())
         {
             $lo = $rdm->retrieve_content_object($child->get_ref());
-
             $item = array();
             if($lo->get_type() == HandbookItem::get_type_name())
             {
@@ -162,12 +137,15 @@ class HandbookMenu extends HTML_Menu
             {
                 $items = $this->get_handbook_items($top_handbook_id, $lo->get_id());
                 if (count($items) > 0)
-                    $item['sub'] = $items;
+                $item['sub'] = $items;
+                $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $lo->get_id());
             }
+            else
+            {
+                $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $handbook_id);
 
-
+            }
             $alternatives = HandbookManager::get_alternatives_preferences_types($lo->get_id(), $this->handbook_id);
-
             if($alternatives['text_main'] != null)
             {
                 $item['title'] = $alternatives['text_main']->get_title();
@@ -182,7 +160,6 @@ class HandbookMenu extends HTML_Menu
             }
 
 
-            $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $handbook_id);
             $item['class'] = $lo->get_type();
 
             $menu[] = $item;
@@ -226,8 +203,6 @@ class HandbookMenu extends HTML_Menu
         $breadcrumbs = $this->array_renderer->toArray();
         foreach ($breadcrumbs as $crumb)
         {
-//            if ($crumb['title'] == Translation :: get('MyHandbook'))
-//                continue;
             $trail->add(new Breadcrumb($crumb['url'], $crumb['title']));
         }
         return $trail;

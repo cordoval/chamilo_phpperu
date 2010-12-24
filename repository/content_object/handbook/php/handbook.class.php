@@ -6,6 +6,10 @@ use repository\content_object\handbook_item\HandbookItem;
 use common\libraries\ComplexContentObjectSupport;
 use repository\ContentObject;
 use common\libraries\Utilities;
+use repository\content_object\handbook_topic\HandbookTopic;
+use repository\content_object\glossary\Glossary;
+use repository\content_object\link\Link;
+use repository\content_object\document\Document;
 
 require_once dirname(__FILE__) . '/uuid.class.php';
 
@@ -31,6 +35,16 @@ class Handbook extends ContentObject implements ComplexContentObjectSupport
     function get_allowed_types()
     {
         return array(Handbook :: get_type_name(), HandbookItem :: get_type_name());
+    }
+
+    static function get_allowed_content()
+    {
+        return array(
+                Handbook :: get_type_name(),
+                HandbookTopic :: get_type_name(),
+                Glossary :: get_type_name(),
+                Link :: get_type_name(),
+                Document :: get_type_name());
     }
 
     function get_uuid()

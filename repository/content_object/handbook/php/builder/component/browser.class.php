@@ -55,12 +55,13 @@ class HandbookBuilderBrowserComponent extends HandbookBuilder implements Content
 
         $html[] = '<br />';
         //         $types = array(Handbook :: get_type_name(), WikiPage:: get_type_name(), Link :: get_type_name(),  Document::get_type_name(), Youtube :: get_type_name(), Glossary::get_type_name());
-        $types = array(
-                Handbook :: get_type_name(),
-                HandbookTopic :: get_type_name(),
-                Glossary :: get_type_name(),
-                Link :: get_type_name(),
-                Document :: get_type_name());
+//        $types = array(
+//                Handbook :: get_type_name(),
+//                HandbookTopic :: get_type_name(),
+//                Glossary :: get_type_name(),
+//                Link :: get_type_name(),
+//                Document :: get_type_name());
+        $types = Handbook::get_allowed_content();
 
         $html[] = $this->get_creation_links($content_object, $types);
         $html[] = '<div class="clear">&nbsp;</div><br />';

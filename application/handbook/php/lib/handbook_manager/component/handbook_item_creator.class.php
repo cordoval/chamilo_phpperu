@@ -77,7 +77,6 @@ class HandbookManagerHandbookItemCreatorComponent extends HandbookManager implem
 
                 if ($object->get_type() != Handbook :: get_type_name())
                 {
-//                    var_dump('handbook item');
                     $new_object = ContentObject :: factory(HandbookItem :: get_type_name());
                     $new_object->set_owner_id($this->get_user_id());
                     $new_object->set_title(HandbookItem :: get_type_name());
@@ -88,7 +87,6 @@ class HandbookManagerHandbookItemCreatorComponent extends HandbookManager implem
                 }
                 else
                 {
-//                    var_dump('handbook created');
                     $new_object = $object;
                 }
                 
@@ -106,7 +104,6 @@ class HandbookManagerHandbookItemCreatorComponent extends HandbookManager implem
             $params[HandbookManager ::PARAM_TOP_HANDBOOK_ID] = Request :: get(HandbookManager :: PARAM_TOP_HANDBOOK_ID );
             $params[HandbookManager ::PARAM_HANDBOOK_ID] =  Request :: get(HandbookManager :: PARAM_HANDBOOK_ID );
             $params[HandbookManager ::PARAM_HANDBOOK_PUBLICATION_ID] = Request :: get(HandbookManager :: PARAM_HANDBOOK_PUBLICATION_ID);
-//            var_dump('redirect');
             $this->redirect($success ? Translation :: get('ObjectCreated', array('OBJECT' => Translation::get('HandbookItem')), Utilities::COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT' => Translation::get('HandbookItem')), Utilities::COMMON_LIBRARIES), ! $success,
                     $params);
         }
