@@ -20,10 +20,11 @@ class TestInitializer
      */
     public static function init()
     {
-        self::_initDefaultTimezone();
-        self::_initIncludePath();
-        self::_initAutoload();
-        self::_initPHPSettings();
+        self::initDefaultTimezone();
+        self::initIncludePath();
+        self::initAutoload();
+        self::initPHPSettings();
+        self::initServerGlobals();
     }
 
 
@@ -31,7 +32,7 @@ class TestInitializer
     /**
      * Initialize the default timezone which is mandatory for PHP 5
      */
-    private static function _initDefaultTimezone()
+    private static function initDefaultTimezone()
     {
         date_default_timezone_set('UTC');
     }
@@ -39,7 +40,7 @@ class TestInitializer
     /**
      * Initialize the PHP include_path
      */
-    private static function _initIncludePath()
+    private static function initIncludePath()
     {
         $pearPath = realpath(Path :: get_plugin_path() . 'pear');
         $googleLibraryPath = realpath(Path :: get_plugin_path() . 'google/library');
@@ -56,17 +57,24 @@ class TestInitializer
     }
 
 
-    private static function _initAutoload()
+    private static function initAutoload()
     {
         spl_autoload_register('common\libraries\Utilities::autoload');
     }
 
-    private static function _initPHPSettings()
+    private static function initPHPSettings()
     {
 	// I do not understand why but Fatal error aren't shown 
 	// when setting these parameters
         // Sven: the error reporting parameters are constants and should not be defined between quotes.
         ini_set('error_reporting', E_ALL & ~E_DEPRECATED);
+    }
+    
+    private static function initServerGlobals()
+    {
+        $_SERVER['HTTP_HOST'] = 'localhost';
+        $_SERVER['HTTPS'] = false;
+        $_SESSION = array();
     }
 
 }

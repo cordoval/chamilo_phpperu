@@ -48,7 +48,6 @@ class ContextLinkBrowserTableCellRenderer extends DefaultContextLinkTableCellRen
             elseif($column->get_name() == DefaultContextLinkTableColumnModel :: COLUMN_ORIGINAL_TYPE)
             {
                 return Theme :: get_content_object_image($context_link['orig_' . ContentObject :: PROPERTY_TYPE]);
-
             }
             elseif($column->get_name() == DefaultContextLinkTableColumnModel :: COLUMN_ORIGINAL_TITLE)
             {

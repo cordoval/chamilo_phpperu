@@ -38,6 +38,20 @@ class ContextLinkerManagerContextLinkCreatorComponent extends ContextLinkerManag
             if (!RepoViewer::is_ready_to_be_published())
             {
                 $repo_viewer = RepoViewer :: construct($this);
+
+                $cdm = ContextLinkerDataManager :: get_instance();
+                $result = $cdm->retrieve_full_context_links_recursive($this->content_object->get_id(), null, null, null,  parent :: ARRAY_TYPE_FLAT);
+
+                foreach($result as $n => $v)
+                {
+                    $result0[] = $v[ContextLinkerManager :: PROPERTY_ALT_ID];
+                }
+
+                unset($result);
+
+                array_push($result0, $this->content_object->get_id());
+                
+                $repo_viewer->set_excluded_objects($result0);
                 $repo_viewer->set_parameter(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID, $this->content_object->get_id());
                 $repo_viewer->set_parameter(ContextLinkerManager::PARAM_REDIRECT_URL, $redirect_url);
 
@@ -67,6 +81,8 @@ class ContextLinkerManagerContextLinkCreatorComponent extends ContextLinkerManag
             $this->display_footer();
         }
     }
+
+    
 
     function get_allowed_content_object_types()
     {

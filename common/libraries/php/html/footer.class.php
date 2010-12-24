@@ -90,7 +90,10 @@ class Footer
 
         $world = PlatformSetting :: get('whoisonlineaccess');
 
-        if ($world == "1" || $_SESSION['_uid'] && $world == "2")
+        
+        if  (   $world == "1" 
+                || ( \key_exists('_uid', $_SESSION) && $world == "2")
+            )
         {
             $links[] = '<a href="' . Path :: get(WEB_PATH) . 'core.php?go=whois_online&application=admin">' . Translation :: get('WhoisOnline') . '</a>';
         }
