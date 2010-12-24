@@ -23,48 +23,32 @@ class HandbookManagerHandbookItemEditorComponent extends HandbookManager
 	{
             $html = array();
             $success = true;
-            $allow_new_version = ($this->selected_object->get_type() != Portfolio :: get_type_name());
+            $allow_new_version = false;
 
-            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $this->selected_object, 'content_object_form', 'post', $this->get_url(array(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID => $this->owner_user_id, 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
+
+            $handbook_publication_id = Request :: get(HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID);
+            $handbook_id = Request :: get(HandbookManager::PARAM_HANDBOOK_ID);
+            $selected_object_id = Request :: get(HandbookManager::PARAM_HANDBOOK_SELECTION_ID);
+            $rdm = RepositoryDataManager::get_instance();
+            $selected_object = $rdm->retrieve_content_object($selected_object_id);
+
+            $params = array();
+            $params['action'] = 'edit';
+            
+            $url = $this->get_url($params);
+
+            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $selected_object, 'content_object_form', 'post', $url, null, null, $allow_new_version);
 
             if ($form->validate())
-            {
-                if ($this->cid)
-                {
-                     if($this->selected_object->get_type() != Portfolio :: get_type_name())
-                     {
-                         $type = PortfolioRights::TYPE_PORTFOLIO_ITEM;
-                     }
-                     else
-                     {
-                         $type = PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
-                     }
-
-                }
-                else
-                {
-                    $type = PortfolioRights::TYPE_PORTFOLIO_FOLDER;
-                }
+            {               
                 $success &= $form->update_content_object();
-                $success &=  PortfolioManager::update_portfolio_info($this->selected_object->get_id(), $type, PortfolioInformation::ACTION_EDITED, $this->owner_user_id);
-
-
-                if ($form->is_version())
-                {
-                    $object = $form->get_content_object();
-                    if ($this->publication)
-                    {
-                        $this->publication->set_content_object($object->get_latest_version()->get_id());
-                        $success &= $this->publication->update(false);
-                    }
-                    else
-                    {
-                        $this->portfolio_item->set_reference($object->get_latest_version()->get_id());
-                        $success &= $this->portfolio_item->update();
-                    }
-                }
-
-                $this->redirect($success ? Translation :: get('PortfolioUpdated') : Translation :: get('PortfolioNotUpdated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->owner_user_id, 'pid' => $this->pid, 'cid' => $this->cid));
+                
+                $redirect_params = array();
+                $redirect_params[HandbookManager :: PARAM_ACTION] = HandbookManager::ACTION_VIEW_HANDBOOK;
+                $redirect_params[HandbookManager ::PARAM_HANDBOOK_SELECTION_ID] = $selected_object_id;
+                $redirect_params[HandbookManager ::PARAM_HANDBOOK_PUBLICATION_ID] = $handbook_publication_id;
+                
+               $this->redirect($success ? Translation :: get('HandbookUpdated') : Translation :: get('HandbookNotUpdated'), ! $success, $redirect_params);
             }
             else
             {
