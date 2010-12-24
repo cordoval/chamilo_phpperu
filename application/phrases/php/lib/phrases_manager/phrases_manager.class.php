@@ -16,7 +16,6 @@ class PhrasesManager extends WebApplication
     const APPLICATION_NAME = 'phrases';
 
     const PARAM_PHRASES_PUBLICATION = 'phrases_publication';
-    const PARAM_INVITATION_ID = 'invitation_id';
     const PARAM_DELETE_SELECTED_PHRASES_PUBLICATIONS = 'delete_selected_phrases_publications';
     const PARAM_CATEGORY = 'category';
 

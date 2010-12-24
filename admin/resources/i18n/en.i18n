@@ -288,3 +288,7 @@ PackageTypeNotRemovable = "The selected package (type) can not be deinstalled at
 AdminManagerDiagnoserComponent = "Diagnoser"
 AdminManagerLogViewerComponent = "Log viewer"
 AdminManagerImporterComponent = "Importer"
+PackageRepository = ""
+Proxy settings = ""
+Proxy settings = ""
+Proxy settings = ""

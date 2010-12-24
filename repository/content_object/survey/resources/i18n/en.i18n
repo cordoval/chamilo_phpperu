@@ -126,3 +126,8 @@ CanNotUpdateSurveyContextBecauseSurveyIsPublished = ""
 SurveyContexts = ""
 
 SurveyContextManager = "Contexts"
+Title = ""
+Description = ""
+SurveyContextManagerRegistrationBrowserComponent = ""
+SurveyContextManagerRegistrationViewerComponent = ""
+SurveyContextManagerContextViewerComponent = ""

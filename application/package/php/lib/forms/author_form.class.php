@@ -5,6 +5,9 @@ namespace application\package;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\InCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 use rights\RightsUtilities;
 use user\UserDataManager;
 use common\libraries\ObjectTableOrder;
@@ -64,7 +67,7 @@ class AuthorForm extends FormValidator
         $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
         $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
         $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
-        //$hidden = true;
+        $hidden = true;
         
         $elem = $this->addElement('element_finder', self :: PACKAGE, Translation :: get('Packages'), $url, $locale, $this->packages_for_element_finder());
         

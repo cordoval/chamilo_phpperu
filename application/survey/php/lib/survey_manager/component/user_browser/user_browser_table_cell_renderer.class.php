@@ -44,7 +44,7 @@ class SurveyUserBrowserTableCellRenderer extends DefaultSurveyUserTableCellRende
             $toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_survey_invitee_publication_viewer_url($this->publication_id, $user->get_id()), ToolbarItem :: DISPLAY_ICON));
         }
         
-        $toolbar->add_item(new ToolbarItem(Translation :: get('CancelInvitations'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $this->browser->get_survey_cancel_invitation_url($this->publication_id, $user->get_id()), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('CancelInvitation'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $this->browser->get_survey_cancel_invitation_url($this->publication_id, $user->get_id()), ToolbarItem :: DISPLAY_ICON));
         
         return $toolbar->as_html();
     }
