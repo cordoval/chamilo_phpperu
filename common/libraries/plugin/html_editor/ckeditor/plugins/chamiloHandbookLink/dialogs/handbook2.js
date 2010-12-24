@@ -11,6 +11,7 @@ function dialogShow()
 {
     var editor = this.getParentEditor();
     var sel = editor.getSelection();
+
     if (CKEDITOR.env.ie) {
                 mySelection.unlock(true);
                 selectedText = mySelection.getNative().createRange().text;
@@ -22,7 +23,36 @@ function dialogShow()
 
 
 CKEDITOR.dialog.add('chamiloHandbookLink',function(a){
-       
+
+    var getData = new Array();
+    var getVariables = window.location.search;
+    if(getVariables)
+        {
+            getVariables = getVariables.substr(1);
+            var pairs = getVariables.split("&");
+
+            for(var i = 0; i < pairs.length; i++)
+                {
+                    var nvArray = pairs[i].split("=");
+                    var name = nvArray[0];
+                    var value = nvArray[1];
+
+                    getData[name]= value;
+                }
+        }
+        var application = getData['application'];
+        var pid;
+        if(application == 'handbook')
+            {
+                pid = getData['hpid'];
+            }
+            else
+                {
+                    pid = 0;
+                }
+
+
+  
 
    
      var content = {
@@ -32,7 +62,7 @@ CKEDITOR.dialog.add('chamiloHandbookLink',function(a){
                         [
                             {
                                 type:'html',
-                                html:'<div> linqsdfsqfsqfqsqdfqsd handboek-topic </div>'
+                                html:'<div> qsdqs handboek-topic' + ' test '+ application + '</div>'
                             },
                             {
                                 type : 'hbox',
@@ -56,7 +86,9 @@ CKEDITOR.dialog.add('chamiloHandbookLink',function(a){
                                                 target: 'tab1:uid',
                                                 params:
                                                     {
-                                                        parameter1: 'testparam'
+
+                                                        parent_application: application,
+                                                        pub: pid
                                                     }
                                             },
                                         label : a.lang.chamiloHandbookLink.filebrowserLabel
