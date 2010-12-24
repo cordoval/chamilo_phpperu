@@ -56,6 +56,9 @@ class HandbookManager extends WebApplication
     const ACTION_VIEW_PREFERENCES = 'handbook_preferences_viewer';
     const ACTION_VIEW_HANDBOOK_PUBLICATION = 'handbook_publications_browser';
     const ACTION_TOPIC_PICKER = 'topic_picker';
+    const ACTION_EDIT_ITEM = 'handbook_item_editor';
+    const ACTION_PICK_ITEM_TO_EDIT = 'handbook_item_editor_picker';
+    const ACTION_CREATE_HANDBOOK_ITEM = 'handbook_item_creator';
     const PARAM_HANDBOOK_OWNER_ID = 'handbook_owner';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
@@ -76,7 +79,7 @@ class HandbookManager extends WebApplication
 
     }
 
-    private function parse_input_from_table()
+    function parse_input_from_table()
     {
         if (isset($_POST['action']))
         {
@@ -210,13 +213,29 @@ class HandbookManager extends WebApplication
         return $iso_639_code;
     }
 
-    static function get_alternatives($co_id, $publication_id)
+    static function get_alternative_items($co_id)
     {
         //GET ITEM ALTERNATIVES
         $cldm = ContextLinkerDataManager :: get_instance();
         $rdm = RepositoryDataManager :: get_instance();
         $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $co_id);
         $context_links_resultset = $cldm->retrieve_full_context_links($condition);
+
+        $rdm = RepositoryDataManager :: get_instance();
+
+        $selected_object = $rdm->retrieve_content_object($co_id);
+        if ($selected_object && $selected_object->get_type() == HandbookItem :: get_type_name())
+        {
+            $selected_object = $rdm->retrieve_content_object($selected_object->get_reference());
+        }
+             
+
+        return $context_links_resultset;
+    }
+
+    static function get_alternatives_preferences_types($co_id, $publication_id)
+    {
+        $context_links_resultset = self::get_alternative_items($co_id);
 
         //GET ITEM
         $rdm = RepositoryDataManager :: get_instance();
@@ -553,9 +572,9 @@ class HandbookManager extends WebApplication
         $preference_importance[4] = array('handbook' => self :: PARAM_PUBLISHER);
     }
 
-    static function get_create_handbook_item_url($handbook_id)
+    function get_create_handbook_item_url($handbook_id, $top_handbook_id, $publication_id)
     {
-        return null;
+         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_HANDBOOK_ITEM, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id));
     }
 
     /**

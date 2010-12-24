@@ -108,7 +108,14 @@ class HandbookPublicationForm extends FormValidator
 
 
         }
-        return $success;
+        if($success)
+        {
+            return $handbook_publication->get_id();
+        }
+        else
+        {
+            return $success;
+        }
     }
 
 

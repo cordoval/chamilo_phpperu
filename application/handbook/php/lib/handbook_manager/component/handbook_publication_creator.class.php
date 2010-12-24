@@ -64,9 +64,14 @@ class HandbookManagerHandbookPublicationCreatorComponent extends HandbookManager
             if ($form->validate())
             {
                 $success = $form->create_handbook_publications($object);
+                if($success !== false)
+                {
                 $this->redirect($success ? Translation :: get('ObjectCreated', array('OBJECT'=> Translation::get('Handbook')), Utilities::COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT'=> Translation::get('Handbook')), Utilities::COMMON_LIBRARIES), ! $success, array(
                         HandbookManager :: PARAM_ACTION => HandbookManager :: ACTION_VIEW_HANDBOOK,
+                        HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID => $success,
+                        HandbookManager::PARAM_TOP_HANDBOOK_ID =>$object[0],
                         HandbookManager :: PARAM_HANDBOOK_ID => $object[0]));
+                }
 
             }
             else
