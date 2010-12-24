@@ -43,21 +43,21 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
     {
         $wizard = new AssessmentViewerWizard($this, $this->get_root_content_object());
         $wizard->run();
-//        $this->question_form = new AssessmentViewerForm($this, $this->get_root_content_object(), 'post', $this->get_url());
+        $this->question_form = new AssessmentViewerForm($this, $this->get_root_content_object(), 'post', $this->get_url());
 
-//        if ($this->question_form->validate())
-//        {
-//            $question_form = new AssessmentViewerForm($this, $this->get_root_content_object(), 'post', $this->get_url());
-//            $this->display_header();
-//            $question_form->display();
-//            $this->display_footer();
-//        }
-//        else
-//        {
-//            $this->display_header();
-//            $this->question_form->display();
-//            $this->display_footer();
-//        }
+        if ($this->question_form->validate())
+        {
+            $question_form = new AssessmentViewerForm($this, $this->get_root_content_object(), 'post', $this->get_url());
+            $this->display_header();
+            $question_form->display();
+            $this->display_footer();
+        }
+        else
+        {
+            $this->display_header();
+            $this->question_form->display();
+            $this->display_footer();
+        }
     }
 
     function get_random_questions()

@@ -16,6 +16,8 @@ class PackageManager extends WebApplication
     const ACTION_AUTHOR = 'author';
     const ACTION_DEPENDENCY = 'dependency';
     
+    const ACTION_XML = 'xml';
+    
     const DEFAULT_ACTION = self :: ACTION_PACKAGE_INSTANCE;
 
     /**
@@ -71,6 +73,7 @@ class PackageManager extends WebApplication
         $links[] = new DynamicAction(Translation :: get('DependencyManager', null, Utilities :: COMMON_LIBRARIES), Translation :: get('DependencyManager'), Theme :: get_image_path() . 'admin/export.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_DEPENDENCY)));
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
+        
         $info['links'] = $links;
         
         return $info;

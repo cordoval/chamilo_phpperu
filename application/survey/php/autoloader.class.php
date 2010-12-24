@@ -56,6 +56,8 @@ class Autoloader
         	'survey_manager_taker_component' => 'survey_manager/component/taker.class.php',
         	'survey_inactive_context_reporting_block' => '../reporting/blocks/survey_inactive_context_reporting_block.class.php',
         	'survey_total_result_view_reporting_block' => '../reporting/blocks/survey_total_result_view_reporting_block.class.php',
+           	'survey_context_participant_reporting_block' => '../reporting/blocks/survey_context_participant_reporting_block.class.php',
+        
         	'survey_context_question_reporting_block' => '../reporting/blocks/survey_context_question_reporting_block.class.php',
         	'survey_context_reporting_block' => '../reporting/blocks/survey_context_reporting_block.class.php',
         	'survey_context_template_reporting_block' => '../reporting/blocks/survey_context_template_reporting_block.class.php',

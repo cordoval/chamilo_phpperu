@@ -143,6 +143,8 @@ class SurveyContextManagerContextViewerComponent extends SurveyContextManager
         //        if (SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: SUBSCRIBE_GROUP_RIGHT, $this->period->get_id(), SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION))
         //        {
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddContextGroups'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_context_subscribe_group_url($this->context), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+        
         //        }
 
 

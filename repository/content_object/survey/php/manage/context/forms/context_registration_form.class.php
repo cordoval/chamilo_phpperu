@@ -191,7 +191,8 @@ class SurveyContextRegistrationForm extends FormValidator
 
         //        if (! $context_registration)
         //        {
-
+		
+        $excluded_properties = SurveyContext :: get_default_property_names();
 
         $context_registration = $this->context_registration;
         $context_registration->set_name($name);
@@ -217,8 +218,9 @@ class SurveyContextRegistrationForm extends FormValidator
                 {
                     $is_key = 0;
                 }
-                $properties[$value] = $is_key;
-
+                if (!in_array($value, $excluded_properties)){
+                	$properties[$value] = $is_key;
+                }                
             }
         }
         //        }
@@ -229,7 +231,7 @@ class SurveyContextRegistrationForm extends FormValidator
 
 
         $result = $this->create_files($type, $properties);
-
+		        
         if (! $result)
         {
             $context_registration->delete();
@@ -312,6 +314,7 @@ class SurveyContextRegistrationForm extends FormValidator
 
         $additional_property_names = array();
         $allowed_keys = array();
+        $allowed_keys[] = 'self :: PROPERTY_ID';
 
         foreach ($properties as $property => $is_key)
         {

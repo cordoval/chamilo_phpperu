@@ -73,7 +73,7 @@ class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
 
         $html = array();
 
-        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        $renderer_name = Utilities :: get_classname_from_object($this, true);
         $tabs = new DynamicTabsRenderer($renderer_name);
 
         $parameters = $this->get_parameters();

@@ -51,17 +51,6 @@ class AssessmentManagerViewerComponent extends AssessmentManager implements
             $this->assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($assessment_id);
         }
 
-        if (Request :: get(AssessmentManager :: PARAM_INVITATION_ID))
-        {
-            $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_INVITATION_CODE, Request :: get(AssessmentManager :: PARAM_INVITATION_ID));
-            $invitation = $this->datamanager->retrieve_survey_invitations($condition)->next_result();
-
-            $this->pid = $invitation->get_survey_id();
-            $this->pub = $this->datamanager->retrieve_assessment_publication($this->pid);
-            $assessment_id = $this->pub->get_content_object();
-            $this->assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($assessment_id);
-        }
-
         if ($this->pub && ! $this->pub->is_visible_for_target_user($this->get_user()))
         {
             $this->not_allowed(null, false);

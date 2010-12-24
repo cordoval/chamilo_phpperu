@@ -6,9 +6,6 @@ use common\libraries\SubManager;
 use common\libraries\Application;
 use common\libraries\Request;
 
-//require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/context_data_manager.class.php';
-//require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context_manager_rights.class.php';
-
 /**
  * @package repository.lib.content_object.survey.manage.context
  *
@@ -53,6 +50,9 @@ class SurveyContextManager extends SubManager
     const ACTION_EDIT_CONTEXT_TEMPLATE = 'context_template_updater';
     const ACTION_DELETE_CONTEXT_TEMPLATE = 'context_template_deleter';
     const ACTION_VIEW_CONTEXT_TEMPLATE = 'context_template_viewer';
+   
+    const ACTION_VIEW_TEMPLATE = 'template_viewer';
+    
     const ACTION_BROWSE_CONTEXT_TEMPLATE = 'context_template_browser';
     const ACTION_CONTEXT_TEMPLATE_RIGHTS_EDITOR = 'context_template_rights_editor';
     
@@ -61,7 +61,7 @@ class SurveyContextManager extends SubManager
     
     const ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE = 'unsubscribe_page';
     const ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE = 'subscribe_page';
-    const ACTION_TRUNCATE_TEMPLATE = 'context_template_truncater';
+    
     
     const ACTION_CREATE_CONTEXT = 'context_creator';
     const ACTION_EDIT_CONTEXT = 'context_updater';
@@ -71,10 +71,17 @@ class SurveyContextManager extends SubManager
     const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
     const ACTION_UNSUBSCRIBE_USER = 'unsubscribe_user';
     const ACTION_UNSUBSCRIBE_GROUP = 'unsubscribe_group';
+   	const ACTION_IMPORT_CONTEXT_USER = 'context_user_importer';
+    
     
     const ACTION_CREATE_TEMPLATE_USER = 'template_user_creator';
     const ACTION_DELETE_TEMPLATE_USER = 'template_user_deleter';
     const ACTION_IMPORT_TEMPLATE_USER = 'template_user_importer';
+        
+    const ACTION_CREATE_TEMPLATE = 'template_creator';
+    const ACTION_DELETE_TEMPLATE = 'template_deleter';
+    const ACTION_UPDATE_TEMPLATE = 'template_updater';
+    const ACTION_TRUNCATE_TEMPLATE = 'template_truncater';
     
     const ACTION_DELETE_SURVEY_REL_CONTEXT_TEMPLATE = 'survey_context_deleter';
     
@@ -161,7 +168,27 @@ class SurveyContextManager extends SubManager
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template->get_id()));
     }
+	
+function get_template_viewing_url($template)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => $template->get_id()));
+    }
+    
+	function get_template_creation_url($context_template)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template->get_id()));
+    }
 
+    function get_template_delete_url($template)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE, self :: PARAM_TEMPLATE_ID => $template->get_id()));
+    }
+
+    function get_template_update_url($template)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_TEMPLATE, self :: PARAM_TEMPLATE_ID => $template->get_id()));
+    }
+    
     function get_template_user_creation_url($template)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_TEMPLATE_USER, self :: PARAM_TEMPLATE_ID => $template->get_id()));
@@ -187,6 +214,11 @@ class SurveyContextManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_GROUP, self :: PARAM_CONTEXT_ID => $context->get_id()));
     }
 
+	function get_context_user_import_url($context_registration)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_CONTEXT_USER, self :: PARAM_CONTEXT_ID => $context_registration->get_id()));
+    }
+    
     function get_context_unsubscribe_user_url($context_rel_user)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USER, self :: PARAM_CONTEXT_REL_USER_ID => $context_rel_user->get_context_id() . '|' . $context_rel_user->get_user_id()));

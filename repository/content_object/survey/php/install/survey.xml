@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="survey">
 	<properties>
-		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
 		<property name="header" type="text" />
 		<property name="footer" type="text" />
 		<property name="finish_text" type="text" notnull="0" />
 		<property name="context_template_id" type="integer" default="0"
 			unsigned="1" notnull="0" />
 	</properties>
-	<index name="id" type="primary">
-		<indexproperty name="id" />
-	</index>
 </object>

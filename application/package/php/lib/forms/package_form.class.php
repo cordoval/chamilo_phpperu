@@ -18,6 +18,7 @@ use common\libraries\AndCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\ResourceManager;
 use common\libraries\Request;
+use common\libraries\PlatformSetting;
 
 use rights\RightsUtilities;
 use user\UserDataManager;
@@ -73,9 +74,11 @@ class PackageForm extends FormValidator
         $this->addElement('text', Package :: PROPERTY_VERSION, Translation :: get('Version'));
         $this->addRule(Package :: PROPERTY_VERSION, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
-        $this->addElement('select', Package :: PROPERTY_CYCLE_PHASE, Translation :: get('Phase'), Package :: get_phases(), array(
-                'class' => 'postback'));
+        $this->addElement('select', Package :: PROPERTY_CYCLE_PHASE, Translation :: get('Phase'), Package :: get_phases(), array());
         $this->addRule(Package :: PROPERTY_CYCLE_PHASE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        
+        $this->addElement('select', Package :: PROPERTY_CYCLE_REALM, Translation :: get('Realm'), Package :: get_realms(), array());
+        $this->addRule(Package :: PROPERTY_CYCLE_REALM, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
         $this->addElement('textarea', Package :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
         
@@ -85,8 +88,15 @@ class PackageForm extends FormValidator
         $this->addElement('text', Package :: PROPERTY_CATEGORY, Translation :: get('Category'));
         $this->addRule(Package :: PROPERTY_CATEGORY, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
-        $this->addElement('text', Package :: PROPERTY_FILENAME, Translation :: get('Filename'));
+        $this->addElement('file', Package :: PROPERTY_FILENAME, Translation :: get('File'));
         $this->addRule(Package :: PROPERTY_FILENAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $this->addFormRule(array($this, 'allow_file_type'));
+        
+        $this->addElement('text', Package :: PROPERTY_HOMEPAGE, Translation :: get('Homepage'));
+        $this->addRule(Package :: PROPERTY_HOMEPAGE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        
+        $this->addElement('text', Package :: PROPERTY_TAGLINE, Translation :: get('Tagline'));
+        $this->addRule(Package :: PROPERTY_TAGLINE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
         //authors
         $url = WebApplication :: get_application_web_path('package') . 'php/xml_feeds/xml_author_feed.php';
@@ -95,9 +105,7 @@ class PackageForm extends FormValidator
         $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
         $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
         $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
-        // $hidden = true;
         
-
         $elem = $this->addElement('element_finder', self :: AUTHOR, Translation :: get('Authors'), $url, $locale, $this->authors_for_element_finder());
         
         //dependencies
@@ -107,15 +115,52 @@ class PackageForm extends FormValidator
         $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
         $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
         $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
-        // $hidden = true;
         
-
         $elem = $this->addElement('element_finder', self :: DEPENDENCY, Translation :: get('Dependencies'), $url, $locale, $this->dependencies_for_element_finder());
         $this->addElement('category');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(WebApplication :: get_application_web_path('package') . 'resources/javascript/package_dependencies.js'));
         
         $this->add_dependencies();
     
+    }
+
+    function allow_file_type($fields)
+    {
+        $errors = array();
+        $file = $_FILES[Package :: PROPERTY_FILENAME]['name'];
+        $file = pathinfo($file);
+        $type = $file['extension'];
+        
+        $image_types = array('zip', 'ZIP');
+        
+        $filtering_type = PlatformSetting :: get('type_of_filtering');
+        if ($filtering_type == 'blacklist')
+        {
+            $blacklist = PlatformSetting :: get('blacklist');
+            $items = explode(',', $blacklist);
+            if (in_array($type, $items) || ! in_array($type, $image_types))
+            {
+                $errors[Package :: PROPERTY_FILENAME] = Translation :: get('FileTypeNotAllowed');
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            $whitelist = PlatformSetting :: get('whitelist');
+            $items = explode(',', $whitelist);
+            if (in_array($type, $items) && in_array($type, $image_types))
+            {
+                return true;
+            }
+            else
+            {
+                $errors[Package :: PROPERTY_FILENAME] = Translation :: get('FileTypeNotAllowed');
+            }
+        }
+        return $errors;
     }
 
     function authors_for_element_finder()
@@ -248,9 +293,12 @@ class PackageForm extends FormValidator
         $package->set_description($values[Package :: PROPERTY_DESCRIPTION]);
         $package->set_section($values[Package :: PROPERTY_SECTION]);
         $package->set_cycle_phase($values[Package :: PROPERTY_CYCLE_PHASE]);
+        $package->set_cycle_realm($values[Package :: PROPERTY_CYCLE_REALM]);
         $package->set_code($values[Package :: PROPERTY_CODE]);
         $package->set_category($values[Package :: PROPERTY_CATEGORY]);
         $package->set_filename($values[Package :: PROPERTY_FILENAME]);
+        $package->set_homepage($values[Package :: PROPERTY_HOMEPAGE]);
+        $package->set_tagline($values[Package :: PROPERTY_TAGLINE]);
         $package->set_status($values[Package :: PROPERTY_STATUS]);
         
         if (! $package->update())
@@ -288,9 +336,7 @@ class PackageForm extends FormValidator
         }
         
         $original_dependencies = $package->get_dependencies();
-        //        var_dump($original_dependencies);
         $current_dependencies = (array) $values[self :: DEPENDENCY][self :: DEPENDENCY];
-        //        var_dump($current_dependencies);
         $dependencies_to_remove = array_diff($original_dependencies, $current_dependencies);
         $dependencies_to_add = array_diff($current_dependencies, $original_dependencies);
         $dependencies_to_update = array_intersect($current_dependencies, $original_dependencies);
@@ -308,7 +354,6 @@ class PackageForm extends FormValidator
             }
         }
         
-        //        dump($dependencies_to_remove);
         if (count($dependencies_to_remove) > 0)
         {
             $conditions = array();
@@ -337,7 +382,6 @@ class PackageForm extends FormValidator
                 return false;
             }
         }
-        
         return true;
     }
 
@@ -351,9 +395,13 @@ class PackageForm extends FormValidator
         $package->set_description($values[Package :: PROPERTY_DESCRIPTION]);
         $package->set_section($values[Package :: PROPERTY_SECTION]);
         $package->set_cycle_phase($values[Package :: PROPERTY_CYCLE_PHASE]);
+        $package->set_cycle_realm($values[Package :: PROPERTY_CYCLE_REALM]);
         $package->set_code($values[Package :: PROPERTY_CODE]);
         $package->set_category($values[Package :: PROPERTY_CATEGORY]);
-        $package->set_filename($values[Package :: PROPERTY_FILENAME]);
+        $package->set_filename($_FILES[Package :: PROPERTY_FILENAME]['name']);
+        $package->set_temporary_file_path($_FILES[Package :: PROPERTY_FILENAME]['tmp_name']);
+        $package->set_homepage($values[Package :: PROPERTY_HOMEPAGE]);
+        $package->set_tagline($values[Package :: PROPERTY_TAGLINE]);
         $package->set_status($values[Package :: PROPERTY_STATUS]);
         
         if (! $package->create())
@@ -406,9 +454,12 @@ class PackageForm extends FormValidator
         $defaults[Package :: PROPERTY_DESCRIPTION] = $package->get_description();
         $defaults[Package :: PROPERTY_SECTION] = $package->get_section();
         $defaults[Package :: PROPERTY_CYCLE_PHASE] = $package->get_cycle_phase();
+        $defaults[Package :: PROPERTY_CYCLE_REALM] = $package->get_cycle_realm();
         $defaults[Package :: PROPERTY_CODE] = $package->get_code();
         $defaults[Package :: PROPERTY_CATEGORY] = $package->get_category();
         $defaults[Package :: PROPERTY_FILENAME] = $package->get_filename();
+        $defaults[Package :: PROPERTY_HOMEPAGE] = $package->get_homepage();
+        $defaults[Package :: PROPERTY_TAGLINE] = $package->get_tagline();
         $defaults[Package :: PROPERTY_STATUS] = $package->get_status();
         
         $dependencies = $this->package->get_package_dependencies();

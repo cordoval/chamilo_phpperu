@@ -27,21 +27,30 @@ class AuthorManagerUpdaterComponent extends AuthorManager
      */
     function run()
     {
-//        $can_edit = PackageRights :: is_allowed(PackageRights :: EDIT_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
-//        
-//        if (! $can_edit)
-//        {
-//            Display :: not_allowed();
-//        }
+        //        $can_edit = PackageRights :: is_allowed(PackageRights :: EDIT_RIGHT, PackageRights :: LOCATION_LANGUAGES, 'manager');
+        //        
+        //        if (! $can_edit)
+        //        {
+        //            Display :: not_allowed();
+        //        }
         
-        $package = PackageDataManager::get_instance()->retrieve_author(Request :: get(AuthorManager :: PARAM_AUTHOR_ID));
-        $form = new AuthorForm(AuthorForm :: TYPE_EDIT, $package, $this->get_url(array(AuthorManager :: PARAM_AUTHOR_ID => $package->get_id())), $this->get_user());
+
+        $package = PackageDataManager :: get_instance()->retrieve_author(Request :: get(AuthorManager :: PARAM_AUTHOR_ID));
+        $form = new AuthorForm(AuthorForm :: TYPE_EDIT, $package, $this->get_url(array(
+                AuthorManager :: PARAM_AUTHOR_ID => $package->get_id())), $this->get_user());
         if ($form->validate())
         {
             $success = $form->update_author();
+            if ($success)
+            {
+                PackageDataManager :: generate_packages_xml();
+            }
             $object = Translation :: get('Author');
-            $message = $success ? Translation :: get('ObjectUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
-            $this->redirect($message, ! $success, array(PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => AuthorManager :: ACTION_BROWSE));
+            $message = $success ? Translation :: get('ObjectUpdated', array(
+                    'OBJECT' => $object), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array(
+                    'OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+            $this->redirect($message, ! $success, array(
+                    PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => AuthorManager :: ACTION_BROWSE));
         }
         else
         {
@@ -54,7 +63,8 @@ class AuthorManagerUpdaterComponent extends AuthorManager
     function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add_help('author_updater');
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => AuthorManager :: ACTION_BROWSE)), Translation :: get('AuthorManagerAuthorBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                PackageInstanceManager :: PARAM_PACKAGE_INSTANCE_ACTION => AuthorManager :: ACTION_BROWSE)), Translation :: get('AuthorManagerAuthorBrowserComponent')));
     }
 
     function get_additional_parameters()

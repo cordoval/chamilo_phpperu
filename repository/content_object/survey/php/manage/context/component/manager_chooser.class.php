@@ -1,5 +1,7 @@
-<?php 
+<?php
 namespace repository\content_object\survey;
+
+use repository\ContentObject;
 
 use common\libraries\Theme;
 use common\libraries\Translation;
@@ -12,17 +14,15 @@ use repository\RepositoryManager;
 
 class SurveyContextManagerManagerChooserComponent extends SurveyContextManager implements DelegateComponent
 {
-
+    
     const TAB_CONTEXT = 0;
-    const TAB_TEMPLATE = 1;
+    const TAB_CONTEXT_TEMPLATE = 1;
 
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-
-        $links = $this->get_context_manager_links();
         $this->display_header();
         echo $this->get_context_manager_tabs($links);
         $this->display_footer();
@@ -36,81 +36,46 @@ class SurveyContextManagerManagerChooserComponent extends SurveyContextManager i
     {
         $renderer_name = Utilities :: get_classname_from_object($this, true);
         $context_manager_tabs = new DynamicTabsRenderer($renderer_name);
-
-        $index = 0;
-        foreach ($links as $manager_links)
-        {
-            if (count($manager_links['links']))
-            {
-                $index ++;
-                $actions_tab = new DynamicActionsTab($manager_links['application']['class'], $manager_links['application']['name'], Theme :: get_image_path() . 'place_mini_' . $manager_links['application']['class'] . '.png', implode("\n", $html));
-
-                foreach ($manager_links['links'] as $action)
-                {
-                    $actions_tab->add_action($action);
-                }
-
-                $context_manager_tabs->add_tab($actions_tab);
-            }
-        }
-
+        
+        $actions = $this->get_actions_for_tab(self :: TAB_CONTEXT);
+        $context_manager_tabs->add_tab(new DynamicActionsTab(self :: TAB_CONTEXT, Translation :: get('ContextTab'), Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Survey :: get_type_name())) . 'tab_place_holder.png', $actions));
+        
+        $actions = $this->get_actions_for_tab(self :: TAB_CONTEXT_TEMPLATE);
+        $context_manager_tabs->add_tab(new DynamicActionsTab(self :: TAB_CONTEXT_TEMPLATE, Translation :: get('ContextTemplateTab'), Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Survey :: get_type_name())) . 'tab_place_holder.png', $actions));
+                
         return $context_manager_tabs->render();
     }
 
-    function get_context_manager_links()
+    function get_actions_for_tab($index)
     {
-
-        $links = array();
-        for($index = 0; $index < 3; $index ++)
-        {
-            $tab_links = $this->get_links_for_tab($index);
-            $links[] = $tab_links;
-        }
-        return $links;
-    }
-
-    function get_links_for_tab($index)
-    {
-
-        $links = array();
-        $tab_links = array();
-
+        $actions = array();
+        
         switch ($index)
         {
             case self :: TAB_CONTEXT :
-
-                $tab_links['application'] = array('name' => Translation :: get('ContextTab'), 'class' => 'context');
-
                 $registration_link = new DynamicAction();
                 $registration_link->set_title(Translation :: get('SurveyContextRegistrationLink'));
                 $registration_link->set_description(Translation :: get('SurveyContextRegistrationDescription'));
-                $registration_link->set_image(Theme :: get_image_path(RepositoryManager :: APPLICATION_NAME) . 'place_mini_survey.png');
+                $registration_link->set_image(Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Survey :: get_type_name())) . 'action_place_holder.png');
                 $registration_link->set_url($this->get_context_registration_browsing_url());
-                $links[] = $registration_link;
-
-                $tab_links['links'] = $links;
+                $actions[] = $registration_link;
                 break;
-
-            case self :: TAB_TEMPLATE :
-
-                $tab_links['application'] = array('name' => Translation :: get('TemplateTab'), 'class' => 'template');
-
+            
+            case self :: TAB_CONTEXT_TEMPLATE :
                 $template_link = new DynamicAction();
                 $template_link->set_title(Translation :: get('SurveyContextTemplateLink'));
                 $template_link->set_description(Translation :: get('SurveyContextTemplateDescription'));
-                $template_link->set_image(Theme :: get_image_path(RepositoryManager :: APPLICATION_NAME) . 'place_mini_survey.png');
+                $template_link->set_image(Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Survey :: get_type_name())) . 'action_place_holder.png');
                 $template_link->set_url($this->get_context_template_browsing_url());
-                $links[] = $template_link;
-
-                $tab_links['links'] = $links;
+                $actions[] = $template_link;
                 break;
-
+            
             default :
-
+                
                 break;
         }
-
-        return $tab_links;
+        
+        return $actions;
     }
 }
 ?>
