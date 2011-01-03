@@ -137,7 +137,6 @@ class MetadataForm extends FormValidator
         {
             $defaults[MetadataPropertyType :: PROPERTY_NS_PREFIX] = 0;
         }
-        
         parent :: setDefaults($defaults);
     }
 }
