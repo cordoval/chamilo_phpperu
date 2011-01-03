@@ -144,13 +144,13 @@ class HandbookManager extends WebApplication
                 self :: PARAM_HANDBOOK_PUBLICATION => $handbook_publication->get_id()));
     }
 
-    function get_delete_handbook_publication_url($handbook_publication)
+    function get_delete_handbook_publication_url($handbook_publication_id)
     {
         return $this->get_url(array(
                 self :: PARAM_ACTION => self :: ACTION_DELETE_HANDBOOK_PUBLICATION,
-                self :: PARAM_HANDBOOK_PUBLICATION => $handbook_publication->get_id()));
+                self :: PARAM_HANDBOOK_PUBLICATION => $handbook_publication_id));
     }
-
+  
     function get_browse_handbook_publications_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_HANDBOOK_PUBLICATIONS));
@@ -161,14 +161,17 @@ class HandbookManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
     }
 
-    function get_view_handbook_publication_url($handbook_id)
+    function get_view_handbook_publication_url($handbook_id, $handbook_publication_id = null)
     {
-        $hdm = HandbookDataManager :: get_instance();
-        $condition = new EqualityCondition(HandbookPublication :: PROPERTY_CONTENT_OBJECT_ID, $handbook_id);
-        $publications = $hdm->retrieve_handbook_publications($condition);
-        if (count($publications == 1))
+        if($handbook_publication_id == null)
         {
-            $handbook_publication_id = $publications->next_result()->get_id();
+            $hdm = HandbookDataManager :: get_instance();
+            $condition = new EqualityCondition(HandbookPublication :: PROPERTY_CONTENT_OBJECT_ID, $handbook_id);
+            $publications = $hdm->retrieve_handbook_publications($condition);
+            if (count($publications == 1))
+            {
+                $handbook_publication_id = $publications->next_result()->get_id();
+            }
         }
         return $this->get_url(array(
                 self :: PARAM_ACTION => self :: ACTION_VIEW_HANDBOOK,

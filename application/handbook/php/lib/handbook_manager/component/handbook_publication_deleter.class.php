@@ -2,14 +2,11 @@
 namespace application\handbook;
 use common\libraries\Translation;
 use common\libraries\Utilities;
-/**
- * @package application.handbook.handbook.component
- */
+
 require_once dirname(__FILE__).'/../handbook_manager.class.php';
 
 /**
  * Component to delete handbook_publications objects
- * @author Sven Vanpoucke
  * @author Nathalie Blocry
  */
 class HandbookManagerHandbookPublicationDeleterComponent extends HandbookManager
@@ -31,12 +28,17 @@ class HandbookManagerHandbookPublicationDeleterComponent extends HandbookManager
 
 			foreach ($ids as $id)
 			{
+                                //delete publication
 				$handbook_publication = $this->retrieve_handbook_publication($id);
 
-				if (!$handbook_publication->delete())
+                                if (!$handbook_publication->delete())
 				{
 					$failures++;
 				}
+                                //delete location
+
+
+                                //TODO: delete preferences
 			}
 
 			if ($failures)
