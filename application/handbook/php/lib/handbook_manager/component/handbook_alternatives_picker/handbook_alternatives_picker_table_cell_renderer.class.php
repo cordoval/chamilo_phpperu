@@ -7,6 +7,7 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
+use common\libraries\Request;
 require_once   dirname(__FILE__) .  '/handbook_alternatives_picker_table_column_model.class.php';
 require_once   dirname(__FILE__) . '/../../../tables/handbook_alternatives_table/default_handbook_alternatives_table_cell_renderer.class.php';
 
@@ -58,13 +59,17 @@ class HandbookAlternativesPickerItemTableCellRenderer extends DefaultHandbookAlt
     private function get_modification_links($handbook)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+                
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('View' , array('OBJECT' => Translation::get('HandbookPublication')), Utilities::COMMON_LIBRARIES),
+        		Translation :: get('Edit'),
         		Theme :: get_common_image_path() . 'action_browser.png',
-        		$this->browser->get_view_handbook_publication_url($handbook->get_id()),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
+        		$this->browser->get_edit_handbook_item_url($handbook['alt_id'],
+                                Request :: get(HandbookManager::PARAM_TOP_HANDBOOK_ID),
+                                Request :: get(HandbookManager::PARAM_HANDBOOK_SELECTION_ID),
+                                Request :: get(HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID),
+                                Request :: get(HandbookManager::PARAM_COMPLEX_OBJECT_ID),
+                                Request :: get(HandbookManager::PARAM_HANDBOOK_ID))
+                                ));
 
         return $toolbar->as_html();
     }

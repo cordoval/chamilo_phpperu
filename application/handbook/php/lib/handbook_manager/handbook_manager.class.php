@@ -28,6 +28,7 @@ use repository\content_object\wiki_page\WikiPage;
 use repository\content_object\handbook_item\HandbookItem;
 use repository\content_object\handbook_topic\HandbookTopic;
 use repository\ContentObject;
+use common\libraries\Request;
 
 require_once dirname(__FILE__) . '/../handbook_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/handbook_publication_browser/handbook_publication_browser_table.class.php';
@@ -46,6 +47,7 @@ class HandbookManager extends WebApplication
     const PARAM_HANDBOOK_ID = 'hid';
     const PARAM_HANDBOOK_SELECTION_ID = 'hsid';
     const PARAM_TOP_HANDBOOK_ID = 'thid';
+    const PARAM_SELECTION_TO_EDIT = 'ste';
 
     const ACTION_DELETE_HANDBOOK_PUBLICATION = 'handbook_publication_deleter';
     const ACTION_EDIT_HANDBOOK_PUBLICATION = 'handbook_publication_editor';
@@ -185,6 +187,19 @@ class HandbookManager extends WebApplication
         return $this->get_url(array(
                 self :: PARAM_ACTION => self :: ACTION_VIEW_HANDBOOK,
                 self :: PARAM_HANDBOOK_ID => $handbook_id));
+    }
+
+    function get_edit_handbook_item_url($selection_to_edit, $thid, $hsid, $hpid, $coid, $hid)
+    {
+        return $this->get_url(array(
+                HandbookManager :: PARAM_ACTION => HandbookManager :: ACTION_EDIT_ITEM,
+                HandbookManager::PARAM_HANDBOOK_SELECTION_ID => $hsid,
+                HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID => $hpid,
+                HandbookManager::PARAM_TOP_HANDBOOK_ID => $thid,
+                HandbookManager::PARAM_HANDBOOK_ID => $hid,
+                HandbookManager::PARAM_SELECTION_TO_EDIT => $selection_to_edit,
+                HandbookManager::PARAM_COMPLEX_OBJECT_ID =>$coid));
+
     }
 
     static function translate_chamilo_language_to_iso_code($language)

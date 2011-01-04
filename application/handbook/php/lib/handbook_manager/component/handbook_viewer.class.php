@@ -247,10 +247,9 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         return implode ("\n", $html);
     }
 
-    function display_content()
+    function display_preferences()
     {
-//        //VOORLOPIG: print preferences
-         $html[] = '<div>';
+        $html[] = '<div>';
          $html[] = 'user preferences:<br/>';
          while(list($key, $value)= each($this->user_preferences))
          {
@@ -262,6 +261,14 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
              $html[] = $key . ' =  '. $value . '<br/>';
          }
          $html[] = '</div>';
+         return implode ("\n", $html);
+    }
+
+    function display_content()
+    {
+//        //VOORLOPIG: print preferences
+//        $html[] = $this->display_preferences();
+         
 
         if ($this->selected_object && $this->selected_object->get_type() == Handbook::get_type_name())
         {
@@ -392,9 +399,9 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
          }
 
          //OUTPUT HTML
-        $html[] = '<div class = "handbook_item" style="float:left; background:green; padding:10px;">';
+        $html[] = '<div class = "handbook_item" style="float:left; padding:10px;">';
 
-            $html[] = '<div class = "handbook_item_primary_info" style="float:left; background:pink; width:'.$text_width.';">';
+            $html[] = '<div class = "handbook_item_primary_info" style="float:left; width:'.$text_width.';">';
                 if($alternatives_array['text_main'] != null)
                 {
                     $html[] = '<div class = "handbook_item_text" style="float:left; width:'.'100%'.';">';
@@ -438,7 +445,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
 
                //IMAGES START
-                $html[] = '<div class = "handbook_item_visual" style="float:left; background:blue; width:'.$visual_width.'">';
+                $html[] = '<div class = "handbook_item_visual" style="float:left;  width:'.$visual_width.'">';
                 if($alternatives_array['image_main'] != null)
                 {
                     $html[] = '<div class = "handbook_item_images" style="padding: 10px;">';
@@ -503,8 +510,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 //            $html[] = '</div>';
 //            $html[] = '</div>';
 
-            $html[] = '<div class = "handbook_item_secondary_info" style="float:left; background:red;">';
-            $html[] = 'secondary';
+            $html[] = '<div class = "handbook_item_secondary_info" style="float:left; ">';
             if(count($alternatives_array['link'])>0)
             {
               //SHOW LINKS

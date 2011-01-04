@@ -423,6 +423,9 @@ class Location extends DataClass
             return false;
         }
 
+        // TODO: when location is removed shouldn't children of that location be removed to?
+        // TODO: when location is removed shoudn't user & group rights on this location be removed to?
+
         return true;
     }
 
