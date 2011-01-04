@@ -55,6 +55,7 @@ class MetadataForm extends FormValidator
         $mdm = MetadataDataManager :: get_instance();
 
         $this->prefixes = $mdm->retrieve_prefixes();
+        $this->prefixes[0] = 'Select a namespace';
         
     }
 
@@ -128,6 +129,15 @@ class MetadataForm extends FormValidator
             return $metadata_property_value;
         }
         return false;
+    }
+
+    function setDefaults($defaults)
+    {
+        if(!isset($defaults[MetadataPropertyType :: PROPERTY_NS_PREFIX]))
+        {
+            $defaults[MetadataPropertyType :: PROPERTY_NS_PREFIX] = 0;
+        }
+        parent :: setDefaults($defaults);
     }
 }
 
