@@ -13,6 +13,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
 use repository\content_object\handbook_item\HandbookItem;
 use repository\content_object\handbook\Handbook;
+use repository\content_object\glossary\Glossary;
 
 /**
  * This class provides a navigation menu representing the structure of a handbook
@@ -133,36 +134,40 @@ class HandbookMenu extends HTML_Menu
             {
                 $lo = $rdm->retrieve_content_object($lo->get_reference());
             }
-            if ($lo->get_type() == Handbook :: get_type_name())
+            if($lo->get_type() != Glossary::get_type_name())
             {
-                $items = $this->get_handbook_items($top_handbook_id, $lo->get_id());
-                if (count($items) > 0)
-                $item['sub'] = $items;
-                $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $lo->get_id());
-            }
-            else
-            {
-                $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $handbook_id);
+                //do not show glossary            
+                if ($lo->get_type() == Handbook :: get_type_name())
+                {
+                    $items = $this->get_handbook_items($top_handbook_id, $lo->get_id());
+                    if (count($items) > 0)
+                    $item['sub'] = $items;
+                    $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $lo->get_id());
+                }
+                else
+                {
+                    $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $handbook_id);
 
-            }
-            $alternatives = HandbookManager::get_alternatives_preferences_types($lo->get_id(), $this->handbook_id);
-            if($alternatives['text_main'] != null)
-            {
-                $item['title'] = $alternatives['text_main']->get_title();
-            }
-            else if($alternatives['handbook_main'] != null)
-            {
-                $item['title'] = $alternatives['handbook_main']->get_title();
-            }
-            else
-            {
-                $item['title'] = $lo->get_title();
-            }
+                }
+                $alternatives = HandbookManager::get_alternatives_preferences_types($lo->get_id(), $this->handbook_id);
+                if($alternatives['text_main'] != null)
+                {
+                    $item['title'] = $alternatives['text_main']->get_title();
+                }
+                else if($alternatives['handbook_main'] != null)
+                {
+                    $item['title'] = $alternatives['handbook_main']->get_title();
+                }
+                else
+                {
+                    $item['title'] = $lo->get_title();
+                }
 
 
-            $item['class'] = $lo->get_type();
+                $item['class'] = $lo->get_type();
 
-            $menu[] = $item;
+                $menu[] = $item;
+            }
         }
 
         return $menu;

@@ -334,8 +334,18 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             
         }
         //view glossary
-
-
+        $params = array();
+            $params[Application::PARAM_APPLICATION] = HandbookManager::APPLICATION_NAME;
+            $params[HandbookManager :: PARAM_ACTION] = HandbookManager :: ACTION_VIEW_GLOSSARY;
+            $params[HandbookManager :: PARAM_HANDBOOK_PUBLICATION_ID] = $this->handbook_publication_id;
+            $params[HandbookManager :: PARAM_HANDBOOK_ID] = $this->handbook_id;
+            $params[HandbookManager :: PARAM_HANDBOOK_SELECTION_ID] = $this->handbook_selection_id;
+            $params[HandbookManager :: PARAM_COMPLEX_OBJECT_ID] = $this->complex_selection_id;
+            $params[HandbookManager :: PARAM_TOP_HANDBOOK_ID] = $this->top_handbook_id;
+            $preview_url = $this->get_url($params);
+            $onclick = '" onclick="javascript:openPopup(\'' . $preview_url . '\'); return false;';
+            $actions[] = new ToolbarItem(Translation :: get('ViewGlossary'), Theme :: get_common_image_path() . 'action_preview.png', $preview_url, ToolbarItem::DISPLAY_ICON, false, $onclick, '_blank');
+       
         //previous item
         if($this->previous_item_id != null)
         {

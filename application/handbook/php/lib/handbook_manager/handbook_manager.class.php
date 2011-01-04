@@ -48,6 +48,7 @@ class HandbookManager extends WebApplication
     const PARAM_HANDBOOK_SELECTION_ID = 'hsid';
     const PARAM_TOP_HANDBOOK_ID = 'thid';
     const PARAM_SELECTION_TO_EDIT = 'ste';
+    const PARAM_HANDBOOK_OWNER_ID = 'handbook_owner';
 
     const ACTION_DELETE_HANDBOOK_PUBLICATION = 'handbook_publication_deleter';
     const ACTION_EDIT_HANDBOOK_PUBLICATION = 'handbook_publication_editor';
@@ -61,7 +62,7 @@ class HandbookManager extends WebApplication
     const ACTION_EDIT_ITEM = 'handbook_item_editor';
     const ACTION_PICK_ITEM_TO_EDIT = 'handbook_item_editor_picker';
     const ACTION_CREATE_HANDBOOK_ITEM = 'handbook_item_creator';
-    const PARAM_HANDBOOK_OWNER_ID = 'handbook_owner';
+    const ACTION_VIEW_GLOSSARY = 'handbook_glossary_viewer';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LANGUAGE = 'dc:language';
@@ -609,6 +610,8 @@ class HandbookManager extends WebApplication
     {
         return self :: DEFAULT_ACTION;
     }
+
+    
 
 }
 ?>
