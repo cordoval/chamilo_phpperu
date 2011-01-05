@@ -21,6 +21,8 @@ use repository\RepositoryManager;
 use rights\RightsUtilities;
 use common\libraries\EqualityCondition;
 use repository\ComplexContentObjectItem;
+use repository\content_object\glossary\Glossary;
+use repository\content_object\handbook_topic\HandbookTopic;
 
 
 
@@ -301,7 +303,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $actions[] = new ToolbarItem(Translation :: get('EditPublicationRights'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
             $actions[] = new ToolbarItem(Translation :: get('ViewHandbookPreferences'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_VIEW_PREFERENCES, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
 
-            $actions[] = new ToolbarItem(Translation :: get('AddNewItemToHandbook'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+            $actions[] = new ToolbarItem(Translation :: get('AddNewItemToHandbook'), Theme :: get_content_object_image_path(HandbookTopic::get_type_name()), $this->get_create_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
 
         }
 
@@ -333,19 +335,26 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         
             
         }
-        //view glossary
-        $params = array();
-            $params[Application::PARAM_APPLICATION] = HandbookManager::APPLICATION_NAME;
-            $params[HandbookManager :: PARAM_ACTION] = HandbookManager :: ACTION_VIEW_GLOSSARY;
-            $params[HandbookManager :: PARAM_HANDBOOK_PUBLICATION_ID] = $this->handbook_publication_id;
-            $params[HandbookManager :: PARAM_HANDBOOK_ID] = $this->handbook_id;
-            $params[HandbookManager :: PARAM_HANDBOOK_SELECTION_ID] = $this->handbook_selection_id;
-            $params[HandbookManager :: PARAM_COMPLEX_OBJECT_ID] = $this->complex_selection_id;
-            $params[HandbookManager :: PARAM_TOP_HANDBOOK_ID] = $this->top_handbook_id;
-            $preview_url = $this->get_url($params);
-            $onclick = '" onclick="javascript:openPopup(\'' . $preview_url . '\'); return false;';
-            $actions[] = new ToolbarItem(Translation :: get('ViewGlossary'), Theme :: get_common_image_path() . 'action_preview.png', $preview_url, ToolbarItem::DISPLAY_ICON, false, $onclick, '_blank');
-       
+        //view glossary (only if this handbook has glossaries!)
+        $glossary_list = HandbookManager::retrieve_all_glossaries($this->handbook_id);
+        if(count($glossary_list)>0)
+        {
+            $params = array();
+                $params[Application::PARAM_APPLICATION] = HandbookManager::APPLICATION_NAME;
+                $params[HandbookManager :: PARAM_ACTION] = HandbookManager :: ACTION_VIEW_GLOSSARY;
+                $params[HandbookManager :: PARAM_HANDBOOK_PUBLICATION_ID] = $this->handbook_publication_id;
+                $params[HandbookManager :: PARAM_HANDBOOK_ID] = $this->handbook_id;
+                $params[HandbookManager :: PARAM_HANDBOOK_SELECTION_ID] = $this->handbook_selection_id;
+                $params[HandbookManager :: PARAM_COMPLEX_OBJECT_ID] = $this->complex_selection_id;
+                $params[HandbookManager :: PARAM_TOP_HANDBOOK_ID] = $this->top_handbook_id;
+                $preview_url = $this->get_url($params);
+                $onclick = '" onclick="javascript:openPopup(\'' . $preview_url . '\'); return false;';
+                $actions[] = new ToolbarItem(Translation :: get('ViewGlossary'),
+                        Theme :: get_content_object_image_path(Glossary::get_type_name()),
+                        $preview_url, ToolbarItem::DISPLAY_ICON_AND_LABEL, false, $onclick, '_blank');
+
+
+        }
         //previous item
         if($this->previous_item_id != null)
         {

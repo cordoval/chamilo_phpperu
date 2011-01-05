@@ -1207,7 +1207,6 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
      */
     function count_complex_content_object_items($condition)
     {
-//        return $this->count_objects(ComplexContentObjectItem :: get_table_name(), $condition);
          $alias = $this->get_alias(ComplexContentObjectItem :: get_table_name());
          $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(ComplexContentObjectItem :: get_table_name()) . ' AS ' . $alias;
          $lo_alias = $this->get_alias(ContentObject :: get_table_name());

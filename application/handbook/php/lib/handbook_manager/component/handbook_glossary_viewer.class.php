@@ -11,6 +11,7 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Display;
 use repository\content_object\glossary\GlossaryDisplay;
+use common\libraries\Request;
 
 
 
@@ -25,29 +26,30 @@ class HandbookManagerHandbookGlossaryViewerComponent extends HandbookManager
      */
     function run()
     {
-
-        //TODO: retrieve correct content object (= glossary in handbook)
-        //for now this is a dummy glossary to test the other functionality
-        $rdm = \repository\RepositoryDataManager::get_instance();
-        $content_object = $rdm->retrieve_content_object(51);
-        
-//        ComplexDisplay:: launch(Glossary::get_type_name(), $this, false);
+       $hid = Request::get(HandbookManager::PARAM_HANDBOOK_ID);
+        $this->set_parameter(HandbookManager::PARAM_HANDBOOK_ID, $hid);
         GlossaryDisplay:: launch(Glossary::get_type_name(), $this, false);
     }
 
     static function is_allowed($right)
     {
         //TODO: return correct value for add and remove (check publication rights)
-
         return false;
     }
 
     static function get_root_content_object()
     {
+
+        $handbook_id = Request::get(HandbookManager::PARAM_HANDBOOK_ID);
+        $glossary_list = HandbookManager::retrieve_all_glossaries($handbook_id);
+
+
         $content_object_array = array();
         $rdm = \repository\RepositoryDataManager::get_instance();
-        $content_object_array[] = $rdm->retrieve_content_object(51);
-        $content_object_array[] = $rdm->retrieve_content_object(60);
+        foreach ($glossary_list as $glos)
+        {
+            $content_object_array[] = $rdm->retrieve_content_object($glos);
+        }
 
         return $content_object_array;
     }

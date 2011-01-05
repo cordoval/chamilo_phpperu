@@ -29,6 +29,8 @@ use repository\content_object\handbook_item\HandbookItem;
 use repository\content_object\handbook_topic\HandbookTopic;
 use repository\ContentObject;
 use common\libraries\Request;
+use repository\ComplexContentObjectItem;
+use repository\content_object\glossary\Glossary;
 
 require_once dirname(__FILE__) . '/../handbook_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/handbook_publication_browser/handbook_publication_browser_table.class.php';
@@ -71,6 +73,8 @@ class HandbookManager extends WebApplication
     const DEFAULT_ACTION = self :: ACTION_BROWSE_HANDBOOK_PUBLICATIONS;
 
     const ACTION_BROWSE = 'browse';
+
+    static $found_glossaries = array();
 
     /**
      * Constructor
@@ -609,6 +613,52 @@ class HandbookManager extends WebApplication
     function get_default_action()
     {
         return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * return an array with the id's of all the glossaries in a handbook
+     * with their language
+     * @param <type> $handbook_id
+     */
+    static function retrieve_all_glossaries($handbook_id)
+    {
+
+        //find the glossaries in this handbook
+        $glossaries = self::find_glossaries_ids_only($handbook_id);
+
+        //find the alternatives for these glossaries
+
+        //find the glossaries in this handbook's alternatives
+
+        //find the alternatives for these glossaries
+
+        //get the languages for all the glossaries
+
+        return $glossaries;
+    }
+
+    static function find_glossaries_ids_only($handbook_id)
+    {
+        $glossaries_array = array();
+        $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $handbook_id, ComplexContentObjectItem :: get_table_name());
+        $datamanager = RepositoryDataManager::get_instance();
+        $clois = $datamanager->retrieve_complex_content_object_items($condition);
+
+        while ($cloi = $clois->next_result())
+        {
+            $lo = $datamanager->retrieve_content_object($cloi->get_ref());
+            
+            if ($lo->get_type() == HandbookItem::get_type_name())
+            {
+                $lo = $datamanager->retrieve_content_object($lo->get_reference());
+            }
+            if ($lo->get_type() == Glossary::get_type_name())
+            {
+                $glossaries_array[] = $lo->get_id();
+            }
+        }
+        return $glossaries_array;
+
     }
 
     

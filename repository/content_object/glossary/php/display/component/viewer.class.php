@@ -140,7 +140,7 @@ class GlossaryDisplayViewerComponent extends GlossaryDisplay
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('TableView', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW => self :: VIEW_LIST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        $action_bar->set_search_url($this->get_url());
+        $action_bar->set_search_url($this->get_url($this->get_parameters()));
         
         return $action_bar;
     }
@@ -174,7 +174,7 @@ class GlossaryDisplayViewerComponent extends GlossaryDisplay
         $conditions[] =  new OrCondition($co_conditions);
 
         $condition = new AndCondition($conditions);
-
+        
         return $condition;
     }
 }
