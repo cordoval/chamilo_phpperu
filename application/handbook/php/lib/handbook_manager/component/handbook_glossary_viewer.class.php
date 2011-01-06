@@ -1,4 +1,5 @@
 <?php
+
 namespace application\handbook;
 
 use repository\content_object\glossary\GlossaryDisplayViewerComponent;
