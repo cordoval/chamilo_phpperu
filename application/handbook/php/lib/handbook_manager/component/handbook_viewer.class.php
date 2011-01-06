@@ -23,6 +23,9 @@ use common\libraries\EqualityCondition;
 use repository\ComplexContentObjectItem;
 use repository\content_object\glossary\Glossary;
 use repository\content_object\handbook_topic\HandbookTopic;
+use repository\content_object\wiki\Wiki;
+use common\libraries\DynamicContentTab;
+use common\libraries\DynamicTabsRenderer;
 
 
 
@@ -44,6 +47,9 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     const ALL_ALTERNATIVES = 'aa';
     const RELEVANT_ALTERNATIVES_ONLY = 'ro';
     const SESSION_PARAMETER_PUBLICATION_ID = 'HPI';
+
+    const METADATA_SHORT = 0;
+    const METADATA_LONG = 1;
 
     private $handbook_publication_id; //the id of the publication
     private $handbook_id; //the id of the parent handbook for the selection
@@ -251,19 +257,19 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function display_preferences()
     {
-        $html[] = '<div>';
-         $html[] = 'user preferences:<br/>';
-         while(list($key, $value)= each($this->user_preferences))
-         {
-             $html[] = $key . ' =  '. $value . '<br/>';
-         }
-         $html[] = 'handbook preferences:<br/>';
-         while(list($key, $value)= each($this->handbook_preferences))
-         {
-             $html[] = $key . ' =  '. $value . '<br/>';
-         }
-         $html[] = '</div>';
-         return implode ("\n", $html);
+//        $html[] = '<div>';
+//         $html[] = 'user preferences:<br/>';
+//         while(list($key, $value)= each($this->user_preferences))
+//         {
+//             $html[] = $key . ' =  '. $value . '<br/>';
+//         }
+//         $html[] = 'handbook preferences:<br/>';
+//         while(list($key, $value)= each($this->handbook_preferences))
+//         {
+//             $html[] = $key . ' =  '. $value . '<br/>';
+//         }
+//         $html[] = '</div>';
+//         return implode ("\n", $html);
     }
 
     function display_content()
@@ -304,6 +310,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $actions[] = new ToolbarItem(Translation :: get('ViewHandbookPreferences'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_VIEW_PREFERENCES, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
 
             $actions[] = new ToolbarItem(Translation :: get('AddNewItemToHandbook'), Theme :: get_content_object_image_path(HandbookTopic::get_type_name()), $this->get_create_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+
+            $actions[] = new ToolbarItem(Translation :: get('ConvertWiki'), Theme :: get_content_object_image_path(Wiki::get_type_name()), $this->get_convert_wiki_to_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
 
         }
 
@@ -388,19 +396,26 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     }
 
 
-    function print_metadata($co_id)
+    function print_metadata($co_id, $mode = self::METADATA_SHORT)
     {
         $metadata = MetadataManager::retrieve_metadata_for_content_object($co_id);
         while(list($key, $value)= each($metadata))
          {
+            if($mode == self::METADATA_LONG)
+            {
              $html[] = $key . ' =  '. $value . '<br/>';
+            }
+            else
+            {
+                $html[] = ' '. $value . ' ';
+            }
          }
          return implode ("\n", $html);
     }
 
     function get_item_html($co_id, $show_alternatives_button = true)
     {
-
+        //GET ALTERNATIVES
         $alternatives_array = HandbookManager::get_alternatives_preferences_types($co_id, $this->handbook_id);
 
          $text_width;
@@ -420,45 +435,66 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
          //OUTPUT HTML
         $html[] = '<div class = "handbook_item" style="float:left; padding:10px;">';
 
-            $html[] = '<div class = "handbook_item_primary_info" style="float:left; width:'.$text_width.';">';
+            $html[] = '<div class = "handbook_item_primary_info"  style="float:left;  width:'.$text_width.';">';
+
+
                 if($alternatives_array['text_main'] != null)
                 {
                     $html[] = '<div class = "handbook_item_text" style="float:left; width:'.'100%'.';">';
-                    //TEXT
-                    //MAIN
-                    $display = ContentObjectDisplay :: factory($alternatives_array['text_main']);
-//                    $html[] = $display->get_full_html();
-                    $html[] = '<div class="main_title">';
-                    $html[] = $alternatives_array['text_main']->get_title();
-                     $html[] = '</div>';
-                    $html[] = '<div class="main_text">';
-                    $html[] = $alternatives_array['text_main']->get_text();
-                     $html[] = '</div>';
-                    $html[] = '</div>';
+                    
+                    $text_tabs = new DynamicTabsRenderer('texttabs');
+                    
+                    $i = 0;
+                    
+                    $htmlt['tab'.$i][] = '<div class = "handbook_item_text" style="float:left; width:100%;">';
+                    $htmlt['tab'.$i][] = '<div class="main_title">';
+                    
+                    $htmlt['tab'.$i][] = $alternatives_array['text_main']->get_title();
+                     $htmlt['tab'.$i][] = '</div>';
+                    $htmlt['tab'.$i][] = '<div class="main_text">';
+                    $htmlt['tab'.$i][] = $alternatives_array['text_main']->get_text();
+                    
+                     $htmlt['tab'.$i][] = '</div>';
+                    $htmlt['tab'.$i][] = '</div>';
+
+                     
                     //ALTERNATIVES
                     if(count($alternatives_array['text'])>0 )
                     {
-                        $html[] = '<br /><a href="#" id="showtext" style="display:block; float:left;">' . Translation :: get('ShowAllTextAlternatives') . '</a><br><br>';
-                        $html[] = '<a href="#" id="hidetext" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('HideAllTextAlternatives') . ')</a>';
-                        $html[] = '<div id="textlist" style="display:none;">';
-
+                        
+                        $tab_name = $this->print_metadata($alternatives_array['text_main']->get_id());
+                       $text_tabs->add_tab(new DynamicContentTab('tab'.$i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmlt['tab'.$i])));
+                        $i++;
+                        
                         while(list($key, $value)= each($alternatives_array['text']))
-                         {
-                            $html[] = '<div class="alternative_metadata">';
-                             $html[] = $this->print_metadata($value->get_id());
-                             $html[] = '</div>';
-                             $display = ContentObjectDisplay :: factory($value);
-//                             $html[] = $display->get_full_html();
-                             $html[] = '<div class="alternative_title">';
-                             $html[] = $value->get_title();
-                             $html[] = '</div>';
-                             $html[] = '<div class="alternative_text">';
-                            $html[] = $value->get_text();
-                            $html[] = '</div>';
-//                             $html[] = '</div>';
-                         }
-                         $html[] = '</div>';
+                        {
+
+                            if($value != $alternatives_array['text_main'])
+                            {
+                                $htmlt['tab'.$i][]= $this->print_metadata($value->get_id());
+
+                                $htmlt['ctab'.$i][] = '<div class="alternative_title">';
+                                 $htmlt['ctab'.$i][] = $value->get_title();
+                                 $htmlt['ctab'.$i][] = '</div>';
+                                 $htmlt['ctab'.$i][] = $value->get_text();
+                              
+                              $tab_name = $this->print_metadata($value->get_id());
+
+                                $text_tabs->add_tab(new DynamicContentTab('tab'.$i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmlt['ctab'.$i])));
+
+                                $i++;
+                            }
+                        }
+                         
+                        $html[] = $text_tabs->render();
+
                     }
+                    else
+                    {
+                     $html[] = implode("\n", $htmlt['tab'.$i]);
+                    }
+                    
+                    $html[] = '</div>';
                     $html[] = '</div>';
                 }
 
@@ -525,9 +561,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                     }
                 }
                 $html[] = '</div>';
-//                $html[] = '</div>';
-//            $html[] = '</div>';
-//            $html[] = '</div>';
 
             $html[] = '<div class = "handbook_item_secondary_info" style="float:left; ">';
             if(count($alternatives_array['link'])>0)
@@ -540,8 +573,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                      $html[] = $this->print_metadata($value->get_id());
                      $display = ContentObjectDisplay :: factory($value);
                      $html[] = $display->get_description();
-//                     $html[] = '</div>';
-
                  }
                  $html[] = '</div>';
             }
@@ -565,7 +596,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
         $html[] = '</div>';
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_PATH) .'application/'. $this->get_application_name() . '/resources/javascript/handbook_alternatives.js' . '"></script>';
-//        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_PATH) . 'common/resources/javascript/handbook_alternatives.js' . '"></script>';
 
         return implode ("\n", $html);
 
@@ -573,13 +603,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function get_handbook_html($co_id, $show_alternatives_button = true)
     {
-        //GET ITEM ALTERNATIVES
-//         $cldm = ContextLinkerDataManager::get_instance();
-//         $rdm = RepositoryDataManager::get_instance();
-//         $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $co_id);
-//         $context_links_resultset = $cldm->retrieve_full_context_links($condition);
-
-        //DETERMINE MOST SUITABLE ALTERNATIVE
+        
+        //GET ALTERNATIVES
 
         $alternatives_array = HandbookManager::get_alternatives_preferences_types($co_id, $this->handbook_id);
 

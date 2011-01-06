@@ -65,6 +65,10 @@ class HandbookManager extends WebApplication
     const ACTION_PICK_ITEM_TO_EDIT = 'handbook_item_editor_picker';
     const ACTION_CREATE_HANDBOOK_ITEM = 'handbook_item_creator';
     const ACTION_VIEW_GLOSSARY = 'handbook_glossary_viewer';
+    const ACTION_CONVERT_WIKI = 'handbook_wiki_convertor';
+    const ACTION_BROWSE_BOOKMARKS = 'bookmarks_browser';
+    const ACTION_CREATE_BOOKMARK = 'bookmarks_creator';
+    const ACTION_DELETE_BOOKMARK = 'bookmarks_deleter';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LANGUAGE = 'dc:language';
@@ -598,6 +602,11 @@ class HandbookManager extends WebApplication
     function get_create_handbook_item_url($handbook_id, $top_handbook_id, $publication_id)
     {
          return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_HANDBOOK_ITEM, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id));
+    }
+
+    function get_convert_wiki_to_handbook_item_url($handbook_id, $top_handbook_id, $publication_id)
+    {
+         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONVERT_WIKI, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id));
     }
 
     /**
