@@ -57,5 +57,11 @@ class Handbook extends ContentObject implements ComplexContentObjectSupport
         $uuid = UUID :: generate(UUID :: UUID_RANDOM, UUID :: FMT_STRING);
         $this->set_additional_property(self :: PROPERTY_UUID, $uuid);
     }
+
+    function create()
+    {
+        $this->set_uuid();
+        return parent::create();
+    }
 }
 ?>

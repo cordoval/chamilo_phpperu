@@ -141,7 +141,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
         
         $item_data = $hdm->retrieve_handbook_item_data_by_uuid($this->uid);
-        $this->handbook_selection_id = $item_data[HandbookItem::PROPERTY_REFERENCE];
+        $this->handbook_selection_id = $item_data[HandbookItem::PROPERTY_ID];
        
 
         if(!$this->handbook_publication_id)
@@ -311,7 +311,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
             $actions[] = new ToolbarItem(Translation :: get('AddNewItemToHandbook'), Theme :: get_content_object_image_path(HandbookTopic::get_type_name()), $this->get_create_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
 
-            $actions[] = new ToolbarItem(Translation :: get('ConvertWiki'), Theme :: get_content_object_image_path(Wiki::get_type_name()), $this->get_convert_wiki_to_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+            $actions[] = new ToolbarItem(Translation :: get('ConvertWiki'), Theme :: get_content_object_image_path(Wiki::get_type_name()), $this->get_convert_wiki_to_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id, $this->handbook_selection_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
 
         }
 

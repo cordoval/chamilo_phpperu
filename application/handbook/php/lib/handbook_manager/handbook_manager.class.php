@@ -604,9 +604,9 @@ class HandbookManager extends WebApplication
          return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_HANDBOOK_ITEM, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id));
     }
 
-    function get_convert_wiki_to_handbook_item_url($handbook_id, $top_handbook_id, $publication_id)
+    function get_convert_wiki_to_handbook_item_url($handbook_id, $top_handbook_id, $publication_id, $selection_id)
     {
-         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONVERT_WIKI, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id));
+         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONVERT_WIKI, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id, self::PARAM_HANDBOOK_SELECTION_ID => $selection_id));
     }
 
     /**

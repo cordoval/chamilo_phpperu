@@ -1,4 +1,8 @@
-
+#handbook_menu
+{
+    overflow: auto;
+    max-height: 300px;
+}
 .alternative_metadata
 {
    font-style: italic;

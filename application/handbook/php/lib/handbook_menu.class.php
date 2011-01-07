@@ -220,7 +220,14 @@ class HandbookMenu extends HTML_Menu
 	function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
-        $this->render($renderer, 'sitemap');
+//       show complete menu: nothing collapsed
+//         $this->setMenuType('sitemap');
+//        all collapsed
+        $this->setMenuType('tree');
+        
+
+        $this->render($renderer);
+//        $this->render($renderer, 'prevnext');
         return $renderer->toHTML();
     }
 
@@ -233,7 +240,10 @@ class HandbookMenu extends HTML_Menu
     {
         $rdm = RepositoryDataManager::get_instance();
         $complex_set = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->handbook_selection_id, ComplexContentObjectItem :: get_table_name()));
-               $cloid = $complex_set->next_result()->get_id();
+        if($co = $complex_set->next_result())
+        {
+           $cloid = $co->get_id();
+        }
 
             return $this->forceCurrentUrl($this->get_sub_item_url($this->top_handbook_id, $this->handbook_selection_id, $this->handbook_publication_id, $cloid, $this->handbook_id));
 
