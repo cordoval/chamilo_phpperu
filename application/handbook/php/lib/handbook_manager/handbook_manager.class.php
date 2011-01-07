@@ -246,7 +246,7 @@ class HandbookManager extends WebApplication
         $cldm = ContextLinkerDataManager :: get_instance();
         $rdm = RepositoryDataManager :: get_instance();
         $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $co_id);
-        $context_links_resultset = $cldm->retrieve_full_context_links($condition);
+        $context_links_resultset = $cldm->retrieve_full_context_links_recursive($co_id, null, null, null, ContextLinkerManager::ARRAY_TYPE_FLAT);
 
         $rdm = RepositoryDataManager :: get_instance();
 
