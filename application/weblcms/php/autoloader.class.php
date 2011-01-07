@@ -42,6 +42,7 @@ class Autoloader
             'course_type_layout' => 'course_type/course_type_layout.class.php',
             'course_type_rights' => 'course_type/course_type_rights.class.php',
             'course_type_tool' => 'course_type/course_type_tool.class.php',
+            'course_type' => 'course_type/course_type.class.php',
             'course_settings' => 'course/course_settings.class.php',
             'course_rights' => 'course/course_rights.class.php',
             'weblcms_lp_attempt_tracker' => '../trackers/weblcms_lp_attempt_tracker.class.php',
