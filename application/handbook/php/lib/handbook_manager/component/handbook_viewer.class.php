@@ -286,7 +286,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         if($this->edit_right)
         {
             $actions[] = new ToolbarItem(Translation :: get('EditPublicationRights'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
-            $actions[] = new ToolbarItem(Translation :: get('ViewHandbookPreferences'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_VIEW_PREFERENCES, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
+            $actions[] = new ToolbarItem(Translation :: get('ViewHandbookPreferences'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_CREATE_PREFERENCE, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
 
             $actions[] = new ToolbarItem(Translation :: get('AddNewItemToHandbook'), Theme :: get_content_object_image_path(HandbookTopic::get_type_name()), $this->get_create_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
 

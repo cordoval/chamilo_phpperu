@@ -75,6 +75,7 @@ class HandbookManager extends WebApplication
     const ACTION_CREATE_BOOKMARK = 'bookmarks_creator';
     const ACTION_DELETE_BOOKMARK = 'bookmarks_deleter';
     const ACTION_SEARCH = 'search_results_browser';
+    const ACTION_CREATE_PREFERENCE = 'handbook_preferences_creator';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LANGUAGE = 'dc:language';
