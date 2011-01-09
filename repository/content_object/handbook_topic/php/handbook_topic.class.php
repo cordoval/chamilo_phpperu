@@ -36,5 +36,11 @@ class HandbookTopic extends ContentObject
     function set_text($text) {
         $this->set_additional_property(self :: PROPERTY_TEXT, $text);
     }
+
+    static function get_table_name()
+    {
+        $table_name = Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+    }
 }
 ?>

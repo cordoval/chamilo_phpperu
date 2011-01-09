@@ -39,38 +39,13 @@ class HandbookAlternativesPickerItemTableDataProvider extends ObjectTableDataPro
      */
     function get_objects($offset, $count, $order_property = null) {
         $order_property = $this->get_order_property($order_property);
-
-        //get all alternatives for this item
+        
         $rdm = RepositoryDataManager::get_instance();
         $item_id = Request :: get(HandbookManager::PARAM_HANDBOOK_SELECTION_ID);
         $selected_object = $rdm->retrieve_content_object($item_id);
         $co_id = $selected_object->get_reference();
-        $handbook_id = Request::get(HandbookManager::PARAM_HANDBOOK_ID);
-        $alternatives_array = HandbookManager::get_alternative_items($co_id);
 
-
-        //add original to array
-        //TODO: get actual data
-        $original['alt_' . ContentObject :: PROPERTY_TITLE] = 'orig';
-        $original['orig_' . ContentObject :: PROPERTY_TITLE] = 'orig';
-       $original['alt_' . ContentObject :: PROPERTY_TYPE] = 'orig';
-        $original[MetadataPropertyType :: PROPERTY_NS_PREFIX] = 'orig';
-        $original[MetadataPropertyType :: PROPERTY_NAME] = 'orig';
-        $original[MetadataPropertyValue :: PROPERTY_VALUE] = 'orig';
-        $original['alt_id'] = $co_id;
-        $alternatives_array[] = $original;
-
-
-        if ($alternatives_array != false && (count($alternatives_array) > 0))
-        {
-            return new ArrayResultSet($alternatives_array);
-        }
-        else
-        {
-            return null;
-        }
-
-
+        return HandbookManager::get_resultset_with_original_and_alternatives($co_id);
     }
 
     /**
