@@ -8,6 +8,7 @@ use common\libraries\Theme;
 use common\libraries\ToolbarItem;
 use common\libraries\EqualityCondition;
 use common\libraries\Application;
+use common\libraries\Request;
 require_once   dirname(__FILE__) .  '/handbook_topic_browser_table_column_model.class.php';
 require_once   dirname(__FILE__) . '/../../../tables/handbook_topic_table/default_handbook_topic_table_cell_renderer.class.php';
 
@@ -56,7 +57,18 @@ class HandbookTopicBrowserTableCellRenderer extends DefaultHandbookTopicTableCel
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-       //TODO: link to viewer
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('View'),
+        		Theme :: get_common_image_path() . 'action_browser.png',
+        		 $this->browser->get_url(array(
+                        Application::PARAM_APPLICATION => HandbookManager::APPLICATION_NAME,
+                        HandbookManager :: PARAM_ACTION => HandbookManager:: ACTION_VIEW_HANDBOOK,
+                        HandbookManager :: PARAM_TOP_HANDBOOK_ID => Request::get(HandbookManager :: PARAM_TOP_HANDBOOK_ID),
+//                        HandbookManager::PARAM_HANDBOOK_ID => Request::get(HandbookManager :: PARAM_TOP_HANDBOOK_ID),
+                         HandbookManager::PARAM_HANDBOOK_SELECTION_ID => $handbook->get_id(),
+                        HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID => Request::get(HandbookManager :: PARAM_HANDBOOK_PUBLICATION_ID)))));
+
+
         return $toolbar->as_html();
     }
 }

@@ -351,9 +351,20 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $tool_actions[] = new ToolbarItem(Translation :: get('next'), Theme :: get_common_image_path() . 'action_action_bar_left_show.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->next_item_id)));
         }
 
-        $action_bar->set_search_url($this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME,
-                    self :: PARAM_ACTION => self:: ACTION_SEARCH,
-                    self :: PARAM_TOP_HANDBOOK_ID => $this->top_handbook_id)));
+        //search
+        $search_params = array();
+        $search_params[Application::PARAM_APPLICATION] = self::APPLICATION_NAME;
+        $search_params[self :: PARAM_ACTION] = self:: ACTION_SEARCH;
+        $search_params[self :: PARAM_TOP_HANDBOOK_ID] = $this->top_handbook_id;
+        $search_params[self::PARAM_HANDBOOK_ID] = $this->handbook_id;
+        if($this->selected_object != null)
+        {
+            $search_params[self::PARAM_HANDBOOK_SELECTION_ID] = $this->selected_object->get_id();
+        }
+        $search_params[self::PARAM_HANDBOOK_PUBLICATION_ID] = $this->handbook_publication_id;
+
+
+        $action_bar->set_search_url($this->get_url($search_params));
 
         $action_bar->set_common_actions($actions);
 
