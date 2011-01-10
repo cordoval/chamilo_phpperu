@@ -1,14 +1,12 @@
 <?php
-
-
 namespace application\handbook;
 use common\libraries\StaticTableColumn;
 
-require_once   dirname(__FILE__) . '/../../../tables/handbook_alternatives_table/default_handbook_alternative_table_column_model.class.php';
+require_once   dirname(__FILE__) . '/../../../tables/handbook_topic_table/default_handbook_topic_table_column_model.class.php';
 
-class HandbookAlternativesPickerItemTableColumnModel extends DefaultHandbookAlternativeTableColumnModel
+
+class HandbookTopicBrowserTableColumnModel extends DefaultHandbookTopicTableColumnModel
 {
-
     /**
      * The tables modification column
      */

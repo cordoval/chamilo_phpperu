@@ -22,6 +22,7 @@ use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\forum\Forum;
 use repository\content_object\forum_topic\ForumTopic;
 use repository\content_object\document\Document;
+use MDB2;
 
 /**
  * $Id: database_repository_data_manager.class.php 234 2009-11-16 11:34:07Z vanpouckesven $
@@ -1206,7 +1207,26 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
      */
     function count_complex_content_object_items($condition)
     {
-        return $this->count_objects(ComplexContentObjectItem :: get_table_name(), $condition);
+         $alias = $this->get_alias(ComplexContentObjectItem :: get_table_name());
+         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(ComplexContentObjectItem :: get_table_name()) . ' AS ' . $alias;
+         $lo_alias = $this->get_alias(ContentObject :: get_table_name());
+         $query .= ' JOIN ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $lo_alias . ' ON ' . $alias . '.ref_id=' . $lo_alias . '.id';
+        if (isset($condition))
+        {
+            $translator = new ConditionTranslator($this, $alias);
+            $query .= $translator->render_query($condition);
+        }
+        $res = $this->query($query);
+        if (MDB2 :: isError($res))
+        {
+            return false;
+        }
+        else
+        {
+            $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+            $res->free();
+            return $record[0];
+        }
     }
 
     /**

@@ -197,6 +197,11 @@ class Theme
         return Path :: get_web_common_libraries_path() . 'resources/images/' . $instance->get_theme() . '/';
     }
 
+    static function get_content_object_image_path($image, $size = self :: ICON_MINI)
+    {
+       return Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($image)) . 'logo/' . $size . '.png' ;
+    }
+
     /**
      * Get the system path to the general image folder
      */

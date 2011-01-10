@@ -6,7 +6,7 @@ use repository\content_object\handbook\Handbook;
 use repository\ContentObject;
 
 
-class DefaultHandbookPublicationTableCellRenderer extends ObjectTableCellRenderer
+class DefaultHandbookTopicTableCellRenderer extends ObjectTableCellRenderer
 {
 
     
@@ -17,17 +17,12 @@ class DefaultHandbookPublicationTableCellRenderer extends ObjectTableCellRendere
 
        function render_cell($column, $handbook)
     {
-        $url = $this->browser->get_view_handbook_publication_url($handbook->get_id());
-        switch ($column->get_name())
+         switch ($column->get_name())
         {
-            case Handbook::PROPERTY_TITLE:
-//             return '<a href="' . $url . '" alt="' . $handbook->get_title() . '">' . $handbook->get_title() . '</a>';
-               return  $handbook->get_title();
-            case Handbook::PROPERTY_DESCRIPTION:
+            case ContentObject::PROPERTY_TITLE:
+                return  $handbook->get_title();
+            case ContentObject::PROPERTY_DESCRIPTION:
                 return $handbook->get_description();
-//                return '<a href="' . $url . '" alt="' . $handbook->get_description() . '">' . $handbook->get_description() . '</a>';
-             
-
         }
         
         $title = $column->get_title();

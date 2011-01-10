@@ -2,14 +2,11 @@
 namespace application\handbook;
 use common\libraries\Translation;
 use common\libraries\Utilities;
-/**
- * @package application.handbook.handbook.component
- */
+
 require_once dirname(__FILE__).'/../handbook_manager.class.php';
 
 /**
  * Component to delete handbook_publications objects
- * @author Sven Vanpoucke
  * @author Nathalie Blocry
  */
 class HandbookManagerHandbookPublicationDeleterComponent extends HandbookManager
@@ -20,7 +17,8 @@ class HandbookManagerHandbookPublicationDeleterComponent extends HandbookManager
 	function run()
 	{
 		$ids = $_GET[HandbookManager :: PARAM_HANDBOOK_PUBLICATION];
-		$failures = 0;
+                $failures = 0;
+                $fail_message = '';
 
 		if (!empty ($ids))
 		{
@@ -29,26 +27,37 @@ class HandbookManagerHandbookPublicationDeleterComponent extends HandbookManager
 				$ids = array ($ids);
 			}
 
-			foreach ($ids as $id)
+			foreach ($ids as $handbook_publication_id)
 			{
-				$handbook_publication = $this->retrieve_handbook_publication($id);
+                                //delete publication
+				$handbook_publication = $this->retrieve_handbook_publication($handbook_publication_id);
 
-				if (!$handbook_publication->delete())
+                                if (!$handbook_publication->delete())
 				{
 					$failures++;
+                                        $fail_message .= 'SelectedHandbookPublicationNotDeleted_';
 				}
+                                //delete location
+                                $location = HandbookRights::get_location_by_identifier_from_handbooks_subtree($handbook_publication_id);
+                                if($location)
+                                {
+                                    if(!$location->remove())
+                                    {
+                                        $failures++;
+                                        $fail_message .= 'SelectedHandbookPublicationLocationNotDeleted';
+				
+                                    }
+                                }
+
+
+                                //TODO: delete preferences
 			}
 
 			if ($failures)
 			{
-				if (count($ids) == 1)
-				{
-					$message = 'SelectedHandbookPublicationNotDeleted';
-				}
-				else
-				{
-					$message = 'Selected{HandbookPublicationsNotDeleted';
-				}
+				
+					$message = $fail_message;
+				
 			}
 			else
 			{

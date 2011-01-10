@@ -1,5 +1,4 @@
 <?php
-
 namespace application\handbook;
 use common\libraries\Toolbar;
 use user\User;
@@ -7,19 +6,19 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
+use common\libraries\EqualityCondition;
+use common\libraries\Application;
 use common\libraries\Request;
-require_once   dirname(__FILE__) .  '/handbook_alternatives_picker_table_column_model.class.php';
-require_once   dirname(__FILE__) . '/../../../tables/handbook_alternatives_table/default_handbook_alternatives_table_cell_renderer.class.php';
-
+require_once   dirname(__FILE__) .  '/handbook_topic_browser_table_column_model.class.php';
+require_once   dirname(__FILE__) . '/../../../tables/handbook_topic_table/default_handbook_topic_table_cell_renderer.class.php';
 
 /**
- * Cell renderer for the handbook_publication object browser table
+ * Cell renderer for the handbook_topic object browser table
  */
-class HandbookAlternativesPickerItemTableCellRenderer extends DefaultHandbookAlternativesTableCellRenderer
-
+class HandbookTopicBrowserTableCellRenderer extends DefaultHandbookTopicTableCellRenderer
 {
     /**
-     * The handbook_publication browser component
+     * The handbook_topic browser component
      */
     public $browser;
 
@@ -33,15 +32,13 @@ class HandbookAlternativesPickerItemTableCellRenderer extends DefaultHandbookAlt
         $this->browser = $browser;
     }
 
-    // Inherited
+ 
     function render_cell($column, $handbook)
     {
-        if ($column === HandbookAlternativesPickerItemTableColumnModel :: get_modification_column())
+        if ($column === HandbookTopicBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($handbook);
-        }
-        
-        // Add special features here
+        }        
         switch ($column->get_name())
         {
             case User :: PROPERTY_OFFICIAL_CODE :
@@ -59,17 +56,18 @@ class HandbookAlternativesPickerItemTableCellRenderer extends DefaultHandbookAlt
     private function get_modification_links($handbook)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-                
+
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
+        		Translation :: get('View'),
         		Theme :: get_common_image_path() . 'action_browser.png',
-        		$this->browser->get_edit_handbook_item_url($handbook['alt_id'],
-                                Request :: get(HandbookManager::PARAM_TOP_HANDBOOK_ID),
-                                Request :: get(HandbookManager::PARAM_HANDBOOK_SELECTION_ID),
-                                Request :: get(HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID),
-                                Request :: get(HandbookManager::PARAM_COMPLEX_OBJECT_ID),
-                                Request :: get(HandbookManager::PARAM_HANDBOOK_ID))
-                                ));
+        		 $this->browser->get_url(array(
+                        Application::PARAM_APPLICATION => HandbookManager::APPLICATION_NAME,
+                        HandbookManager :: PARAM_ACTION => HandbookManager:: ACTION_VIEW_HANDBOOK,
+                        HandbookManager :: PARAM_TOP_HANDBOOK_ID => Request::get(HandbookManager :: PARAM_TOP_HANDBOOK_ID),
+//                        HandbookManager::PARAM_HANDBOOK_ID => Request::get(HandbookManager :: PARAM_TOP_HANDBOOK_ID),
+                         HandbookManager::PARAM_HANDBOOK_SELECTION_ID => $handbook->get_id(),
+                        HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID => Request::get(HandbookManager :: PARAM_HANDBOOK_PUBLICATION_ID)))));
+
 
         return $toolbar->as_html();
     }

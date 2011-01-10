@@ -39,7 +39,7 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
     function display_header()
     {
         LauncherApplication :: display_header();
-
+    
         $embedded_content_object_id = AdaptiveAssessmentContentObjectDisplay :: get_embedded_content_object_id();
 
         if (! $embedded_content_object_id)

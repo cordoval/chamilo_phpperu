@@ -13,6 +13,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
 use repository\content_object\handbook_item\HandbookItem;
 use repository\content_object\handbook\Handbook;
+use repository\content_object\glossary\Glossary;
 
 /**
  * This class provides a navigation menu representing the structure of a handbook
@@ -133,36 +134,40 @@ class HandbookMenu extends HTML_Menu
             {
                 $lo = $rdm->retrieve_content_object($lo->get_reference());
             }
-            if ($lo->get_type() == Handbook :: get_type_name())
+            if($lo->get_type() != Glossary::get_type_name())
             {
-                $items = $this->get_handbook_items($top_handbook_id, $lo->get_id());
-                if (count($items) > 0)
-                $item['sub'] = $items;
-                $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $lo->get_id());
-            }
-            else
-            {
-                $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $handbook_id);
+                //do not show glossary            
+                if ($lo->get_type() == Handbook :: get_type_name())
+                {
+                    $items = $this->get_handbook_items($top_handbook_id, $lo->get_id());
+                    if (count($items) > 0)
+                    $item['sub'] = $items;
+                    $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $lo->get_id());
+                }
+                else
+                {
+                    $item['url'] = $this->get_sub_item_url($top_handbook_id, $child->get_ref(),$this->handbook_publication_id, $child->get_id(), $handbook_id);
 
-            }
-            $alternatives = HandbookManager::get_alternatives_preferences_types($lo->get_id(), $this->handbook_id);
-            if($alternatives['text_main'] != null)
-            {
-                $item['title'] = $alternatives['text_main']->get_title();
-            }
-            else if($alternatives['handbook_main'] != null)
-            {
-                $item['title'] = $alternatives['handbook_main']->get_title();
-            }
-            else
-            {
-                $item['title'] = $lo->get_title();
-            }
+                }
+                $alternatives = HandbookManager::get_alternatives_preferences_types($lo->get_id(), $this->handbook_id);
+                if($alternatives['text_main'] != null)
+                {
+                    $item['title'] = $alternatives['text_main']->get_title();
+                }
+                else if($alternatives['handbook_main'] != null)
+                {
+                    $item['title'] = $alternatives['handbook_main']->get_title();
+                }
+                else
+                {
+                    $item['title'] = $lo->get_title();
+                }
 
 
-            $item['class'] = $lo->get_type();
+                $item['class'] = $lo->get_type();
 
-            $menu[] = $item;
+                $menu[] = $item;
+            }
         }
 
         return $menu;
@@ -215,7 +220,14 @@ class HandbookMenu extends HTML_Menu
 	function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
-        $this->render($renderer, 'sitemap');
+//       show complete menu: nothing collapsed
+//         $this->setMenuType('sitemap');
+//        all collapsed
+        $this->setMenuType('tree');
+        
+
+        $this->render($renderer);
+//        $this->render($renderer, 'prevnext');
         return $renderer->toHTML();
     }
 
@@ -228,7 +240,10 @@ class HandbookMenu extends HTML_Menu
     {
         $rdm = RepositoryDataManager::get_instance();
         $complex_set = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->handbook_selection_id, ComplexContentObjectItem :: get_table_name()));
-               $cloid = $complex_set->next_result()->get_id();
+        if($co = $complex_set->next_result())
+        {
+           $cloid = $co->get_id();
+        }
 
             return $this->forceCurrentUrl($this->get_sub_item_url($this->top_handbook_id, $this->handbook_selection_id, $this->handbook_publication_id, $cloid, $this->handbook_id));
 
