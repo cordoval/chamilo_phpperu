@@ -102,18 +102,23 @@ class SurveyTemplateUserForm extends FormValidator
             $labels = explode('_', $property_name);
             $label = $labels[0] . ' ' . $labels[1];
             $url = Path :: get_repository_content_object_path(true) . 'survey/php/xml_feeds/xml_context_feed.php?context_type=' . $type;
-
+			
+            $attributes = array();
+			$attributes['search_url'] = $url;            
             $locale = array();
             $locale['Display'] = Translation :: get('Choose');
             $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
             $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
             $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
-
-            $elem = $this->addElement('element_finder', self :: PARAM_TARGET_LEVEL . '_' . $labels[1], $label, $url, $locale, array(), array(
-                    'load_elements' => true));
-            $defaults = array();
-            $elem->setDefaults($defaults);
-            $elem->setDefaultCollapsed(false);
+			
+            $attributes['locale'] = $locale;
+        	$attributes['defaults'] = array();
+            $attributes['options'] = array('load_elements' => true);
+            
+            $elem = $this->addElement('element_finder', self :: PARAM_TARGET_LEVEL . '_' . $labels[1], $label, $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
+          
+//            $elem->setDefaults($defaults);
+//            $elem->setDefaultCollapsed(false);
         }
 
         $this->build_footer('Create');

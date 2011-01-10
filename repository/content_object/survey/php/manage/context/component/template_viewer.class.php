@@ -32,12 +32,10 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
      */
     function run()
     {
-        $context_template_id = Request :: get(SurveyContextManager :: PARAM_TEMPLATE_ID);
-        $this->context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_template($template_id);
        
-    	
     	$template_id = Request :: get(SurveyContextManager :: PARAM_TEMPLATE_ID);
         $this->template = SurveyContextDataManager :: get_instance()->retrieve_survey_template($template_id);
+		$this->context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->template->get_context_template_id());
         
         $this->ab = $this->get_action_bar();
         
@@ -63,7 +61,7 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
         $parameters[self :: PARAM_TEMPLATE_ID] = $this->template->get_id();
              
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_TEMPLATE_USERS;
-        $table = new SurveyTemplateUserTable($this, $parameters, $this->get_template_user_condition());
+        $table = new SurveyTemplateUserTable($this, $parameters, $this->get_template_user_condition(), $this->context_template);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_TEMPLATE_USERS, Translation :: get('Templates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
         
         $html[] = $tabs->render();
@@ -78,7 +76,7 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
     {
         
         $conditions = array();
-        $conditions[] = new EqualityCondition(SurveyTemplateUser::PROPERTY_TEMPLATE_ID, $this->template->get_id());
+        $conditions[] = new EqualityCondition(SurveyTemplateUser::PROPERTY_TEMPLATE_ID, $this->template->get_id(), SurveyTemplateUser :: get_table_name());
         
         $query = $this->ab->get_query();
         
@@ -112,7 +110,7 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_TEMPLATE)), Translation :: get('BrowseContextTemplates')));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewContextTemplate')));
-    	        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => Request :: get(self :: PARAM_TEMPLATE_ID))), Translation :: get('ViewTemplate')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => Request :: get(self :: PARAM_TEMPLATE_ID))), Translation :: get('ViewTemplate')));
         
     }
 

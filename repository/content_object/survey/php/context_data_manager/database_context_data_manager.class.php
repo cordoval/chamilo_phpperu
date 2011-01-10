@@ -488,11 +488,31 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
 
     function create_survey_template_user($template_user)
     {
-        $props = array();
+    	$props = array();
+        $conditions = array();
+        $conditions[] = new EqualityCondition(SurveyTemplateUser:: PROPERTY_USER_ID,  $template_user->get_user_id(), SurveyTemplateUser :: get_table_name());
+        $conditions[] =new EqualityCondition(SurveyTemplateUser:: PROPERTY_TEMPLATE_ID, $template_user->get_template_id(),  SurveyTemplateUser :: get_table_name());
+       	
+    	foreach ($template_user->get_additional_properties() as $key => $value)
+        {
+           
+            $conditions[] =new EqualityCondition($key, $value, $template_user->get_type());
+            
+        }
+        
+        $condition = new AndCondition($conditions);
+        $existing_template_user = $this->retrieve_survey_template_users($template_user->get_type(), $condition)->next_result();
+      
+        if (isset($existing_template_user)){
+        	//template users have be unique
+        	return false;	
+        }
+        
         foreach ($template_user->get_default_properties() as $key => $value)
         {
             $props[$this->escape_column_name($key)] = $value;
         }
+     
         //        $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $template_user->get_id();
         $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_TYPE)] = $template_user->get_type();
         $props[$this->escape_column_name(SurveyTemplateUser :: PROPERTY_ID)] = $this->get_better_next_id('survey_template_user', 'id');

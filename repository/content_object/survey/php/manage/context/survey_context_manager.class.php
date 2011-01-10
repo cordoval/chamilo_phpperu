@@ -169,7 +169,7 @@ class SurveyContextManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template->get_id()));
     }
 	
-function get_template_viewing_url($template)
+	function get_template_viewing_url($template)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => $template->get_id()));
     }
