@@ -18,7 +18,7 @@ use tracking\Event;
 use common\libraries\Display;
 
 //require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
-require_once Path :: get_repository_content_object_path() . '/survey/php/display/component/viewer/survey_viewer_wizard.class.php';
+//require_once Path :: get_repository_content_object_path() . '/survey/php/display/component/viewer/survey_viewer_wizard.class.php';
 
 class SurveyManagerViewerComponent extends SurveyManagerTakerComponent
 {
