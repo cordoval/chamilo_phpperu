@@ -37,6 +37,7 @@ use application\weblcms\WeblcmsForumTopicViewsTracker;
 use tracking\Event;
 
 use Exception;
+use repository\content_object\learning_path\LearningPathContentObjectDisplay;
 
 //require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_content_object_display.class.php';
 require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lp_attempt_tracker.class.php';
