@@ -15,8 +15,8 @@
     <!-- ============================================  -->
     <resolvepath propertyName="basedir" file="."/>
     <property name="files-dir" value="${basedir}/files" />
-    <property name="classes-dirs-coma" value="${basedir}/admin,${basedir}/application,${basedir}/common,${basedir}/group,${basedir}/help,${basedir}/home,${basedir}/install,${basedir}/menu,${basedir}/migration,${basedir}/reporting,${basedir}/rights,${basedir}/tracking,${basedir}/user,${basedir}/webservice" />
-    <property name="classes-dirs-space" value="${basedir}/admin ${basedir}/application ${basedir}/common ${basedir}/group ${basedir}/help ${basedir}/home ${basedir}/install ${basedir}/menu ${basedir}/migration ${basedir}/reporting ${basedir}/rights ${basedir}/tracking ${basedir}/user ${basedir}/webservice" />
+    <property name="classes-dirs-coma" value="${basedir}/admin,${basedir}/common,${basedir}/group,${basedir}/help,${basedir}/home,${basedir}/install,${basedir}/menu,${basedir}/migration,${basedir}/reporting,${basedir}/rights,${basedir}/tracking,${basedir}/user,${basedir}/webservice" />
+    <property name="classes-dirs-space" value="${basedir}/admin ${basedir}/common ${basedir}/group ${basedir}/help ${basedir}/home ${basedir}/install ${basedir}/menu ${basedir}/migration ${basedir}/reporting ${basedir}/rights ${basedir}/tracking ${basedir}/user ${basedir}/webservice" />
     <property name="build-dir" value="${files-dir}/build" />
     <property name="build-logs-dir" value="${build-dir}/logs" />
     <property name="build-coverage-dir" value="${build-dir}/coverage" />
