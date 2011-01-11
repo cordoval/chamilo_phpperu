@@ -321,9 +321,10 @@ interface WeblcmsDataManagerInterface
      * Subscribe a group to a course.
      * @param Course $course
      * @param int $group_id
+     * @param int $status
      * @return boolean
      */
-    function subscribe_group_to_course(Course $course, $group_id);
+    function subscribe_group_to_course(Course $course, $group_id, $status);
 
     /**
      * Unsubscribe a user from a course.
@@ -847,6 +848,6 @@ interface WeblcmsDataManagerInterface
      * @param bool $visibility visibility
      */
     function update_course_module_visibility($condition, $visibility);
-    
+
 }
 ?>

@@ -15,6 +15,10 @@ use common\libraries\Utilities;
 
 class TestInitializer
 {
+
+    public static function initGlobals() {
+        $GLOBALS['language_interface'] = "en";
+    }
     /**
      * Initialize the environment 
      */
@@ -25,6 +29,7 @@ class TestInitializer
         self::initAutoload();
         self::initPHPSettings();
         self::initServerGlobals();
+        self::initGlobals();
     }
 
 

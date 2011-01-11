@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace repository\content_object\survey;
 
 use common\libraries\Path;
@@ -12,6 +12,7 @@ use common\libraries\DynamicTabsRenderer;
 //require_once Path :: get_repository_content_object_path() . 'survey/php/survey_template_user.class.php';
 //require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_template_viewer.class.php';
 
+
 class SurveyContextManagerTemplateUserCreatorComponent extends SurveyContextManager
 {
 
@@ -21,30 +22,28 @@ class SurveyContextManagerTemplateUserCreatorComponent extends SurveyContextMana
     function run()
     {
         
-        $context_template_id = Request :: get(SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID);
-        
-        $this->set_parameter(SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID, $context_template_id);
-        
-        $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
+        $template_id = Request :: get(SurveyContextManager :: PARAM_TEMPLATE_ID);
+        $template = SurveyContextDataManager :: get_instance()->retrieve_survey_template($template_id);
+        $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($template->get_context_template_id());
         
         $survey_template_user = SurveyTemplateUser :: factory($context_template->get_type());
         
-        $survey_template_user->set_template_id($context_template_id);
-               
+        $survey_template_user->set_template_id($template_id);
+        
         $form = new SurveyTemplateUserForm(SurveyTemplateUserForm :: TYPE_CREATE, $this->get_url(), $survey_template_user, $this->get_user(), $this);
         
         if ($form->validate())
         {
-            $tab = SurveyContextManagerContextTemplateViewerComponent :: TAB_TEMPLATES;
+            $tab = SurveyContextManagerTemplateViewerComponent :: TAB_TEMPLATE_USERS;
             
             $success = $form->create_survey_template_user();
             if ($success)
             {
-                $this->redirect(Translation :: get('SurveyTemplateUserCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_TEMPLATE, SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
+                $this->redirect(Translation :: get('SurveyTemplateUserCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_TEMPLATE, SurveyContextManager :: PARAM_TEMPLATE_ID => $template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
             }
             else
             {
-                $this->redirect(Translation :: get('SurveyTemplateUserNotCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_TEMPLATE, SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
+                $this->redirect(Translation :: get('SurveyTemplateUserNotCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_TEMPLATE, SurveyContextManager :: PARAM_TEMPLATE_ID => $template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
             }
         }
         else
@@ -58,11 +57,13 @@ class SurveyContextManagerTemplateUserCreatorComponent extends SurveyContextMana
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewContextTemplate')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => Request :: get(self :: PARAM_TEMPLATE_ID))), Translation :: get('ViewTemplate')));
+    
     }
 
     function get_additional_parameters()
     {
-        return array(self :: PARAM_CONTEXT_TEMPLATE_ID);
+        return array(self :: PARAM_CONTEXT_TEMPLATE_ID, self :: PARAM_TEMPLATE_ID);
     }
 
 }
