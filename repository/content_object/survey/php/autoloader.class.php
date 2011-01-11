@@ -38,6 +38,7 @@ class Autoloader
             'survey_context_table' => 'manage/context/component/context_table/table',
             'survey_page_table' => 'manage/context/component/registration_browser/browser_table',
             'survey__table' => 'manage/context/component/registration_browser/browser_table',
+            'survey_context_manager_template_viewer_component' => 'manage/context/component/template_viewer',
             'survey_context_template_browser_table' => 'manage/context/component/registration_browser/browser_table',
             'survey_viewer_form' => 'display/component/viewer/survey_viewer_form',
             'survey_display_survey_viewer_component' => 'display/component/survey_viewer',

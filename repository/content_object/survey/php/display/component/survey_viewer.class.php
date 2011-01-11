@@ -41,6 +41,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
 //        dump($paths);
         
         $page_context_paths = $this->survey->get_page_context_paths();
+        $total_page_count = count($page_context_paths);
 //        dump('pagepaths: ');
 //        dump($page_context_paths);
 //        
@@ -48,12 +49,13 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
 //        
         $this->context_paths = array();
         $page_order = array();
-        $page_count = 0;
+        $page_count = $total_page_count;
         foreach ($page_context_paths as $page_context_path)
         {
-            $page_count ++;
+//            $page_count ++;
             $page_order[$page_count - 1] = $page_context_path;
             $this->context_paths[$page_context_path] = $page_count;
+            $page_count--;
          }
 //             dump('surveycontextpaths: ');
 //   dump($this->context_paths);
@@ -62,7 +64,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         
         if (! $this->context_path)
         {
-            $this->context_path = $page_context_paths[0];
+            $this->context_path = $page_context_paths[$total_page_count-1];
         }
         
 //        dump($this->context_path);
