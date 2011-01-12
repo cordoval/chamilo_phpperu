@@ -85,6 +85,8 @@ class HandbookManager extends WebApplication
 
     const ACTION_BROWSE = 'browse';
 
+    static $language_metadata_properties = array('dc:language', 'dc:Language');
+
     static $found_glossaries = array();
 
     /**
@@ -95,6 +97,11 @@ class HandbookManager extends WebApplication
     {
         parent :: __construct($user);
 
+    }
+
+    static function get_language_metadata_properties()
+    {
+        return self::$language_metadata_properties;
     }
 
     function parse_input_from_table()
