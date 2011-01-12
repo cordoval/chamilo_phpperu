@@ -76,10 +76,15 @@ class HandbookManager extends WebApplication
     const ACTION_DELETE_BOOKMARK = 'bookmarks_deleter';
     const ACTION_SEARCH = 'search_results_browser';
     const ACTION_CREATE_PREFERENCE = 'handbook_preferences_creator';
+    const ACTION_VIEW_COLLAPSED = 'toggle_menu';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LANGUAGE = 'dc:language';
     const PARAM_PUBLISHER = 'dc:publisher';
+
+    const PARAM_MENU_STYLE = 'menu_style';
+    const MENU_COMPACT = 0;
+    const MENU_OPEN = 1;
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_HANDBOOK_PUBLICATIONS;
 

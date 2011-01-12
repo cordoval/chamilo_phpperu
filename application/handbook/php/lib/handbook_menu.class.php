@@ -220,10 +220,17 @@ class HandbookMenu extends HTML_Menu
 	function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
+
+        if($_SESSION[HandbookManager::PARAM_MENU_STYLE] == HandbookManager::MENU_OPEN)
+        {
 //       show complete menu: nothing collapsed
-//         $this->setMenuType('sitemap');
+         $this->setMenuType('sitemap');
+        }
+        else
+        {
 //        all collapsed
-        $this->setMenuType('tree');
+            $this->setMenuType('tree');
+        }
         
 
         $this->render($renderer);
