@@ -62,7 +62,10 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
 
     function get_assessment_feedback_configuration()
     {
-        return new FeedbackDisplayConfiguration();
+        $dummy_configuration = new FeedbackDisplayConfiguration();
+        $dummy_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_BOTH);
+        $dummy_configuration->disable_feedback_per_page();
+        return $dummy_configuration;
     }
 }
 ?>

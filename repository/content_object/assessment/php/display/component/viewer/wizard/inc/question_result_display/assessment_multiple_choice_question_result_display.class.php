@@ -13,8 +13,9 @@ require_once dirname(__FILE__) . '/../question_result_display.class.php';
 class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDisplay
 {
 
-    function display_question_result()
+    function get_question_result()
     {
+        $html = array();
         $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
         $html[] = '<tr>';
@@ -87,7 +88,7 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
         $html[] = '</tbody>';
         $html[] = '</table>';
 
-        echo implode("\n", $html);
+        return implode("\n", $html);
     }
 }
 ?>

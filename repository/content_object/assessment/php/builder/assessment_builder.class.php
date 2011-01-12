@@ -22,8 +22,6 @@ class AssessmentBuilder extends ComplexBuilder
     function __construct($parent)
     {
         parent :: __construct($parent);
-
-        $this->parse_input_from_object_browser_table();
     }
 
     function get_application_component_path()

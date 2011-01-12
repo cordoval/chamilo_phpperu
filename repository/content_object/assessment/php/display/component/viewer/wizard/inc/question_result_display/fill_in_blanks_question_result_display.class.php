@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../question_result_display.class.php';
 class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
 {
 
-    function display_question_result()
+    function get_question_result()
     {
         $answers = $this->get_answers();
 
@@ -57,11 +57,12 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
         {
             $html[] = $this->get_question_feedback($index);
         }
-        echo implode("\n", $html);
+        return implode("\n", $html);
     }
 
     function get_question_feedback($index)
     {
+        $html = array();
         $html[] = '<div class="splitter"><b>' . Translation :: get('Question') . ' ' . ($index + 1) . '</b></div>';
         $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';

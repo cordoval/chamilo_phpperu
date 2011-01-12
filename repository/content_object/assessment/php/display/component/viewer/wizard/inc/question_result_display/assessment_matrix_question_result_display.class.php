@@ -15,13 +15,14 @@ require_once dirname(__FILE__) . '/../question_result_display.class.php';
 class AssessmentMatrixQuestionResultDisplay extends QuestionResultDisplay
 {
 
-    function display_question_result()
+    function get_question_result()
     {
         $answers = $this->get_answers();
         $options = $this->get_question()->get_options();
         $matches = $this->get_question()->get_matches();
         $type = $this->get_question()->get_matrix_type();
 
+        $html = array();
         $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
         $html[] = '<tr>';
@@ -121,7 +122,7 @@ class AssessmentMatrixQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '</tbody>';
         $html[] = '</table>';
 
-        echo implode("\n", $html);
+        return implode("\n", $html);
     }
 }
 ?>
