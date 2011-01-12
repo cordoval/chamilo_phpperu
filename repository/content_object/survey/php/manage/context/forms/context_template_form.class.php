@@ -338,7 +338,7 @@ class SurveyContextTemplateForm extends FormValidator
         $context_class = array();
 
         $context_class[] = '<?php namespace repository\content_object\survey;';
-        //        $context_class[] = 'use common\libraries\Path;';
+        $context_class[] = 'use common\libraries\Utilities;';
         //        $context_class[] = 'require_once (Path :: get_repository_content_object_path().' . '\'' . 'survey/php/survey_template.class.php\');';
 
 

@@ -47,7 +47,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
     const TYPE_CONTEXT_TEMPLATES = 5;
     const TYPE_ANALYSE_TYPE = 6;
 
-    function SurveyReportingFilterWizard($types, $publication_id, $actions, $user)
+    function __construct($types, $publication_id, $actions, $user)
     {
         parent :: __construct('survey_reporting_filter', 'post', $actions);
         $this->publication_id = $publication_id;
@@ -166,6 +166,8 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         
         $context_template_id = Request :: get(SurveyReportingManager :: PARAM_CONTEXT_TEMPLATE_ID);
         
+   
+        
         if ($context_template_id)
         {
             $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/survey/php/xml_feeds/xml_context_feed.php?' . SurveyManager :: PARAM_USER_ID . '=' . $this->user->get_id() . '&' . self :: PARAM_CONTEXT_TEMPLATE_ID . '=' . $context_template_id . '&' . SurveyContext :: PROPERTY_ACTIVE . '=1';
@@ -175,8 +177,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         {
             $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/survey/php/xml_feeds/xml_context_feed.php?' . SurveyManager :: PARAM_USER_ID . '=' . $this->user->get_id() . '&' . SurveyContext :: PROPERTY_ACTIVE . '=1';
         }
-       
-      
+      	
         
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseContext');
@@ -195,7 +196,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
             $defaults['context_' . $context_id] = array('id' => 'context_' . $context_id, 'title' => $context->get_name(), 'description', $context->get_name(), 'class' => 'rights_template');
         
         }
-        $attributes['defaults'] = $defaults;
+	    $attributes['defaults'] = $defaults;
         $attributes['options'] = array('load_elements' => true);
         $element_finder = $this->createElement('element_finder', 'context', Translation :: get('AvailableContexts'), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
         $this->addElement($element_finder);

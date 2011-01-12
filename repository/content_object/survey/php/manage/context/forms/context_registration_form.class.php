@@ -303,7 +303,7 @@ class SurveyContextRegistrationForm extends FormValidator
 
         $context_class[] = '<?php namespace repository\content_object\survey;';
         $context_class[] = 'use common\libraries\Path;';
-
+		$context_class[] = 'use common\libraries\Utilities;';
         $context_class[] = 'require_once (Path :: get_repository_content_object_path().' . '\'' . 'survey/php/survey_context.class.php\');';
 
         $context_class[] = 'class ' . Utilities :: underscores_to_camelcase($type) . ' extends SurveyContext';
