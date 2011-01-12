@@ -50,7 +50,7 @@ abstract class VideoConferencingManager extends SubManager
     /**
      * @param Application $application
      */
-    function VideoConferencingManager($application)
+    function __construct($application)
     {
         parent :: __construct($application);
         $this->video_conferencing = $application->get_external_instance();
