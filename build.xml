@@ -139,7 +139,7 @@
     <!-- ============================================  -->
     <!-- Target: generate-report                       -->
     <!-- ============================================  -->
-    <target name="generate-reports" depends="phpunit-coverage, pdepend, phpcpd, phpcs, phpcb"  />
+    <target name="generate-reports" depends="phpunit-coverage, phpcpd, phpcs, phpcb"  />
 
     <!-- ============================================  -->
     <!-- (DEFAULT)  Target: build                      -->
