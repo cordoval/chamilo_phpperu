@@ -20,7 +20,7 @@ class SurveyTotalResultViewReportingBlock extends SurveyReportingBlock
     private $analyse_type;
     private $parent;
 
-    function SurveyTotalResultViewReportingBlock($parent, $publication_id, $analyse_type)
+    function __construct($parent, $publication_id, $analyse_type)
     {
         parent :: __construct($parent);
         $this->parent = $parent;

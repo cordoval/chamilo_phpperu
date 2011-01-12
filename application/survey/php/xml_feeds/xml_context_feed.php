@@ -26,7 +26,7 @@ if (Authentication :: is_valid())
     $conditions[] = new EqualityCondition(SurveyContextRelUser :: PROPERTY_USER_ID, $user_id);
     
     $context_template_id = $_GET[SurveyReportingManager :: PARAM_CONTEXT_TEMPLATE_ID];
-    
+       
     if ($context_template_id)
     {
         $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
@@ -78,7 +78,7 @@ if (Authentication :: is_valid())
 
 header('Content-Type: text/xml');
 echo '<?xml version="1.0" encoding="utf-8"?>', "\n", '<tree>', "\n";
-
+dump($_GET);
 dump_tree($contexts);
 
 echo '</tree>';
@@ -87,7 +87,7 @@ function dump_tree($contexts)
 {
     if (contains_results($contexts))
     {
-        echo '<node id="0" classes="category unlinked" title="' . Translation :: get('Contexts') . '">' . "\n";
+        echo '<node id="0" classes="category unlinked" title="' . Translation :: get('Contexts', array(), __NAMESPACE__) . '">' . "\n";
         
         foreach ($contexts as $context)
         {
@@ -95,8 +95,7 @@ function dump_tree($contexts)
             $name = strip_tags($context->get_optional_property(SurveyContext :: PROPERTY_NAME));
             //            $description = strip_tags($period->get_description());
             //            $description = preg_replace("/[\n\r]/", "", $description);
-            
-
+           
             echo '<leaf id="' . $id . '" classes="" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
         
