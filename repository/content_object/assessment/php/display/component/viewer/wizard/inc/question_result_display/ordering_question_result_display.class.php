@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../question_result_display.class.php';
 class OrderingQuestionResultDisplay extends QuestionResultDisplay
 {
 
-    function display_question_result()
+    function get_question_result()
     {
         $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
@@ -24,10 +24,10 @@ class OrderingQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
-        
+
         $answers = $this->get_question()->get_options();
         $user_answers = $this->get_answers();
-        
+
         foreach ($answers as $i => $answer)
         {
             $html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
@@ -37,11 +37,11 @@ class OrderingQuestionResultDisplay extends QuestionResultDisplay
             //$html[] = '<td>' . Translation :: get('NoFeedback') . '</td>';
             $html[] = '</tr>';
         }
-        
+
         $html[] = '</tbody>';
         $html[] = '</table>';
-        
-        echo implode("\n", $html);
+
+        return implode("\n", $html);
     }
 }
 ?>

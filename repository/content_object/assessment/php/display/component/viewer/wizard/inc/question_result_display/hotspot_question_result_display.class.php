@@ -17,7 +17,7 @@ require_once Path :: get_plugin_path() . 'polygon/point_in_polygon.class.php';
 class HotspotQuestionResultDisplay extends QuestionResultDisplay
 {
 
-    function display_question_result()
+    function get_question_result()
     {
         $question = $this->get_question();
         $question_id = $this->get_complex_content_object_question()->get_id();
@@ -63,7 +63,7 @@ class HotspotQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '</tbody>';
         $html[] = '</table>';
 
-        echo implode("\n", $html);
+        return implode("\n", $html);
     }
 
     function is_valid_answer($answer, $user_answer)
