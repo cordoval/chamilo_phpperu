@@ -56,7 +56,7 @@ class HandbookItem extends ContentObject implements Versionable
     function create()
     {
         $this->set_uuid();
-        parent::create();
+        return parent::create();
     }
 }
 ?>

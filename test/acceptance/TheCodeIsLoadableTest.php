@@ -15,7 +15,8 @@ class TheCodeIsLoadableTest extends \PHPUnit_Framework_TestSuite
     {
         parent:: __construct();
         $this->addAdminClasses();
-        $this->addApplicationAppzClasses();
+        // next line has been commented out since appz integrity is not enforced by chamilo team
+        //$this->addApplicationAppzClasses();
         $this->addCommonClasses();
         $this->addGroupCoreAppClasses();
         $this->addHelpCoreAppClasses();

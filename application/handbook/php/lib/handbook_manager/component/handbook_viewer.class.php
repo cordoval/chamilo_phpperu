@@ -33,10 +33,6 @@ require_once dirname(__FILE__).'/../handbook_manager.class.php';
 require_once dirname(__FILE__).'/../../handbook_menu.class.php';
 require_once dirname(__FILE__).'/../../handbook_rights.class.php';
 
-//require_once dirname(__FILE__).'/../../../context_linker/php/context_link.class.php';
-//require_once dirname(__FILE__).'/../../../context_linker/php/context_linker_data_manager.class.php';
-//require_once dirname(__FILE__).'/../../../context_linker/php/context_linker_manager/context_linker_manager.class.php';
-//require_once dirname(__FILE__).'/../../../metadata/php/metadata_manager/metadata_manager.class.php';
 /**
  * Component to view a handbook and it's content
  * @author Nathalie Blocry
@@ -126,7 +122,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         {
             $this->check_for_uid();
         }
-//        $location_id = HandbookRights::get_location_id_by_identifier_from_handbooks_subtree($this->handbook_publication_id);
         $this->view_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::VIEW_RIGHT, $this->handbook_publication_id, $user_id);
         $this->edit_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::EDIT_RIGHT, $this->handbook_publication_id, $user_id);
         
@@ -141,7 +136,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
         
         $item_data = $hdm->retrieve_handbook_item_data_by_uuid($this->uid);
-        $this->handbook_selection_id = $item_data[HandbookItem::PROPERTY_REFERENCE];
+        $this->handbook_selection_id = $item_data[HandbookItem::PROPERTY_ID];
        
 
         if(!$this->handbook_publication_id)
@@ -209,10 +204,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         if($this->selected_object != null  && $this->complex_selection_id != null )
         {
             $rdm = RepositoryDataManager::get_instance();
-
-    //        $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->handbook_id);
-//            $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $this->selected_object->get_id());
-
             $complex_content_item = $rdm->retrieve_complex_content_object_item($this->complex_selection_id);
             $display_order = $complex_content_item->get_display_order();
 
@@ -237,9 +228,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
                 $html[] = '<div>';
                 $hpid = $this->handbook_publication_id;
-
-//                $menu = new HandbookMenu( 'run.php?application='.self::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'='.$this->handbook_id,  $this->top_handbook_id, null, $this->handbook_publication_id, $this->handbook_id);
-               $menu = new HandbookMenu( '',  $this->handbook_id, $this->handbook_selection_id, $this->handbook_publication_id, $this->top_handbook_id);
+                $menu = new HandbookMenu( '',  $this->handbook_id, $this->handbook_selection_id, $this->handbook_publication_id, $this->top_handbook_id);
                     $html[] = $menu->render_as_tree();
                 $html[] = '</div>';
             $html[] = '</div>';
@@ -274,10 +263,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function display_content()
     {
-//        //VOORLOPIG: print preferences
-//        $html[] = $this->display_preferences();
-         
-
+       
         if ($this->selected_object && $this->selected_object->get_type() == Handbook::get_type_name())
         {
             //SHOW ALL ITEMS IN THIS HANDBOOK (one level)
@@ -297,28 +283,19 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        //edit handbook/item
-
-        //delete handbook/item
-
-        //add handbook/item
-
-        //set handbook rights
         if($this->edit_right)
         {
             $actions[] = new ToolbarItem(Translation :: get('EditPublicationRights'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
-            $actions[] = new ToolbarItem(Translation :: get('ViewHandbookPreferences'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_VIEW_PREFERENCES, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
+            $actions[] = new ToolbarItem(Translation :: get('ViewHandbookPreferences'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_CREATE_PREFERENCE, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
 
             $actions[] = new ToolbarItem(Translation :: get('AddNewItemToHandbook'), Theme :: get_content_object_image_path(HandbookTopic::get_type_name()), $this->get_create_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
 
-            $actions[] = new ToolbarItem(Translation :: get('ConvertWiki'), Theme :: get_content_object_image_path(Wiki::get_type_name()), $this->get_convert_wiki_to_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+            $actions[] = new ToolbarItem(Translation :: get('ConvertWiki'), Theme :: get_content_object_image_path(Wiki::get_type_name()), $this->get_convert_wiki_to_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id, $this->handbook_selection_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
 
         }
 
         if($this->selected_object && $this->edit_right)
         {
-            //create alternative context version
-//            $redirect_url = 'handbook_viewer&application=handbook&thid='.$this->top_handbook_id.'&hid='.$this->handbook_id.'&hpid='.$this->handbook_publication_id.'&hsid='.$this->handbook_selection_id;
             $redirect_url = array();
             $redirect_url[Application :: PARAM_APPLICATION] = 'handbook';
             $redirect_url[Application :: PARAM_ACTION] = HandbookManager :: ACTION_VIEW_HANDBOOK;
@@ -374,6 +351,21 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $tool_actions[] = new ToolbarItem(Translation :: get('next'), Theme :: get_common_image_path() . 'action_action_bar_left_show.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->next_item_id)));
         }
 
+        //search
+        $search_params = array();
+        $search_params[Application::PARAM_APPLICATION] = self::APPLICATION_NAME;
+        $search_params[self :: PARAM_ACTION] = self:: ACTION_SEARCH;
+        $search_params[self :: PARAM_TOP_HANDBOOK_ID] = $this->top_handbook_id;
+        $search_params[self::PARAM_HANDBOOK_ID] = $this->handbook_id;
+        if($this->selected_object != null)
+        {
+            $search_params[self::PARAM_HANDBOOK_SELECTION_ID] = $this->selected_object->get_id();
+        }
+        $search_params[self::PARAM_HANDBOOK_PUBLICATION_ID] = $this->handbook_publication_id;
+
+
+        $action_bar->set_search_url($this->get_url($search_params));
+
         $action_bar->set_common_actions($actions);
 
         $action_bar->set_tool_actions($tool_actions);
@@ -381,20 +373,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         return $action_bar;
 
     }
-
-
-
-
-
-    /**
-     * retrieve all the glossary's in this handbook publication and combine them in one
-     * searchable table
-     */
-    function get_glossary()
-    {
-
-    }
-
 
     function print_metadata($co_id, $mode = self::METADATA_SHORT)
     {
@@ -530,9 +508,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
                      while(list($key, $value)= each($alternatives_array['image']))
                          {
-                             
-//                             $display = ContentObjectDisplay :: factory($value);
-//                             $htmli['tab'.$i][] = $display->get_description();
                          $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($value->get_id());
                         //TODO SHOW POPUP WITH LARGER PIC ON CLICK INSTEAD OF DOWNLOAD
                        $htmli['tab'.$i][] = '<div>';
@@ -631,54 +606,20 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         $alternatives_array = HandbookManager::get_alternatives_preferences_types($co_id, $this->handbook_id);
 
          //DISPLAY TITLES
-         //todo: hide alternatives
-//         $display = ContentObjectDisplay :: factory($alternatives_array['handbook_main']);
-//        $html[] = $display->get_full_html();
-//        $html[] = '</div>';
+         //todo: implement';
 
          $html[] = '<H1>'.$alternatives_array['handbook_main']->get_title().'</H1>';
          $html[] = $alternatives_array['handbook_main']->get_description();
          $html[] = 'alternative titles: ';
          while(list($key, $value)= each($alternatives_array['handbook']))
         {
-//             $html[] = $this->print_metadata($value->get_id());
-//             $display = ContentObjectDisplay :: factory($value);
-//             $html[] = $display->get_full_html();
-//             $html[] = '</div>';
              $html[] = '  -  ';
              $html[] = $value->get_title();
 
 
          }
-
-
-
-         //DISPLAY ITEMS
-         //todo: display the items in this handbook?
-
          return implode ("\n", $html);
 
     }
-
-
-
-
-////    function get_preferences($handbook_publication_id)
-//    {
-//        //USER PREFERENCES
-//        //TODO: This should be gotten from a user-metadata table for now only the language and the publi is taken into account
-//        $this->user_preferences[self::PARAM_LANGUAGE] = $this->translate_chamilo_language_to_iso_code(Translation::get_instance()->get_language());
-//
-//        //for now: get institution name from root group
-//        $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
-//        $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();
-//        $this->user_preferences[self::PARAM_PUBLISHER] = $group->get_name();
-//
-//        //HANDBOOK PREFERENCES
-//        //TODO: this should be gotten from a handbook-publication-preferences table
-//
-//        return;
-//    }
-
 }
 ?>

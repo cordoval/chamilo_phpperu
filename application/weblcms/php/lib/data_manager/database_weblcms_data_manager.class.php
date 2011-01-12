@@ -1188,13 +1188,14 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         }
     }
 
-    function subscribe_group_to_course(Course $course, $group_id)
+    function subscribe_group_to_course(Course $course, $group_id, $status)
     {
         $this->get_connection()->loadModule('Extended');
 
         $course_group_relation = new CourseGroupRelation();
         $course_group_relation->set_course_id($course->get_id());
         $course_group_relation->set_group_id($group_id);
+        $course_group_relation->set_status($status);
 
         if ($course_group_relation->create())
         {

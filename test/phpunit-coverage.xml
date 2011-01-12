@@ -27,7 +27,10 @@
         
         <whitelist>
             <directory suffix=".class.php">../admin</directory>
+            <!-- do not include applications files in coverage -->
+            <!--
             <directory suffix=".class.php">../application</directory>
+            -->
             <!-- do not include plugin directory in whitelist -->
             <directory suffix=".class.php">../common/extensions</directory>
             <directory suffix=".class.php">../common/libraries/php</directory>

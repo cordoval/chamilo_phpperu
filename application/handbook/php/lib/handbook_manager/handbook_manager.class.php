@@ -31,6 +31,10 @@ use repository\ContentObject;
 use common\libraries\Request;
 use repository\ComplexContentObjectItem;
 use repository\content_object\glossary\Glossary;
+use application\metadata\MetadataPropertyType;
+use common\libraries\ArrayResultSet;
+use common\libraries\SubselectCondition;
+use common\libraries\InCondition;
 
 require_once dirname(__FILE__) . '/../handbook_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/handbook_publication_browser/handbook_publication_browser_table.class.php';
@@ -51,6 +55,7 @@ class HandbookManager extends WebApplication
     const PARAM_TOP_HANDBOOK_ID = 'thid';
     const PARAM_SELECTION_TO_EDIT = 'ste';
     const PARAM_HANDBOOK_OWNER_ID = 'handbook_owner';
+    const PARAM_SEARCH_QUERY = 'sq';
 
     const ACTION_DELETE_HANDBOOK_PUBLICATION = 'handbook_publication_deleter';
     const ACTION_EDIT_HANDBOOK_PUBLICATION = 'handbook_publication_editor';
@@ -69,6 +74,8 @@ class HandbookManager extends WebApplication
     const ACTION_BROWSE_BOOKMARKS = 'bookmarks_browser';
     const ACTION_CREATE_BOOKMARK = 'bookmarks_creator';
     const ACTION_DELETE_BOOKMARK = 'bookmarks_deleter';
+    const ACTION_SEARCH = 'search_results_browser';
+    const ACTION_CREATE_PREFERENCE = 'handbook_preferences_creator';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LANGUAGE = 'dc:language';
@@ -240,24 +247,157 @@ class HandbookManager extends WebApplication
         return $iso_639_code;
     }
 
+    /**
+     * returns an array with all the alternatives for a content object
+     * without the original object!
+     * @param <type> $co_id
+     * @return <type> array
+     */
     static function get_alternative_items($co_id)
     {
         //GET ITEM ALTERNATIVES
         $cldm = ContextLinkerDataManager :: get_instance();
         $rdm = RepositoryDataManager :: get_instance();
         $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $co_id);
-        $context_links_resultset = $cldm->retrieve_full_context_links($condition);
+        $context_links = $cldm->retrieve_full_context_links_recursive($co_id, null, null, null, ContextLinkerManager::ARRAY_TYPE_FLAT);
 
-        $rdm = RepositoryDataManager :: get_instance();
-
-        $selected_object = $rdm->retrieve_content_object($co_id);
-        if ($selected_object && $selected_object->get_type() == HandbookItem :: get_type_name())
-        {
-            $selected_object = $rdm->retrieve_content_object($selected_object->get_reference());
-        }
+        $rdm = RepositoryDataManager :: get_instance();   
              
+        return $context_links;
+    }
 
-        return $context_links_resultset;
+    /**
+     * return a resultset with information on all the alternatives of a content-object
+     * (including the original object!)
+     * information includes:
+     * [alt_title] = the title of the alternative
+     * [org_title] = the title of the original co
+     * [alt_type] = the co-type of the alternative
+     * [ns_prefix][ns_name][value] = the namespace, property name and value of the metadata on wich was linked
+     * [alt_id] = the id of the alternative co
+     * @return ArrayResultSet with all the alternatives
+     */
+    static function get_resultset_with_original_and_alternatives($co_id)
+    {
+        //TODO: this should probably be moved to the contextlinker
+
+        //get all alternatives for this item
+        $alternatives_array = HandbookManager::get_alternative_items($co_id);
+
+
+        //add original to array
+        //TODO: get actual data
+        $original['alt_' . ContentObject :: PROPERTY_TITLE] = 'orig';
+        $original['orig_' . ContentObject :: PROPERTY_TITLE] = 'orig';
+        $original['alt_' . ContentObject :: PROPERTY_TYPE] = 'orig';
+        $original[MetadataPropertyType :: PROPERTY_NS_PREFIX] = 'orig';
+        $original[MetadataPropertyType :: PROPERTY_NAME] = 'orig';
+        $original[MetadataPropertyValue :: PROPERTY_VALUE] = 'orig';
+        $original['alt_id'] = $co_id;
+        $alternatives_array[] = $original;
+
+
+        if ($alternatives_array != false && (count($alternatives_array) > 0))
+        {
+            return new ArrayResultSet($alternatives_array);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
+     * returns the ids of all the alternative versions of a content object
+     * including the id of the original co
+     * @param <type> $co_id : id of the original content object
+     * @return <type> array of id's
+     */
+    static function get_all_alternative_ids($co_id)
+    {
+
+        //TODO: this should probably be moved to the context linker
+        $alternatives_array = HandbookManager::get_alternative_items($co_id);
+
+        $ids=array();
+
+        foreach ($alternatives_array as $alternative)
+        {
+            $ids[] = $alternative['alt_id'];
+        }
+        $ids[] = $co_id;
+
+        return $ids;
+
+    }
+
+
+    /**
+     * return the ids of all the handbook topics in a handbook and their text alternatives
+     * @param <type> $handbook_id = one handbook id or an array of handbook id's
+     */
+    static function get_all_text_items_of_handbook($handbook_id)
+    {
+        if(!is_array($handbook_id))
+        {
+            $handbook_id = array($handbook_id);
+        }
+        $top_level = self::get_handbook_children_ids($handbook_id);
+        
+        $all_alternatives = array();
+        foreach($top_level as $orig_id)
+        {
+            $all_alternatives = array_merge($all_alternatives, self::get_all_alternative_ids($orig_id));
+        }
+
+        return $all_alternatives;
+
+    }
+
+
+    static function get_handbook_children_ids($ids_to_check, $recursive_array = array())
+    {
+        if(!is_array($ids_to_check))
+        {
+            $ids_to_check = array($ids_to_check);
+        }
+        $condition = new InCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $ids_to_check);
+        $rdm = RepositoryDataManager :: get_instance();
+        $object_set = $rdm->retrieve_objects(ComplexContentObjectItem :: get_table_name(), $condition, null, null, null, ComplexContentObjectItem :: CLASS_NAME);
+        $recursive_array = array_merge($ids_to_check, $recursive_array);
+        $new_ids_to_check = array();
+        while($complex_child = $object_set->next_result())
+        {
+            $child_id = $complex_child->get_ref();
+            if(!in_array($child_id , $recursive_array))
+            {                
+                $child = $rdm->retrieve_content_object($child_id);
+                if($child->get_type() == Handbook::get_type_name())
+                {
+                 //is child a handbook -> get children
+                    $new_ids_to_check[] = $child->get_id();
+                }
+                else if($child->get_type() == HandbookItem::get_type_name())
+                {
+                    //is child a handbook_item --> get co and add to array
+                    $recursive_array[] = $child->get_reference();
+                }
+                else
+                {
+                    //else we have a problem as a handbook kan only contain handbooks and
+                    //handbook_items
+                    var_dump('oops');
+                }
+            }
+        }
+        if(count($new_ids_to_check)>0)
+        {
+            //the handbooks had children that have so perform a recursive check
+//            $recursive_array = \array_merge($recursive_array ,self::get_handbook_children_ids($new_ids_to_check, $recursive_array));
+         $recursive_array = self::get_handbook_children_ids($new_ids_to_check, $recursive_array);
+
+        }
+        return $recursive_array;
     }
 
     static function get_alternatives_preferences_types($co_id, $publication_id)
@@ -280,8 +420,6 @@ class HandbookManager extends WebApplication
         $others = array();
         $handbooks = array();
         $rdm = RepositoryDataManager :: get_instance();
-
-        //        $count = count($context_links_resultset);
 
 
         while ($context_links_resultset != false && (count($context_links_resultset) > 0) && list($key, $item) = each($context_links_resultset))
@@ -464,15 +602,6 @@ class HandbookManager extends WebApplication
             $alternatives['handbook'] = $handbooks;
         }
 
-        //IMAGE & VIDEO
-        //1. user language 2. publication language
-        //3. user institution 4. publication institution
-        //                 $alternatives['image_main'] = current($alternatives['image']);
-        //                 $alternatives['video_main'] = current($alternatives['video']);
-
-
-        //                 $alternatives['handbook_main'] = current($alternatives['handbook']);
-
 
         return $alternatives;
     }
@@ -604,9 +733,9 @@ class HandbookManager extends WebApplication
          return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_HANDBOOK_ITEM, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id));
     }
 
-    function get_convert_wiki_to_handbook_item_url($handbook_id, $top_handbook_id, $publication_id)
+    function get_convert_wiki_to_handbook_item_url($handbook_id, $top_handbook_id, $publication_id, $selection_id)
     {
-         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONVERT_WIKI, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id));
+         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONVERT_WIKI, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id, self::PARAM_HANDBOOK_SELECTION_ID => $selection_id));
     }
 
     /**
@@ -631,6 +760,9 @@ class HandbookManager extends WebApplication
      */
     static function retrieve_all_glossaries($handbook_id)
     {
+
+        //TODO: re-think this glossary thing: how to handle different languages,
+        //glossaries in alternative handbooks, ...
 
         //find the glossaries in this handbook
         $glossaries = self::find_glossaries_ids_only($handbook_id);

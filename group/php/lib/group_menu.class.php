@@ -52,7 +52,7 @@ class GroupMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function __construct($current_category, $url_format = '?application=group&go=browse&group_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
+    function __construct($current_category, $url_format = '?application=group&go=browser&group_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
     {
         $this->include_root = $include_root;
         $this->show_complete_tree = $show_complete_tree;
