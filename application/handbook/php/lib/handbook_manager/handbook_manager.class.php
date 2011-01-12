@@ -79,7 +79,7 @@ class HandbookManager extends WebApplication
     const ACTION_VIEW_COLLAPSED = 'toggle_menu';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
-    const PARAM_LANGUAGE = 'dc:language';
+    const PARAM_LANGUAGE = 'dc:Language';
     const PARAM_PUBLISHER = 'dc:publisher';
 
     const PARAM_MENU_STYLE = 'menu_style';
@@ -90,7 +90,8 @@ class HandbookManager extends WebApplication
 
     const ACTION_BROWSE = 'browse';
 
-    static $language_metadata_properties = array('dc:language', 'dc:Language');
+    static $language_metadata_properties = array('dc:Language', 'dc:language');
+    static $publisher_metadata_properties = array('dc:publisher, dc:Publisher');
 
     static $found_glossaries = array();
 
@@ -107,6 +108,18 @@ class HandbookManager extends WebApplication
     static function get_language_metadata_properties()
     {
         return self::$language_metadata_properties;
+    }
+    static function get_first_language_metadata_property()
+    {
+        return self::$language_metadata_properties[0];
+    }
+    static function get_publisher_metadata_properties()
+    {
+        return self::$publisher_metadata_properties;
+    }
+    static function get_first_publisher_metadata_property()
+    {
+        return self::$publisher_metadata_properties[0];
     }
 
     function parse_input_from_table()
@@ -253,7 +266,7 @@ class HandbookManager extends WebApplication
                 $iso_639_code = 'es';
                 break;
             default :
-                $iso_639_code = 'un';
+                $iso_639_code = $language;
                 break;
         }
         return $iso_639_code;
@@ -563,12 +576,7 @@ class HandbookManager extends WebApplication
         $preferences = self :: get_preferences($publication_id);
 
         //determine wich preferences are more important:
-        //TODO this array could/should be a parameter
         $preference_importance = self :: get_publication_preferences_importance($publication_id);
-        $preference_importance[1] = array('user' => self :: PARAM_LANGUAGE);
-        $preference_importance[2] = array('handbook' => self :: PARAM_LANGUAGE);
-        $preference_importance[3] = array('user' => self :: PARAM_PUBLISHER);
-        $preference_importance[4] = array('handbook' => self :: PARAM_PUBLISHER);
 
         //TEXT
         if (count($texts > 0))
@@ -637,19 +645,19 @@ class HandbookManager extends WebApplication
                 $preference_value_to_check = $preferences[key($preference_importance[$i])][$preference_importance[$i][key($preference_importance[$i])]];
                 $candidates = self :: determine_most_suitable_candidates($array_to_check, $metadata_to_check, $preference_value_to_check);
 
-                //are there one or more good candidates, based on user language?
+                //are there one or more good candidates, based on preference?
                 if (count($candidates['yes']) > 0)
                 {
                     if (count($candidates['yes']) == 1)
                     {
-                        //most suitable co found
+                        //1 most suitable co found, stop looking
                         $best_found_flag = true;
                         $alternatives[$label . '_main'] = current($candidates['yes']);
                         $array_to_check = $candidates['no'];
 
                     }
                     else
-                    { //multiple suitable co's found
+                    { //multiple suitable co's found, keep looking
                         $array_to_check = $candidates['yes'];
                         $alternatives[$label] = array_merge($alternatives[$label], $candidates['no']);
                     }
@@ -669,11 +677,9 @@ class HandbookManager extends WebApplication
         if ($best_found_flag == false)
         {
             //no "most suitable" found by metadata & preferences: pick first one as most suitable
-            //todo: get rid of double!
             $alternatives[$label . '_main'] = current($array_to_check);
             unset($array_to_check[key($array_to_check)]);
 
-     //             $alternatives[$label] = array_merge($alternatives[$label],  $array_to_check);
         }
         $alternatives[$label] = array_merge($alternatives[$label], $array_to_check);
 
@@ -686,18 +692,26 @@ class HandbookManager extends WebApplication
         $meets_criteria = array();
         $doesnt_meet_criteria = array();
 
+        if(!\is_array($metadata_property))
+        {
+            $metadata_property = array($metadata_property);
+        }
+
         while (list($key, $co) = each($candidates_array))
         {
             //get metadata for co
             $metadata = MetadataManager :: retrieve_metadata_for_content_object($co->get_id());
-            if (array_key_exists($metadata_property, $metadata) && $metadata[$metadata_property] == $metadata_property_value)
+            foreach($metadata_property as $prop)
             {
-                $meets_criteria[] = $co;
+                if (array_key_exists($prop, $metadata) && $metadata[$prop] == $metadata_property_value)
+                {
+                    $meets_criteria[] = $co;
 
-            }
-            else
-            {
-                $doesnt_meet_criteria[] = $co;
+                }
+                else
+                {
+                    $doesnt_meet_criteria[] = $co;
+                }
             }
         }
 
@@ -712,17 +726,22 @@ class HandbookManager extends WebApplication
     static function get_preferences($handbook_publication_id)
     {
         //USER PREFERENCES
-        //TODO: This should be gotten from a user-metadata table for now only the language and the publisher is taken into account
-        $user_preferences[self :: PARAM_LANGUAGE] = self :: translate_chamilo_language_to_iso_code(Translation :: get_instance()->get_language());
+        //prefered language = chosen platform language
+        $user_preferences[self :: get_first_language_metadata_property()] = Translation :: get_instance()->get_language();
 
         //for now: get institution name from root group
         $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
         $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();
-        $user_preferences[self :: PARAM_PUBLISHER] = $group->get_name();
+        $user_preferences[self :: get_first_publisher_metadata_property()] = $group->get_name();
+        //TODO: load other metadata for user & user's groups
 
         //HANDBOOK PREFERENCES
         //TODO: this should be gotten from a handbook-publication-preferences table
-        $handbook_preferences = array();
+        $handbook_preferences = self::get_publication_preferences($pid);
+
+
+        //SYSTEM PREFERENCES
+        //TODO get default platform language & move publisher here (is system default, not user-specific anyway!)
 
         $preferences = array();
         $preferences['user'] = $user_preferences;
@@ -731,13 +750,29 @@ class HandbookManager extends WebApplication
         return $preferences;
     }
 
+    /**
+     * get all the preferences set for a specific publication
+     * @param <type> $pub_id : the id of the publication
+     */
+    static function get_publication_preferences($pub_id = null)
+    {
+        //TODO: implement!
+        return array();
+    }
+
     function get_publication_preferences_importance($publication_id)
     {
+        //TODO: this should not be hardcoded?!
+        //determinable per handbook or general system admin setting?
+        //at least the other preferences should be put in the array at random
+
         $preference_importance = array();
         $preference_importance[1] = array('user' => self :: PARAM_LANGUAGE);
         $preference_importance[2] = array('handbook' => self :: PARAM_LANGUAGE);
         $preference_importance[3] = array('user' => self :: PARAM_PUBLISHER);
         $preference_importance[4] = array('handbook' => self :: PARAM_PUBLISHER);
+
+        return $preference_importance;
     }
 
     function get_create_handbook_item_url($handbook_id, $top_handbook_id, $publication_id)

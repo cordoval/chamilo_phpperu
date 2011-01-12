@@ -261,6 +261,9 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function display_preferences()
     {
+
+//        $preferences = HandbookManager::get_preferences($this->handbook_publication_id);
+//        var_dump($preferences);
 //        $html[] = '<div>';
 //         $html[] = 'user preferences:<br/>';
 //         while(list($key, $value)= each($this->user_preferences))
@@ -278,7 +281,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function display_content()
     {
-       
+       $this->display_preferences();
         if ($this->selected_object && $this->selected_object->get_type() == Handbook::get_type_name())
         {
             //SHOW ALL ITEMS IN THIS HANDBOOK (one level)
