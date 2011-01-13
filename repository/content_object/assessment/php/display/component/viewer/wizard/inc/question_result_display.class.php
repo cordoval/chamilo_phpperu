@@ -49,40 +49,43 @@ abstract class QuestionResultDisplay
         return $this->score;
     }
 
-    function display()
-    {
-        $this->display_header();
-        
-        if ($this->add_borders())
-        {
-            $header = array();
-            $header[] = '<div class="with_borders">';
-            
-            echo (implode("\n", $header));
-        }
-        
-        $this->display_question_result();
-        
-        if ($this->add_borders())
-        {
-            $footer = array();
-            $footer[] = '<div class="clear"></div>';
-            $footer[] = '</div>';
-            echo (implode("\n", $footer));
-        }
-        
-        $this->display_footer();
-    }
-
-    function display_question_result()
-    {
-        echo $this->get_score() . '<br />';
-    }
-
-    function display_header()
+    function as_html()
     {
         $html = array();
-        
+
+        $html[] = $this->header();
+
+        if ($this->add_borders())
+        {
+            $html[] = '<div class="with_borders">';
+        }
+
+        $html[] = $this->get_question_result();
+
+        if ($this->add_borders())
+        {
+            $html[] = '<div class="clear"></div>';
+            $html[] = '</div>';
+        }
+
+        $html[] = $this->footer();
+        return implode("\n", $html);
+    }
+
+    function display()
+    {
+        echo $this->as_html();
+    }
+
+    function get_question_result()
+    {
+        return $this->get_score() . '<br />';
+    }
+
+    function header()
+    {
+        $html = array();
+
         $html[] = '<div class="question">';
         $html[] = '<div class="title">';
         $html[] = '<div class="number">';
@@ -91,19 +94,19 @@ abstract class QuestionResultDisplay
         $html[] = '</div>';
         $html[] = '</div>';
         $html[] = '<div class="text">';
-        
+
         $html[] = '<div class="bevel" style="float: left;">';
         $html[] = $this->question->get_title();
         $html[] = '</div>';
         $html[] = '<div class="bevel" style="text-align: right;">';
         $html[] = $this->get_score() . ' / ' . $this->get_complex_content_object_question()->get_weight();
         $html[] = '</div>';
-        
+
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '<div class="answer">';
-        
+
         $description = $this->question->get_description();
         if ($this->question->has_description())
         {
@@ -112,20 +115,18 @@ abstract class QuestionResultDisplay
             $html[] = '<div class="clear"></div>';
             $html[] = '</div>';
         }
-        
+
         $html[] = '<div class="clear"></div>';
-        
-        $header = implode("\n", $html);
-        echo $header;
+
+        return implode("\n", $html);
     }
 
-    function display_footer()
+    function footer()
     {
         $html[] = '</div>';
         $html[] = '</div>';
-        
-        $footer = implode("\n", $html);
-        echo $footer;
+
+        return implode("\n", $html);
     }
 
     function add_borders()
@@ -136,16 +137,16 @@ abstract class QuestionResultDisplay
     static function factory($complex_content_object_question, $question_nr, $answers, $score)
     {
         $type = $complex_content_object_question->get_ref()->get_type();
-        
+
         $file = dirname(__FILE__) . '/question_result_display/' . $type . '_result_display.class.php';
-        
+
         if (! file_exists($file))
         {
             die('file does not exist: ' . $file);
         }
-        
+
         require_once $file;
-        
+
         $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'ResultDisplay';
         $question_result_display = new $class($complex_content_object_question, $question_nr, $answers, $score);
         return $question_result_display;

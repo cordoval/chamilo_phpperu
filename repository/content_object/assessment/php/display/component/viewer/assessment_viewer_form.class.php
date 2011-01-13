@@ -16,15 +16,19 @@ use repository\ComplexContentObjectItem;
 
 class AssessmentViewerForm extends FormValidator
 {
+    const FORM_NAME = 'assessment_viewer_form';
     const PAGE_NUMBER = 'assessment_page_number';
 
-    private $parent;
+    /**
+     * @var AssessmentDisplayAssessmentViewerComponent
+     */
+    private $assessment_viewer;
 
-    function __construct($parent, $assessment, $method = 'post', $action = null)
+    function __construct(AssessmentDisplayAssessmentViewerComponent $assessment_viewer, $method = 'post', $action = null)
     {
-        parent :: __construct('assessment_viewer_form', $method, $action);
+        parent :: __construct(self :: FORM_NAME, $method, $action);
 
-        $this->parent = $parent;
+        $this->assessment_viewer = $assessment_viewer;
 
         $this->add_general();
         $this->add_buttons();
@@ -32,34 +36,53 @@ class AssessmentViewerForm extends FormValidator
         $this->add_buttons();
     }
 
-//    function setDefaults($defaults = array())
-//    {
-//        $defaults[self :: PAGE_NUMBER] = $this->get_page_number();
-//        $this->setDefaults($defaults);
-//    }
+    function get_page_number()
+    {
+        return $this->assessment_viewer->get_questions_page();
+    }
 
     function add_general()
     {
-        $this->addElement('hidden', self :: PAGE_NUMBER, $this->get_page_number());
+
+        $current_page = self :: PAGE_NUMBER . '-' . $this->get_page_number();
+        $this->addElement('hidden', $current_page, $this->get_page_number());
     }
 
     function add_buttons()
     {
-        if ($this->get_page_number() > 1)
-            $buttons[] = $this->createElement('style_submit_button', 'back', Translation :: get('Back', null, Utilities :: COMMON_LIBRARIES), array(
-                    'class' => 'previous'));
-
-        if ($this->get_page_number() < $this->parent->get_total_pages())
+        if ($this->assessment_viewer->get_feedback_per_page())
         {
-            $style = 'display: none';
-            $buttons[] = $this->createElement('style_submit_button', 'process', Translation :: get('Submit', null, Utilities :: COMMON_LIBRARIES), array(
-                    'class' => 'positive finish process', 'style' => $style));
-            $buttons[] = $this->createElement('style_submit_button', 'next', Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES), array(
-                    'class' => 'next'));
+            if (($this->get_page_number() < $this->assessment_viewer->get_total_pages()))
+            {
+                $buttons[] = $this->createElement('style_submit_button', 'next', Translation :: get('Check', null, Utilities :: COMMON_LIBRARIES), array(
+                        'class' => 'normal next'));
+            }
+            else
+            {
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Finish', null, Utilities :: COMMON_LIBRARIES), array(
+                        'class' => 'positive finish'));
+            }
+        }
+        else
+        {
+            if ($this->get_page_number() > 1)
+            {
+                $buttons[] = $this->createElement('style_submit_button', 'back', Translation :: get('Back', null, Utilities :: COMMON_LIBRARIES), array(
+                        'class' => 'previous'));
+            }
+
+            if ($this->get_page_number() < $this->assessment_viewer->get_total_pages())
+            {
+                $buttons[] = $this->createElement('style_submit_button', 'next', Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES), array(
+                        'class' => 'next'));
+            }
+            else
+            {
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Submit', null, Utilities :: COMMON_LIBRARIES), array(
+                        'class' => 'positive submit'));
+            }
         }
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Submit', null, Utilities :: COMMON_LIBRARIES), array(
-                'class' => 'positive finish', 'style' => $style));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
         $renderer = $this->defaultRenderer();
@@ -69,28 +92,15 @@ class AssessmentViewerForm extends FormValidator
 
     function add_questions()
     {
-        $i = (($this->get_page_number() - 1) * $this->parent->get_assessment()->get_questions_per_page()) + 1;
+        $i = (($this->get_page_number() - 1) * $this->assessment_viewer->get_assessment()->get_questions_per_page()) + 1;
 
-        $questions = $this->parent->get_questions($this->get_page_number());
+        $questions = $this->assessment_viewer->get_questions($this->get_page_number());
 
-        while ($question = $questions->next_result())
+        foreach ($questions as $question)
         {
             $question_display = QuestionDisplay :: factory($this, $question, $i);
             $question_display->display();
             $i ++;
-        }
-    }
-
-    function get_page_number()
-    {
-        if ($this->validate())
-        {
-            $page_number = (int) $this->exportValue(AssessmentViewerForm :: PAGE_NUMBER);
-            return $page_number + 1;
-        }
-        else
-        {
-            return 1;
         }
     }
 }

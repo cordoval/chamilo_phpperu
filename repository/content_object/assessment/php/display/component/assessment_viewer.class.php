@@ -1,6 +1,9 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\Request;
+
+use common\libraries\Security;
 use common\libraries\InCondition;
 use common\libraries\Session;
 use common\libraries\EqualityCondition;
@@ -41,23 +44,32 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
      */
     function run()
     {
-        $wizard = new AssessmentViewerWizard($this, $this->get_root_content_object());
-        $wizard->run();
-        $this->question_form = new AssessmentViewerForm($this, $this->get_root_content_object(), 'post', $this->get_url());
+        //var_dump($this->get_feedback_display_configuration());
 
-        if ($this->question_form->validate())
+        if ($this->question_form_submitted())
         {
-            $question_form = new AssessmentViewerForm($this, $this->get_root_content_object(), 'post', $this->get_url());
+            $result_processor = new AssessmentResultProcessor($this);
+            $result_processor->run();
+        }
+
+        if ($this->question_form_submitted() && $this->get_feedback_per_page())
+        {
             $this->display_header();
-            $question_form->display();
+            $result_processor->display_results();
             $this->display_footer();
         }
         else
         {
+            $this->question_form = new AssessmentViewerForm($this, 'post', $this->get_url());
             $this->display_header();
             $this->question_form->display();
             $this->display_footer();
         }
+    }
+
+    function get_question_form()
+    {
+        return $this->question_form;
     }
 
     function get_random_questions()
@@ -105,7 +117,7 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
 
     function get_total_pages()
     {
-        if (! isset($total_pages))
+        if (! isset($this->total_pages))
         {
             $assessment = $this->get_root_content_object();
             if ($assessment->get_random_questions() == 0)
@@ -166,13 +178,102 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
             else
             {
                 $start = (($page_number - 1) * $questions_per_page);
-                $stop = $questions_per_page;
+                $stop = (int) $questions_per_page;
             }
 
-            $this->questions[$page_number] = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition, array(), $start, $stop);
+            $this->questions[$page_number] = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition, array(), $start, $stop)->as_array();
         }
 
         return $this->questions[$page_number];
+    }
+
+    function result_form_submitted()
+    {
+        return ! is_null(Request :: post('_qf__' . AssessmentResultViewerForm :: FORM_NAME));
+    }
+
+    function question_form_submitted()
+    {
+        return ! is_null(Request :: post('_qf__' . AssessmentViewerForm :: FORM_NAME));
+    }
+
+    function get_action()
+    {
+        $actions = array('next', 'submit', 'back');
+
+        foreach ($actions as $action)
+        {
+            if (! is_null(Request :: post($action)))
+            {
+                return $action;
+            }
+        }
+
+        return 'next';
+    }
+
+    function get_questions_page()
+    {
+        if (! $this->current_page)
+        {
+            if ($this->result_form_submitted() || $this->question_form_submitted())
+            {
+                if ($this->question_form_submitted() && $this->get_feedback_per_page())
+                {
+                    // Submitted page number, but results page
+                    $this->current_page = $this->get_submitted_page_number();
+                }
+                else
+                {
+                    // Submitted page number + 1
+                    if ($this->get_action() == 'back')
+                    {
+                        $this->current_page = $this->get_submitted_page_number() - 1;
+                    }
+                    else
+                    {
+                        $this->current_page = $this->get_submitted_page_number() + 1;
+                    }
+                }
+            }
+            else
+            {
+                $this->current_page = 1;
+            }
+        }
+
+        return $this->current_page;
+    }
+
+    function get_previous_questions_page()
+    {
+        if (! $this->previous_page)
+        {
+            if ($this->result_form_submitted() || $this->question_form_submitted())
+            {
+                $this->previous_page = $this->get_submitted_page_number() - 1;
+            }
+            else
+            {
+                $this->previous_page = 1;
+            }
+        }
+
+        return $this->previous_page;
+    }
+
+    function get_submitted_page_number()
+    {
+        $regex = '/^(' . AssessmentViewerForm :: PAGE_NUMBER . '|' . AssessmentResultViewerForm :: PAGE_NUMBER . ')-([0-9]+)/';
+        foreach (array_keys($_REQUEST) as $key)
+        {
+            if (preg_match($regex, $key, $matches))
+            {
+                return $matches[2];
+            }
+        }
+
+        return false;
     }
 }
 ?>

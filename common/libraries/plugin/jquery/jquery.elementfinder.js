@@ -89,11 +89,10 @@
 					url : settings.search,
 					data : {
 						query : query,
-						'exclude[]' : getExcludedElements()
+						'exclude' : getExcludedElements()
 					},
 					async : false
 				}).responseText;
-
 				return response;
 			}
 

@@ -191,12 +191,12 @@ use common\libraries\Redirect;
             return MetadataDataManager :: get_instance()->retrieve_content_object_metadata_property_values($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_content_object_metadata_property_value($id)
+    static function retrieve_content_object_metadata_property_value($id)
     {
             return MetadataDataManager :: get_instance()->retrieve_content_object_metadata_property_value($id);
     }
 
-    function count_user_metadata_property_values($condition)
+    static function count_user_metadata_property_values($condition)
     {
             return MetadataDataManager :: get_instance()->count_user_metadata_property_values($condition);
     }
@@ -206,7 +206,7 @@ use common\libraries\Redirect;
             return MetadataDataManager :: get_instance()->retrieve_user_metadata_property_values($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_user_metadata_property_value($id)
+    static function retrieve_user_metadata_property_value($id)
     {
             return MetadataDataManager :: get_instance()->retrieve_user_metadata_property_value($id);
     }

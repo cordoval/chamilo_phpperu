@@ -58,6 +58,21 @@ class AssessmentDisplay extends ComplexDisplay
         return $this->get_parent()->get_assessment_feedback_configuration();
     }
 
+    function get_feedback_type()
+    {
+        return $this->get_feedback_display_configuration()->get_feedback_type();
+    }
+
+    function get_feedback_summary()
+    {
+        return $this->get_feedback_display_configuration()->get_feedback_summary();
+    }
+
+    function get_feedback_per_page()
+    {
+        return $this->get_feedback_display_configuration()->get_feedback_per_page();
+    }
+
     /**
      * Helper function for the SubManager class,
      * pending access to class constants via variables in PHP 5.3

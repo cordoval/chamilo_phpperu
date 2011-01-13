@@ -69,6 +69,21 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
      */
     function run()
     {
+        //TOGGLE MENU REQUIRED?
+        if(Request::get(HandbookManager::ACTION_VIEW_COLLAPSED) == '1')
+        {
+            //yes
+            if($_SESSION[HandbookManager::PARAM_MENU_STYLE] == HandbookManager::MENU_OPEN)
+            {
+                $_SESSION[HandbookManager::PARAM_MENU_STYLE] = HandbookManager::MENU_COMPACT;
+            }
+            else
+            {
+                $_SESSION[HandbookManager::PARAM_MENU_STYLE] = HandbookManager::MENU_OPEN;
+            }
+        }
+
+
         //GET CONTENT OBJECTS TO DISPLAY
         $this->get_rights();
         if($this->view_right)
@@ -246,6 +261,9 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function display_preferences()
     {
+
+//        $preferences = HandbookManager::get_preferences($this->handbook_publication_id);
+//        var_dump($preferences);
 //        $html[] = '<div>';
 //         $html[] = 'user preferences:<br/>';
 //         while(list($key, $value)= each($this->user_preferences))
@@ -263,7 +281,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function display_content()
     {
-       
+       $this->display_preferences();
         if ($this->selected_object && $this->selected_object->get_type() == Handbook::get_type_name())
         {
             //SHOW ALL ITEMS IN THIS HANDBOOK (one level)
@@ -287,11 +305,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         {
             $actions[] = new ToolbarItem(Translation :: get('EditPublicationRights'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
             $actions[] = new ToolbarItem(Translation :: get('ViewHandbookPreferences'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_CREATE_PREFERENCE, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
-
             $actions[] = new ToolbarItem(Translation :: get('AddNewItemToHandbook'), Theme :: get_content_object_image_path(HandbookTopic::get_type_name()), $this->get_create_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
-
             $actions[] = new ToolbarItem(Translation :: get('ConvertWiki'), Theme :: get_content_object_image_path(Wiki::get_type_name()), $this->get_convert_wiki_to_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id, $this->handbook_selection_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
-
         }
 
         if($this->selected_object && $this->edit_right)
@@ -302,10 +317,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $redirect_url[HandbookManager::PARAM_TOP_HANDBOOK_ID] = $this->top_handbook_id;
             $redirect_url[HandbookManager::PARAM_HANDBOOK_ID] = $this->handbook_id;
             $redirect_url[HandbookManager::PARAM_HANDBOOK_SELECTION_ID] = $this->handbook_selection_id;
-
             $actions[] = new ToolbarItem(Translation :: get('CreateContextLink'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->selected_object->get_id(), ContextLinkerManager::PARAM_REDIRECT_URL => $redirect_url)));
-
-
             $params = array();
             $params[Application::PARAM_APPLICATION] = HandbookManager::APPLICATION_NAME;
             $params[HandbookManager :: PARAM_ACTION] = HandbookManager :: ACTION_PICK_ITEM_TO_EDIT;
@@ -314,8 +326,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $params[HandbookManager :: PARAM_HANDBOOK_SELECTION_ID] = $this->handbook_selection_id;
             $params[HandbookManager :: PARAM_COMPLEX_OBJECT_ID] = $this->complex_selection_id;
             $params[HandbookManager :: PARAM_TOP_HANDBOOK_ID] = $this->top_handbook_id;
-
-
             $actions[] = new ToolbarItem(Translation :: get('EditHandbookItem'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url($params));
         
             
@@ -334,11 +344,9 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                 $params[HandbookManager :: PARAM_TOP_HANDBOOK_ID] = $this->top_handbook_id;
                 $preview_url = $this->get_url($params);
                 $onclick = '" onclick="javascript:openPopup(\'' . $preview_url . '\'); return false;';
-                $actions[] = new ToolbarItem(Translation :: get('ViewGlossary'),
+                $tool_actions[] = new ToolbarItem(Translation :: get('ViewGlossary'),
                         Theme :: get_content_object_image_path(Glossary::get_type_name()),
                         $preview_url, ToolbarItem::DISPLAY_ICON_AND_LABEL, false, $onclick, '_blank');
-
-
         }
         //previous item
         if($this->previous_item_id != null)
@@ -349,6 +357,28 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         if($this->next_item_id != null)
         {
             $tool_actions[] = new ToolbarItem(Translation :: get('next'), Theme :: get_common_image_path() . 'action_action_bar_left_show.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->next_item_id)));
+        }
+
+        //menu
+        $params_menu = array();
+            $params_menu[Application::PARAM_APPLICATION] = HandbookManager::APPLICATION_NAME;
+            $params_menu[HandbookManager :: PARAM_ACTION] = HandbookManager :: ACTION_VIEW_HANDBOOK;
+            $params_menu[HandbookManager :: ACTION_VIEW_COLLAPSED] = '1';
+            $params_menu[HandbookManager :: PARAM_HANDBOOK_PUBLICATION_ID] = $this->handbook_publication_id;
+            $params_menu[HandbookManager :: PARAM_HANDBOOK_ID] = $this->handbook_id;
+            $params_menu[HandbookManager :: PARAM_HANDBOOK_SELECTION_ID] = $this->handbook_selection_id;
+            $params_menu[HandbookManager :: PARAM_COMPLEX_OBJECT_ID] = $this->complex_selection_id;
+            $params_menu[HandbookManager :: PARAM_TOP_HANDBOOK_ID] = $this->top_handbook_id;
+            
+        if($_SESSION[HandbookManager::PARAM_MENU_STYLE] == HandbookManager::MENU_OPEN)
+        {
+            //show button to collapse menu
+            $tool_actions[] = new ToolbarItem(Translation :: get('CollapseMenu'), Theme :: get_common_image_path() . 'action_list_remove.png', $this->get_url($params_menu));
+        }
+        else
+        {
+            //show button to unfold menu
+            $tool_actions[] = new ToolbarItem(Translation :: get('UnfoldMenu'), Theme :: get_common_image_path() . 'action_list_add.png', $this->get_url($params_menu));
         }
 
         //search
@@ -362,16 +392,10 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $search_params[self::PARAM_HANDBOOK_SELECTION_ID] = $this->selected_object->get_id();
         }
         $search_params[self::PARAM_HANDBOOK_PUBLICATION_ID] = $this->handbook_publication_id;
-
-
         $action_bar->set_search_url($this->get_url($search_params));
-
         $action_bar->set_common_actions($actions);
-
         $action_bar->set_tool_actions($tool_actions);
-
         return $action_bar;
-
     }
 
     function print_metadata($co_id, $mode = self::METADATA_SHORT)
