@@ -65,15 +65,15 @@ class HelpItemBrowserTableCellRenderer extends DefaultHelpItemTableCellRenderer
                     ToolbarItem :: DISPLAY_ICON
         ));
         
-        if($this->browser->get_user()->is_platform_admin())
-        {
-            $toolbar->add_item(new ToolbarItem(
-                    Translation :: get('EditRights', null, Utilities :: COMMON_LIBRARIES),
-                    Theme :: get_common_image_path() . 'action_rights.png',
-                    $this->browser->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_RIGHT_EDITS, HelpManager :: PARAM_HELP_ITEM => $help_item->get_id())),
-                    ToolbarItem :: DISPLAY_ICON
-            ));
-        }
+//        if($this->browser->get_user()->is_platform_admin())
+//        {
+//            $toolbar->add_item(new ToolbarItem(
+//                    Translation :: get('EditRights', null, Utilities :: COMMON_LIBRARIES),
+//                    Theme :: get_common_image_path() . 'action_rights.png',
+//                    $this->browser->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_RIGHT_EDITS, HelpManager :: PARAM_HELP_ITEM => $help_item->get_id())),
+//                    ToolbarItem :: DISPLAY_ICON
+//            ));
+//        }
         
     	return $toolbar->as_html();
     }
