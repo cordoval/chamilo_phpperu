@@ -1,11 +1,14 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\Session;
+
 use repository\ComplexDisplayPreview;
 use repository\ComplexDisplay;
 
 class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements AssessmentComplexDisplaySupport
 {
+    const TEMPORARY_STORAGE = 'assessment_preview';
 
     function run()
     {
@@ -32,6 +35,16 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
      */
     function save_assessment_answer($complex_question_id, $answer, $score)
     {
+        $parameters = array();
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID] = $this->get_root_content_object()->get_id();
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_QUESTION_CID] = $complex_question_id;
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_ANSWER] = $answer;
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_SCORE] = $score;
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_FEEDBACK] = '';
+
+        $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
+        $answers[$this->get_root_content_object()->get_id()][$complex_question_id] = new DummyAssessmentAttemptsTracker($parameters);
+        Session :: register(self :: TEMPORARY_STORAGE, $answers);
     }
 
     /**
@@ -48,6 +61,12 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
      */
     function get_assessment_current_attempt_id()
     {
+    }
+
+    function get_assessment_answers($attempt_id)
+    {
+        $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
+        return $answers[$this->get_root_content_object()->get_id()];
     }
 
     /**
