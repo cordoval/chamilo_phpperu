@@ -674,6 +674,11 @@ class User extends DataClass
         {
             $group_ids[] = $user_group->get_group_id();
             $group = $gdm->retrieve_group($user_group->get_group_id());
+            if(!$group)
+            {
+                continue;
+            }
+            
             $subgroups = $group->get_parents(false);
 
             while ($subgroup = $subgroups->next_result())
