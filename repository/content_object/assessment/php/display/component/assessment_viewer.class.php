@@ -57,7 +57,11 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
 
             if($this->get_action() == self :: FORM_SUBMIT)
             {
+                $this->display_header();
                 $result_processor->finish_assessment();
+                $result_processor->display_results();
+                $this->display_footer();
+                exit;
             }
         }
 

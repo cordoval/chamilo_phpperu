@@ -43,7 +43,7 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
         $parameters[DummyQuestionAttemptsTracker :: PROPERTY_FEEDBACK] = '';
 
         $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
-        $answers[$this->get_root_content_object()->get_id()][$complex_question_id] = new DummyAssessmentAttemptsTracker($parameters);
+        $answers[$this->get_root_content_object()->get_id()][$complex_question_id] = new DummyQuestionAttemptsTracker($parameters);
         Session :: register(self :: TEMPORARY_STORAGE, $answers);
     }
 
