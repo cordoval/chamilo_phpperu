@@ -32,7 +32,7 @@ class UserManagerUserApproverComponent extends UserManager implements Administra
         $ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
         $choice = Request :: get(self :: PARAM_CHOICE);
 
-        if (! UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER, UserRights :: TYPE_COMPONENT));
+        if (! UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER, UserRights :: TYPE_COMPONENT))
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
