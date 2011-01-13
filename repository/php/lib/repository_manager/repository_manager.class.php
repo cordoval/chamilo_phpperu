@@ -1464,6 +1464,11 @@ class RepositoryManager extends CoreApplication
                 ExternalInstanceManager :: PARAM_INSTANCE_ACTION));
     }
 
+    function is_object_shared_with_me($object)
+    {
+        return RepositoryDataManager :: is_object_shared_with_user($this->get_user(), $object);
+    }
+
     /**
      * Helper function for the Application class,
      * pending access to class constants via variables in PHP 5.3

@@ -18,6 +18,7 @@ use admin\AdminManager;
 use repository\content_object\learning_path_item\LearningPathItem;
 use home\HomeDataManager;
 use repository\content_object\document\Document;
+use common\libraries\InCondition;
 
 /**
  * $Id: repository_data_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
@@ -571,6 +572,37 @@ class RepositoryDataManager
             }
         }
         return self :: $helper_types;
+    }
+
+    /**
+     * @param User $user
+     * @param ContentObject $object
+     */
+    static function is_object_shared_with_user($user, $object)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
+        $conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $user->get_id());
+        $condition = new AndCondition($conditions);
+        $count = self :: get_instance()->count_content_object_user_shares($condition);
+        if($count > 0)
+        {
+            return true;
+        }
+
+        $groups = $user->get_groups(true);
+
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
+        $conditions[] = new InCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $groups);
+        $condition = new AndCondition($conditions);
+        $count = self :: get_instance()->count_content_object_user_shares($condition);
+        if($count > 0)
+        {
+            return true;
+        }
+
+        return false;
     }
 }
 ?>
