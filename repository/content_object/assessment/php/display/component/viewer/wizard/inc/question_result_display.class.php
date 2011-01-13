@@ -19,7 +19,7 @@ abstract class QuestionResultDisplay
     {
         $this->complex_content_object_question = $complex_content_object_question;
         $this->question_nr = $question_nr;
-        $this->question = $complex_content_object_question->get_ref();
+        $this->question = $complex_content_object_question->get_ref_object();
         $this->answers = $answers;
         $this->score = $score;
     }
@@ -136,7 +136,7 @@ abstract class QuestionResultDisplay
 
     static function factory($complex_content_object_question, $question_nr, $answers, $score)
     {
-        $type = $complex_content_object_question->get_ref()->get_type();
+        $type = $complex_content_object_question->get_ref_object()->get_type();
 
         $file = dirname(__FILE__) . '/question_result_display/' . $type . '_result_display.class.php';
 

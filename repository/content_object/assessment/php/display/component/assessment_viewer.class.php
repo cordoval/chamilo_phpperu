@@ -20,6 +20,10 @@ require_once dirname(__FILE__) . '/viewer/assessment_viewer_form.class.php';
 
 class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
 {
+    const FORM_BACK = 'back';
+    const FORM_NEXT = 'next';
+    const FORM_SUBMIT = 'submit';
+
     /**
      * The total number of pages for the assessment
      * @var int
@@ -49,7 +53,16 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
         if ($this->question_form_submitted())
         {
             $result_processor = new AssessmentResultProcessor($this);
-            $result_processor->run();
+            $result_processor->save_answers();
+
+            if($this->get_action() == self :: FORM_SUBMIT)
+            {
+                $this->display_header();
+                $result_processor->finish_assessment();
+                $result_processor->display_results();
+                $this->display_footer();
+                exit;
+            }
         }
 
         if ($this->question_form_submitted() && $this->get_feedback_per_page())
@@ -199,7 +212,7 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
 
     function get_action()
     {
-        $actions = array('next', 'submit', 'back');
+        $actions = array(self :: FORM_NEXT, self :: FORM_SUBMIT, self :: FORM_BACK);
 
         foreach ($actions as $action)
         {
@@ -209,7 +222,7 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
             }
         }
 
-        return 'next';
+        return self :: FORM_NEXT;
     }
 
     function get_questions_page()
