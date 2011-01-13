@@ -313,7 +313,7 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
 
             if ($titular)
             {
-                $titular_id = $this->get_id_reference($titular->get_optional_property('user_id'), 'main_database.user');
+                $titular_id = $this->get_id_reference($titular->get_user_id(), 'main_database.user');
             }
             else
             {
