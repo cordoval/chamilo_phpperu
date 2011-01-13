@@ -38,7 +38,7 @@ class UserManagerDeleterComponent extends UserManager implements AdministrationC
             {
                 $user = $this->retrieve_user($id);
 
-                if (! UserRights :: is_allowed_in_users_subtree(UserRights :: DELETE_RIGHT, $id) || ! UserDataManager :: user_deletion_allowed($user))
+                if ( ! UserDataManager :: user_deletion_allowed($user))
                 {
                     $failures ++;
                     continue;

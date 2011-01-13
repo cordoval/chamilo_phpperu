@@ -143,7 +143,10 @@ class Dokeos185GroupRelUser extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_user_id() || !$this->get_group_id())
+        $new_group_id = $this->get_id_reference($this->get_group_id(), $this->get_database_name() . '.group_info');
+        $new_user_id = $this->get_id_reference($this->get_user_id(), 'main_database.user');
+
+        if (!$new_user_id || !$new_group_id)
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'group_rel_user', 'ID' => $this->get_id())));

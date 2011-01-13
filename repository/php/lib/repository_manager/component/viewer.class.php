@@ -45,9 +45,10 @@ class RepositoryManagerViewerComponent extends RepositoryManager
             $object = $this->retrieve_content_object($id);
             $this->object = $object;
 //             TODO: Use Roles & Rights here.
-            if ($object->get_owner_id() != $this->get_user_id() && ! $this->has_right($object, $this->get_user_id(), RepositoryRights :: VIEW_RIGHT))
+            if ($object->get_owner_id() != $this->get_user_id() && !$this->is_object_shared_with_me($object))
             {
-                $this->not_allowed();
+                $this->display_error_page(Translation :: get('NotAllowed'));
+                exit;
             }
 
             $display = ContentObjectDisplay :: factory($object);
