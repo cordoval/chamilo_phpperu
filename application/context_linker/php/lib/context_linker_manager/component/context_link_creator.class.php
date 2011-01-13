@@ -10,6 +10,7 @@ use repository\content_object\youtube\Youtube;
 use common\libraries\Utilities;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
+use repository\content_object\link\Link;
 
 /**
  * Component to create a new context_link object
@@ -86,7 +87,7 @@ class ContextLinkerManagerContextLinkCreatorComponent extends ContextLinkerManag
 
     function get_allowed_content_object_types()
     {
-        return array(Document :: get_type_name(), Youtube :: get_type_name(), $this->content_object->get_type());
+        return array(Document :: get_type_name(), Youtube :: get_type_name(), Link :: get_type_name(), $this->content_object->get_type());
     }
 }
 ?>
