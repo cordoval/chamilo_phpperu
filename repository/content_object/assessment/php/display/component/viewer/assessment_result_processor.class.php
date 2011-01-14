@@ -1,10 +1,17 @@
 <?php
 namespace repository\content_object\assessment;
 
-use common\libraries\FormValidator;
+use repository\ComplexContentObjectItem;
+
+use common\libraries\InCondition;
+
+use common\libraries\EqualityCondition;
+
+use common\libraries\Translation;
 
 use repository\RepositoryDataManager;
 
+use common\libraries\FormValidator;
 use common\libraries\Security;
 
 class AssessmentResultProcessor
@@ -29,7 +36,7 @@ class AssessmentResultProcessor
         return $this->get_assessment_viewer()->get_questions_page();
     }
 
-    function run()
+    function save_answers()
     {
         $results_page_number = $this->assessment_viewer->get_questions_page() - 1;
         $questions_cloi = $this->assessment_viewer->get_questions($results_page_number);
@@ -71,6 +78,90 @@ class AssessmentResultProcessor
             $question_number ++;
             $this->assessment_viewer->save_assessment_answer($question_cloi->get_id(), serialize($answers), $score);
         }
+    }
+
+    function finish_assessment()
+    {
+        $assessment = $this->get_assessment_viewer()->get_root_content_object();
+
+        $this->question_results[] = '<div class="assessment">';
+        $this->question_results[] = '<h2>' . Translation :: get('ResultsFor') . ': ' . $assessment->get_title() . '</h2>';
+
+        if ($assessment->has_description())
+        {
+            $this->question_results[] = '<div class="description">';
+            $this->question_results[] = $assessment->get_description();
+            $this->question_results[] = '<div class="clear"></div>';
+            $this->question_results[] = '</div>';
+        }
+        $this->question_results[] = '</div>';
+
+        $rdm = RepositoryDataManager :: get_instance();
+
+        if ($assessment->get_random_questions() == 0)
+        {
+            $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexContentObjectItem :: get_table_name());
+        }
+        else
+        {
+            $condition = new InCondition(ComplexContentObjectItem :: PROPERTY_ID, $_SESSION['questions'], ComplexContentObjectItem :: get_table_name());
+        }
+
+        $questions_cloi = $rdm->retrieve_complex_content_object_items($condition);
+        $answers = $this->get_assessment_viewer()->get_assessment_answers();
+
+        $question_number = 1;
+        $total_score = 0;
+        $total_weight = 0;
+
+        while ($question_cloi = $questions_cloi->next_result())
+        {
+            //            $question = $rdm->retrieve_content_object($question_cloi->get_ref());
+            //            $question_cloi->set_ref($question);
+
+
+            $tracker = $answers[$question_cloi->get_id()];
+
+            $score = $tracker->get_score();
+            $total_score += $score;
+            $total_weight += $question_cloi->get_weight();
+
+            $display = QuestionResultDisplay :: factory($question_cloi, $question_number, unserialize($tracker->get_answer()), $score);
+            $this->question_results[] = $display->as_html();
+
+            $question_number ++;
+        }
+
+        $this->question_results[] = '<div class="question">';
+        $this->question_results[] = '<div class="title">';
+        $this->question_results[] = '<div class="text">';
+        $this->question_results[] = '<div class="bevel" style="float: left;">';
+        $this->question_results[] = Translation :: get('TotalScore');
+        $this->question_results[] = '</div>';
+        $this->question_results[] = '<div class="bevel" style="text-align: right;">';
+
+        if ($total_score < 0)
+            $total_score = 0;
+
+        $percent = round(($total_score / $total_weight) * 100);
+
+        $this->question_results[] = $total_score . ' / ' . $total_weight . ' (' . $percent . '%)';
+        $this->question_results[] = '</div>';
+
+        $this->question_results[] = '</div></div></div>';
+        $this->question_results[] = '<div class="clear"></div>';
+
+        $this->get_assessment_viewer()->save_assessment_result($percent);
+
+        unset($_SESSION['questions']);
+
+     //        $back_url = $this->parent->get_parent()->get_assessment_go_back_url();
+
+
+    //        if ($back_url)
+    //        {
+    //            echo '<a href="' . $back_url . '">' . Translation :: get('GoBack') . '</a>';
+    //        }
     }
 
     /**

@@ -43,6 +43,11 @@ class AssessmentDisplay extends ComplexDisplay
         return $this->get_parent()->get_assessment_current_attempt_id();
     }
 
+    function get_assessment_answers()
+    {
+        return $this->get_parent()->get_assessment_answers();
+    }
+
     function get_assessment_go_back_url()
     {
         return $this->get_parent()->get_assessment_go_back_url();
