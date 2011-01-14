@@ -9,19 +9,29 @@ use common\libraries\Utilities;
  */
 abstract class QuestionResultDisplay
 {
+    /**
+     * @var AssessmentResultProcessor
+     */
+    private $assessment_result_processor;
     private $complex_content_object_question;
     private $question;
     private $question_nr;
     private $answers;
     private $score;
 
-    function __construct($complex_content_object_question, $question_nr, $answers, $score)
+    function __construct(AssessmentResultProcessor $assessment_result_processor, $complex_content_object_question, $question_nr, $answers, $score)
     {
+        $this->assessment_result_processor = $assessment_result_processor;
         $this->complex_content_object_question = $complex_content_object_question;
         $this->question_nr = $question_nr;
         $this->question = $complex_content_object_question->get_ref_object();
         $this->answers = $answers;
         $this->score = $score;
+    }
+
+    function get_assessment_result_processor()
+    {
+        return $this->assessment_result_processor;
     }
 
     function get_complex_content_object_question()
@@ -99,9 +109,12 @@ abstract class QuestionResultDisplay
         $html[] = $this->question->get_title();
         $html[] = '</div>';
         $html[] = '<div class="bevel" style="text-align: right;">';
-        $html[] = $this->get_score() . ' / ' . $this->get_complex_content_object_question()->get_weight();
+        if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_numeric_feedback())
+        {
+            $html[] = $this->get_score() . ' / ' . $this->get_complex_content_object_question()->get_weight();
+        }
         $html[] = '</div>';
-
+        $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
@@ -134,7 +147,7 @@ abstract class QuestionResultDisplay
         return false;
     }
 
-    static function factory($complex_content_object_question, $question_nr, $answers, $score)
+    static function factory(AssessmentResultProcessor $assessment_result_processor, $complex_content_object_question, $question_nr, $answers, $score)
     {
         $type = $complex_content_object_question->get_ref_object()->get_type();
 
@@ -148,7 +161,7 @@ abstract class QuestionResultDisplay
         require_once $file;
 
         $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'ResultDisplay';
-        $question_result_display = new $class($complex_content_object_question, $question_nr, $answers, $score);
+        $question_result_display = new $class($assessment_result_processor, $complex_content_object_question, $question_nr, $answers, $score);
         return $question_result_display;
     }
 }

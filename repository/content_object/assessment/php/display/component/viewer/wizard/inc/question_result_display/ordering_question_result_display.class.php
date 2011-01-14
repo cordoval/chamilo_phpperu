@@ -20,7 +20,6 @@ class OrderingQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '<th>' . Translation :: get('YourOrder') . '</th>';
         $html[] = '<th>' . Translation :: get('CorrectOrder') . '</th>';
         $html[] = '<th>' . Translation :: get('Answer') . '</th>';
-        //$html[] = '<th>' . Translation :: get('Feedback') . '</th>';
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
@@ -34,7 +33,6 @@ class OrderingQuestionResultDisplay extends QuestionResultDisplay
             $html[] = '<td>' . $user_answers[$i + 1] . '</td>';
             $html[] = '<td>' . $answer->get_order() . '</td>';
             $html[] = '<td>' . $answer->get_value() . '</td>';
-            //$html[] = '<td>' . Translation :: get('NoFeedback') . '</td>';
             $html[] = '</tr>';
         }
 

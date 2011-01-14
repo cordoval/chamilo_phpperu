@@ -47,7 +47,10 @@ class AssessmentMatchingQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '<th>' . Translation :: get('YourMatch') . '</th>';
         $html[] = '<th>' . Translation :: get('Correct') . '</th>';
         $html[] = '<th>' . Translation :: get('Option') . '</th>';
-        $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
+        if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+        {
+            $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
+        }
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
@@ -61,7 +64,10 @@ class AssessmentMatchingQuestionResultDisplay extends QuestionResultDisplay
             $html[] = '<td>' . $labels[$answers[$i]] . '</td>';
             $html[] = '<td>' . $labels[$option->get_match()] . '</td>';
             $html[] = '<td>' . $option->get_value() . '</td>';
-            $html[] = '<td>' . $option->get_feedback() . '</td>';
+            if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+            {
+                $html[] = '<td>' . $option->get_feedback() . '</td>';
+            }
             $html[] = '</tr>';
         }
 

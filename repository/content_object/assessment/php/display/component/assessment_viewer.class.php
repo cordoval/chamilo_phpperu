@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\Translation;
+
 use common\libraries\Request;
 
 use common\libraries\Security;
@@ -50,19 +52,31 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
     {
         //var_dump($this->get_feedback_display_configuration());
 
+
+        if (($this->result_form_submitted() || $this->question_form_submitted()) && $this->get_action() == self :: FORM_SUBMIT)
+        {
+            $result_processor = new AssessmentResultProcessor($this);
+            $result_processor->finish_assessment();
+
+            if ($this->get_feedback_summary())
+            {
+                $this->display_header();
+                $result_processor->display_results();
+                $this->display_footer();
+                exit();
+            }
+            else
+            {
+                // TODO: Automatically redirect to the "next" page or provide some kind of extended "finished" page.
+                $this->display_message(Translation :: get('AssessmentFinished'));
+                exit;
+            }
+        }
+
         if ($this->question_form_submitted())
         {
             $result_processor = new AssessmentResultProcessor($this);
             $result_processor->save_answers();
-
-            if($this->get_action() == self :: FORM_SUBMIT)
-            {
-                $this->display_header();
-                $result_processor->finish_assessment();
-                $result_processor->display_results();
-                $this->display_footer();
-                exit;
-            }
         }
 
         if ($this->question_form_submitted() && $this->get_feedback_per_page())

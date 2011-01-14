@@ -29,24 +29,26 @@ class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
         switch ($type)
         {
             case AssessmentOpenQuestion :: TYPE_OPEN :
-                $html[] = $this->display_open($html, $answers[0]);
+                $html[] = $this->display_open($answers[0]);
                 break;
             case AssessmentOpenQuestion :: TYPE_OPEN_WITH_DOCUMENT :
-                $html[] = $this->display_open($html, $answers[0]);
-                $html[] = $this->display_document_box($html, $answers[2], true);
+                $html[] = $this->display_open($answers[0]);
+                $html[] = $this->display_document_box($answers[2], true);
                 break;
             case AssessmentOpenQuestion :: TYPE_DOCUMENT :
-                $html[] = $this->display_document_box($html, $answers[2]);
+                $html[] = $this->display_document_box($answers[2]);
                 break;
         }
 
         $html[] = '<div class="splitter" style="margin: -10px; border-left: none; border-right: none; border-top: 1px solid #B5CAE7;">';
         $html[] = Translation :: get('Feedback');
         $html[] = '</div><br />';
+        $html[] = '<div class="warning-message">' . Translation :: get('NotYetRatedWarning') . '</div>';
 
-        //$html[] = '<div class="warning-message">' . Translation :: get('NotYetRatedWarning') . '</div>';
-
-        $html[] = $question->get_feedback();
+        if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+        {
+            $html[] = $question->get_feedback();
+        }
 
         return implode("\n", $html);
     }
@@ -56,7 +58,7 @@ class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
         return true;
     }
 
-    function display_open(&$html, $answer)
+    function display_open($answer)
     {
         $html = array();
         $html[] = '<div class="splitter" style="margin: -10px; border-left: none; border-right: none;">';
@@ -79,7 +81,7 @@ class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
         return implode("\n", $html);
     }
 
-    function display_document_box(&$html, $answer, $with_open = false)
+    function display_document_box($answer, $with_open = false)
     {
         $html = array();
         if ($with_open)

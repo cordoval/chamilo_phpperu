@@ -17,6 +17,7 @@ class AssessmentMultipleChoiceQuestionDisplay extends QuestionDisplay
 
     function add_question_form()
     {
+        $defaults = array();
         $formvalidator = $this->get_formvalidator();
         $clo_question = $this->get_complex_content_object_question();
         $question = $this->get_question();
@@ -54,6 +55,20 @@ class AssessmentMultipleChoiceQuestionDisplay extends QuestionDisplay
                 $group[] = $formvalidator->createElement('static', null, null, $answer->get_value());
             }
 
+            if ($this->get_answers())
+            {
+                $answers = $this->get_answers();
+                //                dump($this->get_answers());
+                if ($type == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO)
+                {
+                    $defaults[$answer_name] = $answers[0];
+                }
+                else
+                {
+                    $defaults[$answer_name] = $answers[$i + 1];
+                }
+            }
+
             $formvalidator->addGroup($group, 'option_' . $i, null, '', false);
 
             $renderer->setElementTemplate('<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $i);
@@ -64,6 +79,7 @@ class AssessmentMultipleChoiceQuestionDisplay extends QuestionDisplay
         $table_footer[] = '</table>';
         $formvalidator->addElement('html', implode("\n", $table_footer));
         $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'assessment/resources/javascript/hint.js'));
+        $formvalidator->setDefaults($defaults);
     }
 
     function add_border()

@@ -33,7 +33,10 @@ class AssessmentMatrixQuestionResultDisplay extends QuestionResultDisplay
             $html[] = '<th>' . $match . '</th>';
         }
 
-        $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
+        if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+        {
+            $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
+        }
 
         $html[] = '</tr>';
         $html[] = '</thead>';
@@ -55,11 +58,11 @@ class AssessmentMatrixQuestionResultDisplay extends QuestionResultDisplay
 
                         if ($option->get_matches() == $j)
                         {
-                            $result = Theme :: get_common_image('action_confirm');
+                            $result = '<img src="' . Theme :: get_image_path() . 'answer_correct.png" alt="' . Translation :: get('Correct') . '" title="' . Translation :: get('Correct') . '" />';
                         }
                         else
                         {
-                            $result = Theme :: get_common_image('action_delete');
+                            $result = '<img src="' . Theme :: get_image_path() . 'answer_wrong.png" alt="' . Translation :: get('Wrong') . '" title="' . Translation :: get('Wrong') . '" />';
                         }
                     }
                     else
@@ -67,7 +70,8 @@ class AssessmentMatrixQuestionResultDisplay extends QuestionResultDisplay
                         $selected = '';
                         if ($option->get_matches() == $j)
                         {
-                            $result = Theme :: get_common_image('action_metadata');
+                            //$result = '<img src="' . Theme :: get_image_path() . 'answer_information.png" alt="'. Translation :: get('Information') .'" title="'. Translation :: get('Information') .'" />';
+                            $result = '<img src="' . Theme :: get_image_path() . 'answer_correct.png" alt="' . Translation :: get('Correct') . '" title="' . Translation :: get('Correct') . '" />';
                         }
                         else
                         {
@@ -115,7 +119,10 @@ class AssessmentMatrixQuestionResultDisplay extends QuestionResultDisplay
                 $html[] = '</td>';
             }
 
-            $html[] = '<td>' . $option->get_feedback() . '</td>';
+            if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+            {
+                $html[] = '<td>' . $option->get_feedback() . '</td>';
+            }
             $html[] = '</tr>';
         }
 

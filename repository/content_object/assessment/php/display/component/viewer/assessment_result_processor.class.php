@@ -38,10 +38,16 @@ class AssessmentResultProcessor
 
     function save_answers()
     {
-        $results_page_number = $this->assessment_viewer->get_questions_page() - 1;
+        $results_page_number = $this->assessment_viewer->get_questions_page();
+
+        if(!$this->assessment_viewer->get_feedback_per_page())
+        {
+            $results_page_number = $results_page_number - 1;
+        }
+
         $questions_cloi = $this->assessment_viewer->get_questions($results_page_number);
 
-        $question_number = $results_page_number * $this->assessment_viewer->get_root_content_object()->get_questions_per_page();
+        $question_number = ($results_page_number * $this->assessment_viewer->get_root_content_object()->get_questions_per_page());
 
         $values = $_POST;
 
@@ -71,7 +77,7 @@ class AssessmentResultProcessor
 
             if ($this->assessment_viewer->get_feedback_per_page())
             {
-                $display = QuestionResultDisplay :: factory($question_cloi, $question_number, $answers, $score);
+                $display = QuestionResultDisplay :: factory($this, $question_cloi, $question_number, $answers, $score);
                 $this->question_results[] = $display->as_html();
             }
 
@@ -108,7 +114,7 @@ class AssessmentResultProcessor
         }
 
         $questions_cloi = $rdm->retrieve_complex_content_object_items($condition);
-        $answers = $this->get_assessment_viewer()->get_assessment_answers();
+        $answers = $this->get_assessment_viewer()->get_assessment_question_attempts();
 
         $question_number = 1;
         $total_score = 0;
@@ -126,7 +132,7 @@ class AssessmentResultProcessor
             $total_score += $score;
             $total_weight += $question_cloi->get_weight();
 
-            $display = QuestionResultDisplay :: factory($question_cloi, $question_number, unserialize($tracker->get_answer()), $score);
+            $display = QuestionResultDisplay :: factory($this, $question_cloi, $question_number, unserialize($tracker->get_answer()), $score);
             $this->question_results[] = $display->as_html();
 
             $question_number ++;

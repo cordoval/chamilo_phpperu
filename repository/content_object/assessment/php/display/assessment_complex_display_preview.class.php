@@ -63,10 +63,16 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
     {
     }
 
-    function get_assessment_answers($attempt_id)
+    function get_assessment_question_attempts($attempt_id)
     {
         $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
         return $answers[$this->get_root_content_object()->get_id()];
+    }
+
+    function get_assessment_question_attempt($complex_question_id)
+    {
+        $answers = $this->get_assessment_question_attempts($complex_question_id);
+        return $answers[$complex_question_id];
     }
 
     /**
@@ -82,8 +88,9 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
     function get_assessment_feedback_configuration()
     {
         $dummy_configuration = new FeedbackDisplayConfiguration();
-        $dummy_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_BOTH);
+        $dummy_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_NUMERIC);
         $dummy_configuration->disable_feedback_per_page();
+        $dummy_configuration->enable_feedback_summary();
         return $dummy_configuration;
     }
 }

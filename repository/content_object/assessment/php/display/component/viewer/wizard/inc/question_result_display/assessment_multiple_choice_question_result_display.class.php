@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\Theme;
+
 use common\libraries\Translation;
 use repository\content_object\assessment_multiple_choice_question\AssessmentMultipleChoiceQuestion;
 
@@ -19,10 +21,14 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
         $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
         $html[] = '<tr>';
-        $html[] = '<th class="list">' . Translation :: get('Choice') . '</th>';
-        $html[] = '<th class="list">' . Translation :: get('Correct') . '</th>';
+        $html[] = '<th class="list"></th>';
         $html[] = '<th class="list">' . Translation :: get('Answer') . '</th>';
-        $html[] = '<th class="list">' . Translation :: get('Feedback') . '</th>';
+
+        if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+        {
+            $html[] = '<th class="list">' . Translation :: get('Feedback') . '</th>';
+        }
+
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
@@ -39,49 +45,72 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
             {
                 if (in_array($i, $answers))
                 {
-                    $selected = " checked ";
+                    $selected = ' checked ';
+
+                    if ($option->is_correct())
+                    {
+                        $result = '<img src="' . Theme :: get_image_path() . 'answer_correct.png" alt="' . Translation :: get('Correct') . '" title="' . Translation :: get('Correct') . '" style="" />';
+                    }
+                    else
+                    {
+                        $result = '<img src="' . Theme :: get_image_path() . 'answer_wrong.png" alt="' . Translation :: get('Wrong') . '" title="' . Translation :: get('Wrong') . '" />';
+                    }
                 }
                 else
                 {
-                    $selected = "";
+                    $selected = '';
+
+                    if ($option->is_correct())
+                    {
+                        $result = '<img src="' . Theme :: get_image_path() . 'answer_correct.png" alt="' . Translation :: get('Correct') . '" title="' . Translation :: get('Correct') . '" />';
+                    }
+                    else
+                    {
+                        $result = '';
+                    }
                 }
 
-                $html[] = '<td>' . '<input type="radio" name="yourchoice_' . $this->get_complex_content_object_question()->get_id() . '" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
+                $html[] = '<td><input type="radio" name="yourchoice_' . $this->get_complex_content_object_question()->get_id() . '" value="' . $i . '" disabled' . $selected . '/>' . $result . '</td>';
             }
             else
             {
                 if (array_key_exists($i + 1, $answers))
                 {
-                    $selected = " checked ";
+                    $selected = ' checked ';
                 }
                 else
                 {
-                    $selected = "";
+                    $selected = '';
                 }
 
-                $html[] = '<td>' . '<input type="checkbox" name="yourchoice' . $i . '" disabled' . $selected . '/>' . '</td>';
+                $html[] = '<td><input type="checkbox" name="yourchoice' . $i . '" disabled' . $selected . '/></td>';
             }
 
-            if ($option->is_correct())
-            {
-                $selected = " checked ";
-            }
-            else
-            {
-                $selected = "";
-            }
+            //            if ($option->is_correct())
+            //            {
+            //                $selected = " checked ";
+            //            }
+            //            else
+            //            {
+            //                $selected = "";
+            //            }
+            //            if ($type == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO)
+            //            {
+            //                $html[] = '<td>' . '<input type="radio" name="correctchoice_' . $this->get_complex_content_object_question()->get_id() . '" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
+            //            }
+            //            else
+            //            {
+            //                $html[] = '<td>' . '<input type="checkbox" name="correctchoice_' . $i . '" disabled' . $selected . '/>' . '</td>';
+            //            }
 
-            if ($type == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO)
-            {
-                $html[] = '<td>' . '<input type="radio" name="correctchoice_' . $this->get_complex_content_object_question()->get_id() . '" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
-            }
-            else
-            {
-                $html[] = '<td>' . '<input type="checkbox" name="correctchoice_' . $i . '" disabled' . $selected . '/>' . '</td>';
-            }
 
             $html[] = '<td>' . $option->get_value() . '</td>';
-            $html[] = '<td>' . $option->get_feedback() . '</td>';
+
+            if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+            {
+                $html[] = '<td>' . $option->get_feedback() . '</td>';
+            }
+
             $html[] = '</tr>';
         }
 

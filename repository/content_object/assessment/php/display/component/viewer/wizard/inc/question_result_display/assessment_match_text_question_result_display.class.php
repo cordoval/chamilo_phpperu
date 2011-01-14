@@ -32,7 +32,10 @@ class AssessmentMatchTextQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '<thead>';
         $html[] = '<tr>';
         $html[] = '<th>' . Translation :: get('PossibleAnswer') . '</th>';
-        $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
+        if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+        {
+            $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
+        }
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
@@ -43,7 +46,10 @@ class AssessmentMatchTextQuestionResultDisplay extends QuestionResultDisplay
         {
             $html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
             $html[] = '<td>' . $answer->get_value() . '</td>';
-            $html[] = '<td>' . $answer->get_feedback() . '</td>';
+            if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+            {
+                $html[] = '<td>' . $answer->get_feedback() . '</td>';
+            }
             $html[] = '</tr>';
         }
 
