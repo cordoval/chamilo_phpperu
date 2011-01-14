@@ -73,7 +73,7 @@ class TestInitializer
 	// when setting these parameters
         // Sven: the error reporting parameters are constants and should not be defined between quotes.
         //ini_set('error_reporting', E_ALL | E_STRICT);
-        ini_set('error_reporting', E_ALL & ~E_DEPRECATED);
+        ini_set('error_reporting', E_ALL | E_STRICT);
         ini_set('output_buffering', 'Off');
     }
     
