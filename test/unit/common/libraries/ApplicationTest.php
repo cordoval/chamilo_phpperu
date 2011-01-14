@@ -155,7 +155,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase{
         $platformSettingsMock = $this->getMock('common\\libraries\\PlatformSetting');
         PlatformSetting::set_instance($platformSettingsMock);
         \ob_start();
-	$this->application_instance->display_portal_header();
+        $this->application_instance->display_portal_header();
         $output = \ob_get_clean();
         $this->assertRegExp(
             '%<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">%is', 
@@ -171,7 +171,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase{
     {
         
         \ob_start();
-	$this->application_instance->display_portal_footer();
+        $this->application_instance->display_portal_footer();
         $output = \ob_get_clean();
         
         $this->assertRegExp(
