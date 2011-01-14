@@ -2,18 +2,19 @@
 namespace common\libraries;
 
 class DateTimeUtilitiesTest extends \PHPUnit_Framework_TestCase{
+    
 	public function test_format_locale_date_sould_produce_an_english_date()
     {
         $timestamp = \mktime(14, 36, 02, 02, 25, 2010);
         $date_format = "%B %d, %Y at %I:%M %p";
-        $returnValue = DateTimeUtilities::format_locale_date($date_format, $timestamp);
+        $returnValue = DatetimeUtilities::format_locale_date($date_format, $timestamp);
         $this->assertEquals("February 25, 2010 at 02:36 PM", $returnValue);
     }
     
     public function test_format_locale_date_replace_aAbB_keywords_by_wwmm()
     {
         $timestamp = \mktime(14, 36, 02, 02, 25, 2010);
-        $returnValue = DateTimeUtilities::format_locale_date("%a%A%b%B", $timestamp);
+        $returnValue = DatetimeUtilities::format_locale_date("%a%A%b%B", $timestamp);
         $this->assertEquals("ThThursdayFebFebruary", $returnValue);
     }
     
