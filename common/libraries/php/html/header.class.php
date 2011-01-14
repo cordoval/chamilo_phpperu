@@ -37,21 +37,31 @@ class Header
     /**
      * Constructor
      */
-    function __construct($language_code = 'en')
+    public function __construct($language_code = 'en')
     {
         $this->http_headers = array();
         $this->html_headers = array();
-        $this->language_code = $language_code;
+        $this->set_language_code($language_code);
     }
 
-    static function get_instance()
+    public static function get_instance()
     {
         if (self :: $instance == null)
         {
-            self :: $instance = new Header();
+            self :: set_instance(new Header());
         }
 
         return self :: $instance;
+    }
+    
+    static function set_instance($instance)
+    {
+        self :: $instance = $instance;
+    }
+    
+    public function set_language_code($language_code)
+    {
+        $this->language_code = $language_code;
     }
 
     /**
@@ -206,4 +216,3 @@ class Header
         return PlatformSetting :: get($variable, $application);
     }
 }
-?>

@@ -13,7 +13,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase{
         parent::setUp();
         stubs\TableHandlerStub :: $table_has_been_handled = false;
 
-        
         $this->user_stub = $this->getMock('user\\User');
         $this->application_instance = $this->getMockForAbstractClass(
                 'common\\libraries\\Application',
@@ -154,6 +153,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase{
     {
         $platformSettingsMock = $this->getMock('common\\libraries\\PlatformSetting');
         PlatformSetting::set_instance($platformSettingsMock);
+        Header::set_instance(new stubs\HeaderStub());
+        
         \ob_start();
         $this->application_instance->display_portal_header();
         $output = \ob_get_clean();
@@ -169,7 +170,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase{
     
     public function test_display_portal_footer_should_close_body_and_html()
     {
-        
+        Header::set_instance(new stubs\HeaderStub());
         \ob_start();
         $this->application_instance->display_portal_footer();
         $output = \ob_get_clean();
@@ -194,6 +195,16 @@ class TableHandlerStub
     {
         static :: $table_has_been_handled = true;
     }
+}
+
+class HeaderStub extends \common\libraries\Header
+{
+    
+    public function add_http_header($http_header)
+    {
+        //prevent headers to be added (thus sent)
+    }    
+
 }
 
 
