@@ -2801,7 +2801,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
         $res->free();
 
-        if ($record['count'] > 0)
+        if ($record['count'] >= 0)
         {
             return $record['publisher_id'];
         }
