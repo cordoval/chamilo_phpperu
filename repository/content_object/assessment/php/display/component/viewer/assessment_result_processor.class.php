@@ -40,7 +40,7 @@ class AssessmentResultProcessor
     {
         $results_page_number = $this->assessment_viewer->get_questions_page();
 
-        if(!$this->assessment_viewer->get_feedback_per_page())
+        if (! $this->assessment_viewer->get_feedback_per_page())
         {
             $results_page_number = $results_page_number - 1;
         }
@@ -72,8 +72,6 @@ class AssessmentResultProcessor
 
             $score_calculator = ScoreCalculator :: factory($question_cloi->get_ref_object(), $answers, $question_cloi->get_weight());
             $score = $score_calculator->calculate_score();
-            $total_score += $score;
-            $total_weight += $question_cloi->get_weight();
 
             if ($this->assessment_viewer->get_feedback_per_page())
             {
@@ -82,7 +80,19 @@ class AssessmentResultProcessor
             }
 
             $question_number ++;
-            $this->assessment_viewer->save_assessment_answer($question_cloi->get_id(), serialize($answers), $score);
+
+            $tracker = $this->assessment_viewer->get_assessment_question_attempt($question_cloi->get_id());
+
+            if (is_null($tracker))
+            {
+                $this->assessment_viewer->save_assessment_answer($question_cloi->get_id(), serialize($answers), $score);
+            }
+            elseif (!is_null($tracker) && !$this->assessment_viewer->get_feedback_per_page())
+            {
+                $tracker->set_answer(serialize($answers));
+                $tracker->set_score($score);
+                $tracker->update();
+            }
         }
     }
 
@@ -122,10 +132,6 @@ class AssessmentResultProcessor
 
         while ($question_cloi = $questions_cloi->next_result())
         {
-            //            $question = $rdm->retrieve_content_object($question_cloi->get_ref());
-            //            $question_cloi->set_ref($question);
-
-
             $tracker = $answers[$question_cloi->get_id()];
 
             $score = $tracker->get_score();

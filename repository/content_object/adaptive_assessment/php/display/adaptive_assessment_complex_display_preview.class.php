@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\adaptive_assessment;
 
+use common\libraries\Session;
+
 use common\libraries\Utilities;
 use common\libraries\ComplexDisplayPreviewLauncher;
 use common\libraries\Path;
@@ -27,6 +29,7 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
         AdaptiveAssessmentComplexDisplaySupport,
         AssessmentComplexDisplaySupport
 {
+    const TEMPORARY_STORAGE = 'adaptive_assessment_preview';
 
     /* (non-PHPdoc)
      * @see repository.ComplexDisplayPreview::run()
@@ -39,7 +42,7 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
     function display_header()
     {
         LauncherApplication :: display_header();
-    
+
         $embedded_content_object_id = AdaptiveAssessmentContentObjectDisplay :: get_embedded_content_object_id();
 
         if (! $embedded_content_object_id)
@@ -84,6 +87,16 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
      */
     function save_assessment_answer($complex_question_id, $answer, $score)
     {
+        $parameters = array();
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID] = $this->get_root_content_object()->get_id();
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_QUESTION_CID] = $complex_question_id;
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_ANSWER] = $answer;
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_SCORE] = $score;
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_FEEDBACK] = '';
+
+        $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
+        $answers[$this->get_root_content_object()->get_id()][$complex_question_id] = new DummyQuestionAttemptsTracker($parameters);
+        Session :: register(self :: TEMPORARY_STORAGE, $answers);
     }
 
     /* (non-PHPdoc)
@@ -100,11 +113,35 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
     {
     }
 
-    /* (non-PHPdoc)
-     * @see repository\content_object\assessment.AssessmentComplexDisplaySupport::get_assessment_go_back_url()
+    function get_assessment_question_attempts($attempt_id)
+    {
+        $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
+        return $answers[$this->get_root_content_object()->get_id()];
+    }
+
+    function get_assessment_question_attempt($complex_question_id)
+    {
+        $answers = $this->get_assessment_question_attempts($complex_question_id);
+        return $answers[$complex_question_id];
+    }
+
+    /**
+     * Preview mode is launched in standalone mode,
+     * so there's nothing to go back to.
+     *
+     * @return void
      */
     function get_assessment_go_back_url()
     {
+    }
+
+    function get_assessment_feedback_configuration()
+    {
+        $dummy_configuration = new FeedbackDisplayConfiguration();
+        $dummy_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_BOTH);
+        $dummy_configuration->enable_feedback_per_page();
+        //$dummy_configuration->enable_feedback_summary();
+        return $dummy_configuration;
     }
 
     /* (non-PHPdoc)
@@ -184,14 +221,6 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
     function get_adaptive_assessment_template_application_name()
     {
         return ComplexDisplayPreviewLauncher :: APPLICATION_NAME;
-    }
-
-    /* (non-PHPdoc)
-     * @see repository\content_object\assessment.AssessmentComplexDisplaySupport::get_assessment_feedback_configuration()
-     */
-    function get_assessment_feedback_configuration()
-    {
-        return new FeedbackDisplayConfiguration();
     }
 }
 ?>
