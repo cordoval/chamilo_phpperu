@@ -27,7 +27,7 @@ class Author extends DataClass
      * Get the default properties
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_COMPANY, self :: PROPERTY_EMAIL, self :: PROPERTY_NAME));
     }

@@ -109,7 +109,7 @@ class ContentObjectPublicationCategory extends PlatformCategory
         return WeblcmsDataManager :: get_instance()->delete_content_object_publication_category($this);
     }
 
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return array(self :: PROPERTY_COURSE, self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_TOOL, self :: PROPERTY_PARENT, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_ALLOW_CHANGE);
     }

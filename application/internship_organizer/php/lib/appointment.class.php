@@ -37,7 +37,7 @@ class InternshipOrganizerAppointment extends DataClass
      * Get the default properties
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return array(self :: PROPERTY_ID, self :: PROPERTY_CREATED, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_MOMENT_ID, self :: PROPERTY_OWNER_ID, self :: PROPERTY_TITLE, self :: PROPERTY_TYPE, self :: PROPERTY_STATUS);
     }

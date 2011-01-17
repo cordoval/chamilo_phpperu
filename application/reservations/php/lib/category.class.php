@@ -33,7 +33,7 @@ class Category extends DataClass
      * Get the default properties of all contributions.
      * @return array The property titles.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_PARENT, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_POOL, self :: PROPERTY_STATUS));
     }

@@ -34,7 +34,7 @@ class CourseGroupRelation extends DataClass
      * Get the default properties of all course group relations.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return array(self :: PROPERTY_COURSE_ID, self :: PROPERTY_GROUP_ID);
     }

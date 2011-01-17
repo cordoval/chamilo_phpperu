@@ -42,7 +42,7 @@ class ContentObjectPubFeedback extends ContentObject
         $this->defaultProperties = $defaultProperties;
     }
 
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return array(self :: PROPERTY_ID, self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_CLOI_ID, self :: PROPERTY_FEEDBACK_ID);
     }

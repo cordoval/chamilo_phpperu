@@ -28,7 +28,7 @@ class ArchiveControllerItem extends DataClass
      * Get the default properties
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_ORIGINAL_TABLE, self :: PROPERTY_START_DATE, self :: PROPERTY_END_DATE, self :: PROPERTY_TABLE_NAME));
     }

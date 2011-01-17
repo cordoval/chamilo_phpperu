@@ -35,7 +35,7 @@ class ContentObjectPropertyMetadata extends DataClass
      * Get the default properties
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
             return array (self :: PROPERTY_ID, self :: PROPERTY_PROPERTY_TYPE_ID, self :: PROPERTY_CONTENT_OBJECT_PROPERTY, self :: PROPERTY_SOURCE);
     }

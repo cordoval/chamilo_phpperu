@@ -20,7 +20,7 @@ class InternshipOrganizerCategoryRelPeriod extends DataClass
      * Get the default properties
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return array(self :: PROPERTY_PERIOD_ID, self :: PROPERTY_CATEGORY_ID);
     }

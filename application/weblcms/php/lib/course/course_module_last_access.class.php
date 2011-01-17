@@ -31,7 +31,7 @@ class CourseModuleLastAccess extends DataClass
      * Get the default properties
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return array(self :: PROPERTY_COURSE_CODE, self :: PROPERTY_USER_ID, self :: PROPERTY_MODULE_NAME, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_ACCESS_DATE);
     }
