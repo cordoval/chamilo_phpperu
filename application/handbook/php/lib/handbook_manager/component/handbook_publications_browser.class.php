@@ -13,10 +13,6 @@ use common\libraries\Application;
 use common\libraries\PatternMatchCondition;
 use common\libraries\AndCondition;
 
-/**
- * @package application.handbook.handbook.component
- */
-
 require_once dirname(__FILE__) . '/../handbook_manager.class.php';
 require_once dirname(__FILE__) . '/../../handbook_publication.class.php';
 

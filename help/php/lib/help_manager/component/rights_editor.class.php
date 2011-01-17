@@ -35,10 +35,10 @@ class HelpManagerRightsEditorComponent extends HelpManager implements Administra
 
         $locations = array();
 
-//        foreach ($help_ids as $help_id)
-//        {
-//            $locations[] = HelpRights :: get_location_by_identifier_from_help_subtree($help_id);
-//        }
+        foreach ($help_ids as $help_id)
+        {
+            $locations[] = HelpRights :: get_location_by_identifier_from_help_subtree($help_id);
+        }
 
         if($this->get_user()->is_platform_admin())
         {

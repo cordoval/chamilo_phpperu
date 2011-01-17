@@ -27,6 +27,24 @@ abstract class QuestionDisplay
         $this->question = $question;
     }
 
+    function get_attempt()
+    {
+        return $this->get_formvalidator()->get_assessment_viewer()->get_assessment_question_attempt($this->get_complex_content_object_question()->get_id());
+    }
+
+    function get_answers()
+    {
+        $attempt = $this->get_attempt();
+        if (!is_null($attempt))
+        {
+            return unserialize($attempt->get_answer());
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     function get_complex_content_object_question()
     {
         return $this->complex_content_object_question;

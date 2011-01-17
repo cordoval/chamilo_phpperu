@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../question_result_display.class.php';
 class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
 {
 
-    function display_question_result()
+    function get_question_result()
     {
         $answers = $this->get_answers();
 
@@ -57,18 +57,22 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
         {
             $html[] = $this->get_question_feedback($index);
         }
-        echo implode("\n", $html);
+        return implode("\n", $html);
     }
 
     function get_question_feedback($index)
     {
+        $html = array();
         $html[] = '<div class="splitter"><b>' . Translation :: get('Question') . ' ' . ($index + 1) . '</b></div>';
         $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
         $html[] = '<tr>';
         $html[] = '<th class="list checkbox">#</th>';
         $html[] = '<th class="list">' . Translation :: get('Answer') . '</th>';
-        $html[] = '<th class="list">' . Translation :: get('Feedback') . '</th>';
+        if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+        {
+            $html[] = '<th class="list">' . Translation :: get('Feedback') . '</th>';
+        }
         $html[] = '<th class="list">' . Translation :: get('Score') . '</th>';
         $html[] = '</tr>';
         $html[] = '</thead>';
@@ -81,7 +85,10 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
             $html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
             $html[] = '<td>' . ($i + 1) . '</td>';
             $html[] = '<td>' . $correct_answer->get_value() . '</td>';
-            $html[] = '<td>' . $correct_answer->get_comment() . '</td>';
+            if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+            {
+                $html[] = '<td>' . $correct_answer->get_comment() . '</td>';
+            }
             $html[] = '<td>' . $correct_answer->get_weight() . '</td></tr>';
             $i ++;
         }

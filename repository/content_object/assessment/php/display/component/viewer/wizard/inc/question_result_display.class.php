@@ -9,19 +9,29 @@ use common\libraries\Utilities;
  */
 abstract class QuestionResultDisplay
 {
+    /**
+     * @var AssessmentResultProcessor
+     */
+    private $assessment_result_processor;
     private $complex_content_object_question;
     private $question;
     private $question_nr;
     private $answers;
     private $score;
 
-    function __construct($complex_content_object_question, $question_nr, $answers, $score)
+    function __construct(AssessmentResultProcessor $assessment_result_processor, $complex_content_object_question, $question_nr, $answers, $score)
     {
+        $this->assessment_result_processor = $assessment_result_processor;
         $this->complex_content_object_question = $complex_content_object_question;
         $this->question_nr = $question_nr;
-        $this->question = $complex_content_object_question->get_ref();
+        $this->question = $complex_content_object_question->get_ref_object();
         $this->answers = $answers;
         $this->score = $score;
+    }
+
+    function get_assessment_result_processor()
+    {
+        return $this->assessment_result_processor;
     }
 
     function get_complex_content_object_question()
@@ -49,40 +59,43 @@ abstract class QuestionResultDisplay
         return $this->score;
     }
 
-    function display()
-    {
-        $this->display_header();
-        
-        if ($this->add_borders())
-        {
-            $header = array();
-            $header[] = '<div class="with_borders">';
-            
-            echo (implode("\n", $header));
-        }
-        
-        $this->display_question_result();
-        
-        if ($this->add_borders())
-        {
-            $footer = array();
-            $footer[] = '<div class="clear"></div>';
-            $footer[] = '</div>';
-            echo (implode("\n", $footer));
-        }
-        
-        $this->display_footer();
-    }
-
-    function display_question_result()
-    {
-        echo $this->get_score() . '<br />';
-    }
-
-    function display_header()
+    function as_html()
     {
         $html = array();
-        
+
+        $html[] = $this->header();
+
+        if ($this->add_borders())
+        {
+            $html[] = '<div class="with_borders">';
+        }
+
+        $html[] = $this->get_question_result();
+
+        if ($this->add_borders())
+        {
+            $html[] = '<div class="clear"></div>';
+            $html[] = '</div>';
+        }
+
+        $html[] = $this->footer();
+        return implode("\n", $html);
+    }
+
+    function display()
+    {
+        echo $this->as_html();
+    }
+
+    function get_question_result()
+    {
+        return $this->get_score() . '<br />';
+    }
+
+    function header()
+    {
+        $html = array();
+
         $html[] = '<div class="question">';
         $html[] = '<div class="title">';
         $html[] = '<div class="number">';
@@ -91,19 +104,22 @@ abstract class QuestionResultDisplay
         $html[] = '</div>';
         $html[] = '</div>';
         $html[] = '<div class="text">';
-        
+
         $html[] = '<div class="bevel" style="float: left;">';
         $html[] = $this->question->get_title();
         $html[] = '</div>';
         $html[] = '<div class="bevel" style="text-align: right;">';
-        $html[] = $this->get_score() . ' / ' . $this->get_complex_content_object_question()->get_weight();
+        if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_numeric_feedback())
+        {
+            $html[] = $this->get_score() . ' / ' . $this->get_complex_content_object_question()->get_weight();
+        }
         $html[] = '</div>';
-        
+        $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '<div class="answer">';
-        
+
         $description = $this->question->get_description();
         if ($this->question->has_description())
         {
@@ -112,20 +128,18 @@ abstract class QuestionResultDisplay
             $html[] = '<div class="clear"></div>';
             $html[] = '</div>';
         }
-        
+
         $html[] = '<div class="clear"></div>';
-        
-        $header = implode("\n", $html);
-        echo $header;
+
+        return implode("\n", $html);
     }
 
-    function display_footer()
+    function footer()
     {
         $html[] = '</div>';
         $html[] = '</div>';
-        
-        $footer = implode("\n", $html);
-        echo $footer;
+
+        return implode("\n", $html);
     }
 
     function add_borders()
@@ -133,21 +147,21 @@ abstract class QuestionResultDisplay
         return false;
     }
 
-    static function factory($complex_content_object_question, $question_nr, $answers, $score)
+    static function factory(AssessmentResultProcessor $assessment_result_processor, $complex_content_object_question, $question_nr, $answers, $score)
     {
-        $type = $complex_content_object_question->get_ref()->get_type();
-        
+        $type = $complex_content_object_question->get_ref_object()->get_type();
+
         $file = dirname(__FILE__) . '/question_result_display/' . $type . '_result_display.class.php';
-        
+
         if (! file_exists($file))
         {
             die('file does not exist: ' . $file);
         }
-        
+
         require_once $file;
-        
+
         $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'ResultDisplay';
-        $question_result_display = new $class($complex_content_object_question, $question_nr, $answers, $score);
+        $question_result_display = new $class($assessment_result_processor, $complex_content_object_question, $question_nr, $answers, $score);
         return $question_result_display;
     }
 }

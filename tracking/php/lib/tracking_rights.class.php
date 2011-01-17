@@ -11,9 +11,6 @@ use ReflectionClass;
  * @package tracking
  */
 
-
-require_once Path :: get_tracking_path() . 'lib/tracking_manager/tracking_manager.class.php';
-
 class TrackingRights
 {
     const VIEW_RIGHT = '1';
@@ -24,7 +21,7 @@ class TrackingRights
 
     function get_available_rights()
     {
-        $reflect = new ReflectionClass('TrackingRights');
+        $reflect = new ReflectionClass(__NAMESPACE__ . '\\TrackingRights');
 
 	    $rights = $reflect->getConstants();
 

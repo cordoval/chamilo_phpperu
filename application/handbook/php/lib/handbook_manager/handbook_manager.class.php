@@ -480,7 +480,7 @@ class HandbookManager extends WebApplication
                                 else
                                     if ($alternative_co->is_showable())
                                     {
-                                        $texts[] = $alternative_co;
+                                        $others[] = $alternative_co;
                                     }
                                     else
                                     {

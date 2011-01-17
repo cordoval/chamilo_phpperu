@@ -1,4 +1,5 @@
 <?php
+
 namespace user;
 
 use common\libraries\UserRegistrationSupport;
@@ -10,6 +11,9 @@ use common\libraries\Configuration;
 use common\libraries\EqualityCondition;
 use common\libraries\PlatformSetting;
 use common\libraries\Session;
+use application\weblcms\Course;
+use application\weblcms\WeblcmsDataManager;
+
 /**
  * $Id: user_data_manager.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @author Hans De Bisschop
@@ -18,9 +22,9 @@ use common\libraries\Session;
  *
  * This is a skeleton for a data manager for the User application.
  */
-
 class UserDataManager
 {
+
     /**
      * Instance of this class for the singleton pattern.
      */
@@ -34,7 +38,7 @@ class UserDataManager
      */
     static function get_instance()
     {
-        if (! isset(self :: $instance))
+        if (!isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_user_data_manager.class.php';
@@ -52,7 +56,7 @@ class UserDataManager
     public function login($username, $password = null)
     {
         // If username is available, try to login
-        if (! self :: get_instance()->is_username_available($username))
+        if (!self :: get_instance()->is_username_available($username))
         {
             $user = self :: get_instance()->retrieve_user_by_username($username);
             $authentication_method = $user->get_auth_source();
@@ -114,20 +118,19 @@ class UserDataManager
     function user_deletion_allowed($user)
     {
         //A check to not delete a user when he's an active teacher
-        //$courses = WeblcmsDataManager :: get_instance()->count_courses(new EqualityCondition(Course :: PROPERTY_TITULAR,$user->get_id()));
-        //if($courses > 0)
-        //{
-        return false;
-        //}
-
-
-    //return true;
+        $courses = WeblcmsDataManager :: get_instance()->count_courses(new EqualityCondition(Course :: PROPERTY_TITULAR, $user->get_id()));
+        if ($courses > 0)
+        {
+            return false;
+        }
+        return true;
     }
 
     private static $official_code_exists_cache;
+
     static function official_code_exists($official_code)
     {
-        if(!self :: $official_code_exists_cache[$official_code])
+        if (!self :: $official_code_exists_cache[$official_code])
         {
             $condition = new EqualityCondition(User :: PROPERTY_OFFICIAL_CODE, $official_code);
             self :: $official_code_exists_cache[$official_code] = (self :: get_instance()->count_users($condition) > 0);
@@ -137,14 +140,15 @@ class UserDataManager
     }
 
     private static $user_cache;
+
     static function retrieve_user_by_official_code($official_code)
     {
-        if(!self :: $user_cache[$official_code])
+        if (!self :: $user_cache[$official_code])
         {
             $condition = new EqualityCondition(User :: PROPERTY_OFFICIAL_CODE, $official_code);
             self :: $user_cache[$official_code] = self :: get_instance()->retrieve_users($condition)->next_result();
         }
-        
+
         return self :: $user_cache[$official_code];
     }
 
@@ -153,5 +157,7 @@ class UserDataManager
         $condition = new EqualityCondition(User :: PROPERTY_ACTIVE, 1);
         return self :: get_instance()->retrieve_users($condition);
     }
+
 }
+
 ?>

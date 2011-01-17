@@ -23,7 +23,8 @@ if (empty($document_language))
     $document_language = 'en';
 }
 
-$header = new Header($document_language);
+$header = Header::get_instance();
+$header->set_language_code($document_language);
 $header->add_default_headers();
 $header->set_page_title(PlatformSetting :: get('institution') . ' - ' . PlatformSetting :: get('site_name'));
 if (isset($httpHeadXtra) && $httpHeadXtra)
