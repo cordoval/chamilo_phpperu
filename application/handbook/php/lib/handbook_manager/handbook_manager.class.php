@@ -79,6 +79,7 @@ class HandbookManager extends WebApplication
     const ACTION_VIEW_COLLAPSED = 'toggle_menu';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
+    const PARAM_LIGHT_MODE = 'light';
     const PARAM_LANGUAGE = 'dc:Language';
     const PARAM_PUBLISHER = 'dc:publisher';
 

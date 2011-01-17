@@ -28,6 +28,7 @@ use common\libraries\DynamicContentTab;
 use common\libraries\DynamicTabsRenderer;
 use repository\content_object\youtube\Youtube;
 use repository\content_object\link\Link;
+use common\libraries\Display;
 
 require_once dirname(__FILE__) . '/../handbook_manager.class.php';
 require_once dirname(__FILE__) . '/../../handbook_menu.class.php';
@@ -60,6 +61,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     private $edit_right;
     private $view_right;
 
+    private $light_mode;
+
     /**
      * Runs this component and displays its output.
      */
@@ -79,6 +82,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             }
         }
 
+        $this->light_mode = Request::get(self::PARAM_LIGHT_MODE);
 
         //GET CONTENT OBJECTS TO DISPLAY
         $this->get_rights();
@@ -87,15 +91,19 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $this->get_content_objects();
             $this->get_preferences($this->handbook_id);
 
-            parent::display_header();
+            $this->display_header();
 
-            //ACTIONBAR
-            $this->action_bar = $this->get_action_bar();
-            $html[] = $this->action_bar->as_html();
+            
+            if($this->light_mode != 1)
+            {
+                //ACTIONBAR
+                $this->action_bar = $this->get_action_bar();
+                $html[] = $this->action_bar->as_html();
+           
 
-            //MENU
-            $html[] = $this->get_menu();
-
+                //MENU
+                $html[] = $this->get_menu();
+             }
             //CONTENT
             $html[] = '<div>';
             $html[] = $this->display_content();
@@ -105,16 +113,16 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $html[] = '</div>';
 
             echo implode("\n", $html);
-            parent::display_footer();
+            $this->display_footer();
         }
         else
         {
-            parent::display_header();
+            $this->display_header();
             $html[] = '<div>';
             $html[] = $this->display_not_allowed();
             $html[] = '</div>';
             echo implode("\n", $html);
-            parent::display_footer();
+           $this->display_footer();
         }
     }
 
@@ -407,7 +415,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         $text_width;
         $visual_width;
 
-        if ($alternatives_array['image_main'] != null || $alternatives_array['video_main'] != null)
+        if (($alternatives_array['image_main'] != null || $alternatives_array['video_main'] != null) && $this->light_mode != 1)
         {
             $text_width = '67%';
             $visual_width = '33%';
@@ -484,141 +492,144 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         }
 
 
-        //IMAGES
-        $html[] = '<div class = "handbook_item_visual" style="float:left; width:' . $visual_width . '">';
-        if ($alternatives_array['image_main'] != null)
+        if($this->light_mode != 1)
         {
-            $image_tabs = new DynamicTabsRenderer('imagetabs');
-            $i = 0;
-
-            $html[] = '<div class = "handbook_item_images" style="padding: 10px;">';
-            $object = $alternatives_array['image_main'];
-            $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
-            //TODO SHOW POPUP WITH LARGER PIC ON CLICK INSTEAD OF DOWNLOAD
-            $htmli['tab' . $i][] = '<div>';
-            $htmli['tab' . $i][] = '<a href="' . $url . '"><img style = "max-width:100%" src="' . $url . '"></a>';
-            $htmli['tab' . $i][] = '</div>';
-
-
-            //ALTERNATIVE IMAGES
-            if (count($alternatives_array['image']) > 0)
+            //IMAGES
+            $html[] = '<div class = "handbook_item_visual" style="float:left; width:' . $visual_width . '">';
+            if ($alternatives_array['image_main'] != null)
             {
-                $tab_name = $this->print_metadata($alternatives_array['image_main']->get_id());
-                $image_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmli['tab' . $i])));
-                $i++;
-                while (list($key, $value) = each($alternatives_array['image']))
-                {
-                    $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($value->get_id());
-                    //TODO SHOW POPUP WITH LARGER PIC ON CLICK INSTEAD OF DOWNLOAD
-                    $htmli['tab' . $i] = array();
-                    $htmli['tab' . $i][] = '<div>';
-                    $htmli['tab' . $i][] = '<a href="' . $url . '"><img style = "max-width:100%" src="' . $url . '"></a>';
-                     $htmli['tab' . $i][] = '</div>';
-                    $tab_name = $this->print_metadata($value->get_id());
+                $image_tabs = new DynamicTabsRenderer('imagetabs');
+                $i = 0;
 
+                $html[] = '<div class = "handbook_item_images" style="padding: 10px;">';
+                $object = $alternatives_array['image_main'];
+                $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
+                //TODO SHOW POPUP WITH LARGER PIC ON CLICK INSTEAD OF DOWNLOAD
+                $htmli['tab' . $i][] = '<div>';
+                $htmli['tab' . $i][] = '<a href="' . $url . '"><img style = "max-width:100%" src="' . $url . '"></a>';
+                $htmli['tab' . $i][] = '</div>';
+
+
+                //ALTERNATIVE IMAGES
+                if (count($alternatives_array['image']) > 0)
+                {
+                    $tab_name = $this->print_metadata($alternatives_array['image_main']->get_id());
                     $image_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmli['tab' . $i])));
-
                     $i++;
+                    while (list($key, $value) = each($alternatives_array['image']))
+                    {
+                        $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($value->get_id());
+                        //TODO SHOW POPUP WITH LARGER PIC ON CLICK INSTEAD OF DOWNLOAD
+                        $htmli['tab' . $i] = array();
+                        $htmli['tab' . $i][] = '<div>';
+                        $htmli['tab' . $i][] = '<a href="' . $url . '"><img style = "max-width:100%" src="' . $url . '"></a>';
+                         $htmli['tab' . $i][] = '</div>';
+                        $tab_name = $this->print_metadata($value->get_id());
+
+                        $image_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmli['tab' . $i])));
+
+                        $i++;
+                    }
+
+                    $html[] = $image_tabs->render();
                 }
-
-                $html[] = $image_tabs->render();
-            }
-            else
-            {
-                $html[] = implode("\n", $htmli['tab' . $i]);
-            }
-        }
-
-        //VIDEO
-        if ($alternatives_array['video_main'] != null)
-        {
-            $video_tabs = new DynamicTabsRenderer('videotabs');
-            $i = 0;
-
-            $html[] = '<div class = "handbook_item_videos" style="padding: 10px;">';
-
-            $object = $alternatives_array['video_main'];
-            $display = ContentObjectDisplay :: factory($alternatives_array['video_main']);
-
-            $htmlv['tab' . $i][] = $display->get_preview(true);
-            ;
-            $htmlv['tab' . $i][] = '</div>';
-
-
-            //ALTERNATIVE VIDEO
-            if (count($alternatives_array['video']) > 0)
-            {
-                $tab_name = $this->print_metadata($alternatives_array['video_main']->get_id());
-                $video_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmlv['tab' . $i])));
-                $i++;
-
-                while (list($key, $value) = each($alternatives_array['video']))
+                else
                 {
-                    $display2 = ContentObjectDisplay :: factory($value);
+                    $html[] = implode("\n", $htmli['tab' . $i]);
+                }
+            }
 
-                    $htmlv['tab' . $i][] = $display2->get_preview(true);
+            //VIDEO
+            if ($alternatives_array['video_main'] != null)
+            {
+                $video_tabs = new DynamicTabsRenderer('videotabs');
+                $i = 0;
+
+                $html[] = '<div class = "handbook_item_videos" style="padding: 10px;">';
+
+                $object = $alternatives_array['video_main'];
+                $display = ContentObjectDisplay :: factory($alternatives_array['video_main']);
+
+                $htmlv['tab' . $i][] = $display->get_preview(true);
+                ;
+                $htmlv['tab' . $i][] = '</div>';
 
 
-                    $tab_name = $this->print_metadata($value->get_id());
-
-                    $video_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Youtube::get_type_name()), implode("\n", $htmlv['tab' . $i])));
-
+                //ALTERNATIVE VIDEO
+                if (count($alternatives_array['video']) > 0)
+                {
+                    $tab_name = $this->print_metadata($alternatives_array['video_main']->get_id());
+                    $video_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmlv['tab' . $i])));
                     $i++;
+
+                    while (list($key, $value) = each($alternatives_array['video']))
+                    {
+                        $display2 = ContentObjectDisplay :: factory($value);
+
+                        $htmlv['tab' . $i][] = $display2->get_preview(true);
+
+
+                        $tab_name = $this->print_metadata($value->get_id());
+
+                        $video_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Youtube::get_type_name()), implode("\n", $htmlv['tab' . $i])));
+
+                        $i++;
+                    }
+
+                    $html[] = $video_tabs->render();
+                }
+                else
+                {
+                    $html[] = implode("\n", $htmlv['tab' . $i]);
+                }
+                $html[] = '</div>';
+            }
+
+
+            $html[] = '</div>';
+            $html[] = '</div>';
+            $html[] = '</div>';
+
+            $html[] = '<div class = "handbook_item_secondary_info" style="width:79%;">';
+            $html[] = '<div>';
+            $html[] = ' . ';
+            $html[] = '</div>';
+
+            $other_tabs = new DynamicTabsRenderer('other_tabs');
+            if (count($alternatives_array['link']) > 0)
+            {
+                //SHOW LINKS TAB
+
+
+                $html_links = array();
+                while (list($key, $value) = each($alternatives_array['link']))
+                {
+                    $display3 = ContentObjectDisplay :: factory($value);
+                    $html_links[] = $display3->get_short_html();
+                    $html_links[] = '</br>';
+
                 }
 
-                $html[] = $video_tabs->render();
+                $other_tabs->add_tab(new DynamicContentTab('link', 'links', Theme :: get_content_object_image_path(Link::get_type_name()), implode("\n", $html_links)));
             }
-            else
+
+
+            if (count($alternatives_array['other']) > 0)
             {
-                $html[] = implode("\n", $htmlv['tab' . $i]);
+                //SHOW OTHERS
+
+                while (list($key, $value) = each($alternatives_array['other']))
+                {
+                    $display = ContentObjectDisplay :: factory($value);
+
+                    $html_others[] = $display->get_full_html();
+                    $html_others[] = '</div>';
+                }
+
+                $other_tabs->add_tab(new DynamicContentTab('others', 'others', Theme :: get_content_object_image_path(Link::get_type_name()), implode("\n", $html_others)));
             }
-            $html[] = '</div>';
+            $html[] = $other_tabs->render();
         }
-
-
-        $html[] = '</div>';
-        $html[] = '</div>';
-        $html[] = '</div>';
-
-        $html[] = '<div class = "handbook_item_secondary_info" style="width:79%;">';
-        $html[] = '<div>';
-        $html[] = ' . ';
-        $html[] = '</div>';
-
-        $other_tabs = new DynamicTabsRenderer('other_tabs');
-        if (count($alternatives_array['link']) > 0)
-        {
-            //SHOW LINKS TAB
-
-
-            $html_links = array();
-            while (list($key, $value) = each($alternatives_array['link']))
-            {
-                $display3 = ContentObjectDisplay :: factory($value);
-                $html_links[] = $display3->get_short_html();
-                $html_links[] = '</br>';
-                
-            }
-
-            $other_tabs->add_tab(new DynamicContentTab('link', 'links', Theme :: get_content_object_image_path(Link::get_type_name()), implode("\n", $html_links)));
-        }
-
-
-        if (count($alternatives_array['other']) > 0)
-        {
-            //SHOW OTHERS
-
-            while (list($key, $value) = each($alternatives_array['other']))
-            {
-                $display = ContentObjectDisplay :: factory($value);
-
-                $html_others[] = $display->get_full_html();
-                $html_others[] = '</div>';
-            }
-
-            $other_tabs->add_tab(new DynamicContentTab('others', 'others', Theme :: get_content_object_image_path(Link::get_type_name()), implode("\n", $html_others)));
-        }
-        $html[] = $other_tabs->render();
         $html[] = '</div>';
 
         $html[] = '</div>';
@@ -645,6 +656,33 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $html[] = $value->get_title();
         }
         return implode("\n", $html);
+    }
+
+
+
+    function display_header()
+    {
+        if($this->light_mode == 1)
+        {
+            
+            Display :: small_header();
+        }
+        else
+        {
+            parent::display_header();
+        }
+    }
+
+    function display_footer()
+    {
+        if($this->light_mode == 1)
+        {
+            Display :: small_footer();
+        }
+        else
+        {
+            parent::display_footer();
+        }
     }
 
 }
