@@ -50,8 +50,11 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
      */
     function run()
     {
-        //var_dump($this->get_feedback_display_configuration());
-
+        if ($this->question_form_submitted() && $this->get_action() != self :: FORM_BACK)
+        {
+            $result_processor = new AssessmentResultProcessor($this);
+            $result_processor->save_answers();
+        }
 
         if (($this->result_form_submitted() || $this->question_form_submitted()) && $this->get_action() == self :: FORM_SUBMIT)
         {
@@ -69,14 +72,8 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
             {
                 // TODO: Automatically redirect to the "next" page or provide some kind of extended "finished" page.
                 $this->display_message(Translation :: get('AssessmentFinished'));
-                exit;
+                exit();
             }
-        }
-
-        if ($this->question_form_submitted())
-        {
-            $result_processor = new AssessmentResultProcessor($this);
-            $result_processor->save_answers();
         }
 
         if ($this->question_form_submitted() && $this->get_feedback_per_page())
