@@ -17,7 +17,7 @@ abstract class ChangesTracker extends SimpleTracker
      * Get the default properties of all aggregate trackers.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID, self :: PROPERTY_REFERENCE_ID, self :: PROPERTY_ACTION, self :: PROPERTY_DATE));
     }

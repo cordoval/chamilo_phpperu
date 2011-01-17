@@ -23,7 +23,7 @@ class ChatMessage extends DataClass
 	 * Get the default properties of all users quota objects.
 	 * @return array The property names.
 	 */
-	static function get_default_property_names()
+	static function get_default_property_names($extended_property_names = array())
 	{
 		return parent :: get_default_property_names(array (self :: PROPERTY_FROM_USER_ID, self :: PROPERTY_TO_USER_ID, self :: PROPERTY_DATE, self :: PROPERTY_MESSAGE));
 	}

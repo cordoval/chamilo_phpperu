@@ -71,7 +71,7 @@ class Course extends DataClass
      * Get the default properties of all courses.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(
                 self :: PROPERTY_COURSE_TYPE_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_TITULAR, self :: PROPERTY_EXTERNAL_URL, self :: PROPERTY_EXTERNAL_NAME,

@@ -38,7 +38,7 @@ class CourseTypeLayout extends CourseLayout
      * Get the default properties of all courses.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(Array(
                 self :: PROPERTY_COURSE_TYPE_ID, self :: PROPERTY_FEEDBACK_FIXED, self :: PROPERTY_LAYOUT_FIXED, self :: PROPERTY_TOOL_SHORTCUT_FIXED, self :: PROPERTY_MENU_FIXED, self :: PROPERTY_BREADCRUMB_FIXED, self :: PROPERTY_INTRO_TEXT_FIXED, self :: PROPERTY_STUDENT_VIEW_FIXED,

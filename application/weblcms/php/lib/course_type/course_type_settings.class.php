@@ -24,7 +24,7 @@ class CourseTypeSettings extends CourseSettings
      * Get the default properties of all coursetypes.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_COURSE_TYPE_ID, self :: PROPERTY_TITULAR_FIXED, self :: PROPERTY_LANGUAGE_FIXED, self :: PROPERTY_VISIBILITY_FIXED, self :: PROPERTY_ACCESS_FIXED, self :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED));
     }
