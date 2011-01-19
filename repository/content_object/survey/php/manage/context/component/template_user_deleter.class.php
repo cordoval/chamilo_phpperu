@@ -2,7 +2,7 @@
 namespace repository\content_object\survey;
 
 use common\libraries\EqualityCondition;
-
+use common\libraries\Request;
 use common\libraries\Translation;
 
 class SurveyContextManagerTemplateUserDeleterComponent extends SurveyContextManager
@@ -35,7 +35,7 @@ class SurveyContextManagerTemplateUserDeleterComponent extends SurveyContextMana
                 
                 while ($context_template_user = $context_template_users->next_result())
                 {
-                    if (! $context_template_user->delete())
+                	if (! $context_template_user->delete())
                     {
                         $failures ++;
                     }

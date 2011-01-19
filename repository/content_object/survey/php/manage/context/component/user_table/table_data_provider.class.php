@@ -24,8 +24,8 @@ class SurveyUserTableDataProvider extends ObjectTableDataProvider
      */
     function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
-        $order_property = $this->get_order_property($order_property);
-        $order_direction = $this->get_order_property($order_direction);
+//        $order_property = $this->get_order_property($order_property);
+//        $order_direction = $this->get_order_property($order_direction);
         
         return UserDataManager :: get_instance()->retrieve_users($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
