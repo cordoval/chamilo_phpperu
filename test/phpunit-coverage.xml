@@ -3,7 +3,7 @@
     colors="true" 
     syntaxCheck="true"
     convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
+    convertNoticesToExceptions="false"
     convertWarningsToExceptions="true"
 >
     
