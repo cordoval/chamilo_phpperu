@@ -3,6 +3,7 @@
 namespace application\handbook;
 
 use common\libraries\Request;
+use common\libraries\BreadcrumbTrail;
 
 require_once dirname(__FILE__) . '/handbook_viewer.class.php';
 /**
@@ -74,18 +75,19 @@ class HandbookManagerHandbookFullViewerComponent extends HandbookManagerHandbook
     }
 
    
-//    function display_header()
-//    {
-//
-//        parent::display_header();
-//
-//    }
-//
-//    function display_footer()
-//    {
-//        parent::display_footer();
-//
-//    }
+    function display_header()
+    {
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add_help('handbook viewer');
+        parent::display_header();
+
+    }
+
+    function display_footer()
+    {
+        parent::display_footer();
+
+    }
 
 }
 

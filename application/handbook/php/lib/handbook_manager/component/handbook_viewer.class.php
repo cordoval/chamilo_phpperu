@@ -62,8 +62,6 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
     protected $view_right;
     private $light_mode;
 
-    
-
     function get_allowed_content_object_types()
     {
         return array(Handbook :: get_type_name());
@@ -576,7 +574,7 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
                 {
                     if ($value != $alternatives_array['text_main'])
                     {
-                       $htmlt['ctab' . $i][] = '<div class = "handbook_topic_title">';
+                        $htmlt['ctab' . $i][] = '<div class = "handbook_topic_title">';
                         $htmlt['ctab' . $i][] = $value->get_title();
                         $htmlt['ctab' . $i][] = '</div>';
 
@@ -627,12 +625,11 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
         //OUTPUT HTML
         $html[] = '<div class = "handbook_item" style="float:left; width:99%;  padding:10px;">';
         $html[] = '<div class = "handbook_item_primary_info"  style="float:left;   width:99%;">';
-        
+
         //TEXT
         $html[] = '<div class = "handbook_item_text" style="float:left; width:' . $text_width . ';">';
         $html[] = $this->get_text_item_html($co_id, $alternatives_array, $text_width);
         $html[] = '</div>'; //close text
-
         //IMAGES & VIDEO
         if ($alternatives_array['video_main'] != null || $alternatives_array['image_main'] != null)
         {
@@ -649,7 +646,6 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
         }
 
         $html[] = '</div>'; //close primary info
-
         //OTHER
         if (count($alternatives_array['link']) > 0 || count($alternatives_array['other']) > 0)
         {
@@ -681,27 +677,12 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function display_header()
     {
-        if ($this->light_mode == 1)
-        {
-
-            Display :: small_header();
-        }
-        else
-        {
-            parent::display_header();
-        }
+        parent::display_header();
     }
 
     function display_footer()
     {
-        if ($this->light_mode == 1)
-        {
-            Display :: small_footer();
-        }
-        else
-        {
-            parent::display_footer();
-        }
+        parent::display_footer();
     }
 
 }

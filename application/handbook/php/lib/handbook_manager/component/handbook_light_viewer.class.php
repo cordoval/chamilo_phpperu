@@ -17,7 +17,6 @@ class HandbookManagerHandbookLightViewerComponent extends HandbookManagerHandboo
      */
     function run()
     {
-        var_dump('run');
         //GET CONTENT OBJECTS TO DISPLAY
         $this->get_rights();
         if ($this->view_right)
