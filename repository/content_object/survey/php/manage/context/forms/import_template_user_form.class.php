@@ -29,13 +29,14 @@ class ImportTemplateUserForm extends FormValidator
     private $template_manager;
     private $valid_email_regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
 
-    function __construct($template_manager, $action, $context_template_id)
+    function __construct($template_manager, $action, $template_id)
     {
-        parent :: __construct('survey_import_template_user_form', 'post', $action);
+        parent :: __construct('import_template_user_form', 'post', $action);
         $this->template_manager = $template_manager;
-        $this->context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
+        $template = SurveyContextDataManager :: get_instance()->retrieve_survey_template($template_id);
+        $this->context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($template->get_context_template_id());
         $this->template_user = SurveyTemplateUser:: factory($this->context_template->get_type());
-        $this->template_user->set_context_template_id($context_template_id);
+        $this->template_user->set_template_id($template->get_id());
         $this->build_form();
         $this->setDefaults();
     }
