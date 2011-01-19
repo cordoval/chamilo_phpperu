@@ -61,7 +61,9 @@ class HandbookManager extends WebApplication
     const ACTION_EDIT_HANDBOOK_PUBLICATION = 'handbook_publication_editor';
     const ACTION_CREATE_HANDBOOK_PUBLICATION = 'handbook_publication_creator';
     const ACTION_BROWSE_HANDBOOK_PUBLICATIONS = 'handbook_publications_browser';
-    const ACTION_VIEW_HANDBOOK = 'handbook_viewer';
+    const ACTION_VIEW_HANDBOOK = 'handbook_full_viewer';
+    const ACTION_VIEW_FULL_HANDBOOK = 'handbook_full_viewer';
+    const ACTION_VIEW_LIGHT_HANDBOOK = 'handbook_light_viewer';
     const ACTION_EDIT_RIGHTS = 'rights_editor';
     const ACTION_VIEW_PREFERENCES = 'handbook_preferences_viewer';
     const ACTION_VIEW_HANDBOOK_PUBLICATION = 'handbook_publications_browser';
