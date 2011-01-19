@@ -175,9 +175,9 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
             $result->convertErrorsToExceptions(FALSE);
         }
 
-        if (!$arguments['convertNoticesToExceptions']) {
-            PHPUnit_Framework_Error_Notice::$enabled = FALSE;
-        }
+        //if (!$arguments['convertNoticesToExceptions']) {
+            PHPUnit_Framework_Error_Notice::$enabled = $arguments['convertNoticesToExceptions'] === true;
+        //}
 
         if (!$arguments['convertWarningsToExceptions']) {
             PHPUnit_Framework_Error_Warning::$enabled = FALSE;

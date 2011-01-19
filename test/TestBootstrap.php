@@ -85,4 +85,3 @@ class TestInitializer
 
 TestInitializer::init();
 
-//require_once "PHPUnit/Framework/Error/Notice.php";
