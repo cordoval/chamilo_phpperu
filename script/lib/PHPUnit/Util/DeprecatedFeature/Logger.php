@@ -2,7 +2,7 @@
 /**
  * PHPUnit
  *
- * Copyright (c) 2002-2011, Sebastian Bergmann <sebastian@phpunit.de>.
+ * Copyright (c) 2002-2010, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,64 +35,84 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    PHPUnit
- * @subpackage Util_Log
- * @author     Benjamin Eberlei <kontakt@beberlei.de>
+ * @subpackage Framework
+ * @author     Ralph Schindler <ralph.schindler@zend.com>
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2002-2010 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link       http://www.phpunit.de/
- * @since      File available since Release 3.5.0
+ * @since      File available since Release 3.5.7
  */
 
 /**
- * A TestListener that integrates with DBUS.
+ * Test Listener that tracks the usage of deprecated features.
  *
  * @package    PHPUnit
- * @subpackage Util_Log
- * @author     Benjamin Eberlei <kontakt@beberlei.de>
+ * @subpackage Framework
+ * @author     Ralph Schindler <ralph.schindler@zend.com>
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2002-2010 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version    Release: 3.5.9
  * @link       http://www.phpunit.de/
- * @since      Class available since Release 3.5.0
+ * @since      Class available since Release 3.5.7
  */
-class PHPUnit_Util_Log_DBUS implements PHPUnit_Framework_TestListener
+class PHPUnit_Util_DeprecatedFeature_Logger implements PHPUnit_Framework_TestListener
 {
     /**
-     * @var integer
+     * @var PHPUnit_Framework_TestCase
      */
-    protected $errors = 0;
+    protected static $currentTest = NULL;
 
     /**
-     * @var integer
+     * This is the publically accessible API for notifying the system that a
+     * deprecated feature has been used.
+     *
+     * If it is run via a TestRunner and the test extends
+     * PHPUnit_Framework_TestCase, then this will inject the result into the
+     * test runner for display, if not, it will throw the notice to STDERR.
+     *
+     * @param string $message
+     * @param int|bool $backtraceDepth
      */
-    protected $failures = 0;
+    public static function log($message, $backtraceDepth = 2)
+    {
+        if ($backtraceDepth !== FALSE) {
+            $trace = debug_backtrace(FALSE);
 
-    /**
-     * @var integer
-     */
-    protected $startTime = NULL;
+            if (is_int($backtraceDepth)) {
+                $traceItem = $trace[$backtraceDepth];
+            }
 
-    /**
-     * @var string
-     */
-    protected $suiteName = '';
+            if (!isset($traceItem['file'])) {
+                $reflectionClass   = new ReflectionClass($traceItem['class']);
+                $traceItem['file'] = $reflectionClass->getFileName();
+            }
 
-    /**
-     * @var integer
-     */
-    protected $tests = 0;
+            if (!isset($traceItem['line']) &&
+                 isset($traceItem['class']) &&
+                 isset($traceItem['function'])) {
+                if (!isset($reflectionClass)) {
+                    $reflectionClass = new ReflectionClass($traceItem['class']);
+                }
 
-    /**
-     * @var integer
-     */
-    protected $startedSuites = 0;
+                $method = $reflectionClass->getMethod($traceItem['function']);
+                $traceItem['line'] = '(between ' . $method->getStartLine() .
+                                     ' and ' . $method->getEndLine() . ')';
+            }
+        }
 
-    /**
-     * @var integer
-     */
-    protected $endedSuites = 0;
+        $deprecatedFeature = new PHPUnit_Util_DeprecatedFeature(
+          $message, $traceItem
+        );
+
+        if (self::$currentTest instanceof PHPUnit_Framework_TestCase) {
+            $result = self::$currentTest->getTestResultObject();
+            $result->addDeprecatedFeature($deprecatedFeature);
+        } else {
+            file_put_contents('php://stderr', $deprecatedFeature);
+        }
+    }
 
     /**
      * An error occurred.
@@ -103,7 +123,6 @@ class PHPUnit_Util_Log_DBUS implements PHPUnit_Framework_TestListener
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->errors++;
     }
 
     /**
@@ -115,7 +134,6 @@ class PHPUnit_Util_Log_DBUS implements PHPUnit_Framework_TestListener
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        $this->failures++;
     }
 
     /**
@@ -149,12 +167,6 @@ class PHPUnit_Util_Log_DBUS implements PHPUnit_Framework_TestListener
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        if($this->startedSuites == 0) {
-            $this->startTime = time();
-            $this->suiteName = $suite->getName();
-        }
-
-        $this->startedSuites++;
     }
 
     /**
@@ -165,11 +177,6 @@ class PHPUnit_Util_Log_DBUS implements PHPUnit_Framework_TestListener
      */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        $this->endedSuites++;
-
-        if($this->startedSuites <= $this->endedSuites) {
-            $this->notify();
-        }
     }
 
     /**
@@ -179,7 +186,7 @@ class PHPUnit_Util_Log_DBUS implements PHPUnit_Framework_TestListener
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        $this->tests++;
+        self::$currentTest = $test;
     }
 
     /**
@@ -190,37 +197,6 @@ class PHPUnit_Util_Log_DBUS implements PHPUnit_Framework_TestListener
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-    }
-
-    /**
-     *
-     */
-    protected function notify()
-    {
-        $d = new Dbus(Dbus::BUS_SESSION);
-
-        $n = $d->createProxy(
-          'org.freedesktop.Notifications',
-          '/org/freedesktop/Notifications',
-          'org.freedesktop.Notifications'
-        );
-
-        $n->Notify(
-          'PHPUnit_Util_Log_DBUS',
-          new DBusUInt32(0),
-          'phpunit',
-          'PHPUnit Test Report',
-          sprintf(
-            "Suite: %s\n%d tests run in %s minutes.\n%d errors, %d failures",
-            $this->suiteName,
-            $this->tests,
-            (date('i:s', time() - $this->startTime)),
-            $this->errors,
-            $this->failures
-          ),
-          new DBusArray(DBus::STRING, array()),
-          new DBusDict(DBus::VARIANT, array()),
-          1000
-        );
+        self::$currentTest = NULL;
     }
 }
