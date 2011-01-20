@@ -79,6 +79,7 @@ class HandbookManager extends WebApplication
     const ACTION_SEARCH = 'search_results_browser';
     const ACTION_CREATE_PREFERENCE = 'handbook_preferences_creator';
     const ACTION_VIEW_COLLAPSED = 'toggle_menu';
+    const ACTION_CREATE_ODF = 'odf_creator';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LIGHT_MODE = 'light';
