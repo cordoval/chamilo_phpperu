@@ -552,10 +552,12 @@ abstract class Application
     //abstract function run();
 
 
-    abstract static function get_application_web_path($application_name);
-
-    abstract static function get_application_path($application_name);
-
+    //TODO find a way of enforcing sub classes to have the next 3 methods.
+    //static do not play with polymorphism and abstract static functions
+    //do NOT enforce anything in children classes
+    
+    //abstract static function get_application_web_path($application_name);
+    //abstract static function get_application_path($application_name);
     //abstract static function get_application_manager_path($application_name);
 
 
@@ -854,13 +856,13 @@ abstract class Application
         return array();
     }
 
-    /* static */
-    function get_type($application)
+ 
+    static function get_application_type($application)
     {
 
         if (BasicApplication :: exists($application))
         {
-            return BasicApplication :: get_type($application);
+            return BasicApplication :: get_application_type($application);
         }
 
         if (LauncherApplication :: exists($application))

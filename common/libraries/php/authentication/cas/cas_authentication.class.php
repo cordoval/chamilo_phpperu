@@ -190,7 +190,7 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
         }
     }
 
-    public function register_new_user($user_id)
+    public function register_new_user($user_id, $password = null)
     {
         if (! phpCAS :: has_already_been_called())
         {

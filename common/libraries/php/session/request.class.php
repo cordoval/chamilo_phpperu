@@ -6,13 +6,24 @@ namespace common\libraries;
  */
 class Request
 {
+    //TODO OO design this class
+    // when OO designing this class, $security should be considered as a dependency
+    static $security;
+    static function get_security()
+    {
+        if(self :: $security === null)
+        {
+            self :: $security = new Security();
+        }
+        return self :: $security;
+    }
 
 	static function get($variable)
 	{
 		if (isset($_GET[$variable]))
 		{
 			// TODO: Add the necessary security filters if and where necessary
-			return Security :: remove_XSS($_GET[$variable]);
+			return self :: get_security()->remove_XSS($_GET[$variable]);
 		}
 
 		return null;
@@ -28,7 +39,7 @@ class Request
 		if (isset($_POST[$variable]))
 		{
 			// TODO: Add the necessary security filters if and where necessary
-			return Security :: remove_XSS($_POST[$variable]);
+			return self :: get_security()->remove_XSS($_POST[$variable]);
 		}
 
 		return null;

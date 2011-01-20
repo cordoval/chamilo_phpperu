@@ -3,7 +3,13 @@ namespace common\libraries;
 
 class DateTimeUtilitiesTest extends \PHPUnit_Framework_TestCase{
     
-	public function test_format_locale_date_sould_produce_an_english_date()
+    public function setUp()
+    {
+        $platform_setting_mock = $this->getMock("PlatformSetting");
+        PlatformSetting:: set_instance($platform_setting_mock);
+    }
+    
+    public function test_format_locale_date_sould_produce_an_english_date()
     {
         $timestamp = \mktime(14, 36, 02, 02, 25, 2010);
         $date_format = "%B %d, %Y at %I:%M %p";

@@ -125,4 +125,3 @@ class Security
 		return false;
 	}
 }
-?>
