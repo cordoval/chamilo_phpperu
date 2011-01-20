@@ -128,7 +128,7 @@ class HomeManager extends CoreApplication
         return HomeDataManager :: get_instance()->retrieve_home_block_config($condition, $offset, $count, $order_property);
     }
 
-    public static function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: APPLICATION_NAME)
     {
         $links = array();
         $links[] = new DynamicAction(Translation :: get('ManageDefault'), Translation :: get('ManageDefaultDescription'), Theme :: get_image_path() . 'admin/build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_MANAGE_HOME), array(), false, Redirect :: TYPE_CORE));

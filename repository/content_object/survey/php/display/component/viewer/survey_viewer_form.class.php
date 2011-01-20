@@ -25,7 +25,7 @@ class SurveyViewerForm extends FormValidator
      */
     private $survey;
 
-    function SurveyViewerForm($name, $parent, $context_path, $survey, $action, $page_order, $page_nr)
+    function __construct($name, $parent, $context_path, $survey, $action, $page_order, $page_nr)
     {
         parent :: __construct($name, 'post', $action);
         $this->context_path = $context_path;
@@ -68,13 +68,16 @@ class SurveyViewerForm extends FormValidator
         
         // Add question forms
         $complex_questions = $this->survey->get_page_complex_questions($this->context_path);
+//        dump('page_context_path '.$this->context_path);
         
         foreach ($complex_questions as $complex_question)
         {
             
-            $question_context_path = $this->context_path . '_' . $complex_question->get_id();
+		
+        	$question_context_path = $this->context_path . '_' . $complex_question->get_id();
             $answer = $this->parent->get_answer($complex_question->get_id(), $question_context_path);
             $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $question_context_path, $this->survey);
+//            dump($question_display);
             $question_display->display();
         }
         

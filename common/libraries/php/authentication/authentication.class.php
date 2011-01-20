@@ -64,7 +64,7 @@ abstract class Authentication
         Session :: destroy();
     }
 
-    function is_valid()
+    static function is_valid()
     {
         $is_registration = Request :: get(Application :: PARAM_APPLICATION) == UserManager :: APPLICATION_NAME && Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_REGISTER_USER;
         $is_invitation = Request :: get(Application :: PARAM_APPLICATION) == UserManager :: APPLICATION_NAME && Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_REGISTER_INVITED_USER;

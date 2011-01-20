@@ -98,7 +98,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         if ($context->get_additional_properties())
         {
             $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
-            $this->delete_objects(Utilities :: camelcase_to_underscores(get_class($context)), $condition);
+            $this->delete_objects(Utilities :: get_classname_from_namespace(get_class($context), true), $condition);
         }
         
         $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
@@ -111,14 +111,14 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         if ($context->get_additional_properties())
         {
             $properties = Array();
-            $alias = $this->get_alias(Utilities :: camelcase_to_underscores(get_class($context)));
+            $alias = $this->get_alias(Utilities :: get_classname_from_namespace(get_class($context), true));
             foreach ($context->get_additional_property_names() as $property_name)
             {
                 $properties[$property_name] = $this->quote($context->get_additional_property($property_name));
             }
             
             $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
-            $this->update_objects(Utilities :: camelcase_to_underscores(get_class($context)), $properties, $condition);
+            $this->update_objects(Utilities :: get_classname_from_namespace(get_class($context), true), $properties, $condition);
         }
         
         $props = array();
@@ -126,7 +126,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         $props[SurveyContext :: PROPERTY_NAME] = $this->quote($context->get_default_property(SurveyContext :: PROPERTY_NAME));
         
         $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
-        $this->update_objects(Utilities :: camelcase_to_underscores(SurveyContext :: CLASS_NAME), $props, $condition);
+        $this->update_objects(Utilities :: get_classname_from_namespace(SurveyContext :: CLASS_NAME, true), $props, $condition);
         return true;
     }
 
@@ -463,27 +463,30 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         if ($template->get_additional_properties())
         {
             $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_ID, $template->get_id());
-            $this->delete_objects(Utilities :: camelcase_to_underscores(get_class($template)), $condition);
+            $succes = $this->delete_objects(Utilities :: get_classname_from_namespace(get_class($template), true), $condition);
         }
         
         $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_ID, $template->get_id());
-        $this->delete_objects(SurveyTemplateUser :: get_table_name(), $condition);
+        $succes = $this->delete_objects(SurveyTemplateUser :: get_table_name(), $condition);
+        return $succes;
     }
 
     function update_survey_template_user($template_user)
     {
         
-        if ($template_user->get_additional_properties())
+        $succes = false;
+    	if ($template_user->get_additional_properties())
         {
             $properties = Array();
-            $alias = $this->get_alias(Utilities :: camelcase_to_underscores(get_class($template_user)));
+            $alias = $this->get_alias(Utilities :: get_classname_from_namespace(get_class($template_user), true));
             foreach ($template->get_additional_property_names() as $property_name)
             {
                 $properties[$property_name] = $this->quote($template_user->get_additional_property($property_name));
             }
             $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_ID, $template_user->get_id());
-            $this->update_objects(Utilities :: camelcase_to_underscores(get_class($template_user)), $properties, $condition);
+            $succes = $this->update_objects(Utilities :: get_classname_from_namespace(get_class($template_user), true), $properties, $condition);
         }
+        return $succes;
     }
 
     function create_survey_template_user($template_user)

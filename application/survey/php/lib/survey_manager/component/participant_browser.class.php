@@ -35,10 +35,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
     {
 
         $this->pid = Request :: get(self :: PARAM_PUBLICATION_ID);
-
         $this->action_bar = $this->get_action_bar();
-
-        $this->display_header($trail);
 
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
@@ -92,6 +89,8 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_subscribe_user_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeGroups'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_subscribe_group_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('InviteUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_invite_user_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        	$action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeTemplateUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_invite_template_user_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            
         }
 
         return $action_bar;

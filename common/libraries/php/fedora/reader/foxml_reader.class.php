@@ -17,7 +17,7 @@ class FoxmlReader extends FedoraXmlReader
     	$result = parent::create_xpath();
     	$result->registerNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
     	$result->registerNamespace('dcterms', 'http://purl.org/dc/terms/');
-    	$result->registerNamespace('chor_dcterms', 'http://purl.org/switch/terms/');
+    	$result->registerNamespace('chor_dcterms', 'http://purl.org/switch/chor/terms/');
     	$result->registerNamespace('oai', 'http://www.openarchives.org/OAI/2.0/');
         return $result;
     }

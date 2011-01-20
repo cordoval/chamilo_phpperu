@@ -742,33 +742,33 @@ class SurveyExportManagerSurveyExcelPercentageExporterComponent extends SurveyEx
         $this->participants[self :: SURVEYS] = $surveys;
         $this->participants[self :: SURVEY_COUNT] = count($surveys);
 
-        $condition = new InCondition(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $ids);
-        $publication_rel_groups = SurveyDataManager :: get_instance()->retrieve_survey_publication_groups($condition);
-
-        $groups = array();
-        $group_user_ids = array();
-        $total_user_ids = array();
-
-        $atp_groups = array(24, 70, 130, 85, 100, 111, 128);
-        $op_groups = array(23, 69, 84, 99, 110, 127);
-
-        while ($publication_rel_group = $publication_rel_groups->next_result())
-        {
-            $group = GroupDataManager :: get_instance()->retrieve_group($publication_rel_group->get_group_id());
-            $id = $group->get_id();
-            if (in_array($id, $op_groups))
-            {
-                $groups[] = $group;
-                $group_user_ids[$group->get_id()] = $group->get_users(true, true);
-                $total_user_ids = array_merge($total_user_ids, $group_user_ids[$group->get_id()]);
-            }
-
-        }
-
-        $user_ids = array();
-
-        $condition = new InCondition(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $ids);
-        $publication_rel_users = SurveyDataManager :: get_instance()->retrieve_survey_publication_users($condition);
+//        $condition = new InCondition(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $ids);
+//        $publication_rel_groups = SurveyDataManager :: get_instance()->retrieve_survey_publication_groups($condition);
+//
+//        $groups = array();
+//        $group_user_ids = array();
+//        $total_user_ids = array();
+//
+//        $atp_groups = array(24, 70, 130, 85, 100, 111, 128);
+//        $op_groups = array(23, 69, 84, 99, 110, 127);
+//
+//        while ($publication_rel_group = $publication_rel_groups->next_result())
+//        {
+//            $group = GroupDataManager :: get_instance()->retrieve_group($publication_rel_group->get_group_id());
+//            $id = $group->get_id();
+//            if (in_array($id, $op_groups))
+//            {
+//                $groups[] = $group;
+//                $group_user_ids[$group->get_id()] = $group->get_users(true, true);
+//                $total_user_ids = array_merge($total_user_ids, $group_user_ids[$group->get_id()]);
+//            }
+//
+//        }
+//
+//        $user_ids = array();
+//
+//        $condition = new InCondition(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $ids);
+//        $publication_rel_users = SurveyDataManager :: get_instance()->retrieve_survey_publication_users($condition);
 
         while ($publication_rel_user = $publication_rel_users->next_result())
         {

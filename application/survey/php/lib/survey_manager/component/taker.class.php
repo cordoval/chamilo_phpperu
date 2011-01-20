@@ -16,10 +16,6 @@ use tracking\Tracker;
 use tracking\Event;
 use common\libraries\Display;
 
-
-//require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
-//require_once Path :: get_repository_content_object_path() . '/survey/php/display/component/viewer/survey_viewer_wizard.class.php';
-
 class SurveyManagerTakerComponent extends SurveyManager
 {
     private $survey_id;
@@ -146,9 +142,10 @@ class SurveyManagerTakerComponent extends SurveyManager
                 $path_ids = explode('|', $context_path);
                 $context_ids = explode('_', $path_ids[1]);
                 $context_count = count($context_ids);
-                $context_template = $survey->get_context_template($context_count);
+                $context_id = array_pop($context_ids);
+                $context_template = $survey->get_context_template_for_level($context_count);
                 $parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $context_template->get_id();
-                $parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID] = array_pop($context_ids);
+                $parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID] = $context_id;
             
             }
             else

@@ -27,10 +27,7 @@ class AssessmentMatchTextQuestion extends ContentObject implements Versionable
 
     public static function get_additional_property_names()
     {
-        return array(
-                self :: PROPERTY_OPTIONS,
-                self :: PROPERTY_USE_WILDCARDS,
-                self :: PROPERTY_IGNORE_CASE,
+        return array(self :: PROPERTY_OPTIONS, self :: PROPERTY_USE_WILDCARDS, self :: PROPERTY_IGNORE_CASE,
                 self :: PROPERTY_HINT);
     }
 
@@ -68,6 +65,22 @@ class AssessmentMatchTextQuestion extends ContentObject implements Versionable
         return array();
     }
 
+    /**
+     * @return boolean
+     */
+    public function has_feedback()
+    {
+        foreach ($this->get_options() as $option)
+        {
+            if ($option->has_feedback())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function get_number_of_options()
     {
         return count($this->get_options());
@@ -100,8 +113,7 @@ class AssessmentMatchTextQuestion extends ContentObject implements Versionable
 
     function has_hint()
     {
-        $hint = trim(strip_tags($this->get_hint()));
-        return !empty($hint);
+        return StringUtilities :: has_value($this->get_hint(), true);
     }
 
     public function get_ignore_case()

@@ -70,7 +70,7 @@ class QtiExport extends ContentObjectExport
             $directory = Path :: get(SYS_TEMP_PATH) . Session :: get_user_id() . '/export_qti/';
             if (! is_dir($directory))
             {
-                mkdir($directory, '0777', true);
+                mkdir($directory, 0777, true);
             }
         }
         $this->directory = $directory;

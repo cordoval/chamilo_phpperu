@@ -11,12 +11,6 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
 
-//require_once Path :: get_application_path() . 'lib/survey/survey_data_manager.class.php';
-//require_once Path :: get_application_path() . 'lib/survey/survey_rights.class.php';
-//require_once Path :: get_application_path() . 'lib/survey/reporting_manager/reporting_manager.class.php';
-//require_once Path :: get_application_path() . 'lib/survey/export_manager/export_manager.class.php';
-
-
 class SurveyManager extends WebApplication
 {
 
@@ -46,7 +40,8 @@ class SurveyManager extends WebApplication
     const ACTION_SUBSCRIBE_USER = 'subscribe_user';
     const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
     const ACTION_INVITE_USER = 'inviter';
-
+	const ACTION_INVITE_TEMPLATE_USER = 'subscribe_template_user';
+    
     const ACTION_BROWSE_PARTICIPANTS = 'participant_browser';
     const ACTION_CANCEL_INVITATION = 'invitation_canceler';
     const ACTION_EXPORT_RESULTS = 'results_exporter';
@@ -195,7 +190,12 @@ class SurveyManager extends WebApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_INVITE_USER, self :: PARAM_PUBLICATION_ID => $publication_id));
     }
-
+	
+	function get_invite_template_user_url($publication_id)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_INVITE_TEMPLATE_USER, self :: PARAM_PUBLICATION_ID => $publication_id));
+    }
+    
     //publications
 
 

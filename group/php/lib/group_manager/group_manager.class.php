@@ -150,7 +150,7 @@ class GroupManager extends CoreApplication
      * @param boolean $display_search Should the header include a search form or
      * not?
      */
-    function display_header($breadcrumbtrail, $display_search = false, $helpitem)
+    function display_header($breadcrumbtrail = null, $display_search = false)
     {
         if (is_null($breadcrumbtrail))
         {
@@ -312,7 +312,7 @@ class GroupManager extends CoreApplication
         return $gdm->retrieve_group($id);
     }
 
-    public static function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: APPLICATION_NAME)
     {
         $links = array();
         $links[] = new DynamicAction(Translation :: get('List', null, Utilities :: COMMON_LIBRARIES), Translation :: get('ListDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(

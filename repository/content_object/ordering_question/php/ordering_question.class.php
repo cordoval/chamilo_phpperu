@@ -57,8 +57,7 @@ class OrderingQuestion extends ContentObject implements Versionable
 
     function has_hint()
     {
-        $hint = trim(strip_tags($this->get_hint()));
-        return !empty($hint);
+        return StringUtilities :: has_value($this->get_hint(), true);
     }
 
     public function get_number_of_options()

@@ -61,7 +61,7 @@ class MenuManager extends CoreApplication
         return MenuDataManager :: get_instance()->retrieve_navigation_item_at_sort($parent, $sort, $direction);
     }
 
-    public static function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: APPLICATION_NAME)
     {
         $links = array();
         $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'admin/sort.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_BROWSE), array(), false, Redirect :: TYPE_CORE));

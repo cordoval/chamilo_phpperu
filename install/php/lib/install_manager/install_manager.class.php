@@ -75,7 +75,7 @@ class InstallManager extends CoreApplication
      * @param boolean $display_search Should the header include a search form or
      * not?
      */
-    function display_header()
+    function display_header($breadcrumbtrail = null, $display_search = false)
     {
         $this->display_header_content();
     }

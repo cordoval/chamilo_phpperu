@@ -63,7 +63,7 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
     {
     }
 
-    function get_assessment_question_attempts($attempt_id)
+    function get_assessment_question_attempts()
     {
         $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
         return $answers[$this->get_root_content_object()->get_id()];

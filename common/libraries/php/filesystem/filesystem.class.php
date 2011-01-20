@@ -112,7 +112,7 @@ class Filesystem
      * @param Bool $overwrite
      * @return Bool succes
      */
-    function recurse_copy($source, $destination, $overwrite = false)
+    public static function recurse_copy($source, $destination, $overwrite = false)
     {
         if (! is_dir($source))
             return self :: copy_file($source, $destination, $overwrite);
@@ -137,7 +137,7 @@ class Filesystem
         return $bool;
     }
 
-    function recurse_move($source, $destination, $overwrite = false)
+    public static function recurse_move($source, $destination, $overwrite = false)
     {
         if (! is_dir($source))
             return self :: move_file($source, $destination, $overwrite);
@@ -158,7 +158,10 @@ class Filesystem
                 $bool &= self :: recurse_move($path_to_file, $path_to_new_file, $overwrite);
             }
         }
+        
 
+        $bool &= @rmdir($source);
+        
         return $bool;
     }
 

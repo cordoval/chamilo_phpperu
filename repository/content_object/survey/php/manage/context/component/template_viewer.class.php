@@ -1,6 +1,10 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\InCondition;
+
+use user\UserDataManager;
+
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
@@ -17,10 +21,11 @@ use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\AndCondition;
 use repository\ContentObject;
+use user\User;
 
 class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
 {
-        
+    
     const TAB_TEMPLATE_USERS = 1;
     
     private $ab;
@@ -32,10 +37,10 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
      */
     function run()
     {
-       
-    	$template_id = Request :: get(SurveyContextManager :: PARAM_TEMPLATE_ID);
+        
+        $template_id = Request :: get(SurveyContextManager :: PARAM_TEMPLATE_ID);
         $this->template = SurveyContextDataManager :: get_instance()->retrieve_survey_template($template_id);
-		$this->context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->template->get_context_template_id());
+        $this->context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->template->get_context_template_id());
         
         $this->ab = $this->get_action_bar();
         
@@ -59,7 +64,7 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
         $parameters[self :: PARAM_TEMPLATE_ID] = $this->template->get_id();
-             
+        
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_TEMPLATE_USERS;
         $table = new SurveyTemplateUserTable($this, $parameters, $this->get_template_user_condition(), $this->context_template);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_TEMPLATE_USERS, Translation :: get('Templates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
@@ -76,23 +81,34 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
     {
         
         $conditions = array();
-        $conditions[] = new EqualityCondition(SurveyTemplateUser::PROPERTY_TEMPLATE_ID, $this->template->get_id(), SurveyTemplateUser :: get_table_name());
+        $conditions[] = new EqualityCondition(SurveyTemplateUser :: PROPERTY_TEMPLATE_ID, $this->template->get_id(), SurveyTemplateUser :: get_table_name());
         
         $query = $this->ab->get_query();
         
         if (isset($query) && $query != '')
         {
-//            $search_conditions = array();
-//            $search_conditions[] = new PatternMatchCondition(SurveyTemplate :: PROPERTY_NAME, '*' . $query . '*', SurveyTemplate :: get_table_name());
-//            $search_conditions[] = new PatternMatchCondition(SurveyTemplate :: PROPERTY_DESCRIPTION, '*' . $query . '*', SurveyTemplate :: get_table_name());
-//            $conditions[] = new OrCondition($search_conditions);
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
+            $user_condition = new OrCondition($search_conditions);
+            
+            $users = UserDataManager :: get_instance()->retrieve_users($user_condition);
+            $user_ids = array();
+            while ($user = $users->next_result())
+            {
+                $user_ids[] = $user->get_id();
+            }
+            if (! count($user_ids))
+            {
+                $user_ids[] = 0;
+            }
+            
+            $conditions[] = new InCondition(SurveyTemplateUser :: PROPERTY_USER_ID, $user_ids, SurveyTemplateUser :: get_table_name());
         
         }
-        
         $condition = new AndCondition($conditions);
         return $condition;
     }
-
 
     function get_action_bar()
     {
@@ -108,10 +124,14 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_TEMPLATE)), Translation :: get('BrowseContextTemplates')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewContextTemplate')));
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => Request :: get(self :: PARAM_TEMPLATE_ID))), Translation :: get('ViewTemplate')));
-        
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_TEMPLATE)), Translation :: get('BrowseContextTemplates')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, 
+                self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewContextTemplate')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, 
+                self :: PARAM_TEMPLATE_ID => Request :: get(self :: PARAM_TEMPLATE_ID))), Translation :: get('ViewTemplate')));
+    
     }
 
     function get_additional_parameters()

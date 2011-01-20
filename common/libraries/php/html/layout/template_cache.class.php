@@ -3,7 +3,7 @@ namespace common\libraries;
 
 abstract class TemplateCache
 {
-	function factory($theme, $type)
+	static function factory($theme, $type)
 	{
 		$file = dirname(__file__) . '/template_cache/' . $type . '_template_cache.class.php';
 

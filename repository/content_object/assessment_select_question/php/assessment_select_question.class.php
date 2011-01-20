@@ -41,6 +41,22 @@ class AssessmentSelectQuestion extends ContentObject
         return array();
     }
 
+    /**
+     * @return boolean
+     */
+    public function has_feedback()
+    {
+        foreach ($this->get_options() as $option)
+        {
+            if ($option->has_feedback())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function get_number_of_options()
     {
         return count($this->get_options());
@@ -68,16 +84,12 @@ class AssessmentSelectQuestion extends ContentObject
 
     function has_hint()
     {
-        $hint = trim(strip_tags($this->get_hint()));
-        return !empty($hint);
+        return StringUtilities :: has_value($this->get_hint(), true);
     }
 
     static function get_additional_property_names()
     {
-        return array(
-                self :: PROPERTY_ANSWER_TYPE,
-                self :: PROPERTY_OPTIONS,
-                self :: PROPERTY_HINT);
+        return array(self :: PROPERTY_ANSWER_TYPE, self :: PROPERTY_OPTIONS, self :: PROPERTY_HINT);
     }
 
     static function get_type_name()

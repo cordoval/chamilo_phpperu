@@ -14,10 +14,10 @@ class SurveyTemplateUserTableDataProvider extends ObjectTableDataProvider
     	parent :: __construct($component, $condition);
     }
 
-    function get_objects($offset, $count, $order_property = null)
+    function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
         $order_property = $this->get_order_property($order_property);
-        return SurveyContextDataManager :: get_instance()->retrieve_survey_template_users($this->template_type, $this->get_condition(), $offset, $count, $order_property);
+        return SurveyContextDataManager :: get_instance()->retrieve_survey_template_users($this->template_type, $this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
 
     function get_object_count()
