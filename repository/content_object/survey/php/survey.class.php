@@ -20,49 +20,21 @@ use user\UserDataManager;
  * This class represents an survey
  */
 
-//require_once (dirname(__FILE__) . '/survey_context.class.php');
-
-
 class Survey extends ContentObject implements ComplexContentObjectSupport
 {
     const PROPERTY_HEADER = 'header';
     const PROPERTY_FOOTER = 'footer';
     const PROPERTY_FINISH_TEXT = 'finish_text';
     const PROPERTY_CONTEXT_TEMPLATE_ID = 'context_template_id';
-    
     const CLASS_NAME = __CLASS__;
-    
     const MANAGER_CONTEXT = 'context';
     
     private $context;
-    
-    //    private $context_path_tree;
-    
-
     private $invitee_id;
     private $context_paths;
-    
     private $survey_pages;
     private $page_context_paths;
-    //    private $page_nr = 1;
-    
-
-    //    private $question_context_paths;
-    
-
-    //    private $page_question_context_paths;
-    
-
-    //    private $question_nr = 1;
-    
-
     private $context_objects;
-
-    //    private $test_context_paths;
-    
-
-    //    private $cycle;
-    
 
     static function get_type_name()
     {
@@ -71,7 +43,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_HEADER, self :: PROPERTY_FOOTER, self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_CONTEXT_TEMPLATE_ID);
+        return array(self :: PROPERTY_HEADER, self :: PROPERTY_FOOTER, self :: PROPERTY_FINISH_TEXT, 
+                self :: PROPERTY_CONTEXT_TEMPLATE_ID);
     }
 
     function get_header()
@@ -111,26 +84,89 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     
     }
 
-    function get_context_template($level = 1)
+    function get_context_template_for_level($level = 0)
     {
         
         if (! $this->get_context_template_id() == 0)
         {
             $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_context_template_id());
-            if ($level != 1)
-            {
-                
-                $index = 1;
-                $level_matrix[$index] = $context_template;
-                $context_template_children = $context_template->get_children(true);
-                while ($child_template = $context_template_children->next_result())
-                {
-                    $index ++;
-                    $level_matrix[$index] = $child_template;
-                }
-                return $level_matrix[$level];
+        	
+            $level_count = $this->count_levels();
+            $index = 1;
+            while($level_count !=0){
+            	$level_count--;
+            	if($index ==1){
+            		$level_matrix[$index] = $context_template;
+            	}else{
+            		$condition = new EqualityCondition(SurveyContextTemplate::PROPERTY_PARENT_ID, $context_template->get_parent_id());
+            		$context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_templates($condition)->next_result();
+            		$level_matrix[$index] = $context_template;
+            	}
+            	$index++;
             }
             
+            return $level_matrix[$level];
+            
+//            if ($level != 1)
+//            {
+//                
+//                $index = 1;
+//                $level_matrix[$index] = $context_template;
+//                $context_template_children = $context_template->get_children(true);
+//                while ($child_template = $context_template_children->next_result())
+//                {
+//                    $index ++;
+//                    $level_matrix[$index] = $child_template;
+//                }
+//                dump($level_matrix);
+//                return $level_matrix[$level];
+//            }
+//            
+//            return $context_template;
+        }
+        else
+        {
+            return null;
+        }
+    
+    }
+
+    function get_context_template($parent_id = 0)
+    {
+        
+        if (! $this->get_context_template_id() == 0)
+        {
+            if ($parent_id == 0)
+            {
+                $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_context_template_id());
+            }
+            else
+            {
+                $condition = new EqualityCondition(SurveyContextTemplate :: PROPERTY_PARENT_ID, $parent_id);
+                $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_templates($condition)->next_result();
+                if (! $context_template)
+                {
+                    $context_template = null;
+                }
+            }
+            
+            //        	if ($level != 1)
+            //            {
+            //                
+            //                $index = 1;
+            //                $level_matrix[$index] = $context_template;
+            //                $context_template_children = $context_template->get_children(true);
+            //                while ($child_template = $context_template_children->next_result())
+            //                {
+            //                    
+            //                	$index ++;
+            //                    $level_matrix[$index] = $child_template;
+            //                }
+            //                dump($level_matrix);
+            //                return $level_matrix[$level];
+            //            }
+            
+
             return $context_template;
         }
         else
@@ -148,7 +184,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         }
         else
         {
-            return $this->get_context_template(1)->count_children(true) + 1;
+            return $this->get_context_template()->count_children(true) + 1;
         }
     }
 
@@ -277,35 +313,6 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         return count($this->page_context_paths);
     }
 
-    //    function get_question_context_paths()
-    //    {
-    //        if (! $this->question_context_paths)
-    //        {
-    //            $this->create_context_paths();
-    //        }
-    //        return $this->question_context_paths;
-    //    
-    //    }
-    
-
-    //    function get_page_question_context_paths($page_context_path = null)
-    //    {
-    //        if (! $this->page_question_context_paths)
-    //        {
-    //            $this->create_context_paths();
-    //        }
-    //        if ($page_context_path)
-    //        {
-    //            return $this->page_question_context_paths[$page_context_path];
-    //        }
-    //        else
-    //        {
-    //            return $this->page_question_context_paths;
-    //        }
-    //    
-    //    }
-    
-
     function get_page_complex_questions($context_path)
     {
         //        dump($context_path);
@@ -390,11 +397,10 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
 
         if ($this->has_context())
         {
-            $context_template = $this->get_context_template(1);
+            $context_template = $this->get_context_template();
+            $context_parent_id = $context_template->get_id();
             
-            //            dump($context_template);
-            
-
+            //			dump($this->invitee_id);
             $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_USER_ID, $this->invitee_id, SurveyTemplateUser :: get_table_name());
             $template_users = SurveyContextDataManager :: get_instance()->retrieve_survey_template_users($context_template->get_type(), $condition);
             
@@ -408,20 +414,45 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             while ($template_user = $template_users->next_result())
             {
                 $template_count ++;
-                //                            dump('template_count: ' . $template_count);
-                //                  dump($template_user);
+                //                dump('template_count: ' . $template_count);
+                //                dump($template_user);
                 $level = 1;
                 $property_names = $template_user->get_additional_property_names(true);
-                //                dump($property_names);
+                //                                dump($property_names);
                 $parent_id = 0;
                 $context_path = 0;
                 foreach ($property_names as $property_name => $context_type)
                 {
                     
                     //                    dump('property_name: ' . $property_name);
+                    //                    dump('level: ' . $level);
+                    //                                       dump('template_id: '.$this->get_context_template($level)->get_id());
+                    
+
+                    if ($level != 1)
+                    {
+                        $context_template_id = $this->get_context_template($context_parent_id)->get_id();
+                        //                        $context_tmpl = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
+                        $context_parent_id = $context_template_id;
+                    
+     //                        dump($context_tmpl);
+                    //                        dump('context_parent_id: ' . $context_parent_id);
+                    //                        dump('contexttemeplateid ' . $context_template_id);
+                    }
+                    else
+                    {
+                        $context_template_id = $context_template->get_id();
+                        $context_parent_id = $context_template_id;
+                    
+     //						dump('level 1');
+                    //                        dump($context_template);
+                    //                        dump('context_parent_id: ' . $context_parent_id);
+                    //                        dump('contexttemeplateid ' . $context_template_id);
+                    }
+                    
                     $conditions = array();
                     $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->get_id(), SurveyContextTemplateRelPage :: get_table_name());
-                    $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->get_context_template($level)->get_id($level), SurveyContextTemplateRelPage :: get_table_name());
+                    $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $context_template_id, SurveyContextTemplateRelPage :: get_table_name());
                     $condition = new AndCondition($conditions);
                     $template_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition);
                     
@@ -445,13 +476,17 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                     
                     $count = 0;
                     
+                    //                    dump('pathfor level: ' . $level . ' path ' . $path);
+                    
+
                     while ($template_rel_page = $template_rel_pages->next_result())
                     {
                         $page_path = $path;
                         
                         $count ++;
                         //                                              dump('pagecount: ' . $count);
-                        //                                      	dump($template_rel_page);
+                        //                        dump('level: ' . $level);
+                        //                        dump($template_rel_page);
                         $pages_ids = array();
                         $survey_page = $this->get_page_by_id($template_rel_page->get_page_id());
                         $page_id = $survey_page->get_id();
@@ -527,6 +562,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                     
 
                     $parent_id = $context_id;
+                    
                     $level ++;
                 
      //                    dump('parent_id: ' . $parent_id);
@@ -635,165 +671,27 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     //        $this->context_path_tree = $context_path_tree;
     }
 
-    //    private function create_page_context_paths($path, $pages_context_as_tree)
-    //    {
-    //        //              dump($pages_context_as_tree);
-    //        foreach ($pages_context_as_tree as $page_context_as_tree)
-    //        {
-    //            $page_id = $page_context_as_tree[0];
-    //            if ($this->has_context())
-    //            {
-    //                //                $page_path = $this->get_id() . '_' . $path . '_' . $page_id;
-    //                $page_path = $this->get_id() . '|' . $path . '|' . $page_id;
-    //            
-    //            }
-    //            else
-    //            {
-    //                $page_path = $this->get_id() . '_' . $page_id;
-    //            }
-    //            
-    //            $this->page_context_paths[$page_path] = $this->page_nr;
-    //            $this->page_nr ++;
-    //            $this->survey_pages[$page_path] = $this->get_page_by_id($page_id);
-    //            $questions = $page_context_as_tree[$page_id];
-    //            $sub_index = 1;
-    //            foreach ($questions as $index => $question_id)
-    //            {
-    //                if (is_int($index))
-    //                {
-    //                    
-    //                    $this->context_paths[] = $page_path . '_' . $question_id;
-    //                    
-    //                    $complex_question = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($question_id);
-    //                    if (! $complex_question instanceof ComplexSurveyDescription)
-    //                    {
-    //                        if ($complex_question->is_visible())
-    //                        {
-    //                            $this->question_context_paths[$page_path . '_' . $question_id] = $this->question_nr;
-    //                            $this->page_question_context_paths[$page_path][$question_id] = $page_path . '_' . $question_id;
-    //                            $this->question_nr ++;
-    //                            $sub_index = 1;
-    //                        }
-    //                        else
-    //                        {
-    //                            $this->question_context_paths[$page_path . '_' . $question_id] = $this->question_nr - 1 . '.' . $sub_index;
-    //                            $this->page_question_context_paths[$page_path][$question_id] = $page_path . '_' . $question_id;
-    //                            $sub_index ++;
-    //                        }
-    //                    }
-    //                
-    //                }
-    //            }
-    //        }
-    //    
-    //    }
-    
-
-    //    private function create_context_paths($level = 1, $parent_id = 0, $path = null)
-    //    {
-    //        
-    //        $this->cycle ++;
-    //        dump('cycle: ' . $this->cycle);
-    //        $levels = $this->count_levels();
-    //        dump('levels: ' . $levels);
-    //        
-    //        if (! $this->context_path_tree)
-    //        {
-    //            $this->create_context_path_tree();
-    //        }
-    //        
-    //        dump('level: ' . $level);
-    //        dump('parent_id: ' . $parent_id);
-    //        dump('path: ' . $path);
-    //        dump($this->context_path_tree);
-    //        
-    //        if ($level == 1)
-    //        {
-    //            $this->question_nr = 1;
-    //        }
-    //        
-    //        foreach ($this->context_path_tree[$level][$parent_id] as $id => $pages)
-    //        {
-    //            dump('id: ' . $id);
-    //            //            dump($id);
-    //            //			$ids = explode('_', $id);
-    //            //			$id = array_pop($ids);
-    //            //        	dump('new id: '.$id);
-    //            if (is_int($id))
-    //            {
-    //                dump('integer_id');
-    //                dump($id);
-    //                if ($level == 1)
-    //                {
-    //                    $path = null;
-    //                    $this->question_nr = 1;
-    //                }
-    //                
-    //                if ($path)
-    //                {
-    //                    $contexts = explode('_', $path);
-    //                    
-    //                    if (count($contexts) == $level)
-    //                    {
-    //                        $index = 0;
-    //                        $path = '';
-    //                        while ($index != $level - 1)
-    //                        {
-    //                            if ($index != 0)
-    //                            {
-    //                                $path = $path . '_' . $contexts[$index];
-    //                            }
-    //                            else
-    //                            {
-    //                                $path = $contexts[$index];
-    //                            }
-    //                            $index ++;
-    //                        }
-    //                    }
-    //                    
-    //                    $path = $path . '_' . $id;
-    //                
-    //                }
-    //                else
-    //                {
-    //                    $path = $id;
-    //                }
-    //                
-    //                //                dump('path2 '.$path);
-    //                //                dump($pages);
-    //                
-    //
-    //                //                $this->create_page_context_paths($path, $pages);
-    //                dump('before levelcheck');
-    //                if ($level <= $levels)
-    //                {
-    //                    $level ++;
-    //                    dump('level plus: ' . $level);
-    //                    $this->create_context_paths($level, $id, $path);
-    //                }
-    //            }
-    //            else
-    //            {
-    //                dump('continue');
-    //                continue;
-    //            }
-    //        }
-    //    }
-    
-
     function parse($context_path, $value)
     {
         
-        $context_objects = $this->get_context_objects($context_path);
         
+//    	dump('contextpath '.$context_path);
+//        dump('value '.$value);
+    	
+    	$context_objects = $this->get_context_objects($context_path);
+        
+    	
+//    	dump($context_objects);
+    	
         $explode = explode('$V{', $value);
-        
+//        dump('explode');
+//        dump($explode);
         $new_value = array();
         foreach ($explode as $part)
         {
             
             $vars = explode('}', $part);
-            
+//            dump($vars);
             if (count($vars) == 1)
             {
                 $new_value[] = $vars[0];
@@ -801,23 +699,30 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             else
             {
                 $var = $vars[0];
-                
+//                dump('var '.$var);
+                $level =1;
                 foreach ($context_objects as $index => $context_object)
                 {
                     if ($index != 'user')
                     {
-                        $replace = $context_object->get_additional_property($var);
+//                        dump($context_object);
+                    	$replace = $context_object->get_additional_property($var);
+//                    	dump('replace '.$replace);
                     }
                     else
                     {
                         $replace = $context_object->get_default_property($var);
                     }
+                    if(isset($replace)){
+                    	break;
+                    }
                 }
                 
                 $new_value[] = $replace . ' ' . $vars[1];
             }
-        
+//        dump('inbetween nv '.implode(' ', $new_value));
         }
+//        dump('newvalue '.implode(' ', $new_value));
         return implode(' ', $new_value);
     
     }
@@ -825,29 +730,39 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     private function get_context_objects($context_path)
     {
         
-        if ($this->context_objects)
-        {
-            return $this->context_objects;
-        }
-        else
-        {
-            $this->context_objects = array();
+//        if ($this->context_objects)
+//        {
+//            return $this->context_objects;
+//        }
+//        else
+//        {
+//		dump($context_path);
+    	$this->context_objects = array();
             
             $user = UserDataManager :: get_instance()->retrieve_user($this->invitee_id);
             $this->context_objects['user'] = $user;
             $level_count = $this->count_levels();
-            $ids = explode('_', $context_path);
+            $context_ids = explode('|', $context_path);
+//            dump('contextids');
+//            dump($context_ids);
+            $ids = explode('_', $context_ids[1]);
+//            dump($level_count);
+//            dump($ids);
             $count = count($ids);
             if ($count > 1)
             {
-                $index = 1;
+                $index = 0;
                 while ($index < $level_count)
                 {
-                    $this->context_objects[] = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($ids[$index]);
+                    $context_id = $ids[$index];
+//                	dump($context_id);
+                    $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
+                	$this->context_objects[$level_count-$index] = $context;
                     $index ++;
                 }
             }
-        }
+            return $this->context_objects;
+//        }
     }
 
     function get_question_nr($question_context_path)
@@ -855,15 +770,6 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         //        dump($this->question_context_paths);
         return $this->question_context_paths[$question_context_path];
     }
-
-    //    function get_page_nr($page_context_path)
-    //    {
-    //        dump('page_nr');
-    //        dump($page_context_path);
-    //        dump($this->page_context_paths);
-    //        return $this->page_context_paths[$page_context_path];
-    //    }
-    
 
     static function get_managers()
     {

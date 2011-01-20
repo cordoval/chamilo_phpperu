@@ -69,7 +69,7 @@ class SurveyMenu extends HTML_Menu
         
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
-//        dump('context_path: '.$current_context_path);
+        //        dump('context_path: '.$current_context_path);
         parent :: __construct($menu);
         $this->forceCurrentUrl($this->get_url($current_context_path));
     }
@@ -83,17 +83,19 @@ class SurveyMenu extends HTML_Menu
     function create_context_path_relations()
     {
         $context_paths = $this->survey->get_context_paths();
-               
-//        $context_paths = array_reverse($context_paths);
-            
-//        dump($context_paths);
         
+        //        $context_paths = array_reverse($context_paths);
+        
+
+        //        dump($context_paths);
+        
+
         $this->context_path_relations = array();
         
         $has_context = $this->survey->has_context();
         
         $page_count = 0;
-              
+        
         foreach ($context_paths as $index => $context_path)
         {
             
@@ -109,7 +111,8 @@ class SurveyMenu extends HTML_Menu
             }
             
             $id_count = count($path_ids);
-            
+            //            dump($parent_path);
+            //            dump($id_count);
             //questions
             $context = array();
             $question_id = $path_ids[$id_count - 1];
@@ -125,6 +128,10 @@ class SurveyMenu extends HTML_Menu
                 $question_parent_context = implode('_', $path_ids);
             }
             
+            //            dump('question_parent_context '.$question_parent_context);
+            //            exit;
+            
+
             $context[self :: PARENT_ID] = $question_parent_context;
             $context[self :: ID] = $context_path;
             $context[self :: MENU_ITEM_TYPE] = self :: TYPE_QUESTION;
@@ -258,7 +265,7 @@ class SurveyMenu extends HTML_Menu
         }
     
      //        dump($this->context_path_relations);
-    //        exit();
+    //      exit();
     
 
     }
@@ -280,11 +287,13 @@ class SurveyMenu extends HTML_Menu
             $current_url = $this->get_url($path);
         }
         
+        //        dump($level_count);
+        
+
         foreach ($this->context_path_relations as $context_path => $context_path_relation)
         {
             
             if ($context_path_relation[self :: PARENT_ID] == $parent_id)
-            
             {
                 $path_ids = explode('_', $context_path);
                 $id_count = count($path_ids);
@@ -297,19 +306,22 @@ class SurveyMenu extends HTML_Menu
                 {
                     case self :: TYPE_SURVYEY :
                         $title = $this->survey->get_title();
+                        $title = $this->get_survey()->parse($context_path, $title);
                         $menu_item['class'] = self :: TYPE_SURVYEY;
                         $menu_item['url'] = $current_url;
                         break;
                     case self :: TYPE_CONTEXT :
                         $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_path_relation[self :: CONTEXT_ID]);
                         $title = $context->get_name();
+                        $title = $this->get_survey()->parse($context_path, $title);
                         $menu_item['class'] = self :: TYPE_CONTEXT;
                         //                        $menu_item['url'] = $current_url;
                         break;
                     case self :: TYPE_PAGE :
                         $survey_page = $this->survey->get_page_by_id($context_path_relation[self :: PAGE_ID]);
-                                              $title = $survey_page->get_title();
-                        $title = 'page ' . $this->page_contexts[$context_path].' title: '.$title;
+                        $title = $survey_page->get_title();
+                        $title = $this->get_survey()->parse($context_path, $title);
+                        $title = 'page ' . $this->page_contexts[$context_path] . ' title: ' . $title;
                         $menu_item['class'] = self :: TYPE_PAGE;
                         $current_url = $this->get_url($context_path);
                         $menu_item['url'] = $current_url;
@@ -321,23 +333,24 @@ class SurveyMenu extends HTML_Menu
                         
                         if (! $complex_question->is_visible())
                         {
-//                            dump($complex_question_id);
+                            //                            dump($complex_question_id);
                             if (! $answer)
                             {
-//                                dump('invisible');
+                                //                                dump('invisible');
                                 $visible = false;
                             }
                         }
                         if ($visible)
                         {
-//                            dump('visible');
-//                            dump($complex_question_id);
+                            //                            dump('visible');
+                            //                            dump($complex_question_id);
                             $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_question->get_ref());
                             $title = $question->get_title();
+                            $title = $this->get_survey()->parse($context_path, $title);
                             //                        $answer = $this->parent->get_answer($complex_question_id, $context_path);
                             if ($answer)
                             {
-                                $title = $title . Theme :: get_common_image('status_ok_mini');
+                                $title = Theme :: get_common_image('status_ok_mini') . ' ' . $title;
                                 $this->finished_questions[] = $context_path;
                             }
                             $menu_item['class'] = self :: TYPE_QUESTION;
@@ -374,8 +387,9 @@ class SurveyMenu extends HTML_Menu
         
         //        dump($this->page_contexts);
         
-// dump($menu);
-// exit;
+
+        // dump($menu);
+        // exit;
         return $menu;
     }
 
@@ -401,6 +415,11 @@ class SurveyMenu extends HTML_Menu
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
+    }
+
+    function get_survey()
+    {
+        return $this->survey;
     }
 
     static function get_tree_name()
