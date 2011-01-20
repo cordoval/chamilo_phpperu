@@ -169,7 +169,7 @@ class AssessmentManagerViewerComponent extends AssessmentManager implements Asse
         return $this->active_tracker->get_id();
     }
 
-    function get_assessment_question_attempts($attempt_id)
+    function get_assessment_question_attempts()
     {
         $assessment_question_attempt_data = array();
 

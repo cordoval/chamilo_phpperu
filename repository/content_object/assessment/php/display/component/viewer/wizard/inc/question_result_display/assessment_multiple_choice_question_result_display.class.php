@@ -17,6 +17,8 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
 
     function get_question_result()
     {
+        $question = $this->get_question();
+
         $html = array();
         $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
@@ -24,7 +26,7 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
         $html[] = '<th class="list"></th>';
         $html[] = '<th class="list">' . Translation :: get('Answer') . '</th>';
 
-        if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+        if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback() && $question->has_feedback())
         {
             $html[] = '<th class="list">' . Translation :: get('Feedback') . '</th>';
         }
@@ -34,8 +36,8 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
         $html[] = '<tbody>';
 
         $answers = $this->get_answers();
-        $options = $this->get_question()->get_options();
-        $type = $this->get_question()->get_answer_type();
+        $options = $question->get_options();
+        $type = $question->get_answer_type();
 
         foreach ($options as $i => $option)
         {
@@ -106,7 +108,7 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
 
             $html[] = '<td>' . $option->get_value() . '</td>';
 
-            if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+            if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback() && $option->has_feedback())
             {
                 $html[] = '<td>' . $option->get_feedback() . '</td>';
             }

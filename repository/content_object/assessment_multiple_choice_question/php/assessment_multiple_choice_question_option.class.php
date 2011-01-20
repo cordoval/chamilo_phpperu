@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\assessment_multiple_choice_question;
 
+use common\libraries\StringUtilities;
+
 use common\libraries\Path;
 
 /**
@@ -32,6 +34,11 @@ class AssessmentMultipleChoiceQuestionOption
     function get_feedback()
     {
         return $this->feedback;
+    }
+
+    function has_feedback()
+    {
+        return StringUtilities :: has_value($this->get_feedback(), true);
     }
 
     function get_score()

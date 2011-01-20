@@ -46,6 +46,22 @@ class MatchQuestion extends ContentObject implements Versionable
         return array();
     }
 
+    /**
+     * @return boolean
+     */
+    public function has_comment()
+    {
+        foreach ($this->get_options() as $option)
+        {
+            if ($option->has_comment())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function get_number_of_options()
     {
         return count($this->get_options());
@@ -73,8 +89,7 @@ class MatchQuestion extends ContentObject implements Versionable
 
     function has_hint()
     {
-        $hint = trim(strip_tags($this->get_hint()));
-        return !empty($hint);
+        return StringUtilities :: has_value($this->get_hint(), true);
     }
 
     static function get_additional_property_names()

@@ -5,6 +5,8 @@ namespace repository\content_object\fill_in_blanks_question;
  * $Id: fill_in_blanks_question_answer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.question_types.fill_in_blanks_question
  */
+use common\libraries\StringUtilities;
+
 class FillInBlanksQuestionAnswer
 {
 
@@ -105,6 +107,11 @@ class FillInBlanksQuestionAnswer
         return $this->comment;
     }
 
+    function has_comment()
+    {
+        return StringUtilities :: has_value($this->get_comment(), true);
+    }
+
     function get_hint()
     {
         return $this->hint;
@@ -112,8 +119,7 @@ class FillInBlanksQuestionAnswer
 
     function has_hint()
     {
-        $hint = trim(strip_tags($this->get_hint()));
-        return ! empty($hint);
+        return StringUtilities :: has_value($this->get_hint(), true);
     }
 
     function get_value()
