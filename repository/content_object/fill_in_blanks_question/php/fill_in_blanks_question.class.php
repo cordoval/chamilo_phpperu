@@ -201,5 +201,18 @@ class FillInBlanksQuestion extends ContentObject implements Versionable
                 self :: PROPERTY_ANSWER_TEXT,
                 self :: PROPERTY_QUESTION_TYPE);
     }
+
+    public function has_comment()
+    {
+        foreach ($this->get_answers() as $option)
+        {
+            if ($option->has_comment())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 ?>

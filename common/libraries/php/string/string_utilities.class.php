@@ -8,7 +8,6 @@ use Exception;
  */
 class StringUtilities
 {
-
     /**
      * Tests if a string starts with a given string
      *
@@ -18,7 +17,7 @@ class StringUtilities
      */
     public static function start_with($string, $start, $case_sensitive = true)
     {
-        if($case_sensitive)
+        if ($case_sensitive)
         {
             return strpos($string, $start) === 0;
         }
@@ -38,7 +37,7 @@ class StringUtilities
      */
     public static function end_with($string, $end, $case_sensitive = true)
     {
-        if($case_sensitive)
+        if ($case_sensitive)
         {
             return strrpos($string, $end) === strlen($string) - strlen($end);
         }
@@ -51,25 +50,32 @@ class StringUtilities
     /**
      * Indicates wether the given string has some value (meaning neither null nor empty)
      * @param string $string
+     * @param boolean $for_humans
      * @return boolean
      */
-    public static function has_value($string)
+    public static function has_value($string, $for_humans = false)
     {
-        return !StringUtilities :: is_null_or_empty($string);
+        return ! StringUtilities :: is_null_or_empty($string, $for_humans);
     }
 
     /**
      * Indicates wether the given string is null or empty
      * @param string $string
+     * @param boolean $for_humans
      * @return boolean
      */
-    public static function is_null_or_empty($string)
+    public static function is_null_or_empty($string, $for_humans = false)
     {
-        if(isset($string))
+        if ($for_humans)
         {
-            if(is_string($string))
+            $string = trim(self :: strip_only_tags($string));
+        }
+
+        if (isset($string))
+        {
+            if (is_string($string))
             {
-                if(strlen($string) == 0)
+                if (strlen($string) == 0)
                 {
                     return true;
                 }
@@ -183,9 +189,9 @@ class StringUtilities
      *
      * E.g: Array with the following strings:
      *
-     * 		'general_description[0][0][string]'
-     * 		'general_description[0][1][string]'
-     * 		'general_description[1][0][string]'
+     * 'general_description[0][0][string]'
+     * 'general_description[0][1][string]'
+     * 'general_description[1][0][string]'
      *
      * @param array $strings Array of (strings => value) pairs to merge into a multilevel array
      * @param string $opening_char
@@ -248,18 +254,18 @@ class StringUtilities
      */
     public static function escape_mysql($string_to_escape, $quote_char = "'")
     {
-        if($quote_char != '"' && $quote_char != "'")
+        if ($quote_char != '"' && $quote_char != "'")
         {
             throw new Exception('Unvalid quote char for MySQL query');
         }
 
         $string_to_escape = str_ireplace("\\", "\\\\", $string_to_escape);
 
-        if($quote_char == "'")
+        if ($quote_char == "'")
         {
             $string_to_escape = str_ireplace("'", "\'", $string_to_escape);
         }
-        elseif($quote_char == '"')
+        elseif ($quote_char == '"')
         {
             $string_to_escape = str_ireplace('"', '\"', $string_to_escape);
         }
@@ -270,6 +276,34 @@ class StringUtilities
         $string_to_escape = str_ireplace("\x1a", '\\\\x1a', $string_to_escape);
 
         return $string_to_escape;
+    }
+
+    /**
+     * @param string $string
+     * @param multitype $tags
+     * @param boolean $strip_content
+     * @return mixed
+     */
+    static function strip_only_tags($string, $tags = array('br', 'p', 'div', 'span'), $strip_content = false)
+    {
+        $content = '';
+        if (! is_array($tags))
+        {
+            $tags = (strpos($string, '>') !== false ? explode('>', str_replace('<', '', $tags)) : array($tags));
+            if (end($tags) == '')
+            {
+                array_pop($tags);
+            }
+        }
+        foreach ($tags as $tag)
+        {
+            if ($strip_content)
+            {
+                $content = '(.+</' . $tag . '(>|\s[^>]*>)|)';
+            }
+            $string = preg_replace('#</?' . $tag . '(>|\s[^>]*>)' . $content . '#is', '', $string);
+        }
+        return $string;
     }
 
 }
