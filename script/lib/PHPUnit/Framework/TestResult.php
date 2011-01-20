@@ -2,7 +2,7 @@
 /**
  * PHPUnit
  *
- * Copyright (c) 2002-2010, Sebastian Bergmann <sebastian@phpunit.de>.
+ * Copyright (c) 2002-2011, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@
  * @package    PHPUnit
  * @subpackage Framework
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2010 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
@@ -52,9 +52,9 @@ require_once 'PHP/Timer.php';
  * @package    PHPUnit
  * @subpackage Framework
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2010 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.5.5
+ * @version    Release: 3.5.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
@@ -79,6 +79,11 @@ class PHPUnit_Framework_TestResult implements Countable
      * @var array
      */
     protected $errors = array();
+
+    /**
+     * @var array
+     */
+    protected $deprecatedFeatures = array();
 
     /**
      * @var array
@@ -323,6 +328,16 @@ class PHPUnit_Framework_TestResult implements Countable
     }
 
     /**
+     * Adds a deprecated feature notice to the list of deprecated features used during run
+     *
+     * @param PHPUnit_Util_DeprecatedFeature $deprecatedFeature
+     */
+    public function addDeprecatedFeature(PHPUnit_Util_DeprecatedFeature $deprecatedFeature)
+    {
+        $this->deprecatedFeatures[] = $deprecatedFeature;
+    }
+
+    /**
      * Informs the result that a testsuite will be started.
      *
      * @param  PHPUnit_Framework_TestSuite $suite
@@ -466,6 +481,28 @@ class PHPUnit_Framework_TestResult implements Countable
     public function errors()
     {
         return $this->errors;
+    }
+
+    /**
+     * Returns an Enumeration for the deprecated features used.
+     *
+     * @return array
+     * @since  Method available since Release 3.5.7
+     */
+    public function deprecatedFeatures()
+    {
+        return $this->deprecatedFeatures;
+    }
+
+    /**
+     * Returns an Enumeration for the deprecated features used.
+     *
+     * @return array
+     * @since  Method available since Release 3.5.7
+     */
+    public function deprecatedFeaturesCount()
+    {
+        return count($this->deprecatedFeatures);
     }
 
     /**
@@ -646,11 +683,16 @@ class PHPUnit_Framework_TestResult implements Countable
         }
 
         $time = PHP_Timer::stop();
+        $test->addToAssertionCount(PHPUnit_Framework_Assert::getCount());
+
+        if ($this->strictMode && $test->getNumAssertions() == 0) {
+            $incomplete = TRUE;
+        }
 
         if ($useXdebug) {
             $data = $this->codeCoverage->stop(FALSE);
 
-            if (!$this->strictMode || (!$incomplete && !$skipped)) {
+            if (!$incomplete && !$skipped) {
                 if ($this->collectRawCodeCoverageInformation) {
                     $this->rawCodeCoverageInformation[] = $data;
                 } else {
@@ -670,8 +712,6 @@ class PHPUnit_Framework_TestResult implements Countable
         if ($errorHandlerSet === TRUE) {
             restore_error_handler();
         }
-
-        $test->addToAssertionCount(PHPUnit_Framework_Assert::getCount());
 
         if ($error === TRUE) {
             $this->addError($test, $e, $time);

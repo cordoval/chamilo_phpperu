@@ -60,7 +60,7 @@
         <echo message="Running all the tests and generating reports (this takes several minutes)..." />
         <exec   dir="${basedir}"
                 command="php ${basedir}/script/phpunit.php --configuration ${phpunit-coverage-config-file}"
-                checkreturn="true"
+                checkreturn="false"
 		passthru="true"
          />
     </target>
@@ -96,7 +96,7 @@
         <echo message="Computing dependency report" />
         <exec   dir="${basedir}"
                 command="php ${basedir}/script/pdepend.php --optimization=best --jdepend-xml=${pdepend-report-file} --summary-xml=${pdepend-summary-report-file} --ignore=${plugin-dir} ${classes-dirs-coma}"
-                checkreturn="true"
+                checkreturn="false"
 		passthru="true"
         />
     </target>
@@ -108,7 +108,7 @@
         <echo message="Generating a browseable version of the codebase" />
         <exec   dir="${basedir}"
                 command="php ${basedir}/script/phpcb.php --output ${build-codeBrowser-dir} --log ${basedir}/files/build/logs"
-                checkreturn="true"
+                checkreturn="false"
 		passthru="true"
         />
     </target>
@@ -119,7 +119,7 @@
     <target name="phpcpd" depends="clean,  prepare" >
         <exec   dir="${basedir}"
                 command="php ${basedir}/script/phpcpd.php --log-pmd ${pmd-report-file} --exclude ${plugin-dir} ${classes-dirs-space}"
-                
+                checkreturn="false"
         />
     </target>
     
@@ -131,6 +131,7 @@
         <exec   
             dir="${basedir}"
             command="php ${basedir}/script/phpcs.php --extensions=php --ignore=${plugin-dir} --report=checkstyle --report-file=${checkstyle-report-file} --standard=Chamilo2 ${classes-dirs-space}"
+            checkreturn="false"
         />
     </target>
 

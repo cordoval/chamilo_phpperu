@@ -2,7 +2,7 @@
 /**
  * PHPUnit
  *
- * Copyright (c) 2010-2011, Sebastian Bergmann <sb@sebastian-bergmann.de>.
+ * Copyright (c) 2002-2010, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,46 +34,70 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    PHPUnit_MockObject
- * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @copyright  2010-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @package    PHPUnit
+ * @subpackage Framework
+ * @author     Ralph Schindler <ralph.schindler@zend.com>
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2002-2010 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
- * @since      File available since Release 1.0.0
+ * @link       http://www.phpunit.de/
+ * @since      File available since Release 3.5.7
  */
 
 /**
- * Interface for builders which can register builders with a given identification.
+ * Class to hold the information about a deprecated feature that was used
  *
- * This interface relates to PHPUnit_Framework_MockObject_Builder_Identity.
- *
- * @package    PHPUnit_MockObject
- * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @copyright  2010-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @package    PHPUnit
+ * @subpackage Framework
+ * @author     Ralph Schindler <ralph.schindler@zend.com>
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2002-2010 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 1.0.6
- * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
- * @since      Interface available since Release 1.0.0
+ * @version    Release: 3.5.9
+ * @link       http://www.phpunit.de/
+ * @since      Interface available since Release 3.5.7
  */
-interface PHPUnit_Framework_MockObject_Builder_Namespace
+class PHPUnit_Util_DeprecatedFeature
 {
     /**
-     * Looks up the match builder with identification $id and returns it.
-     *
-     * @param string $id The identifiction of the match builder.
-     * @return PHPUnit_Framework_MockObject_Builder_Match
+     * @var array
      */
-    public function lookupId($id);
+    protected $traceInfo = array();
 
     /**
-     * Registers the match builder $builder with the identification $id. The
-     * builder can later be looked up using lookupId() to figure out if it
-     * has been invoked.
-     *
-     * @param string                                     $id
-     *        The identification of the match builder.
-     * @param PHPUnit_Framework_MockObject_Builder_Match $builder
-     *        The builder which is being registered.
+     * @var string
      */
-    public function registerId($id, PHPUnit_Framework_MockObject_Builder_Match $builder);
+    protected $message = NULL;
+
+    /**
+     * @param  string $message
+     * @param  array  $traceInfo
+     */
+    public function __construct($message, array $traceInfo = array())
+    {
+        $this->message   = $message;
+        $this->traceInfo = $traceInfo;
+    }
+
+    /**
+     * Build a string representation of the deprecated feature that was raised
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $string = '';
+
+        if (isset($this->traceInfo['file'])) {
+            $string .= $this->traceInfo['file'];
+
+            if (isset($this->traceInfo['line'])) {
+                $string .= ':' . $this->traceInfo['line'] . ' - ';
+            }
+        }
+
+        $string .= $this->message;
+
+        return $string;
+    }
 }
