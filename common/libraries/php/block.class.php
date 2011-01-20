@@ -80,7 +80,7 @@ class Block
     {
         $html = array();
 
-        $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . Theme :: get_image_path(Application :: determine_namespace($this->get_block_info()->get_application())) . 'logo/' . Theme :: ICON_MEDIUM. '.png);">';
+        $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . Theme :: get_image_path(Application :: determine_namespace($this->get_block_info()->get_application())) . 'logo/' . Theme :: ICON_MEDIUM . '.png);">';
         $html[] = $this->display_title();
         $html[] = '<div class="description"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') . '>';
 
@@ -135,7 +135,10 @@ class Block
 
     function get_block_visibility_link($home_block)
     {
-        return $this->get_link(HomeManager :: APPLICATION_NAME, array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
+        return $this->get_link(HomeManager :: APPLICATION_NAME, array(
+                HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME,
+                HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK,
+                HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
     }
 
     function get_block_deleting_link($home_block)
@@ -145,12 +148,18 @@ class Block
 
     function get_block_editing_link($home_block)
     {
-        return $this->get_link(HomeManager :: APPLICATION_NAME, array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
+        return $this->get_link(HomeManager :: APPLICATION_NAME, array(
+                HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME,
+                HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK,
+                HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
     }
 
     function get_block_configuring_link($home_block)
     {
-        return $this->get_link(HomeManager :: APPLICATION_NAME, array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_CONFIGURE_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
+        return $this->get_link(HomeManager :: APPLICATION_NAME, array(
+                HomeManager :: PARAM_ACTION => HomeManager :: ACTION_CONFIGURE_HOME,
+                HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK,
+                HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
     }
 
     public function get_link($application, $parameters = array (), $encode = false)
@@ -313,7 +322,7 @@ class Block
         {
             die('Failed to load "' . $type . '" block');
         }
-        $application_type = Application::get_application_type($application);
+        $application_type = Application :: get_application_type($application);
         $class = $application_type :: get_application_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($application . '_' . $type);
         require_once $path;
         return new $class($renderer, $block_info);
