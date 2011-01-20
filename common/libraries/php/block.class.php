@@ -313,7 +313,7 @@ class Block
         {
             die('Failed to load "' . $type . '" block');
         }
-        $application_type = Application::get_type($application);
+        $application_type = Application::get_application_type($application);
         $class = $application_type :: get_application_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($application . '_' . $type);
         require_once $path;
         return new $class($renderer, $block_info);

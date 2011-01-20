@@ -38,7 +38,7 @@ abstract class Application
         $this->search_parameters = array();
         $this->breadcrumbs = array();
 
-    //        $action = Request :: get(self :: PARAM_ACTION);
+     //        $action = Request :: get(self :: PARAM_ACTION);
     //        if ($action)
     //        {
     //            $this->set_action(Request :: get(self :: PARAM_ACTION));
@@ -423,7 +423,9 @@ abstract class Application
     public static function get_application_platform_admin_links($application = self :: PARAM_APPLICATION)
     {
         $info = array();
-        $info['application'] = array('name' => Translation :: get('TypeName', null, Application :: determine_namespace($application)), 'class' => $application);
+        $info['application'] = array(
+                'name' => Translation :: get('TypeName', null, Application :: determine_namespace($application)),
+                'class' => $application);
         $info['links'] = array();
         $info['search'] = null;
 
@@ -555,7 +557,8 @@ abstract class Application
     //TODO find a way of enforcing sub classes to have the next 3 methods.
     //static do not play with polymorphism and abstract static functions
     //do NOT enforce anything in children classes
-    
+
+
     //abstract static function get_application_web_path($application_name);
     //abstract static function get_application_path($application_name);
     //abstract static function get_application_manager_path($application_name);
@@ -599,11 +602,11 @@ abstract class Application
      */
     function get_general_result($failures, $count, $single_object, $multiple_object, $type = Application :: RESULT_TYPE_CREATED)
     {
-        if($count == 1)
+        if ($count == 1)
         {
             $param = array('OBJECT' => $single_object);
 
-            if($failures)
+            if ($failures)
             {
                 $message = 'ObjectNot' . $type;
             }
@@ -616,7 +619,7 @@ abstract class Application
         {
             $param = array('OBJECTS' => $multiple_object);
 
-            if($failures)
+            if ($failures)
             {
                 $message = 'ObjectsNot' . $type;
             }
@@ -752,7 +755,7 @@ abstract class Application
 
     static function determine_namespace($application_name)
     {
-        $application_type = self :: get_type($application_name);
+        $application_type = self :: get_application_type($application_name);
         return $application_type :: get_application_namespace($application_name);
     }
 
@@ -795,7 +798,7 @@ abstract class Application
      */
     static function construct($application_name, $user)
     {
-        $type = self :: get_type($application_name);
+        $type = self :: get_application_type($application_name);
         require_once $type :: get_application_manager_path($application_name);
 
         $action = self :: get_component_action($application_name);
@@ -810,8 +813,11 @@ abstract class Application
             $trail = BreadcrumbTrail :: get_instance();
             if ($component instanceof AdministrationComponent)
             {
-                $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration', null, AdminManager :: APPLICATION_NAME)));
-                $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application_name), array(), false, Redirect :: TYPE_CORE), Translation :: get(self :: application_to_class($application_name), null, $context)));
+                $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(
+                        AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration', null, AdminManager :: APPLICATION_NAME)));
+                $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(
+                        AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER,
+                        DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application_name), array(), false, Redirect :: TYPE_CORE), Translation :: get(self :: application_to_class($application_name), null, $context)));
             }
             else
             {
@@ -856,7 +862,6 @@ abstract class Application
         return array();
     }
 
- 
     static function get_application_type($application)
     {
 

@@ -141,7 +141,7 @@ abstract class Tracker extends DataClass
     {
         self :: load_tracker($type, $application);
 
-        $application_type = Application :: get_type($application);
+        $application_type = Application :: get_application_type($application);
         $class = $application_type :: get_application_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($type);
         return new $class();
     }

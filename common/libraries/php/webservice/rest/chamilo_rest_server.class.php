@@ -49,7 +49,7 @@ class ChamiloRestServer extends RestServer
 
         if($application && $object)
         {
-            $type = Application :: get_type($application);
+            $type = Application :: get_application_type($application);
             $path = $type :: get_application_path($application) . 'php/webservices/' . $object . '/webservice_handler.class.php';
             if(!file_exists($path))
             {
@@ -112,13 +112,13 @@ class ChamiloRestServer extends RestServer
         {
             $this->result = new SuccessRestMessage(false, Translation :: get('MethodNotImplemented', null, WebserviceManager :: APPLICATION_NAME));
         }
-        
+
     }
 
     private function is_allowed($application, $object, $function)
     {
         $user = WebserviceAuthentication :: factory()->is_valid();
-        
+
         if(!$user)
         {
             $this->result = new SuccessRestMessage(false, Translation :: get('NotAuthorized', null, WebserviceManager :: APPLICATION_NAME));
