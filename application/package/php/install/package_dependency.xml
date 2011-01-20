@@ -7,11 +7,10 @@
 			notnull="1" />
 		<property name="package_id" type="integer" unsigned="1"
 			notnull="1" />
-		<property name="compare" type="integer" unsigned="1"
-			notnull="1" length="1"/>
+		<property name="compare" type="integer" unsigned="1" notnull="1"
+			length="1" />
 		<property name="severity" type="integer" unsigned="1"
-			notnull="1" length="1"/>
-
+			notnull="1" length="1" />
 	</properties>
 	<index name="package_dependency_id">
 		<indexproperty name="dependency_id" />

@@ -7,23 +7,53 @@
     <category>communication</category>
     <version>1.0.0</version>
     <cycle>
-      <phase>general_availability</phase>
-      <realm></realm>
+      <phase>alpha</phase>
+      <realm>main</realm>
     </cycle>
     <description>An online messaging system to provide communication between users.</description>
     <homepage></homepage>
     <tagline></tagline>
-    <authors/>
+    <filename>opentok-php-sdk.zip</filename>
+    <authors>
+      <author>
+        <name>author1</name>
+        <email>author1@ehb.be</email>
+        <company>Ehb</company>
+      </author>
+    </authors>
     <dependencies>
-      <server/>
+      <server>
+        <dependency>
+          <id>dependency1</id>
+          <version type="0">1.0</version>
+          <severity>0</severity>
+        </dependency>
+        <dependency>
+          <id>dependency5</id>
+          <version type="0">1.5</version>
+          <severity>0</severity>
+        </dependency>
+      </server>
       <content_objects/>
-      <applications/>
+      <applications>
+        <dependency>
+          <id>dependency4</id>
+          <version type="0">1.4</version>
+          <severity>0</severity>
+        </dependency>
+      </applications>
       <core/>
       <extension/>
       <extensions/>
       <external_repository_manager/>
       <library/>
-      <settings/>
+      <settings>
+        <dependency>
+          <id>dependency3</id>
+          <version type="0">1.3</version>
+          <severity>0</severity>
+        </dependency>
+      </settings>
       <video_conferencing_manager/>
     </dependencies>
   </package>
@@ -34,12 +64,13 @@
     <category>core</category>
     <version>1.0.0</version>
     <cycle>
-      <phase>general_availability</phase>
+      <phase></phase>
       <realm></realm>
     </cycle>
     <description></description>
     <homepage></homepage>
     <tagline></tagline>
+    <filename></filename>
     <authors/>
     <dependencies>
       <server/>
@@ -61,350 +92,13 @@
     <category>core</category>
     <version>1.0.0</version>
     <cycle>
-      <phase>general_availability</phase>
+      <phase></phase>
       <realm></realm>
     </cycle>
     <description>An abstraction layer to implement external content repositories in a generalized way, using general components wherever possible.</description>
     <homepage></homepage>
     <tagline></tagline>
-    <authors/>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications/>
-      <core/>
-      <extension/>
-      <extensions/>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>dst</name>
-    <code>dsqf</code>
-    <section>sdfq</section>
-    <category>dsf</category>
-    <version>dsqf</version>
-    <cycle>
-      <phase>alpha</phase>
-      <realm></realm>
-    </cycle>
-    <description></description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <authors/>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications/>
-      <core/>
-      <extension/>
-      <extensions/>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>dsfsd</name>
-    <code>sqdf</code>
-    <section>sdfqds</section>
-    <category>sqf</category>
-    <version>sdf</version>
-    <cycle>
-      <phase>alpha</phase>
-      <realm></realm>
-    </cycle>
-    <description></description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <authors/>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications/>
-      <core/>
-      <extension/>
-      <extensions/>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>vcbx</name>
-    <code>fg d</code>
-    <section>fgh</section>
-    <category> hd</category>
-    <version>dfh</version>
-    <cycle>
-      <phase>alpha</phase>
-      <realm></realm>
-    </cycle>
-    <description>tfgdfgdf g</description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <authors>
-      <author>
-        <name>author test</name>
-        <email>test@gmail.com</email>
-        <company>Ehb</company>
-      </author>
-    </authors>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications/>
-      <core/>
-      <extension/>
-      <extensions/>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>dsfsd</name>
-    <code>sdfq</code>
-    <section>sqdf</section>
-    <category>dsqf</category>
-    <version>sdqf</version>
-    <cycle>
-      <phase>alpha</phase>
-      <realm></realm>
-    </cycle>
-    <description></description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <authors/>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications/>
-      <core/>
-      <extension/>
-      <extensions/>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>fgs df</name>
-    <code>dfs g</code>
-    <section>dfs g</section>
-    <category>dfs</category>
-    <version>dfs g</version>
-    <cycle>
-      <phase>alpha</phase>
-      <realm></realm>
-    </cycle>
-    <description></description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <authors/>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications>
-        <dependency>
-          <id>personal_messenger</id>
-          <version type="5">1.0.0</version>
-          <severity>1</severity>
-        </dependency>
-      </applications>
-      <core>
-        <dependency>
-          <id>admin</id>
-          <version type="1">1.0.0</version>
-          <severity>1</severity>
-        </dependency>
-      </core>
-      <extension/>
-      <extensions>
-        <dependency>
-          <id>external_repository_manager</id>
-          <version type="5">1.0.0</version>
-          <severity>1</severity>
-        </dependency>
-      </extensions>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>gdsfg</name>
-    <code>dfsg</code>
-    <section>test</section>
-    <category>fds</category>
-    <version>dfg</version>
-    <cycle>
-      <phase>alpha</phase>
-      <realm></realm>
-    </cycle>
-    <description></description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <authors/>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications/>
-      <core/>
-      <extension/>
-      <extensions/>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>test new package</name>
-    <code>test_new_package</code>
-    <section>package</section>
-    <category>application</category>
-    <version>1.0</version>
-    <cycle>
-      <phase>beta</phase>
-      <realm></realm>
-    </cycle>
-    <description></description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <authors/>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications/>
-      <core/>
-      <extension/>
-      <extensions/>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>new package</name>
-    <code>new_package</code>
-    <section>extension</section>
-    <category>core</category>
-    <version>1.0</version>
-    <cycle>
-      <phase>general_availability</phase>
-      <realm></realm>
-    </cycle>
-    <description></description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <authors>
-      <author>
-        <name>author test</name>
-        <email>test@gmail.com</email>
-        <company>Ehb</company>
-      </author>
-    </authors>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications>
-        <dependency>
-          <id>personal_messenger</id>
-          <version type="5">1.0.0</version>
-          <severity>3</severity>
-        </dependency>
-      </applications>
-      <core/>
-      <extension/>
-      <extensions/>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>df</name>
-    <code>fhd</code>
-    <section>dfg</section>
-    <category>dffg</category>
-    <version>dfg</version>
-    <cycle>
-      <phase>alpha</phase>
-      <realm></realm>
-    </cycle>
-    <description></description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <authors/>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications/>
-      <core/>
-      <extension/>
-      <extensions/>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>test</name>
-    <code>test</code>
-    <section>test</section>
-    <category>test</category>
-    <version>test</version>
-    <cycle>
-      <phase>alpha</phase>
-      <realm></realm>
-    </cycle>
-    <description></description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <authors/>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications/>
-      <core/>
-      <extension/>
-      <extensions/>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-      <dependency>
-        <id>test_new_package</id>
-        <version type="3">1.0</version>
-        <severity>3</severity>
-      </dependency>
-    </dependencies>
-  </package>
-  <package>
-    <name>xxxxxxxxxxxx</name>
-    <code>d</code>
-    <section>dfg</section>
-    <category>dsf</category>
-    <version>dfg</version>
-    <cycle>
-      <phase>alpha</phase>
-      <realm>universe</realm>
-    </cycle>
-    <description>dfg</description>
-    <homepage>dsfsd</homepage>
-    <tagline>fgdfg</tagline>
+    <filename></filename>
     <authors/>
     <dependencies>
       <server/>

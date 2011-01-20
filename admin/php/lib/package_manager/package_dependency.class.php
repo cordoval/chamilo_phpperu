@@ -146,7 +146,7 @@ abstract class PackageDependency
         }
     }
 
-    function get_severity_name($severity)
+    static function get_severity_name($severity)
     {
         switch ($severity)
         {

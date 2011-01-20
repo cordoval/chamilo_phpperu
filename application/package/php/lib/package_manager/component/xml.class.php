@@ -63,6 +63,15 @@ class PackageManagerXmlComponent extends PackageManager
             $package = $doc->createElement('description', $package_data->get_description());
             $root->appendChild($package);
             
+            $package = $doc->createElement('homepage', $package_data->get_homepage());
+            $root->appendChild($package);
+            
+            $package = $doc->createElement('tagline', $package_data->get_tagline());
+            $root->appendChild($package);
+                       
+            $package = $doc->createElement('filename', $package_data->get_filename());
+            $root->appendChild($package);          
+            
             //package/authors
             $package = $doc->createElement('authors');
             $root->appendChild($package);

@@ -25,38 +25,12 @@ require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 if (Authentication :: is_valid())
 {
     $conditions = array();
-    
-//    $query_condition = Utilities :: query_to_condition($_GET['query'], array(Dependency :: PROPERTY_ID_DEPENDENCY));
-//    if (isset($query_condition))
-//    {
-//        $conditions[] = $query_condition;
-//    }
-//    
-//    if (is_array($_GET['exclude']))
-//    {
-//        $c = array();
-//        foreach ($_GET['exclude'] as $id)
-//        {
-//            $c[] = new EqualityCondition(Dependency :: PROPERTY_ID_DEPENDENCY, $id);
-//        }
-//        $conditions[] = new NotCondition(new OrCondition($c));
-//    }
-//    
-//    if (count($conditions) > 0)
-//    {
-//        $condition = new AndCondition($conditions);
-//    }
-//    else
-//    {
-//        $condition = null;
-//    }
-//    
-//    $udm = PackageDataManager :: get_instance();
-//    $dependencies = $udm->retrieve_dependencies($condition, null, null, array(
-//            new ObjectTableOrder(Dependency :: PROPERTY_ID_DEPENDENCY)));
-//    
-    $package_conditions = array();
+        
     $query = Request :: get('query');
+    $exclude = Request :: get('exclude');
+    
+    $package_conditions = array();
+    
     if ($query)
     {
         $q = '*' . $query . '*';
@@ -119,11 +93,6 @@ else
 
 header('Content-Type: text/xml');
 echo '<?xml version="1.0" encoding="utf-8"?>' . "\n" . '<tree>', "\n";
-
-//if (isset($dependencies))
-//{
-//    dump_tree($dependencies);
-//}
 
 if (isset($packages))
 {

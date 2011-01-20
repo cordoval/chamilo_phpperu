@@ -65,7 +65,7 @@ class DefaultPackageTableCellRenderer extends ObjectTableCellRenderer
                 else
                 {
                     return Translation :: get('NoAuthors');
-                }
+                }                
             default :
                 return '&nbsp;';
         }

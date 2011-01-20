@@ -69,7 +69,9 @@ class PackageDependency extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_PACKAGE_ID, 
-                self :: PROPERTY_DEPENDENCY_ID, self :: PROPERTY_COMPARE, self :: PROPERTY_SEVERITY));
+                self :: PROPERTY_DEPENDENCY_ID, 
+                self :: PROPERTY_COMPARE, 
+                self :: PROPERTY_SEVERITY));
     }
 
     function get_package()
@@ -93,6 +95,6 @@ class PackageDependency extends DataClass
     static function get_table_name()
     {
         return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
-    }
+    }  
 }
 ?>

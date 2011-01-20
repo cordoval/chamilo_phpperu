@@ -173,7 +173,7 @@ class AuthorForm extends FormValidator
         $author->set_name($values[Author :: PROPERTY_NAME]);
         $author->set_email($values[Author :: PROPERTY_EMAIL]);
         $author->set_company($values[Author :: PROPERTY_COMPANY]);
-        //        dump($package);
+
         if (! $author->create())
         {
             return false;
