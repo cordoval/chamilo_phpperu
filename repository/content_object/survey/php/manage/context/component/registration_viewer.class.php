@@ -10,6 +10,9 @@ use common\libraries\Theme;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+
 
 require_once dirname(__FILE__) . '/context_table/table.class.php';
 
@@ -28,7 +31,7 @@ class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManag
     function run()
     {
         $context_registration_id = Request :: get(SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID);
-        $this->set_parameter(SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID, $context_registration_id);
+//        $this->set_parameter(SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID, $context_registration_id);
         $this->context_registration = SurveyContextDataManager :: get_instance()->retrieve_survey_context_registration($context_registration_id);
 
         $this->ab = $this->get_action_bar();
@@ -83,6 +86,9 @@ class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManag
         $action_bar->set_search_url($this->get_url());
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_context_creation_url($this->context_registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportContexts'), Theme :: get_common_image_path() . 'action_import.png', $this->get_context_import_url($this->context_registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+      	 $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportContextUser'), Theme :: get_common_image_path() . 'action_import.png', $this->get_context_user_import_url($this->context_registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
         
         return $action_bar;
     }

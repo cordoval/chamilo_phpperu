@@ -1,9 +1,17 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\WeblcmsQuestionAttemptsTracker;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\Tool;
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
+
 use repository\RepositoryDataManager;
+use repository\content_object\document\Document;
+use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
+use repository\ComplexContentObjectItem;
+
+use common\libraries\Filecompression;
 use common\libraries\Filesystem;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
@@ -11,8 +19,6 @@ use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
-use application\weblcms\WeblcmsAssessmentAttemptsTracker;
-use repository\ComplexContentObjectItem;
 
 /**
  * $Id: assessment_document_saver.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -86,7 +92,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentTool
             $question = RepositoryDataManager :: get_instance()->retrieve_content_object($clo_question->get_ref());
             if ($question->get_type() == 'open_question')
             {
-                if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT || $question->get_question_type() == OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT)
+                if ($question->get_question_type() == AssessmentOpenQuestion :: TYPE_DOCUMENT || $question->get_question_type() == AssessmentOpenQuestion :: TYPE_OPEN_WITH_DOCUMENT)
                 {
                     $c_questions[] = $clo_question;
                     $questions[] = $question;
@@ -104,7 +110,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentTool
             $user_questions = $track->retrieve_tracker_items($condition);
             //print_r($condition);
             //dump($user_questions);
-            if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT)
+            if ($question->get_question_type() == AssessmentOpenQuestion :: TYPE_DOCUMENT)
             {
                 $user_question = $user_questions[0];
             }

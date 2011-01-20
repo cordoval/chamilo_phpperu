@@ -81,8 +81,10 @@ class SurveyContextTemplateForm extends FormValidator
             $this->addElement('html', '</div>');
         }
 
-        $buttons[] = $this->createElement('style_submit_button', 'create', Translation :: get($action_name), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'create', Translation :: get($action_name), array(
+                'class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/survey/resources/javascript/survey_context_template_form.js'));
@@ -164,14 +166,16 @@ class SurveyContextTemplateForm extends FormValidator
                 $group[] = $this->createElement('static', '', 'label', $level);
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 1)
                 {
-                    $group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_list_remove.png', array('style="border: 0px;"'));
+                    $group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_list_remove.png', array(
+                            'style="border: 0px;"'));
                 }
                 $this->addGroup($group, self :: CONTEXT_REGISTRATIONS . $option_number, Translation :: get('SurveyContext'), '', false);
-                $this->addRule(self :: CONTEXT_REGISTRATIONS . $option_number, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+                $this->addRule(self :: CONTEXT_REGISTRATIONS . $option_number, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
             }
         }
 
-        $this->addElement('image', 'add[]', Theme :: get_common_image_path() . 'action_list_add.png', array('style="border: 0px;"'));
+        $this->addElement('image', 'add[]', Theme :: get_common_image_path() . 'action_list_add.png', array(
+                'style="border: 0px;"'));
         $this->build_footer('Create');
     }
 
@@ -257,7 +261,7 @@ class SurveyContextTemplateForm extends FormValidator
             }
             if ($index == 0)
             {
-                $type = 'survey_template' . $parent_id;
+                $type = 'survey_template_user' . $parent_id;
                 $context_template->set_type($type);
                 $this->context_template = $context_template;
                 $context_template->update();
@@ -302,7 +306,7 @@ class SurveyContextTemplateForm extends FormValidator
 
         $result = false;
         $filename = $type;
- 		$repository_directory = Path :: get_repository_content_object_path();
+        $repository_directory = Path :: get_repository_content_object_path();
         $path = $repository_directory . self :: ROOT_DIR;
 
         $new_dir = $path . self :: TEMPLATE . '/' . $type;
@@ -334,10 +338,11 @@ class SurveyContextTemplateForm extends FormValidator
         $context_class = array();
 
         $context_class[] = '<?php namespace repository\content_object\survey;';
-        $context_class[] = 'use common\libraries\Path;';
-        $context_class[] = 'require_once (Path :: get_repository_content_object_path().' . '\'' . 'survey/php/survey_template.class.php\');';
+        $context_class[] = 'use common\libraries\Utilities;';
+        //        $context_class[] = 'require_once (Path :: get_repository_content_object_path().' . '\'' . 'survey/php/survey_template.class.php\');';
 
-        $context_class[] = 'class ' . Utilities :: underscores_to_camelcase($type) . ' extends SurveyTemplate';
+
+        $context_class[] = 'class ' . Utilities :: underscores_to_camelcase($type) . ' extends SurveyTemplateUser';
         $context_class[] = '{';
 
         $context_class[] = ' const CLASS_NAME = __CLASS__;';
@@ -462,7 +467,8 @@ class SurveyContextTemplateForm extends FormValidator
             $index_properties = $index->getElementsByTagname('indexproperty');
             foreach ($index_properties as $subkey => $index_property)
             {
-                $index_info['fields'][$index_property->getAttribute('name')] = array('length' => $index_property->getAttribute('length'));
+                $index_info['fields'][$index_property->getAttribute('name')] = array(
+                        'length' => $index_property->getAttribute('length'));
             }
             $indexes[$index->getAttribute('name')] = $index_info;
         }

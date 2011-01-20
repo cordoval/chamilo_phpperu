@@ -2,8 +2,11 @@
 namespace repository;
 
 use common\libraries\Qti;
+
 use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
 use repository\ContentObject;
+
+use Exception;
 
 /**
  * Serializer for open questions.

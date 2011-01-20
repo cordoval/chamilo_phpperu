@@ -1,6 +1,8 @@
 <?php
 namespace rights;
 
+use common\libraries\ActionBarSearchForm;
+use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Application;
 use common\libraries\BasicApplication;
@@ -62,7 +64,8 @@ class UserRightManagerBrowserComponent extends UserRightManager
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, 'root');
         $condition = new AndCondition($conditions);
-        $root = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
+        $root = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(
+                new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
 
         if (isset($location))
         {
@@ -84,11 +87,19 @@ class UserRightManagerBrowserComponent extends UserRightManager
         $this->display_header();
 
         $html = array();
-        $application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER => $this->user->get_id(), UserRightManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
+        $application_url = $this->get_url(array(
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS,
+                UserRightManager :: PARAM_USER => $this->user->get_id(),
+                UserRightManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
         $html[] = BasicApplication :: get_selecter($application_url, $this->application);
         $html[] = $this->action_bar->as_html() . '<br />';
 
-        $url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS, UserRightManager :: PARAM_USER => $this->user->get_id(), UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_LOCATION => '%s'));
+        $url_format = $this->get_url(array(
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS,
+                UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS,
+                UserRightManager :: PARAM_USER => $this->user->get_id(),
+                UserRightManager :: PARAM_SOURCE => $this->application,
+                UserRightManager :: PARAM_LOCATION => '%s'));
         $url_format = str_replace('=%25s', '=%s', $url_format);
         $location_menu = new LocationMenu($root->get_id(), $this->location->get_id(), $url_format);
         $html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
@@ -151,19 +162,25 @@ class UserRightManagerBrowserComponent extends UserRightManager
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->set_search_url($this->get_url(array(UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_USER => $this->user->get_id(), UserRightManager :: PARAM_LOCATION => $this->location->get_id())));
+        $action_bar->set_search_url($this->get_url(array(
+                UserRightManager :: PARAM_SOURCE => $this->application,
+                UserRightManager :: PARAM_USER => $this->user->get_id(),
+                UserRightManager :: PARAM_LOCATION => $this->location->get_id())));
 
         return $action_bar;
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('rights_users_browser');
+        $breadcrumbtrail->add_help('rights_users_browser');
     }
 
-	function get_additional_parameters()
+    function get_additional_parameters()
     {
-    	return array(UserRightManager :: PARAM_SOURCE, UserRightManager :: PARAM_LOCATION, UserRightManager :: PARAM_USER);
+        return array(
+                UserRightManager :: PARAM_SOURCE,
+                UserRightManager :: PARAM_LOCATION,
+                UserRightManager :: PARAM_USER);
     }
 }
 ?>

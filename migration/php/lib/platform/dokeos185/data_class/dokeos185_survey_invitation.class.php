@@ -5,6 +5,9 @@ namespace migration;
  * @package migration.lib.platform.dokeos185
  */
 
+use common\libraries\Translation;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . "/../dokeos185_course_data_migration_data_class.class.php";
 
 /**
@@ -27,7 +30,7 @@ class Dokeos185SurveyInvitation extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_INVITATION_DATE = 'invitation_date';
     const PROPERTY_REMINDER_DATE = 'reminder_date';
     const PROPERTY_ANSWERED = 'answered';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -66,7 +69,14 @@ class Dokeos185SurveyInvitation extends Dokeos185CourseDataMigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_SURVEY_INVITATION_ID, self :: PROPERTY_SURVEY_CODE, self :: PROPERTY_USER, self :: PROPERTY_INVITATION_CODE, self :: PROPERTY_INVITATION_DATE, self :: PROPERTY_REMINDER_DATE, self :: PROPERTY_ANSWERED);
+        return array(
+                self :: PROPERTY_SURVEY_INVITATION_ID,
+                self :: PROPERTY_SURVEY_CODE,
+                self :: PROPERTY_USER,
+                self :: PROPERTY_INVITATION_CODE,
+                self :: PROPERTY_INVITATION_DATE,
+                self :: PROPERTY_REMINDER_DATE,
+                self :: PROPERTY_ANSWERED);
     }
 
     /**
@@ -160,7 +170,9 @@ class Dokeos185SurveyInvitation extends Dokeos185CourseDataMigrationDataClass
         if (! $this->get_id_reference($this->get_survey_code(), $this->get_database_name() . '.survey') && ! $this->get_id_reference($this->get_user(), 'main_database.user'))
         {
             $this->create_failed_element($this->get_answer_id());
-            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'survey_answer', 'ID' => $this->get_answer_id())));
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array(
+                    'TYPE' => 'survey_answer',
+                    'ID' => $this->get_answer_id())));
 
             return false;
         }
@@ -170,11 +182,11 @@ class Dokeos185SurveyInvitation extends Dokeos185CourseDataMigrationDataClass
     /**
      * migrate surveyinvitation, sets category
      * @param Array $array
-     * @return 
+     * @return
      */
     function convert_data()
     {
-        
+
     }
 
     public static function get_class_name()
@@ -184,7 +196,8 @@ class Dokeos185SurveyInvitation extends Dokeos185CourseDataMigrationDataClass
 
     public static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
 }

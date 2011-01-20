@@ -4,6 +4,8 @@ namespace common\extensions\external_repository_manager;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 
+use Exception;
+
 abstract class ExternalRepositoryObjectRenderer
 {
     const TYPE_TABLE = 'table';

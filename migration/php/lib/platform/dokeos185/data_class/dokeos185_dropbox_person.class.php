@@ -4,6 +4,7 @@ namespace migration;
  * $Id: dokeos185_dropbox_person.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
@@ -16,7 +17,7 @@ class Dokeos185DropboxPerson extends Dokeos185CourseDataMigrationDataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'dropbox_person';
-    
+
     /**
      * Dokeos185DropboxPerson properties
      */
@@ -41,7 +42,7 @@ class Dokeos185DropboxPerson extends Dokeos185CourseDataMigrationDataClass
     {
         return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
-    
+
 	/**
      * Get the default properties
      * @return array The property names.
@@ -50,22 +51,22 @@ class Dokeos185DropboxPerson extends Dokeos185CourseDataMigrationDataClass
     {
         return array(self :: PROPERTY_FILE_ID, self :: PROPERTY_USER_ID);
     }
-    
+
     function is_valid()
     {
-    	
+
     }
-    
+
     function convert_data()
     {
-    	
+
     }
 
     static function get_table_name()
     {
                 return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
-    
+
     static function get_class_name()
     {
     	return self :: CLASS_NAME;

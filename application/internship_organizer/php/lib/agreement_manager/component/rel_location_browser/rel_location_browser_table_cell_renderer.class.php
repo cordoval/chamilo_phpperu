@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Toolbar;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Theme;
@@ -35,13 +36,13 @@ class InternshipOrganizerAgreementRelLocationBrowserTableCellRenderer extends De
         {
             return $this->get_modification_links($agreementrellocation);
         }
-        
+
         // Add special features here
         //        switch ($column->get_name())
         //        {
         //            // Exceptions that need post-processing go here ...
         //            case InternshipOrganizerAgreementRelLocation :: PROPERTY_LOCATION_ID :
-        //               
+        //
         //                return $location->get_name();
         //        }
         return parent :: render_cell($column, $agreementrellocation);
@@ -55,21 +56,21 @@ class InternshipOrganizerAgreementRelLocationBrowserTableCellRenderer extends De
      */
     private function get_modification_links($agreementrellocation)
     {
-        
+
         $user = $this->browser->get_user();
         $user_id = $user->get_id();
-        
+
         $toolbar = new Toolbar();
-        
+
         $agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($agreementrellocation->get_agreement_id());
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreementrellocation->get_agreement_id());
         $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_LOCATION_TYPE, InternshipOrganizerAgreementRelLocation :: TO_APPROVE);
         $condition = new AndCondition($conditions);
-        
+
         $count = InternshipOrganizerDataManager :: get_instance()->count_agreement_rel_locations($condition);
-        
+
         if ($count > 1)
         {
             if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_LOCATION_RIGHT, $agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
@@ -86,7 +87,7 @@ class InternshipOrganizerAgreementRelLocationBrowserTableCellRenderer extends De
                 {
                     $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
                 }
-                
+
                 if ($agreementrellocation->get_preference_order() < $count)
                 {
                     $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->browser->get_agreement_rel_location_move_down_url($agreementrellocation), ToolbarItem :: DISPLAY_ICON));
@@ -99,26 +100,26 @@ class InternshipOrganizerAgreementRelLocationBrowserTableCellRenderer extends De
         }
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: APPROVE_LOCATION_RIGHT, $agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
-            
+
             if ($agreementrellocation->get_location_type() == InternshipOrganizerAgreementRelLocation :: APPROVED)
             {
-                
+
                 $condition = new EqualityCondition(InternshipOrganizerMoment :: PROPERTY_AGREEMENT_ID, $agreement->get_id());
                 $moment_count = InternshipOrganizerDataManager :: get_instance()->count_moments($condition);
                 if (! $moment_count > 0)
                 {
                     $toolbar->add_item(new ToolbarItem(Translation :: get('ResetApprovedToApprove'), Theme :: get_common_image_path() . 'action_unlink.png', $this->browser->get_agreement_rel_location_approve_url($agreementrellocation), ToolbarItem :: DISPLAY_ICON));
                 }
-            
+
             }
             else
             {
                 $toolbar->add_item(new ToolbarItem(Translation :: get('Approve'), Theme :: get_common_image_path() . 'action_confirm.png', $this->browser->get_agreement_rel_location_approve_url($agreementrellocation), ToolbarItem :: DISPLAY_ICON));
-            
+
             }
-        
+
         }
-        
+
         return $toolbar->as_html();
     }
 

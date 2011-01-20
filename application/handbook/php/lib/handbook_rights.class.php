@@ -11,6 +11,7 @@ class HandbookRights
     const PUBLISH_RIGHT = '1';
     const EDIT_RIGHT = '2';
     const VIEW_RIGHT = '3';
+    const DELETE_PUBLICATION_RIGHT = '4';
 
     //TODO: how are type ints determined?
     const TREE_TYPE_HANDBOOK = '55';
@@ -18,7 +19,7 @@ class HandbookRights
     
     static function get_available_rights_for_publications()
     {
-    	return array('Edit' => self :: EDIT_RIGHT, 'View' => self :: VIEW_RIGHT);
+    	return array('Edit' => self :: EDIT_RIGHT, 'View' => self :: VIEW_RIGHT, 'Delete Publication' => self::DELETE_PUBLICATION_RIGHT);
     }
     
     
@@ -52,10 +53,10 @@ class HandbookRights
     	return RightsUtilities :: get_location_by_identifier(HandbookManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_HANDBOOK);
     }
     
-    static function is_allowed_in_handbooks_subtree($right, $location, $user_id)
+    static function is_allowed_in_handbooks_subtree($right, $identifier, $user_id)
     {
         $type = self::TREE_TYPE_HANDBOOK;
-    	 return RightsUtilities :: is_allowed($right, $location, $type, HandbookManager :: APPLICATION_NAME, $user_id, 0, $type);
+    	 return RightsUtilities :: is_allowed($right, $identifier, $type, HandbookManager :: APPLICATION_NAME, $user_id, 0, $type);
     }
     
     static function create_handbooks_subtree_root_location()

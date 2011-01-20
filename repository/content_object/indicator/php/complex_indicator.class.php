@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\indicator;
 
+use repository\content_object\criteria\Criteria;
+
 use repository\ComplexContentObjectItem;
 
 /**

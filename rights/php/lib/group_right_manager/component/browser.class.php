@@ -1,6 +1,7 @@
 <?php
 namespace rights;
 
+use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Application;
 use common\libraries\BasicApplication;
@@ -12,12 +13,12 @@ use common\libraries\InequalityCondition;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\ResourceManager;
-
-use rights\RightsUtilities;
-use group\GroupDataManager;
 use common\libraries\ObjectTableOrder;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ActionBarSearchForm;
+
+use rights\RightsUtilities;
+use group\GroupDataManager;
 /**
  * $Id: browser.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.group_right_manager.component

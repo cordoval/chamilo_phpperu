@@ -1,5 +1,7 @@
 <?php
 namespace group;
+
+use common\libraries\NotCondition;
 use common\libraries\Utilities;
 use common\libraries\InequalityCondition;
 use common\libraries\EqualityCondition;
@@ -22,6 +24,7 @@ require_once dirname(__FILE__) . "/group_rights.class.php";
 class Group extends DataClass
 {
     const CLASS_NAME = __CLASS__;
+
     const PROPERTY_NAME = 'name';
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_SORT = 'sort';
@@ -31,12 +34,60 @@ class Group extends DataClass
     const PROPERTY_CODE = 'code';
 
     /**
+     * Array used to cache users in this group, depending on
+     * request (include subgroups, recursive subgroups)
+     * @var array
+     */
+    private $users;
+
+    /**
+     * Array used to cache user counts in this group, depending on
+     * request (include subgroups, recursive subgroups)
+     * @var array
+     */
+    private $user_count;
+
+    /**
+     * Array used to cache subgroups, depending on
+     * request (recursive or not)
+     * @var array
+     */
+    private $subgroups;
+
+    /**
+     * Array used to cache subgroup counts, depending on
+     * request (recursive or not)
+     * @var array
+     */
+    private $subgroup_count;
+
+    /**
+     * Cache of the siblings of a group, depending on
+     * request (recursive or not)
+     * @var array
+     */
+    private $siblings;
+
+    /**
+     * ObjectResultSet used to cache groups this group can use
+     * @var ObjectResultSet
+     */
+    private $allowed_groups;
+
+    /**
      * Get the default properties of all groups.
      * @return array The property names.
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_SORT, self :: PROPERTY_PARENT, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_CODE));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_NAME,
+                self :: PROPERTY_DESCRIPTION,
+                self :: PROPERTY_SORT,
+                self :: PROPERTY_PARENT,
+                self :: PROPERTY_LEFT_VALUE,
+                self :: PROPERTY_RIGHT_VALUE,
+                self :: PROPERTY_CODE));
     }
 
     /*
@@ -207,19 +258,25 @@ class Group extends DataClass
      */
     function get_siblings($include_self = true)
     {
-        $gdm = $this->get_data_manager();
-
-        $siblings_conditions = array();
-        $siblings_conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_parent());
-
-        if (! $include_self)
+        if (! isset($this->siblings[(int) $include_self]))
         {
-            $siblings_conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $this->get_id()));
+            $gdm = $this->get_data_manager();
+
+            $siblings_conditions = array();
+            $siblings_conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_parent());
+
+            if (! $include_self)
+            {
+                $siblings_conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $this->get_id()));
+            }
+
+            $siblings_condition = new AndCondition($siblings_conditions);
+
+            $this->siblings[(int) $include_self] = $gdm->retrieve_groups($siblings_condition);
         }
 
-        $siblings_condition = new AndCondition($siblings_conditions);
+        return $this->siblings[(int) $include_self];
 
-        return $gdm->retrieve_groups($siblings_condition);
     }
 
     function has_siblings()
@@ -240,21 +297,7 @@ class Group extends DataClass
      */
     function get_children($recursive = true)
     {
-        $gdm = $this->get_data_manager();
-
-        if ($recursive)
-        {
-            $children_conditions = array();
-            $children_conditions[] = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_left_value());
-            $children_conditions[] = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, $this->get_right_value());
-            $children_condition = new AndCondition($children_conditions);
-        }
-        else
-        {
-            $children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
-        }
-
-        return $gdm->retrieve_groups($children_condition);
+        return $this->get_subgroups($recursive);
     }
 
     function has_children()
@@ -268,14 +311,15 @@ class Group extends DataClass
 
     function move($new_parent_id, $new_previous_id = 0)
     {
-        $location = GroupRights :: get_location_by_identifier_from_groups_subtree($this->get_id());
-        if ($location)
-        {
-            if (! $location->move(GroupRights :: get_location_id_by_identifier_from_groups_subtree($new_parent_id)))
-            {
-                return false;
-            }
-        }
+        //        $location = GroupRights :: get_location_by_identifier_from_groups_subtree($this->get_id());
+        //        if ($location)
+        //        {
+        //            if (! $location->move(GroupRights :: get_location_id_by_identifier_from_groups_subtree($new_parent_id)))
+        //            {
+        //                return false;
+        //            }
+        //        }
+
 
         return $this->move_group($new_parent_id, $new_previous_id = 0);
     }
@@ -284,10 +328,11 @@ class Group extends DataClass
     {
         $gdm = $this->get_data_manager();
 
-        if (! GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_CREATE, $new_parent_id))
-        {
-            return false;
-        }
+        //        if (! GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_CREATE, $new_parent_id))
+        //        {
+        //            return false;
+        //        }
+
 
         if (! $gdm->move_group($this, $new_parent_id, $new_previous_id))
         {
@@ -325,14 +370,15 @@ class Group extends DataClass
     {
         $gdm = $this->get_data_manager();
 
-        $location = GroupRights :: get_location_by_identifier_from_groups_subtree($this->get_id());
-        if ($location)
-        {
-            if (! $location->remove())
-            {
-                return false;
-            }
-        }
+        //        $location = GroupRights :: get_location_by_identifier_from_groups_subtree($this->get_id());
+        //        if ($location)
+        //        {
+        //            if (! $location->remove())
+        //            {
+        //                return false;
+        //            }
+        //        }
+
 
         return $this->delete_group();
     }
@@ -340,6 +386,12 @@ class Group extends DataClass
     function truncate()
     {
         return $this->get_data_manager()->truncate_group($this);
+    }
+
+    function create_batch()
+    {
+        $gdm = $this->get_data_manager();
+        return $gdm->create_group($this);
     }
 
     function create($previous_id = 0)
@@ -391,13 +443,14 @@ class Group extends DataClass
             return false;
         }
 
-        $parent_location = GroupRights :: get_location_id_by_identifier_from_groups_subtree($this->get_parent());
-        $parent_location = ($parent_location ? $parent_location : 0);
-        if (! GroupRights :: create_location_in_groups_subtree($this->get_name(), $this->get_id(), $parent_location))
-        {
-            $this->delete_group();
-            return false;
-        }
+        //        $parent_location = GroupRights :: get_location_id_by_identifier_from_groups_subtree($this->get_parent());
+        //        $parent_location = ($parent_location ? $parent_location : 0);
+        //        if (! GroupRights :: create_location_in_groups_subtree($this->get_name(), $this->get_id(), $parent_location))
+        //        {
+        //            $this->delete_group();
+        //            return false;
+        //        }
+
 
         return true;
     }
@@ -430,8 +483,25 @@ class Group extends DataClass
 
     function get_users($include_subgroups = false, $recursive_subgroups = false)
     {
-        $gdm = $this->get_data_manager();
+        if (! isset($this->users[(int) $include_subgroups][(int) $recursive_subgroups]))
+        {
+            $condition = $this->get_user_condition($include_subgroups, $recursive_subgroups);
+            $group_rel_users = $this->get_data_manager()->retrieve_group_rel_users($condition);
+            $users = array();
 
+            while ($group_rel_user = $group_rel_users->next_result())
+            {
+                $users[$group_rel_user->get_user_id()] = $group_rel_user->get_user_id();
+            }
+
+            $this->users[(int) $include_subgroups][(int) $recursive_subgroups] = $users;
+        }
+
+        return $this->users[(int) $include_subgroups][(int) $recursive_subgroups];
+    }
+
+    private function get_user_condition($include_subgroups = false, $recursive_subgroups = false)
+    {
         $groups = array();
         $groups[] = $this->get_id();
 
@@ -445,71 +515,72 @@ class Group extends DataClass
             }
         }
 
-        $condition = new InCondition(GroupRelUser :: PROPERTY_GROUP_ID, $groups);
-        $group_rel_users = $gdm->retrieve_group_rel_users($condition);
-        $users = array();
-
-        while ($group_rel_user = $group_rel_users->next_result())
-        {
-            $user_id = $group_rel_user->get_user_id();
-            if (! in_array($user_id, $users))
-            {
-                $users[] = $user_id;
-            }
-        }
-
-        return $users;
+        return new InCondition(GroupRelUser :: PROPERTY_GROUP_ID, $groups);
     }
 
     function count_users($include_subgroups = false, $recursive_subgroups = false)
     {
-        $users = $this->get_users($include_subgroups, $recursive_subgroups);
+        if (! isset($this->user_count[(int) $include_subgroups][(int) $recursive_subgroups]))
+        {
+            $condition = $this->get_user_condition($include_subgroups, $recursive_subgroups);
+            $this->user_count[(int) $include_subgroups][(int) $recursive_subgroups] = $this->get_data_manager()->count_group_rel_users($condition);
+        }
 
-        return count($users);
+        return $this->user_count[(int) $include_subgroups][(int) $recursive_subgroups];
     }
 
     function get_subgroups($recursive = false)
     {
-        $gdm = $this->get_data_manager();
-
-        if ($recursive)
+        if (! isset($this->subgroups[(int) $recursive]))
         {
-            $children_conditions = array();
-            $children_conditions[] = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_left_value());
-            $children_conditions[] = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, $this->get_right_value());
-            $children_condition = new AndCondition($children_conditions);
+            $gdm = $this->get_data_manager();
+
+            if ($recursive)
+            {
+                $children_conditions = array();
+                $children_conditions[] = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_left_value());
+                $children_conditions[] = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, $this->get_right_value());
+                $children_condition = new AndCondition($children_conditions);
+            }
+            else
+            {
+                $children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
+            }
+
+            $groups = $gdm->retrieve_groups($children_condition);
+
+            $subgroups = array();
+
+            while ($group = $groups->next_result())
+            {
+                $subgroups[$group->get_id()] = $group;
+            }
+
+            $this->subgroups[(int) $recursive] = $subgroups;
         }
-        else
-        {
-            $children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
-        }
 
-        $groups = $gdm->retrieve_groups($children_condition);
-
-        $subgroups = array();
-
-        while ($group = $groups->next_result())
-        {
-            $subgroups[$group->get_id()] = $group;
-        }
-
-        return $subgroups;
+        return $this->subgroups[(int) $recursive];
     }
 
     function count_subgroups($recursive = false)
     {
-        $gdm = $this->get_data_manager();
+        if (! isset($this->subgroup_count[(int) $recursive]))
+        {
+            $gdm = $this->get_data_manager();
 
-        if ($recursive)
-        {
-            return ($this->get_right_value() - $this->get_left_value() - 1) / 2;
+            if ($recursive)
+            {
+                $this->subgroup_count[(int) $recursive] = ($this->get_right_value() - $this->get_left_value() - 1) / 2;
+            }
+            else
+            {
+                $gdm = GroupDataManager :: get_instance();
+                $children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
+                $this->subgroup_count[(int) $recursive] = $gdm->count_groups($children_condition);
+            }
         }
-        else
-        {
-            $gdm = GroupDataManager :: get_instance();
-            $children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
-            return $gdm->count_groups($children_condition);
-        }
+
+        return $this->subgroup_count[(int) $recursive];
     }
 
     /**
@@ -517,34 +588,32 @@ class Group extends DataClass
      */
     function get_allowed_groups()
     {
-        $conditions = array();
-        $conditions[] = new EqualityCondition(GroupUseGroup :: PROPERTY_REQUEST_GROUP_ID, $this->get_id(), GroupUseGroup :: get_table_name());
-        $condition = new AndCondition($conditions);
-
-        $groups_result = array();
-        $usable_groups = $this->get_data_manager()->retrieve_usable_groups($condition);
-
-        while ($usable_group = $usable_groups->next_result())
+        if (! isset($this->allowed_groups))
         {
-            if (! in_array($usable_group->get_id(), $groups_result))
-            {
-                $groups_result[] = $usable_group->get_id();
-            }
+            $conditions = array();
+            $conditions[] = new EqualityCondition(GroupUseGroup :: PROPERTY_REQUEST_GROUP_ID, $this->get_id(), GroupUseGroup :: get_table_name());
+            $condition = new AndCondition($conditions);
 
-            $subgroups = $usable_group->get_children();
+            $groups_result = array();
+            $usable_groups = $this->get_data_manager()->retrieve_usable_groups($condition);
 
-            while ($subgroup = $subgroups->next_result())
+            while ($usable_group = $usable_groups->next_result())
             {
-                if (! in_array($subgroup->get_id(), $groups_result))
+                $groups_result[$usable_group->get_id()] = $usable_group->get_id();
+
+                $subgroups = $usable_group->get_children();
+
+                while ($subgroup = $subgroups->next_result())
                 {
-                    $groups_result[] = $subgroup->get_id();
+                    $groups_result[$subgroup->get_id()] = $subgroup->get_id();
                 }
             }
+
+            $this->allowed_groups = $groups_result;
         }
 
-        return $groups_result;
+        return $this->allowed_groups;
     }
 
 }
-
 ?>

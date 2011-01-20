@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
 
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
 use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\Path;
@@ -16,17 +18,17 @@ class MatterhornExternalRepositoryManagerUploaderComponent extends MatterhornExt
     function run()
     {
         $form = new MatterhornExternalRepositoryManagerForm(MatterhornExternalRepositoryManagerForm :: TYPE_CREATE, $this->get_url(), $this);
-        
+
         if ($form->validate())
         {
             $id = $form->upload_video();
-            
+
             if ($id)
             {
                 $parameters = $this->get_parameters();
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $id;
-                
+
                 if ($this->is_stand_alone())
                 {
                     Redirect :: web_link(Path :: get(WEB_PATH) . 'common/launcher/index.php', $parameters);

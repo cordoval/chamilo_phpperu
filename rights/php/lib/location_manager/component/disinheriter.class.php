@@ -1,6 +1,7 @@
 <?php
 namespace rights;
 
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Breadcrumb;
@@ -65,11 +66,18 @@ class LocationManagerDisinheriterComponent extends LocationManager
 
             if ($location->get_parent() == 0)
             {
-                $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS, LocationManager :: PARAM_LOCATION_ACTION => LocationManager :: ACTION_BROWSE_LOCATIONS, LocationManager :: PARAM_SOURCE => $location->get_application()));
+                $this->redirect(Translation :: get($message), ($failures ? true : false), array(
+                        Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS,
+                        LocationManager :: PARAM_LOCATION_ACTION => LocationManager :: ACTION_BROWSE_LOCATIONS,
+                        LocationManager :: PARAM_SOURCE => $location->get_application()));
             }
             else
             {
-                $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS, LocationManager :: PARAM_LOCATION_ACTION => LocationManager :: ACTION_BROWSE_LOCATIONS, LocationManager :: PARAM_SOURCE => $location->get_application(), LocationManager :: PARAM_LOCATION => $location->get_parent()));
+                $this->redirect(Translation :: get($message), ($failures ? true : false), array(
+                        Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS,
+                        LocationManager :: PARAM_LOCATION_ACTION => LocationManager :: ACTION_BROWSE_LOCATIONS,
+                        LocationManager :: PARAM_SOURCE => $location->get_application(),
+                        LocationManager :: PARAM_LOCATION => $location->get_parent()));
             }
         }
         else
@@ -78,22 +86,22 @@ class LocationManagerDisinheriterComponent extends LocationManager
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$ids = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
-    	$location_id = $ids[0];
+        $ids = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
+        $location_id = $ids[0];
 
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS,
-    															  LocationManager :: PARAM_LOCATION_ACTION => LocationManager :: ACTION_BROWSE_LOCATIONS,
-    															  LocationManager :: PARAM_SOURCE => Request :: get(LocationManager :: PARAM_SOURCE),
-            													  LocationManager :: PARAM_LOCATION => $location_id)),
-    										 Translation :: get('LocationManagerBrowserComponent')));
-    	$breadcrumbtrail->add_help('rights_locations_disinheriter');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS,
+                LocationManager :: PARAM_LOCATION_ACTION => LocationManager :: ACTION_BROWSE_LOCATIONS,
+                LocationManager :: PARAM_SOURCE => Request :: get(LocationManager :: PARAM_SOURCE),
+                LocationManager :: PARAM_LOCATION => $location_id)), Translation :: get('LocationManagerBrowserComponent')));
+        $breadcrumbtrail->add_help('rights_locations_disinheriter');
     }
 
-	function get_additional_parameters()
+    function get_additional_parameters()
     {
-    	return array(LocationManager :: PARAM_LOCATION, LocationManager :: PARAM_SOURCE);
+        return array(LocationManager :: PARAM_LOCATION, LocationManager :: PARAM_SOURCE);
     }
 }
 ?>

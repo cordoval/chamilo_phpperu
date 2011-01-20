@@ -8,8 +8,6 @@ use common\libraries\ComplexContentObjectSupport;
 use repository\content_object\document\Document;
 use repository\content_object\hotpotatoes\Hotpotatoes;
 use repository\content_object\learning_path_item\LearningPathItem;
-use repository\content_object\portfolio_item\PortfolioItem;
-use repository\content_object\handbook_item\HandbookItem;
 use repository\content_object\learning_path\LearningPath;
 use common\libraries\Text;
 use common\libraries\Filesystem;
@@ -26,7 +24,7 @@ use repository\content_object\scorm_item\ScormItem;
  * The included learning objects
  * The attached learning objects
  * The physical files (documents, hotpotatoes, scorm)
- * The references of LearningPathItem & PortfolioItem
+ * The references of LearningPathItem
  * The LearningPath prerequisites (only for chamilo learning paths)
  * Links to other files in a description field
  *
@@ -122,21 +120,21 @@ class ContentObjectCopier
             return $this->created_content_objects[$old_co_id]->get_id();
         }
 
-    	//First we copy the versions so the last version will always be copied last
-        if($co->is_latest_version())
+        //First we copy the versions so the last version will always be copied last
+        if ($co->is_latest_version())
         {
             $versions = $this->rdm->retrieve_content_object_versions($co, false);
-	        foreach($versions as $version)
-	        {
-	        	$this->create_content_object($version, true);
-	        }
+            foreach ($versions as $version)
+            {
+                $this->create_content_object($version, true);
+            }
         }
         else
         {
-        	if(!$is_version)
-        	{
-        		return $this->create_content_object($co->get_latest_version());
-        	}
+            if (! $is_version)
+            {
+                return $this->create_content_object($co->get_latest_version());
+            }
         }
 
         // Retrieve includes, attachments and sync data
@@ -149,26 +147,26 @@ class ContentObjectCopier
         $co->set_parent_id(0);
 
         $old_object_number = $co->get_object_number();
-    	$object_number_exists = array_key_exists($old_object_number, $this->object_numbers);
-        if($object_number_exists)
+        $object_number_exists = array_key_exists($old_object_number, $this->object_numbers);
+        if ($object_number_exists)
         {
-          	$co->set_object_number($this->object_numbers[$old_object_number]);
-       	 	if (!$co->version())
-	        {
-	            $this->failed ++;
-	        }
+            $co->set_object_number($this->object_numbers[$old_object_number]);
+            if (! $co->version())
+            {
+                $this->failed ++;
+            }
         }
         else
         {
-	        // Create object
-        	if (! $co->create())
-	        {
-	            $this->failed ++;
-	        }
-	        else
-	        {
-	        	$this->object_numbers[$old_object_number] = $co->get_object_number();
-	        }
+            // Create object
+            if (! $co->create())
+            {
+                $this->failed ++;
+            }
+            else
+            {
+                $this->object_numbers[$old_object_number] = $co->get_object_number();
+            }
         }
 
         // Add object to created content objects
@@ -237,7 +235,7 @@ class ContentObjectCopier
         foreach ($includes as $include)
         {
             $object = $this->rdm->retrieve_content_object($include->get_id());
-        	$new_include_id = $this->create_content_object($object);
+            $new_include_id = $this->create_content_object($object);
             $co->include_content_object($new_include_id);
         }
     }
@@ -253,7 +251,7 @@ class ContentObjectCopier
         foreach ($attachments as $attachment)
         {
             $object = $this->rdm->retrieve_content_object($attachment->get_id());
-        	$new_attachment_id = $this->create_content_object($object);
+            $new_attachment_id = $this->create_content_object($object);
             $co->attach_content_object($new_attachment_id);
         }
     }
@@ -266,7 +264,7 @@ class ContentObjectCopier
      */
     private function copy_synchronization_data($co, $synchonization_data)
     {
-        if (!is_null($synchonization_data))
+        if (! is_null($synchonization_data))
         {
             $synchonization_data->set_content_object_id($co->get_id());
             $synchonization_data->create();
@@ -372,17 +370,9 @@ class ContentObjectCopier
 
         $this->fix_links($co);
 
-        switch ($type)
+        if (in_array($type, RepositoryDataManager :: get_active_helper_types()))
         {
-            case LearningPathItem :: get_type_name() :
-                $this->fix_references($co);
-                return;
-            case PortfolioItem :: get_type_name() :
-                return $this->fix_references($co);
-            case HandbookItem :: get_type_name() :
-                return $this->fix_references($co);
-            default :
-                return;
+            $this->fix_references($co);
         }
     }
 

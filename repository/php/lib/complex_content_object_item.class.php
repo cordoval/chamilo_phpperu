@@ -26,6 +26,11 @@ class ComplexContentObjectItem extends DataClass
 
     private $additionalProperties;
 
+    /**
+     * @var ContentObject
+     */
+    private $reference_object;
+
     function __construct($defaultProperties = array (), $additionalProperties = array())
     {
         parent :: __construct($defaultProperties);
@@ -69,9 +74,14 @@ class ComplexContentObjectItem extends DataClass
      * Get the default property names
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_REF, self :: PROPERTY_PARENT, self :: PROPERTY_USER_ID, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_ADD_DATE));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_REF,
+                self :: PROPERTY_PARENT,
+                self :: PROPERTY_USER_ID,
+                self :: PROPERTY_DISPLAY_ORDER,
+                self :: PROPERTY_ADD_DATE));
     }
 
     /**
@@ -109,7 +119,11 @@ class ComplexContentObjectItem extends DataClass
 
     function get_ref_object()
     {
-        return RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_ref());
+        if (! isset($this->reference_object))
+        {
+            $this->reference_object = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_ref());
+        }
+        return $this->reference_object;
     }
 
     function set_ref($ref)

@@ -1,13 +1,16 @@
 <?php
 namespace common\libraries;
 
+use DateTimeZone;
+use DateTime;
+
 /**
  * $Id: datetime_utilities.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.datetime
  */
 class DatetimeUtilities
 {
-
+    
     /**
      * Get a four digit year from a two digit year.
      * The century depends on the year difference between the given year and the current year.
@@ -59,7 +62,7 @@ class DatetimeUtilities
     {
     	if(!$dateFormat)
     	{
-    		$dateFormat = Translation :: get('DateFormatShort') . ', ' . Translation :: get('TimeNoSecFormat');
+            $dateFormat = self :: default_date_time_format();
     	}
 
         $DaysShort = self::get_days_short(); // Defining the shorts for the days
@@ -82,6 +85,15 @@ class DatetimeUtilities
 
         return strftime($date, $timeStamp);
     }
+    
+    private static function default_date_time_format()
+    {
+        $translator = Translation :: get_instance();
+        $short_date = $translator->get('DateFormatShort');
+        $time = $translator->get('TimeNoSecFormat');
+        $dateFormat = "{$short_date},  {$time}";
+        return $dateFormat;
+    }
 
     /**
      * Convert the given date to the selected timezone
@@ -90,9 +102,9 @@ class DatetimeUtilities
      */
     public static function convert_date_to_timezone($date, $format = null, $timezone = null)
     {
-   		if(!$format)
+        if(!$dateFormat)
     	{
-    		$format = Translation :: get('DateFormatShort') . ', ' . Translation :: get('TimeNoSecFormat');
+            $dateFormat = self :: default_date_time_format();
     	}
 
     	if(!$timezone)
@@ -107,10 +119,10 @@ class DatetimeUtilities
     	$date_time_zone = new DateTimeZone($timezone);
     	$gmt_time_zone = new DateTimeZone('GMT');
 
-		$date_time = new DateTime($date, $gmt_time_zone);
-		$offset = $date_time_zone->getOffset($date_time);
+        $date_time = new DateTime($date, $gmt_time_zone);
+        $offset = $date_time_zone->getOffset($date_time);
 
-		return self :: format_locale_date($format, $date_time->format('U') + $offset);
+        return self :: format_locale_date($format, $date_time->format('U') + $offset);
     }
 
 
@@ -155,8 +167,18 @@ class DatetimeUtilities
     	if($result){
     		return $result;
     	}
+        
+        $translator = Translation :: get_instance();
 
-        return $result = array(Translation :: get("SundayShort"), Translation :: get("MondayShort"), Translation :: get("TuesdayShort"), Translation :: get("WednesdayShort"), Translation :: get("ThursdayShort"), Translation :: get("FridayShort"), Translation :: get("SaturdayShort"));
+        return $result = array(
+            $translator->get("SundayShort"), 
+            $translator->get("MondayShort"), 
+            $translator->get("TuesdayShort"), 
+            $translator->get("WednesdayShort"), 
+            $translator->get("ThursdayShort"), 
+            $translator->get("FridayShort"), 
+            $translator->get("SaturdayShort")
+        );
     }
 
     /**
@@ -169,8 +191,17 @@ class DatetimeUtilities
     	if($result){
     		return $result;
     	}
-
-        return $result = array(Translation :: get("SundayLong"), Translation :: get("MondayLong"), Translation :: get("TuesdayLong"), Translation :: get("WednesdayLong"), Translation :: get("ThursdayLong"), Translation :: get("FridayLong"), Translation :: get("SaturdayLong"));
+        $translator = Translation :: get_instance();
+        
+        return $result = array(
+            $translator->get("SundayLong"), 
+            $translator->get("MondayLong"), 
+            $translator->get("TuesdayLong"), 
+            $translator->get("WednesdayLong"), 
+            $translator->get("ThursdayLong"), 
+            $translator->get("FridayLong"), 
+            $translator->get("SaturdayLong")
+        );
     }
 
 	/**
@@ -183,8 +214,25 @@ class DatetimeUtilities
     	if($result){
     		return $result;
     	}
+        
+        $translator = Translation :: get_instance();
+        
+        return $result = array(
+            $translator->get("JanuaryShort"), 
+            $translator->get("FebruaryShort"), 
+            $translator->get("MarchShort"), 
+            $translator->get("AprilShort"), 
+            $translator->get("MayShort"), 
+            $translator->get("JuneShort"), 
+            $translator->get("JulyShort"),
+            $translator->get("AugustShort"),
+            $translator->get("SeptemberShort"),
+            $translator->get("OctoberShort"),
+            $translator->get("NovemberShort"),
+            $translator->get("DecemberShort"),
+            
+        );
 
-        return $result = array(Translation :: get("JanuaryShort"), Translation :: get("FebruaryShort"), Translation :: get("MarchShort"), Translation :: get("AprilShort"), Translation :: get("MayShort"), Translation :: get("JuneShort"), Translation :: get("JulyShort"), Translation :: get("AugustShort"), Translation :: get("SeptemberShort"), Translation :: get("OctoberShort"), Translation :: get("NovemberShort"), Translation :: get("DecemberShort"));
     }
 
 	/**
@@ -197,8 +245,25 @@ class DatetimeUtilities
     	if($result){
     		return $result;
     	}
+        
+        $translator = Translation :: get_instance();
+        
+        return $result = array(
+            $translator->get("JanuaryLong"), 
+            $translator->get("FebruaryLong"), 
+            $translator->get("Marchv"), 
+            $translator->get("AprilLong"), 
+            $translator->get("MayLong"), 
+            $translator->get("JuneLong"), 
+            $translator->get("JulyLong"),
+            $translator->get("AugustLong"),
+            $translator->get("SeptemberLong"),
+            $translator->get("OctoberLong"),
+            $translator->get("NovemberLong"),
+            $translator->get("DecemberLong"),
+            
+        );
 
-        return $result = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
     }
 
 

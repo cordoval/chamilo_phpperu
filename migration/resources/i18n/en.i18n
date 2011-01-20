@@ -74,6 +74,8 @@ ObjectsNotMigrated = "<b>{OBJECTCOUNT}</b> objects are not migrated because they
 ObjectMigrated = "<b>1</b> object is migrated.";
 ObjectNotMigrated = "<b>1</b> object is not migrated because it is invalid.";
 GeneralInvalidMessage = "FAILED: {TYPE} is not valid ( ID: {ID} )";
+TypeFolderDeprecatedMessage = "FAILED: {TYPE}: Documents of type folder are deprecated ( ID: {ID} )";
+FileDoesNotExistMessage = "FAILED: {TYPE} is not valid ( ID: {ID} , OF: {ORIGINALFILENAME}, NF: {FILENAME})";
 GeneralConvertedMessage ="SUCCES: new {TYPE} added ( OLD ID: {OLD_ID} - NEW ID: {NEW_ID} )";
 FinishedMigrationForTable = "Finished migration for table <b>{TABLE}</b>";
 MigrationComplete = "Migration complete in {TIME}";
@@ -118,5 +120,3 @@ QuizRelQuestionConvertedMessage = "SUCCES: new quiz rel question added (QUIZ: {Q
 
 CourseLearningPathsMigrationBlockInfoNext = "On the next page all the learning paths, learning path chapters, learning path items and learning path statistics from all the courses will be migrated";
 CourseLearningPathsMigrationBlockInfo = "On this page all the learning paths, learning path chapters, learning path items and learning path statistics from all the courses will be migrated";
-
-Migration = ""

@@ -1,6 +1,7 @@
 <?php
 namespace application\laika;
 
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
 use common\libraries\Theme;
@@ -42,7 +43,7 @@ class LaikaUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         {
             return $this->get_modification_links($user);
         }
-        
+
         return parent :: render_cell($column, $user);
     }
 
@@ -54,8 +55,8 @@ class LaikaUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
      */
     private function get_modification_links($user)
     {
-        $toolbar= new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Browse', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_laika_user_viewing_url($user), ToolbarItem :: DISPLAY_ICON ));
+        $toolbar = new Toolbar();
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Browse', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_laika_user_viewing_url($user), ToolbarItem :: DISPLAY_ICON));
 
         return $toolbar->as_html();
     }

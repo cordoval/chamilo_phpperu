@@ -1,6 +1,9 @@
 <?php
 namespace migration;
 
+use user\ReferrersTracker;
+
+use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
@@ -120,7 +123,7 @@ class Dokeos185TrackCReferers extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_referer() || $this->get_counter() == null)
+        if (! $this->get_referer() || $this->get_counter() == null)
         {
             $this->create_failed_element($this->get_id());
             return false;
@@ -159,7 +162,7 @@ class Dokeos185TrackCReferers extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
     }
 
     static function get_class_name()

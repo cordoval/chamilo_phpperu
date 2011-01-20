@@ -97,25 +97,25 @@ class ContentObjectCategoryMenu extends HTML_Menu
         $menu = array();
         $menu_item = array();
 
-        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
-        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, 0);
-        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
-        $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_registered_types());
+//        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
+//        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, 0);
+//        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
+//        $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_registered_types());
+//
+//        if (count($this->filter_count_on_types))
+//        {
+//            $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
+//        }
+//
+//        if (count($this->exclude_types))
+//        {
+//            $conditions[] = new NotCondition(new InCondition(ContentObject :: PROPERTY_TYPE, $this->exclude_types));
+//        }
+//
+//        $condition = new AndCondition($conditions);
+//        $count = $this->data_manager->count_content_objects($condition);
 
-        if (count($this->filter_count_on_types))
-        {
-            $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
-        }
-
-        if (count($this->exclude_types))
-        {
-            $conditions[] = new NotCondition(new InCondition(ContentObject :: PROPERTY_TYPE, $this->exclude_types));
-        }
-
-        $condition = new AndCondition($conditions);
-        $count = $this->data_manager->count_content_objects($condition);
-
-        $menu_item['title'] = Translation :: get('MyRepository') . ' (' . $count . ')';
+        $menu_item['title'] = Translation :: get('MyRepository')/* . ' (' . $count . ')'*/;
         $menu_item['url'] = $this->get_category_url(0);
         $sub_menu_items = $this->get_sub_menu_items(0);
         if (count($sub_menu_items) > 0)
@@ -152,28 +152,28 @@ class ContentObjectCategoryMenu extends HTML_Menu
         $categories = array();
         while ($category = $objects->next_result())
         {
-            $conditions = array();
-            $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category->get_id());
-            $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
-            $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
-            $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_registered_types());
-
-            if (count($this->filter_count_on_types))
-            {
-                $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
-            }
-
-            if (count($this->exclude_types))
-            {
-                $conditions[] = new NotCondition(new InCondition(ContentObject :: PROPERTY_TYPE, $this->exclude_types));
-            }
-
-            $condition = new AndCondition($conditions);
-
-            $count = $this->data_manager->count_content_objects($condition);
+//            $conditions = array();
+//            $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category->get_id());
+//            $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
+//            $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
+//            $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_registered_types());
+//
+//            if (count($this->filter_count_on_types))
+//            {
+//                $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
+//            }
+//
+//            if (count($this->exclude_types))
+//            {
+//                $conditions[] = new NotCondition(new InCondition(ContentObject :: PROPERTY_TYPE, $this->exclude_types));
+//            }
+//
+//            $condition = new AndCondition($conditions);
+//
+//            $count = $this->data_manager->count_content_objects($condition);
 
             $menu_item = array();
-            $menu_item['title'] = $category->get_name() . ' (' . $count . ')';
+            $menu_item['title'] = $category->get_name()/* . ' (' . $count . ')'*/;
             $menu_item['url'] = $this->get_category_url($category->get_id());
             $sub_menu_items = $this->get_sub_menu_items($category->get_id());
             if (count($sub_menu_items) > 0)

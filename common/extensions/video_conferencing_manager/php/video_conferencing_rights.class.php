@@ -1,8 +1,8 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
 
-use common\libraries;
-
+use common\libraries\Display;
+use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
 
@@ -47,12 +47,12 @@ abstract class VideoConferencingRights
         }
         else
         {
-            require $file;
+            require_once $file;
             $class = $namespace . '\\' . Utilities :: underscores_to_camelcase($type) . 'VideoConferencingRights';
-            
+
             return new $class();
         }
-    
+
     }
 }
 ?>

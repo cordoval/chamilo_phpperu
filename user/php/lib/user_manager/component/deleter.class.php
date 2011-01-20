@@ -1,12 +1,15 @@
 <?php
 namespace user;
 
+use tracking\Event;
+
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
+use common\libraries\Application;
 
 /**
  * $Id: deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -22,7 +25,7 @@ class UserManagerDeleterComponent extends UserManager implements AdministrationC
     {
         $ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
 
-        if (!is_array($ids))
+        if (! is_array($ids))
         {
             $ids = array($ids);
         }
@@ -35,35 +38,40 @@ class UserManagerDeleterComponent extends UserManager implements AdministrationC
             {
                 $user = $this->retrieve_user($id);
 
-                if (!UserRights :: is_allowed_in_users_subtree(UserRights :: DELETE_RIGHT, $id) || !UserDataManager :: user_deletion_allowed($user))
+                if ( ! UserDataManager :: user_deletion_allowed($user))
                 {
-                    $failures++;
+                    $failures ++;
                     continue;
                 }
 
                 if ($user->delete())
                 {
-                    Event :: trigger('delete', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
+                    Event :: trigger('delete', 'user', array(
+                            'target_user_id' => $user->get_id(),
+                            'action_user_id' => $this->get_user()->get_id()));
                 }
                 else
                 {
-                    $failures++;
+                    $failures ++;
                 }
             }
 
             $message = $this->get_result($failures, count($ids), 'UserNotDeleted', 'UsersNotDeleted', 'UserDeleted', 'UsersDeleted');
 
-            $this->redirect($message, ($failures > 0), array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+            $this->redirect($message, ($failures > 0), array(
+                    Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array(
+                    'OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
         $breadcrumbtrail->add_help('user_deleter');
     }
 

@@ -1,16 +1,14 @@
 <?php
 namespace user;
 
+use tracking\Event;
+
 use common\libraries\Versionable;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\FormValidator;
 use common\libraries\Utilities;
-use common\libraries\event;
-
-use repository\content_object\learning_path_item\LearningPathItem;
-use repository\content_object\portfolio_item\PortfolioItem;
 
 use repository\ContentObject;
 use repository\RepositoryDataManager;
@@ -59,20 +57,24 @@ class UserQuotaForm extends FormValidator
     {
         $this->addElement('category', Translation :: get('GeneralQuota'));
         // Disk Quota
-        $this->addElement('text', User :: PROPERTY_DISK_QUOTA, Translation :: get('DiskQuota'), array("size" => "50"));
+        $this->addElement('text', User :: PROPERTY_DISK_QUOTA, Translation :: get('DiskQuota'), array(
+                "size" => "50"));
         $this->addRule(User :: PROPERTY_DISK_QUOTA, Translation :: get('ThisFieldMustBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric', null, 'server');
         // Database Quota
-        $this->addElement('text', User :: PROPERTY_DATABASE_QUOTA, Translation :: get('DatabaseQuota'), array("size" => "50"));
+        $this->addElement('text', User :: PROPERTY_DATABASE_QUOTA, Translation :: get('DatabaseQuota'), array(
+                "size" => "50"));
         $this->addRule(User :: PROPERTY_DATABASE_QUOTA, Translation :: get('ThisFieldMustBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric', null, 'server');
         // Version quota
-        $this->addElement('text', User :: PROPERTY_VERSION_QUOTA, Translation :: get('VersionQuota'), array("size" => "50"));
+        $this->addElement('text', User :: PROPERTY_VERSION_QUOTA, Translation :: get('VersionQuota'), array(
+                "size" => "50"));
         $this->addRule(User :: PROPERTY_VERSION_QUOTA, Translation :: get('ThisFieldMustBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric', null, 'server');
         $this->addElement('category');
 
         $this->addElement('category', Translation :: get('VersionQuota'));
         foreach ($this->content_object_types as $type)
         {
-            $this->addElement('text', $type, Translation :: get(Utilities :: underscores_to_camelcase($type)), array("size" => "50"));
+            $this->addElement('text', $type, Translation :: get(Utilities :: underscores_to_camelcase($type)), array(
+                    "size" => "50"));
             $this->addRule($type, Translation :: get('ThisFieldMustBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric', null, 'server');
         }
         $this->addElement('category');
@@ -92,7 +94,8 @@ class UserQuotaForm extends FormValidator
 
         // Submit button
         //$this->addElement('submit', 'quota_settings', 'OK');
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive'));
         //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
 
@@ -202,7 +205,9 @@ class UserQuotaForm extends FormValidator
         }
         else
         {
-            Event :: trigger('quota', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
+            Event :: trigger('quota', 'user', array(
+                    'target_user_id' => $user->get_id(),
+                    'action_user_id' => $user->get_id()));
             return true;
         }
     }
@@ -252,7 +257,7 @@ class UserQuotaForm extends FormValidator
         $content_object_types = RepositoryDataManager :: get_registered_types();
         $filtered_object_types = array();
 
-        $hidden_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
+        $hidden_types = RepositoryDataManager :: get_active_helper_types();
 
         foreach ($content_object_types as $type)
         {

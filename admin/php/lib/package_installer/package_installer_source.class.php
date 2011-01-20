@@ -1,5 +1,9 @@
 <?php
 namespace admin;
+use common\libraries\Filecompression;
+
+use common\libraries\Filesystem;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -84,7 +88,7 @@ abstract class PackageInstallerSource
             {
                 $this->set_package_folder($extract_path);
                 $this->get_parent()->add_message(Translation :: get('RemotePackageExtracted'));
-                
+
                 if (! Filesystem :: move_file($extract_path, Path :: get(SYS_PATH)))
                 {
                     $this->installation_failed('source', Translation :: get('PackageMoveFailed'));
@@ -93,7 +97,7 @@ abstract class PackageInstallerSource
                 {
                     $this->add_message(Translation :: get('PackageMovedSucessfully'));
                 }
-                
+
                 return true;
             }
         }
@@ -139,7 +143,7 @@ abstract class PackageInstallerSource
     function cleanup()
     {
         $package_folder = $this->get_package_folder();
-        
+
         if (! $package_folder)
         {
             $this->get_parent()->add_message(Translation :: get('NoTemporaryFilesToClean'));

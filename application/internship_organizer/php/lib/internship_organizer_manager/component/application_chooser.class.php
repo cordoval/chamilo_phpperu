@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use admin\AdminSearchForm;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\DelegateComponent;

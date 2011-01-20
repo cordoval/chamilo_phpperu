@@ -1,8 +1,6 @@
 <?php
 namespace common\extensions\rights_editor_manager;
 
-use common\libraries;
-
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
@@ -27,7 +25,10 @@ use common\libraries\DynamicVisualTab;
 use group\Group;
 use group\GroupMenu;
 use group\GroupDataManager;
+
 use rights\RightsUtilities;
+use rights\RightsTemplate;
+
 use user\User;
 
 /**
@@ -364,8 +365,8 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $locations = $this->get_locations();
         if (count($locations) == 1)
         {
-                 $location = $locations[0];
-        	if(location != null & $location->get_parent())
+            $location = $locations[0];
+            if($location != null && $location->get_parent())
             {
                 $url = $this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_CHANGE_INHERIT));
                 if ($location->inherits())

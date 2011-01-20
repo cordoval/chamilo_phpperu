@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Application;
 use common\libraries\WebApplication;
 use common\libraries\SubManager;
 
@@ -8,11 +9,11 @@ require_once WebApplication :: get_application_class_lib_path('internship_organi
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'period_menu.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'period.class.php';
 
-class InternshipOrganizerPeriodManager extends SubManager 
+class InternshipOrganizerPeriodManager extends SubManager
 {
-    
+
     const PARAM_ACTION = 'action';
-    
+
     const PARAM_PERIOD_ID = 'period_id';
     const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_TRUNCATE_SELECTED = 'truncate';
@@ -23,7 +24,7 @@ class InternshipOrganizerPeriodManager extends SubManager
     const PARAM_USER_TYPE = 'user_type';
     const PARAM_AGREEMENT_ID = 'agreement_id';
     const PARAM_PUBLICATION_ID = 'publication_id';
-    
+
     const ACTION_CREATE_PERIOD = 'creator';
     const ACTION_BROWSE_PERIODS = 'browser';
     const ACTION_EDIT_PERIOD = 'editor';
@@ -31,28 +32,28 @@ class InternshipOrganizerPeriodManager extends SubManager
     const ACTION_DELETE_PERIOD = 'deleter';
     const ACTION_VIEW_PERIOD = 'viewer';
     const ACTION_PUBLISH_PERIOD = 'publisher';
-    
+
     const ACTION_CREATE_AGREEMENT = 'agreement_creator';
     const ACTION_DELETE_AGREEMENT = 'agreement_deleter';
     const ACTION_UPDATE_AGREEMENT = 'agreement_editor';
     const ACTION_VIEW_AGREEMENT = 'agreement_viewer';
-    
+
     const ACTION_VIEW_PUBLICATION = 'publication_viewer';
     const ACTION_DELETE_PUBLICATION = 'publication_deleter';
     const ACTION_EDIT_PUBLICATION_RIGHTS = 'publication_rights_editor';
-    
+
     const ACTION_SUBSCRIBE_USER = 'subscribe_user';
     const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
     const ACTION_SUBSCRIBE_CATEGORY = 'subscribe_category';
     const ACTION_SUBSCRIBE_AGREEMENT_REL_USER = 'subscribe_agreement_rel_user';
-    
+
     const ACTION_UNSUBSCRIBE_USER = 'unsubscribe_user';
     const ACTION_UNSUBSCRIBE_GROUP = 'unsubscribe_group';
     const ACTION_UNSUBSCRIBE_CATEGORY = 'unsubscribe_category';
     const ACTION_UNSUBSCRIBE_AGREEMENT_REL_USER = 'unsubscribe_agreement_rel_user';
-    
+
     const ACTION_REPORTING = 'reporting';
-    
+
     const DEFAULT_ACTION = self :: ACTION_BROWSE_PERIODS;
 
     function __construct($internship_manager)
@@ -102,55 +103,71 @@ class InternshipOrganizerPeriodManager extends SubManager
     }
 
     //url
-    
+
 
     function get_browse_periods_url($period = null)
     {
         if ($period != null)
         {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $period->get_id()));
-        
+            return $this->get_url(array(
+                    self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS,
+                    self :: PARAM_PERIOD_ID => $period->get_id()));
+
         }
         else
         {
             return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS));
-        
+
         }
     }
 
     function get_period_editing_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_PERIOD,
+                self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_period_create_url($parent_period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PERIOD, self :: PARAM_PERIOD_ID => $parent_period->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CREATE_PERIOD,
+                self :: PARAM_PERIOD_ID => $parent_period->get_id()));
     }
 
     function get_period_emptying_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TRUNCATE_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_TRUNCATE_PERIOD,
+                self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_period_viewing_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD,
+                self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_period_delete_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_PERIOD,
+                self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_period_reporting_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_REPORTING,
+                self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_period_publish_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_PUBLISH_PERIOD,
+                self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_periods_publish_url()
@@ -160,93 +177,129 @@ class InternshipOrganizerPeriodManager extends SubManager
 
     function get_period_subscribe_user_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER,
+                self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_period_subscribe_group_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_GROUP, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_GROUP,
+                self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_period_subscribe_category_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_CATEGORY, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_CATEGORY,
+                self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_period_unsubscribe_user_url($period_rel_user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USER, self :: PARAM_PERIOD_REL_USER_ID => $period_rel_user->get_period_id() . '|' . $period_rel_user->get_user_id() . '|' . $period_rel_user->get_user_type()));
-    
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USER,
+                self :: PARAM_PERIOD_REL_USER_ID => $period_rel_user->get_period_id() . '|' . $period_rel_user->get_user_id() . '|' . $period_rel_user->get_user_type()));
+
     }
 
     function get_period_unsubscribe_group_url($period_rel_group)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_GROUP, self :: PARAM_PERIOD_REL_GROUP_ID => $period_rel_group->get_period_id() . '|' . $period_rel_group->get_group_id() . '|' . $period_rel_group->get_user_type()));
-    
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_GROUP,
+                self :: PARAM_PERIOD_REL_GROUP_ID => $period_rel_group->get_period_id() . '|' . $period_rel_group->get_group_id() . '|' . $period_rel_group->get_user_type()));
+
     }
 
     function get_period_unsubscribe_category_url($category_rel_period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_CATEGORY, self :: PARAM_PERIOD_REL_CATEGORY_ID => $category_rel_period->get_category_id() . '|' . $category_rel_period->get_period_id()));
-    
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_CATEGORY,
+                self :: PARAM_PERIOD_REL_CATEGORY_ID => $category_rel_period->get_category_id() . '|' . $category_rel_period->get_period_id()));
+
     }
 
     function get_period_create_agreement_url($period, $user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_AGREEMENT, self :: PARAM_USER_ID => $period->get_id() . '|' . $user->get_id()));
-    
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CREATE_AGREEMENT,
+                self :: PARAM_USER_ID => $period->get_id() . '|' . $user->get_id()));
+
     }
 
     function get_update_agreement_url($agreement)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UPDATE_AGREEMENT,
+                self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
     }
 
     function get_delete_agreement_url($agreement)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_AGREEMENT,
+                self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
     }
 
     function get_view_agreement_url($agreement)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT,
+                self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
     }
 
     function get_unsubscribe_agreement_rel_user_url($agreement, $user, $user_type)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_AGREEMENT_REL_USER, self :: PARAM_USER_ID => $agreement->get_id() . '|' . $user->get_id() . '|' . $user_type));
-    
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_AGREEMENT_REL_USER,
+                self :: PARAM_USER_ID => $agreement->get_id() . '|' . $user->get_id() . '|' . $user_type));
+
     }
 
     function get_subscribe_agreement_rel_user_url($agreement, $user_type)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_AGREEMENT_REL_USER, self :: PARAM_AGREEMENT_ID => $agreement->get_id(), self :: PARAM_USER_TYPE => $user_type));
-    
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_AGREEMENT_REL_USER,
+                self :: PARAM_AGREEMENT_ID => $agreement->get_id(),
+                self :: PARAM_USER_TYPE => $user_type));
+
     }
 
     function get_rights_editor_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PERIOD_RIGHTS, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_PERIOD_RIGHTS,
+                self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_agreement_rights_editor_url($agreement)
     {
-        return $this->get_url(array(Application :: PARAM_ACTION => InternshipOrganizerAgreementManager :: SUB_MANAGER_NAME, InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_EDIT_AGREEMENT_RIGHTS, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+        return $this->get_url(array(
+                Application :: PARAM_ACTION => InternshipOrganizerAgreementManager :: SUB_MANAGER_NAME,
+                InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_EDIT_AGREEMENT_RIGHTS,
+                InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement->get_id()));
     }
 
     function get_view_publication_url($publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION,
+                self :: PARAM_PUBLICATION_ID => $publication->get_id()));
     }
 
     function get_delete_publication_url($publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION,
+                self :: PARAM_PUBLICATION_ID => $publication->get_id()));
     }
 
     function get_publication_rights_editor_url($publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION_RIGHTS, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION_RIGHTS,
+                self :: PARAM_PUBLICATION_ID => $publication->get_id()));
     }
 
     /**

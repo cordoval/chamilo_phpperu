@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager;
 
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
 use common\libraries\TreeMenuRenderer;
 use common\libraries\Translation;

@@ -1,5 +1,10 @@
 <?php
+namespace application\internship_organizer;
 
+use common\libraries\NotCondition;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\Authentication;
 use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\CoreApplication;
@@ -22,7 +27,7 @@ Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
 
 if (Authentication :: is_valid())
 {
-    
+
     $user_id = $_GET['user_id'];
     $agreement_rel_user_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerAgreementRelUser :: get_table_name());
     $condition = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $user_id, $agreement_rel_user_alias, true);
@@ -32,9 +37,9 @@ if (Authentication :: is_valid())
     {
         $agreement_ids[] = $agreement->get_id();
     }
-    
+
     $conditions = array();
-    
+
     if (count($agreement_ids))
     {
         $conditions[] = new InCondition(InternshipOrganizerAgreement :: PROPERTY_ID, $agreement_ids);
@@ -43,9 +48,9 @@ if (Authentication :: is_valid())
     {
         $conditions[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_ID, 0);
     }
-    
+
     $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, InternshipOrganizerUserType::STUDENT , $agreement_rel_user_alias, true);
-    
+
     //    $query_condition = Utilities :: query_to_condition($_GET['query'], array(User :: PROPERTY_FIRSTNAME, User :: PROPERTY_LASTNAME, User :: PROPERTY_USERNAME));
     if (isset($_GET['query']))
     {
@@ -57,10 +62,10 @@ if (Authentication :: is_valid())
         $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*', $user_alias, true);
         $search_conditions[] = new PatternMatchCondition(InternshipOrganizerAgreement :: PROPERTY_NAME, '*' . $query . '*', InternshipOrganizerAgreement :: get_table_name());
         $search_conditions[] = new PatternMatchCondition(InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION, '*' . $query . '*', InternshipOrganizerAgreement :: get_table_name());
-        
+
         $conditions[] = new OrCondition($search_conditions);
     }
-    
+
     if (is_array($_GET['exclude']))
     {
         $c = array();
@@ -75,27 +80,27 @@ if (Authentication :: is_valid())
             //            $a[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, $ids[2]);
             //            $c[] = new AndCondition($a);
             $c[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_ID, $id);
-        
+
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     if (count($conditions) > 0)
     {
         $condition = new AndCondition($conditions);
-    
+
     }
     else
     {
         $condition = null;
     }
-    
+
     $objects = InternshipOrganizerDataManager :: get_instance()->retrieve_agreements($condition);
-    
+
     $agreements = array();
     while ($agreement = $objects->next_result())
     {
-        
+
         $agreements[] = $agreement;
     }
 }
@@ -112,7 +117,7 @@ function dump_tree($agreements)
     if (contains_results($agreements))
     {
         echo '<node id="0" classes="category unlinked" title="', Translation :: get('InternshipOrganizerAgreements'), '">', "\n";
-        
+
         foreach ($agreements as $agreement)
         {
             $id = 'agreement_' . $agreement->get_id();
@@ -122,9 +127,9 @@ function dump_tree($agreements)
             $description = $description . ' - ' . $agreement->get_optional_property('period');
             echo '<leaf id="' . $id . '" classes="" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
-        
+
         echo '</node>', "\n";
-    
+
     }
 }
 

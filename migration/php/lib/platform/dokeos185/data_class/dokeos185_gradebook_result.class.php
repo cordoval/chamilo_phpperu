@@ -1,5 +1,7 @@
 <?php
 namespace migration;
+
+use Exception;
 /**
  * $Id: dokeos185_gradebook_result.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -13,7 +15,7 @@ namespace migration;
 class Dokeos185GradebookResult extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185GradebookResult properties
      */
@@ -22,7 +24,7 @@ class Dokeos185GradebookResult extends Dokeos185MigrationDataClass
     const PROPERTY_EVALUATION_ID = 'evaluation_id';
     const PROPERTY_DATE = 'date';
     const PROPERTY_SCORE = 'score';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -130,7 +132,7 @@ class Dokeos185GradebookResult extends Dokeos185MigrationDataClass
     /**
      * Check if the gradebook result is valid
      * @param array $array the parameters for the validation
-     * @return true if the gradebook result is valid 
+     * @return true if the gradebook result is valid
      */
     function is_valid()
     {
@@ -156,7 +158,7 @@ class Dokeos185GradebookResult extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
-    
+
     }
 
     /**
@@ -167,11 +169,11 @@ class Dokeos185GradebookResult extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = 'main_database';
         $tablename = 'gradebook_result';
         $classname = 'Dokeos185GradebookResult';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

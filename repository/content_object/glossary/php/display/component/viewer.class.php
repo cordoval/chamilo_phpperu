@@ -15,6 +15,10 @@ use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
 use repository\content_object\glossary_item\GlossaryItem;
 use repository\ComplexContentObjectItem;
+use common\libraries\PatternMatchCondition;
+use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use repository\ContentObject;
 
 /**
  * $Id: glossary_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -37,34 +41,80 @@ class GlossaryDisplayViewerComponent extends GlossaryDisplay
 
     function run()
     {
-        $this->action_bar = $this->get_action_bar();
-
-        $dm = RepositoryDataManager :: get_instance();
-
-        $object = $this->get_root_content_object();
-
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), $object->get_title()));
+//        $this->action_bar = $this->get_action_bar();
+//
+//        $dm = RepositoryDataManager :: get_instance();
+//
+//        $object = $this->get_root_content_object();
+//
+//        $trail = BreadcrumbTrail :: get_instance();
+//        if(!is_array($object))
+//        {
+//            $trail->add(new Breadcrumb($this->get_url(), $object->get_title()));
+//        }
         $this->display_header();
 
-        echo $this->action_bar->as_html();
+//        echo $this->action_bar->as_html();
+//
+//        if ($this->get_view() == self :: VIEW_TABLE)
+//        {
+//            $table = new GlossaryViewerTable($this);
+//            echo $table->as_html();
+//        }
+//        else
+//        {
+//            if(!is_array($object))
+//            {
+//                $object = array($object);
+//            }
+//            foreach($object as $obj)
+//            {
+//                $children = $dm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $obj->get_id(), ComplexContentObjectItem :: get_table_name()));
+//                while ($child = $children->next_result())
+//                {
+//                    $content_object = $dm->retrieve_content_object($child->get_ref());
+//                    echo $this->display_content_object($content_object, $child);
+//                }
+//            }
+//        }
+        echo $this->to_html();
+        $this->display_footer();
+    }
 
+    function to_html()
+    {
+        $html = array();
+        $this->action_bar = $this->get_action_bar();
+        $dm = RepositoryDataManager :: get_instance();
+        $object = $this->get_parent()->get_root_content_object($this);
+        $trail = BreadcrumbTrail :: get_instance();
+        if(!is_array($object))
+        {
+            $trail->add(new Breadcrumb($this->get_url(), $object->get_title()));
+        }
+        $html[] = $this->action_bar->as_html();
         if ($this->get_view() == self :: VIEW_TABLE)
         {
             $table = new GlossaryViewerTable($this);
-            echo $table->as_html();
+            $html[] =  $table->as_html();
         }
         else
         {
-            $children = $dm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexContentObjectItem :: get_table_name()));
-            while ($child = $children->next_result())
+            if(!is_array($object))
             {
-                $content_object = $dm->retrieve_content_object($child->get_ref());
-                echo $this->display_content_object($content_object, $child);
+                $object = array($object);
+            }
+            foreach($object as $obj)
+            {
+                $children = $dm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $obj->get_id(), ComplexContentObjectItem :: get_table_name()));
+                while ($child = $children->next_result())
+                {
+                    $content_object = $dm->retrieve_content_object($child->get_ref());
+                    $html[] =  $this->display_content_object($content_object, $child);
+                }
             }
         }
-
-        $this->display_footer();
+        return implode("\n" , $html);
     }
 
     function display_content_object($content_object, $complex_content_object_item)
@@ -126,12 +176,42 @@ class GlossaryDisplayViewerComponent extends GlossaryDisplay
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('TableView', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW => self :: VIEW_LIST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
+        $action_bar->set_search_url($this->get_url($this->get_parameters()));
+        
         return $action_bar;
     }
 
     function get_condition()
     {
-        return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_content_object_id(), ComplexContentObjectItem :: get_table_name());
+
+        $query = $this->action_bar->get_query();
+        
+        if (isset($query) && $query != '')
+        {
+            $search_conditions[] = new PatternMatchCondition(GlossaryItem::PROPERTY_TITLE, '*' . $query . '*', ContentObject :: get_table_name());
+            $search_conditions[] = new PatternMatchCondition(GlossaryItem::PROPERTY_DESCRIPTION, '*' . $query . '*', ContentObject :: get_table_name());
+            $conditions[] = new OrCondition($search_conditions);
+        }
+
+        $objects = $this->get_parent()->get_root_content_object($this);;
+        if(!is_array($objects))
+        {
+            $objects = array($objects);
+        }
+        $co_conditions = array();
+
+        foreach ($objects as $object)
+        {
+            $co_conditions[]= new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexContentObjectItem :: get_table_name());
+        }
+
+
+
+        $conditions[] =  new OrCondition($co_conditions);
+
+        $condition = new AndCondition($conditions);
+        
+        return $condition;
     }
 }
 

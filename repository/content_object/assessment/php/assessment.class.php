@@ -24,12 +24,9 @@ use repository\content_object\assessment_match_text_question\AssessmentMatchText
 use repository\content_object\ordering_question\OrderingQuestion;
 
 /**
- * $Id: assessment.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.assessment
- *
- */
-/**
  * This class represents an assessment
+ *
+ * @package repository.lib.content_object.assessment
  */
 class Assessment extends ContentObject implements ComplexContentObjectSupport
 {
@@ -48,6 +45,19 @@ class Assessment extends ContentObject implements ComplexContentObjectSupport
 
     const CLASS_NAME = __CLASS__;
 
+    /**
+     * The number of questions in this assessment
+     * @var int
+     */
+    private $question_count;
+
+    /**
+     * An ObjectResultSet containing all ComplexContentObjectItem
+     * objects for individual questions.
+     * @var ObjectResultSet
+     */
+    private $questions;
+
     static function get_type_name()
     {
         return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
@@ -55,7 +65,8 @@ class Assessment extends ContentObject implements ComplexContentObjectSupport
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_ASSESSMENT_TYPE, self :: PROPERTY_MAXIMUM_ATTEMPTS, self :: PROPERTY_QUESTIONS_PER_PAGE, self :: PROPERTY_MAXIMUM_TIME, self :: PROPERTY_RANDOM_QUESTIONS);
+        return array(self :: PROPERTY_ASSESSMENT_TYPE, self :: PROPERTY_MAXIMUM_ATTEMPTS,
+                self :: PROPERTY_QUESTIONS_PER_PAGE, self :: PROPERTY_MAXIMUM_TIME, self :: PROPERTY_RANDOM_QUESTIONS);
     }
 
     function get_assessment_type()
@@ -131,21 +142,6 @@ class Assessment extends ContentObject implements ComplexContentObjectSupport
         return self :: get_type_name();
     }
 
-    function get_times_taken()
-    {
-        return WeblcmsDataManager :: get_instance()->get_num_user_assessments($this);
-    }
-
-    function get_average_score()
-    {
-        return WeblcmsDataManager :: get_instance()->get_average_score($this);
-    }
-
-    function get_maximum_score()
-    {
-        return WeblcmsDataManager :: get_instance()->get_maximum_score($this);
-    }
-
     function get_types()
     {
         $types = array();
@@ -173,13 +169,23 @@ class Assessment extends ContentObject implements ComplexContentObjectSupport
 
     function count_questions()
     {
-        return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+        if (! isset($this->question_count))
+        {
+            $this->question_count = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+        }
+
+        return $this->question_count;
     }
 
     function get_questions()
     {
-        $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name());
-        return RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition);
+        if (! isset($this->questions))
+        {
+            $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name());
+            $this->questions = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition);
+        }
+
+        return $this->questions;
     }
 }
 ?>

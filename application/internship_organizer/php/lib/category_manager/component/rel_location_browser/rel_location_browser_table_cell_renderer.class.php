@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Toolbar;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Theme;
@@ -33,16 +34,16 @@ class InternshipOrganizerCategoryRelLocationBrowserTableCellRenderer extends Def
         {
             return $this->get_modification_links($categoryrellocation);
         }
-        
+
         //        return parent :: render_cell($column, $region);
-        
+
 
         // Add special features here
         //        switch ($column->get_name())
         //        {
         //            // Exceptions that need post-processing go here ...
         //            case InternshipOrganizerCategoryRelLocation :: PROPERTY_LOCATION_ID :
-        //               
+        //
         //                return $location->get_name();
         //        }
         return parent :: render_cell($column, $categoryrellocation);
@@ -58,7 +59,7 @@ class InternshipOrganizerCategoryRelLocationBrowserTableCellRenderer extends Def
     {
         $toolbar = new Toolbar();
         $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_category_rel_location_unsubscribing_url($categoryrellocation), ToolbarItem :: DISPLAY_ICON, true));
-        
+
         return $toolbar->as_html();
     }
 

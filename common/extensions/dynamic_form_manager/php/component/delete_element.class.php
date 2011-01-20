@@ -1,9 +1,14 @@
 <?php
 namespace common\extensions\dynamic_form_manager;
 
+use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\Display;
+use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
-use admin\AdminDataManager;
 use common\libraries\EqualityCondition;
+
+use admin\AdminDataManager;
 
 /**
  * $Id: delete_element.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
@@ -15,14 +20,15 @@ require_once dirname(__FILE__) . '/../dynamic_form_element.class.php';
 
 class DynamicFormManagerDeleteElementComponent extends DynamicFormManager
 {
+
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
         $ids = Request :: get(DynamicFormManager :: PARAM_DYNAMIC_FORM_ELEMENT_ID);
-        
-	    if (! $this->get_user()->is_platform_admin())
+
+        if (! $this->get_user()->is_platform_admin())
         {
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('dynamic form manager general');
@@ -31,31 +37,31 @@ class DynamicFormManagerDeleteElementComponent extends DynamicFormManager
             $this->display_footer();
             exit();
         }
-        
-        if(!is_array($ids))
+
+        if (! is_array($ids))
         {
-        	$ids = array($ids);
+            $ids = array($ids);
         }
-        
+
         if (count($ids) > 0)
         {
-        	$failures = 0;
-        	
-			foreach($ids as $id)
-			{
-	            $dynamic_form_element = AdminDataManager :: get_instance()->retrieve_dynamic_form_elements(new EqualityCondition(
-	            	DynamicFormElement :: PROPERTY_ID, $id))->next_result();
-	            
-	            if (!$dynamic_form_element->delete())
-	            {
-	               $failures++;
-	            }
-			}
-            
-			$message = $this->get_result($failures, count($ids), 'DynamicFormElementNotDeleted' , 'DynamicFormElementsNotDeleted', 'DynamicFormElementDeleted', 'DynamicFormElementsDeleted');
-			
-            $this->redirect($message, ($failures > 0), array(DynamicFormManager :: PARAM_DYNAMIC_FORM_ACTION => DynamicFormManager :: ACTION_BUILD_DYNAMIC_FORM));
-        
+            $failures = 0;
+
+            foreach ($ids as $id)
+            {
+                $dynamic_form_element = AdminDataManager :: get_instance()->retrieve_dynamic_form_elements(new EqualityCondition(DynamicFormElement :: PROPERTY_ID, $id))->next_result();
+
+                if (! $dynamic_form_element->delete())
+                {
+                    $failures ++;
+                }
+            }
+
+            $message = $this->get_result($failures, count($ids), 'DynamicFormElementNotDeleted', 'DynamicFormElementsNotDeleted', 'DynamicFormElementDeleted', 'DynamicFormElementsDeleted');
+
+            $this->redirect($message, ($failures > 0), array(
+                    DynamicFormManager :: PARAM_DYNAMIC_FORM_ACTION => DynamicFormManager :: ACTION_BUILD_DYNAMIC_FORM));
+
         }
         else
         {

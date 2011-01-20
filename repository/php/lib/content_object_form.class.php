@@ -309,13 +309,7 @@ EOT;
             {
                 $attachments = array();
             }
-
-            $los = RepositoryDataManager :: get_instance()->retrieve_content_objects(new EqualityCondition('owner_id', $this->owner_id));
-            while ($lo = $los->next_result())
-            {
-                $defaults[$lo->get_id()] = array('title' => $lo->get_title(), 'description', $lo->get_description(), 'class' => $lo->get_type());
-            }
-
+            
             $url = $this->get_path(WEB_PATH) . 'repository/php/xml_feed.php';
             $locale = array();
             $locale['Display'] = Translation :: get('AddAttachments');
@@ -330,8 +324,6 @@ EOT;
             $this->addElement('static', 'uploadify', Translation :: get('UploadDocument'), '<div id="uploadify"></div>');
             $elem = $this->addElement('element_finder', 'attachments', Translation :: get('SelectAttachment'), $url, $locale, $attachments);
             $this->addElement('category');
-
-            $elem->setDefaults($defaults);
 
             if ($id = $object->get_id())
             {

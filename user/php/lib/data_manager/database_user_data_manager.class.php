@@ -1,6 +1,9 @@
 <?php
 namespace user;
 
+use group\GroupRelUser;
+use group\GroupDataManager;
+
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
@@ -36,7 +39,12 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
     function initialize()
     {
         parent :: initialize();
-        $this->set_aliases(array(User :: get_table_name() => self :: ALIAS_USER, 'user_quota' => 'uq', 'user_rights_template' => 'urt', 'buddy_list_category' => 'blc', 'buddy_list_item' => 'bli'));
+        $this->set_aliases(array(
+                User :: get_table_name() => self :: ALIAS_USER,
+                'user_quota' => 'uq',
+                'user_rights_template' => 'urt',
+                'buddy_list_category' => 'blc',
+                'buddy_list_item' => 'bli'));
         $this->set_prefix('user_');
     }
 
@@ -118,7 +126,8 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
         $this->create($user);
 
         // Create the user's root category for the repository
-//        RepositoryRights :: create_user_root($user);
+        //        RepositoryRights :: create_user_root($user);
+
 
         return true;
     }

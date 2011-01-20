@@ -5,6 +5,10 @@ namespace migration;
  * $Id: dokeos185_survey_answer.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
+use common\libraries\Utilities;
+use application\survey\SurveyQuestionAnswerTracker;
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . "/../dokeos185_course_data_migration_data_class.class.php";
 
 /**
@@ -64,7 +68,13 @@ class Dokeos185SurveyAnswer extends Dokeos185CourseDataMigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ANSWER_ID, self :: PROPERTY_SURVEY_ID, self :: PROPERTY_QUESTION_ID, self :: PROPERTY_OPTION_ID, self :: PROPERTY_VALUE, self :: PROPERTY_USER);
+        return array(
+                self :: PROPERTY_ANSWER_ID,
+                self :: PROPERTY_SURVEY_ID,
+                self :: PROPERTY_QUESTION_ID,
+                self :: PROPERTY_OPTION_ID,
+                self :: PROPERTY_VALUE,
+                self :: PROPERTY_USER);
     }
 
     /**
@@ -146,10 +156,12 @@ class Dokeos185SurveyAnswer extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_value())
+        if (! $this->get_value())
         {
             $this->create_failed_element($this->get_answer_id());
-            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'survey_answer', 'ID' => $this->get_answer_id())));
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array(
+                    'TYPE' => 'survey_answer',
+                    'ID' => $this->get_answer_id())));
 
             return false;
         }
@@ -168,7 +180,7 @@ class Dokeos185SurveyAnswer extends Dokeos185CourseDataMigrationDataClass
         $new_user_id = $this->get_id_reference($this->get_user(), 'main_database.user');
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
 
-        if (!$new_user_id)
+        if (! $new_user_id)
         {
             $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         }
@@ -180,7 +192,6 @@ class Dokeos185SurveyAnswer extends Dokeos185CourseDataMigrationDataClass
         //create announcement in database
         $chamilo_survey_user_answer->create_all();
 
-
         return $chamilo_survey_user_answer;
     }
 
@@ -191,7 +202,8 @@ class Dokeos185SurveyAnswer extends Dokeos185CourseDataMigrationDataClass
 
     public static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
 }

@@ -1,6 +1,7 @@
 <?php
 namespace reporting;
 
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
 
@@ -49,7 +50,8 @@ class ReportingTemplateRegistrationForm extends FormValidator
      */
     function build_basic_form()
     {
-        $this->addElement('text', ReportingTemplateRegistration :: PROPERTY_TITLE, Translation :: get('Title', null, Utilities :: COMMON_LIBRARIES), array("size" => "50"));
+        $this->addElement('text', ReportingTemplateRegistration :: PROPERTY_TITLE, Translation :: get('Title', null, Utilities :: COMMON_LIBRARIES), array(
+                "size" => "50"));
         $this->addRule(ReportingTemplateRegistration :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->add_html_editor(ReportingTemplateRegistration :: PROPERTY_DESCRIPTION, Translation :: get('Description', null, Utilities :: COMMON_LIBRARIES), true);
@@ -67,8 +69,10 @@ class ReportingTemplateRegistrationForm extends FormValidator
 
         $this->addElement('hidden', ReportingTemplateRegistration :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -79,8 +83,10 @@ class ReportingTemplateRegistrationForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -114,8 +120,9 @@ class ReportingTemplateRegistrationForm extends FormValidator
         $reporting_template_registration = $this->reporting_template_registration;
         $values = $this->exportValues();
 
-        $reporting_template_registration->set_title($values[Role :: PROPERTY_TITLE]);
-        $reporting_template_registration->set_description($values[Role :: PROPERTY_DESCRIPTION]);
+        //        $reporting_template_registration->set_title($values[Role :: PROPERTY_TITLE]);
+        //        $reporting_template_registration->set_description($values[Role :: PROPERTY_DESCRIPTION]);
+
 
         //        return $reporting_template_registration->create();
         if (! $reporting_template_registration->create())

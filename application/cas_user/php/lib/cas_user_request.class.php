@@ -1,6 +1,8 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\Text;
+use common\libraries\Theme;
 use common\libraries\DataClass;
 
 use user\UserDataManager;
@@ -38,7 +40,7 @@ class CasUserRequest extends DataClass
      * Get the default properties
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_FIRST_NAME, self :: PROPERTY_LAST_NAME, self :: PROPERTY_EMAIL, self :: PROPERTY_AFFILIATION, self :: PROPERTY_MOTIVATION, self :: PROPERTY_REQUESTER_ID, self :: PROPERTY_REQUEST_DATE, self :: PROPERTY_STATUS));
     }

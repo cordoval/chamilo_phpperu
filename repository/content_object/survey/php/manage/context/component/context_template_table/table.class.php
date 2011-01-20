@@ -1,4 +1,7 @@
-<?php namespace repository\content_object\survey;
+<?php
+namespace repository\content_object\survey;
+
+use common\libraries\Request;
 
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormAction;
@@ -10,11 +13,9 @@ require_once dirname(__FILE__) . '/table_data_provider.class.php';
 require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once dirname(__FILE__) . '/table_cell_renderer.class.php';
 
-
 class SurveyContextTemplateBrowserTable extends ObjectTable
 {
     const DEFAULT_NAME = 'template_browser_table';
-
 
     function __construct($browser, $parameters, $condition)
     {
@@ -25,7 +26,7 @@ class SurveyContextTemplateBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
 
         $actions = new ObjectTableFormActions(__NAMESPACE__, SurveyContextManager :: PARAM_ACTION);
-        $actions->add_form_action(new ObjectTableFormAction(SurveyContextManager :: ACTION_DELETE_CONTEXT_TEMPLATE, Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES)));
+        $actions->add_form_action(new ObjectTableFormAction(SurveyContextManager :: ACTION_DELETE_CONTEXT_TEMPLATE, Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES)));
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
 

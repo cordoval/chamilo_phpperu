@@ -145,7 +145,7 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
         $owner_id = $this->get_data_manager()->get_owner_id($new_course_id);
 
         $chamilo_tool_intro = new Introduction();
-        $chamilo_tool_intro->set_title($this->get_intro_text());
+        $chamilo_tool_intro->set_title(Translation :: get('Introduction'));
 
         $chamilo_tool_intro->set_description($this->get_intro_text());
 

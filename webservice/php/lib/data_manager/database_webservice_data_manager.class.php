@@ -14,10 +14,10 @@ require_once dirname(__FILE__) . '/../webservice_data_manager_interface.class.ph
 
 /**
  * ==============================================================================
- *	This is a data manager that uses a database for storage. It was written
- *	for MySQL, but should be compatible with most SQL flavors.
+ * This is a data manager that uses a database for storage. It was written
+ * for MySQL, but should be compatible with most SQL flavors.
  *
- *	@author Stefan Billiet
+ * @author Stefan Billiet
 ==============================================================================
  */
 
@@ -35,29 +35,10 @@ class DatabaseWebserviceDataManager extends Database implements WebserviceDataMa
         return $this->count_objects(WebserviceRegistration :: get_table_name(), $conditions);
     }
 
-    function count_webservice_categories($conditions = null)
-    {
-    	return $this->count_objects(WebserviceCategoryRegistration :: get_table_name(), $conditions);
-    }
-
     function truncate_webservice($webservice)
     {
         $condition = new EqualityCondition(WebserviceRegistration :: PROPERTY_WEBSERVICE_ID, $webservice->get_id());
         return $this->delete(WebserviceRegistration :: get_table_name(), $condition);
-    }
-
-    function truncate_webservice_category($webserviceCategory)
-    {
-        $condition = new EqualityCondition(WebserviceCategoryRegistration :: PROPERTY_WEBSERVICE_ID, $webservice->get_id());
-        return $this->delete(WebserviceCategoryRegistration :: get_table_name(), $condition);
-    }
-
-    function truncate_webservice_credential($webserviceCredential)
-    {
-        $conditions[0] = new EqualityCondition(WebserviceCredential :: PROPERTY_USER_ID, $webserviceCredential->get_user_id());
-        $conditions[1] = new EqualityCondition(WebserviceCredential :: PROPERTY_HASH, $webserviceCredential->get_hash());
-        $condition = new AndCondition($conditions);
-        return $this->delete(WebserviceCredential :: get_table_name(), $condition);
     }
 
     function retrieve_webservice($id)
@@ -88,24 +69,6 @@ class DatabaseWebserviceDataManager extends Database implements WebserviceDataMa
         return $this->retrieve_objects(WebserviceCategory :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
-    function retrieve_webservice_credential_by_hash($hash)
-    {
-        $condition = new EqualityCondition(WebserviceCredential :: PROPERTY_HASH, $hash);
-        return $this->retrieve_object(WebserviceCredential :: get_table_name(), $condition);
-    }
-
-    function retrieve_webservice_credential_by_user_id($user_id)
-    {
-        $condition = new EqualityCondition(WebserviceCredential :: PROPERTY_USER_ID, $user_id);
-        return $this->retrieve_object(WebserviceCredential :: get_table_name(), $condition);
-    }
-
-    function retrieve_webservice_credentials_by_ip($ip)
-    {
-        $condition = new EqualityCondition(WebserviceCredential :: PROPERTY_IP, $ip);
-        return $this->retrieve_objects(WebserviceCredential :: get_table_name(), $condition);
-    }
-
     function delete_webservice($webservice)
     {
         $condition = new EqualityCondition(WebserviceRegistration :: PROPERTY_ID, $webservice->get_id());
@@ -125,17 +88,7 @@ class DatabaseWebserviceDataManager extends Database implements WebserviceDataMa
 
     function delete_webservices($condition)
     {
-    	return $this->delete_objects(WebserviceRegistration :: get_table_name(), $condition);
-    }
-
-
-    function delete_webservice_category($webserviceCategory)
-    {
-        $condition = new EqualityCondition(WebserviceCategoryRegistration :: PROPERTY_ID, $webservice->get_id());
-        $bool = $this->delete($webserviceCategory->get_table_name(), $condition);
-        $this->truncate_webservice_category($webserviceCategory);
-
-        return $bool;
+        return $this->delete_objects(WebserviceRegistration :: get_table_name(), $condition);
     }
 
     function update_webservice($webservice)
@@ -144,47 +97,15 @@ class DatabaseWebserviceDataManager extends Database implements WebserviceDataMa
         return $this->update($webservice, $condition);
     }
 
-    function update_webservice_category($webserviceCategory)
-    {
-        $condition = new EqualityCondition(WebserviceCategoryRegistration :: PROPERTY_ID, $webserviceCategory->get_id());
-        return $this->update($webserviceCategory, $condition);
-    }
-
-    function update_webservice_credential($webserviceCredential)
-    {
-        $condition = new EqualityCondition(WebserviceCredential :: PROPERTY_HASH, $webserviceCredential->get_hash());
-        return $this->update($webserviceCredential, $condition);
-    }
-
     function create_webservice($webservice)
     {
         return $this->create($webservice);
     }
 
-    function create_webservice_category($webserviceCategory)
+    function create_webservice_category($webservice_category)
     {
-        return $this->create($webserviceCategory);
+        return $this->create($webservice_category);
     }
 
-    function create_webservice_credential($webserviceCredential)
-    {
-        return $this->create($webserviceCredential);
-    }
-
-    function delete_webservice_credential($webserviceCredential)
-    {
-        $condition = new EqualityCondition(WebserviceCredential :: PROPERTY_USER_ID, $webserviceCredential->get_user_id());
-        $bool = $this->delete($webserviceCredential->get_table_name(), $condition);
-        $this->truncate_webservice_credential($webserviceCredential);
-
-        return $bool;
-    }
-
-    function delete_expired_webservice_credentials()
-    {
-        $condition = new InequalityCondition(WebserviceCredential :: PROPERTY_END_TIME, InequalityCondition :: LESS_THAN_OR_EQUAL, time());
-        $bool = $this->delete(WebserviceCredential :: get_table_name(), $condition);
-        return $bool;
-    }
 }
 ?>

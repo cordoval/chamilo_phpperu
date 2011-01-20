@@ -1,6 +1,7 @@
 <?php
 namespace application\linker;
 
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Application;
@@ -19,24 +20,24 @@ class LinkerManagerDeleterComponent extends LinkerManager
     {
         $ids = Request :: get(LinkerManager :: PARAM_LINK_ID);
         $failures = 0;
-        
+
         if (! empty($ids))
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             foreach ($ids as $id)
             {
                 $link = $this->retrieve_link($id);
-                
+
                 if (! $link->delete())
                 {
                     $failures ++;
                 }
             }
-            
+
             if ($failures)
             {
                 if (count($ids) == 1)
@@ -59,12 +60,13 @@ class LinkerManagerDeleterComponent extends LinkerManager
                     $message = 'SelectedLinksDeleted';
                 }
             }
-            
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
+
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(
+                    Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoLinksSelected', null, Utilities::COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoLinksSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

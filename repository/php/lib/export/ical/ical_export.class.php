@@ -1,12 +1,17 @@
 <?php
 namespace repository;
 
+use repository\content_object\calendar_event\CalendarEvent;
+
 use common\libraries\Path;
 use common\libraries\Filesystem;
 
 use repository\ContentObject;
 
 use user\UserDataManager;
+
+use vcalendar;
+use vevent;
 /**
  * $Id: ical_export.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.export.ical
@@ -92,7 +97,12 @@ class IcalExport extends ContentObjectExport
                 break;
             case CalendarEvent :: REPEAT_TYPE_WEEKDAYS :
                 $rrule['FREQ'] = 'DAILY';
-                $rrule['BYDAY'] = array(array('DAY' => 'MO'), array('DAY' => 'TU'), array('DAY' => 'WE'), array('DAY' => 'TH'), array('DAY' => 'FR'));
+                $rrule['BYDAY'] = array(
+                        array('DAY' => 'MO'),
+                        array('DAY' => 'TU'),
+                        array('DAY' => 'WE'),
+                        array('DAY' => 'TH'),
+                        array('DAY' => 'FR'));
                 break;
         }
 

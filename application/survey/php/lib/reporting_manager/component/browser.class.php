@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace application\survey;
 
 use common\libraries\Translation;
@@ -17,13 +17,11 @@ use reporting\ReportingTemplateRegistration;
 use common\libraries\AndCondition;
 use common\libraries\NotCondition;
 
-
 require_once dirname(__FILE__) . '/reporting_template_table/table.class.php';
 require_once dirname(__FILE__) . '/publication_rel_reporting_template_table/table.class.php';
 
 class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
 {
-
     const TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS = 1;
     const TAB_TEMPLATE_REGISTRATIONS = 2;
 
@@ -36,7 +34,9 @@ class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
     function run()
     {
 
-        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_VIEW, SurveyRights :: LOCATION_REPORTING, SurveyRights :: TYPE_COMPONENT))
+        $this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_REPORTING, $this->publication_id, SurveyRights :: TYPE_PUBLICATION))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
@@ -44,28 +44,28 @@ class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
             exit();
         }
 
-        $this->publication_ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+        //        if (! empty($this->publication_ids))
+        //        {
+        //            if (! is_array($this->publication_ids))
+        //            {
+        //                $this->publication_ids = array($this->publication_ids);
+        //            }
 
-        if (! empty($this->publication_ids))
-        {
-            if (! is_array($this->publication_ids))
-            {
-                $this->publication_ids = array($this->publication_ids);
-            }
 
-            $this->action_bar = $this->get_action_bar();
+        $this->action_bar = $this->get_action_bar();
 
-            $output = $this->get_tabs_html();
+        $output = $this->get_tabs_html();
 
-            $this->display_header();
-            echo $this->action_bar->as_html() . '<br />';
-            echo $output;
-            $this->display_footer();
-        }
-        else
-        {
-            $this->display_error_page(htmlentities(Translation :: get('NoSurveyPublicationsSelected')));
-        }
+        $this->display_header();
+        echo $this->action_bar->as_html() . '<br />';
+        echo $output;
+        $this->display_footer();
+
+     //        }
+    //        else
+    //        {
+    //            $this->display_error_page(htmlentities(Translation :: get('NoSurveyPublicationsSelected')));
+    //        }
     }
 
     function get_tabs_html()
@@ -81,13 +81,13 @@ class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
 
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS;
         $table = new SurveyPublicationRelReportingTemplateTable($this, $parameters, $this->get_publication_rel_template_registration_condition());
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS, Translation :: get('ReportingTemplates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS, Translation :: get('ReportingTemplates'), Theme :: get_image_path() . 'logo/16.png', $table->as_html()));
 
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_ADD_REPORTING_TEMPLATE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION))
         {
             $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_TEMPLATE_REGISTRATIONS;
             $table = new SurveyReportingTemplateTable($this, $parameters, $this->get_template_registration_condition());
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_TEMPLATE_REGISTRATIONS, Translation :: get('AddReportingTemplates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_TEMPLATE_REGISTRATIONS, Translation :: get('AddReportingTemplates'), Theme :: get_image_path() . 'logo/16.png', $table->as_html()));
         }
 
         $html[] = $tabs->render();
@@ -103,7 +103,7 @@ class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
         $conditions[] = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_APPLICATION, SurveyManager :: APPLICATION_NAME);
 
         $reporting_template_registration_ids = array();
-        $condition = new InCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_PUBLICATION_ID, $this->publication_ids);
+        $condition = new InCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_PUBLICATION_ID, $this->publication_id);
 
         $publication_rel_reporting_template_registrations = SurveyDataManager :: get_instance()->retrieve_survey_publication_rel_reporting_template_registrations($condition);
         while ($publication_rel_reporting_template_registration = $publication_rel_reporting_template_registrations->next_result())
@@ -140,7 +140,7 @@ class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
 
     function get_publication_rel_template_registration_condition()
     {
-        $condition = new InCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_PUBLICATION_ID, $this->publication_ids);
+        $condition = new InCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_PUBLICATION_ID, $this->publication_id);
 
         //        $query = $this->action_bar->get_query();
         //        if (isset($query) && $query != '')
@@ -184,6 +184,5 @@ class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
     {
         return array(SurveyManager :: PARAM_PUBLICATION_ID);
     }
-
 }
 ?>

@@ -3,18 +3,17 @@ namespace repository\content_object\survey_multiple_choice_question;
 
 use common\libraries\Translation;
 use common\libraries\Path;
-use repository\ComplexMultipleChoiceQuestionForm;
+use repository\ComplexContentObjectItemForm;
 
 /**
- * $Id: complex_survey_multiple_choice_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.survey_multiple_choice_question
+ * @package repository.content_object.survey_multiple_choice_question
+ * @author Eduard Vossen
+ * @author Magali Gillard
  */
-require_once Path :: get_repository_path() . '/question_types/multiple_choice_question/complex_multiple_choice_question_form.class.php';
-
 /**
  * This class represents a form to create or update complex assessments
  */
-class ComplexSurveyMultipleChoiceQuestionForm extends ComplexMultipleChoiceQuestionForm
+class ComplexSurveyMultipleChoiceQuestionForm extends ComplexContentObjectItemForm
 {
 
     public function get_elements()
@@ -65,6 +64,33 @@ class ComplexSurveyMultipleChoiceQuestionForm extends ComplexMultipleChoiceQuest
         $values = $this->exportValues();
         $cloi->set_visible($values[ComplexSurveyMultipleChoiceQuestion :: PROPERTY_VISIBLE]);
         return parent :: update_complex_content_object_item();
+    }
+
+    protected function build_creation_form()
+    {
+        parent :: build_creation_form();
+        $elements = $this->get_elements();
+        foreach ($elements as $element)
+        {
+            $this->addElement($element);
+        }
+    }
+
+    // Inherited
+    protected function build_editing_form()
+    {
+        parent :: build_editing_form();
+        $elements = $this->get_elements();
+        foreach ($elements as $element)
+        {
+            $this->addElement($element);
+        }
+    }
+
+    function setDefaults($defaults = array ())
+    {
+        $defaults = array_merge($defaults, $this->get_default_values());
+        parent :: setDefaults($defaults);
     }
 }
 ?>

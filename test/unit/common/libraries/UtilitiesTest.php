@@ -28,7 +28,6 @@ class UtilitiesTest extends \PHPUnit_Framework_TestCase{
 	public function test_format_seconds_to_minutes_null(){
 		$s = Utilities::format_seconds_to_minutes(null);
 		$this->assertEquals('00:00', $s);
-
 	}
 
 	//isnotnull unit test cases
@@ -55,4 +54,3 @@ class UtilitiesTest extends \PHPUnit_Framework_TestCase{
 	}
 }
 
-?>

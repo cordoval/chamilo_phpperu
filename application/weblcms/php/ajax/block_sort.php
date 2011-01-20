@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Authentication;
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -47,12 +48,12 @@ if (Authentication :: is_valid())
     }
 
     $json_result['success'] = '1';
-    $json_result['message'] = Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('Block')),Utilities:: COMMON_LIBRARIES);
+    $json_result['message'] = Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('Block')), Utilities :: COMMON_LIBRARIES);
 }
 else
 {
     $json_result['success'] = '0';
-    $json_result['message'] = Translation :: get('NotAllowed', null ,Utilities:: COMMON_LIBRARIES);
+    $json_result['message'] = Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES);
 }
 
 // Return a JSON object

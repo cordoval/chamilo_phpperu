@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Toolbar;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
@@ -12,7 +13,7 @@ require_once dirname(__FILE__) . '/../../period_manager.class.php';
 
 class InternshipOrganizerPeriodRelAgreementBrowserTableCellRenderer extends DefaultInternshipOrganizerPeriodRelAgreementTableCellRenderer
 {
-    
+
     private $browser;
 
     function __construct($browser)
@@ -28,7 +29,7 @@ class InternshipOrganizerPeriodRelAgreementBrowserTableCellRenderer extends Defa
         {
             return $this->get_modification_links($agreement);
         }
-        
+
         return parent :: render_cell($column, $agreement);
     }
 
@@ -41,10 +42,10 @@ class InternshipOrganizerPeriodRelAgreementBrowserTableCellRenderer extends Defa
     private function get_modification_links($agreement)
     {
         $toolbar = new Toolbar();
-        
+
         $user = $this->browser->get_user();
         $user_id = $user->get_id();
-        
+
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, $agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON));
@@ -57,12 +58,12 @@ class InternshipOrganizerPeriodRelAgreementBrowserTableCellRenderer extends Defa
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON));
         }
-        
+
         if ($this->browser->get_user()->is_platform_admin() || $agreement->get_owner() == $this->browser->get_user_id())
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_agreement_rights_editor_url($agreement), ToolbarItem :: DISPLAY_ICON));
         }
-        
+
         return $toolbar->as_html();
     }
 }

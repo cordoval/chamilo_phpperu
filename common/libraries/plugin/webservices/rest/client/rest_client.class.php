@@ -530,6 +530,7 @@ class RestClient
 
         $headers = array();
 
+        curl_setopt($curl, CURLOPT_USERAGENT, 'Chamilo2Bot/1.0');
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->http_method);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
@@ -656,7 +657,7 @@ class RestClient
      *
      * @return RestResult
      */
-    protected function send_pear_request()
+        protected function send_pear_request()
     {
         $result = new RestResult();
         $result->set_request_connexion_mode($this->connexion_mode);

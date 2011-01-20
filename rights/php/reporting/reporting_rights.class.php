@@ -1,9 +1,18 @@
 <?php
 namespace rights;
+
 /**
  * $Id: reporting_rights.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.reporting
  */
+use group\GroupDataManager;
+
+use reporting\Reporting;
+
+use common\libraries\Translation;
+
+use user\UserDataManager;
+
 class ReportingRights
 {
 

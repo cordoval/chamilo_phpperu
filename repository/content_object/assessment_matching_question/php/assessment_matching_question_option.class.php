@@ -3,24 +3,23 @@ namespace repository\content_object\assessment_matching_question;
 
 use common\libraries\Path;
 
-use repository\MatchingQuestionOption;
-
 /**
  * $Id: assessment_matching_question_option.class.php  $
  * @package repository.lib.content_object.matching_question
  */
-require_once Path :: get_repository_path() . '/question_types/matching_question/matching_question_option.class.php';
 
 /**
  * This class represents an option in a matching question.
  */
-class AssessmentMatchingQuestionOption extends MatchingQuestionOption
+class AssessmentMatchingQuestionOption
 {
-	const PROPERTY_SCORE = 'score';
-	const PROPERTY_FEEDBACK = 'feedback';
-	const PROPERTY_MATCH = 'match';
+    const PROPERTY_VALUE = 'value';
+    const PROPERTY_SCORE = 'score';
+    const PROPERTY_FEEDBACK = 'feedback';
+    const PROPERTY_MATCH = 'match';
 
-	private $score;
+    private $value;
+    private $score;
     private $feedback;
     private $match;
 
@@ -32,10 +31,19 @@ class AssessmentMatchingQuestionOption extends MatchingQuestionOption
      */
     function __construct($value, $match, $score, $feedback)
     {
-        parent :: __construct($value);
+        $this->value = $value;
         $this->score = $score;
         $this->feedback = $feedback;
         $this->match = $match;
+    }
+
+    /**
+     * Gets the value of this option
+     * @return string
+     */
+    function get_value()
+    {
+        return $this->value;
     }
 
     /**

@@ -1,6 +1,8 @@
 <?php
 namespace migration;
 
+use common\libraries\Utilities;
+
 /**
  * $Id: dokeos185_track_eexercices.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -67,7 +69,14 @@ class Dokeos185TrackEExercices extends Dokeos185MigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_EXE_ID, self :: PROPERTY_EXE_USER_ID, self :: PROPERTY_EXE_DATE, self :: PROPERTY_EXE_COURS_ID, self :: PROPERTY_EXE_EXO_ID, self :: PROPERTY_EXE_RESULT, self :: PROPERTY_EXE_WEIGHTING);
+        return array(
+                self :: PROPERTY_EXE_ID,
+                self :: PROPERTY_EXE_USER_ID,
+                self :: PROPERTY_EXE_DATE,
+                self :: PROPERTY_EXE_COURS_ID,
+                self :: PROPERTY_EXE_EXO_ID,
+                self :: PROPERTY_EXE_RESULT,
+                self :: PROPERTY_EXE_WEIGHTING);
     }
 
     /**
@@ -171,7 +180,8 @@ class Dokeos185TrackEExercices extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
     static function get_class_name()

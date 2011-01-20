@@ -1,5 +1,8 @@
 <?php
 namespace rights;
+
+use repository\RepositoryRights;
+
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
@@ -9,8 +12,10 @@ use common\libraries\InequalityCondition;
 use common\libraries\NotCondition;
 use common\libraries\SubselectCondition;
 use common\libraries\InCondition;
+
 use user\UserDataManager;
 use user\UserRightsTemplate;
+
 use group\GroupDataManager;
 use group\GroupRightsTemplate;
 
@@ -22,12 +27,12 @@ require_once dirname(__FILE__) . '/../rights_data_manager_interface.class.php';
 
 /**
  ==============================================================================
- *	This is a data manager that uses a database for storage. It was written
- *	for MySQL, but should be compatible with most SQL flavors.
+ * This is a data manager that uses a database for storage. It was written
+ * for MySQL, but should be compatible with most SQL flavors.
  *
- *	@author Tim De Pauw
- *	@author Bart Mollet
- *  @author Hans De Bisschop
+ * @author Tim De Pauw
+ * @author Bart Mollet
+ * @author Hans De Bisschop
  ==============================================================================
  */
 
@@ -192,10 +197,11 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
         $condition = new AndCondition($conditions);
 
-        $properties = array(Location :: PROPERTY_LEFT_VALUE => $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
+        $properties = array(
+                Location :: PROPERTY_LEFT_VALUE => $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
         $res = $this->update_objects(Location :: get_table_name(), $properties, $condition);
 
-        if (!$res)
+        if (! $res)
         {
             return false;
         }
@@ -208,10 +214,11 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
         $condition = new AndCondition($conditions);
 
-        $properties = array(Location :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
+        $properties = array(
+                Location :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
         $res = $this->update_objects(Location :: get_table_name(), $properties, $condition);
 
-        if (!$res)
+        if (! $res)
         {
             return false;
         }
@@ -249,7 +256,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $properties[Location :: PROPERTY_RIGHT_VALUE] = $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta);
         $res = $this->update_objects(Location :: get_table_name(), $properties, $condition);
 
-        if (!$res)
+        if (! $res)
         {
             return false;
         }
@@ -263,10 +270,11 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_right_value());
         $condition = new AndCondition($conditions);
 
-        $properties = array(Location :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta));
+        $properties = array(
+                Location :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta));
         $res = $this->update_objects(Location :: get_table_name(), $properties, $condition);
 
-        if (!$res)
+        if (! $res)
         {
             return false;
         }
@@ -313,7 +321,8 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
             $new_parent = $this->retrieve_location($new_parent_id);
             // TODO: What if this is an invalid location ? Return error.
 
-            if(!$new_parent)
+
+            if (! $new_parent)
             {
                 return false;
             }
@@ -385,7 +394,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $properties[Location :: PROPERTY_RIGHT_VALUE] = $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($offset);
         $res = $this->update_objects(Location :: get_table_name(), $properties, $condition);
 
-        if (!$res)
+        if (! $res)
         {
             return false;
         }
@@ -433,15 +442,17 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
 
         // Delete the actual rights_template
 
+
         $condition = new EqualityCondition(RightsTemplate :: PROPERTY_ID, $rights_template->get_id());
         return $this->delete(RightsTemplate :: get_table_name(), $condition);
     }
 
     function delete_type_template($type_template)
     {
-//        // Delete all type_template_right_locations for that specific rights_template
-//        $condition = new EqualityCondition(TypeTemplateRightLocation :: PROPERTY_TYPE_TEMPLATE_ID, $type_template->get_id());
-//        $this->delete_type_template_right_locations($condition);
+        //        // Delete all type_template_right_locations for that specific rights_template
+        //        $condition = new EqualityCondition(TypeTemplateRightLocation :: PROPERTY_TYPE_TEMPLATE_ID, $type_template->get_id());
+        //        $this->delete_type_template_right_locations($condition);
+
 
         // Delete the actual type_template
         $condition = new EqualityCondition(TypeTemplate :: PROPERTY_ID, $type_template->get_id());

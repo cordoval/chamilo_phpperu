@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -8,6 +9,8 @@ use common\libraries\AdministrationComponent;
 use common\libraries\FormValidator;
 use common\libraries\Filesystem;
 use common\libraries\PlatformSetting;
+
+use HTML_Table;
 
 /**
  * $Id: log_viewer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
@@ -25,13 +28,14 @@ class AdminManagerLogViewerComponent extends AdminManager implements Administrat
      */
     function run()
     {
-//        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
-//        {
-//            $this->display_header();
-//            $this->display_error_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
-//            $this->display_footer();
-//            exit();
-//        }
+        //        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
+        //        {
+        //            $this->display_header();
+        //            $this->display_error_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
+        //            $this->display_footer();
+        //            exit();
+        //        }
+
 
         $form = $this->build_form();
 
@@ -70,22 +74,26 @@ class AdminManagerLogViewerComponent extends AdminManager implements Administrat
         $types = array('server' => Translation :: get('ServerLogs'));
 
         $file = Path :: get(SYS_FILE_PATH) . 'logs/';
-       	$scan_list = scandir($file);
+        $scan_list = scandir($file);
 
-       	foreach($scan_list as $i => $item)
-       	{
-       		if(substr($item, 0, 1) == '.')
-       		{
-       			unset($scan_list[$i]);
-       		}
-       	}
-
-       	if(count($scan_list) > 0)
+        foreach ($scan_list as $i => $item)
         {
-        	$types['chamilo'] = Translation :: get('ChamiloLogs');
+            if (substr($item, 0, 1) == '.')
+            {
+                unset($scan_list[$i]);
+            }
         }
 
-        $lines = array('10' => '10 ' . Translation :: get('Lines'), '20' => '20 ' . Translation :: get('Lines'), '50' => '50 ' . Translation :: get('Lines'), 'all' => Translation :: get('AllLines'));
+        if (count($scan_list) > 0)
+        {
+            $types['chamilo'] = Translation :: get('ChamiloLogs');
+        }
+
+        $lines = array(
+                '10' => '10 ' . Translation :: get('Lines'),
+                '20' => '20 ' . Translation :: get('Lines'),
+                '50' => '50 ' . Translation :: get('Lines'),
+                'all' => Translation :: get('AllLines'));
 
         $dir = Path :: get(SYS_FILE_PATH) . 'logs/';
         $content = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES, false);
@@ -97,7 +105,10 @@ class AdminManagerLogViewerComponent extends AdminManager implements Administrat
             $files[$file] = $file;
         }
 
-        $server_types = array('php' => Translation :: get('PHPErrorLog'), 'httpd' => Translation :: get('HTTPDErrorLog'), 'mysql' => Translation :: get('MYSQLErrorLog'));
+        $server_types = array(
+                'php' => Translation :: get('PHPErrorLog'),
+                'httpd' => Translation :: get('HTTPDErrorLog'),
+                'mysql' => Translation :: get('MYSQLErrorLog'));
 
         $form->addElement('select', 'type', '', $types, array('id' => 'type'));
         $form->addElement('select', 'chamilo_type', '', $files, array('id' => 'chamilo_type'));
@@ -105,7 +116,8 @@ class AdminManagerLogViewerComponent extends AdminManager implements Administrat
         $form->addElement('select', 'server_type', '', $server_types, array('id' => 'server_type'));
         $form->addElement('select', 'lines', '', $lines);
 
-        $form->addElement('submit', 'submit', Translation :: get('Ok', array(), Utilities :: COMMON_LIBRARIES), array('class' => 'positive finish'));
+        $form->addElement('submit', 'submit', Translation :: get('Ok', array(), Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive finish'));
         $form->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/log_viewer.js'));
 
         return $form;
@@ -173,9 +185,9 @@ class AdminManagerLogViewerComponent extends AdminManager implements Administrat
         fclose($fh);
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('admin_log_viewer');
+        $breadcrumbtrail->add_help('admin_log_viewer');
     }
 }
 ?>

@@ -17,7 +17,7 @@ require_once Path :: get_plugin_path() . 'polygon/point_in_polygon.class.php';
 class HotspotQuestionResultDisplay extends QuestionResultDisplay
 {
 
-    function display_question_result()
+    function get_question_result()
     {
         $question = $this->get_question();
         $question_id = $this->get_complex_content_object_question()->get_id();
@@ -29,14 +29,15 @@ class HotspotQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '<div style="border: 1px solid #B5CAE7; border-top: none; padding: 10px;">';
 
         $html[] = '<div id="hotspot_container_' . $question_id . '" class="hotspot_container"><div id="hotspot_image_' . $question_id . '" class="hotspot_image" style="width: ' . $dimensions[0] . 'px; height: ' . $dimensions[1] . 'px; background-image: url(' . $image_object->get_url() . ')"></div></div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js');
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js');
+        $html[] = '<script type="text/javascript" src="' . htmlspecialchars(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js') . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . htmlspecialchars(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js') . '"></script>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/hotspot_question/resources/javascript/hotspot_question_result_display.js');
 
         $html[] = '<div class="clear"></div></div>';
 
         $user_answers = $this->get_answers();
-        $colors = array('#ff0000', '#f2ef00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#0080ff', '#ff0080', '#00ff80', '#ff8000', '#8000ff');
+        $colors = array('#ff0000', '#f2ef00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#0080ff', '#ff0080',
+                '#00ff80', '#ff8000', '#8000ff');
 
         $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
@@ -44,7 +45,10 @@ class HotspotQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '<th class="list"></th>';
         $html[] = '<th class="list"></th>';
         $html[] = '<th>' . Translation :: get('Answer') . '</th>';
-        $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
+        if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+        {
+            $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
+        }
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
@@ -55,7 +59,10 @@ class HotspotQuestionResultDisplay extends QuestionResultDisplay
             $html[] = '<td><div class="colour_box" style="background-color: ' . $colors[$i] . ';"></div></td>';
             $html[] = '<td>' . ($this->is_valid_answer($answer, $user_answers[$i]) ? Theme :: get_common_image('action_confirm') : Theme :: get_common_image('action_delete')) . '</td>';
             $html[] = '<td>' . $answer->get_answer() . '</td>';
-            $html[] = '<td>' . $answer->get_comment() . '</td>';
+            if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+            {
+                $html[] = '<td>' . $answer->get_comment() . '</td>';
+            }
             $html[] = '<input type="hidden" name="coordinates_' . $this->get_complex_content_object_question()->get_id() . '_' . $i . '" value="' . $answer->get_hotspot_coordinates() . '" />';
             $html[] = '</tr>';
         }
@@ -63,7 +70,7 @@ class HotspotQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '</tbody>';
         $html[] = '</table>';
 
-        echo implode("\n", $html);
+        return implode("\n", $html);
     }
 
     function is_valid_answer($answer, $user_answer)

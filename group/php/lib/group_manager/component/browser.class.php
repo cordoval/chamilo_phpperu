@@ -1,5 +1,11 @@
 <?php
 namespace group;
+
+use user\User;
+use user\UserDataManager;
+
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Request;
@@ -126,8 +132,8 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
 
     function get_menu_html()
     {
-        //$group_menu = new GroupMenu($this->get_group());
-        $group_menu = new TreeMenu('GroupTreeMenu', new GroupTreeMenuDataProvider($this->get_url(), $this->get_group()));
+        $group_menu = new GroupMenu($this->get_group());
+        //$group_menu = new TreeMenu('GroupTreeMenu', new GroupTreeMenuDataProvider($this->get_url(), $this->get_group()));
         $html = array();
         $html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
         $html[] = $group_menu->render_as_tree();
@@ -234,7 +240,8 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
 
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Root', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_home.png', $this->get_group_viewing_url($this->get_root_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(
+                GroupManager :: PARAM_GROUP_ID => $this->get_group())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }

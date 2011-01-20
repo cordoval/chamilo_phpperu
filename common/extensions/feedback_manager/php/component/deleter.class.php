@@ -1,10 +1,12 @@
 <?php
 namespace common\extensions\feedback_manager;
 
+use common\libraries\Display;
 use common\libraries\Request;
-use admin\FeedbackPublication;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+
+use admin\FeedbackPublication;
 
 /**
  * $Id: deleter.class.php 191 2009-11-13 11:50:28Z chellee $
@@ -23,9 +25,9 @@ class FeedbackManagerDeleterComponent extends FeedbackManager
     {
         $html = $this->as_html();
 
-    	$this->display_header();
-    	echo $html;
-    	$this->display_footer();
+        $this->display_header();
+        echo $html;
+        $this->display_footer();
     }
 
     function as_html()
@@ -40,30 +42,31 @@ class FeedbackManagerDeleterComponent extends FeedbackManager
 
         $failures = 0;
 
-        if(isset($ids))
+        if (isset($ids))
         {
-	        if(!is_array($ids))
-	        {
-	        	$ids = array($ids);
-	        }
+            if (! is_array($ids))
+            {
+                $ids = array($ids);
+            }
 
-	        foreach($ids as $id)
-	        {
-	        	$FeedbackPublication = $this->retrieve_feedback_publication($id);
+            foreach ($ids as $id)
+            {
+                $FeedbackPublication = $this->retrieve_feedback_publication($id);
 
-		        if (!$FeedbackPublication->delete())
-		        {
-		        	$failures++;
-		        }
-	        }
+                if (! $FeedbackPublication->delete())
+                {
+                    $failures ++;
+                }
+            }
 
-	        $message = $this->get_result($failures, count($ids), 'FeedbackPublicationNotDeleted', 'FeedbackPublicationsNotDeleted', 'FeedbackPublicationDeleted', 'FeedbackPublicationsDeleted');
+            $message = $this->get_result($failures, count($ids), 'FeedbackPublicationNotDeleted', 'FeedbackPublicationsNotDeleted', 'FeedbackPublicationDeleted', 'FeedbackPublicationsDeleted');
 
-	        $this->redirect($message, ($failures > 0) ? true : false, array(FeedbackManager :: PARAM_ACTION => $this->get_parameter(self::PARAM_OLD_ACTION)));
+            $this->redirect($message, ($failures > 0) ? true : false, array(
+                    FeedbackManager :: PARAM_ACTION => $this->get_parameter(self :: PARAM_OLD_ACTION)));
         }
         else
         {
-        	Display :: error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
+            Display :: error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
             exit();
         }
     }

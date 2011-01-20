@@ -14,6 +14,8 @@ class DefaultMetadataPropertyTypeTableColumnModel extends ObjectTableColumnModel
 	/**
 	 * Constructor
 	 */
+         const COLUMN_PREFIX = 'ns_prefix';
+
 	function __construct()
 	{
 		parent :: __construct(self :: get_default_columns(), 1);
@@ -25,13 +27,13 @@ class DefaultMetadataPropertyTypeTableColumnModel extends ObjectTableColumnModel
 	 */
 	private static function get_default_columns()
 	{
-		$columns = array();
+            $columns = array();
 
-		//$columns[] = new ObjectTableColumn(MetadataPropertyType :: PROPERTY_ID);
-		$columns[] = new ObjectTableColumn(MetadataPropertyType :: PROPERTY_NS_PREFIX);
-		$columns[] = new ObjectTableColumn(MetadataPropertyType :: PROPERTY_NAME);
+            //$columns[] = new ObjectTableColumn(MetadataPropertyType :: PROPERTY_ID);
+            $columns[] = new ObjectTableColumn(self :: COLUMN_PREFIX, false);
+            $columns[] = new ObjectTableColumn(MetadataPropertyType :: PROPERTY_NAME);
 
-		return $columns;
+            return $columns;
 	}
 }
 ?>

@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
 
+use common\libraries\Application;
+use common\libraries\Request;
 use common\libraries\Redirect;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -15,17 +17,17 @@ class Hq23ExternalRepositoryManagerUploaderComponent extends Hq23ExternalReposit
     function run()
     {
         $form = new Hq23ExternalRepositoryManagerForm(Hq23ExternalRepositoryManagerForm :: TYPE_CREATE, $this->get_url(), $this);
-        
+
         if ($form->validate())
         {
             $id = $form->upload_photo();
-            
+
             if ($id)
             {
                 $parameters = $this->get_parameters();
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $id;
-                
+
                 if ($this->is_stand_alone())
                 {
                     Redirect :: web_link(Path :: get(WEB_PATH) . 'common/launcher/index.php', $parameters);

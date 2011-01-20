@@ -1,5 +1,4 @@
 <?php
-
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
 use common\libraries\Translation;
@@ -13,6 +12,8 @@ use common\libraries\fedora_fs_datastream;
 use common\libraries\fedora_fs_search;
 use common\libraries\fedora_fs_access_right;
 use common\libraries\fedora_fs_subject;
+
+use DOMDocument;
 use Exception;
 
 /**

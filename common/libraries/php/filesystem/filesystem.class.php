@@ -68,10 +68,16 @@ class Filesystem
             {
                 return false;
             }
-            else
-            {
-                return chmod($path, $mode);
-            }
+        }
+
+        $perms =\fileperms($path);
+        $current_perm_str = substr(decoct($perms), - 4);
+        $target_perm_str = decoct($mode);
+        //only try to chmod if needed
+        // chmod often needs us to be owner which is sometimes problematic with mounted filesystem
+        if ($current_perm_str != $target_perm_str)
+        {
+            return chmod($path, $mode);
         }
         return true;
     }
@@ -509,8 +515,17 @@ class Filesystem
         $bytes = 0;
 
         $bytes_array = array(
-                'B' => 1, 'KB' => 1024, 'MB' => 1024 * 1024, 'GB' => 1024 * 1024 * 1024, 'TB' => 1024 * 1024 * 1024 * 1024, 'PB' => 1024 * 1024 * 1024 * 1024 * 1024, 'K' => 1024, 'M' => 1024 * 1024, 'G' => 1024 * 1024 * 1024,
-                'T' => 1024 * 1024 * 1024 * 1024, 'P' => 1024 * 1024 * 1024 * 1024 * 1024);
+                'B' => 1,
+                'KB' => 1024,
+                'MB' => 1024 * 1024,
+                'GB' => 1024 * 1024 * 1024,
+                'TB' => 1024 * 1024 * 1024 * 1024,
+                'PB' => 1024 * 1024 * 1024 * 1024 * 1024,
+                'K' => 1024,
+                'M' => 1024 * 1024,
+                'G' => 1024 * 1024 * 1024,
+                'T' => 1024 * 1024 * 1024 * 1024,
+                'P' => 1024 * 1024 * 1024 * 1024 * 1024);
 
         $bytes = floatval($file_size);
 
@@ -577,14 +592,15 @@ class Filesystem
         else
         {
             //no forced download, just let the browser decide what to do according to the mimetype
-
-
-            $content_type = DocumentManager :: file_get_mime_type($filename);
+            //$content_type = DocumentManager :: file_get_mime_type($filename);
             header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
             header('Cache-Control: no-cache, must-revalidate');
             header('Pragma: no-cache');
-            header('Content-type: ' . $content_type);
+            if ($content_type)
+            {
+                header('Content-type: ' . $content_type);
+            }
             header('Content-Length: ' . $len);
             $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
             if (strpos($user_agent, 'msie'))

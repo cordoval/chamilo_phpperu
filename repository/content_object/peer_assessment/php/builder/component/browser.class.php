@@ -7,6 +7,8 @@ namespace repository\content_object\peer_assessment;
  * @package repository.lib.complex_builder.indicator.component
  */
 
+use repository\ComplexBuilderComponent;
+
 class PeerAssessmentBuilderBrowserComponent extends PeerAssessmentBuilder
 {
 

@@ -15,7 +15,7 @@ class CourseRequest extends CommonRequest
 
     const PROPERTY_COURSE_ID = 'course_id';
 
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_COURSE_ID));
     }

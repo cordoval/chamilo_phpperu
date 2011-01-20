@@ -1,10 +1,12 @@
 <?php
 namespace user;
 
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
+
 /**
  * $Id: buddy_list_item_creator.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -25,12 +27,15 @@ class UserManagerBuddyListItemCreatorComponent extends UserManager
         if ($form->validate())
         {
             $success = $form->create_items();
-            $this->redirect(Translation :: get($success ? 'ObjectsCreated' : 'ObjectsNotCreated', array('OBJECT' => Translation :: get('BuddyListItem')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
+            $this->redirect(Translation :: get($success ? 'ObjectsCreated' : 'ObjectsNotCreated', array(
+                    'OBJECT' => Translation :: get('BuddyListItem')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(
+                    Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
         }
         else
         {
             $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST)), Translation :: get('MyAccount')));
+            $trail->add(new Breadcrumb($this->get_url(array(
+                    Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST)), Translation :: get('MyAccount')));
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES)));
             $trail->add_help('user general');
 

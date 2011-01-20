@@ -10,17 +10,20 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Theme;
 use common\libraries\WebApplication;
+use common\libraries\ObjectResultSet;
+
 use user\UserDataManager;
 use user\User;
-use rights\RightsUtilities;
+
 use XML_Unserializer;
 use PEAR;
+use ReflectionClass;
+use ErrorException;
+
 use group\GroupDataManager;
 use group\GroupRelUser;
 use group\Group;
 use group\GroupRightsTemplate;
-use common\libraries\ObjectResultSet;
-use ReflectionClass;
 
 /**
  * $Id: rights_utilities.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
@@ -197,7 +200,7 @@ class RightsUtilities
     {
 
         // Determine the user_id of the user we're checking a right for
-        $user = self :: retrieve_user();
+        $user = self :: retrieve_user($user_id);
         $templates = self :: retrieve_templates($user);
         $groups = self :: retrieve_platform_groups($user);
         return self :: get_right($right, $identifier, $type, $application, $user, $templates, $groups, $tree_identifier, $tree_type);
@@ -207,7 +210,7 @@ class RightsUtilities
      * Helper function that retrieves the current user from db or cache
      */
 
-    static function retrieve_user()
+    static function retrieve_user($user_id)
     {
         $udm = UserDataManager :: get_instance();
         $user_id = $user_id ? $user_id : Session :: get_user_id();
@@ -235,10 +238,10 @@ class RightsUtilities
 
     static function retrieve_templates(User $user)
     {
-        if (!self :: $group_cache[$user->get_id()]) //todo: if a user is not subscribed in any group, this check should also return true (avoid query with empty results)
+        if (! self :: $group_cache[$user->get_id()]) //todo: if a user is not subscribed in any group, this check should also return true (avoid query with empty results)
         {
 
-            $groups_and_templates = GroupDataManager::get_instance()->retrieve_all_groups_and_templates($user->get_id());
+            $groups_and_templates = GroupDataManager :: get_instance()->retrieve_all_groups_and_templates($user->get_id());
             while ($record = $groups_and_templates->next_result())
             {
                 $groups[$record->get_optional_property('group_id')] = 1;
@@ -265,7 +268,7 @@ class RightsUtilities
 
     static function retrieve_platform_groups(User $user)
     {
-        if (!self :: $group_cache[$user->get_id()]) //todo: if a user is not subscribed in any group, this check should also return true (avoid query with empty results)
+        if (! self :: $group_cache[$user->get_id()]) //todo: if a user is not subscribed in any group, this check should also return true (avoid query with empty results)
         {
             self :: retrieve_templates($user);
         }
@@ -300,7 +303,7 @@ class RightsUtilities
         if (! self :: $location_cache[$identifier][$type])
         {
             $location = self :: get_location_by_identifier($application, $type, $identifier, $tree_identifier, $tree_type);
-            if (!$location)
+            if (! $location)
             {
                 throw new \ErrorException("RightsError: The requested location doesnt exist: " . $application . ';type=' . $type . ';location_id=' . $identifier . ';tree_id=' . $tree_identifier . ';tree_type=' . $tree_type);
             }
@@ -350,7 +353,7 @@ class RightsUtilities
 
         foreach ($templates as $template => $value)
         {
-            if (self :: $right_granted_by_parent_cache[$right] == -1) //the right wasnt granted in a previous run, this means that the parent locations will never grant the right
+            if (self :: $right_granted_by_parent_cache[$right] == - 1) //the right wasnt granted in a previous run, this means that the parent locations will never grant the right
             {
                 if (self :: get_rights_template_right_location($right, $template, $location->get_id()))
                 {
@@ -367,7 +370,7 @@ class RightsUtilities
         }
         foreach ($groups as $group => $value)
         {
-            if (self :: $right_granted_by_parent_cache[$right] == -1) //the right wasnt granted in a previous run, this means that only the base location should be checked
+            if (self :: $right_granted_by_parent_cache[$right] == - 1) //the right wasnt granted in a previous run, this means that only the base location should be checked
             {
                 if (static :: get_group_right_location($right, $group, $location->get_id()))
                 {
@@ -680,9 +683,11 @@ class RightsUtilities
     //        return false;
     //    }
     //
+
+
     static function move_multiple($locations, $new_parent_id, $new_previous_id = 0)
     {
-        $rdm = RightsDatatamanager :: get_instance();
+        $rdm = RightsDataManager :: get_instance();
 
         if (! is_array($locations))
         {
@@ -741,13 +746,12 @@ class RightsUtilities
     {
         $rdm = RightsDataManager :: get_instance();
 
-        
         $conditions = array();
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $application);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $tree_type);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_IDENTIFIER, $identifier);
-        
+
         if ($type != null)
         {
             $conditions[] = new EqualityCondition(Location :: PROPERTY_TYPE, $type);

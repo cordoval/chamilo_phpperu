@@ -4,9 +4,10 @@ namespace repository\content_object\adaptive_assessment;
 use repository\ContentObjectInstaller;
 
 /**
- * $Id: adaptive_assessment_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.install
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
+
 class AdaptiveAssessmentContentObjectInstaller extends ContentObjectInstaller
 {
 

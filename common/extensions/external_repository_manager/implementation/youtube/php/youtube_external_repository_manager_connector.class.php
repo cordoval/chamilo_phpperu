@@ -17,11 +17,13 @@ use repository\ExternalUserSetting;
 use repository\RepositoryDataManager;
 use repository\ExternalSetting;
 
-use \Zend_Loader;
-use \Zend_Gdata_AuthSub;
-use \Zend_Gdata_YouTube;
-use \Zend_Gdata_YouTube_VideoEntry;
-
+use Zend_Loader;
+use Zend_Gdata_AuthSub;
+use Zend_Gdata_YouTube;
+use Zend_Gdata_YouTube_VideoEntry;
+use Zend_Gdata_App_HttpException;
+use Zend_Gdata_App_Exception;
+use getID3;
 
 require_once dirname(__FILE__) . '/youtube_external_repository_object.class.php';
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';
@@ -85,10 +87,7 @@ class YoutubeExternalRepositoryManagerConnector extends ExternalRepositoryManage
 
     static function get_sort_properties()
     {
-        return array(self :: RELEVANCE,
-                self :: PUBLISHED,
-                self :: VIEW_COUNT,
-                self :: RATING);
+        return array(self :: RELEVANCE, self :: PUBLISHED, self :: VIEW_COUNT, self :: RATING);
     }
 
     function is_editable($id)

@@ -16,6 +16,7 @@ class Language extends DataClass
 
     const PROPERTY_ORIGINAL_NAME = 'original_name';
     const PROPERTY_ENGLISH_NAME = 'english_name';
+    const PROPERTY_FAMILY = 'family';
     const PROPERTY_ISOCODE = 'isocode';
     const PROPERTY_AVAILABLE = 'available';
 
@@ -23,11 +24,12 @@ class Language extends DataClass
      * Get the default properties of all users.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(
                 self :: PROPERTY_ORIGINAL_NAME,
                 self :: PROPERTY_ENGLISH_NAME,
+                self :: PROPERTY_FAMILY,
                 self :: PROPERTY_ISOCODE,
                 self :: PROPERTY_AVAILABLE));
     }
@@ -56,6 +58,15 @@ class Language extends DataClass
     function get_english_name()
     {
         return $this->get_default_property(self :: PROPERTY_ENGLISH_NAME);
+    }
+
+    /**
+     * Returns the user of this PMP object
+     * @return int the user
+     */
+    function get_family()
+    {
+        return $this->get_default_property(self :: PROPERTY_FAMILY);
     }
 
     /**
@@ -98,6 +109,15 @@ class Language extends DataClass
      * Sets the user of this PMP.
      * @param int $user the User.
      */
+    function set_family($family)
+    {
+        $this->set_default_property(self :: PROPERTY_FAMILY, $family);
+    }
+
+    /**
+     * Sets the user of this PMP.
+     * @param int $user the User.
+     */
     function set_isocode($isocode)
     {
         $this->set_default_property(self :: PROPERTY_ISOCODE, $isocode);
@@ -132,7 +152,7 @@ class Language extends DataClass
         $registration = new Registration();
         $registration->set_name($this->get_isocode());
         $registration->set_type(Registration :: TYPE_LANGUAGE);
-        $registration->set_category(Registration :: TYPE_LANGUAGE);
+        $registration->set_category($this->get_family());
         $registration->set_version('1.0.0');
         $registration->set_status(Registration :: STATUS_ACTIVE);
         return $registration->create();

@@ -1,14 +1,24 @@
 <?php
 namespace application\weblcms;
 
-use repository\content_object\assessment\Assessment;
-use user\VisitTracker;
-use common\libraries\PatternMatchCondition;
+use application\weblcms\tool\learning_path\LearningPathTool;
+
+use tracking\TrackingDataManager;
+
+use reporting\Reporting;
 use reporting\ReportingManager;
-use common\libraries\DatetimeUtilities;
+
+use repository\ComplexContentObjectItem;
+use repository\content_object\assessment\Assessment;
 use repository\ContentObject;
 use repository\RepositoryDataManager;
+
+use user\VisitTracker;
 use user\UserDataManager;
+
+use common\libraries\Text;
+use common\libraries\PatternMatchCondition;
+use common\libraries\DatetimeUtilities;
 use common\libraries\Redirect;
 use common\libraries\Theme;
 use common\libraries\OrCondition;
@@ -56,7 +66,7 @@ class ReportingWeblcms
                 $user = $udm->retrieve_user($visittracker->get_user_id());
             }
 
-            $arr[Translation :: get('User', null, 'user' )][] = $user->get_fullname();
+            $arr[Translation :: get('User', null, 'user')][] = $user->get_fullname();
             $arr[Translation :: get('LastAccess')][] = $visittracker->get_enter_date();
             $time = strtotime($visittracker->get_leave_date()) - strtotime($visittracker->get_enter_date());
             $time = mktime(0, 0, $time, 0, 0, 0);
@@ -248,7 +258,7 @@ class ReportingWeblcms
         }
         else
         {
-            $condition = new PattenMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*&course=' . $course_id . '*');
+            $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*&course=' . $course_id . '*');
         }
 
         $user = $udm->retrieve_user($user_id);
@@ -630,7 +640,15 @@ class ReportingWeblcms
                 if (in_array($key, array_keys($cloi_refs)))
                 {
                     $page = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi_refs[$key]);
-                    $url = (Redirect :: get_url(array('go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => $tool_action, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $params[Tool :: PARAM_PUBLICATION_ID], 'selected_cloi' => $keys[0])));
+                    $url = (Redirect :: get_url(array(
+                            'go' => WeblcmsManager :: ACTION_VIEW_COURSE,
+                            'course' => $params['course_id'],
+                            'tool' => 'wiki',
+                            'application' => 'weblcms',
+                            'tool_action' => $tool_action,
+                            'display_action' => 'view_item',
+                            Tool :: PARAM_PUBLICATION_ID => $params[Tool :: PARAM_PUBLICATION_ID],
+                            'selected_cloi' => $keys[0])));
                     $arr[Translation :: get('MostVisitedPage')][] = '<a href="' . $url . '">' . htmlspecialchars($page->get_title()) . '</a>';
                     $arr[Translation :: get('NumberOfVisits')][] = $visits[$keys[0]];
                     break;
@@ -663,7 +681,15 @@ class ReportingWeblcms
         }
         arsort($edits);
         $keys = array_keys($edits);
-        $url = (Redirect :: get_url(array('go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => Tool :: ACTION_VIEW, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $wiki->get_id(), 'cid' => $page_ids[$keys[0]])));
+        $url = (Redirect :: get_url(array(
+                'go' => WeblcmsManager :: ACTION_VIEW_COURSE,
+                'course' => $params['course_id'],
+                'tool' => 'wiki',
+                'application' => 'weblcms',
+                'tool_action' => Tool :: ACTION_VIEW,
+                'display_action' => 'view_item',
+                Tool :: PARAM_PUBLICATION_ID => $wiki->get_id(),
+                'cid' => $page_ids[$keys[0]])));
         $arr[Translation :: get('MostEditedPage')][] = '<a href="' . $url . '">' . htmlspecialchars($keys[0]) . '</a>';
         $arr[Translation :: get('NumberOfEdits')][] = $edits[$keys[0]];
         return Reporting :: getSerieArray($arr);

@@ -4,6 +4,9 @@ namespace user;
  * $Id: user_approval_browser_table_column_model.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component.user_approval_browser
  */
+use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableColumn;
+
 require_once dirname(__FILE__) . '/../../../user_table/default_user_table_column_model.class.php';
 /**
  * Table column model for the user browser table

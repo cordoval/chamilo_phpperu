@@ -1,5 +1,7 @@
 <?php
 namespace group;
+
+use common\libraries\Display;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Request;
@@ -8,8 +10,7 @@ use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Export;
 
-
-require_once dirname(__FILE__) ."/../../group_rights.class.php";
+require_once dirname(__FILE__) . "/../../group_rights.class.php";
 /**
  * $Id: exporter.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
@@ -23,16 +24,16 @@ class GroupManagerExporterComponent extends GroupManager implements Administrati
      */
     function run()
     {
-        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_EXPORT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+        if (! GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_EXPORT, GroupRights :: get_location_by_identifier_from_groups_subtree(Request :: get(GroupManager :: PARAM_GROUP_ID))))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
-        
+
         $form = new GroupExportForm(GroupExportForm :: TYPE_EXPORT, $this->get_url());
-        
+
         if ($form->validate())
         {
             $export = $form->exportValues();
@@ -59,14 +60,14 @@ class GroupManagerExporterComponent extends GroupManager implements Administrati
             $group_array['children'] = $this->build_group_tree($group->get_id());
             $data[] = $group_array;
         }
-        
+
         return $data;
     }
 
     function export_groups($file_type, $data)
-    {       
+    {
         $filename = 'export_groups_' . date('Y-m-d_H-i-s');
-    	if ($file_type == 'pdf')
+        if ($file_type == 'pdf')
         {
             $data = array(array('key' => 'groups', 'data' => $data));
         }
@@ -74,10 +75,10 @@ class GroupManagerExporterComponent extends GroupManager implements Administrati
         $export->set_filename($filename);
         $export->send_to_browser();
     }
-    
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('group general');
+        $breadcrumbtrail->add_help('group general');
     }
 }
 ?>

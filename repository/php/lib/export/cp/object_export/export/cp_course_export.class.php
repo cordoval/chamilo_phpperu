@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use common\libraries\Chamilo;
+use common\libraries\ImscpObjectWriter;
+
 use application\weblcms\Course;
 use repository\ContentObjectExport;
 
@@ -45,7 +48,7 @@ class CpCourseExport extends CpObjectExport
     {
         $settings = $this->get_settings();
         $object = $settings->get_object();
-        $children = chamilo :: get_course_publications($object->get_id());
+        $children = Chamilo :: get_course_publications($object->get_id());
         foreach ($children as $child)
         {
             $child_object = $child->get_content_object();

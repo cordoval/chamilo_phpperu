@@ -13,14 +13,18 @@
 			</author>
 		</authors>
 		<version>1.0.0</version>
-		<filename>pool/main/video_conferencing_managers/v/bbb/bbb-1.0.0.zip</filename>
+		<cycle>
+			<phase>general_availability</phase>
+			<realm>main</realm>
+		</cycle>
+		<filename>pool/main/video_conferencing_managers/b/bbb/bbb-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
 		<sha256></sha256>
 		<sha512></sha512>
 		<tagline></tagline>
-		<description>Allow users to browse, upload and use Vimeo videos in Chamilo 2</description>
+		<description>Allow users to create BigBlueButton meetings</description>
 		<homepage></homepage>
 		<dependencies>
 			<server>
@@ -32,7 +36,35 @@
 			</server>
 			<content_objects>
 				<dependency>
-		  			<id>vimeo</id>
+		  			<id>bbb_meeting</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>3</severity>
+				</dependency>
+			</content_objects>
+			<library>
+				<dependency>
+		  			<id>common</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</library>
+			<core>
+				<dependency>
+		  			<id>user</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
+			<extension>
+				<dependency>
+		  			<id>video_conferencing_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
+			<content_objects>
+				<dependency>
+		  			<id>bbb_meeting</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>

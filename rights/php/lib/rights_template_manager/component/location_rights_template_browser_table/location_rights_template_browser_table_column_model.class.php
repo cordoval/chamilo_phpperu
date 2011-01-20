@@ -1,6 +1,9 @@
 <?php
 namespace rights;
 
+use common\libraries\Translation;
+
+use common\libraries\StaticTableColumn;
 use common\libraries\Utilities;
 
 use rights\RightsUtilities;
@@ -31,7 +34,8 @@ class LocationRightsTemplateBrowserTableColumnModel extends DefaultRightsTemplat
         $this->set_default_order_column(1);
         $this->set_columns(array_splice($this->get_columns(), 0, 1));
         $this->add_rights_columns();
-        //		$this->add_column(self :: get_modification_column());
+
+     //		$this->add_column(self :: get_modification_column());
     }
 
     /**

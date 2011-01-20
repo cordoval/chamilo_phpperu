@@ -1,14 +1,17 @@
 <?php
 namespace rights;
 
+use group\Group;
+use group\DefaultGroupTableCellRenderer;
+use group\GroupManager;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
 
 use rights\RightsUtilities;
-use group\GroupManager;
+
 use user\UserManager;
-use group\DefaultGroupTableCellRenderer;
 /**
  * $Id: location_group_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.group_right_manager.component.location_group_browser_table
@@ -94,14 +97,20 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
         $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
         $group_id = $group->get_id();
 
-        $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
+        $location_url = $browser->get_url(array(
+                'application' => $this->application,
+                'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
 
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Translation :: get(Utilities :: underscores_to_camelcase(strtolower($right_name)));
             if ($column->get_name() == $column_name)
             {
-                $rights_url = $browser->get_url(array(GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_SET_GROUP_RIGHTS, 'group_id' => $group_id, 'right_id' => $right_id, GroupRightManager :: PARAM_LOCATION => $location->get_id()));
+                $rights_url = $browser->get_url(array(
+                        GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_SET_GROUP_RIGHTS,
+                        'group_id' => $group_id,
+                        'right_id' => $right_id,
+                        GroupRightManager :: PARAM_LOCATION => $location->get_id()));
                 return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $group, $location);
             }
         }

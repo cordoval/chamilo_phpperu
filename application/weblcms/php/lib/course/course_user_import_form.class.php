@@ -2,6 +2,8 @@
 namespace application\weblcms;
 
 use user\UserDataManager;
+
+use common\libraries\Import;
 use common\libraries\FormValidator;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;

@@ -4,6 +4,8 @@ namespace repository\content_object\vimeo;
 use repository\ContentObjectForm;
 use repository\ExternalSync;
 
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
 use common\libraries\Translation;
 use common\libraries\ExternalRepositoryLauncher;
 use common\libraries\Utilities;

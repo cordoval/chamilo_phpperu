@@ -9,6 +9,8 @@ use common\libraries\Theme;
 
 use user\UserManager;
 
+use HTML_QuickForm;
+
 /**
  * $Id: repository_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
@@ -45,8 +47,8 @@ class RepositoryVersionBrowserTableCellRenderer extends DefaultContentObjectTabl
 
         switch ($column->get_name())
         {
-//            case ContentObject :: PROPERTY_TYPE :
-//                return '<a href="' . htmlentities($this->browser->get_type_filter_url($content_object->get_type())) . '">' . parent :: render_cell($column, $content_object) . '</a>';
+            //            case ContentObject :: PROPERTY_TYPE :
+            //                return '<a href="' . htmlentities($this->browser->get_type_filter_url($content_object->get_type())) . '">' . parent :: render_cell($column, $content_object) . '</a>';
             case ContentObject :: PROPERTY_TITLE :
                 $title = parent :: render_cell($column, $content_object);
                 $title_short = Utilities :: truncate_string($title, 53, false);
@@ -70,43 +72,23 @@ class RepositoryVersionBrowserTableCellRenderer extends DefaultContentObjectTabl
         $toolbar = new Toolbar();
 
         $remove_url = $this->browser->get_content_object_deletion_url($content_object, 'version');
-        if($remove_url)
+        if ($remove_url)
         {
-            $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
-        			Theme :: get_common_image_path().'action_remove.png',
-    				$remove_url,
-    			 	ToolbarItem :: DISPLAY_ICON
-    		));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_remove.png', $remove_url, ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('DeleteNotAvailable', null, Utilities :: COMMON_LIBRARIES),
-        			Theme :: get_common_image_path().'action_remove_na.png',
-    				null,
-    			 	ToolbarItem :: DISPLAY_ICON
-    		));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteNotAvailable', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_remove_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
 
-		$revert_url = $this->browser->get_content_object_revert_url($content_object, 'version');
-		if($revert_url)
+        $revert_url = $this->browser->get_content_object_revert_url($content_object, 'version');
+        if ($revert_url)
         {
-    		$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Revert', null, Utilities :: COMMON_LIBRARIES),
-        			Theme :: get_common_image_path().'action_revert.png',
-    				$revert_url,
-    			 	ToolbarItem :: DISPLAY_ICON
-    		));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Revert', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_revert.png', $revert_url, ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-    		$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('RevertNotAvailable', null, Utilities :: COMMON_LIBRARIES),
-        			Theme :: get_common_image_path().'action_revert_na.png',
-    				null,
-    			 	ToolbarItem :: DISPLAY_ICON
-    		));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('RevertNotAvailable', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_revert_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
 
         return $toolbar->as_html();

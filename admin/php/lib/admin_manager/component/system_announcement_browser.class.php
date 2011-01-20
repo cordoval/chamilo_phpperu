@@ -1,5 +1,12 @@
 <?php
 namespace admin;
+
+use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\OrCondition;
+use common\libraries\ToolbarItem;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ActionBarSearchForm;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\InequalityCondition;
@@ -22,16 +29,16 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager implem
 
     function run()
     {
-//        if (!AdminRights::is_allowed(AdminRights::RIGHT_VIEW, AdminRights::LOCATION_SYSTEM_ANNOUNCEMENTS))
-//        {
-//            $this->display_header();
-//            Display :: warning_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
-//            $this->display_footer();
-//            exit();
-//        }
+        //        if (!AdminRights::is_allowed(AdminRights::RIGHT_VIEW, AdminRights::LOCATION_SYSTEM_ANNOUNCEMENTS))
+        //        {
+        //            $this->display_header();
+        //            Display :: warning_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
+        //            $this->display_footer();
+        //            exit();
+        //        }
         $user = $this->get_user();
 
-        if (!$user->is_platform_admin())
+        if (! $user->is_platform_admin())
         {
             $this->not_allowed();
         }
@@ -71,7 +78,7 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager implem
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        if (!Request :: get('pid'))
+        if (! Request :: get('pid'))
         {
             $action_bar->set_search_url($this->get_url());
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_system_announcement_publication_creating_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -86,7 +93,7 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager implem
         $condition = null;
         $user = $this->get_user();
 
-        if (!$user->is_platform_admin())
+        if (! $user->is_platform_admin())
         {
             $conditions = array();
 
@@ -112,9 +119,9 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager implem
         return $condition;
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('admin_system_announcement_browser');
+        $breadcrumbtrail->add_help('admin_system_announcement_browser');
     }
 
 }

@@ -52,6 +52,11 @@
 					<option name="remove_originals" value="0" />
 				</options>
 			</setting>
+                        <setting name="use_prefix" field="checkbox">
+                            <options type="static">
+					<option name="use_prefix" value="0" />
+				</options>
+                        </setting>
 		</category>
 	</settings>
 </application>

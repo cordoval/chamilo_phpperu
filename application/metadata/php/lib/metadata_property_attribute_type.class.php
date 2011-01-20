@@ -19,9 +19,11 @@ class MetadataPropertyAttributeType extends DataClass
      * MetadataPropertyAttributeType properties
      */
     const PROPERTY_ID = 'id';
+    const PROPERTY_NAMESPACE = 'namespace';
     const PROPERTY_NS_PREFIX = 'ns_prefix';
     const PROPERTY_NAME = 'name';
 
+    private $ns_prefix = false;
 
     /**
      * Get the default properties
@@ -29,7 +31,7 @@ class MetadataPropertyAttributeType extends DataClass
      */
     static function get_default_property_names()
     {
-            return array (self :: PROPERTY_ID, self :: PROPERTY_NS_PREFIX, self :: PROPERTY_NAME);
+            return array (self :: PROPERTY_ID, self :: PROPERTY_NAMESPACE, self :: PROPERTY_NAME);
     }
 
     function get_data_manager()
@@ -56,12 +58,40 @@ class MetadataPropertyAttributeType extends DataClass
     }
 
     /**
-     * Returns the ns_prefix of this MetadataPropertyAttributeType.
+     * Returns the ns_prefix of this MetadataPropertyType.
+     * @return the namespace_id.
+     */
+    function get_namespace()
+    {
+            return $this->get_default_property(self :: PROPERTY_NAMESPACE);
+    }
+
+    /**
+     * Sets the ns_prefix of this MetadataPropertyType.
+     * @param namespace
+     */
+    function set_namespace($namespace)
+    {
+            $this->set_default_property(self :: PROPERTY_NAMESPACE, $namespace);
+    }
+
+    /**
+     * Returns the ns_prefix of this MetadataPropertyType.
      * @return the ns_prefix.
      */
     function get_ns_prefix()
     {
-            return $this->get_default_property(self :: PROPERTY_NS_PREFIX);
+        if(!$this->ns_prefix)
+        {
+            $namespace = $this->get_data_manager()->retrieve_metadata_namespace($this->get_namespace());
+
+            if(!$namespace)
+            {
+                return false;
+            }
+            $this->set_ns_prefix($namespace->get_ns_prefix());
+        }
+        return $this->ns_prefix;
     }
 
     /**
@@ -70,7 +100,7 @@ class MetadataPropertyAttributeType extends DataClass
      */
     function set_ns_prefix($ns_prefix)
     {
-            $this->set_default_property(self :: PROPERTY_NS_PREFIX, $ns_prefix);
+            $this->ns_prefix = $ns_prefix;
     }
 
     /**
@@ -133,7 +163,7 @@ class MetadataPropertyAttributeType extends DataClass
         $condition = new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_PROPERTY_ATTRIBUTE_TYPE_ID, $this->get_id());
         $count = $mdm->count_metadata_property_attribute_types($condition);
 
-        if($count === 0)
+        if($count == 0)
         {
             if(parent :: delete())
             {
@@ -146,7 +176,7 @@ class MetadataPropertyAttributeType extends DataClass
 
                 $condition = new OrCondition($condition1, $condition4);
 
-                $metadata_property_nestings = $mdm->retrieve_property_nestings($condition);
+                $metadata_property_nestings = $mdm->retrieve_metadata_property_nestings($condition);
 
                 while($metadata_property_nesting = $metadata_property_nestings->next_result())
                 {
@@ -161,14 +191,16 @@ class MetadataPropertyAttributeType extends DataClass
 
                 $condition = new OrCondition($condition1, $condition4);
 
-                $metadata_attribute_nestings = $mdm->retrieve_Attribute_nestings($condition);
+                $metadata_attribute_nestings = $mdm->retrieve_metadata_attribute_nestings($condition);
 
                 while($metadata_attribute_nesting = $metadata_attribute_nestings->next_result())
                 {
                     $metadata_attribute_nesting->delete();
                 }
+                return true;
             }
         }
+        return false;
     }
 }
 

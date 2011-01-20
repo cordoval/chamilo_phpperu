@@ -6,7 +6,11 @@
 		<section>application</section>
 		<category>social</category>
 		<authors></authors>
-		<version>1.2.0</version>
+		<version>1.0.0</version>
+		<cycle>
+			<phase>general_availability</phase>
+			<realm>main</realm>
+		</cycle>
 		<filename>pool/main/application/p/personal_calendar/personal_calendar-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
@@ -30,6 +34,16 @@
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
+				<dependency>
+		  			<id>external_calendar</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>task</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
 			</content_objects>
 			<applications>
 				<dependency>
@@ -38,6 +52,47 @@
 		  			<severity>5</severity>
 				</dependency>
 			</applications>
+			<core>
+				<dependency>
+		  			<id>group</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>tracking</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>user</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>rights</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
+			<library>
+				<dependency>
+		  			<id>common</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</library>
+			<extension>
+				<dependency>
+		  			<id>repo_viewer</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>rights_editor_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
 		</dependencies>
 	</package>
 </packages>

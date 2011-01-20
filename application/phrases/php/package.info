@@ -23,6 +23,39 @@
 		<description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin orci enim, auctor sit amet porttitor vel, sollicitudin vel augue. Etiam metus dui, facilisis ac fermentum lobortis, sollicitudin nec sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi a nisl erat. Nulla pretium ipsum non neque tempor venenatis. Nulla risus leo, eleifend nec auctor sed, ullamcorper quis ligula. Nam tempus placerat mauris sed condimentum. Praesent vehicula fermentum dolor et luctus. Nulla adipiscing vestibulum convallis. Aliquam aliquet gravida vulputate viverra fusce. </description>
 		<homepage></homepage>
 		<dependencies>
+			<core>
+				<dependency>
+		  			<id>admin</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>tracking</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
+			<library>
+				<dependency>
+		  			<id>common</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</library>
+			<extension>
+				<dependency>
+		  			<id>repo_viewer</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
+			<content_objects>
+				<dependency>
+		  			<id>adaptive_assessment</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</content_objects>
 		</dependencies>
 	</package>
 </packages>

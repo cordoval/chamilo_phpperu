@@ -1,8 +1,13 @@
 <?php
 namespace home;
+
+use common\libraries\Utilities;
+use common\libraries\Display;
 use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Header;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 /**
  * $Id: mover.class.php 227 2009-11-13 14:45:05Z kariboe $
@@ -20,22 +25,25 @@ class HomeManagerMoverComponent extends HomeManager
     function run()
     {
         Header :: set_section('admin');
-        
+
         $id = Request :: get(HomeManager :: PARAM_HOME_ID);
         $type = Request :: get(HomeManager :: PARAM_HOME_TYPE);
         $direction = Request :: get(HomeManager :: PARAM_DIRECTION);
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
-            Display :: error_message(Translation :: get('NotAllowed', null, Utilities::COMMON_LIBRARIES));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
-        
+
         if ($id && $type)
         {
-            $url = $this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => $type, HomeManager :: PARAM_HOME_ID => $id));
+            $url = $this->get_url(array(
+                    Application :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME,
+                    HomeManager :: PARAM_HOME_TYPE => $type,
+                    HomeManager :: PARAM_HOME_ID => $id));
             switch ($type)
             {
                 case HomeManager :: TYPE_BLOCK :
@@ -59,7 +67,7 @@ class HomeManagerMoverComponent extends HomeManager
                     $next_home = $this->retrieve_home_tab_at_sort($move_home->get_user(), $sort, $direction);
                     break;
             }
-            
+
             if ($direction == 'up')
             {
                 $move_home->set_sort($sort - 1);
@@ -70,7 +78,7 @@ class HomeManagerMoverComponent extends HomeManager
                 $move_home->set_sort($sort + 1);
                 $next_home->set_sort($sort);
             }
-            
+
             if ($move_home->update() && $next_home->update())
             {
                 $success = true;
@@ -79,24 +87,26 @@ class HomeManagerMoverComponent extends HomeManager
             {
                 $success = false;
             }
-            
-            $this->redirect(Translation :: get($success ? 'HomeMoved' : 'HomeNotMoved'), ($success ? false : true), array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
+
+            $this->redirect(Translation :: get($success ? 'HomeMoved' : 'HomeNotMoved'), ($success ? false : true), array(
+                    Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities::COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
-    
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManagerManagerComponent')));
-    	$breadcrumbtrail->add_help('home_mover');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManagerManagerComponent')));
+        $breadcrumbtrail->add_help('home_mover');
     }
-    
+
     function get_additional_parameters()
     {
-    	return array(HomeManager :: PARAM_HOME_TYPE, HomeManager :: PARAM_HOME_ID, HomeManager :: PARAM_DIRECTION);
+        return array(HomeManager :: PARAM_HOME_TYPE, HomeManager :: PARAM_HOME_ID, HomeManager :: PARAM_DIRECTION);
     }
 }
 ?>

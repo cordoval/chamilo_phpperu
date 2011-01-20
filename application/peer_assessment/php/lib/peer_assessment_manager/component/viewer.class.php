@@ -1,11 +1,12 @@
 <?php
-
 namespace application\peer_assessment;
+
+use repository\content_object\peer_assessment\PeerAssessment;
+use repository\ComplexDisplay;
 
 use common\libraries\Display;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
-use repository\ComplexDisplay;
 use common\libraries\Translation;
 use common\libraries\Request;
 
@@ -19,13 +20,14 @@ class PeerAssessmentManagerViewerComponent extends PeerAssessmentManager
 
     function run()
     {
-        if (!$this->is_allowed(VIEW_RIGHT))
+        if (! $this->is_allowed(VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;
         }
         $this->trail = $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('PeerAssessment')));
+        $trail->add(new Breadcrumb($this->get_url(array(
+                PeerAssessmentManager :: PARAM_ACTION => PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('PeerAssessment')));
 
         $this->set_parameter(PeerAssessmentManager :: PARAM_ACTION, PeerAssessmentManager :: ACTION_VIEW_PEER_ASSESSMENT);
         $this->set_parameter(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION, Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION));

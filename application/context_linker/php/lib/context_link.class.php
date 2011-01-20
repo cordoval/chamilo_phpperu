@@ -48,7 +48,7 @@ class ContextLink extends DataClass
 	 * Get the default properties
 	 * @return array The property names.
 	 */
-	static function get_default_property_names()
+	static function get_default_property_names($extended_property_names = array())
 	{
             return array (self :: PROPERTY_ID, self :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, self :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, self :: PROPERTY_METADATA_PROPERTY_VALUE_ID, self :: PROPERTY_DATE);
 	}

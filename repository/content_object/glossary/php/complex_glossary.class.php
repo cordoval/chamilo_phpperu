@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\glossary;
 
+use repository\content_object\glossary_item\GlossaryItem;
+
 use repository\ComplexContentObjectItem;
 
 /**

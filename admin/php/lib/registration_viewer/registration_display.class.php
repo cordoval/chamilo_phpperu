@@ -1,71 +1,91 @@
 <?php
 namespace admin;
 
-use common\libraries;
-
+use common\libraries\ObjectTableOrder;
 use common\libraries\Display;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Path;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 
 require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
 
-class RegistrationDisplay
+abstract class RegistrationDisplay
 {
-    private $object;
+    private $component;
+    private $package_info;
 
-    function __construct($object)
+    function __construct($component)
     {
-        $this->object = $object;
+        $this->component = $component;
+        $this->package_info = PackageInfo :: factory($this->get_registration()->get_type(), $this->get_registration()->get_name())->get_package();
     }
 
-    function get_object()
+    function get_package_info()
     {
-        return $this->object;
+        return $this->package_info;
+    }
+
+    static function factory($component)
+    {
+        $registration = $component->get_registration();
+        $file = Path :: get_admin_path() . 'lib/registration_viewer/type/' . $registration->get_type() . '.class.php';
+
+        if (! file_exists($file) || ! is_file($file))
+        {
+            $message = array();
+            $message[] = Translation :: get('RegistrationDisplayTypeFailedToLoad') . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('File') . ':</b><br />';
+            $message[] = $file . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('Stacktrace') . ':</b>';
+            $message[] = '<ul>';
+            $message[] = '<li>' . Translation :: get($registration->get_type()) . '</li>';
+            $message[] = '</ul>';
+
+            Display :: header();
+            Display :: error_message(implode("\n", $message));
+            Display :: footer();
+            exit();
+        }
+        else
+        {
+            require_once $file;
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($registration->get_type()) . 'RegistrationDisplay';
+            return new $class($component);
+        }
+    }
+
+    function get_component()
+    {
+        return $this->component;
+    }
+
+    function get_registration()
+    {
+        return $this->get_component()->get_registration();
     }
 
     function as_html()
     {
-        $object = $this->object;
-        $package_info = PackageInfo :: factory($object->get_type(), $object->get_name());
-        $package_info = $package_info->get_package();
-        
         $html = array();
-        
-        if (! $package_info->is_official() || ! $package_info->is_stable())
-        {
-            if (! $package_info->is_official() && $package_info->is_stable())
-            {
-                $translation_variable = 'WarningPackageUnofficialStable';
-            }
-            elseif ($package_info->is_official() && ! $package_info->is_stable())
-            {
-                $translation_variable = 'WarningPackageOfficialUnstable';
-            }
-            elseif (! $package_info->is_official() && ! $package_info->is_stable())
-            {
-                $translation_variable = 'WarningPackageUnofficialUnstable';
-            }
-            
-            $html[] = Display :: warning_message(Translation :: get($translation_variable), true);
-        }
-        else
-        {
-            $html[] = Display :: normal_message(Translation :: get('InformationPackageOfficialStable'), true);
-        }
-        
-        $html[] = $this->get_properties_table($package_info);
-        $html[] = $this->get_cycle_table($package_info);
-        $html[] = $this->get_dependencies_table($package_info);
+        $html[] = $this->get_stability_information();
+        $html[] = $this->get_action_bar()->as_html();
+        $html[] = $this->get_properties_table();
+        $html[] = $this->get_cycle_table();
+        $html[] = $this->get_dependencies_table();
         $html[] = $this->get_update_problems();
-        
+
         return implode("\n", $html);
     }
 
-    function get_dependencies_table($package_info)
+    function get_dependencies_table()
     {
+        $package_info = $this->get_package_info();
+
         $html[] = '<h3>' . Translation :: get('Dependencies') . '</h3>';
         $dependencies = $package_info->get_dependencies();
         $html[] = '<table class="data_table data_table_no_header">';
@@ -85,7 +105,7 @@ class RegistrationDisplay
                     $html[] = '<td></td>';
                 }
                 $html[] = '<td>' . $package_dependency->as_html() . '</td>';
-                
+
                 $html[] = '</tr>';
                 $count ++;
             }
@@ -96,22 +116,23 @@ class RegistrationDisplay
 
     function get_update_problems()
     {
-        if ($this->get_object()->is_up_to_date())
+        if ($this->get_registration()->is_up_to_date())
         {
             return "";
         }
-        $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $this->get_object()->get_name());
-        $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_SECTION, $this->get_object()->get_type());
+
+        $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $this->get_registration()->get_name());
+        $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_SECTION, $this->get_registration()->get_type());
         $condition = new AndCondition($conditions);
-        
+
         $admin = AdminDataManager :: get_instance();
         $order_by = new ObjectTableOrder(RemotePackage :: PROPERTY_VERSION, SORT_DESC);
-        
+
         $package_remote = $admin->retrieve_remote_packages($condition, $order_by, null, 1);
         if ($package_remote->size() == 1)
         {
             $package_remote = $package_remote->next_result();
-            
+
             $package_update_dependency = new PackageDependencyVerifier($package_remote);
             $success = $package_update_dependency->is_updatable();
             if ($success)
@@ -134,8 +155,10 @@ class RegistrationDisplay
         }
     }
 
-    function get_cycle_table($package_info)
+    function get_cycle_table()
     {
+        $package_info = $this->get_package_info();
+
         $html = array();
         $html[] = '<h3>' . Translation :: get('ReleaseInformation') . '</h3>';
         $html[] = '<table class="data_table data_table_no_header">';
@@ -143,18 +166,25 @@ class RegistrationDisplay
         $html[] = '<tr><td class="header">' . Translation :: get('CyclePhase') . '</td><td>' . Translation :: get('CyclePhase' . Utilities :: underscores_to_camelcase($package_info->get_cycle_phase())) . '</td></tr>';
         $html[] = '<tr><td class="header">' . Translation :: get('CycleRealm') . '</td><td>' . Translation :: get('CycleRealm' . Utilities :: underscores_to_camelcase($package_info->get_cycle_realm())) . '</td></tr>';
         $html[] = '</table><br/>';
-        
+
         return implode("\n", $html);
     }
 
-    function get_properties_table($package_info)
+    function get_properties_table()
     {
+        $package_info = $this->get_package_info();
+
         $html = array();
         $html[] = '<table class="data_table data_table_no_header">';
         $properties = $package_info->get_default_property_names();
-        
-        $hidden_properties = array(RemotePackage :: PROPERTY_AUTHORS, RemotePackage :: PROPERTY_VERSION, RemotePackage :: PROPERTY_CYCLE, RemotePackage :: PROPERTY_DEPENDENCIES, RemotePackage :: PROPERTY_EXTRA);
-        
+
+        $hidden_properties = array(
+                RemotePackage :: PROPERTY_AUTHORS,
+                RemotePackage :: PROPERTY_VERSION,
+                RemotePackage :: PROPERTY_CYCLE,
+                RemotePackage :: PROPERTY_DEPENDENCIES,
+                RemotePackage :: PROPERTY_EXTRA);
+
         foreach ($properties as $property)
         {
             $value = $package_info->get_default_property($property);
@@ -163,7 +193,7 @@ class RegistrationDisplay
                 $html[] = '<tr><td class="header">' . Translation :: get(Utilities :: underscores_to_camelcase($property)) . '</td><td>' . $value . '</td></tr>';
             }
         }
-        
+
         $authors = $package_info->get_authors();
         foreach ($authors as $key => $author)
         {
@@ -174,47 +204,66 @@ class RegistrationDisplay
             }
             $html[] = '</td><td>' . Display :: encrypted_mailto_link($author['email'], $author['name']) . ' - ' . $author['company'] . '</td></tr>';
         }
-        
+
         $html[] = '</table><br/>';
-        
+
         return implode("\n", $html);
     }
 
-    function get_action_bar($registration)
+    function get_stability_information()
     {
-        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
-        if (! $registration->is_up_to_date())
+        $package_info = $this->get_package_info();
+
+        if ($this->get_registration()->is_up_to_date())
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdatePackage'), Theme :: get_common_image_path() . 'action_update.png', $this->get_registration_update_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            if (! $package_info->is_official() || ! $package_info->is_stable())
+            {
+                if (! $package_info->is_official() && $package_info->is_stable())
+                {
+                    $translation_variable = 'WarningPackageUnofficialStable';
+                }
+                elseif ($package_info->is_official() && ! $package_info->is_stable())
+                {
+                    $translation_variable = 'WarningPackageOfficialUnstable';
+                }
+                elseif (! $package_info->is_official() && ! $package_info->is_stable())
+                {
+                    $translation_variable = 'WarningPackageUnofficialUnstable';
+                }
+
+                return Display :: warning_message(Translation :: get($translation_variable), true);
+            }
+            else
+            {
+                return Display :: normal_message(Translation :: get('InformationPackageOfficialStable'), true);
+            }
         }
         else
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('PackageIsAlreadyUpToDate'), Theme :: get_common_image_path() . 'action_update_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        }
-        
-        // TODO: Temporarily disabled archive option
-        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdatePackageFromArchive'), Theme :: get_image_path() . 'action_update_archive.png', $this->get_registration_update_archive_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+            if (! $package_info->is_official() || ! $package_info->is_stable())
+            {
+                if (! $package_info->is_official() && $package_info->is_stable())
+                {
+                    $translation_variable = 'WarningPackageInstallUnofficialStable';
+                }
+                elseif ($package_info->is_official() && ! $package_info->is_stable())
+                {
+                    $translation_variable = 'WarningPackageInstallOfficialUnstable';
+                }
+                elseif (! $package_info->is_official() && ! $package_info->is_stable())
+                {
+                    $translation_variable = 'WarningPackageInstallUnofficialUnstable';
+                }
 
-        //        if ($registration->get_type() == Registration :: TYPE_LANGUAGE && Utilities :: camelcase_to_underscores($registration->get_name()) == PlatformSetting :: get('platform_language'))
-        //        {
-        //            return;
-        //        }
-        
-
-        if ($registration->is_active())
-        {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Deactivate', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_deactivate.png', $this->get_registration_deactivation_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                return Display :: warning_message(Translation :: get($translation_variable), true);
+            }
+            else
+            {
+                return Display :: normal_message(Translation :: get('InformationPackageInstallOfficialStable'), true);
+            }
         }
-        else
-        {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Activate', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_activate.png', $this->get_registration_activation_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        }
-        
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Deinstall', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_deinstall.png', $this->get_registration_removal_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
-        
-        return $action_bar;
     }
+
+    abstract function get_action_bar();
 }
 ?>

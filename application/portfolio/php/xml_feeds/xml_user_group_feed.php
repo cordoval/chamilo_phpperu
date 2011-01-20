@@ -1,12 +1,21 @@
 <?php
 namespace application\portfolio;
 
+use group\Group;
+use group\GroupDataManager;
+
+use user\UserDataManager;
+use user\User;
+
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\NotCondition;
+use common\libraries\Authentication;
+use common\libraries\Path;
 
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/course_group/course_group.class.php';
-
-
 
 if (Authentication :: is_valid())
 {

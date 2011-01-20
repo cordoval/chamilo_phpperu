@@ -1,6 +1,7 @@
 <?php
 namespace rights;
 
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Breadcrumb;
@@ -63,7 +64,11 @@ class RightsTemplateManagerUnlockerComponent extends RightsTemplateManager
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_SOURCE => $location->get_application(), RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(
+                    Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES,
+                    RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES,
+                    RightsTemplateManager :: PARAM_SOURCE => $location->get_application(),
+                    RightsTemplateManager :: PARAM_LOCATION => $location->get_id()));
         }
         else
         {
@@ -71,25 +76,25 @@ class RightsTemplateManagerUnlockerComponent extends RightsTemplateManager
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$ids = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
-    	$location_id = $ids[0];
+        $ids = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
+        $location_id = $ids[0];
 
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES,
-    															  RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_BROWSE_RIGHTS_TEMPLATES)),
-    										 Translation :: get('RightsTemplateManagerBrowserComponent')));
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES,
-    															  RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES,
-    															  RightsTemplateManager :: PARAM_SOURCE => Request :: get(RightsTemplateManager :: PARAM_SOURCE),
-            													  RightsTemplateManager :: PARAM_LOCATION => $location_id)),
-    										 Translation :: get('RightsTemplateManagerConfigurerComponent')));
-    	$breadcrumbtrail->add_help('rights_templates_unlocker');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES,
+                RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_BROWSE_RIGHTS_TEMPLATES)), Translation :: get('RightsTemplateManagerBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES,
+                RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES,
+                RightsTemplateManager :: PARAM_SOURCE => Request :: get(RightsTemplateManager :: PARAM_SOURCE),
+                RightsTemplateManager :: PARAM_LOCATION => $location_id)), Translation :: get('RightsTemplateManagerConfigurerComponent')));
+        $breadcrumbtrail->add_help('rights_templates_unlocker');
     }
 
-	function get_additional_parameters()
+    function get_additional_parameters()
     {
-    	return array(RightsTemplateManager :: PARAM_LOCATION, RightsTemplateManager :: PARAM_SOURCE);
+        return array(RightsTemplateManager :: PARAM_LOCATION, RightsTemplateManager :: PARAM_SOURCE);
     }
 }
 ?>

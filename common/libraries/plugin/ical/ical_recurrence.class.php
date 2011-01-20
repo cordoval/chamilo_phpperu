@@ -9,6 +9,9 @@
  * @author Hans De Bisschop
  */
 
+use common\libraries\Utilities;
+use common\libraries\Translation;
+
 class IcalRecurrence
 {
     private $event;
@@ -128,7 +131,7 @@ class IcalRecurrence
     	{
     		$html[] = ' ' . Translation :: get('Once');
     	}
-    	$date_format = Translation :: get('dateFormatShort', null, Utilities :: COMMON_LIBRARIES);
+    	$date_format = Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES);
 
     	if ($this->get_until_unixtime())
     	{

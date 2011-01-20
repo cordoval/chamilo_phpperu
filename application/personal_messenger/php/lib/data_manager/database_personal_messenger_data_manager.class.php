@@ -1,5 +1,4 @@
 <?php
-
 namespace application\personal_messenger;
 
 use common\libraries\Database;
@@ -18,6 +17,7 @@ use common\libraries\Translation;
  */
 class DatabasePersonalMessengerDataManager extends Database implements PersonalMessengerDataManagerInterface
 {
+
     function initialize()
     {
         parent :: initialize();
@@ -103,7 +103,7 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
     public function content_object_is_published($object_id)
     {
         $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
-        return $this->count_objects(CalendarEventPublication :: get_table_name(), $condition) >= 1;
+        return $this->count_objects(PersonalMessengerPublication :: get_table_name(), $condition) >= 1;
     }
 
     // Inherited.
@@ -117,18 +117,14 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
                 $co_alias = $rdm->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->get_alias(PersonalMessengerPublication :: get_table_name());
 
-            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
-                		 $this->escape_table_name(PersonalMessengerPublication :: get_table_name()) . ' AS ' . $pub_alias .
-                		 ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
-                		 ' ON ' . $this->escape_column_name(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $pub_alias) . '=' .
-                		 $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
+                $query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . $this->escape_table_name(PersonalMessengerPublication :: get_table_name()) . ' AS ' . $pub_alias . ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . ' ON ' . $this->escape_column_name(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $pub_alias) . '=' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
 
                 $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_SENDER, Session :: get_user_id());
                 $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
 
                 $order = array();
-                foreach($order_properties as $order_property)
+                foreach ($order_properties as $order_property)
                 {
                     if ($order_property->get_property() == 'application')
                     {
@@ -148,20 +144,20 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
                     }
                 }
 
-                if(count($order) > 0)
-                	$query .= ' ORDER BY ' . implode(', ', $order);
+                if (count($order) > 0)
+                    $query .= ' ORDER BY ' . implode(', ', $order);
             }
         }
         else
         {
             $query = 'SELECT * FROM ' . $this->escape_table_name(PersonalMessengerPublication :: get_table_name());
-           	$condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
-           	$translator = new ConditionTranslator($this);
-           	$query .= $translator->render_query($condition);
+            $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
+            $translator = new ConditionTranslator($this);
+            $query .= $translator->render_query($condition);
         }
 
         $this->set_limit($offset, $count);
-		$res = $this->query($query);
+        $res = $this->query($query);
 
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
@@ -191,7 +187,7 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
 
             if ($publication->get_user() == $user)
             {
-                $info->set_url('run.php?application=personal_messenger&amp;go='.PersonalMessengerManager::ACTION_VIEW_PUBLICATION.'&pm=' . $publication->get_id());
+                $info->set_url('run.php?application=personal_messenger&amp;go=' . PersonalMessengerManager :: ACTION_VIEW_PUBLICATION . '&pm=' . $publication->get_id());
             }
             $info->set_publication_object_id($publication->get_personal_message());
 
@@ -238,21 +234,21 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
         return $info;
     }
 
-	function delete_content_object_publication($publication_id)
+    function delete_content_object_publication($publication_id)
     {
         $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_ID, $publication_id);
         return $this->delete(PersonalMessengerPublication :: get_table_name(), $condition);
     }
 
-	function count_publication_attributes($user_id = null, $object_id = null, $condition = null)
+    function count_publication_attributes($user_id = null, $object_id = null, $condition = null)
     {
-        if(!$object_id)
+        if (! $object_id)
         {
-    		$condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_USER, $user_id);
+            $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_USER, $user_id);
         }
         else
         {
-        	$condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
+            $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
         }
         return $this->count_objects(PersonalMessengerPublication :: get_table_name(), $condition);
     }

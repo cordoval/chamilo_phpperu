@@ -1,7 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use rights\RightsDataManager;
 use user\UserDataManager;
+
+use common\libraries\Authentication;
 use common\libraries\Session;
 use common\libraries\Utilities;
 use common\libraries\Request;

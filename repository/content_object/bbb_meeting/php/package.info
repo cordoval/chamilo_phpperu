@@ -34,6 +34,41 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
+			<video_conferencing_manager>
+				<dependency>
+		  			<id>bbb</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>3</severity>
+				</dependency>
+			</video_conferencing_manager>
+			<core>
+				<dependency>
+		  			<id>admin</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
+			<library>
+				<dependency>
+		  			<id>common</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</library>
+			<extension>
+				<dependency>
+		  			<id>video_conferencing_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
+			<video_conferencing_manager>
+				<dependency>
+		  			<id>bbb</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</video_conferencing_manager>
 		</dependencies>
 	</package>
 </packages>

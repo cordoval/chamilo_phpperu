@@ -21,9 +21,11 @@ class DefaultHandbookPublicationTableCellRenderer extends ObjectTableCellRendere
         switch ($column->get_name())
         {
             case Handbook::PROPERTY_TITLE:
-             return '<a href="' . $url . '" alt="' . $handbook->get_title() . '">' . $handbook->get_title() . '</a>';
+//             return '<a href="' . $url . '" alt="' . $handbook->get_title() . '">' . $handbook->get_title() . '</a>';
+               return  $handbook->get_title();
             case Handbook::PROPERTY_DESCRIPTION:
-                return '<a href="' . $url . '" alt="' . $handbook->get_description() . '">' . $handbook->get_description() . '</a>';
+                return $handbook->get_description();
+//                return '<a href="' . $url . '" alt="' . $handbook->get_description() . '">' . $handbook->get_description() . '</a>';
              
 
         }

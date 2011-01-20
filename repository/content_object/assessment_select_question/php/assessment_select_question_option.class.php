@@ -3,22 +3,22 @@ namespace repository\content_object\assessment_select_question;
 
 use common\libraries\Path;
 
-use repository\SelectQuestionOption;
 /**
  * $Id: assessment_select_question_option.class.php $
  * @package repository.lib.content_object.select_question
  */
-require_once Path :: get_repository_path() . '/question_types/select_question/select_question_option.class.php';
 
 /**
  * This class represents an option in a multiple choice question.
  */
-class AssessmentSelectQuestionOption extends SelectQuestionOption
+class AssessmentSelectQuestionOption
 {
+    const PROPERTY_VALUE = 'value';
     const PROPERTY_SCORE = 'score';
     const PROPERTY_FEEDBACK = 'feedback';
     const PROPERTY_CORRECT = 'correct';
 
+    private $value;
     private $correct;
     private $score;
     private $feedback;
@@ -28,14 +28,24 @@ class AssessmentSelectQuestionOption extends SelectQuestionOption
      * @param int $score The score of this answer in the question
      * @param string $feedback The feedback of this answer in the question
      */
-    function __construct($value, $correct, $score, $feedback){
-    	parent :: __construct($value);
-    	$this->correct = $correct;
-    	$this->score = $score;
-    	$this->feedback = $feedback;
+    function __construct($value, $correct, $score, $feedback)
+    {
+        $this->value = $value;
+        $this->correct = $correct;
+        $this->score = $score;
+        $this->feedback = $feedback;
     }
 
-	function get_feedback()
+    /**
+     * Gets the value of this option
+     * @return string
+     */
+    function get_value()
+    {
+        return $this->value;
+    }
+
+    function get_feedback()
     {
         return $this->feedback;
     }
@@ -55,6 +65,11 @@ class AssessmentSelectQuestionOption extends SelectQuestionOption
     function is_correct()
     {
         return $this->correct;
+    }
+
+    function has_feedback()
+    {
+        return StringUtilities :: has_value($this->get_feedback(), true);
     }
 }
 ?>

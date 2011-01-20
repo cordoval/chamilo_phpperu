@@ -1,5 +1,7 @@
 <?php
 namespace user;
+
+use common\libraries\ImageManipulation;
 use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Path;
 use common\libraries\Hashing;
@@ -8,7 +10,6 @@ use common\libraries\Hashing;
  * $Id: default_user_table_cell_renderer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_table
  */
-
 
 class DefaultUserTableCellRenderer extends ObjectTableCellRenderer
 {

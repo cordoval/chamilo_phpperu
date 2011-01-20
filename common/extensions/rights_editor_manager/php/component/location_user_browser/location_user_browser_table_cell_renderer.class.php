@@ -1,10 +1,13 @@
 <?php
 namespace common\extensions\rights_editor_manager;
 
+use common\libraries\Toolbar;
 use common\libraries\Path;
-use user\DefaultUserTableCellRenderer;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+
+use user\DefaultUserTableCellRenderer;
+
 use rights\RightsUtilities;
 
 /**
@@ -73,14 +76,19 @@ class LocationUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         $rights = $this->browser->get_available_rights();
         $user_id = $user->get_id();
 
-        $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $locations[0]->get_id())));
+        $location_url = $browser->get_url(array(
+                'application' => $this->application,
+                'location' => ($locked_parent ? $locked_parent->get_id() : $locations[0]->get_id())));
 
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Translation :: get(Utilities :: underscores_to_camelcase(strtolower($right_name)));
             if ($column->get_name() == $column_name)
             {
-                $rights_url = $browser->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_SET_USER_RIGHTS, 'user_id' => $user_id, 'right_id' => $right_id));
+                $rights_url = $browser->get_url(array(
+                        RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_SET_USER_RIGHTS,
+                        'user_id' => $user_id,
+                        'right_id' => $right_id));
                 return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $user, $locations[0]);
             }
         }

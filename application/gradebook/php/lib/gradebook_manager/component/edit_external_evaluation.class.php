@@ -1,7 +1,7 @@
 <?php
-
 namespace application\gradebook;
 
+use common\libraries\Request;
 use common\libraries\WebApplication;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
@@ -14,14 +14,18 @@ class GradebookManagerEditExternalEvaluationComponent extends GradebookManager
     function run()
     {
         $trail = $this->get_general_breadcrumbs();
-        $trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL)), Translation :: get('CreatingExternal')));
+        $trail->add(new Breadcrumb($this->get_url(array(
+                GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL)), Translation :: get('CreatingExternal')));
 
-        $form = new CreateExternalItemForm(CreateExternalItemForm :: TYPE_EDIT, $this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL, GradebookTreeMenuDataProvider :: PARAM_ID => Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID))), Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID), $this->get_user());
+        $form = new CreateExternalItemForm(CreateExternalItemForm :: TYPE_EDIT, $this->get_url(array(
+                GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL,
+                GradebookTreeMenuDataProvider :: PARAM_ID => Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID))), Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID), $this->get_user());
 
         if ($form->validate())
         {
             $success = $form->update_evaluation();
-            $this->redirect($success ? Translation :: get('ExternalGradesUpdated') : Translation :: get('ExternalGradesNotUpdated'), !$success, array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK));
+            $this->redirect($success ? Translation :: get('ExternalGradesUpdated') : Translation :: get('ExternalGradesNotUpdated'), ! $success, array(
+                    GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK));
         }
         else
         {

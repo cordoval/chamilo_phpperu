@@ -1,6 +1,7 @@
 <?php
 namespace user;
 
+use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\OrCondition;
 use common\libraries\PatternMatchCondition;

@@ -1,6 +1,7 @@
 <?php
 namespace application\laika;
 
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
 use common\libraries\BreadcrumbTrail;
@@ -27,13 +28,14 @@ class LaikaManagerMailerComponent extends LaikaManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME)), Translation :: get('Laika')));
+        $trail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME)), Translation :: get('Laika')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SendMail')));
 
         if (! LaikaRights :: is_allowed(LaikaRights :: RIGHT_VIEW, LaikaRights :: LOCATION_MAILER, LaikaRights :: TYPE_LAIKA_COMPONENT))
         {
             $this->display_header($trail);
-            $this->display_error_message(Translation :: get('NotAllowed', null, Utilities::COMMON_LIBRARIES));
+            $this->display_error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -44,7 +46,8 @@ class LaikaManagerMailerComponent extends LaikaManager
         {
             $success = $form->send_mails();
 
-            $this->redirect(($success ? Translation :: get('MailsSent') : Translation :: get('MailsNotSent')), ($success ? false : true), array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME));
+            $this->redirect(($success ? Translation :: get('MailsSent') : Translation :: get('MailsNotSent')), ($success ? false : true), array(
+                    Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME));
         }
         else
         {

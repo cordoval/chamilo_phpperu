@@ -1,11 +1,12 @@
 <?php
 namespace install;
-use common\libraries;
 
+use common\libraries\Display;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
 use HTML_QuickForm_Action_Display;
 use HTML_QuickForm;
-use common\libraries\Utilities;
 /**
  * $Id: install_wizard_display.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard
@@ -49,7 +50,7 @@ class InstallWizardDisplay extends HTML_QuickForm_Action_Display
 EOT;
         $renderer->setFormTemplate($form_template);
 
-        $current_page->setRequiredNote('<font color="#FF0000"><img src="../common/libraries/resources/images/aqua/action_required.png" alt="*" title ="*"/></font> ' . Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES));
+        $current_page->setRequiredNote('<font color="#FF0000"><img src="../common/libraries/resources/images/aqua/action_required.png" alt="*" title ="*"/></font> ' . Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES));
         //		$element_template = "\n\t<tr>\n\t\t<td valign=\"top\"><!-- BEGIN required --><span style=\"color: #ff0000\">*</span> <!-- END required -->{label}</td>\n\t\t<td valign=\"top\" align=\"left\"><!-- BEGIN error --><span style=\"color: #ff0000;font-size:x-small;margin:2px;\">{error}</span><br /><!-- END error -->\t{element}</td>\n\t</tr>";
         $element_template = array();
         $element_template[] = '<div class="row">';
@@ -73,7 +74,7 @@ EOT;
         $header_template = implode("\n", $header_template);
 
         $renderer->setHeaderTemplate($header_template);
-        HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="../common/libraries/resources/images/aqua/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES) . '</small></span>');
+        HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="../common/libraries/resources/images/aqua/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES) . '</small></span>');
         $required_note_template = <<<EOT
 	<div class="row">
 		<div class="label"></div>
@@ -182,7 +183,9 @@ EOT;
 
         echo '<div id="theForm" style="margin: 10px;">';
         echo '<div id="select" class="row"><div class="formc formc_no_margin">';
-        echo '<b>' . Translation :: get('CurrentSteps', array('CURRENT' => $current_page_number, 'TOTAL' => $total_number_of_pages), Utilities :: COMMON_LIBRARIES) . ' &ndash; ' . $current_page->get_title() . '</b><br />';
+        echo '<b>' . Translation :: get('CurrentSteps', array(
+                'CURRENT' => $current_page_number,
+                'TOTAL' => $total_number_of_pages), Utilities :: COMMON_LIBRARIES) . ' &ndash; ' . $current_page->get_title() . '</b><br />';
 
         //		echo '<h2>'.Translation :: get('Step').' '.$current_page_number.' '.Translation :: get('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';
         echo $current_page->get_info();

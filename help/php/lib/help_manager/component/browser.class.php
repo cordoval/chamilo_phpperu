@@ -1,5 +1,8 @@
 <?php
 namespace help;
+
+use common\libraries\PatternMatchCondition;
+use common\libraries\Display;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Request;
@@ -48,8 +51,8 @@ class HelpManagerBrowserComponent extends HelpManager implements AdministrationC
     {
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
-        
-    	$table = new HelpItemBrowserTable($this, $parameters, $this->get_condition());
+
+        $table = new HelpItemBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
         $html[] = '<div style="float: right; width: 100%;">';
@@ -80,14 +83,15 @@ class HelpManagerBrowserComponent extends HelpManager implements AdministrationC
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $action_bar->set_search_url($this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(
+                HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
         return $action_bar;
     }
-    
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('help_browser');
+        $breadcrumbtrail->add_help('help_browser');
     }
 }
 ?>

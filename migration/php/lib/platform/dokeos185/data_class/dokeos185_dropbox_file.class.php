@@ -1,11 +1,14 @@
 <?php
 namespace migration;
 
+use repository\content_object\document\Document;
+
 use common\libraries\Text;
 use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use common\libraries\Path;
+use common\libraries\FileSystem;
 
 /**
  * $Id: dokeos185_dropbox_file.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -305,7 +308,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
         //$filename = iconv("UTF-8", "ISO-8859-1", $this->get_filename());
         $directory = $this->directory;
         $filename = $this->get_filename();
-        
+
         $hash_filename = $this->migrate_file($directory, $new_path, $filename, $unique_hash);
 
         if ($hash_filename)
@@ -316,7 +319,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             $chamilo_repository_document->set_path($new_user_id . '/' . Text :: char_at($base_hash, 0) . '/' . $unique_hash);  //!!!!!!!
             $chamilo_repository_document->set_filesize($this->get_filesize());
             $chamilo_repository_document->set_hash($unique_hash);
-            
+
             if ($this->get_title())
             {
                 $chamilo_repository_document->set_title($this->get_title());
@@ -325,7 +328,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             {
                 $chamilo_repository_document->set_title($original_filename);
             }
-            
+
             if($this->get_description())
             {
                 $chamilo_repository_document->set_description($this->get_description());
@@ -334,7 +337,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             {
                 $chamilo_repository_document->set_description($this->get_title());
             }
-            
+
             $chamilo_repository_document->set_owner_id($new_user_id);
             $chamilo_repository_document->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
             $chamilo_repository_document->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
@@ -355,20 +358,20 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             $this->create_id_reference($this->get_id(), $chamilo_repository_document->get_id());
 
             $target_users = array();
-            
+
             // Retrieve all the connections to the different quizzes and convert them because we need to store ponderation and position as well
             $dropbox_persons = $this->get_data_manager()->retrieve_dropbox_persons($course, $this->get_id());
             while($dropbox_person = $dropbox_persons->next_result())
             {
             	$user_id = $dropbox_person->get_user_id();
-            	
+
             	$new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
             	if($new_user_id)
             	{
             	    $target_users[] = $new_user_id;
             	}
             }
-            
+
             //publication
             $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', null, $target_users);
             $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'dropbox_file', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_repository_document->get_id())));

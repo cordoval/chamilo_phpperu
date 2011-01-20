@@ -8,7 +8,7 @@
 		<authors>
 			<author>
 				<name>Nathalie Blocry</name>
-				<email>nathalie.bocry@vub.ac.be</email>
+				<email>nathalie.blocry@vub.ac.be</email>
 				<company>Vrije Universiteit Brussel</company>
 			</author>
 		</authors>
@@ -41,6 +41,42 @@
 		  			<severity>1</severity>
 				</dependency>
 			</content_objects>
+			<core>
+				<dependency>
+		  			<id>admin</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>group</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>user</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
+			<library>
+				<dependency>
+		  			<id>common</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</library>
+			<extension>
+				<dependency>
+		  			<id>feedback_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>repo_viewer</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
 		</dependencies>
 	</package>
 </packages>

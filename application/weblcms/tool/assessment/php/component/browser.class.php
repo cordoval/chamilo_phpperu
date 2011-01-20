@@ -2,12 +2,15 @@
 namespace application\weblcms\tool\assessment;
 
 use application\weblcms\WeblcmsRights;
+use application\weblcms\ToolComponent;
+use application\weblcms\Tool;
+
+use repository\content_object\calendar_event\CalendarEvent;
 use repository\ContentObject;
+
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
-use application\weblcms\ToolComponent;
 use common\libraries\Translation;
-use application\weblcms\Tool;
 
 require_once dirname(__FILE__) . '/assessment_browser/assessment_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/assessment_browser/assessment_column_model.class.php';
@@ -26,7 +29,8 @@ class AssessmentToolBrowserComponent extends AssessmentTool
 
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
-            $tool_actions[] = new ToolbarItem(Translation :: get('ImportQti'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+            $tool_actions[] = new ToolbarItem(Translation :: get('ImportQti'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(
+                    Tool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         }
 
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
@@ -37,7 +41,8 @@ class AssessmentToolBrowserComponent extends AssessmentTool
         {
             $action_name = Translation :: get('ViewResults');
         }
-        $tool_actions[] = new ToolbarItem($action_name, Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+        $tool_actions[] = new ToolbarItem($action_name, Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(
+                AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
 
         return $tool_actions;
     }

@@ -42,7 +42,7 @@ class AssessmentAssessmentAttemptsTracker extends SimpleTracker
     /**
      * Inherited
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID, self :: PROPERTY_ASSESSMENT_ID, self :: PROPERTY_DATE, self :: PROPERTY_TOTAL_SCORE, self :: PROPERTY_STATUS, self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME));
     }

@@ -13,6 +13,8 @@ require_once dirname(__FILE__) . '/fill_in_blanks_question_answer.class.php';
  */
 class FillInBlanksQuestion extends ContentObject implements Versionable
 {
+    private $answers;
+
     //const PROPERTY_ANSWERS = 'answers';
     const PROPERTY_ANSWER_TEXT = 'answer_text';
     const PROPERTY_QUESTION_TYPE = 'question_type';
@@ -43,15 +45,20 @@ class FillInBlanksQuestion extends ContentObject implements Versionable
     public function get_answers($index = -1)
     {
         $text = $this->get_answer_text();
-        $answers = FillInBlanksQuestionAnswer :: parse($text);
+
+        if (! $this->answers)
+        {
+            $this->answers = FillInBlanksQuestionAnswer :: parse($text);
+        }
+
         if ($index < 0)
         {
-            $result = $answers;
+            $result = $this->answers;
         }
         else
         {
             $result = array();
-            foreach ($answers as $answer)
+            foreach ($this->answers as $answer)
             {
                 if ($answer->get_position() == $index)
                 {
@@ -60,6 +67,28 @@ class FillInBlanksQuestion extends ContentObject implements Versionable
             }
         }
         return $result;
+    }
+
+    public function get_best_answer_for_question($index)
+    {
+        return FillInBlanksQuestionAnswer :: get_best_answer($this->get_answers($index));
+    }
+
+    public function get_hint_for_question($index)
+    {
+        $answer = $this->get_best_answer_for_question($index);
+        if ($this->get_question_type() == self :: TYPE_SELECT)
+        {
+            return $answer->get_hint();
+        }
+        elseif ($this->get_question_type() == self :: TYPE_TEXT)
+        {
+            return substr($answer->get_value(), 0, 1);
+        }
+        else
+        {
+            return '';
+        }
     }
 
     public function get_number_of_questions()
@@ -147,7 +176,7 @@ class FillInBlanksQuestion extends ContentObject implements Versionable
     public function is_correct($question_index, $answer)
     {
         $weight = $this->get_weight_from_answer($answer);
-    	$max_question_weight = $this->get_question_maximum_weight($question_index);
+        $max_question_weight = $this->get_question_maximum_weight($question_index);
 
         return $weight == $max_question_weight;
     }
@@ -159,7 +188,7 @@ class FillInBlanksQuestion extends ContentObject implements Versionable
         {
             if ($a->get_value() == $answer && $a->get_position() == $question_index)
             {
-               	return $a->get_weight();
+                return $a->get_weight();
             }
         }
 
@@ -168,7 +197,22 @@ class FillInBlanksQuestion extends ContentObject implements Versionable
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_ANSWER_TEXT, self :: PROPERTY_QUESTION_TYPE);
+        return array(
+                self :: PROPERTY_ANSWER_TEXT,
+                self :: PROPERTY_QUESTION_TYPE);
+    }
+
+    public function has_comment()
+    {
+        foreach ($this->get_answers() as $option)
+        {
+            if ($option->has_comment())
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 ?>

@@ -30,6 +30,11 @@
 			</server>
 			<content_objects>
 				<dependency>
+		  			<id>introduction</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
 		  			<id>announcement</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
@@ -40,7 +45,12 @@
 		  			<severity>1</severity>
 				</dependency>
 				<dependency>
-		  			<id>blog_item</id>
+		  			<id>hotpotatoes</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>blog</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
@@ -65,6 +75,11 @@
 		  			<severity>1</severity>
 				</dependency>
 				<dependency>
+		  			<id>physical_location</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
 		  			<id>glossary</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
@@ -75,12 +90,27 @@
 		  			<severity>1</severity>
 				</dependency>
 				<dependency>
-		  			<id>link</id>
+		  			<id>note</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
 				<dependency>
-		  			<id>note</id>
+		  			<id>dailymotion</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>mediamosa</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>vimeo</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>youtube</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
@@ -90,11 +120,82 @@
 		  			<severity>1</severity>
 				</dependency>
 				<dependency>
-		  			<id>introduction</id>
+		  			<id>link</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
 			</content_objects>
+			<core>
+				<dependency>
+		  			<id>admin</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>group</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>reporting</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>tracking</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>user</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>rights</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
+			<library>
+				<dependency>
+		  			<id>common</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</library>
+			<extension>
+				<dependency>
+		  			<id>category_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>feedback_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>repo_viewer</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>reporting_viewer</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>rights_editor_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>video_conferencing_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
 		</dependencies>
 	</package>
 </packages>

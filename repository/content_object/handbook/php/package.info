@@ -8,7 +8,7 @@
 		<authors>
 			<author>
 				<name>Nathalie Blocry</name>
-				<email>nathalie.bocry@vub.ac.be</email>
+				<email>nathalie.blocry@vub.ac.be</email>
 				<company>Vrije Universiteit Brussel</company>
 			</author>
 		</authors>
@@ -40,7 +40,58 @@
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
+				<dependency>
+		  			<id>wiki_page</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>link</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>document</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>youtube</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>glossary</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>handbook_topic</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
 			</content_objects>
+			<core>
+				<dependency>
+		  			<id>admin</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
+			<library>
+				<dependency>
+		  			<id>common</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</library>
+			<extension>
+				<dependency>
+		  			<id>repo_viewer</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
 		</dependencies>
 	</package>
 </packages>

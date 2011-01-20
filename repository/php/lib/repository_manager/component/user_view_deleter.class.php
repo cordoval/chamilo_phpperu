@@ -50,43 +50,48 @@ class RepositoryManagerUserViewDeleterComponent extends RepositoryManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = ranslation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = ranslation :: get('ObjectsNotDeleted', array('OBJECT' => Translation :: get('UserViews')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsNotDeleted', array(
+                            'OBJECT' => Translation :: get('UserViews')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = ranslation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = ranslation :: get('ObjectsDeleted', array('OBJECT' => Translation :: get('UserViews')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsDeleted', array('OBJECT' => Translation :: get('UserViews')), Utilities :: COMMON_LIBRARIES);
                 }
             }
 
-            $this->redirect($message, $failures ? true : false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
+            $this->redirect($message, $failures ? true : false, array(
+                    Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array(
+                    'OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS)), Translation :: get('RepositoryManagerUserViewBrowserComponent')));
-    	$breadcrumbtrail->add_help('repository_user_view_deleter');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS)), Translation :: get('RepositoryManagerUserViewBrowserComponent')));
+        $breadcrumbtrail->add_help('repository_user_view_deleter');
     }
 
-	function get_additional_parameters()
+    function get_additional_parameters()
     {
-    	return array(RepositoryManager :: PARAM_USER_VIEW);
+        return array(RepositoryManager :: PARAM_USER_VIEW);
     }
 }
 ?>

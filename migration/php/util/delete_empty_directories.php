@@ -8,6 +8,9 @@ namespace migration;
  * Script to delete empty directories
  */
 
+use common\libraries\Filesystem;
+use common\libraries\Configuration;
+
 ini_set('include_path', realpath(dirname(__FILE__) . '/../common/libraries/plugin/pear'));
 require_once dirname(__FILE__) . '/../common/global.inc.php';
 

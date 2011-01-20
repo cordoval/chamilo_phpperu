@@ -1,6 +1,7 @@
-<?php namespace repository\content_object\survey;
+<?php 
 namespace repository\content_object\survey;
 
+use common\libraries\Path;
 use common\libraries\ObjectTableCellRenderer;
 
 class DefaultSurveyTemplateTableCellRenderer extends ObjectTableCellRenderer
@@ -13,22 +14,17 @@ class DefaultSurveyTemplateTableCellRenderer extends ObjectTableCellRenderer
     {
     }
 
-
-    function render_cell($column, $context_template)
+    function render_cell($column, $template)
     {
-
-//    	$property_name = str_replace(' ','_' ,$column->get_name());
-
-    	$property_name = $column->get_name();
-
-    	if($property_name == SurveyTemplate::PROPERTY_USER_ID){
-    		return $context_template->get_default_property($property_name);
-    	}else{
-    		return $context_template->get_additional_property($property_name);
-    	}
-
-
-
+        switch ($column->get_name())
+        {
+            case SurveyTemplate :: PROPERTY_NAME :
+                return $template->get_name();
+            case SurveyTemplate :: PROPERTY_DESCRIPTION :
+                return $template->get_description();
+            default :
+                return '&nbsp;';
+        }
     }
 
     function render_id_cell($object)

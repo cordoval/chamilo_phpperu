@@ -1,6 +1,14 @@
 <?php
 namespace common\libraries;
+
+use user\UserManager;
 use user\User;
+
+use tracking\Event;
+
+use admin\AdminDataManager;
+
+use common\extensions\invitation_manager\InvitationManager;
 /**
  * @author Hans De Bisschop
  */

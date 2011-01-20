@@ -1,6 +1,7 @@
 <?php
 namespace application\linker;
 
+use common\libraries\Utilities;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
@@ -19,16 +20,18 @@ class LinkerManagerCreatorComponent extends LinkerManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS)), Translation :: get('Links')));
+        $trail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS)), Translation :: get('Links')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateLink')));
-        
+
         $link = new Linker();
         $form = new LinkForm(LinkForm :: TYPE_CREATE, $link, $this->get_url(), $this->get_user());
-        
+
         if ($form->validate())
         {
             $success = $form->create_link();
-            $this->redirect($success ? Translation :: get('LinkCreated', null, Utilities::COMMON_LIBRARIES) : Translation :: get('LinkNotCreated', null, Utilities::COMMON_LIBRARIES), ! $success, array(Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
+            $this->redirect($success ? Translation :: get('LinkCreated', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('LinkNotCreated', null, Utilities :: COMMON_LIBRARIES), ! $success, array(
+                    Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
         }
         else
         {

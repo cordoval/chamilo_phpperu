@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\competence;
 
+use repository\content_object\indicator\Indicator;
+
 use common\libraries\Utilities;
 use common\libraries\Versionable;
 use common\libraries\ComplexContentObjectSupport;

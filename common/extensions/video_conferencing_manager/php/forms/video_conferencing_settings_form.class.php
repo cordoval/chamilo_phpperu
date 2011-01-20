@@ -1,9 +1,16 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
 
+use user\UserSetting;
+use user\UserDataManager;
+
+use admin\AdminDataManager;
+
+use repository\ExternalUserSetting;
 use repository\ExternalSetting;
 use repository\RepositoryDataManager;
 
+use common\libraries\Session;
 use common\libraries\FormValidator;
 use common\libraries\Path;
 use common\libraries\Translation;

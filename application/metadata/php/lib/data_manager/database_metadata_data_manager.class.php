@@ -70,13 +70,13 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 
 	function update_metadata_namespace($metadata_namespace)
 	{
-		$condition = new EqualityCondition(MetadataNamespace :: PROPERTY_NS_PREFIX, $metadata_namespace->get_ns_prefix());
+		$condition = new EqualityCondition(MetadataNamespace :: PROPERTY_ID, $metadata_namespace->get_id());
 		return $this->update($metadata_namespace, $condition);
 	}
 
 	function delete_metadata_namespace($metadata_namespace)
 	{
-		$condition = new EqualityCondition(MetadataNamespace :: PROPERTY_NS_PREFIX, $metadata_namespace->get_ns_prefix());
+		$condition = new EqualityCondition(MetadataNamespace :: PROPERTY_ID, $metadata_namespace->get_id());
 		return $this->delete($metadata_namespace->get_table_name(), $condition);
 	}
 
@@ -85,9 +85,9 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 		return $this->count_objects(MetadataNamespace :: get_table_name(), $condition);
 	}
 
-	function retrieve_metadata_namespace($ns_prefix)
+	function retrieve_metadata_namespace($id)
 	{
-            $condition = new EqualityCondition(MetadataNamespace :: PROPERTY_NS_PREFIX, $ns_prefix);
+            $condition = new EqualityCondition(MetadataNamespace :: PROPERTY_ID, $id);
             return $this->retrieve_object(MetadataNamespace :: get_table_name(), $condition, null, MetadataNamespace :: CLASS_NAME);
 	}
 
@@ -250,18 +250,21 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 
         /*
          * retrieves metadata property values from content object preformatted
-         * @return array property values [$n] = prefix : property type = prefix property value
+         * @return array property values [$n] = prefix : property type => prefix property value
          */
         function retrieve_full_content_object_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
         {
+            $namespace_alias = $this->get_alias(MetadataNamespace :: get_table_name());
             $type_alias = $this->get_alias(MetadataPropertyType :: get_table_name());
             $value_alias = $this->get_alias(ContentObjectMetadataPropertyValue :: get_table_name());
 
-            $query = 'SELECT ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_ID . ', ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE . ', ' .$type_alias . '.' . MetadataPropertyType :: PROPERTY_NS_PREFIX . ', ' . $type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME;
+            $query = 'SELECT ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_ID . ', ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE . ', ' .$namespace_alias . '.' . MetadataNamespace :: PROPERTY_NS_PREFIX . ', ' . $type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME;
             $query .= ' FROM ' . $this->escape_table_name(ContentObjectMetadataPropertyValue :: get_table_name()) . ' AS ' . $value_alias;
             $query .= ' LEFT JOIN ' . $this->escape_table_name(MetadataPropertyType :: get_table_name()) . ' AS ' . $type_alias;
             $query .= ' ON ' . $this->escape_column_name(MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, $value_alias) . ' = '. $this->escape_column_name(MetadataPropertyType :: PROPERTY_ID, $type_alias);
-        
+            $query .= ' LEFT JOIN ' . $this->escape_table_name(MetadataNamespace :: get_table_name()) . ' AS ' . $namespace_alias;
+            $query .= ' ON ' . $this->escape_column_name(MetadataNamespace :: PROPERTY_ID, $namespace_alias) . ' = '. $this->escape_column_name(MetadataPropertyType :: PROPERTY_NAMESPACE, $type_alias);
+
             $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
 
@@ -275,6 +278,39 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
             $res->free();
             return $property_values;
         }
+
+        /*
+         * retrieves metadata properties and values
+         * @return array property values [prefix : property type] => prefix property value
+         */
+        function retrieve_content_object_metadata_properties_and_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
+        {
+            $namespace_alias = $this->get_alias(MetadataNamespace :: get_table_name());
+            $type_alias = $this->get_alias(MetadataPropertyType :: get_table_name());
+            $value_alias = $this->get_alias(ContentObjectMetadataPropertyValue :: get_table_name());
+
+            $query = 'SELECT ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_ID . ', ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE . ', ' .$namespace_alias . '.' . MetadataNamespace :: PROPERTY_NS_PREFIX . ', ' . $type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME;
+            $query .= ' FROM ' . $this->escape_table_name(ContentObjectMetadataPropertyValue :: get_table_name()) . ' AS ' . $value_alias;
+            $query .= ' LEFT JOIN ' . $this->escape_table_name(MetadataPropertyType :: get_table_name()) . ' AS ' . $type_alias;
+            $query .= ' ON ' . $this->escape_column_name(MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, $value_alias) . ' = '. $this->escape_column_name(MetadataPropertyType :: PROPERTY_ID, $type_alias);
+            $query .= ' LEFT JOIN ' . $this->escape_table_name(MetadataNamespace :: get_table_name()) . ' AS ' . $namespace_alias;
+            $query .= ' ON ' . $this->escape_column_name(MetadataNamespace :: PROPERTY_ID, $namespace_alias) . ' = '. $this->escape_column_name(MetadataPropertyType :: PROPERTY_NAMESPACE, $type_alias);
+
+            $translator = new ConditionTranslator($this);
+            $query .= $translator->render_query($condition);
+
+            $res = $this->query($query);
+
+            $property_values = array();
+            while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+            {
+                $property_values[$record[MetadataPropertyType :: PROPERTY_NS_PREFIX] . ':' . $record[MetadataPropertyType :: PROPERTY_NAME]] = $record[MetadataPropertyValue :: PROPERTY_VALUE];
+            }
+            $res->free();
+            return $property_values;
+        }
+        
+
 
         function get_next_user_metadata_property_value_id()
 	{
@@ -524,6 +560,33 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
         {
             $condition = new EqualityCondition(MetadataDefaultValue :: PROPERTY_ID, $metadata_default_value->get_id());
             return $this->delete(MetadataDefaultValue :: get_table_name(), $condition);
+        }
+
+        /*
+         * retrieve prefixes of namespaces that have property types set
+         */
+        function retrieve_prefixes()
+        {
+            $namespace_alias = $this->get_alias(MetadataNamespace :: get_table_name());
+            $type_alias = $this->get_alias(MetadataPropertyType :: get_table_name());
+
+            $query = 'SELECT DISTINCT ' . $namespace_alias . '.' . MetadataNamespace :: PROPERTY_NS_PREFIX . ', ' . $namespace_alias . '.' . MetadataNamespace :: PROPERTY_ID;
+            $query .= ' FROM ' . $this->escape_table_name(MetadataNamespace :: get_table_name()) . ' AS ' . $namespace_alias;
+            $query .= ' INNER JOIN ' . $this->escape_table_name(MetadataPropertyType :: get_table_name()) . ' AS ' . $type_alias;
+            $query .= ' ON ' . $this->escape_column_name(MetadataPropertyType :: PROPERTY_NAMESPACE, $type_alias) . ' = '. $this->escape_column_name(MetadataNamespace :: PROPERTY_ID, $namespace_alias);
+            
+            //$translator = new ConditionTranslator($this);
+            //$query .= $translator->render_query(null);
+
+            $res = $this->query($query);
+
+            $prefixes = array();
+            while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+            {
+                $prefixes[$record[MetadataNamespace :: PROPERTY_ID]] = $record[MetadataNamespace :: PROPERTY_NS_PREFIX];
+            }
+            $res->free();
+            return $prefixes;
         }
 
         function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null){}

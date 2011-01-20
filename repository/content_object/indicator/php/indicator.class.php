@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\indicator;
 
+use repository\content_object\criteria\Criteria;
+
 use common\libraries\Utilities;
 use common\libraries\Versionable;
 use common\libraries\ComplexContentObjectSupport;

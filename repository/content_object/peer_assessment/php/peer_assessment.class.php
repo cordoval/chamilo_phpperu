@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\peer_assessment;
 
+use repository\content_object\competence\Competence;
+
 use common\libraries\Utilities;
 use common\libraries\Versionable;
 use common\libraries\ComplexContentObjectSupport;

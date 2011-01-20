@@ -12,6 +12,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 
 use repository\ExternalUserSetting;
+use repository\ExternalSetting;
 use repository\RepositoryDataManager;
 
 use \Zend_Loader;
@@ -178,29 +179,8 @@ class GoogleDocsExternalRepositoryManagerConnector extends ExternalRepositoryMan
         return $query;
     }
 
-    /**
-     * @param array $values
-     * @return array
-     */
-    function get_upload_token($values)
-    {
-        $video_entry = new Zend_Gdata_YouTube_VideoEntry();
-
-        $video_entry->setVideoTitle($values[YoutubeExternalRepositoryManagerForm :: VIDEO_TITLE]);
-        $video_entry->setVideoCategory($values[YoutubeExternalRepositoryManagerForm :: VIDEO_CATEGORY]);
-        $video_entry->setVideoTags($values[YoutubeExternalRepositoryManagerForm :: VIDEO_TAGS]);
-        $video_entry->setVideoDescription($values[YoutubeExternalRepositoryManagerForm :: VIDEO_DESCRIPTION]);
-
-        $token_handler_url = 'http://gdata.youtube.com/action/GetUploadToken';
-        $token_array = $this->google_docs->getFormUploadToken($video_entry, $token_handler_url);
-        $token_value = $token_array['token'];
-        $post_url = $token_array['url'];
-
-        return $token_array;
-    }
-
     /* (non-PHPdoc)
-     * @see application/common/external_repository_manager/ExternalRepositoryManagerConnector#count_external_repository_objects()
+     * @see application/common/external_repository_manager/ExternalRepositoryConnector#count_external_repository_objects()
      */
     function count_external_repository_objects($condition)
     {
@@ -260,7 +240,7 @@ class GoogleDocsExternalRepositoryManagerConnector extends ExternalRepositoryMan
     }
 
     /* (non-PHPdoc)
-     * @see application/common/external_repository_manager/ExternalRepositoryManagerConnector#retrieve_external_repository_objects()
+     * @see application/common/external_repository_manager/ExternalRepositoryConnector#retrieve_external_repository_objects()
      */
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
@@ -482,6 +462,17 @@ class GoogleDocsExternalRepositoryManagerConnector extends ExternalRepositoryMan
         $opts = array('http' => array('method' => 'GET', 'header' => "GData-Version: 3.0\r\n" . "Authorization: AuthSub token=\"$session_token\"\r\n"));
 
         return file_get_contents($url, false, stream_context_create($opts));
+    }
+
+	function create_external_repository_object($file)
+    {
+    	$resource = $this->google_docs->UploadFile($file['tmp_name'], substr($file['name'], 0, strripos($file['name'], '.')), $file['type']);
+    	return $resource->getResourceId()->getId();
+    }
+
+	function create_external_repository_folder($folder, $parent)
+    {
+    	return $this->google_docs->createFolder($folder, $parent);
     }
 }
 ?>

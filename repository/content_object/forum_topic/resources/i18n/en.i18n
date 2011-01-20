@@ -1,6 +1,6 @@
 TypeName = "Forum topic"
 Topic ="Topic"
 Nothing = "Nothing"
-LastChangedAt = "Last changed at"
+LastChangedAt = "Last changed at {TIME}"
 Top = "Top"
 ReplyOnTopic = "Reply on topic"

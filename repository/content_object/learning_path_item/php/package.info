@@ -4,7 +4,7 @@
 		<name>Learning Path Item</name>
 		<code>learning_path_item</code>
 		<section>content_object</section>
-		<category>collaboration</category>
+		<category>helper</category>
 		<authors></authors>
 		<version>1.0.0</version>
 		<cycle>
@@ -28,6 +28,13 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
+			<library>
+				<dependency>
+		  			<id>common</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</library>
 		</dependencies>
 	</package>
 </packages>

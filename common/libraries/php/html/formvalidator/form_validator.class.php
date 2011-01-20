@@ -2,6 +2,8 @@
 namespace common\libraries;
 
 use HTML_QuickForm;
+use HTML_QuickForm_RuleRegistry;
+use HTML_QuickForm_Rule_HTML;
 
 /**
  * @package common.html.formvalidator
@@ -273,9 +275,7 @@ EOT;
         {
             //            $this->addElement('html', '<h2>' . $tab->get_title() . '</h2>');
             $this->addElement('html', '<div class="form_tab" id="form_tabs-' . $index . '">');
-            call_user_func(array(
-                    $this,
-                    $tab->get_method()));
+            call_user_func(array($this, $tab->get_method()));
             $this->addElement('html', '<div class="clear"></div>');
             $this->addElement('html', '</div>');
         }
@@ -403,8 +403,7 @@ EOT;
                 'onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
         $this->addGroup($choices, null, Translation :: get($element_label), '<br />', false);
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="forever_timewindow">');
-        $this->addElement('datepicker', $element_name, '', array(
-                'form_name' => $this->getAttribute('name')), false);
+        $this->addElement('datepicker', $element_name, '', array('form_name' => $this->getAttribute('name')), false);
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
@@ -553,8 +552,7 @@ EOT;
         $choices = array();
         if (! is_array($radioArray))
         {
-            $radioArray = array(
-                    $radioArray);
+            $radioArray = array($radioArray);
         }
         foreach ($radioArray as $radioType)
         {

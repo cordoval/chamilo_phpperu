@@ -3,18 +3,14 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1"
 			autoincrement="true" />
-		<property name="user_id" type="integer" unsigned="1" notnull="1" />
-		<property name="type" type="text" length="100" fixed="true"
-			notnull="1" />
+		<property name="name" type="text" length="255" notnull="1"
+			default="" />
+		<property name="description" type="text" length="255"
+			notnull="1" default="" />
 		<property name="context_template_id" type="integer" unsigned="1"
 			notnull="1" />
 	</properties>
-
-	<index name="type">
-		<indexproperty name="type" />
-	</index>
 	<index name="context_template_id">
 		<indexproperty name="context_template_id" />
 	</index>
-
 </object>

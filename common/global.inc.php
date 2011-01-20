@@ -154,7 +154,6 @@ if (! AdminDataManager :: is_language_active($language_interface))
     $language_interface = PlatformSetting :: get('platform_language');
 }
 
-// TODO: Are these includes still necessary ?
 
 
 // Login
@@ -189,7 +188,7 @@ if (isset($_POST['login']))
     {
         Session :: unregister('_uid');
         header('Location: index.php?loginFailed=1&message=' . $user);
-        exit();
+        //exit();
     }
 }
 else

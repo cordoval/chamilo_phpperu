@@ -6,12 +6,16 @@ use common\libraries\AndCondition;
 use common\libraries\SubselectCondition;
 use repository\ContentObject;
 use repository\RepositoryDataManager;
+use repository\content_object\handbook_item\HandbookItem;
+use repository\DatabaseContentObjectResultSet;
 
 /**
  * @package handbook.datamanager
  */
 require_once dirname(__FILE__).'/../handbook_publication.class.php';
 require_once dirname(__FILE__).'/../handbook_data_manager.interface.class.php';
+require_once dirname(__FILE__).'/../../../../../repository/php/lib/data_manager/database/database_content_object_result_set.class.php';
+
 
 /**
  *	This is a data manager that uses a database for storage. It was written
@@ -153,6 +157,34 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
             }
             public function update_handbook_information($handbook_information) {
             }
+
+            /**
+             *
+             * @param <type> $uuid
+             * @return array with handbook_item_id and reference_id
+             */
+    function retrieve_handbook_item_data_by_uuid($uuid)
+    {
+        $rdm = RepositoryDataManager::get_instance();
+        $content_object_alias = 'co' ;
+        $query = 'SELECT * FROM ' . $rdm ->escape_table_name(ContentObject::get_table_name()) . ' AS ' . $content_object_alias;
+
+            $type_alias  ='hi';
+            $query .= ' JOIN ' . $rdm ->escape_table_name(HandbookItem::get_type_name()) . ' AS ' . $type_alias . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $type_alias);
+      
+            $query .= ' WHERE ' .$type_alias .'.'. HandbookItem::PROPERTY_UUID. ' = \'' . $uuid . '\'';
+
+        $res = $this->query($query);
+        $record = $res->fetchRow(\MDB2_FETCHMODE_ASSOC);
+      $handbook_item[HandbookItem :: PROPERTY_ID] =  $record[HandbookItem :: PROPERTY_ID];
+       $handbook_item[HandbookItem :: PROPERTY_UUID] = $record[HandbookItem :: PROPERTY_UUID];
+        $handbook_item[HandbookItem :: PROPERTY_REFERENCE] = $record[HandbookItem :: PROPERTY_REFERENCE];                                  
+                                                     
+        $res->free();
+        return $handbook_item;
+    }
+
+
 
 }
 ?>

@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\wiki;
 
+use repository\ContentObject;
+
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\OrCondition;
@@ -29,7 +31,6 @@ class WikiDisplayWikiBrowserComponent extends WikiDisplay
     {
         $this->action_bar = $this->get_toolbar($this, $this->get_root_content_object()->get_id(), $this->get_root_content_object(), null);
 
-
         if ($this->get_root_content_object() != null)
         {
             $this->display_header();
@@ -53,7 +54,7 @@ class WikiDisplayWikiBrowserComponent extends WikiDisplay
         return null;
     }
 
-    function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail = $this->get_breadcrumbtrail();
     }

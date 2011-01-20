@@ -8,23 +8,23 @@ namespace common\libraries;
 abstract class DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_ID = 'id';
     const NO_UID = - 1;
-
+    
     /**
      * Default properties of the data class object, stored in an associative
      * array.
      */
     private $defaultProperties;
-
+    
     /**
      * Optional properties of the data class object, stored in an associative
      * array. This is used when retrieving data from joins so we don't need to execute other query's for retrieving optional data which we already retrieved with joins.
      * @var array[String] = String
      */
     private $optionalProperties;
-
+    
     private $errors;
 
     /**
@@ -174,16 +174,18 @@ abstract class DataClass
     {
         if ($this->check_before_save())
         {
-            $dm = $this->get_data_manager();
+            $data_manager = $this->get_data_manager();
             $class_name = $this->get_object_name();
-
-            //          $func = 'get_next_' . $class_name . '_id';
-            //          $id = call_user_func(array($dm, $func));
-            //          $this->set_id($id);
-
-
-            $func = 'create_' . $class_name;
-            return call_user_func(array($dm, $func), $this);
+            
+            $method = 'create_' . $class_name;
+            if (method_exists($data_manager, $method))
+            {
+                return $data_manager->$method($this);
+            }
+            else
+            {
+                return $data_manager->create($this);
+            }
         }
         return false;
     }
@@ -192,26 +194,40 @@ abstract class DataClass
     {
         if ($this->check_before_save())
         {
-            $dm = $this->get_data_manager();
+            $data_manager = $this->get_data_manager();
             $class_name = $this->get_object_name();
-
-            $func = 'update_' . $class_name;
-            return call_user_func(array($dm, $func), $this);
+            
+            $method = 'update_' . $class_name;
+            
+            if (method_exists($data_manager, $method))
+            {
+                return $data_manager->$method($this);
+            }
+            else
+            {
+                $condition = new EqualityCondition(self :: PROPERTY_ID, $this->get_id());
+                return $data_manager->update($this, $condition);
+            }
         }
         return false;
     }
 
     function delete()
     {
-        $dm = $this->get_data_manager();
+        $data_manager = $this->get_data_manager();
         $class_name = $this->get_object_name();
-
-        $func = 'delete_' . $class_name;
-        //        dump($dm);
-        //        dump($class_name);
-        //        dump($func);
-        //        exit;
-        return call_user_func(array($dm, $func), $this);
+        
+        $method = 'delete_' . $class_name;
+        
+        if (method_exists($data_manager, $method))
+        {
+            return $data_manager->$method($this);
+        }
+        else
+        {
+            $condition = new EqualityCondition(self :: PROPERTY_ID, $this->get_id());
+            return $data_manager->delete($this->get_table_name(), $condition);
+        }
     }
 
     /**
@@ -231,7 +247,7 @@ abstract class DataClass
          * }
          *
          */
-
+        
         return ! $this->has_errors();
     }
 
@@ -241,7 +257,7 @@ abstract class DataClass
         {
             $this->errors = array();
         }
-
+        
         $this->errors[] = $error_msg;
     }
 

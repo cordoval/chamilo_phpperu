@@ -1,13 +1,16 @@
-<?php 
-
+<?php
 namespace application\reservations;
 
+use common\libraries\OrCondition;
 use common\libraries\Authentication;
 use common\libraries\EqualityCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\NotCondition;
 use common\libraries\AndCondition;
+
+use user\User;
 use user\UserDataManager;
+
 use group\GroupDataManager;
 
 /**
@@ -92,7 +95,8 @@ function dump_tree($users, $groups)
             echo '<leaf id="group_' . $group->get_id() . '" class="' . 'type type_group' . '" title="' . htmlspecialchars($group->get_name()) . '" description="' . htmlspecialchars($group->get_name()) . '"/>' . "\n";
         }
         echo '</node>', "\n";
-        //echo '</node>';
+
+     //echo '</node>';
     }
 }
 

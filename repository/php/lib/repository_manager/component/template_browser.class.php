@@ -14,9 +14,7 @@ use common\libraries\Theme;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;
 use common\libraries\PatternMatchCondition;
-use repository\content_object\handbook_item\HandbookItem;
 use repository\content_object\learning_path_item\LearningPathItem;
-use repository\content_object\portfolio_item\PortfolioItem;
 use common\libraries\NotCondition;
 
 /**
@@ -91,7 +89,7 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManager
             $conditions[] = new OrCondition($or_conditions);
         }
 
-        $types = array(HandbookItem :: get_type_name(), LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
+        $types = RepositoryDataManager :: get_active_helper_types();
 
         foreach ($types as $type)
         {

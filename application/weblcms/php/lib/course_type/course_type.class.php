@@ -31,7 +31,7 @@ class CourseType extends DataClass
      * Get the default properties of all courses.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_ACTIVE, self :: PROPERTY_DESCRIPTION));
     }
@@ -108,7 +108,7 @@ class CourseType extends DataClass
     {
         if (is_null($this->tools))
         {
-            $condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);
+            $condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $this->get_id());
             $this->set_tools($this->get_data_manager()->retrieve_all_course_type_tools($condition));
         }
         return $this->tools;

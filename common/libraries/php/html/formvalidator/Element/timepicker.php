@@ -1,4 +1,6 @@
 <?php
+use common\libraries\ResourceManager;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 
 /**

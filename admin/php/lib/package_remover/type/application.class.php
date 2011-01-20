@@ -1,5 +1,10 @@
 <?php
 namespace admin;
+
+use reporting\ReportingTemplateRegistration;
+use reporting\ReportingBlock;
+use reporting\ReportingDataManager;
+
 use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
@@ -39,6 +44,11 @@ class PackageApplicationRemover extends PackageRemover
         if(!$this->registration)
         {
         	return $this->installation_failed('initilization', Translation :: get('ApplicationIsNotRegistered'));
+        }
+
+        if (!$this->registration->can_be_activated())
+        {
+            return $this->installation_failed('initilization', Translation :: get('PackageTypeNotRemovable'));
         }
 
         // Deactivate the application, thus making it inaccesible

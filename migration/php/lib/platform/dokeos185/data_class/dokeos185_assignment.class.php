@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_assignment.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 /**
  * This class presents a Dokeos185 assignment
  *
@@ -13,7 +13,7 @@ namespace migration;
 class Dokeos185Assignment extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185Assignment properties
      */
@@ -27,7 +27,7 @@ class Dokeos185Assignment extends Dokeos185MigrationDataClass
     const PROPERTY_FEEDBACK_TEXT = 'feedback_text';
     const PROPERTY_FEEDBACK_DOC_PATH = 'feedback_doc_path';
     const PROPERTY_FEEDBACK_VISIBLE = 'feedback_visible';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -199,7 +199,7 @@ class Dokeos185Assignment extends Dokeos185MigrationDataClass
     }
 
     /**
-     * Convert to new assignment 
+     * Convert to new assignment
      * Create assignment
      * @param array $array the parameters for the conversion
      */
@@ -215,11 +215,11 @@ class Dokeos185Assignment extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = $parameters['course']->get_db_name();
         $tablename = 'assignment';
         $classname = 'Dokeos185Assignment';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

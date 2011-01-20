@@ -1,6 +1,9 @@
 <?php
+
 namespace reporting;
 
+use common\libraries\Utilities;
+use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BasicApplication;
 use common\libraries\CoreApplication;
@@ -19,7 +22,6 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\Application;
-
 use admin\AdminDataManager;
 use admin\AdminManager;
 use group\GroupManager;
@@ -38,24 +40,25 @@ use webservice\WebserviceManager;
  * @package reporting.lib.reporting_manager.component
  * @author Michael Kyndt
  */
-
-class ReportingManagerBrowserComponent extends ReportingManager implements
-        AdministrationComponent
+class ReportingManagerBrowserComponent extends ReportingManager implements AdministrationComponent
 {
+
     private $action_bar;
     private $application;
+
+    const PARAM_SELECTED_APPLICATION = 'selected_app';
 
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $application = $this->application = Request :: get('app');
+        $application = $this->application = Request :: get(self :: PARAM_SELECTED_APPLICATION);
 
-        if (! $application)
+        if (!$application)
             $application = $this->application = 'admin';
 
-        if (! $this->get_user()->is_platform_admin())
+        if (!$this->get_user()->is_platform_admin())
         {
             $this->display_header();
             Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
@@ -70,61 +73,17 @@ class ReportingManagerBrowserComponent extends ReportingManager implements
         $this->display_header();
         echo '<br />' . $this->action_bar->as_html() . '<br />';
         echo '<div id="applications" class="applications">';
-        echo $this->get_applications();
+        echo BasicApplication :: get_selecter($this->get_url(array(self :: PARAM_SELECTED_APPLICATION => BasicApplication :: PLACEHOLDER_APPLICATION)), $application);
         if (isset($application))
-            echo $this->get_template_html();
-        else
-            echo $this->get_templates();
-        unset($application);
-        echo '</div>';
-        //echo $output;
-        $this->display_footer();
-    }
-
-    /**
-     * Gets all the installed applications
-     */
-    function get_applications()
-    {
-        $application = $this->application;
-
-        $html = array();
-
-        //        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu.js' . '"></script>';
-        //        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu_interface.js' . '"></script>';
-        //        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_dock.js' . '"></script>';
-
-
-        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_web_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_menu.js' . '"></script>';
-        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_web_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_menu_interface.js' . '"></script>';
-        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_web_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_dock.js' . '"></script>';
-
-        $html[] = '<div class="dock" id="dock">';
-        $html[] = '<div class="dock-container"> ';
-        $links = $this->get_application_platform_admin_links();
-
-        foreach ($links as $application_links)
         {
-            if (isset($application) && $application == $application_links['application']['class'])
-            {
-                //$html[] = '<div class="application_current">';
-            }
-            else
-            {
-                //$html[] = '<div class="application">';
-            }
-            //$html[] = '<a id="'.$application_links['application']['class'].'" class="dock-item" href="'. $this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
-            //$html[] = '<a class="dock-item" href="#tabs-'.$index.'" />';
-            $html[] = '<a id="' . $application_links['application']['class'] . '" class="dock-item" href="core.php?application=reporting&go=browser&app=' . $application_links['application']['class'] . '" />'; //. '#application-'.$application_links['application']['class']
-            $html[] = '<img src="' . Theme :: get_image_path(Application :: determine_namespace($application_links['application']['class'])) . 'logo/48.png" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>';
-            $html[] = '<span>' . $application_links['application']['name'] . '</span>';
-            $html[] = '</a>';
+            echo $this->get_template_html();
         }
-
-        $html[] = '</div>';
-        $html[] = '</div>';
-        $html[] = '<div style="clear: both;"></div><br /><br />';
-        return implode("\n", $html);
+        else
+        {
+            echo $this->get_templates();
+        }
+        echo '</div>';
+        $this->display_footer();
     }
 
     public static function get_application_platform_admin_links()
@@ -149,8 +108,8 @@ class ReportingManagerBrowserComponent extends ReportingManager implements
         foreach ($applications as $index => $application_name)
         {
             $info[] = call_user_func(array(
-                    'application\\' . $application_name . '\\' . WebApplication :: get_application_class_name($application_name),
-                    'get_application_platform_admin_links'));
+                        'application\\' . $application_name . '\\' . WebApplication :: get_application_class_name($application_name),
+                        'get_application_platform_admin_links'));
         }
 
         return $info;
@@ -175,7 +134,7 @@ class ReportingManagerBrowserComponent extends ReportingManager implements
         }
         $html[] = '</div>';
 
-        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_browser.js' . '"></script>';
+//        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_browser.js' . '"></script>';
         return implode("\n", $html);
     }
 
@@ -227,7 +186,7 @@ class ReportingManagerBrowserComponent extends ReportingManager implements
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $action_bar->set_search_url($this->get_url(array(
-                ReportingManager :: PARAM_TEMPLATE_ID => $this->get_reporting_template())));
+                    ReportingManager :: PARAM_TEMPLATE_ID => $this->get_reporting_template())));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
@@ -241,8 +200,9 @@ class ReportingManagerBrowserComponent extends ReportingManager implements
 
     function get_additional_parameters()
     {
-        return array(
-                ReportingManager :: PARAM_TEMPLATE_ID);
+        return array(ReportingManager :: PARAM_TEMPLATE_ID, self :: PARAM_SELECTED_APPLICATION);
     }
+
 }
+
 ?>

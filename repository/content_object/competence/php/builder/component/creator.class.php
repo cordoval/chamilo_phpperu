@@ -1,7 +1,17 @@
 <?php
 namespace repository\content_object\competence;
 
+use repository\ComplexContentObjectItem;
+
+use common\extensions\repo_viewer\RepoViewer;
+
+use repository\content_object\indicator\Indicator;
+
+use repository\ComplexBuilder;
+
+use repository\ComplexBuilderComponent;
 use repository\RepositoryDataManager;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -15,13 +25,6 @@ use common\extensions\repo_viewer\RepoViewerInterface;
  * $Id: creator.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.component
  */
-//require_once dirname(__FILE__) . '/../competence_builder_component.class.php';
-//require_once dirname(__FILE__) . '/../competence_repoviewer/competence_repo_viewer.class.php';
-//require_once dirname(__FILE__) . '/lib/conten../../complex_repo_viewer.class.php';
-//require_once Path :: get_repository_path() . '/lib/content_object/competence/competence.class.php';
-//require_once Path :: get_repository_path() . '/lib/complex_builder/competence/competence_repoviewer/competence_repo_viewer.class.php';
-//require_once Path :: get_repository_path() . '/lib/complex_builder/competence/competence_repoviewer/component/browser.class.php';
-//require_once Path :: get_repository_path() . '/lib/complex_builder/complex_repo_viewer.class.php';
 
 class CompetenceBuilderCreatorComponent extends CompetenceBuilder implements RepoViewerInterface
 {
@@ -70,7 +73,7 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder implements Rep
 
         if ($this->type == Indicator :: get_type_name())
         {
-            $publication = new CompetenceRepoViewer($this, $this->type);
+            //$publication = new CompetenceRepoViewer($this, $this->type);
         }
         else
         {

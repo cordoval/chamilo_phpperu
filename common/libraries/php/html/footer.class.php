@@ -7,6 +7,10 @@ namespace common\libraries;
 /**
  * Class to display the footer of a HTML-page
  */
+use menu\MenuRenderer;
+
+use user\UserDataManager;
+
 class Footer
 {
 
@@ -35,6 +39,8 @@ class Footer
      */
     function toHtml()
     {
+        $translator = Translation :: get_instance();
+        
         $output[] = '<div class="clear">&nbsp;</div> <!-- "clearing" div to make sure that footer stays below the main and right column sections -->';
         $output[] = '</div> <!-- end of #main" started at the end of banner.inc.php -->';
 
@@ -62,7 +68,7 @@ class Footer
         $output[] = '<div class="links">';
 
         $links = array();
-        $links[] = DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), time());
+        $links[] = DatetimeUtilities :: format_locale_date($translator -> get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . $translator -> get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), time());
         $links[] = '<a href="' . $this->get_setting('institution_url', 'admin') . '" target="about:blank">' . $this->get_setting('institution', 'admin') . '</a>';
 
         if ($this->get_setting('show_administrator_data', 'admin') == 'true')
@@ -83,9 +89,13 @@ class Footer
         //        $links[] = Translation :: get('PrivacyPolicy');
         //        $links[] = '<a href="http://www.chamilo.org">http://www.chamilo.org</a>';
 
+
         $world = PlatformSetting :: get('whoisonlineaccess');
 
-        if ($world == "1" || $_SESSION['_uid'] && $world == "2")
+        
+        if  (   $world == "1" 
+                || ( \key_exists('_uid', $_SESSION) && $world == "2")
+            )
         {
             $links[] = '<a href="' . Path :: get(WEB_PATH) . 'core.php?go=whois_online&application=admin">' . Translation :: get('WhoisOnline') . '</a>';
         }

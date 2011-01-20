@@ -1,6 +1,9 @@
 <?php
 namespace user;
 
+use common\libraries\ActionBarRenderer;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\Translation;
 use common\libraries\Display;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
@@ -27,7 +30,7 @@ class UserManagerUserApprovalBrowserComponent extends UserManager implements Adm
      */
     function run()
     {
-        if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER_BROWSER, UserRights :: TYPE_COMPONENT))
+        if (! UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER_BROWSER, UserRights :: TYPE_COMPONENT))
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
@@ -48,7 +51,7 @@ class UserManagerUserApprovalBrowserComponent extends UserManager implements Adm
     function get_user_html()
     {
         $parameters = $this->get_parameters(true);
-		$parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
 
         $table = new UserApprovalBrowserTable($this, $parameters, $this->get_condition());
 
@@ -83,9 +86,9 @@ class UserManagerUserApprovalBrowserComponent extends UserManager implements Adm
         return $action_bar;
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('user_approval_browser');
+        $breadcrumbtrail->add_help('user_approval_browser');
     }
 }
 ?>

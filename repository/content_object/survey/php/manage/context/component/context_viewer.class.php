@@ -1,5 +1,11 @@
-<?php 
+<?php
 namespace repository\content_object\survey;
+
+use group\GroupDataManager;
+use group\Group;
+
+use user\UserDataManager;
+use user\User;
 
 use common\libraries\Path;
 use common\libraries\ActionBarRenderer;
@@ -38,9 +44,9 @@ class SurveyContextManagerContextViewerComponent extends SurveyContextManager
      */
     function run()
     {
-   	
+
     	$context_id = Request :: get(self :: PARAM_CONTEXT_ID);
-          	
+
     	$this->context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
 
         $this->ab = $this->get_action_bar();
@@ -137,6 +143,8 @@ class SurveyContextManagerContextViewerComponent extends SurveyContextManager
         //        if (SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: SUBSCRIBE_GROUP_RIGHT, $this->period->get_id(), SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION))
         //        {
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddContextGroups'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_context_subscribe_group_url($this->context), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+        
         //        }
 
 

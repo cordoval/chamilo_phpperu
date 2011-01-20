@@ -10,7 +10,9 @@ use common\libraries\EmptyObjectImport;
 use common\libraries\BufferedObjectImport;
 use common\libraries\Log;
 
-require_once dirname(__FILE__) . '/main.php';
+
+//FIXME do not require main from here because it causes a cyclic dependence, use autoload instead
+//require_once dirname(__FILE__) . '/main.php';
 
 /**
  * Import questions from the IMS QTI format.

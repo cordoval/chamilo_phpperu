@@ -4,6 +4,10 @@ namespace application\cas_user;
 /**
  * @author Hans De Bisschop
  */
+use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\Request;
+
 class CasUserManagerRejecterComponent extends CasUserManager
 {
 

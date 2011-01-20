@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Filesystem;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
@@ -28,7 +30,8 @@ class RepositoryManagerExporterCpComponent extends RepositoryManager
         if (empty($ids))
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get('NoObjectsSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
+            $this->display_error_message(Translation :: get('NoObjectsSelected', array(
+                    'OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             return;
         }

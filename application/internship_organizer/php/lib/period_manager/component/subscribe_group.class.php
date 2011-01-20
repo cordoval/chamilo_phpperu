@@ -19,9 +19,9 @@ class InternshipOrganizerPeriodManagerSubscribeGroupComponent extends Internship
      */
     function run()
     {
-        
+
         $period_id = Request :: get(self :: PARAM_PERIOD_ID);
-        
+
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_GROUP_RIGHT, $period_id, InternshipOrganizerRights :: TYPE_PERIOD))
         {
             $this->display_header();
@@ -29,21 +29,28 @@ class InternshipOrganizerPeriodManagerSubscribeGroupComponent extends Internship
             $this->display_footer();
             exit();
         }
-        
+
         $period = $this->retrieve_period($period_id);
-        
-        $form = new InternshipOrganizerPeriodSubscribeGroupForm($period, $this->get_url(array(self :: PARAM_PERIOD_ID => Request :: get(self :: PARAM_PERIOD_ID))), $this->get_user());
-        
+
+        $form = new InternshipOrganizerPeriodSubscribeGroupForm($period, $this->get_url(array(
+                self :: PARAM_PERIOD_ID => Request :: get(self :: PARAM_PERIOD_ID))), $this->get_user());
+
         if ($form->validate())
         {
             $success = $form->create_period_rel_users();
             if ($success)
             {
-                $this->redirect(Translation :: get('InternshipOrganizerPeriodRelGroupsCreated'), (false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $period_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_GROUPS));
+                $this->redirect(Translation :: get('InternshipOrganizerPeriodRelGroupsCreated'), (false), array(
+                        self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS,
+                        self :: PARAM_PERIOD_ID => $period_id,
+                        DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_GROUPS));
             }
             else
             {
-                $this->redirect(Translation :: get('InternshipOrganizerPeriodRelGroupsNotCreated'), (true), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $period_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_GROUPS));
+                $this->redirect(Translation :: get('InternshipOrganizerPeriodRelGroupsNotCreated'), (true), array(
+                        self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS,
+                        self :: PARAM_PERIOD_ID => $period_id,
+                        DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_GROUPS));
             }
         }
         else
@@ -56,9 +63,15 @@ class InternshipOrganizerPeriodManagerSubscribeGroupComponent extends Internship
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_REGISTRATION)), Translation :: get('BrowseContextRegistrations')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_REGISTRATION, self :: PARAM_CONTEXT_REGISTRATION_ID => Request :: get(self :: PARAM_CONTEXT_REGISTRATION_ID))), Translation :: get('ViewContextRegistration')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => Request :: get(self :: PARAM_CONTEXT_ID), DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_GROUPS)), Translation :: get('ViewSurveyContext')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_REGISTRATION)), Translation :: get('BrowseContextRegistrations')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_REGISTRATION,
+                self :: PARAM_CONTEXT_REGISTRATION_ID => Request :: get(self :: PARAM_CONTEXT_REGISTRATION_ID))), Translation :: get('ViewContextRegistration')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT,
+                self :: PARAM_CONTEXT_ID => Request :: get(self :: PARAM_CONTEXT_ID),
+                DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_GROUPS)), Translation :: get('ViewSurveyContext')));
     }
 
     function get_additional_parameters()

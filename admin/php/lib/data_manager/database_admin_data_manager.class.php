@@ -1,6 +1,11 @@
 <?php
 namespace admin;
 
+use user\User;
+use user\UserDataManager;
+
+use repository\ContentObjectPublicationAttributes;
+
 use common\libraries\Session;
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
@@ -15,6 +20,7 @@ use common\extensions\dynamic_form_manager\DynamicForm;
 use common\extensions\dynamic_form_manager\DynamicFormElement;
 use common\extensions\dynamic_form_manager\DynamicFormElementOption;
 use common\extensions\dynamic_form_manager\DynamicFormElementValue;
+use common\extensions\invitation_manager\Invitation;
 /**
  * $Id: database_admin_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package admin.lib.data_manager
@@ -690,13 +696,13 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
     function retrieve_invitation($id)
     {
         $condition = new EqualityCondition(Invitation :: PROPERTY_ID, $id);
-        return $this->retrieve_object(Invitation :: get_table_name(), $condition);
+        return $this->retrieve_object(Invitation :: get_table_name(), $condition, array(), Invitation :: CLASS_NAME);
     }
 
     function retrieve_invitation_by_code($code)
     {
         $condition = new EqualityCondition(Invitation :: PROPERTY_CODE, $code);
-        return $this->retrieve_object(Invitation :: get_table_name(), $condition);
+        return $this->retrieve_object(Invitation :: get_table_name(), $condition, array(), Invitation :: CLASS_NAME);
     }
 
     function retrieve_invitations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)

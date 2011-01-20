@@ -1,5 +1,7 @@
 <?php
 namespace home;
+
+use common\libraries\Display;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
@@ -17,8 +19,7 @@ use common\libraries\Utilities;
  * @package home.lib.home_manager.component
  */
 
-class HomeManagerManagerComponent extends HomeManager implements
-        AdministrationComponent
+class HomeManagerManagerComponent extends HomeManager implements AdministrationComponent
 {
     private $user_id;
     private $action_bar;

@@ -1,6 +1,8 @@
 <?php
 namespace migration;
 
+use common\libraries\Utilities;
+
 /**
  * $Id: dokeos185_track_edownloads.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -64,7 +66,12 @@ class Dokeos185TrackEDownloads extends Dokeos185MigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_DOWN_ID, self :: PROPERTY_DOWN_USER_ID, self :: PROPERTY_DOWN_DATE, self :: PROPERTY_DOWN_COURS_ID, self :: PROPERTY_DOWN_DOC_PATH);
+        return array(
+                self :: PROPERTY_DOWN_ID,
+                self :: PROPERTY_DOWN_USER_ID,
+                self :: PROPERTY_DOWN_DATE,
+                self :: PROPERTY_DOWN_COURS_ID,
+                self :: PROPERTY_DOWN_DOC_PATH);
     }
 
     /**
@@ -139,7 +146,8 @@ class Dokeos185TrackEDownloads extends Dokeos185MigrationDataClass
         $new_user_id = $this->get_id_reference($this->get_down_user_id(), 'main_database.user');
         $new_doc_id; //check if document exists
 
-        if (!$new_user_id) //if the user id doesn't exist anymore, the data can be ignored
+
+        if (! $new_user_id) //if the user id doesn't exist anymore, the data can be ignored
         {
             $this->create_failed_element($this->get_id());
             return false;
@@ -158,7 +166,8 @@ class Dokeos185TrackEDownloads extends Dokeos185MigrationDataClass
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
     static function get_class_name()

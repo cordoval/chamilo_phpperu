@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 use common\libraries\WebApplication;
 use common\libraries\Utilities;
 use common\libraries\Translation;
@@ -65,12 +67,11 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $dm = InternshipOrganizerDataManager :: get_instance();
 
-
         $coordinator = InternshipOrganizerUserType :: COORDINATOR;
         $coordinator_count = $dm->count_agreements($this->get_condition(InternshipOrganizerAgreement :: STATUS_APPROVED, $coordinator));
         if ($coordinator_count > 0)
         {
-            $table = $this->get_table(InternshipOrganizerAgreement :: STATUS_APPROVED,$coordinator);
+            $table = $this->get_table(InternshipOrganizerAgreement :: STATUS_APPROVED, $coordinator);
             $tabs->add_tab(new DynamicContentTab(self :: TAB_COORDINATOR, Translation :: get('InternshipOrganizerCoordinator'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         }
 
@@ -98,7 +99,10 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
             $tabs->add_tab(new DynamicContentTab(self :: TAB_MENTOR, Translation :: get('InternshipOrganizerMentor'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         }
 
-        $coordinator_coach_student = array(InternshipOrganizerUserType :: COACH, InternshipOrganizerUserType :: COORDINATOR, InternshipOrganizerUserType :: STUDENT);
+        $coordinator_coach_student = array(
+                InternshipOrganizerUserType :: COACH,
+                InternshipOrganizerUserType :: COORDINATOR,
+                InternshipOrganizerUserType :: STUDENT);
 
         $coordinator_coach_count = $dm->count_agreements($this->get_condition(InternshipOrganizerAgreement :: STATUS_ADD_LOCATION, $coordinator_coach_student));
         if ($coordinator_coach_count > 0)

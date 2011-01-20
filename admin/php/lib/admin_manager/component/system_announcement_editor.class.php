@@ -1,5 +1,12 @@
 <?php
 namespace admin;
+
+use repository\ContentObjectDisplay;
+use repository\ContentObjectForm;
+
+use common\libraries\Utilities;
+use common\libraries\Breadcrumb;
+use common\libraries\Display;
 use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;

@@ -4,52 +4,48 @@ namespace repository\content_object\survey;
 use common\libraries\DataClass;
 use common\libraries\Utilities;
 
-require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.class.php');
-
-abstract class SurveyTemplate extends DataClass
+class SurveyTemplate extends DataClass
 {
 
     const CLASS_NAME = __CLASS__;
-
-    const PROPERTY_TYPE = 'type';
-    const PROPERTY_USER_ID = 'user_id';
+   
+    const PROPERTY_NAME = 'name';
+    const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_CONTEXT_TEMPLATE_ID = 'context_template_id';
 
-    private $additionalProperties;
+//    private $additionalProperties;
 
-    public function __construct($defaultProperties = array (), $additionalProperties = null)
-    {
-        parent :: __construct($defaultProperties);
-        if (isset($additionalProperties))
-        {
-            $this->additionalProperties = $additionalProperties;
-        }
+//    public function __construct($defaultProperties = array (), $additionalProperties = null)
+//    {
+//        parent :: __construct($defaultProperties);
+//        if (isset($additionalProperties))
+//        {
+//            $this->additionalProperties = $additionalProperties;
+//        }
+//
+//    }
 
-    }
-
-    abstract static function get_additional_property_names($with_context_type = false);
-
-    public function create()
-    {
-        $dm = SurveyContextDataManager :: get_instance();
-
-        if (! $dm->create_survey_template($this))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-
-    }
+//    public function create()
+//    {
+//        $dm = SurveyContextDataManager :: get_instance();
+//
+//        if (! $dm->create_survey_template_user($this))
+//        {
+//            return false;
+//        }
+//        else
+//        {
+//            return true;
+//        }
+//
+//    }
 
     public function delete()
     {
 
         $dm = SurveyContextDataManager :: get_instance();
 
-        if (! $dm->delete_survey_template($this))
+        if (! $dm->delete_survey_template_user($this))
         {
             return false;
         }
@@ -59,55 +55,77 @@ abstract class SurveyTemplate extends DataClass
         }
     }
 
-    public function update()
+//    public function update()
+//    {
+//
+//        $dm = SurveyContextDataManager :: get_instance();
+//
+//        if (! $dm->update_survey_template_user($this))
+//        {
+//            return false;
+//        }
+//        else
+//        {
+//            return true;
+//        }
+//    }
+   
+	
+//      /**
+//     * Returns the id of this SurveyTemplate.
+//     * @return the id.
+//     */
+//    function get_id()
+//    {
+//        return $this->get_default_property(self :: PROPERTY_ID);
+//    }
+//
+//    /**
+//     * Sets the id of this SurveyTemplate.
+//     * @param id
+//     */
+//    function set_id($id)
+//    {
+//        $this->set_default_property(self :: PROPERTY_ID, $id);
+//    }
+
+    /**
+     * Returns the name of this SurveyTemplate.
+     * @return the name.
+     */
+    function get_name()
     {
-
-        $dm = SurveyContextDataManager :: get_instance();
-
-        if (! $dm->update_survey_template($this))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return $this->get_default_property(self :: PROPERTY_NAME);
     }
 
-    static function factory($type, $defaultProperties = array(), $additionalProperties = null)
+    /**
+     * Sets the name of this SurveyTemplate.
+     * @param name
+     */
+    function set_name($name)
     {
-        $class = __NAMESPACE__.'\\'. self :: type_to_class($type);
-        require_once dirname(__FILE__) . '/template/' . $type . '/' . $type . '.class.php';
-        return new $class($defaultProperties, $additionalProperties);
+        $this->set_default_property(self :: PROPERTY_NAME, $name);
     }
 
-    static function type_to_class($type)
+    /**
+     * Returns the description of this SurveyTemplate.
+     * @return the description.
+     */
+    function get_description()
     {
-        return Utilities :: underscores_to_camelcase($type);
+        return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
     }
 
-    static function class_to_type($class)
+    /**
+     * Sets the description of this SurveyTemplate.
+     * @param description
+     */
+    function set_description($description)
     {
-        return Utilities :: camelcase_to_underscores($class);
+        $this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
     }
-
-    function get_user_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_USER_ID);
-    }
-
-    function set_user_id($user_id)
-    {
-        $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-    }
-
-    function get_type()
-    {
-        return self :: class_to_type(Utilities :: get_classname_from_object($this));
-        
-    }
-
-    function get_context_template_id()
+    
+   function get_context_template_id()
     {
         return $this->get_default_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID);
     }
@@ -116,10 +134,10 @@ abstract class SurveyTemplate extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID, $context_template_id);
     }
-
+    
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_USER_ID, self :: PROPERTY_CONTEXT_TEMPLATE_ID));
+        return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_CONTEXT_TEMPLATE_ID));
     }
 
     /**
@@ -132,42 +150,8 @@ abstract class SurveyTemplate extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
-
-    function get_additional_property($name)
-    {
-        $this->check_for_additional_properties();
-        return $this->additionalProperties[$name];
-    }
-
-    function set_additional_property($name, $value)
-    {
-        //$this->check_for_additional_properties();
-        $this->additionalProperties[$name] = $value;
-    }
-
-    function get_additional_properties()
-    {
-        $this->check_for_additional_properties();
-        return $this->additionalProperties;
-    }
-
-    private function check_for_additional_properties()
-    {
-        if (isset($this->additionalProperties))
-        {
-            return;
-        }
-        $dm = SurveyContextDataManager :: get_instance();
-        $this->additionalProperties = $dm->retrieve_additional_survey_template_properties($this);
-    }
-
-    public static function get_by_id($survey_template_id, $type)
-    {
-        $dm = SurveyContextDataManager :: get_instance();
-        return $dm->retrieve_survey_template_by_id($survey_template_id, $type);
-    }
-
+   
 }
 ?>

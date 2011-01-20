@@ -2,6 +2,7 @@
 namespace common\libraries;
 
 use MDB2;
+use Exception;
 /**
  * $Id: database.class.php 229 2009-11-16 09:02:34Z scaramanga $
  * @package common.database
@@ -102,11 +103,11 @@ class Database
         // Do something with the arguments
         if ($args[1] == 'query' || $args[1] == 'prepare')
         {
-//                        echo '<pre>';
-//        		 	echo($args[2]);
-//        		 	echo self :: $query_counter;
-//        		 	echo '</pre>';
-//        		 	self :: $query_counter++;
+            //                        echo '<pre>';
+        //        		 	echo($args[2]);
+        //        		 	echo self :: $query_counter;
+        //        		 	echo '</pre>';
+        //        		 	self :: $query_counter++;
         }
     }
 
@@ -363,6 +364,10 @@ class Database
             $translator = new ConditionTranslator($this);
             $condition = $translator->render_query($condition, false);
         }
+        else
+        {
+            return false;
+        }
 
         $this->connection->loadModule('Extended');
         $this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_UPDATE, $condition);
@@ -572,7 +577,7 @@ class Database
      */
     function retrieve_objects($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null)
     {
-    	$query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
+        $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
         //        echo $query . '<br />';
         return $this->retrieve_object_set($query, $table_name, $condition, $offset, $max_objects, $order_by, $class_name);
     }
@@ -587,8 +592,8 @@ class Database
 
         $orders = array();
 
-//        dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
-//        dump($order_by);
+//           dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
+      //        dump($order_by);
 
 
         if (is_null($order_by))
@@ -736,7 +741,7 @@ class Database
 
         $this->set_limit(1);
         $res = $this->query($query);
-        if(!MDB2 :: isError($res))
+        if (! MDB2 :: isError($res))
         {
             $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
             $res->free();
@@ -748,7 +753,7 @@ class Database
 
         if (MDB2 :: isError($record))
         {
-        	dump($record);
+            dump($record);
         }
 
         if ($record)
@@ -830,7 +835,8 @@ class Database
     function get_alias($table_name)
     {
         return DatabaseAliasGenerator :: get_instance()->get_table_alias($table_name, $this->get_prefix());
-        //        if (!array_key_exists($table_name, $this->aliases))
+
+     //        if (!array_key_exists($table_name, $this->aliases))
     //        {
     //            $possible_name = substr($table_name, 0, 2) . substr($table_name, - 2);
     //            $index = 0;
@@ -1100,7 +1106,8 @@ class Database
 
         $update_condition = new AndCondition($conditions);
 
-        $properties = array(NestedTreeNode :: PROPERTY_LEFT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_LEFT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
+        $properties = array(
+                NestedTreeNode :: PROPERTY_LEFT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_LEFT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
 
         if (! $res)
@@ -1119,7 +1126,8 @@ class Database
 
         $update_condition = new AndCondition($conditions);
 
-        $properties = array(NestedTreeNode :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
+        $properties = array(
+                NestedTreeNode :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
 
         if (! $res)
@@ -1172,7 +1180,8 @@ class Database
 
         $update_condition = new AndCondition($conditions);
 
-        $properties = array(NestedTreeNode :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta));
+        $properties = array(
+                NestedTreeNode :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta));
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
 
         if (! $res)

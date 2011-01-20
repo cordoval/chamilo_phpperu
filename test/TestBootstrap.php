@@ -13,17 +13,23 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 
 
-class Initializer
+class TestInitializer
 {
+
+    public static function initGlobals() {
+        $GLOBALS['language_interface'] = "en";
+    }
     /**
      * Initialize the environment 
      */
     public static function init()
     {
-        self::_initDefaultTimezone();
-        self::_initIncludePath();
-        self::_initAutoload();
-        self::_initPHPSettings();
+        self::initDefaultTimezone();
+        self::initIncludePath();
+        self::initAutoload();
+        self::initPHPSettings();
+        self::initServerGlobals();
+        self::initGlobals();
     }
 
 
@@ -31,7 +37,7 @@ class Initializer
     /**
      * Initialize the default timezone which is mandatory for PHP 5
      */
-    private static function _initDefaultTimezone()
+    private static function initDefaultTimezone()
     {
         date_default_timezone_set('UTC');
     }
@@ -39,34 +45,43 @@ class Initializer
     /**
      * Initialize the PHP include_path
      */
-    private static function _initIncludePath()
+    private static function initIncludePath()
     {
         $pearPath = realpath(Path :: get_plugin_path() . 'pear');
         $googleLibraryPath = realpath(Path :: get_plugin_path() . 'google/library');
+        $scriptLibrariesPath = __DIR__ . '/../script/lib';
 
         $path = array(
             $pearPath,
-            $googleLibraryPath
+            $googleLibraryPath,
+            $scriptLibrariesPath,
         );
+        $new_include_path = implode(PATH_SEPARATOR, $path) . PATH_SEPARATOR .  get_include_path();
 
-
-        set_include_path(implode(PATH_SEPARATOR, $path) .  get_include_path());
-
+        set_include_path($new_include_path);
     }
 
 
-    private static function _initAutoload()
+    private static function initAutoload()
     {
+        require_once 'PHPUnit/Autoload.php';
         spl_autoload_register('common\libraries\Utilities::autoload');
     }
 
-    private static function _initPHPSettings()
+    private static function initPHPSettings()
     {
-	// I do not understand why but Fatal error aren't shown 
-	// when setting these parameters
-        //ini_set('error_reporting', 'E_ALL & ~E_DEPRECATED');
+        ini_set('error_reporting', E_ALL | E_STRICT);
+        ini_set('output_buffering', 'Off');
+    }
+    
+    private static function initServerGlobals()
+    {
+        $_SERVER['HTTP_HOST'] = 'localhost';
+        $_SERVER['HTTPS'] = false;
+        $_SESSION = array();
     }
 
 }
 
-Initializer::init();
+TestInitializer::init();
+

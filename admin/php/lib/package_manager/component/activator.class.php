@@ -26,28 +26,35 @@ class PackageManagerActivatorComponent extends PackageManager
             $this->display_footer();
             exit();
         }
-
+        
         $ids = Request :: get(PackageManager :: PARAM_REGISTRATION);
         $failures = 0;
-
+        
         if (! empty($ids))
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-
+            
             foreach ($ids as $id)
             {
                 $registration = $this->get_parent()->retrieve_registration($id);
-
-                $registration->set_status(Registration :: STATUS_ACTIVE);
-                if (! $registration->update())
+                
+                if ($registration->can_be_activated())
+                {
+                    $registration->set_status(Registration :: STATUS_ACTIVE);
+                    if (! $registration->update())
+                    {
+                        $failures ++;
+                    }
+                }
+                else
                 {
                     $failures ++;
                 }
             }
-
+            
             if ($failures)
             {
                 if (count($ids) == 1)
@@ -74,7 +81,7 @@ class PackageManagerActivatorComponent extends PackageManager
                     $parameter = array('OBJECTS' => Translation :: get('Registrations'));
                 }
             }
-
+            
             $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_MANAGE_PACKAGES, PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES));
         }
         else
@@ -83,15 +90,15 @@ class PackageManagerActivatorComponent extends PackageManager
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManagerBrowserComponent')));
-    	$breadcrumbtrail->add_help('admin_package_manager_activator');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManagerBrowserComponent')));
+        $breadcrumbtrail->add_help('admin_package_manager_activator');
     }
 
- 	function get_additional_parameters()
+    function get_additional_parameters()
     {
-    	return array(PackageManager :: PARAM_REGISTRATION);
+        return array(PackageManager :: PARAM_REGISTRATION);
     }
 }
 ?>

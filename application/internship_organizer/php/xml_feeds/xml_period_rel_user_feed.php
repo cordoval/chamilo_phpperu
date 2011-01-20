@@ -1,4 +1,10 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\NotCondition;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\Authentication;
 use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\CoreApplication;
@@ -21,10 +27,10 @@ Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
 if (Authentication :: is_valid())
 {
     $conditions = array();
-    
+
     $period_id = $_GET[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID];
     $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $period_id);
-    
+
     if (isset($_GET[InternshipOrganizerPeriodManager :: PARAM_USER_TYPE]))
     {
         $user_type = $_GET[InternshipOrganizerPeriodManager :: PARAM_USER_TYPE];
@@ -38,10 +44,10 @@ if (Authentication :: is_valid())
         $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', $user_alias, true);
         $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', $user_alias, true);
         $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*', $user_alias, true);
-        
+
         $conditions[] = new OrCondition($search_conditions);
     }
-    
+
     if (is_array($_GET['exclude']))
     {
         $c = array();
@@ -53,11 +59,11 @@ if (Authentication :: is_valid())
             $a[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $ids[1]);
             $a[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, $ids[2]);
             $c[] = new AndCondition($a);
-        
+
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     if (count($conditions) > 0)
     {
         $condition = new AndCondition($conditions);
@@ -66,10 +72,10 @@ if (Authentication :: is_valid())
     {
         $condition = null;
     }
-    
+
     $dm = InternshipOrganizerDataManager :: get_instance();
     $objects = $dm->retrieve_period_rel_users($condition);
-    
+
     while ($period_rel_user = $objects->next_result())
     {
         $period_rel_users[] = $period_rel_user;
@@ -89,20 +95,20 @@ function dump_tree($period_rel_users)
     if (contains_results($period_rel_users))
     {
         echo '<node id="0" classes="category unlinked" title="', Translation :: get('Users'), '">', "\n";
-        
+
         foreach ($period_rel_users as $period_rel_user)
         {
             $id = 'user_' . $period_rel_user->get_user_id();
-//            $id = 'user_' . $period_rel_user->get_user_id() . '|' . $period_rel_user->get_user_type();
+            //            $id = 'user_' . $period_rel_user->get_user_id() . '|' . $period_rel_user->get_user_type();
             $user_type = InternshipOrganizerUserType :: get_user_type_name($period_rel_user->get_user_type());
             $user = UserDataManager :: get_instance()->retrieve_user($period_rel_user->get_user_id());
             $name = strip_tags($user->get_firstname() . ' ' . $user->get_lastname() . ' - ' . $user_type);
-            
+
             echo '<leaf id="', $id, '" classes="', '', '" title="', htmlspecialchars($name), '" description="', htmlspecialchars(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
         }
-        
+
         echo '</node>', "\n";
-    
+
     }
 }
 

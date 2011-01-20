@@ -40,17 +40,58 @@
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 		  		</dependency>
-		  		<dependency>
-		  			<id>survey_page</id>
-		  			<version type="4">1.0.0</version>
-		  			<severity>1</severity>
-		  		</dependency>
-		  		<dependency>
-		  			<id>hotpotatoes</id>
+			</content_objects>
+			<core>
+				<dependency>
+		  			<id>group</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
-			</content_objects>
+				<dependency>
+		  			<id>reporting</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>tracking</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>user</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>rights</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</core>
+			<library>
+				<dependency>
+		  			<id>common</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</library>
+			<extension>
+				<dependency>
+		  			<id>repo_viewer</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>reporting_viewer</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>rights_editor_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
 		</dependencies>
 	</package>
 </packages>

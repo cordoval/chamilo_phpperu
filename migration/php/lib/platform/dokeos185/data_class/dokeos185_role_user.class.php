@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_role_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 
 /**
  * This class presents a Dokeos185 role_user
@@ -14,14 +14,14 @@ namespace migration;
 class Dokeos185RoleUser extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185RoleUser properties
      */
     const PROPERTY_ROLE_ID = 'role_id';
     const PROPERTY_SCOPE = 'scope';
     const PROPERTY_USER_ID = 'user_id';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -148,11 +148,11 @@ class Dokeos185RoleUser extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = $parameters['course']->get_db_name();
         $tablename = 'role_user';
         $classname = 'Dokeos185RoleUser';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

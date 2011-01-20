@@ -1,6 +1,7 @@
 <?php
 namespace admin;
 
+use common\libraries\PlatformSetting;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Path;

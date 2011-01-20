@@ -7,6 +7,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 
 require_once dirname(__FILE__) . '/publication_browser_table_column_model.class.php';
@@ -78,7 +79,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         {
             if ($survey_publication->is_publication_period())
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_survey_publication_viewer_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_survey_publication_taker_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
             
             }
             else
@@ -90,24 +91,24 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         
         if ($user->is_platform_admin() || $user->get_id() == $survey_publication->get_publisher())
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_rights_editor_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_rights_editor_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
         }
         
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EDIT, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
         }
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_DELETE, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON, true));
         }
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_VIEW, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Participants'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->browser->get_browse_survey_participants_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ViewParticipants'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->browser->get_browse_survey_participants_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
         }
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_REPORTING, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('ViewReport'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_reporting_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ViewReport', array(), reporting), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_reporting_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
         }
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
         {
@@ -115,7 +116,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         }
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EXPORT_RESULT, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('ExportToExcel'), Theme :: get_common_image_path() . 'export_excel.png', $this->browser->get_survey_publication_export_excel_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ExportToExcel', array(), reporting), Theme :: get_common_image_path() . 'export_excel.png', $this->browser->get_survey_publication_export_excel_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
         }
         
         return $toolbar->as_html();

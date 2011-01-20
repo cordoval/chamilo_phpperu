@@ -2,10 +2,12 @@
 namespace common\extensions\external_repository_manager\implementation\hq23;
 
 use repository\RepositoryManager;
+
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 

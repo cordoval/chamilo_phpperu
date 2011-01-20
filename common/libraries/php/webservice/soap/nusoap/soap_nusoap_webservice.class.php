@@ -1,5 +1,11 @@
 <?php
 namespace common\libraries;
+
+use soap_server;
+use nusoap_client;
+use soapval;
+use soap_fault;
+
 /**
  * $Id: soap_nusoap_webservice.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package common.webservice.soap.nusoap
@@ -74,7 +80,8 @@ class SoapNusoapWebservice extends Webservice
 
                 if ($objects['array_input'])
                 {
-                    $server->wsdl->addComplexType(get_class($in) . 's', 'complexType', 'array', '', 'SOAP-ENC:Array', array(), array(array('ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'tns:' . get_class($in) . '[]')), 'tns:' . get_class($in));
+                    $server->wsdl->addComplexType(get_class($in) . 's', 'complexType', 'array', '', 'SOAP-ENC:Array', array(), array(
+                            array('ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'tns:' . get_class($in) . '[]')), 'tns:' . get_class($in));
                 }
             }
 
@@ -101,11 +108,15 @@ class SoapNusoapWebservice extends Webservice
 
                 if ($objects['array_output'])
                 {
-                    $server->wsdl->addComplexType(get_class($out) . 's', 'complexType', 'array', '', 'SOAP-ENC:Array', array(), array(array('ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'tns:' . get_class($out) . '[]')), 'tns:' . get_class($out));
+                    $server->wsdl->addComplexType(get_class($out) . 's', 'complexType', 'array', '', 'SOAP-ENC:Array', array(), array(
+                            array('ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'tns:' . get_class($out) . '[]')), 'tns:' . get_class($out));
                 }
             }
             // method name, input parameters, output parameters
-            $server->register(get_class($this->webservice_handler) . '.' . $name, array('input' => 'tns:' . get_class($in) . ($objects['array_input'] ? 's' : ''), 'hash' => 'xsd:string'), array('return' => 'tns:' . get_class($out) . ($objects['array_output'] ? 's' : '')), 'http://www.chamilo.org', 'http://www.chamilo.org#' . $name, 'rpc', 'encoded', '', '', 'NusoapWebservice.handle_webservice');
+            $server->register(get_class($this->webservice_handler) . '.' . $name, array(
+                    'input' => 'tns:' . get_class($in) . ($objects['array_input'] ? 's' : ''),
+                    'hash' => 'xsd:string'), array(
+                    'return' => 'tns:' . get_class($out) . ($objects['array_output'] ? 's' : '')), 'http://www.chamilo.org', 'http://www.chamilo.org#' . $name, 'rpc', 'encoded', '', '', 'NusoapWebservice.handle_webservice');
 
         }
 
@@ -134,12 +145,12 @@ class SoapNusoapWebservice extends Webservice
             $handler_function = $function['handler'];
             $result = $client->call($function_name, $function_parameters);
             $handler_result = $this->webservice_handler->{$handler_function}($result);
-            if (!$handler_result)
+            if (! $handler_result)
             {
                 return false;
             }
 
-            // $this->debug($client);
+     // $this->debug($client);
         }
 
         return true;

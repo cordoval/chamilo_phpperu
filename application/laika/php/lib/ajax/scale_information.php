@@ -1,4 +1,7 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Authentication;
 use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;

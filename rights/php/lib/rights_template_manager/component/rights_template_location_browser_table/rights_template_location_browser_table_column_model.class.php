@@ -1,6 +1,8 @@
 <?php
 namespace rights;
 
+use common\libraries\Translation;
+use common\libraries\StaticTableColumn;
 use common\libraries\Utilities;
 
 use rights\RightsUtilities;

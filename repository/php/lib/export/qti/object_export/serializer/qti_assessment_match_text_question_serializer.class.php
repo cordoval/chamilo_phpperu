@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use common\libraries\Wildcard;
+use common\libraries\Qti;
+
 use repository\content_object\assessment_match_text_question\AssessmentMatchTextQuestion;
 use repository\ContentObject;
 

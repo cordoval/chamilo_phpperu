@@ -41,6 +41,13 @@
 		  			<severity>2</severity>
 				</dependency>
 			</content_objects>
+			<library>
+				<dependency>
+		  			<id>common</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</library>
 		</dependencies>
 	</package>
 </packages>

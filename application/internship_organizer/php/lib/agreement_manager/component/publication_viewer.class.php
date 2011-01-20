@@ -8,6 +8,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Request;
 
+use repository\ComplexDisplay;
 use repository\ContentObjectDisplay;
 use repository\content_object\survey\Survey;
 
@@ -21,9 +22,9 @@ class InternshipOrganizerAgreementManagerPublicationViewerComponent extends Inte
 
     function run()
     {
-        
+
         $publication_id = $_GET[self :: PARAM_PUBLICATION_ID];
-        
+
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, $publication_id, InternshipOrganizerRights :: TYPE_PUBLICATION))
         {
             $this->display_header();
@@ -31,10 +32,10 @@ class InternshipOrganizerAgreementManagerPublicationViewerComponent extends Inte
             $this->display_footer();
             exit();
         }
-        
+
         $publication = InternshipOrganizerDataManager :: get_instance()->retrieve_publication($publication_id);
         $place_id = $publication->get_place_id();
-        
+
         switch ($place_id)
         {
             case InternshipOrganizerPublicationPlace :: AGREEMENT :
@@ -47,9 +48,9 @@ class InternshipOrganizerAgreementManagerPublicationViewerComponent extends Inte
                 //error: publication always needs a place_id and corrosponding place;
                 break;
         }
-        
+
         $content_object = $publication->get_content_object();
-        
+
         $type = $content_object->get_type();
         if ($type == Survey :: get_type_name())
         {
@@ -58,27 +59,34 @@ class InternshipOrganizerAgreementManagerPublicationViewerComponent extends Inte
         else
         {
             $display = ContentObjectDisplay :: factory($content_object);
-            
+
             $this->display_header();
             echo '<div>';
             echo $display->get_full_html();
             echo '</div>';
             $this->display_footer();
-        
+
         }
-    
+
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
         $moment_id = Request :: get(self :: PARAM_MOMENT_ID);
         if ($moment_id)
         {
             $moment = $this->retrieve_moment($moment_id);
             $agreement_id = $moment->get_agreement_id();
-            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MOMENTS)), Translation :: get('ViewInternshipOrganizerAgreement')));
-            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MOMENT, self :: PARAM_MOMENT_ID => $moment_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerMomentViewerComponent :: TAB_PUBLICATIONS)), Translation :: get('ViewInternshipOrganizerMoment')));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                    self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT,
+                    self :: PARAM_AGREEMENT_ID => $agreement_id,
+                    DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MOMENTS)), Translation :: get('ViewInternshipOrganizerAgreement')));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                    self :: PARAM_ACTION => self :: ACTION_VIEW_MOMENT,
+                    self :: PARAM_MOMENT_ID => $moment_id,
+                    DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerMomentViewerComponent :: TAB_PUBLICATIONS)), Translation :: get('ViewInternshipOrganizerMoment')));
         }
     }
 

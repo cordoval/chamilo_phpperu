@@ -1,11 +1,7 @@
 <?php
 namespace repository\content_object\bbb_meeting;
 
-use repository;
-
 use repository\ContentObject;
-
-use common\extensions\video_conferencing_manager;
 
 use common\extensions\video_conferencing_manager\VideoConferencingManagerConnector;
 use common\extensions\video_conferencing_manager\implementation\bbb\BbbVideoConferencingObject;
@@ -18,9 +14,6 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Path;
 use common\libraries\Theme;
-use common\libraries\ExternalRepositoryLauncher;
-use common\extensions\external_repository_manager\ExternalRepositoryManager;
-use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use repository\ExternalInstance;
 use repository\ContentObjectForm;
 use repository\ExternalSync;
@@ -43,7 +36,7 @@ class BbbMeetingForm extends ContentObjectForm
         $conditions[] = new EqualityCondition(ExternalInstance :: PROPERTY_TYPE, BbbVideoConferencingManager :: VIDEO_CONFERENCING_TYPE);
         $condtion = new AndCondition($conditions);
         $instances = RepositoryDataManager :: get_instance()->retrieve_external_instances($condition);
-        
+
         while ($instance = $instances->next_result())
         {
             $option[$instance->get_id()] = $instance->get_title();
@@ -67,13 +60,13 @@ class BbbMeetingForm extends ContentObjectForm
     {
         $values = $this->exportValues();
         $instance = RepositoryDataManager :: get_instance()->retrieve_external_instance($values[ExternalSync :: PROPERTY_EXTERNAL_ID]);
-        
+
         $connector = VideoConferencingManagerConnector :: factory($instance);
         $video_conferencing_object = new BbbVideoConferencingObject();
         $video_conferencing_object->set_title($values[ContentObject :: PROPERTY_TITLE]);
-        
+
         $bbb_meeting = $connector->create_video_conferencing_object($video_conferencing_object);
-        
+
         if ($bbb_meeting instanceof BbbMeeting)
         {
             $bbb_meeting->set_description($values[ContentObject :: PROPERTY_DESCRIPTION]);
@@ -84,7 +77,7 @@ class BbbMeetingForm extends ContentObjectForm
             else
             {
                 $this->set_content_object($bbb_meeting);
-                
+
                 return $bbb_meeting;
             }
         }

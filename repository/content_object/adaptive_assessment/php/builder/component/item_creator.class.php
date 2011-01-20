@@ -15,9 +15,10 @@ use repository\RepositoryDataManager;
 use repository\ComplexContentObjectItem;
 
 /**
- * $Id: item_creator.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.adaptive_assessment.component
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
+
 class AdaptiveAssessmentBuilderItemCreatorComponent extends AdaptiveAssessmentBuilder implements RepoViewerInterface
 {
 
@@ -56,14 +57,12 @@ class AdaptiveAssessmentBuilderItemCreatorComponent extends AdaptiveAssessmentBu
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
         $exclude[] = $this->get_root_content_object()->get_id();
 
-        if (!$this->type)
+        if (! $this->type)
         {
             $this->type = $content_object->get_allowed_types();
         }
 
-
-
-        if (!RepoViewer::is_ready_to_be_published())
+        if (! RepoViewer :: is_ready_to_be_published())
         {
             $pub = RepoViewer :: construct($this);
             if ($rtype)
@@ -80,9 +79,9 @@ class AdaptiveAssessmentBuilderItemCreatorComponent extends AdaptiveAssessmentBu
         }
         else
         {
-            $object = RepoViewer::get_selected_objects();
+            $object = RepoViewer :: get_selected_objects();
 
-            if (!is_array($object))
+            if (! is_array($object))
             {
                 $object = array($object);
             }
@@ -109,7 +108,9 @@ class AdaptiveAssessmentBuilderItemCreatorComponent extends AdaptiveAssessmentBu
                 $complex_content_object_item->create();
             }
 
-            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
+            $this->redirect(Translation :: get('ObjectAdded'), false, array(
+                    ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE,
+                    ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
         }
     }
 

@@ -1,5 +1,11 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
+
+use common\libraries\Translation;
+use common\libraries\Utilities;
+
+use Exception;
+
 abstract class VideoConferencingParticipantObjectRenderer
 {
     const TYPE_TABLE = 'table';
@@ -23,7 +29,8 @@ abstract class VideoConferencingParticipantObjectRenderer
         $file = dirname(__FILE__) . '/renderer/' . $type . '_video_conferencing_participant_object_renderer.class.php';
         if (! file_exists($file))
         {
-            throw new Exception(Translation :: get('VideoConferencingParticipantObjectRendererTypeDoesNotExist', array('type' => $type)));
+            throw new Exception(Translation :: get('VideoConferencingParticipantObjectRendererTypeDoesNotExist', array(
+                    'type' => $type)));
         }
 
         require_once $file;
@@ -54,10 +61,10 @@ abstract class VideoConferencingParticipantObjectRenderer
         return $this->get_video_conferencing_browser()->retrieve_video_conferencing_participant_objects($condition, $order_property, $offset, $count);
     }
 
-	function get_video_conferencing_participant_object_actions(VideoConferencingObject $object)
-	{
-	    return $this->get_video_conferencing_browser()->get_video_conferencing_participant_object_actions($object);
-	}
+    function get_video_conferencing_participant_object_actions(VideoConferencingObject $object)
+    {
+        return $this->get_video_conferencing_browser()->get_video_conferencing_participant_object_actions($object);
+    }
 
     function is_stand_alone()
     {

@@ -7,6 +7,8 @@ use common\libraries\AndCondition;
 use common\libraries\StringUtilities;
 use common\extensions\external_repository_manager\ExternalRepositoryManagerConnector;
 
+use Exception;
+
 /**
  * @author Hans De Bisschop
  *
@@ -14,35 +16,35 @@ use common\extensions\external_repository_manager\ExternalRepositoryManagerConne
 class ExternalSync extends RepositoryDataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_CONTENT_OBJECT_TIMESTAMP = 'content_object_timestamp';
-    
+
     const PROPERTY_EXTERNAL_ID = 'external_id';
     const PROPERTY_EXTERNAL_OBJECT_ID = 'external_object_id';
     const PROPERTY_EXTERNAL_OBJECT_TIMESTAMP = 'external_object_timestamp';
-    
+
     const SYNC_STATUS_ERROR = 0;
     const SYNC_STATUS_EXTERNAL = 1;
     const SYNC_STATUS_INTERNAL = 2;
     const SYNC_STATUS_IDENTICAL = 3;
     const SYNC_STATUS_CONFLICT = 4;
-    
+
     /**
      * @var ContentObject
      */
     private $content_object;
-    
+
     /**
      * @var ExternalRepositoryObject
      */
     private $external_object;
-    
+
     /**
      * @var int
      */
     private $synchronization_status;
-    
+
     /**
      * @var ExternalRepository
      */
@@ -153,7 +155,7 @@ class ExternalSync extends RepositoryDataClass
         $extended_property_names[] = self :: PROPERTY_EXTERNAL_ID;
         $extended_property_names[] = self :: PROPERTY_EXTERNAL_OBJECT_ID;
         $extended_property_names[] = self :: PROPERTY_EXTERNAL_OBJECT_TIMESTAMP;
-        
+
         return parent :: get_default_property_names($extended_property_names);
     }
 
@@ -185,7 +187,7 @@ class ExternalSync extends RepositoryDataClass
         {
             throw new Exception('ExternalSync object could not be saved as its identity is not set');
         }
-        
+
         $this->set_modification_date(time());
         return parent :: update();
     }
@@ -212,7 +214,7 @@ class ExternalSync extends RepositoryDataClass
             $external_instance = $this->get_external();
             $type = $external_instance->get_instance_type();
             $class = ExternalInstanceManager :: get_manager_connector_class($type);
-            $this->external_object = $class :: get_instance($external_instance)->retrieve_external_object($this);         
+            $this->external_object = $class :: get_instance($external_instance)->retrieve_external_object($this);
         }
         return $this->external_object;
     }
@@ -237,12 +239,12 @@ class ExternalSync extends RepositoryDataClass
             {
                 $content_object_date = $this->get_content_object()->get_modification_date();
             }
-            
+
             if (is_null($external_object_date))
             {
                 $external_object_date = $this->get_external_object()->get_created();
             }
-            
+
             if ($content_object_date > $this->get_content_object_timestamp())
             {
                 if ($external_object_date > $this->get_external_object_timestamp())
@@ -278,14 +280,14 @@ class ExternalSync extends RepositoryDataClass
                 $this->synchronization_status = self :: SYNC_STATUS_ERROR;
             }
         }
-        
+
         return $this->synchronization_status;
     }
 
     /*************************************************************************
      * Fat model methods
      *************************************************************************/
-    
+
     /**
      * @param int $content_object_id
      * @return ExternalSync

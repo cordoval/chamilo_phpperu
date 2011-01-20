@@ -1,5 +1,9 @@
 <?php
 namespace group;
+
+use user\UserSearchForm;
+
+use common\libraries\Breadcrumb;
 use common\libaries\Export;
 use common\libaries\Import;
 use common\libraries\Application;
@@ -112,7 +116,7 @@ class GroupManager extends CoreApplication
             case self :: ACTION_IMPORT :
                 $component = $this->create_component('Importer');
                 break;
-            case self :: ACTION_RIGHT_EDITS:
+            case self :: ACTION_RIGHT_EDITS :
                 $component = $this->create_component('RightsEditor');
                 break;
             case self :: ACTION_IMPORT_GROUP_USERS :
@@ -146,7 +150,7 @@ class GroupManager extends CoreApplication
      * @param boolean $display_search Should the header include a search form or
      * not?
      */
-    function display_header($breadcrumbtrail, $display_search = false, $helpitem)
+    function display_header($breadcrumbtrail = null, $display_search = false)
     {
         if (is_null($breadcrumbtrail))
         {
@@ -239,7 +243,8 @@ class GroupManager extends CoreApplication
     {
         if (! isset($this->user_search_form))
         {
-            $this->user_search_form = new UserSearchForm($this, $this->get_url(array(self :: PARAM_GROUP_ID => Request :: get(self :: PARAM_GROUP_ID))));
+            $this->user_search_form = new UserSearchForm($this, $this->get_url(array(
+                    self :: PARAM_GROUP_ID => Request :: get(self :: PARAM_GROUP_ID))));
         }
         return $this->user_search_form;
     }
@@ -307,66 +312,93 @@ class GroupManager extends CoreApplication
         return $gdm->retrieve_group($id);
     }
 
-    public static function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: APPLICATION_NAME)
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('List', null , Utilities :: COMMON_LIBRARIES), Translation :: get('ListDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('Create', null , Utilities :: COMMON_LIBRARIES), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'admin/add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_CREATE_GROUP, GroupManager :: PARAM_GROUP_ID => 0), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('Export', null , Utilities :: COMMON_LIBRARIES), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'admin/export.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_EXPORT), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('Import', null , Utilities :: COMMON_LIBRARIES), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'admin/import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('ImportGroupUsers'), Translation :: get('ImportGroupUsersDescription'), Theme :: get_image_path() . 'admin/import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT_GROUP_USERS), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('ManageGroupUsage'), Translation :: get('ManageGroupUsageDescription'), Theme :: get_image_path() . 'admin/manage.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_MANAGE_USAGE), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('List', null, Utilities :: COMMON_LIBRARIES), Translation :: get('ListDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'admin/add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                Application :: PARAM_ACTION => GroupManager :: ACTION_CREATE_GROUP,
+                GroupManager :: PARAM_GROUP_ID => 0), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Export', null, Utilities :: COMMON_LIBRARIES), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'admin/export.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                Application :: PARAM_ACTION => GroupManager :: ACTION_EXPORT), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'admin/import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ImportGroupUsers'), Translation :: get('ImportGroupUsersDescription'), Theme :: get_image_path() . 'admin/import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT_GROUP_USERS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ManageGroupUsage'), Translation :: get('ManageGroupUsageDescription'), Theme :: get_image_path() . 'admin/manage.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                Application :: PARAM_ACTION => GroupManager :: ACTION_MANAGE_USAGE), array(), false, Redirect :: TYPE_CORE));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS), array(), false, Redirect :: TYPE_CORE);
+        $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(
+                Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS), array(), false, Redirect :: TYPE_CORE);
 
         return $info;
     }
 
     function get_group_editing_url($group)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_GROUP,
+                self :: PARAM_GROUP_ID => $group->get_id()));
     }
 
     function get_create_group_url($parent_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_GROUP, self :: PARAM_GROUP_ID => $parent_id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CREATE_GROUP,
+                self :: PARAM_GROUP_ID => $parent_id));
     }
 
     function get_group_emptying_url($group)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TRUNCATE_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_TRUNCATE_GROUP,
+                self :: PARAM_GROUP_ID => $group->get_id()));
     }
 
     function get_group_edit_rights_url($group)
     {
-       return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_RIGHT_EDITS, self :: PARAM_GROUP_ID => $group->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_RIGHT_EDITS,
+                self :: PARAM_GROUP_ID => $group->get_id()));
     }
 
     function get_group_viewing_url($group)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_GROUP,
+                self :: PARAM_GROUP_ID => $group->get_id()));
     }
 
     function get_group_rel_user_unsubscribing_url($groupreluser)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USER_FROM_GROUP, self :: PARAM_GROUP_REL_USER_ID => $groupreluser->get_group_id() . '|' . $groupreluser->get_user_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USER_FROM_GROUP,
+                self :: PARAM_GROUP_REL_USER_ID => $groupreluser->get_group_id() . '|' . $groupreluser->get_user_id()));
     }
 
     function get_group_rel_user_subscribing_url($group, $user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_TO_GROUP, self :: PARAM_GROUP_ID => $group->get_id(), self :: PARAM_USER_ID => $user->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_TO_GROUP,
+                self :: PARAM_GROUP_ID => $group->get_id(),
+                self :: PARAM_USER_ID => $user->get_id()));
     }
 
     function get_group_suscribe_user_browser_url($group)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_BROWSER, self :: PARAM_GROUP_ID => $group->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_BROWSER,
+                self :: PARAM_GROUP_ID => $group->get_id()));
     }
 
     function get_group_delete_url($group)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_GROUP,
+                self :: PARAM_GROUP_ID => $group->get_id()));
     }
 
     function get_import_url()
@@ -381,12 +413,18 @@ class GroupManager extends CoreApplication
 
     function get_move_group_url($group)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_MOVE_GROUP,
+                self :: PARAM_GROUP_ID => $group->get_id()));
     }
 
     function get_manage_group_rights_url($group)
     {
-        return $this->get_url(array(Application :: PARAM_APPLICATION => RightsManager :: APPLICATION_NAME, Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP => $group->get_id()));
+        return $this->get_url(array(
+                Application :: PARAM_APPLICATION => RightsManager :: APPLICATION_NAME,
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS,
+                GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_GROUP_RIGHTS,
+                GroupRightManager :: PARAM_GROUP => $group->get_id()));
     }
 
     /**

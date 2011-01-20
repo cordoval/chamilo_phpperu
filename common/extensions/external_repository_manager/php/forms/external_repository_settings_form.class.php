@@ -1,6 +1,12 @@
 <?php
 namespace common\extensions\external_repository_manager;
 
+use user\UserSetting;
+use user\UserDataManager;
+
+use admin\AdminDataManager;
+
+use common\libraries\Session;
 use common\libraries\Utilities;
 use common\libraries\FormValidator;
 use common\libraries\Path;
@@ -9,8 +15,8 @@ use common\libraries\Translation;
 use DOMDocument;
 
 use repository\RepositoryDataManager;
-
 use repository\ExternalSetting;
+use repository\ExternalUserSetting;
 
 /**
  * A form to configure external repository settings.
@@ -22,7 +28,7 @@ use repository\ExternalSetting;
 class ExternalRepositorySettingsForm extends FormValidator
 {
 
-	private $external_repository;
+    private $external_repository;
 
     private $configuration;
 
@@ -80,17 +86,17 @@ class ExternalRepositorySettingsForm extends FormValidator
                     if (! $has_settings && $categories > 1)
                     {
                         $this->addElement('html', '<div class="configuration_form">');
-                        $this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name), null, ExternalRepositoryManager::get_namespace($configuration['name'])) . '</span>');
+                        $this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name), null, ExternalRepositoryManager :: get_namespace($configuration['name'])) . '</span>');
                         $has_settings = true;
                     }
 
                     if ($setting['locked'] == 'true')
                     {
-                        $this->addElement('static', $name, Translation :: get(Utilities :: underscores_to_camelcase($name)), null, ExternalRepositoryManager::get_namespace($configuration['name']));
+                        $this->addElement('static', $name, Translation :: get(Utilities :: underscores_to_camelcase($name)), null, ExternalRepositoryManager :: get_namespace($configuration['name']));
                     }
                     elseif ($setting['field'] == 'text')
                     {
-                        $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalRepositoryManager::get_namespace($configuration['name'])), ($setting['required'] == 'true'));
+                        $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalRepositoryManager :: get_namespace($configuration['name'])), ($setting['required'] == 'true'));
 
                         $validations = $setting['validations'];
                         if ($validations)
@@ -104,7 +110,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                                         $validation['format'] = NULL;
                                     }
 
-                                    $this->addRule($name, Translation :: get($validation['message'], null, ExternalRepositoryManager::get_namespace($configuration['name'])), $validation['rule'], $validation['format']);
+                                    $this->addRule($name, Translation :: get($validation['message'], null, ExternalRepositoryManager :: get_namespace($configuration['name'])), $validation['rule'], $validation['format']);
                                 }
                             }
                         }
@@ -112,7 +118,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                     }
                     elseif ($setting['field'] == 'html_editor')
                     {
-                        $this->add_html_editor($name, Translation :: get(Utilities :: underscores_to_camelcase($name), ExternalRepositoryManager::get_namespace($configuration['name'])), ($setting['required'] == 'true'));
+                        $this->add_html_editor($name, Translation :: get(Utilities :: underscores_to_camelcase($name), ExternalRepositoryManager :: get_namespace($configuration['name'])), ($setting['required'] == 'true'));
                     }
                     else
                     {
@@ -142,11 +148,11 @@ class ExternalRepositorySettingsForm extends FormValidator
                                     $group[] = & $this->createElement($setting['field'], $name, null, Translation :: get(Utilities :: underscores_to_camelcase($option_name)), $option_value);
                                 }
                             }
-                            $this->addGroup($group, $name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalRepositoryManager::get_namespace($configuration['name'])), '<br/>', false);
+                            $this->addGroup($group, $name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalRepositoryManager :: get_namespace($configuration['name'])), '<br/>', false);
                         }
                         elseif ($setting['field'] == 'select')
                         {
-                            $this->addElement('select', $name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalRepositoryManager::get_namespace($configuration['name'])), $options);
+                            $this->addElement('select', $name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalRepositoryManager :: get_namespace($configuration['name'])), $options);
                         }
                     }
                 }
@@ -159,8 +165,10 @@ class ExternalRepositorySettingsForm extends FormValidator
             }
 
             $buttons = array();
-            $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
-            $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
+            $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array(
+                    'class' => 'positive'));
+            $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                    'class' => 'normal empty'));
             $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         }
         else
@@ -283,7 +291,6 @@ class ExternalRepositorySettingsForm extends FormValidator
                 if ($setting['user_setting'] && $this->is_user_setting_form)
                 {
                     $configuration_value = ExternalUserSetting :: get($name, $this->configurer->get_external_repository()->get_id());
-                    //                    $configuration_value = LocalSetting :: get($name, $application);
                 }
                 else
                 {
@@ -341,7 +348,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                     else
                     {
                         $setting = new ExternalSetting();
-                        $setting->set_external_repository_id($external_repository->get_id());
+                        $setting->set_external_id($external_repository->get_id());
                         $setting->set_variable($name);
 
                         if (isset($values[$name]))

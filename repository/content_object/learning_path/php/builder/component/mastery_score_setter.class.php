@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\learning_path;
 
+use common\libraries\Utilities;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;

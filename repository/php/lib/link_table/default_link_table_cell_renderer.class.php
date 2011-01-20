@@ -6,7 +6,6 @@ use common\libraries\Utilities;
 use common\libraries\ObjectTableCellRenderer;
 
 use repository\content_object\learning_path_item\LearningPathItem;
-use repository\content_object\portfolio_item\PortfolioItem;
 use application\weblcms\WeblcmsDataManager;
 
 /**
@@ -48,7 +47,7 @@ class DefaultLinkTableCellRenderer extends ObjectTableCellRenderer
         if($this->type == LinkBrowserTable :: TYPE_CHILDREN)
         {
             $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_ref());
-            if($object->get_type() == PortfolioItem :: get_type_name() || $object->get_type() == LearningPathItem :: get_type_name())
+            if(in_array($object->get_type(), RepositoryDataManager :: get_active_helper_types()))
             {
             	$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_reference());
             }

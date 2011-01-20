@@ -27,6 +27,7 @@ class SurveyContextManagerContextCreatorComponent extends SurveyContextManager
     	
         $survey_context = SurveyContext :: factory($context_registration->get_type());
         $survey_context->set_context_registration_id($context_registration_id);
+        $survey_context->set_type();
         
         $form = new SurveyContextForm(SurveyContextForm :: TYPE_CREATE, $this->get_url(), $survey_context,  $this->get_user(), $this);
         

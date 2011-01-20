@@ -3,7 +3,7 @@ namespace migration;
 use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
-
+use Exception;
 /**
  * $Id: dokeos185_group_rel_tutor.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
@@ -18,14 +18,14 @@ use common\libraries\Utilities;
 class Dokeos185GroupRelTutor extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * group tutor relation properties
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_GROUP_ID = 'group_id';
-    
+
     /**
      * Default properties of the group tutor relation object, stored in an associative
      * array.
@@ -118,7 +118,7 @@ class Dokeos185GroupRelTutor extends Dokeos185MigrationDataClass
     /**
      * Check if the group tutor relation is valid
      * @param Course $course the course
-     * @return true if the group tutor relation is valid 
+     * @return true if the group tutor relation is valid
      */
     function is_valid_group_rel_tutor($array)
     {
@@ -143,11 +143,11 @@ class Dokeos185GroupRelTutor extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $coursedb = $parameters['course']->get_db_name();
         $tablename = 'group_rel_tutor';
         $classname = 'Dokeos185GroupRelTutor';
-        
+
         return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 
@@ -158,7 +158,7 @@ class Dokeos185GroupRelTutor extends Dokeos185MigrationDataClass
         $array['table'] = 'group_rel_tutor';
         return $array;
     }
-    
+
 	function is_valid()
     {
         throw new Exception("Unimplemented method " . __FILE__ . "#" . __METHOD__ . "(" . __LINE__ . ")");

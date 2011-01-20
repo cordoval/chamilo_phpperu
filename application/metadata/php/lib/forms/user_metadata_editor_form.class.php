@@ -63,11 +63,7 @@ class UserMetadataEditorForm extends MetadataForm
 
         $fails = 0;
 
-        //create new property value
-        if(!empty($values[MetadataPropertyValue :: PROPERTY_VALUE]))
-        {
-              if(!$this->create_metadata_property_value())$fails++;
-        }
+        if(!parent :: edit_metadata()) $fails++;
 
         //update existing property values
         foreach($this->metadata_property_values as $metadata_property_value)

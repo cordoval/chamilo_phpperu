@@ -68,7 +68,7 @@ use common\libraries\Redirect;
     const ACTION_CREATE_METADATA_PROPERTY_ATTRIBUTE_TYPE = 'metadata_property_attribute_type_creator';
     const ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES = 'metadata_property_attribute_types_browser';
 
-    const ACTION_DELETE_METADATA_PROPERTY_ATTRIBUTE_VALUE = 'metadata_property_attribute_value_deleter';
+    const ACTION_DELETE_CONTENT_OBJECT_METADATA_PROPERTY_ATTRIBUTE_VALUE = 'content_object_metadata_property_attribute_value_deleter';
 
     const ACTION_BROWSE_METADATA_DEFAULT_VALUES = 'metadata_default_values_browser';
     const ACTION_DELETE_METADATA_DEFAULT_VALUE = 'metadata_default_value_deleter';
@@ -146,9 +146,9 @@ use common\libraries\Redirect;
             return MetadataDataManager :: get_instance()->retrieve_metadata_namespaces($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_metadata_namespace($ns_prefix)
+    function retrieve_metadata_namespace($id)
     {
-            return MetadataDataManager :: get_instance()->retrieve_metadata_namespace($ns_prefix);
+            return MetadataDataManager :: get_instance()->retrieve_metadata_namespace($id);
     }
 
     function count_content_object_property_metadatas($condition)
@@ -191,12 +191,12 @@ use common\libraries\Redirect;
             return MetadataDataManager :: get_instance()->retrieve_content_object_metadata_property_values($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_content_object_metadata_property_value($id)
+    static function retrieve_content_object_metadata_property_value($id)
     {
             return MetadataDataManager :: get_instance()->retrieve_content_object_metadata_property_value($id);
     }
 
-    function count_user_metadata_property_values($condition)
+    static function count_user_metadata_property_values($condition)
     {
             return MetadataDataManager :: get_instance()->count_user_metadata_property_values($condition);
     }
@@ -206,7 +206,7 @@ use common\libraries\Redirect;
             return MetadataDataManager :: get_instance()->retrieve_user_metadata_property_values($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_user_metadata_property_value($id)
+    static function retrieve_user_metadata_property_value($id)
     {
             return MetadataDataManager :: get_instance()->retrieve_user_metadata_property_value($id);
     }
@@ -405,13 +405,13 @@ use common\libraries\Redirect;
 
     function get_update_metadata_namespace_url($metadata_namespace)
     {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_METADATA_NAMESPACE, self :: PARAM_METADATA_NAMESPACE => $metadata_namespace->get_ns_prefix()));
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_METADATA_NAMESPACE, self :: PARAM_METADATA_NAMESPACE => $metadata_namespace->get_id()));
     }
 
     function get_delete_metadata_namespace_url($metadata_namespace)
     {
             return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_METADATA_NAMESPACE,
-                                                                self :: PARAM_METADATA_NAMESPACE => $metadata_namespace->get_ns_prefix()));
+                                                                self :: PARAM_METADATA_NAMESPACE => $metadata_namespace->get_id()));
     }
 
     function get_browse_metadata_namespaces_url()

@@ -126,8 +126,14 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
 
-        $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.' . Dokeos185Group::get_table_name());
-        $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
+        $all_item_properties = $this->get_data_manager()->get_item_properties($this->get_course(), 'announcement', $this->get_id());
+        $new_to_group_id = array();
+        $new_to_user_id = array();
+        while($item_property = $all_item_properties->next_result())
+        {
+            $new_to_group_id[] = $this->get_id_reference($item_property->get_to_group_id(), $this->get_database_name() . '.' . Dokeos185Group::get_table_name());
+            $new_to_user_id[] = $this->get_id_reference($item_property->get_to_user_id(), 'main_database.user');
+        }
 
         if (!$new_user_id)
         {
@@ -176,6 +182,17 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
 
         //create id reference
         $this->create_id_reference($this->get_id(), $chamilo_announcement->get_id());
+
+        $resources = $this->get_data_manager()->retrieve_resources($this->get_course(), $this->get_id(), 'ad_valvas');
+        while($resource = $resources->next_result())
+        {
+            $new_resource_id = $this->get_id_reference($resource->get_resource_id(), $this->get_database_name() . '.' . $resource->get_resource_type());
+            if($new_resource_id)
+            {
+                $chamilo_announcement->attach_content_object($new_resource_id);
+            }
+        }
+
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'annoucement', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_announcement->get_id())));
     }
 

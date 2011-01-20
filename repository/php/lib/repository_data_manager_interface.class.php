@@ -418,12 +418,6 @@ interface RepositoryDataManagerInterface
 
     function retrieve_last_post($forum_id);
 
-    function create_external_sync_info($external_sync_info);
-
-    function update_external_sync_info($external_sync_info);
-
-    function delete_external_sync_info($external_sync_info);
-
     function retrieve_doubles_in_repository($condition, $order_property, $offset, $count);
 
     function count_doubles_in_repository($condition);
@@ -441,7 +435,7 @@ interface RepositoryDataManagerInterface
 
     function retrieve_content_object_user_shares(Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null);
 
-     /*
+    /*
      * Content Object Group Share
      */
     function delete_content_object_group_share(ContentObjectGroupShare $content_object_group_share);
@@ -456,7 +450,7 @@ interface RepositoryDataManagerInterface
 
     function retrieve_content_object_user_share($content_object_id, $user_id);
 
-	function retrieve_content_object_group_share($content_object_id, $group_id);
+    function retrieve_content_object_group_share($content_object_id, $group_id);
 
 }
 ?>

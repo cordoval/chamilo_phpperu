@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_online_connected.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 /**
  * This class presents a Dokeos185 online_connected
  *
@@ -13,13 +13,13 @@ namespace migration;
 class Dokeos185OnlineConnected extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185OnlineConnected properties
      */
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_LAST_CONNECTION = 'last_connection';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -100,7 +100,7 @@ class Dokeos185OnlineConnected extends Dokeos185MigrationDataClass
     /**
      * Check if the online connected is valid
      * @param array $array the parameters for the validation
-     * @return true if the online connected is valid 
+     * @return true if the online connected is valid
      */
    function is_valid()
     {
@@ -137,11 +137,11 @@ class Dokeos185OnlineConnected extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = $parameters['course']->get_db_name();
         $tablename = 'online_connected';
         $classname = 'Dokeos185OnlineConnected';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

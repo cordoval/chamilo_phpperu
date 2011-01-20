@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\photobucket;
 
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Redirect;
@@ -16,17 +17,17 @@ class PhotobucketExternalRepositoryManagerUploaderComponent extends PhotobucketE
     function run()
     {
         $form = new PhotobucketExternalRepositoryManagerForm(PhotobucketExternalRepositoryManagerForm :: TYPE_CREATE, $this->get_url(), $this);
-        
+
         if ($form->validate())
         {
             $id = $form->upload_photo();
-            
+
             if ($id)
             {
                 $parameters = $this->get_parameters();
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $id;
-                
+
                 if ($this->is_stand_alone())
                 {
                     Redirect :: web_link(Path :: get(WEB_PATH) . 'common/launcher/index.php', $parameters);

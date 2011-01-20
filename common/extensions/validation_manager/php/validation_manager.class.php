@@ -11,6 +11,17 @@ namespace common\extensions\validation_manager;
  * @author Pieter Hens
  */
 
+use application\portfolio\PortfolioManager;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+
+use admin\Validation;
+use admin\AdminDataManager;
+
 require_once dirname(__FILE__) . '/validation_manager_component.class.php';
 require_once dirname(__FILE__) . '/validation_form.class.php';
 
@@ -35,7 +46,8 @@ class ValidationManager
     {
         $this->parent = $parent;
         $this->application = $application;
-        //$parent->set_parameter(self :: PARAM_ACTION, $this->get_action());
+
+     //$parent->set_parameter(self :: PARAM_ACTION, $this->get_action());
     //$this->parse_input_from_table();
     }
 
@@ -184,7 +196,12 @@ class ValidationManager
         $conditions[] = new EqualityCondition(Validation :: PROPERTY_APPLICATION, PortfolioManager :: APPLICATION_NAME);
         $condition = new AndCondition($conditions);
         $aantalval = $adm->count_validations($condition);
-        $create_url = $this->get_url(array(ValidationManager :: PARAM_ACTION => ValidationManager :: ACTION_CREATE_VALIDATION, 'pid' => $pid, 'cid' => $cid, 'user_id' => $user_id, 'action' => 'validation'));
+        $create_url = $this->get_url(array(
+                ValidationManager :: PARAM_ACTION => ValidationManager :: ACTION_CREATE_VALIDATION,
+                'pid' => $pid,
+                'cid' => $cid,
+                'user_id' => $user_id,
+                'action' => 'validation'));
         $create_button = $aantalval != 0 ? Theme :: get_common_image_path() . 'buttons/button_confirm.png"' : Theme :: get_common_image_path() . 'action_create.png"';
         $create_link = '<a href="' . $create_url . '"onclick="if (' . $aantalval . '!=0 ) return confirm(\'' . addslashes(htmlentities(Translation :: get('ValidationExists'))) . '\');"><img src="' . $create_button . '  alt=""/></a>';
         return $create_link;
@@ -206,7 +223,11 @@ class ValidationManager
     function get_publication_deleting_url($validation)
     {
         return $this->get_url(array(
-                ValidationManager :: PARAM_ACTION => ValidationManager :: ACTION_DELETE_VALIDATION, 'pid' => $validation->get_pid(), 'cid' => $validation->get_cid(), 'user_id' => Request :: get('user_id'), 'action' => 'validation',
+                ValidationManager :: PARAM_ACTION => ValidationManager :: ACTION_DELETE_VALIDATION,
+                'pid' => $validation->get_pid(),
+                'cid' => $validation->get_cid(),
+                'user_id' => Request :: get('user_id'),
+                'action' => 'validation',
                 'deleteitem' => $validation->get_id()));
     }
 

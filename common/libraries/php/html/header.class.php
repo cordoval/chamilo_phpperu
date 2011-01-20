@@ -37,21 +37,31 @@ class Header
     /**
      * Constructor
      */
-    function __construct($language_code = 'en')
+    public function __construct($language_code = 'en')
     {
         $this->http_headers = array();
         $this->html_headers = array();
-        $this->language_code = $language_code;
+        $this->set_language_code($language_code);
     }
 
-    static function get_instance()
+    public static function get_instance()
     {
         if (self :: $instance == null)
         {
-            self :: $instance = new Header();
+            self :: set_instance(new Header());
         }
 
         return self :: $instance;
+    }
+    
+    static function set_instance($instance)
+    {
+        self :: $instance = $instance;
+    }
+    
+    public function set_language_code($language_code)
+    {
+        $this->language_code = $language_code;
     }
 
     /**
@@ -67,7 +77,7 @@ class Header
         $this->add_css_file_header(Path :: get_common_extensions_path(true) . 'external_repository_manager/php/css_external_repository_manager.inc.php');
         //$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
         $this->add_css_file_header(Path :: get_common_extensions_path(true) . 'video_conferencing_manager/php/css_video_conferencing_manager.inc.php');
-        
+
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.min.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.dimensions.min.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.tabula.js');
@@ -88,7 +98,6 @@ class Header
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.jeditable.mini.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.query.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.replacetext.js');
-        $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.tipTip.js');
         $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/utilities.js');
         $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/notifications.js');
         $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/help.js');
@@ -96,7 +105,7 @@ class Header
         $this->add_link_header($this->get_path(WEB_PATH) . 'index.php', 'top');
         //$this->add_link_header($this->get_path(WEB_PATH). 'index_user.php?go=account','account',htmlentities(Translation :: get('ModifyProfile')));
         $this->add_link_header('http://help.chamilo.org/', 'help');
-        $this->add_html_header('<link rel="shortcut icon" href="' . Theme :: get_theme_path() . 'favicon.ico" type="image/x-icon" />');
+        $this->add_html_header('<link rel="shortcut icon" href="' . Theme :: get_common_image_path() . 'favicon.ico" type="image/x-icon" />');
         $this->add_html_header('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />');
     }
 
@@ -207,4 +216,3 @@ class Header
         return PlatformSetting :: get($variable, $application);
     }
 }
-?>

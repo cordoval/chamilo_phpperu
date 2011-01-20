@@ -1,11 +1,14 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\Session;
+
 use repository\ComplexDisplayPreview;
 use repository\ComplexDisplay;
 
 class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements AssessmentComplexDisplaySupport
 {
+    const TEMPORARY_STORAGE = 'assessment_preview';
 
     function run()
     {
@@ -32,6 +35,16 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
      */
     function save_assessment_answer($complex_question_id, $answer, $score)
     {
+        $parameters = array();
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID] = $this->get_root_content_object()->get_id();
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_QUESTION_CID] = $complex_question_id;
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_ANSWER] = $answer;
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_SCORE] = $score;
+        $parameters[DummyQuestionAttemptsTracker :: PROPERTY_FEEDBACK] = '';
+
+        $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
+        $answers[$this->get_root_content_object()->get_id()][$complex_question_id] = new DummyQuestionAttemptsTracker($parameters);
+        Session :: register(self :: TEMPORARY_STORAGE, $answers);
     }
 
     /**
@@ -50,6 +63,18 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
     {
     }
 
+    function get_assessment_question_attempts()
+    {
+        $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
+        return $answers[$this->get_root_content_object()->get_id()];
+    }
+
+    function get_assessment_question_attempt($complex_question_id)
+    {
+        $answers = $this->get_assessment_question_attempts($complex_question_id);
+        return $answers[$complex_question_id];
+    }
+
     /**
      * Preview mode is launched in standalone mode,
      * so there's nothing to go back to.
@@ -58,6 +83,15 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
      */
     function get_assessment_go_back_url()
     {
+    }
+
+    function get_assessment_feedback_configuration()
+    {
+        $dummy_configuration = new FeedbackDisplayConfiguration();
+        $dummy_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_TEXT);
+        $dummy_configuration->enable_feedback_per_page();
+        //$dummy_configuration->enable_feedback_summary();
+        return $dummy_configuration;
     }
 }
 ?>

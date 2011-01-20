@@ -1,7 +1,9 @@
 <?php
-
 namespace application\gradebook;
 
+use repository\RepositoryDataManager;
+
+use common\libraries\ObjectTable;
 use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\DynamicAction;
@@ -61,7 +63,7 @@ class GradebookManager extends WebApplication
     {
         $links = array();
         $links[] = new DynamicAction(Translation :: get('EvaluationFormatTypeList'), Translation :: get('EvaluationFormatTypeListDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
-                            self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS)));
+                self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS)));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
@@ -92,7 +94,7 @@ class GradebookManager extends WebApplication
             {
                 $selected_ids = array();
             }
-            elseif (!is_array($selected_ids))
+            elseif (! is_array($selected_ids))
             {
                 $selected_ids = array($selected_ids);
             }
@@ -208,12 +210,16 @@ class GradebookManager extends WebApplication
 
     function get_evaluation_format_editing_url($evaluation_format)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_EVALUATION_FORMAT, self :: PARAM_EVALUATION_FORMAT => $evaluation_format->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_EVALUATION_FORMAT,
+                self :: PARAM_EVALUATION_FORMAT => $evaluation_format->get_id()));
     }
 
     function get_change_evaluation_format_activation_url($evaluation_format)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY, self :: PARAM_EVALUATION_FORMAT => $evaluation_format->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY,
+                self :: PARAM_EVALUATION_FORMAT => $evaluation_format->get_id()));
     }
 
     function get_evaluation_format_deleting_url()
@@ -223,32 +229,45 @@ class GradebookManager extends WebApplication
 
     function get_internal_evaluations_on_publications_viewer_url($internal_item)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_APP => $internal_item->get_application(), self :: PARAM_PUBLICATION_ID => $internal_item->get_publication_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION,
+                self :: PARAM_PUBLICATION_APP => $internal_item->get_application(),
+                self :: PARAM_PUBLICATION_ID => $internal_item->get_publication_id()));
     }
 
     function get_external_evaluations_on_publications_viewer_url($external_item)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION,
+                self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
     }
 
     function get_edit_external_evaluation_url($external_item)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_EXTERNAL_EVALUATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_EXTERNAL_EVALUATION,
+                self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
     }
 
     function get_delete_external_evaluation_url($external_item)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_EXTERNAL_EVALUATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_EXTERNAL_EVALUATION,
+                self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
     }
 
     function get_publications_by_type_viewer_url($type, $the_application)
     {
-        return $this->get_url(array(self :: PARAM_PUBLICATION_TYPE => $type, self :: PARAM_PUBLICATION_APP => $the_application));
+        return $this->get_url(array(
+                self :: PARAM_PUBLICATION_TYPE => $type,
+                self :: PARAM_PUBLICATION_APP => $the_application));
     }
 
     function get_create_external_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_EXTERNAL, GradebookTreeMenuDataProvider :: PARAM_ID => Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID)));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CREATE_EXTERNAL,
+                GradebookTreeMenuDataProvider :: PARAM_ID => Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID)));
     }
 
     function get_export_publication_url($publication_id)
@@ -259,8 +278,10 @@ class GradebookManager extends WebApplication
     function get_general_breadcrumbs()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('Gradebook')));
-        $trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('BrowsePublications')));
+        $trail->add(new Breadcrumb($this->get_url(array(
+                GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('Gradebook')));
+        $trail->add(new Breadcrumb($this->get_url(array(
+                GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('BrowsePublications')));
         $application = Request :: get(GradebookManager :: PARAM_PUBLICATION_APP);
         if ($application)
         {

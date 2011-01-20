@@ -1,6 +1,10 @@
 <?php
 namespace repository;
 
+use common\libraries\Utilities;
+
+use common\libraries\Chamilo;
+use common\libraries\ImscpObjectWriter;
 use common\libraries\Path;
 
 use repository\content_object\learning_path_item\LearningPathItem;
@@ -34,16 +38,16 @@ class CpContentObjectExport extends CpeObjectExportBase
         {
             return null;
         }
-	}
+    }
 
     public function get_type()
     {
         return ImscpObjectWriter :: get_format_full_name() . '#ContentObject';
-	}
+    }
 
     protected function add_object(ImscpObjectWriter $writer, DataClass $object)
     {
-        $catalog = chamilo :: get_local_catalogue_name();
+        $catalog = Chamilo :: get_local_catalogue_name();
         $id = $object->get_id();
         $type = $this->get_object_type($object);
         $writer = $writer->get_objects()->add_object($catalog, $id, $type);
@@ -130,7 +134,7 @@ class CpContentObjectExport extends CpeObjectExportBase
         {
             $id = $include->get_id();
             //force reloads by passing id instead of object
-	    	$href = $this->export_child($id);
+            $href = $this->export_child($id);
             $writer->add_includes($href, $id);
         }
     }

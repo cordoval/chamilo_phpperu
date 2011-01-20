@@ -35,7 +35,7 @@ class ContentObjectPropertyMetadata extends DataClass
      * Get the default properties
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
             return array (self :: PROPERTY_ID, self :: PROPERTY_PROPERTY_TYPE_ID, self :: PROPERTY_CONTENT_OBJECT_PROPERTY, self :: PROPERTY_SOURCE);
     }
@@ -128,7 +128,7 @@ class ContentObjectPropertyMetadata extends DataClass
     function create()
     {
         $condition = new EqualityCondition(ContentObjectPropertyMetadata :: PROPERTY_CONTENT_OBJECT_PROPERTY, $this->get_content_object_property());
-        $count = $this->get_data_manager()->count_content_object_property_metadata($condition);
+        $count = $this->get_data_manager()->count_content_object_property_metadatas($condition);
 
         if($count >= 1)
         {

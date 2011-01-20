@@ -1,5 +1,9 @@
 <?php
 namespace common\libraries;
+
+use Cezpdf;
+use HTML2PDF;
+
 /**
  * $Id: pdf_export.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.export.pdf
@@ -24,8 +28,7 @@ class PdfExport extends Export
             {
                 $title = $datapair['key'];
                 $table_data = $datapair['data'];
-                $pdf->ezTable($table_data, null, $title, array(
-                        'fontSize' => 5));
+                $pdf->ezTable($table_data, null, $title, array('fontSize' => 5));
             }
             return $pdf->ezOutput();
         }

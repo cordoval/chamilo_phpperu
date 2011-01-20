@@ -1,9 +1,16 @@
 <?php
 namespace application\weblcms;
 
+use tracking\Event;
+
+use application\weblcms\tool\learning_path\LearningPathToolStatisticsViewerComponent;
+use application\weblcms\tool\learning_path\LearningPathTool;
+
 use reporting\ReportingData;
 use reporting\ReportingFormatter;
 use reporting\ReportingManager;
+
+use common\libraries\Text;
 use common\libraries\NotCondition;
 use common\libraries\Redirect;
 use common\libraries\Application;
@@ -14,7 +21,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
-use application\weblcms\tool\learning_path\LearningPathTool;
+
 use repository\ComplexDisplay;
 use repository\content_object\learning_path\LearningPathTree;
 

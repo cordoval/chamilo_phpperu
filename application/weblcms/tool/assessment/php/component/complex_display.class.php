@@ -1,8 +1,6 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
-use application\weblcms\WeblcmsDataManager;
-use application\weblcms\Tool;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\AndCondition;
@@ -10,13 +8,20 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
-use application\weblcms\WeblcmsAssessmentAttemptsTracker;
-use repository\content_object\hotpotatoes\Hotpotatoes;
-use tracking\Event;
-use repository\ComplexDisplay;
-use repository\content_object\assessment\AssessmentComplexDisplaySupport;
 use common\libraries\DelegateComponent;
+
+use tracking\Event;
+
+use repository\ComplexDisplay;
+
+use repository\content_object\hotpotatoes\Hotpotatoes;
+use repository\content_object\assessment\AssessmentComplexDisplaySupport;
+use repository\content_object\assessment\FeedbackDisplayConfiguration;
+
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\Tool;
 use application\weblcms\WeblcmsQuestionAttemptsTracker;
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
 
 /**
  * $Id: assessment_tester.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -26,7 +31,9 @@ require_once dirname(__FILE__) . '/../survey_invitation.class.php';
 require_once Path :: get_application_path() . '/weblcms/php/trackers/weblcms_assessment_attempts_tracker.class.php';
 require_once Path :: get_application_path() . '/weblcms/php/trackers/weblcms_question_attempts_tracker.class.php';
 
-class AssessmentToolComplexDisplayComponent extends AssessmentTool implements AssessmentComplexDisplaySupport, DelegateComponent
+class AssessmentToolComplexDisplayComponent extends AssessmentTool implements
+        AssessmentComplexDisplaySupport,
+        DelegateComponent
 {
 
     private $datamanager;
@@ -133,8 +140,9 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool implements As
 
     function create_tracker()
     {
-        $arguments = array(
-                WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID => $this->publication_id, WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID => $this->get_user_id(), WeblcmsAssessmentAttemptsTracker :: PROPERTY_COURSE_ID => $this->get_course_id(),
+        $arguments = array(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID => $this->publication_id,
+                WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID => $this->get_user_id(),
+                WeblcmsAssessmentAttemptsTracker :: PROPERTY_COURSE_ID => $this->get_course_id(),
                 WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE => 0);
         $tracker = Event :: trigger('attempt_assessment', 'weblcms', $arguments);
         return $tracker[0];
@@ -172,10 +180,16 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool implements As
         return $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW));
     }
 
+    function get_assessment_feedback_configuration()
+    {
+        return new FeedbackDisplayConfiguration();
+    }
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('AssessmentToolBrowserComponent')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('AssessmentToolViewerComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW,
+                Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('AssessmentToolViewerComponent')));
     }
 
     function get_additional_parameters()

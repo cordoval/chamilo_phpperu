@@ -135,7 +135,7 @@ class ObjectTable
      */
     function as_html()
     {
-
+    
         $table = new SortableTable($this->get_name(), array($this, 'get_object_count'), array($this, 'get_objects'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction(), $this->get_ajax_enabled());
         $table->set_additional_parameters($this->get_additional_parameters());
 
@@ -337,7 +337,7 @@ class ObjectTable
         $cell_renderer = $this->get_cell_renderer();
         $cell_renderer->set_column_model($column_model);
 
-        while ($object = $objects->next_result())
+        while ($objects != null && $object = $objects->next_result())
         {
             $row = array();
             if ($this->has_form_actions())

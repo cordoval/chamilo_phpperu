@@ -1,7 +1,7 @@
 <?php
-
 namespace application\gradebook;
 
+use common\libraries\TreeMenu;
 use common\libraries\WebApplication;
 use common\libraries\Path;
 use common\libraries\Request;
@@ -62,7 +62,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
     {
         if ($this->data_provider)
             $category_id = Request :: get($this->data_provider->get_id_param());
-        if (!$category_id)
+        if (! $category_id)
             $category_id = 'C0';
         $conditions = array();
         $conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $this->application);
@@ -76,7 +76,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         if ($this->application == 'weblcms')
         {
             $category_id = Request :: get($this->data_provider->get_id_param());
-            if (!$category_id)
+            if (! $category_id)
             {
                 $category_id = 'C0';
             }
@@ -142,7 +142,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html[] = '</div>';
         $html[] = '<div style="clear: both;"></div>';
 
-
         return implode("\n", $html);
     }
 
@@ -156,6 +155,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html = array();
         $html[] = '<div id="gradebook_tabs">';
         $html[] = '<ul>'; // Render the tabs
+
 
         $html[] = '<li><a href="#internal">';
         $html[] = '<span class="category">';

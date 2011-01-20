@@ -10,6 +10,8 @@ namespace common\extensions\validation_manager;
  *
  * @author pieter
  */
+use common\libraries\Utilities;
+
 class ValidationManagerComponent
 {
     /**

@@ -1,6 +1,8 @@
 <?php
 namespace application\survey;
 
+use common\libraries\Request;
+use common\libraries\Utilities;
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\ObjectTableFormActions;
@@ -35,7 +37,7 @@ class SurveyPublicationBrowserTable extends ObjectTable
 
         if ($browser->get_user()->is_platform_admin())
         {
-            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_DELETE, Translation :: get('RemoveSelected'), true));
+            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_DELETE, Translation :: get('RemoveSelected', array(), Utilities :: COMMON_LIBRARIES), true));
 
      //            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EDIT_RIGHTS, Translation :: get('ManageRights'), false));
         //            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_MAIL_INVITEES, Translation :: get('InviteParticipants'), false));

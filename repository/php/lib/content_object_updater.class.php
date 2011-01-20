@@ -1,6 +1,12 @@
 <?php
 namespace repository;
 
+use admin\AdminDataManager;
+
+use admin\Setting;
+
+use common\libraries\DatabaseBackup;
+use common\libraries\Filesystem;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Configuration;
@@ -9,6 +15,9 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
 use user\UserDataManager;
+use user\User;
+
+use DomDocument;
 
 abstract class ContentObjectUpdater
 {
@@ -30,6 +39,7 @@ abstract class ContentObjectUpdater
     private $message;
 
     private $type;
+
     /**
      * Constructor
      */
@@ -59,11 +69,11 @@ abstract class ContentObjectUpdater
                 else
                 {
                     $storage_unit = self :: parse_xml_file($file);
-                    $backup = DatabaseBackup::factory('mysql', array($storage_unit['name']), $this->get_data_manager());
+                    $backup = DatabaseBackup :: factory('mysql', array($storage_unit['name']), $this->get_data_manager());
                     $output = $backup->backup();
                     $file = Path :: get_temp_path() . 'backup/repository_' . $this->get_content_object() . '_' . time() . '.backup';
-                    Filesystem::write_to_file($file, $output, true);
-                	$this->add_message(self :: TYPE_WARNING, 'Xml file needed with changes');
+                    Filesystem :: write_to_file($file, $output, true);
+                    $this->add_message(self :: TYPE_WARNING, 'Xml file needed with changes');
                 }
             }
         }
@@ -109,7 +119,6 @@ abstract class ContentObjectUpdater
         }
         return true;
     }
-
 
     function get_content_object()
     {
@@ -163,7 +172,8 @@ abstract class ContentObjectUpdater
             $index_properties = $index->getElementsByTagname('indexproperty');
             foreach ($index_properties as $subkey => $index_property)
             {
-                $index_info['fields'][$index_property->getAttribute('name')] = array('length' => $index_property->getAttribute('length'));
+                $index_info['fields'][$index_property->getAttribute('name')] = array(
+                        'length' => $index_property->getAttribute('length'));
             }
             $indexes[$index->getAttribute('name')] = $index_info;
         }
@@ -248,7 +258,10 @@ abstract class ContentObjectUpdater
 
         foreach ($events as $index => $event)
         {
-            $settings[$event->getAttribute('name')] = array('default' => $event->getAttribute('default'), 'user_setting' => $event->getAttribute('user_setting'), 'type' => $event->getAttribute('type'));
+            $settings[$event->getAttribute('name')] = array(
+                    'default' => $event->getAttribute('default'),
+                    'user_setting' => $event->getAttribute('user_setting'),
+                    'type' => $event->getAttribute('type'));
         }
 
         return $settings;
@@ -314,7 +327,8 @@ abstract class ContentObjectUpdater
         if (! $this->data_manager->storage_unit_exist($storage_unit_info['name']))
         {
             return false;
-            //return $this->update_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
+
+     //return $this->update_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
         }
         else
         {
@@ -345,7 +359,7 @@ abstract class ContentObjectUpdater
     {
         $version_string = str_replace('.', '', $version);
 
-    	$class = ContentObject :: type_to_class($type) . $version_string . 'ContentObjectUpdater';
+        $class = ContentObject :: type_to_class($type) . $version_string . 'ContentObjectUpdater';
 
         $file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/update/' . $version . '/' . $type . '_' . $version_string . '_updater.class.php';
         if (file_exists($file))

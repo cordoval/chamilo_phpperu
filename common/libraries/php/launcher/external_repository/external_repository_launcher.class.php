@@ -1,7 +1,6 @@
 <?php
 namespace common\libraries;
 
-use common\libraries\Request;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use repository\RepositoryDataManager;
 use repository\RepositoryManager;
@@ -63,7 +62,28 @@ class ExternalRepositoryLauncher extends LauncherApplication
 
         if ($instances->size() == 0)
         {
-            return null;
+            if (!is_array($types))
+            {
+                $types = array($types);
+            }
+            
+            $type_names = array();
+            foreach ($types as $type)
+            {
+                $type_names[] = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($type));
+            }
+            $type_names = implode(', ', $type_names);
+            
+            if (count($types) > 1)
+            {
+                $translation = Translation :: get('NoExternalInstanceTypeManagersAvailable', array('TYPES' => $type_names), RepositoryManager :: APPLICATION_NAME);
+            }
+            else
+            {
+                $translation = Translation :: get('NoExternalInstanceTypeManagerAvailable', array('TYPES' => $type_names), RepositoryManager :: APPLICATION_NAME);
+            }
+            
+            return Display :: warning_message($translation, true);
         }
         else
         {

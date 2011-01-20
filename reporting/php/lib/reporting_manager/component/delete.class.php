@@ -1,6 +1,10 @@
 <?php
 namespace reporting;
 
+use help\HelpItem;
+
+use common\libraries\Utilities;
+use common\libraries\ActionBarRenderer;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Theme;

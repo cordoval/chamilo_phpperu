@@ -1,11 +1,13 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use application\weblcms\ContentObjectPublicationCategory;
 use application\weblcms\WeblcmsDataManager;
+use application\weblcms\CourseSection;
+
 use common\libraries\InCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
-use application\weblcms\CourseSection;
 
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
 

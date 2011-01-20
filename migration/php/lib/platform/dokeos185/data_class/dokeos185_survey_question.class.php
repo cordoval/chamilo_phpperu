@@ -1,6 +1,16 @@
 <?php
 namespace migration;
 
+use repository\content_object\survey_page\SurveyPage;
+use common\libraries\Translation;
+use repository\content_object\survey_description\SurveyDescription;
+use repository\content_object\survey_rating_question\SurveyRatingQuestion;
+use repository\content_object\survey_select_question\SurveySelectQuestion;
+use repository\content_object\survey_open_question\SurveyOpenQuestion;
+use repository\content_object\survey_multiple_choice_question\SurveyMultipleChoiceQuestion;
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . "/../dokeos185_course_data_migration_data_class.class.php";
 /**
  * $Id: dokeos185_survey_question.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -76,7 +86,16 @@ class Dokeos185SurveyQuestion extends Dokeos185CourseDataMigrationDataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_QUESTION_ID, self :: PROPERTY_SURVEY_ID, self :: PROPERTY_SURVEY_QUESTION, self :: PROPERTY_SURVEY_QUESTION_COMMENT, self :: PROPERTY_TYPE, self :: PROPERTY_DISPLAY, self :: PROPERTY_SORT, self :: PROPERTY_SHARED_QUESTION_ID, self :: PROPERTY_MAX_VALUE);
+        return array(
+                self :: PROPERTY_QUESTION_ID,
+                self :: PROPERTY_SURVEY_ID,
+                self :: PROPERTY_SURVEY_QUESTION,
+                self :: PROPERTY_SURVEY_QUESTION_COMMENT,
+                self :: PROPERTY_TYPE,
+                self :: PROPERTY_DISPLAY,
+                self :: PROPERTY_SORT,
+                self :: PROPERTY_SHARED_QUESTION_ID,
+                self :: PROPERTY_MAX_VALUE);
     }
 
     /**
@@ -185,10 +204,12 @@ class Dokeos185SurveyQuestion extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_survey_question())
+        if (! $this->get_survey_question())
         {
             $this->create_failed_element($this->get_question_id());
-            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'survey_question', 'ID' => $this->get_question_id())));
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array(
+                    'TYPE' => 'survey_question',
+                    'ID' => $this->get_question_id())));
 
             return false;
         }
@@ -210,32 +231,32 @@ class Dokeos185SurveyQuestion extends Dokeos185CourseDataMigrationDataClass
         //survey to which the question is attached (already migrated)
         $survey_id = $this->get_id_reference($this->get_survey_id(), $this->get_database_name() . '.survey');
 
-        $survey = RepositoryDataManager::get_instance()->retrieve_content_object($survey_id);
+        $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
 
         //the current_page holds the page of the survey that we'll be adding content to
         $pages = $survey->get_pages();
         $pages_count = count($pages);
-        
+
         if ($pages_count > 0)
             $current_page = $pages[count($pages) - 1];
         else
             $current_page = $this->create_new_survey_page($new_user_id, $survey_id, 'first page');
 
-        //survey question parameters
+     //survey question parameters
         $chamilo_survey_question = null;
         switch ($this->get_type())
         {
             case self :: TYPE_YESNO :
                 $chamilo_survey_question = new SurveyMultipleChoiceQuestion();
-                $chamilo_survey_question->set_answer_type(SurveyMultipleChoiceQuestion::ANSWER_TYPE_RADIO);
+                $chamilo_survey_question->set_answer_type(SurveyMultipleChoiceQuestion :: ANSWER_TYPE_RADIO);
                 break;
             case self :: TYPE_MULTIPLE_CHOICE :
                 $chamilo_survey_question = new SurveyMultipleChoiceQuestion();
-                $chamilo_survey_question->set_answer_type(SurveyMultipleChoiceQuestion::ANSWER_TYPE_RADIO);
+                $chamilo_survey_question->set_answer_type(SurveyMultipleChoiceQuestion :: ANSWER_TYPE_RADIO);
                 break;
             case self :: TYPE_MULTIPLE_RESPONSE :
                 $chamilo_survey_question = new SurveyMultipleChoiceQuestion();
-                $chamilo_survey_question->set_answer_type(SurveyMultipleChoiceQuestion::ANSWER_TYPE_CHECKBOX);
+                $chamilo_survey_question->set_answer_type(SurveyMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX);
                 break;
             case self :: TYPE_OPEN :
                 $chamilo_survey_question = new SurveyOpenQuestion();
@@ -260,7 +281,8 @@ class Dokeos185SurveyQuestion extends Dokeos185CourseDataMigrationDataClass
 
         //set the additional properties
 
-        $repository_category_id = RepositoryDataManager::get_repository_category_by_name_or_create_new($new_user_id, 'Surveys');
+
+        $repository_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, 'Surveys');
         $chamilo_survey_question->set_parent_id($repository_category_id);
 
         $chamilo_survey_question->set_title($this->get_survey_question());
@@ -272,6 +294,7 @@ class Dokeos185SurveyQuestion extends Dokeos185CourseDataMigrationDataClass
         $chamilo_survey_question->set_owner_id($new_user_id);
         //$chamilo_survey_question->set_display_order_index();
 
+
         //create announcement in database
         $chamilo_survey_question->create();
 
@@ -282,7 +305,7 @@ class Dokeos185SurveyQuestion extends Dokeos185CourseDataMigrationDataClass
         $this->create_id_reference($this->get_question_id(), $chamilo_survey_question->get_id());
 
         return $chamilo_survey_question;
-        }
+    }
 
     /**
      * Creates a new page after the last one and adds it to the relevant survey
@@ -293,7 +316,7 @@ class Dokeos185SurveyQuestion extends Dokeos185CourseDataMigrationDataClass
      */
     private function create_new_survey_page($new_user_id, $survey_id, $title = 'new migrated page')
     {
-        $current_page = new SurveyPage ();
+        $current_page = new SurveyPage();
         $current_page->set_owner_id($new_user_id);
         $current_page->set_title($title);
         $current_page->set_creation_date(0);
@@ -314,7 +337,8 @@ class Dokeos185SurveyQuestion extends Dokeos185CourseDataMigrationDataClass
 
     public static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
 }

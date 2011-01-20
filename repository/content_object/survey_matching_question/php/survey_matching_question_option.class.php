@@ -3,18 +3,38 @@ namespace repository\content_object\survey_matching_question;
 
 use common\libraries\Path;
 
-use repository\MatchingQuestionOption;
-
 /**
- * $Id: survey_matching_question_option.class.php $
- * @package repository.lib.content_object.survey_matching_question
+ * @package repository.content_object.survey_matching_question
+ * @author Eduard Vossen
+ * @author Magali Gillard
  */
-require_once Path :: get_repository_path() . '/question_types/matching_question/matching_question_option.class.php';
 /**
  * This class represents an option in a matching question.
  */
-class SurveyMatchingQuestionOption extends MatchingQuestionOption
+class SurveyMatchingQuestionOption
 {
+    const PROPERTY_VALUE = 'value';
 
+    private $value;
+
+    /**
+     * Creates a new option for a matching question
+     * @param string $value The value of the option
+     * @param int $match The index of the match corresponding to this option
+     * @param int $weight The weight of this answer in the question
+     */
+    function __construct($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * Gets the value of this option
+     * @return string
+     */
+    function get_value()
+    {
+        return $this->value;
+    }
 }
 ?>

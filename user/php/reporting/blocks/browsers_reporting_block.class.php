@@ -1,17 +1,23 @@
 <?php
 namespace user;
 
+use reporting\ReportingData;
+use reporting\Reporting;
+use reporting\ReportingFormatter;
+use reporting\ReportingChartFormatter;
+
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 
-require_once dirname (__FILE__) . '/../user_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../user_reporting_block.class.php';
 
 class BrowsersReportingBlock extends UserReportingBlock
 {
-	public function count_data()
-	{
-		$reporting_data = new ReportingData();
-		require_once (dirname(__FILE__) . '/../../trackers/browsers_tracker.class.php');
+
+    public function count_data()
+    {
+        $reporting_data = new ReportingData();
+        require_once (dirname(__FILE__) . '/../../trackers/browsers_tracker.class.php');
         $tracker = new BrowsersTracker();
         $condition = new EqualityCondition(BrowsersTracker :: PROPERTY_TYPE, 'browser');
         $description[0] = Translation :: get('Browsers');
@@ -27,23 +33,23 @@ class BrowsersReportingBlock extends UserReportingBlock
         return $reporting_data;
     }
 
-	public function retrieve_data()
-	{
-		return $this->count_data();
-	}
+    public function retrieve_data()
+    {
+        return $this->count_data();
+    }
 
-	function get_application()
-	{
-		return UserManager::APPLICATION_NAME;
-	}
+    function get_application()
+    {
+        return UserManager :: APPLICATION_NAME;
+    }
 
-	public function get_available_displaymodes()
-	{
+    public function get_available_displaymodes()
+    {
         $modes = array();
         //$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
-        $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table', null, 'reporting');
-        $modes[ReportingChartFormatter::DISPLAY_PIE] = Translation :: get('Chart:Pie', null, 'reporting');
+        $modes[ReportingFormatter :: DISPLAY_TABLE] = Translation :: get('Table', null, 'reporting');
+        $modes[ReportingChartFormatter :: DISPLAY_PIE] = Translation :: get('Chart:Pie', null, 'reporting');
         return $modes;
-	}
+    }
 }
 ?>

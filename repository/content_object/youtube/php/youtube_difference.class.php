@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\youtube;
 
+use repository\Difference_Engine;
 use repository\ContentObjectDifference;
 
 /**

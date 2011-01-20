@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_gradebook_category.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 /**
  * This class presents a Dokeos185 gradebook_category
  *
@@ -13,7 +13,7 @@ namespace migration;
 class Dokeos185GradebookCategory extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185GradebookCategory properties
      */
@@ -26,7 +26,7 @@ class Dokeos185GradebookCategory extends Dokeos185MigrationDataClass
     const PROPERTY_WEIGHT = 'weight';
     const PROPERTY_VISIBLE = 'visible';
     const PROPERTY_CERTIF_MIN_SCORE = 'certif_min_score';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -170,7 +170,7 @@ class Dokeos185GradebookCategory extends Dokeos185MigrationDataClass
     /**
      * Check if the gradebook category is valid
      * @param array $array the parameters for the validation
-     * @return true if the gradebook category is valid 
+     * @return true if the gradebook category is valid
      */
     function is_valid()
     {
@@ -194,10 +194,10 @@ class Dokeos185GradebookCategory extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the conversion
      * @return the new gradebook category
      */
-    
+
     function convert_data()
     {
-    
+
     }
 
     /**
@@ -208,11 +208,11 @@ class Dokeos185GradebookCategory extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = 'main_database';
         $tablename = 'gradebook_category';
         $classname = 'Dokeos185GradebookCategory';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 use repository\ContentObjectForm;
 
@@ -38,6 +39,7 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
         if (! $this->isSubmitted())
         {
             $object = $this->get_content_object();
+            $defaults[AssessmentMatchNumericQuestion :: PROPERTY_HINT] = $object->get_hint();
             if ($object->get_number_of_options() != 0)
             {
                 $options = $object->get_options();
@@ -67,6 +69,7 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
     function create_content_object()
     {
         $object = new AssessmentMatchNumericQuestion();
+        $object->set_hint($this->exportValue(AssessmentMatchNumericQuestion :: PROPERTY_HINT));
         $this->set_content_object($object);
         $this->add_options_to_object();
         $result = parent :: create_content_object();
@@ -75,6 +78,7 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
 
     function update_content_object()
     {
+        $this->get_content_object()->set_hint($this->exportValue(AssessmentMatchNumericQuestion :: PROPERTY_HINT));
         $this->add_options_to_object();
         return parent :: update_content_object();
     }
@@ -150,8 +154,18 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
         $select_group = array();
         $select_group[] = & $this->createElement('select', AssessmentMatchNumericQuestion :: PROPERTY_TOLERANCE_TYPE, Translation :: get('ToleranceType'), $select_options);
 
-        $this->addElement('category', Translation :: get('Tolerance'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->addGroup($select_group, 'tolerance_type', Translation :: get('ToleranceType'), '', false);
+
+        $html_editor_options = array();
+        $html_editor_options['width'] = '595';
+        $html_editor_options['height'] = '100';
+        $html_editor_options['collapse_toolbar'] = true;
+        $html_editor_options['show_tags'] = false;
+        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
+
+        $renderer = $this->defaultRenderer();
+        $this->add_html_editor(AssessmentMatchNumericQuestion :: PROPERTY_HINT, Translation :: get('Hint', array(), Utilities :: get_namespace_from_object($this)), false, $html_editor_options);
         $this->addElement('category');
 
         $this->addElement('category', Translation :: get('Options'));

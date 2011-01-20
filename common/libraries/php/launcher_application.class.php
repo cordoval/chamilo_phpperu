@@ -32,7 +32,7 @@ abstract class LauncherApplication extends Application
         return new $class($user);
     }
 
-    function display_header()
+    function display_header($breadcrumbtrail = null, $display_title = true)
     {
         Display :: small_header();
     }
@@ -44,16 +44,8 @@ abstract class LauncherApplication extends Application
     
     static function exists($application)
     {
-    	$application_path = self :: get_application_path($name);       
+    	$launcher_file = self :: get_application_manager_path($application);
         
-        if (file_exists($application_path) && is_dir($application_path) )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return file_exists($launcher_file);
     }
 }
-?>

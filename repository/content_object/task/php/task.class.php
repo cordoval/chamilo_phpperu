@@ -4,6 +4,7 @@ namespace repository\content_object\task;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Versionable;
+use common\libraries\Theme;
 use common\libraries\AttachmentSupport;
 
 use repository\ContentObject;
@@ -361,7 +362,13 @@ class Task extends ContentObject implements Versionable, AttachmentSupport
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_TASK_TYPE, self :: PROPERTY_TASK_PRIORITY, self :: PROPERTY_START_DATE, self :: PROPERTY_END_DATE, self :: PROPERTY_REPEAT_TYPE, self :: PROPERTY_REPEAT_TO);
+        return array(
+                self :: PROPERTY_TASK_TYPE,
+                self :: PROPERTY_TASK_PRIORITY,
+                self :: PROPERTY_START_DATE,
+                self :: PROPERTY_END_DATE,
+                self :: PROPERTY_REPEAT_TYPE,
+                self :: PROPERTY_REPEAT_TO);
     }
 
     function get_icon_name($size = Theme :: ICON_SMALL)

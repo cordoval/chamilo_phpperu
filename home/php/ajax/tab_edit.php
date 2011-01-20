@@ -1,5 +1,7 @@
 <?php
 namespace home;
+
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\Request;
@@ -18,6 +20,7 @@ if ($user_home_allowed && Authentication :: is_valid())
     $user_id = Session :: get_user_id();
     $tab = Request :: post('tab'); //$_POST['tab'];
     $title = Request :: post('title'); //$_POST['title'];
+
 
     $hdm = HomeDataManager :: get_instance();
 

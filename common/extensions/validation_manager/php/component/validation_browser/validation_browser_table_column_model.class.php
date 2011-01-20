@@ -7,6 +7,8 @@ namespace common\extensions\validation_manager;
 /**
  * Table column model for the publication browser table
  */
+use common\libraries\StaticTableColumn;
+
 class ValidationBrowserTableColumnModel extends DefaultValidationTableColumnModel
 {
     /**

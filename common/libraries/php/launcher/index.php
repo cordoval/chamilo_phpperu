@@ -1,8 +1,9 @@
 <?php
-
 namespace common\libraries;
 
 use user\UserDataManager;
+
+use Exception;
 
 require_once dirname(__FILE__) . '/../../../global.inc.php';
 

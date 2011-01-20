@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 use common\libraries\WebApplication;
 use common\libraries\Utilities;
 use common\libraries\Translation;
@@ -43,7 +45,7 @@ class InternshipOrganizerOrganisationManagerLocationViewerComponent extends Inte
         $this->location_id = $_GET[self :: PARAM_LOCATION_ID];
         $this->location = $this->retrieve_location($this->location_id);
         $location = $this->location;
-        $this->region = InternshipOrganizerDataManager::get_instance()->retrieve_region($location->get_region_id());
+        $this->region = InternshipOrganizerDataManager :: get_instance()->retrieve_region($location->get_region_id());
 
         $this->action_bar = $this->get_action_bar();
 
@@ -113,7 +115,7 @@ class InternshipOrganizerOrganisationManagerLocationViewerComponent extends Inte
         $action_bar->set_search_url($this->get_url(array(self :: PARAM_LOCATION_ID => $this->location->get_id())));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_view_location_url($this->location), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-    	if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, $this->location_id, InternshipOrganizerRights :: TYPE_LOCATION))
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, $this->location_id, InternshipOrganizerRights :: TYPE_LOCATION))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_location_publish_url($this->location_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -132,7 +134,6 @@ class InternshipOrganizerOrganisationManagerLocationViewerComponent extends Inte
 
         if (isset($query) && $query != '')
         {
-
 
             $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
             $object_alias = RepositoryDataManager :: get_instance()->get_alias(ContentObject :: get_table_name());
@@ -175,8 +176,12 @@ class InternshipOrganizerOrganisationManagerLocationViewerComponent extends Inte
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganizerOrganisations')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ORGANISATION, self :: PARAM_ORGANISATION_ID => Request :: get(self :: PARAM_ORGANISATION_ID), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerOrganisationManagerViewerComponent :: TAB_LOCATIONS)), Translation :: get('ViewInternshipOrganizerOrganisations')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganizerOrganisations')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_ORGANISATION,
+                self :: PARAM_ORGANISATION_ID => Request :: get(self :: PARAM_ORGANISATION_ID),
+                DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerOrganisationManagerViewerComponent :: TAB_LOCATIONS)), Translation :: get('ViewInternshipOrganizerOrganisations')));
 
     }
 

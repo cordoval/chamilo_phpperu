@@ -17,6 +17,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\ActionBarRenderer;
 use common\extensions\reporting_viewer\ReportingViewer;
+use common\libraries\ResourceManager;
 
 /**
  * $Id: reporting_template.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
@@ -99,15 +100,14 @@ abstract class ReportingTemplate
 
     public function get_menu()
     {
-        $html = array();
-        if ($this->get_number_of_reporting_blocks() > 1)
-        {
+    	$html = array();
+       
             //$html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
 
 
-            $menu = new ReportingTemplateMenu($this);
-            $html[] = $menu->as_html();
-        }
+        $menu = new ReportingTemplateMenu($this);
+        $html[] = $menu->as_html();
+        
         return implode("\n", $html);
     }
 

@@ -1,6 +1,8 @@
 <?php
 namespace user;
 
+use reporting\ReportingManager;
+
 use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\Redirect;
@@ -12,6 +14,7 @@ use common\libraries\PlatformSetting;
 use common\libraries\Utilities;
 
 use repository\RepositoryDataManager;
+
 use rights\RightsManager;
 use rights\UserRightManager;
 
@@ -212,10 +215,11 @@ class UserManager extends CoreApplication
      * Gets the available links to display in the platform admin
      * @retun array of links and actions
      */
-    public static function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: APPLICATION_NAME)
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_USERS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_USERS), array(), false, Redirect :: TYPE_CORE));
 
         if (PlatformSetting :: get('allow_registration', 'user') == 2)
         {
@@ -223,15 +227,19 @@ class UserManager extends CoreApplication
                     self :: PARAM_ACTION => self :: ACTION_USER_APPROVAL_BROWSER), array(), false, Redirect :: TYPE_CORE));
         }
 
-        $links[] = new DynamicAction(Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'admin/add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_CREATE_USER), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('Export', null, Utilities :: COMMON_LIBRARIES), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'admin/export.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_EXPORT_USERS), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'admin/import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_IMPORT_USERS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'admin/add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_CREATE_USER), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Export', null, Utilities :: COMMON_LIBRARIES), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'admin/export.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_EXPORT_USERS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'admin/import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_IMPORT_USERS), array(), false, Redirect :: TYPE_CORE));
         $links[] = new DynamicAction(Translation :: get('BuildUserFields'), Translation :: get('BuildUserFieldsDescription'), Theme :: get_image_path() . 'admin/build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_BUILD_USER_FIELDS), array(), false, Redirect :: TYPE_CORE));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_USERS), array(), false, Redirect :: TYPE_CORE);
+        $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_USERS), array(), false, Redirect :: TYPE_CORE);
 
         return $info;
     }
@@ -243,7 +251,10 @@ class UserManager extends CoreApplication
     public function get_application_platform_import_links()
     {
         $links = array();
-        $links[] = array('name' => Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), 'description' => Translation :: get('ImportUsersDescription'), 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
+        $links[] = array(
+                'name' => Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES),
+                'description' => Translation :: get('ImportUsersDescription'),
+                'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
 
         return $links;
     }
@@ -254,12 +265,16 @@ class UserManager extends CoreApplication
      */
     function get_user_editing_url($user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_USER, self :: PARAM_USER_USER_ID => $user->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UPDATE_USER,
+                self :: PARAM_USER_USER_ID => $user->get_id()));
     }
 
     function get_change_user_url($user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_USER, self :: PARAM_USER_USER_ID => $user->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CHANGE_USER,
+                self :: PARAM_USER_USER_ID => $user->get_id()));
     }
 
     /**
@@ -268,7 +283,9 @@ class UserManager extends CoreApplication
      */
     function get_user_quota_url($user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_USER_QUOTA, self :: PARAM_USER_USER_ID => $user->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_USER_QUOTA,
+                self :: PARAM_USER_USER_ID => $user->get_id()));
     }
 
     /**
@@ -277,12 +294,16 @@ class UserManager extends CoreApplication
      */
     function get_user_delete_url($user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_USER, self :: PARAM_USER_USER_ID => $user->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_USER,
+                self :: PARAM_USER_USER_ID => $user->get_id()));
     }
 
     function get_manage_user_rights_url($user)
     {
-        return $this->get_url(array( Application :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS_TEMPLATES, self :: PARAM_USER_USER_ID => $user->get_id()));
+        return $this->get_url(array(
+                Application :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS_TEMPLATES,
+                self :: PARAM_USER_USER_ID => $user->get_id()));
     }
 
     function get_create_buddylist_category_url()
@@ -292,12 +313,16 @@ class UserManager extends CoreApplication
 
     function get_delete_buddylist_category_url($category_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_BUDDYLIST_CATEGORY, self :: PARAM_BUDDYLIST_CATEGORY => $category_id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_BUDDYLIST_CATEGORY,
+                self :: PARAM_BUDDYLIST_CATEGORY => $category_id));
     }
 
     function get_update_buddylist_category_url($category_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_BUDDYLIST_CATEGORY, self :: PARAM_BUDDYLIST_CATEGORY => $category_id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UPDATE_BUDDYLIST_CATEGORY,
+                self :: PARAM_BUDDYLIST_CATEGORY => $category_id));
     }
 
     function get_create_buddylist_item_url()
@@ -307,17 +332,25 @@ class UserManager extends CoreApplication
 
     function get_delete_buddylist_item_url($item_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_BUDDYLIST_ITEM, self :: PARAM_BUDDYLIST_ITEM => $item_id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_BUDDYLIST_ITEM,
+                self :: PARAM_BUDDYLIST_ITEM => $item_id));
     }
 
     function get_change_buddylist_item_status_url($item_id, $status)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_BUDDYLIST_ITEM_STATUS, self :: PARAM_BUDDYLIST_ITEM => $item_id, 'status' => $status));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CHANGE_BUDDYLIST_ITEM_STATUS,
+                self :: PARAM_BUDDYLIST_ITEM => $item_id,
+                'status' => $status));
     }
 
     function get_reporting_url($classname, $params)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, ReportingManager :: PARAM_TEMPLATE_NAME => $classname, ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_REPORTING,
+                ReportingManager :: PARAM_TEMPLATE_NAME => $classname,
+                ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params));
     }
 
     function get_application_name()
@@ -327,22 +360,32 @@ class UserManager extends CoreApplication
 
     function get_user_detail_url($user_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_USER_DETAIL, self :: PARAM_USER_USER_ID => $user_id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_USER_DETAIL,
+                self :: PARAM_USER_USER_ID => $user_id));
     }
 
     function get_approve_user_url($user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_USER_APPROVER, self :: PARAM_USER_USER_ID => $user->get_id(), UserManagerUserApproverComponent :: PARAM_CHOICE => UserManagerUserApproverComponent :: CHOICE_APPROVE));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_USER_APPROVER,
+                self :: PARAM_USER_USER_ID => $user->get_id(),
+                UserManagerUserApproverComponent :: PARAM_CHOICE => UserManagerUserApproverComponent :: CHOICE_APPROVE));
     }
 
     function get_deny_user_url($user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_USER_APPROVER, self :: PARAM_USER_USER_ID => $user->get_id(), UserManagerUserApproverComponent :: PARAM_CHOICE => UserManagerUserApproverComponent :: CHOICE_DENY));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_USER_APPROVER,
+                self :: PARAM_USER_USER_ID => $user->get_id(),
+                UserManagerUserApproverComponent :: PARAM_CHOICE => UserManagerUserApproverComponent :: CHOICE_DENY));
     }
 
     function get_email_user_url($user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EMAIL, self :: PARAM_USER_USER_ID => $user->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EMAIL,
+                self :: PARAM_USER_USER_ID => $user->get_id()));
     }
 
     /**

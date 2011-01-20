@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\hotpotatoes\Hotpotatoes;
+
+use common\libraries\Filesystem;
 use common\libraries\Path;
 
 /**

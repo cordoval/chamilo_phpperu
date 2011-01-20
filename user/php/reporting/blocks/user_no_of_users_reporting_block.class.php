@@ -1,6 +1,9 @@
 <?php
 namespace user;
 
+use reporting\ReportingData;
+use reporting\ReportingFormatter;
+
 use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../user_reporting_block.class.php';

@@ -1,6 +1,7 @@
 <?php
 namespace rights;
 
+use common\libraries\ObjectTableFormActions;
 use common\libraries\Translation;
 use common\libraries\ObjectTable;
 

@@ -10,7 +10,6 @@ use common\libraries\EqualityCondition;
 use common\libraries\Application;
 use common\libraries\ComplexContentObjectSupport;
 use common\libraries\OptionsMenuRenderer;
-use repository\content_object\learning_path_item\LearningPathItem;
 use HTML_Menu;
 use HTML_Menu_ArrayRenderer;
 use common\libraries\TreeMenuRenderer;
@@ -134,7 +133,7 @@ class ComplexMenu extends HTML_Menu
             $lo = $datamanager->retrieve_content_object($cloi->get_ref());
             $url = null;
 
-            if ($lo->get_type() == LearningPathItem :: get_type_name())
+            if (in_array($lo->get_type(), RepositoryDataManager :: get_active_helper_types()))
             {
                 $lo = $datamanager->retrieve_content_object($lo->get_reference());
                 $url = $this->get_build_complex_url($lo);

@@ -1,23 +1,28 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\ContentObjectPublicationCourseGroup;
+use application\weblcms\ContentObjectPublicationUser;
 use application\weblcms\ContentObjectPublication;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
 use application\weblcms\WeblcmsManager;
+
 use repository\ContentObject;
-use common\libraries\SubselectCondition;
 use repository\RepositoryDataManager;
+use repository\content_object\assessment\Assessment;
+use repository\content_object\survey\Survey;
+use repository\content_object\hotpotatoes\Hotpotatoes;
+
 use user\User;
+
+use common\libraries\SubselectCondition;
 use common\libraries\OrCondition;
 use common\libraries\InCondition;
 use common\libraries\Utilities;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableDataProvider;
-use repository\content_object\assessment\Assessment;
-use repository\content_object\survey\Survey;
-use repository\content_object\hotpotatoes\Hotpotatoes;
 
 /**
  * $Id: assessment_results_table_overview_data_provider.class.php 216 2009-11-13 14:08:06Z kariboe $

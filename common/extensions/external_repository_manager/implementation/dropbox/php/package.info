@@ -36,11 +36,25 @@
 			</server>
 			<content_objects>
 				<dependency>
-					<id>document</id>
-					<version type="4">1.0.0</version>
-					<severity>1</severity>
+		  			<id>document</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
 				</dependency>
 			</content_objects>
+			<library>
+				<dependency>
+		  			<id>common</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</library>
+			<extension>
+				<dependency>
+		  			<id>external_repository_manager</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</extension>
 		</dependencies>
 	</package>
 </packages>

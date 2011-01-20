@@ -13,10 +13,13 @@ use common\libraries\Display;
 
 use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
-use repository\content_object\learning_path\LearningPathContentObjectDisplay;
+
 use repository\content_object\learning_path\LearningPathComplexDisplaySupport;
 use repository\content_object\learning_path\LearningPathDisplay;
+
 use repository\content_object\assessment\AssessmentComplexDisplaySupport;
+use repository\content_object\assessment\FeedbackDisplayConfiguration;
+
 use repository\content_object\forum\ForumComplexDisplaySupport;
 use repository\content_object\wiki\WikiComplexDisplaySupport;
 use repository\content_object\blog\BlogComplexDisplaySupport;
@@ -33,19 +36,18 @@ use application\weblcms\WeblcmsForumTopicViewsTracker;
 
 use tracking\Event;
 
+use Exception;
+use repository\content_object\learning_path\LearningPathContentObjectDisplay;
+
 //require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_content_object_display.class.php';
 require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lp_attempt_tracker.class.php';
 require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lpi_attempt_tracker.class.php';
 require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lpi_attempt_objective_tracker.class.php';
 require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 
-class LearningPathToolComplexDisplayComponent extends LearningPathTool implements
-        LearningPathComplexDisplaySupport,
-        AssessmentComplexDisplaySupport,
-        ForumComplexDisplaySupport,
-        GlossaryComplexDisplaySupport,
-        BlogComplexDisplaySupport,
-        WikiComplexDisplaySupport
+class LearningPathToolComplexDisplayComponent extends LearningPathTool implements LearningPathComplexDisplaySupport,
+        AssessmentComplexDisplaySupport, ForumComplexDisplaySupport, GlossaryComplexDisplaySupport,
+        BlogComplexDisplaySupport, WikiComplexDisplaySupport
 {
 
     private $publication;
@@ -111,8 +113,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
-                Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('LearningPathToolBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('LearningPathToolBrowserComponent')));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
                 Tool :: PARAM_ACTION => Tool :: ACTION_VIEW,
                 Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('LearningPathToolViewerComponent')));
@@ -120,8 +121,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
 
     function get_additional_parameters()
     {
-        return array(
-                Tool :: PARAM_PUBLICATION_ID);
+        return array(Tool :: PARAM_PUBLICATION_ID);
     }
 
     function retrieve_learning_path_tracker()
@@ -337,6 +337,11 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
     {
     }
 
+    function get_assessment_feedback_configuration()
+    {
+        return new FeedbackDisplayConfiguration();
+    }
+
     function forum_topic_viewed($complex_topic_id)
     {
         require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_forum_topic_views_tracker.class.php';
@@ -361,19 +366,19 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
         return $dummy->count_tracker_items($condition);
     }
 
-    public function get_wiki_page_statistics_reporting_template_name() {
+    public function get_wiki_page_statistics_reporting_template_name()
+    {
 
     }
 
-    public function get_wiki_statistics_reporting_template_name() {
+    public function get_wiki_statistics_reporting_template_name()
+    {
 
     }
 
     public function get_wiki_publication()
     {
-        throw new Exception("Unimplemented method : "
-               . "application\\weblcms\\tool\\learning_path\\" . _CLASS__
-               . "get_wiki_publication()");
+        throw new Exception("Unimplemented method : " . "application\\weblcms\\tool\\learning_path\\" . _CLASS__ . "get_wiki_publication()");
     }
 }
 ?>

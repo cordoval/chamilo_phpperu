@@ -1,6 +1,7 @@
 <?php
 namespace group;
 
+use common\libraries\InCondition;
 use common\libraries\Path;
 use common\libraries\TreeMenuDataProvider;
 use common\libraries\ObjectTableOrder;
@@ -43,7 +44,8 @@ class GroupUsageTreeMenuDataProvider extends TreeMenuDataProvider
             $group_condition = new InCondition(Group :: PROPERTY_ID, $this->group_ids);
         }
 
-        $group_result_set = GroupDataManager :: get_instance()->retrieve_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
+        $group_result_set = GroupDataManager :: get_instance()->retrieve_groups($group_condition, null, null, array(
+                new ObjectTableOrder(Group :: PROPERTY_NAME)));
 
         while ($group = $group_result_set->next_result())
         {

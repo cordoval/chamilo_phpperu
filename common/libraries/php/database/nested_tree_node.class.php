@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries;
 
+use Exception;
+
 /**
  * Extension on the database to embedd basic functionality for nested trees
  *
@@ -584,7 +586,7 @@ abstract class NestedTreeNode extends DataClass
         {
         	return false;
         }
-		        
+
         // Delete Children
 
 //        $func = 'delete_' . $this->get_object_name();

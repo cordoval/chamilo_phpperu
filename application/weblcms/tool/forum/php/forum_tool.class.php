@@ -1,10 +1,13 @@
 <?php
 namespace application\weblcms\tool\forum;
 
-use repository\content_object\forum\Forum;
-use common\libraries\Categorizable;
 use application\weblcms\Tool;
+
+use repository\ComplexContentObjectItem;
 use repository\RepositoryDataManager;
+use repository\content_object\forum\Forum;
+
+use common\libraries\Categorizable;
 use common\libraries\EqualityCondition;
 
 /**

@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Toolbar;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Theme;
@@ -11,7 +12,7 @@ require_once WebApplication :: get_application_class_lib_path('internship_organi
 
 class InternshipOrganizerSubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganizerCategoryRelLocationTableCellRenderer
 {
-    
+
     private $browser;
 
     function __construct($browser)
@@ -27,7 +28,7 @@ class InternshipOrganizerSubscribeLocationBrowserTableCellRenderer extends Defau
         {
             return $this->get_modification_links($location);
         }
-        
+
         return parent :: render_cell($column, $location);
     }
 
@@ -47,7 +48,7 @@ class InternshipOrganizerSubscribeLocationBrowserTableCellRenderer extends Defau
     {
         $agreement = $this->browser->get_agreement();
         $toolbar = new Toolbar();
-        
+
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_LOCATION_RIGHT, $agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
             $subscribe_url = $this->browser->get_agreement_rel_location_subscribing_url($agreement, $categoryrellocation);

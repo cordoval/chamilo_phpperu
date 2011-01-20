@@ -10,11 +10,9 @@ use repository\ComplexMenu;
 use repository\ComplexBuilder;
 
 /**
- * $Id: prerequisites_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.adaptive_assessment.component
+ * @author Hans De Bisschop
+ * @package repository.content_object.adaptive_assessment
  */
-//require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
-require_once dirname(__FILE__) . '/prerequisites_builder/prerequisites_builder_form.class.php';
 
 class AdaptiveAssessmentBuilderPrerequisitesBuilderComponent extends AdaptiveAssessmentBuilder
 {
@@ -27,7 +25,9 @@ class AdaptiveAssessmentBuilderPrerequisitesBuilderComponent extends AdaptiveAss
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail = BreadcrumbTrail :: get_instance();
 
-        $parameters = array(AdaptiveAssessmentBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, AdaptiveAssessmentBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
+        $parameters = array(
+                AdaptiveAssessmentBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item,
+                AdaptiveAssessmentBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
 
         $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('BuildPrerequisites')));
 
@@ -46,7 +46,8 @@ class AdaptiveAssessmentBuilderPrerequisitesBuilderComponent extends AdaptiveAss
         {
             $succes = $form->build_prerequisites();
             $message = $succes ? 'PrerequisitesBuild' : 'PrerequisitesNotBuild';
-            $this->redirect(Translation :: get($message), ! $succes, array_merge($parameters, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE)));
+            $this->redirect(Translation :: get($message), ! $succes, array_merge($parameters, array(
+                    ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE)));
         }
         else
         {

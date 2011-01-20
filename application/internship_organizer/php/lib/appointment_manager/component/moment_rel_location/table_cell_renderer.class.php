@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Theme;
@@ -11,7 +13,7 @@ require_once WebApplication :: get_application_class_lib_path('internship_organi
 
 class InternshipOrganizerMomentRelLocationBrowserTableCellRenderer extends DefaultInternshipOrganizerMomentRelLocationTableCellRenderer
 {
-    
+
     private $browser;
 
     function __construct($browser)
@@ -27,19 +29,19 @@ class InternshipOrganizerMomentRelLocationBrowserTableCellRenderer extends Defau
         {
             return $this->get_modification_links($moment);
         }
-        
+
         switch ($column->get_name())
         {
             case Translation :: get('Appointments') :
                 $condition = new EqualityCondition(InternshipOrganizerAppointment::PROPERTY_MOMENT_ID, $moment->get_optional_property('moment_id'));
             	$appointment_count = InternshipOrganizerDataManager::get_instance()->count_appointments($condition);
             	return $appointment_count;
-        }              
-        
-        
+        }
+
+
         return parent :: render_cell($column, $moment);
     }
-  
+
 
     /**
      * Gets the action links to display
@@ -49,9 +51,9 @@ class InternshipOrganizerMomentRelLocationBrowserTableCellRenderer extends Defau
      */
     private function get_modification_links($moment)
     {
-       
+
         $toolbar = new Toolbar();
-        
+
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_ADD, InternshipOrganizerRights :: LOCATION_APPOINTMENT, InternshipOrganizerRights :: TYPE_COMPONENT))
         {
           $toolbar->add_item(new ToolbarItem(Translation :: get('MakeAppointment'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->browser->get_create_appointment_url($moment), ToolbarItem :: DISPLAY_ICON));

@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\vimeo;
 
+use common\libraries\Application;
 use common\libraries\Utilities;
 use common\libraries\Redirect;
 use common\libraries\Translation;

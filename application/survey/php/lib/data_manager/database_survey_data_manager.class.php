@@ -10,20 +10,20 @@ use common\libraries\Database;
 use common\libraries\NotCondition;
 use common\libraries\InCondition;
 use common\libraries\WebApplication;
+use common\libraries\Session;
+
+use repository\content_object\survey_page\SurveyPage;
+use repository\ComplexContentObjectItem;
 use repository\RepositoryDataManager;
 use repository\ContentObject;
 use repository\ContentObjectPublicationAttributes;
+
 use rights\RightsDataManager;
 use rights\Location;
 use rights\UserRightLocation;
-use common\libraries\Session;
+
 use reporting\ReportingDataManager;
 use reporting\ReportingTemplateRegistration;
-
-//require_once WebApplication :: get_application_class_lib_path('survey') . 'survey_publication.class.php';
-//require_once WebApplication :: get_application_class_lib_path('survey') . 'survey_publication_rel_reporting_template_registration.class.php';
-//
-//require_once dirname(__FILE__) . '/../survey_data_manager_interface.class.php';
 
 class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInterface
 {
@@ -198,7 +198,6 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         $query = 'SELECT  ' . $publication_rel_reporting_template_alias . '.*  , ' . $reporting_template_registration_alias . '.' . ReportingTemplateRegistration :: PROPERTY_TEMPLATE . '   FROM ' . $this->escape_table_name(SurveyPublicationRelReportingTemplateRegistration :: get_table_name()) . ' AS ' . $publication_rel_reporting_template_alias;
         $query .= ' JOIN ' . $rdm->escape_table_name(ReportingTemplateRegistration :: get_table_name()) . ' AS ' . $reporting_template_registration_alias . ' ON ' . $this->escape_column_name(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_REPORTING_TEMPLATE_REGISTRATION_ID, $publication_rel_reporting_template_alias) . ' = ' . $rdm->escape_column_name(ReportingTemplateRegistration :: PROPERTY_ID, $reporting_template_registration_alias);
         return $this->retrieve_object_set($query, SurveyPublicationRelReportingTemplateRegistration :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationRelReportingTemplateRegistration :: CLASS_NAME);
-
     }
 
     function count_survey_pages($survey_ids, $condition = null)

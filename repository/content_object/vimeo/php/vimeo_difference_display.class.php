@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\vimeo;
 
+use repository\ContentObject;
+
 use repository\ContentObjectDifferenceDisplay;
 use common\libraries\Theme;
 

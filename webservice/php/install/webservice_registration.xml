@@ -5,16 +5,14 @@
 			autoincrement="true" />
 		<property name="name" type="text" length="255" />
 		<property name="description" type="text" fixed="true" />
-		<property name="parent_id" type="integer" unsigned="1"
-			notnull="1" />
+		<property name="category_id" type="integer" unsigned="1" notnull="1" />
 		<property name="active" type="boolean" notnull="1" default="1" />
-		<property name="application" type="text" length="50" fixed="true"
-			notnull="1" />
+		<property name="code" type="text" fixed="true" length="20" notnull="1" />
 	</properties>
-	<index name="parent_id">
-		<indexproperty name="parent_id" />
+	<index name="category_id">
+		<indexproperty name="category_id" />
 	</index>
-	<index name="application">
-		<indexproperty name="application" />
+	<index name="code">
+		<indexproperty name="code" />
 	</index>
 </object>

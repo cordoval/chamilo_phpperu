@@ -227,8 +227,14 @@ class SurveyManagerMailerComponent extends SurveyManager
         $fullbody[] = $email->get_mail_content();
         $fullbody[] = '<br/><br/>';
         $fullbody[] = '<p id="link">';
-        $fullbody[] = '<a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
-        $fullbody[] = '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
+    	if (! $participate)
+        {
+            $fullbody[] = '<a href=' . $url . '>' . Translation :: get('ClickToViewResults') . '</a>';
+        }
+        else
+        {
+            $fullbody[] = '<a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
+        }        $fullbody[] = '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
         $fullbody[] = '<br/><a href=' . $url . '>' . $url . '</a>';
         $fullbody[] = '</p>';
         
@@ -238,7 +244,7 @@ class SurveyManagerMailerComponent extends SurveyManager
         
         $from = array();
         $from[Mail :: NAME] = $email->get_from_address_name();
-        ;
+        
         $from[Mail :: EMAIL] = $email->get_from_address();
         
         $mail = Mail :: factory($email->get_mail_header(), implode("\n", $fullbody), $to_email, $from);

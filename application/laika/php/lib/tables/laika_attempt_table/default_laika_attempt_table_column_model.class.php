@@ -1,6 +1,7 @@
 <?php
 namespace application\laika;
 
+use common\libraries\ObjectTableColumn;
 use common\libraries\ObjectTableColumnModel;
 /**
  * $Id: default_laika_attempt_table_column_model.class.php 196 2009-11-13 12:19:18Z chellee $

@@ -5,6 +5,8 @@ use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\MessageLogger;
+use common\libraries\NotCondition;
+use common\libraries\OrCondition;
 
 require_once dirname(__FILE__) . '/package_dependency.class.php';
 require_once dirname(__FILE__) . '/../package_installer/source/package_info/package_info.class.php';
@@ -39,7 +41,8 @@ class PackageDependencyVerifier
 
     function is_installable()
     {
-        $dependencies = unserialize($this->get_package()->get_dependencies());
+        $dependencies = $this->get_package()->get_dependencies();
+        
         foreach ($dependencies as $type => $dependency)
         {
             foreach ($dependency['dependency'] as $detail)
@@ -99,7 +102,7 @@ class PackageDependencyVerifier
                         return true;
                 }
 
-                $dependencies = unserialize($package_data->get_dependencies());
+                $dependencies = $package_data->get_dependencies();
 
                 if (isset($dependencies[$dependency_type]))
                 {

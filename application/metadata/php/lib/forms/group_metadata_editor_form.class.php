@@ -63,11 +63,7 @@ class GroupMetadataEditorForm extends MetadataForm
 
         $fails = 0;
 
-        //create new property value
-        if(!empty($values[MetadataPropertyValue :: PROPERTY_VALUE]))
-        {
-              if(!$this->create_metadata_property_value())$fails++;
-        }
+        if(!parent :: edit_metadata()) $fails++;
 
         //update existing property values
         foreach($this->metadata_property_values as $metadata_property_value)
@@ -114,9 +110,7 @@ class GroupMetadataEditorForm extends MetadataForm
     {
         foreach($this->metadata_property_values as $metadata_property_value)
         {
-           
-
-            $group = array();
+           $group = array();
             
             $group[] = $this->createElement('text', MetadataPropertyValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id(), Translation :: get('MetadataPropertyValue'));
             $group[] = $this->createElement('static', null, null, '<a href="' . $this->application->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_DELETE_GROUP_METADATA_PROPERTY_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_VALUE => $metadata_property_value->get_id(), MetadataManager :: PARAM_GROUP => $this->group->get_id())). '">delete</a>');
@@ -124,8 +118,6 @@ class GroupMetadataEditorForm extends MetadataForm
             $property_types = $this->get_property_types();
 
             $this->addGroup($group, '', $property_types[$metadata_property_value->get_property_type_id()]);
-
-            
         }
     }
 }

@@ -1,5 +1,7 @@
 <?php
 namespace home;
+
+use common\libraries\Utilities;
 use common\libraries\Translation;
 /**
  * $Id: rows_config_build_wizard_page.class.php 141 2009-11-10 07:44:45Z kariboe $
@@ -23,27 +25,29 @@ class RowsConfigBuildWizardPage extends BuildWizardPage
     {
         $values = $this->values;
         $row_amount = $values['rowsamount'];
-        
+
         $this->addElement('static', '', '', $this->get_preview_html());
         $this->addElement('static', '', '', '<br />');
-        
+
         for($i = 1; $i <= $row_amount; $i ++)
         {
             $this->addElement('static', '', '', '<b>' . Translation :: get('Row') . '&nbsp;' . $i . '</b>');
-            $this->addElement('text', 'row' . $i . '[title]', Translation :: get('Title', null, Utilities::COMMON_LIBRARIES), array("size" => "50"));
-            $this->addElement('text', 'row' . $i . '[columnsamount]', Translation :: get('Columns'), array("size" => "50"));
-            $this->addRule('row' . $i . '[columnsamount]', Translation :: get('FieldMustBeNumeric', null, Utilities::COMMON_LIBRARIES), 'numeric');
-            $this->addRule('row' . $i . '[title]', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
-            $this->addRule('row' . $i . '[columnsamount]', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
-            
+            $this->addElement('text', 'row' . $i . '[title]', Translation :: get('Title', null, Utilities :: COMMON_LIBRARIES), array(
+                    "size" => "50"));
+            $this->addElement('text', 'row' . $i . '[columnsamount]', Translation :: get('Columns'), array(
+                    "size" => "50"));
+            $this->addRule('row' . $i . '[columnsamount]', Translation :: get('FieldMustBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric');
+            $this->addRule('row' . $i . '[title]', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+            $this->addRule('row' . $i . '[columnsamount]', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+
             if ($i != $row_amount)
             {
                 $this->addElement('static', '', '', '<br /><br />');
             }
         }
-        
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES));
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES) . ' >>');
+
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES));
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;
@@ -53,12 +57,12 @@ class RowsConfigBuildWizardPage extends BuildWizardPage
     {
         $values = $this->values;
         $row_amount = $values['rowsamount'];
-        
+
         $html = array();
-        
+
         $html[] = '<b>' . Translation :: get('SchematicPreview') . '</b>';
         $html[] = '<div style="border: 1px solid #000000; padding: 15px;width: 500px;">';
-        
+
         for($i = 1; $i <= $row_amount; $i ++)
         {
             $html[] = '<div class="row" style="' . ($i < $row_amount ? 'margin-bottom: 15px;' : '') . 'padding: 10px; text-align: center; height: 20px; line-height: 20px; font-size: 20pt;' . ($i % 2 == 1 ? 'background-color: #7c8db8; color: #FFFFFF;' : 'background-color: #b87c82; color: #000000;') . '">';
@@ -66,10 +70,10 @@ class RowsConfigBuildWizardPage extends BuildWizardPage
             $html[] = '</div>';
             $html[] = '<div style="clear: both;"></div>';
         }
-        
+
         $html[] = '<div style="clear: both;"></div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 }

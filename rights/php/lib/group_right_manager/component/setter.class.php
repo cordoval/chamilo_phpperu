@@ -1,6 +1,7 @@
 <?php
 namespace rights;
 
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Breadcrumb;
@@ -31,11 +32,20 @@ class GroupRightManagerSetterComponent extends GroupRightManager
 
             if ($location->get_parent() == 0)
             {
-                $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_GROUP_RIGHTS, GroupRightManager :: PARAM_SOURCE => $location->get_application(), GroupRightManager :: PARAM_GROUP => $group));
+                $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(
+                        Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS,
+                        GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_GROUP_RIGHTS,
+                        GroupRightManager :: PARAM_SOURCE => $location->get_application(),
+                        GroupRightManager :: PARAM_GROUP => $group));
             }
             else
             {
-                $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_GROUP_RIGHTS, GroupRightManager :: PARAM_SOURCE => $location->get_application(), GroupRightManager :: PARAM_LOCATION => $location->get_parent(), GroupRightManager :: PARAM_GROUP => $group));
+                $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(
+                        Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS,
+                        GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_GROUP_RIGHTS,
+                        GroupRightManager :: PARAM_SOURCE => $location->get_application(),
+                        GroupRightManager :: PARAM_LOCATION => $location->get_parent(),
+                        GroupRightManager :: PARAM_GROUP => $group));
             }
         }
         else
@@ -44,23 +54,27 @@ class GroupRightManagerSetterComponent extends GroupRightManager
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$ids = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
-    	$location_id = $ids[0];
+        $ids = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
+        $location_id = $ids[0];
 
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS,
-    															  GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_GROUP_RIGHTS,
-    															  GroupRightManager :: PARAM_SOURCE => Request :: get(GroupRightManager :: PARAM_SOURCE),
-            													  GroupRightManager :: PARAM_LOCATION => $location_id,
-            													  GroupRightManager :: PARAM_GROUP => Request :: get(GroupRightManager :: PARAM_GROUP))),
-    										 Translation :: get('RightsTemplateManagerConfigurerComponent')));
-    	$breadcrumbtrail->add_help('rights_templates_setter');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS,
+                GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_GROUP_RIGHTS,
+                GroupRightManager :: PARAM_SOURCE => Request :: get(GroupRightManager :: PARAM_SOURCE),
+                GroupRightManager :: PARAM_LOCATION => $location_id,
+                GroupRightManager :: PARAM_GROUP => Request :: get(GroupRightManager :: PARAM_GROUP))), Translation :: get('RightsTemplateManagerConfigurerComponent')));
+        $breadcrumbtrail->add_help('rights_templates_setter');
     }
 
-	function get_additional_parameters()
+    function get_additional_parameters()
     {
-    	return array(GroupRightManager :: PARAM_LOCATION, GroupRightManager :: PARAM_GROUP, 'right_id', GroupRightManager :: PARAM_SOURCE);
+        return array(
+                GroupRightManager :: PARAM_LOCATION,
+                GroupRightManager :: PARAM_GROUP,
+                'right_id',
+                GroupRightManager :: PARAM_SOURCE);
     }
 }
 ?>

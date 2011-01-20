@@ -1,6 +1,10 @@
 <?php
 namespace user;
 
+use tracking\ChangesTracker;
+use tracking\Event;
+
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\AdministrationComponent;

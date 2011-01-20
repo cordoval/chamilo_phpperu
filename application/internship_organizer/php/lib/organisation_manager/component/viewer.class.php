@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 use common\libraries\WebApplication;
 use common\libraries\Utilities;
 use common\libraries\Translation;
@@ -98,7 +100,8 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
     {
 
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->set_search_url($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $this->organisation->get_id())));
+        $action_bar->set_search_url($this->get_url(array(
+                InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $this->organisation->get_id())));
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_view_organisation_url($this->organisation), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
@@ -227,7 +230,8 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganizerOrganisations')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganizerOrganisations')));
 
     }
 

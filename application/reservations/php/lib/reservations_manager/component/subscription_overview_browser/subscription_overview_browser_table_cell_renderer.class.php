@@ -1,8 +1,10 @@
 <?php
-
 namespace application\reservations;
 
+use common\libraries\EqualityCondition;
 use common\libraries\WebApplication;
+
+use user\User;
 use user\UserDataManager;
 /**
  * $Id: subscription_overview_browser_table_cell_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
@@ -38,7 +40,7 @@ class SubscriptionOverviewBrowserTableCellRenderer extends DefaultSubscriptionTa
         {
             $this->reservation = $this->browser->retrieve_reservations(new EqualityCondition(Reservation :: PROPERTY_ID, $subscription->get_reservation_id()))->next_result();
         }
-        
+
         if ($property = $column->get_name())
         {
             switch ($property)
@@ -52,19 +54,19 @@ class SubscriptionOverviewBrowserTableCellRenderer extends DefaultSubscriptionTa
                 case 'AdditionalUsers' :
                     $additional_users = $this->browser->retrieve_subscription_users(new EqualityCondition(SubscriptionUser :: PROPERTY_SUBSCRIPTION_ID, $subscription->get_id()));
                     $size = $additional_users->size();
-                    
+
                     $title = '';
-                    
+
                     while ($add_user = $additional_users->next_result())
                     {
                         $user = UserDataManager :: get_instance()->retrieve_user($add_user->get_user_id());
                         $title .= $user->get_fullname() . "\n";
                     }
-                    
+
                     return '<div style="width: 100%;" title="' . $title . '">' . $size . '</div>';
             }
         }
-        
+
         return parent :: render_cell($column, $subscription);
     }
 }

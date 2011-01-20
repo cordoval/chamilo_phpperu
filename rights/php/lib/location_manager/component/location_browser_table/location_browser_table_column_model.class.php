@@ -4,6 +4,9 @@ namespace rights;
  * $Id: location_browser_table_column_model.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.location_manager.component.location_browser_table
  */
+use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableColumn;
+
 require_once dirname(__FILE__) . '/../../../tables/location_table/default_location_table_column_model.class.php';
 /**
  * Table column model for the user browser table

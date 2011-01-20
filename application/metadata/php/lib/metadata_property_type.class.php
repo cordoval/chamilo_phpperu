@@ -18,16 +18,19 @@ class MetadataPropertyType extends DataClass
      * MetadataPropertyType properties
      */
     const PROPERTY_ID = 'id';
+    const PROPERTY_NAMESPACE = 'namespace';
     const PROPERTY_NS_PREFIX = 'ns_prefix';
     const PROPERTY_NAME = 'name';
 
+    private $ns_prefix = false;
+    
     /**
      * Get the default properties
      * @return array The property names.
      */
     static function get_default_property_names()
     {
-            return array (self :: PROPERTY_ID, self :: PROPERTY_NS_PREFIX, self :: PROPERTY_NAME);
+            return array (self :: PROPERTY_ID, self :: PROPERTY_NAMESPACE, self :: PROPERTY_NAME);
     }
 
     function get_data_manager()
@@ -55,11 +58,39 @@ class MetadataPropertyType extends DataClass
 
     /**
      * Returns the ns_prefix of this MetadataPropertyType.
+     * @return the namespace_id.
+     */
+    function get_namespace()
+    {
+            return $this->get_default_property(self :: PROPERTY_NAMESPACE);
+    }
+
+    /**
+     * Sets the ns_prefix of this MetadataPropertyType.
+     * @param namespace
+     */
+    function set_namespace($namespace)
+    {
+            $this->set_default_property(self :: PROPERTY_NAMESPACE, $namespace);
+    }
+
+    /**
+     * Returns the ns_prefix of this MetadataPropertyType.
      * @return the ns_prefix.
      */
     function get_ns_prefix()
     {
-            return $this->get_default_property(self :: PROPERTY_NS_PREFIX);
+        if(!$this->ns_prefix)
+        {
+            $namespace = $this->get_data_manager()->retrieve_metadata_namespace($this->get_namespace());
+
+            if(!$namespace)
+            {
+                return false;
+            }
+            $this->set_ns_prefix($namespace->get_ns_prefix());
+        }
+        return $this->ns_prefix;
     }
 
     /**
@@ -68,7 +99,7 @@ class MetadataPropertyType extends DataClass
      */
     function set_ns_prefix($ns_prefix)
     {
-            $this->set_default_property(self :: PROPERTY_NS_PREFIX, $ns_prefix);
+            $this->ns_prefix = $ns_prefix;
     }
 
     /**
@@ -103,7 +134,7 @@ class MetadataPropertyType extends DataClass
     function create()
     {
         $condition1 = new EqualityCondition(MetadataPropertyType :: PROPERTY_NAME, $this->get_name());
-        $condition2 = new EqualityCondition(MetadataPropertyType :: PROPERTY_NS_PREFIX, $this->get_ns_prefix());
+        $condition2 = new EqualityCondition(MetadataPropertyType :: PROPERTY_NAMESPACE, $this->get_namespace());
 
         $condition =  new AndCondition($condition1, $condition2);
 

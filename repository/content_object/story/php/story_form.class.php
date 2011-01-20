@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\story;
 
+use common\libraries\Utilities;
+
 use common\libraries\Translation;
 
 use repository\ContentObjectForm;
@@ -37,9 +39,9 @@ class StoryForm extends ContentObjectForm
         $this->add_warning_message('header_message', null, Translation :: get('HeaderRequiredForFeaturedItems'));
 
         $locale = array();
-        $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
-        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
-        $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $locale['Display'] = Translation :: get('SelectHeaderImage');
 
         $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';

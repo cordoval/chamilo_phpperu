@@ -7,6 +7,13 @@ namespace common\libraries;
  * @author Scaramanga
  */
 
+use admin\Registration;
+use admin\AdminDataManager;
+
+use repository\content_object\template\Template;
+use repository\ContentObject;
+use repository\RepositoryDataManager;
+
 abstract class FormValidatorHtmlEditorTemplates
 {
 
@@ -19,14 +26,14 @@ abstract class FormValidatorHtmlEditorTemplates
 
     function get_templates()
     {
-	    $rdm = RepositoryDataManager :: get_instance();
+        $rdm = RepositoryDataManager :: get_instance();
 
-    	$conditions = array();
-    	$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
-    	$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Template :: get_type_name());
-    	$condition = new AndCondition($conditions);
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
+        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Template :: get_type_name());
+        $condition = new AndCondition($conditions);
 
-    	return $rdm->retrieve_content_objects($condition, array(new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)));
+        return $rdm->retrieve_content_objects($condition, array(new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)));
     }
 
     function template_object_exists()

@@ -1,5 +1,7 @@
 <?php
 namespace group;
+
+use common\libraries\Display;
 use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -7,9 +9,10 @@ use common\libraries\Request;
 use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+
 use tracking\Event;
 
-require_once dirname(__FILE__) ."/../../group_rights.class.php";
+require_once dirname(__FILE__) . "/../../group_rights.class.php";
 /**
  * $Id: unsubscriber.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
@@ -25,10 +28,10 @@ class GroupManagerUnsubscriberComponent extends GroupManager implements Administ
     {
         $user = $this->get_user();
 
-        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_UNSUBSCRIBE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+        if (! GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_UNSUBSCRIBE, GroupRights :: get_location_by_identifier_from_groups_subtree(Request :: get(GroupManager :: PARAM_GROUP_ID))))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -48,7 +51,7 @@ class GroupManagerUnsubscriberComponent extends GroupManager implements Administ
                 $groupreluser_ids = explode('|', $id);
                 $groupreluser = $this->retrieve_group_rel_user($groupreluser_ids[1], $groupreluser_ids[0]);
 
-                if (!$groupreluser)
+                if (! $groupreluser)
                     continue;
 
                 if ($groupreluser_ids[0] == $groupreluser->get_group_id())
@@ -59,11 +62,12 @@ class GroupManagerUnsubscriberComponent extends GroupManager implements Administ
                     }
                     else
                     {
-                    	require_once dirname(__FILE__) . '/../../../trackers/group_changes_tracker.class.php';
+                        require_once dirname(__FILE__) . '/../../../trackers/group_changes_tracker.class.php';
 
                         Event :: trigger('unsubscribe_user', GroupManager :: APPLICATION_NAME, array(
                                 GroupChangesTracker :: PROPERTY_REFERENCE_ID => $groupreluser->get_group_id(),
-                                GroupChangesTracker :: PROPERTY_TARGET_USER_ID => $groupreluser->get_user_id(), GroupChangesTracker :: PROPERTY_USER_ID => $user->get_id()));
+                                GroupChangesTracker :: PROPERTY_TARGET_USER_ID => $groupreluser->get_user_id(),
+                                GroupChangesTracker :: PROPERTY_USER_ID => $user->get_id()));
                     }
                 }
                 else
@@ -95,24 +99,29 @@ class GroupManagerUnsubscriberComponent extends GroupManager implements Administ
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $groupreluser_ids[0]));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(
+                    Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP,
+                    GroupManager :: PARAM_GROUP_ID => $groupreluser_ids[0]));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null , Utilities :: COMMON_LIBRARIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupManagerBrowserComponent')));
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), Translation :: get('GroupManagerViewerComponent')));
-    	$breadcrumbtrail->add_help('group general');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupManagerBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP,
+                GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), Translation :: get('GroupManagerViewerComponent')));
+        $breadcrumbtrail->add_help('group general');
     }
 
     function get_additional_parameters()
     {
-    	return array(GroupManager :: PARAM_GROUP_ID);
+        return array(GroupManager :: PARAM_GROUP_ID);
     }
 }
 ?>

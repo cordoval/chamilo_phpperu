@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\libraries\Request;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;
@@ -36,7 +37,7 @@ class ContentObjectGroupShareRightsBrowserTable extends ObjectTable
     static function handle_table_action()
     {
         $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
-        $ids = self :: get_selected_ids($class);//the selected groups
+        $ids = self :: get_selected_ids($class);
 
         Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID));
         Request :: set_get(ContentObjectGroupShare :: PARAM_TYPE, ContentObjectGroupShare :: TYPE_GROUP_SHARE);

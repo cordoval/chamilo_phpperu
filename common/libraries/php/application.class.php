@@ -1,10 +1,8 @@
 <?php
-
 namespace common\libraries;
 
 use admin\AdminManager;
 use repository\RepositoryManagerContentObjectShareRightsCreatorComponent;
-use common\libraries\BreadcrumbTrail;
 use install\InstallManager;
 
 /**
@@ -98,14 +96,15 @@ abstract class Application
      */
     static function factory($application, $user = null)
     {
-        if (BasicApplication :: is_application($application))
+        if (BasicApplication :: exists($application))
         {
             return BasicApplication :: factory($application, $user);
         }
-        else
+        if (LauncherApplication :: exists($application))
         {
             return LauncherApplication :: factory($application, $user);
         }
+        throw new \RuntimeException("Unknown Application : ${application}");
     }
 
     /**
@@ -218,7 +217,7 @@ abstract class Application
      */
     function display_portal_header()
     {
-        Display :: header();
+        Display :: header(null);
     }
 
     /**
@@ -553,10 +552,12 @@ abstract class Application
     //abstract function run();
 
 
-    abstract static function get_application_web_path($application_name);
-
-    abstract static function get_application_path($application_name);
-
+    //TODO find a way of enforcing sub classes to have the next 3 methods.
+    //static do not play with polymorphism and abstract static functions
+    //do NOT enforce anything in children classes
+    
+    //abstract static function get_application_web_path($application_name);
+    //abstract static function get_application_path($application_name);
     //abstract static function get_application_manager_path($application_name);
 
 
@@ -855,27 +856,21 @@ abstract class Application
         return array();
     }
 
-    /* static */
-
-    function get_type($application)
+ 
+    static function get_application_type($application)
     {
-        if (! BasicApplication :: exists($application))
+
+        if (BasicApplication :: exists($application))
         {
-            if (LauncherApplication :: exists($application))
-            {
-                return LauncherApplication :: CLASS_NAME;
-            }
-            else
-            {
-                return false;
-            }
+            return BasicApplication :: get_application_type($application);
         }
-        else
+
+        if (LauncherApplication :: exists($application))
         {
-            return BasicApplication :: exists($application);
+            return LauncherApplication :: CLASS_NAME;
         }
+
+        return false;
     }
 
 }
-
-?>

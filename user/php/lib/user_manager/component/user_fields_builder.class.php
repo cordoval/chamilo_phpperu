@@ -1,11 +1,13 @@
 <?php
 namespace user;
 
+use common\libraries\Translation;
 use common\libraries\Display;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
-use common\extensions\dynamic_form_manager\DynamicFormManager;
 use common\libraries\Utilities;
+
+use common\extensions\dynamic_form_manager\DynamicFormManager;
 /**
  * $Id: user_field_builder.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -14,12 +16,12 @@ use common\libraries\Utilities;
 class UserManagerUserFieldsBuilderComponent extends UserManager implements AdministrationComponent
 {
 
-	/**
-	 * Runs this component and displays its output.
-	 */
-	function run()
-	{
-		if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_FIELDS_BUILDER, UserRights :: TYPE_COMPONENT))
+    /**
+     * Runs this component and displays its output.
+     */
+    function run()
+    {
+        if (! UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_FIELDS_BUILDER, UserRights :: TYPE_COMPONENT))
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
@@ -27,13 +29,13 @@ class UserManagerUserFieldsBuilderComponent extends UserManager implements Admin
             exit();
         }
 
-		$form_builder = new DynamicFormManager($this, UserManager :: APPLICATION_NAME, 'account_fields', DynamicFormManager :: TYPE_BUILDER);
-		$form_builder->run();
-	}
+        $form_builder = new DynamicFormManager($this, UserManager :: APPLICATION_NAME, 'account_fields', DynamicFormManager :: TYPE_BUILDER);
+        $form_builder->run();
+    }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('user_fields_builder');
+        $breadcrumbtrail->add_help('user_fields_builder');
     }
 
 }

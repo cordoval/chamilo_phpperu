@@ -30,7 +30,7 @@ class DefaultMetadataPropertyTypeTableCellRenderer extends ObjectTableCellRender
 		{
 			case MetadataPropertyType :: PROPERTY_ID :
 				return $metadata_property_type->get_id();
-			case MetadataPropertyType :: PROPERTY_NS_PREFIX :
+			case DefaultMetadataPropertyTypeTableColumnModel :: COLUMN_PREFIX :
 				return $metadata_property_type->get_ns_prefix();
 			case MetadataPropertyType :: PROPERTY_NAME :
 				return $metadata_property_type->get_name();

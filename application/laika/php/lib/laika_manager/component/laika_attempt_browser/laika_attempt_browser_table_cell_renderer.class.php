@@ -1,6 +1,9 @@
 <?php
 namespace application\laika;
 
+use common\libraries\Utilities;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
 use common\libraries\Theme;
@@ -37,7 +40,7 @@ class LaikaAttemptBrowserTableCellRenderer extends DefaultLaikaAttemptTableCellR
         {
             return $this->get_modification_links($group);
         }
-        
+
         return parent :: render_cell($column, $group);
     }
 
@@ -49,9 +52,9 @@ class LaikaAttemptBrowserTableCellRenderer extends DefaultLaikaAttemptTableCellR
      */
     private function get_modification_links($attempt)
     {
-        $toolbar= new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Browse', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_laika_attempt_viewing_url($attempt), ToolbarItem :: DISPLAY_ICON ));
-        
+        $toolbar = new Toolbar();
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Browse', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_laika_attempt_viewing_url($attempt), ToolbarItem :: DISPLAY_ICON));
+
         return $toolbar->as_html();
     }
 }

@@ -38,6 +38,8 @@ $(function ()
 				'scriptData': {'owner': getMemory('_uid')},
 				onComplete: function (evt, queueID, fileObj, response, data)
 				{
+					var fileName = fileObj.name.split('.');					
+					$('#attachments_search_field').val(fileName[0]);
 					$('#tbl_attachments').trigger('update_search');
 					var properties = eval('(' + response + ')');
 					$('#lo_' + properties.id).trigger('activate');

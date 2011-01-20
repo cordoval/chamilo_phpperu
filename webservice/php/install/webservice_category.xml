@@ -5,7 +5,7 @@
 			autoincrement="true" />
 		<property name="name" type="text" length="255" />
 		<property name="parent_id" type="integer" unsigned="1"
-			notnull="1" />
+			notnull="1" default="0" />
 	</properties>
 	<index name="parent_id">
 		<indexproperty name="parent_id" />

@@ -48,14 +48,7 @@ abstract class BasicApplication extends Application
 
     static function is_application($application)
     {
-        if (WebApplication :: is_application($application) || CoreApplication :: is_application($application))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+    	return self :: exists($application);
     }
 
     static function get_application_web_path($application_name)
@@ -82,7 +75,7 @@ abstract class BasicApplication extends Application
         }
     }
 
-    static function factory($application, $user)
+    static function factory($application, $user = null)
     {
         if (WebApplication :: is_application($application))
         {
@@ -110,19 +103,19 @@ abstract class BasicApplication extends Application
 
     static function get_application_manager_path($application_name)
     {
-   		$type = Application::get_type($application_name);
+   		$type = Application::get_application_type($application_name);
     	return $type :: get_application_class_path($application_name) . 'lib/' . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
     }
 
     static function get_component_path($application)
     {
-        $type = Application::get_type($application);
+        $type = Application::get_application_type($application);
     	return $type :: get_application_class_path($application) . 'lib/' . $application . '_manager/component/';
     }
 
     static function get_application_class_path($application)
     {
-    	$type = Application::get_type($application);
+    	$type = Application::get_application_type($application);
     	return $type :: get_application_path($application) . Path :: CLASS_PATH . '/';
     }
 
@@ -133,13 +126,13 @@ abstract class BasicApplication extends Application
 
  	static function get_application_resources_path($application)
     {
-    	$type = Application::get_type($application);
+    	$type = Application::get_application_type($application);
     	return $type :: get_application_path($application) . Path :: RESOURCES_PATH . '/';
     }
 
  	static function get_application_web_resources_path($application)
     {
-    	$type = Application::get_type($application);
+    	$type = Application::get_application_type($application);
     	return $type :: get_application_web_path($application) . Path :: RESOURCES_PATH . '/';
     }
 
@@ -193,20 +186,22 @@ abstract class BasicApplication extends Application
     	return self :: get_application_web_resources_path($application) . Path :: RESOURCES_JAVASCRIPT_PATH . '/';
     }
 
-    static function exists($application)
+    static function get_application_type($application)
     {
         if (WebApplication :: exists($application))
         {
         	return WebApplication :: CLASS_NAME;
         }
-        elseif (CoreApplication :: exists($application))
+        if (CoreApplication :: exists($application))
         {
         	return CoreApplication :: CLASS_NAME;
         }
-        else
-        {
-            return false;
-        }
+        return false;
+    }
+    static function exists($application)
+    {
+        if (WebApplication :: exists($application)) return true;
+        if (CoreApplication :: exists($application)) return true;
+        return false;
     }
 }
-?>

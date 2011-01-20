@@ -1,5 +1,7 @@
 <?php
 namespace menu;
+
+use common\libraries\Display;
 use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\Translation;
@@ -59,7 +61,7 @@ class MenuManager extends CoreApplication
         return MenuDataManager :: get_instance()->retrieve_navigation_item_at_sort($parent, $sort, $direction);
     }
 
-    public static function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: APPLICATION_NAME)
     {
         $links = array();
         $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'admin/sort.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_BROWSE), array(), false, Redirect :: TYPE_CORE));
@@ -129,7 +131,7 @@ class MenuManager extends CoreApplication
     {
         return self :: DEFAULT_ACTION;
     }
-    
+
     function get_menu()
     {
         if (! isset($this->menu))
@@ -146,7 +148,7 @@ class MenuManager extends CoreApplication
     {
         return $this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_BROWSE));
     }
-    
+
     function check_allowed()
     {
     	if (! $this->get_user()->is_platform_admin())
@@ -157,7 +159,7 @@ class MenuManager extends CoreApplication
             exit();
         }
     }
-    
+
     function display_form($form)
     {
     	$this->display_header();

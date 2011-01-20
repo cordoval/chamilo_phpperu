@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 use common\libraries\WebApplication;
 use common\libraries\Utilities;
 use common\libraries\DatetimeUtilities;
@@ -23,6 +25,7 @@ use repository\content_object\document\Document;
 use repository\content_object\survey\Survey;
 
 use user\UserDataManager;
+use user\User;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/agreement_manager.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publisher/publication_table/publication_table.class.php';
@@ -94,11 +97,13 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
 
         // Publications table tab
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_PUBLICATIONS;
-        $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition(array(Document :: get_type_name())));
+        $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition(array(
+                Document :: get_type_name())));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_PUBLICATIONS, Translation :: get('InternshipOrganizerPublications'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
 
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_EVALUATIONS;
-        $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition(array(Survey :: get_type_name())));
+        $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition(array(
+                Survey :: get_type_name())));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_EVALUATIONS, Translation :: get('InternshipOrganizerEvaluations'), Theme :: get_image_path('internship_organizer') . 'place_mini_survey.png', $table->as_html()));
 
         $html[] = $tabs->render();
@@ -154,11 +159,15 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
         $moment_id = Request :: get(self :: PARAM_MOMENT_ID);
         $moment = $this->retrieve_moment($moment_id);
         $agreement_id = $moment->get_agreement_id();
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MOMENTS)), Translation :: get('ViewInternshipOrganizerAgreement')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT,
+                self :: PARAM_AGREEMENT_ID => $agreement_id,
+                DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MOMENTS)), Translation :: get('ViewInternshipOrganizerAgreement')));
 
     }
 

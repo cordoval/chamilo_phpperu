@@ -117,8 +117,6 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
     {
         foreach($context_link_children as $id => $content_object)
         {
-
-
             if($mode == ContextLinkerManager :: RECURSIVE_DIRECTION_DOWN)
             {
                $node = new FreemindNode($id, $content_object[ContextLinkerManager :: PROPERTY_ALT_TITLE]);

@@ -1,12 +1,14 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\ImageManipulation;
 use common\libraries\Display;
 use common\libraries\Theme;
 use common\libraries\Session;
 use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;
+
 use application\weblcms\ListContentObjectPublicationListRenderer;
 
 /**
@@ -59,8 +61,12 @@ class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationL
             $navigation[] = '<div style="width=30%;text-align:left;float:left;">';
             if (! $first)
             {
-                $navigation[] = '<a href="' . $this->get_url(array('tool_action' => 'slideshow', 'slideshow_index' => 0)) . '"><img src="' . Theme :: get_common_image_path() . 'action_first.png" alt="' . Translation :: get('First', null, Utilities :: COMMON_LIBRARIES) . '"/></a>';
-                $navigation[] = '<a href="' . $this->get_url(array('tool_action' => 'slideshow', 'slideshow_index' => $slideshow_index - 1)) . '"><img src="' . Theme :: get_common_image_path() . 'action_prev.png" alt="' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES) . '"/></a>';
+                $navigation[] = '<a href="' . $this->get_url(array(
+                        'tool_action' => 'slideshow',
+                        'slideshow_index' => 0)) . '"><img src="' . Theme :: get_common_image_path() . 'action_first.png" alt="' . Translation :: get('First', null, Utilities :: COMMON_LIBRARIES) . '"/></a>';
+                $navigation[] = '<a href="' . $this->get_url(array(
+                        'tool_action' => 'slideshow',
+                        'slideshow_index' => $slideshow_index - 1)) . '"><img src="' . Theme :: get_common_image_path() . 'action_prev.png" alt="' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES) . '"/></a>';
             }
             else
             {
@@ -71,8 +77,12 @@ class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationL
             $navigation[] = '<div style="width=30%;text-align:right;float:right;">';
             if (! $last)
             {
-                $navigation[] = '<a href="' . $this->get_url(array('tool_action' => 'slideshow', 'slideshow_index' => $slideshow_index + 1)) . '"><img src="' . Theme :: get_common_image_path() . 'action_next.png" alt="' . Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . '"/></a>';
-                $navigation[] = '<a href="' . $this->get_url(array('tool_action' => 'slideshow', 'slideshow_index' => count($publications) - 1)) . '"><img src="' . Theme :: get_common_image_path() . 'action_last.png" alt="' . Translation :: get('Last', null, Utilities :: COMMON_LIBRARIES) . '"/></a>';
+                $navigation[] = '<a href="' . $this->get_url(array(
+                        'tool_action' => 'slideshow',
+                        'slideshow_index' => $slideshow_index + 1)) . '"><img src="' . Theme :: get_common_image_path() . 'action_next.png" alt="' . Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . '"/></a>';
+                $navigation[] = '<a href="' . $this->get_url(array(
+                        'tool_action' => 'slideshow',
+                        'slideshow_index' => count($publications) - 1)) . '"><img src="' . Theme :: get_common_image_path() . 'action_last.png" alt="' . Translation :: get('Last', null, Utilities :: COMMON_LIBRARIES) . '"/></a>';
             }
             else
             {

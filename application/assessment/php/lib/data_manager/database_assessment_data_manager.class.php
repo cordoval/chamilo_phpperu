@@ -16,12 +16,6 @@ use repository\content_object\assessment\Assessment;
  * $Id: database_assessment_data_manager.class.php 237 2009-11-16 13:04:53Z vanpouckesven $
  * @package application.lib.assessment.data_manager
  */
-require_once dirname(__FILE__) . '/../assessment_publication.class.php';
-require_once dirname(__FILE__) . '/../survey_invitation.class.php';
-require_once dirname(__FILE__) . '/../category_manager/assessment_publication_category.class.php';
-require_once dirname(__FILE__) . '/../assessment_publication_group.class.php';
-require_once dirname(__FILE__) . '/../assessment_publication_user.class.php';
-require_once dirname(__FILE__) . '/../assessment_data_manager_interface.class.php';
 
 /**
  *	This is a data manager that uses a database for storage. It was written
@@ -228,39 +222,6 @@ class DatabaseAssessmentDataManager extends Database implements AssessmentDataMa
     function retrieve_assessment_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(AssessmentPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, AssessmentPublicationUser :: CLASS_NAME);
-    }
-
-    function create_survey_invitation($survey_invitation)
-    {
-        return $this->create($survey_invitation);
-    }
-
-    function update_survey_invitation($survey_invitation)
-    {
-        $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
-        return $this->update($survey_invitation, $condition);
-    }
-
-    function delete_survey_invitation($survey_invitation)
-    {
-        $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
-        return $this->delete($survey_invitation->get_table_name(), $condition);
-    }
-
-    function count_survey_invitations($condition = null)
-    {
-        return $this->count_objects(SurveyInvitation :: get_table_name(), $condition);
-    }
-
-    function retrieve_survey_invitation($id)
-    {
-        $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $id);
-        return $this->retrieve_object(SurveyInvitation :: get_table_name(), $condition, null, SurveyInvitation :: CLASS_NAME);
-    }
-
-    function retrieve_survey_invitations($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return $this->retrieve_objects(SurveyInvitation :: get_table_name(), $condition, $offset, $count, $order_property, SurveyInvitation :: CLASS_NAME);
     }
 
     function content_object_is_published($object_id)

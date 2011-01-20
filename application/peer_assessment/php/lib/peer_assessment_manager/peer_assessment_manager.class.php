@@ -1,10 +1,12 @@
 <?php
-
 namespace application\peer_assessment;
 
+use common\libraries\Session;
+use common\libraries\ObjectTable;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+
 use repository\content_object\peer_assessment\PeerAssessment;
 
 require_once dirname(__FILE__) . '/../peer_assessment_data_manager.class.php';
@@ -67,7 +69,7 @@ class PeerAssessmentManager extends WebApplication
                     {
                         $selected_ids = array();
                     }
-                    elseif (!is_array($selected_ids))
+                    elseif (! is_array($selected_ids))
                     {
                         $selected_ids = array($selected_ids);
                     }
@@ -84,7 +86,7 @@ class PeerAssessmentManager extends WebApplication
                     {
                         $selected_ids = array();
                     }
-                    elseif (!is_array($selected_ids))
+                    elseif (! is_array($selected_ids))
                     {
                         $selected_ids = array($selected_ids);
                     }
@@ -134,17 +136,23 @@ class PeerAssessmentManager extends WebApplication
 
     function get_evaluation_publication_url($peer_assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EVALUATE_PEER_ASSESSMENT_PUBLICATION,
+                self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
 
     function get_update_peer_assessment_publication_url($peer_assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_PEER_ASSESSMENT_PUBLICATION,
+                self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
 
     function get_delete_peer_assessment_publication_url($peer_assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_PEER_ASSESSMENT_PUBLICATION,
+                self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
 
     function get_browse_peer_assessment_publications_url()
@@ -205,28 +213,38 @@ class PeerAssessmentManager extends WebApplication
 
     function get_change_peer_assessment_publication_visibility_url($peer_assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY,
+                self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
 
     function get_move_peer_assessment_publication_url($peer_assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION,
+                self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
 
     function get_take_peer_assessment_publication_url($peer_assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION,
+                self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
 
     function get_peer_assessment_results_viewer_url($peer_assessment_publication)
     {
         $id = $peer_assessment_publication ? $peer_assessment_publication->get_id() : null;
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION_RESULTS, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $id));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION_RESULTS,
+                self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $id));
     }
 
     function get_build_peer_assessment_url($peer_assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION,
+                self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
 
     static function get_content_object_publication_locations($content_object)
@@ -254,7 +272,7 @@ class PeerAssessmentManager extends WebApplication
         $publication->set_to_date(0);
 
         $publication->create();
-        return Translation :: get('PublicationCreated', null, Utilities::COMMON_LIBRARIES);
+        return Translation :: get('PublicationCreated', null, Utilities :: COMMON_LIBRARIES);
     }
 
     /**

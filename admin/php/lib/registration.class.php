@@ -6,6 +6,8 @@ use common\libraries\DataClass;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
+use repository\RepositoryRights;
+
 /**
  * $Id: registration.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib
@@ -27,6 +29,7 @@ class Registration extends DataClass
     const TYPE_APPLICATION = 'application';
     const TYPE_LANGUAGE = 'language';
     const TYPE_EXTENSION = 'extension';
+    const TYPE_LIBRARY = 'library';
     const TYPE_EXTERNAL_REPOSITORY_MANAGER = 'external_repository_manager';
 	const TYPE_VIDEO_CONFERENCING_MANAGER = 'video_conferencing_manager';
 
@@ -37,7 +40,7 @@ class Registration extends DataClass
      * Get the default properties of registrations.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_ID, self :: PROPERTY_TYPE, self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_STATUS, self :: PROPERTY_VERSION));
     }
@@ -217,7 +220,12 @@ class Registration extends DataClass
 
     static function get_types()
     {
-        return array(self :: TYPE_CORE, self :: TYPE_APPLICATION, self :: TYPE_CONTENT_OBJECT, self :: TYPE_LANGUAGE, self :: TYPE_EXTERNAL_REPOSITORY_MANAGER, self :: TYPE_VIDEO_CONFERENCING_MANAGER,self :: TYPE_EXTENSION);
+        return array(self :: TYPE_APPLICATION, self :: TYPE_CONTENT_OBJECT, self :: TYPE_CORE, self :: TYPE_LANGUAGE, self :: TYPE_EXTERNAL_REPOSITORY_MANAGER, self :: TYPE_VIDEO_CONFERENCING_MANAGER,self :: TYPE_EXTENSION, self :: TYPE_LIBRARY);
+    }
+    
+    function can_be_activated()
+    {
+        return !in_array($this->get_type(), array(self :: TYPE_CORE, self :: TYPE_EXTENSION, self :: TYPE_LIBRARY));
     }
 }
 ?>

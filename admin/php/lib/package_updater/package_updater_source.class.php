@@ -1,5 +1,9 @@
 <?php
 namespace admin;
+use common\libraries\Filecompression;
+
+use common\libraries\Filesystem;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -54,7 +58,7 @@ abstract class PackageUpdaterSource
      */
     static function factory($parent, $type)
     {
-    	$class = 'PackageUpdater' . Utilities :: underscores_to_camelcase($type) . 'Source';
+        $class = 'PackageUpdater' . Utilities :: underscores_to_camelcase($type) . 'Source';
         require_once dirname(__FILE__) . '/source/' . $type . '.class.php';
         return new $class($parent);
     }
@@ -66,7 +70,7 @@ abstract class PackageUpdaterSource
         $this->set_package_file($this->get_archive());
         if (! $this->get_package_file())
         {
-            $this->add_message(Translation :: get('RemotePackageNotRetrieved'), PackageUpdater::TYPE_ERROR);
+            $this->add_message(Translation :: get('RemotePackageNotRetrieved'), PackageUpdater :: TYPE_ERROR);
             return false;
         }
         else
@@ -74,7 +78,7 @@ abstract class PackageUpdaterSource
             $extract_path = $this->extract_archive();
             if (! $extract_path)
             {
-                $this->add_message(Translation :: get('RemotePackageNotExtracted'), PackageUpdater::TYPE_ERROR);
+                $this->add_message(Translation :: get('RemotePackageNotExtracted'), PackageUpdater :: TYPE_ERROR);
                 return false;
             }
             else
@@ -83,18 +87,18 @@ abstract class PackageUpdaterSource
                 $this->get_parent()->add_message(Translation :: get('RemotePackageExtracted'));
                 if (! Filesystem :: recurse_copy($extract_path, realpath(Path :: get(SYS_PATH)), true))
                 {
-                	$this->add_message(Translation :: get('PackageMoveFailed'), PackageUpdater::TYPE_ERROR);
-                	return false;
+                    $this->add_message(Translation :: get('PackageMoveFailed'), PackageUpdater :: TYPE_ERROR);
+                    return false;
                 }
                 else
                 {
                     if (! Filesystem :: remove($extract_path) || ! Filesystem :: remove($this->get_package_file()))
                     {
-                    	$this->add_message(Translation :: get('RemoveTemporaryFailed'), PackageUpdater::TYPE_WARNING);
+                        $this->add_message(Translation :: get('RemoveTemporaryFailed'), PackageUpdater :: TYPE_WARNING);
                     }
-                	$this->add_message(Translation :: get('PackageMovedSucessfully'));
+                    $this->add_message(Translation :: get('PackageMovedSucessfully'));
                 }
-                
+
                 return true;
             }
         }
@@ -140,7 +144,7 @@ abstract class PackageUpdaterSource
     function cleanup()
     {
         $package_folder = $this->get_package_folder();
-        
+
         if (! $package_folder)
         {
             $this->get_parent()->add_message(Translation :: get('NoTemporaryFilesToClean'));

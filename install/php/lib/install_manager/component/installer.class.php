@@ -1,5 +1,7 @@
 <?php
 namespace install;
+
+use common\libraries\Display;
 use common\libraries\Translation;
 use common\libraries\PlatformSetting;
 /**

@@ -4,8 +4,11 @@ namespace application\weblcms\tool\assessment;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
+
 use repository\RepositoryDataManager;
 use user\UserDataManager;
+
+use common\libraries\Mail;
 use common\libraries\Display;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
@@ -33,7 +36,10 @@ class SurveyPublisher extends SurveyPublisherComponent
             return;
         }
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->parent->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ACTION => AssessmentTool :: ACTION_PUBLISH, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('PublishSurvey')));
+        $trail->add(new Breadcrumb($this->parent->get_url(array(
+                AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY,
+                AssessmentTool :: PARAM_PUBLICATION_ACTION => AssessmentTool :: ACTION_PUBLISH,
+                Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('PublishSurvey')));
         $toolbar = $this->parent->get_toolbar();
 
         $wdm = WeblcmsDataManager :: get_instance();
@@ -43,13 +49,18 @@ class SurveyPublisher extends SurveyPublisherComponent
         $publication = $wdm->retrieve_content_object_publication($pid);
         $survey = $publication->get_content_object();
 
-        $form = new SurveyPublicationForm($this->parent, $survey, $this->parent->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ID => $pid)));
+        $form = new SurveyPublicationForm($this->parent, $survey, $this->parent->get_url(array(
+                Tool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY,
+                AssessmentTool :: PARAM_PUBLICATION_ID => $pid)));
 
         if ($form->validate())
         {
             $values = $form->exportValues();
             $this->parse_values($values, $survey, $pid);
-            $this->parent->redirect(null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ACTION => AssessmentTool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID)));
+            $this->parent->redirect(null, false, array(
+                    AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY,
+                    AssessmentTool :: PARAM_PUBLICATION_ACTION => AssessmentTool :: ACTION_VIEW,
+                    Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID)));
         }
         else
         {
@@ -136,7 +147,9 @@ class SurveyPublisher extends SurveyPublisherComponent
 
     function send_mail($survey_invitation, $title, $body)
     {
-        $url = $this->parent->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, AssessmentTool :: PARAM_INVITATION_ID => $survey_invitation->get_invitation_code()));
+        $url = $this->parent->get_url(array(
+                Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT,
+                AssessmentTool :: PARAM_INVITATION_ID => $survey_invitation->get_invitation_code()));
         $text = '<br/><br/><a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
         $text .= '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
         $text .= '<br/><a href=' . $url . '>' . $url . '</a>';

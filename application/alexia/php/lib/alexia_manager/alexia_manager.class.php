@@ -43,37 +43,36 @@ class AlexiaManager extends WebApplication
     }
 
     /**
-     * Renders the Alexia block and returns it.
-     */
-    function render_block($block)
-    {
-        $alexia_block = AlexiaBlock :: factory($this, $block);
-        return $alexia_block->run();
-    }
-
-    /**
      * Gets the url for viewing a profile publication
      * @param ProfilePublication
      * @return string The url
      */
     function get_publication_viewing_url($alexia_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_ALEXIA_ID => $alexia_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION,
+                self :: PARAM_ALEXIA_ID => $alexia_publication->get_id()));
     }
 
     function get_publication_editing_url($alexia_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION, self :: PARAM_ALEXIA_ID => $alexia_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION,
+                self :: PARAM_ALEXIA_ID => $alexia_publication->get_id()));
     }
 
     function get_introduction_editing_url($introduction)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_INTRODUCTION, self :: PARAM_ALEXIA_ID => $introduction->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EDIT_INTRODUCTION,
+                self :: PARAM_ALEXIA_ID => $introduction->get_id()));
     }
 
     function get_publication_deleting_url($alexia_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_ALEXIA_ID => $alexia_publication->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION,
+                self :: PARAM_ALEXIA_ID => $alexia_publication->get_id()));
     }
 
     function count_alexia_publications($condition = null)

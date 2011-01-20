@@ -171,16 +171,7 @@ abstract class WebApplication extends BasicApplication
      */
     public static function is_application($name)
     {
-    	$application_path = self :: get_application_path($name);
-
-        if (file_exists($application_path) && is_dir($application_path) )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+    	return self :: exists($name);
     }
 
     public function is_active($application)

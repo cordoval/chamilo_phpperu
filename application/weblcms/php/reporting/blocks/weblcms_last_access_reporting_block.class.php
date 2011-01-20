@@ -2,10 +2,12 @@
 namespace application\weblcms;
 
 use user\VisitTracker;
+use user\UserDataManager;
+
 use reporting\ReportingData;
 use reporting\ReportingFormatter;
+
 use common\libraries\PatternMatchCondition;
-use user\UserDataManager;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
@@ -33,7 +35,7 @@ class WeblcmsLastAccessReportingBlock extends WeblcmsToolReportingBlock
         }
         else
         {
-            $condition = new PattenMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*&course=' . $course_id . '*');
+            $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*&course=' . $course_id . '*');
         }
 
         $user = $udm->retrieve_user($user_id);

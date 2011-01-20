@@ -1,6 +1,10 @@
 <?php
 namespace reporting;
 
+use application\weblcms\WeblcmsManager;
+
+use common\libraries\Path;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
@@ -36,13 +40,14 @@ class Reporting
             $arr[$value->get_name()] = $value->get_value();
         }
         return $arr;
-        //return self :: get_serie_array($arr, $description);
+
+     //return self :: get_serie_array($arr, $description);
     } //array_from_tracker
 
 
     public static function get_serie_array($arr, $description = null)
     {
-    	$len = 50;
+        $len = 50;
         $array = array();
         $i = 0;
         if (! isset($arr) || count($arr) == 0)
@@ -116,6 +121,7 @@ class Reporting
         }
     } //sort_array
 
+
     public static function get_weblcms_reporting_url($classname, $params)
     {
         require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
@@ -129,30 +135,30 @@ class Reporting
 
     public static function get_name_registration($name, $application)
     {
-    	$conditions = array();
-    	$conditions[] = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_TEMPLATE, $name);
-    	$conditions[] = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_APPLICATION, $application);
-    	$condition = new AndCondition($conditions);
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_TEMPLATE, $name);
+        $conditions[] = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_APPLICATION, $application);
+        $condition = new AndCondition($conditions);
 
-    	$registrations = ReportingDataManager::get_instance()->retrieve_reporting_template_registrations($condition);
-    	if ($registrations->size() == 1)
-    	{
-    		return $registrations->next_result();
-    	}
-    	else
-    	{
-    		return null;
-    	}
+        $registrations = ReportingDataManager :: get_instance()->retrieve_reporting_template_registrations($condition);
+        if ($registrations->size() == 1)
+        {
+            return $registrations->next_result();
+        }
+        else
+        {
+            return null;
+        }
     }
 
-	/**
+    /**
      * Creates a reporting template registration in the database
      * @param array $props
      * @return ReportingTemplateRegistration
      */
     public static function create_reporting_template_registration($props)
     {
-    	$reporting_template_registration = new ReportingTemplateRegistration();
+        $reporting_template_registration = new ReportingTemplateRegistration();
         $reporting_template_registration->set_default_properties($props);
         if (! $reporting_template_registration->create())
         {

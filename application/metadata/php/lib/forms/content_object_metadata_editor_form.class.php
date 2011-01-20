@@ -11,6 +11,7 @@ use common\libraries\Translation;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\Request;
 
 class ContentObjectMetadataEditorForm extends MetadataForm
 {
@@ -52,30 +53,23 @@ class ContentObjectMetadataEditorForm extends MetadataForm
 
     function build_basic_form()
     {
-        $this->addElement('html', '<h3>' .Translation :: get('Predefined').'</h3>');
+        
         
         $this->addElement('hidden', parent :: PARENT_ID);
 
-        $this->build_content_object_property_metadata_values();
+        if(count($this->content_object_property_metadata_values))
+        {
+            $this->addElement('html', '<h4>' .Translation :: get('Predefined').'</h4>');
+            $this->build_content_object_property_metadata_values();
+        }
 
-        $this->addElement('html', '<h3>' .Translation :: get('Additional').'</h3>');
+        $this->addElement('html', '<h4>' .Translation :: get('Additional').'</h4>');
 
         $this->build_empty_property_value();
 
         $this->build_metadata_property_values();
     }
 
-    
-
-//    function build_editing_form()
-//    {
-//    	$this->build_basic_form();
-//
-//    	$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-//        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-//
-//        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-//    }
 
     function build_creation_form()
     {
@@ -93,17 +87,7 @@ class ContentObjectMetadataEditorForm extends MetadataForm
 
         $fails = 0;
 
-        //create new property value
-        if(!empty($values[MetadataPropertyValue :: PROPERTY_VALUE]))
-        {
-//            $metadata_property_value = new MetadataPropertyValue();
-//
-//            $metadata_property_value->set_content_object_id($values[MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID]);
-//            $metadata_property_value->set_property_type_id($values[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID]);
-//            $metadata_property_value->set_value($values[MetadataPropertyValue :: PROPERTY_VALUE]);
-
-            if(!$this->create_metadata_property_value())$fails++;
-        }
+        if(!parent :: edit_metadata()) $fails++;
 
         //update existing property values
         foreach($this->metadata_property_values as $metadata_property_value)
@@ -130,8 +114,9 @@ class ContentObjectMetadataEditorForm extends MetadataForm
                 $metadata_property_attribute_value->set_value_type($values[MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE_TYPE . '_' . $metadata_property_value->get_id()]);
 
                 //select appropriate value input box according to value type
-                $appendix = ($metadata_property_attribute_value->get_value_type() == MetadataPropertyAttributeValue :: VALUE_TYPE_ID) ? '_n' : '';
-                $metadata_property_attribute_value->set_value($values[MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . $appendix . '_' . $metadata_property_value->get_id()]);
+                //$appendix = ($metadata_property_attribute_value->get_value_type() == MetadataPropertyAttributeValue :: VALUE_TYPE_ID) ? '_n' : '';
+                //$appendix = '_n';
+                $metadata_property_attribute_value->set_value(Request :: post(MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id()));
 
                 if(!$metadata_property_attribute_value->create()) $fails ++;
             }
@@ -196,10 +181,6 @@ class ContentObjectMetadataEditorForm extends MetadataForm
                     if(!$metadata_property_attribute_value->create()) $fails ++;
                 }
             }
-            else
-            {
-                $fails ++;
-            }
         }
         return ($fails) ? false : true;
     }
@@ -213,10 +194,15 @@ class ContentObjectMetadataEditorForm extends MetadataForm
         $defaults[parent :: PARENT_ID] = $this->content_object->get_id();
 
         //content object property attribute values
-        foreach($this->metadata_property_attribute_values[MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY][$this->content_object->get_id()] as $id => $metadata_property_attribute_value)
+        foreach($this->content_object_property_metadata_values as $id => $content_object_property)
         {
-            $defaults[$this->content_object_property_metadata_values[$metadata_property_attribute_value->get_parent_id()]->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $id] = $metadata_property_attribute_value->get_value();
+            foreach($this->metadata_property_attribute_values[MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY][$content_object_property->get_id()] as $id => $metadata_property_attribute_value)
+            {
+                $name = $this->content_object_property_metadata_values[$metadata_property_attribute_value->get_parent_id()]->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $id;
+                $defaults[$this->content_object_property_metadata_values[$metadata_property_attribute_value->get_parent_id()]->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $id] = $metadata_property_attribute_value->get_value();
+            }
         }
+        
 
         //metadata property values
         foreach($this->metadata_property_values as $metadata_property_value)
@@ -234,7 +220,6 @@ class ContentObjectMetadataEditorForm extends MetadataForm
 
     function build_content_object_property_metadata_values()
     {
-        
         foreach($this->content_object_property_metadata_values as $id => $content_object_property)
         {
             $function_name = 'get_' . $content_object_property->get_content_object_property();
@@ -260,11 +245,12 @@ class ContentObjectMetadataEditorForm extends MetadataForm
                 $this->addGroup($group, '', Translation :: get('PropertyAttributeValue'));
             }
             //existing attribute_values
-            $this->build_content_object_property_metadata_attribute_values($content_object_property->get_property_type_id(), $content_object_property->get_content_object_property());
+            $this->build_content_object_property_metadata_attribute_values($content_object_property);
 
             $this->addElement('category');
-            
+
         }
+
     }
 
     function get_value_types()
@@ -301,11 +287,11 @@ class ContentObjectMetadataEditorForm extends MetadataForm
                 $group[] = $this->createElement('select', MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_PROPERTY_ATTRIBUTE_TYPE_ID . '_' . $metadata_property_value->get_id(), Translation :: get('PropertyAttributeType'), $this->filter_allowed_property_attribute_types($metadata_property_value->get_property_type_id()));
                 $group[] = $this->createElement('select', MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE_TYPE . '_' . $metadata_property_value->get_id(), Translation :: get('ValueType'),$this->get_value_types(),array('class'=>'attribute_value', 'id' => $metadata_property_value->get_id()));
                 
-                $group[] = $this->createElement('text', MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id(), Translation :: get('Value'));
-                $group[] = $this->createElement('select', MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_n_' . $metadata_property_value->get_id(), Translation :: get('Value'), $this->property_attribute_types);
+                //$group[] = $this->createElement('text', MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id(), Translation :: get('Value'));
+                //$group[] = $this->createElement('select', MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_n_' . $metadata_property_value->get_id(), Translation :: get('Value'), $this->property_attribute_types);
                 $this->addGroup($group, '', Translation :: get('PropertyAttributeValue'));
 
-                //$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/metadata/resources/javascript/format_metadata_attribute_type_value.js'));
+                $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/metadata/resources/javascript/format_metadata_attribute_type_value.js'));
             }
 
             $this->build_metadata_property_attribute_values($metadata_property_value);
@@ -319,26 +305,47 @@ class ContentObjectMetadataEditorForm extends MetadataForm
      * @param string property_type_id
      * @param string content_object_property
      */
-    function build_content_object_property_metadata_attribute_values($property_type_id, $content_object_property)
+//    function build_content_object_property_metadata_attribute_values($property_type_id, $content_object_property)
+//    {
+//        foreach($this->metadata_property_attribute_values[MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY][$this->content_object->get_id()] as $id => $metadata_property_attribute_value)
+//        {
+//            if($this->content_object_property_metadata_values[$metadata_property_attribute_value->get_parent_id()]->get_content_object_property() == $content_object_property)
+//            {
+//                $group = array();
+//
+//                if($metadata_property_attribute_value->get_value_type() == MetadataPropertyAttributeValue :: VALUE_TYPE_VALUE)
+//                {
+//                    $group[] = $this->createElement('text', $content_object_property . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE .'_' . $id , Translation :: get('PropertyAttributeType'));
+//                }
+//                else
+//                {
+//                    $group[] = $this->createElement('select', $content_object_property . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE .'_' . $id , Translation :: get('PropertyAttributeType'),  $this->property_attribute_types);
+//                }
+//                $group[] = $this->createElement('static', null, null, '<a href="' . $this->application->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_DELETE_METADATA_PROPERTY_ATTRIBUTE_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE => $metadata_property_attribute_value->get_id(), MetadataManager :: PARAM_CONTENT_OBJECT => $this->content_object->get_id())). '">delete</a>');
+//
+//                $this->addGroup($group, '', $this->property_attribute_types[$metadata_property_attribute_value->get_property_attribute_type_id()]);
+//            }
+//        }
+//    }
+
+    function build_content_object_property_metadata_attribute_values(ContentObjectPropertyMetadata $content_object_property)
     {
-        foreach($this->metadata_property_attribute_values[MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY][$this->content_object->get_id()] as $id => $metadata_property_attribute_value)
+        foreach($this->metadata_property_attribute_values[MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY][$content_object_property->get_id()] as $id => $metadata_property_attribute_value)
         {
-            if($this->content_object_property_metadata_values[$metadata_property_attribute_value->get_parent_id()]->get_content_object_property() == $content_object_property)
+            $group = array();
+
+            if($metadata_property_attribute_value->get_value_type() == MetadataPropertyAttributeValue :: VALUE_TYPE_VALUE)
             {
-                $group = array();
-
-                if($metadata_property_attribute_value->get_value_type() == MetadataPropertyAttributeValue :: VALUE_TYPE_VALUE)
-                {
-                    $group[] = $this->createElement('text', $content_object_property . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE .'_' . $id , Translation :: get('PropertyAttributeType'));
-                }
-                else
-                {
-                    $group[] = $this->createElement('select', $content_object_property . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE .'_' . $id , Translation :: get('PropertyAttributeType'),  $this->property_attribute_types);
-                }
-                $group[] = $this->createElement('static', null, null, '<a href="' . $this->application->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_DELETE_METADATA_PROPERTY_ATTRIBUTE_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE => $metadata_property_attribute_value->get_id(), MetadataManager :: PARAM_CONTENT_OBJECT => $this->content_object->get_id())). '">delete</a>');
-
-                $this->addGroup($group, '', $this->property_attribute_types[$metadata_property_attribute_value->get_property_attribute_type_id()]);
+                $group[] = $this->createElement('text', $content_object_property->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE .'_' . $id , Translation :: get('PropertyAttributeType'));
             }
+            else
+            {
+                $group[] = $this->createElement('select', $content_object_property->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE .'_' . $id , Translation :: get('PropertyAttributeType'),  $this->property_attribute_types);
+            }
+            $group[] = $this->createElement('static', null, null, '<a href="' . $this->application->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_DELETE_CONTENT_OBJECT_METADATA_PROPERTY_ATTRIBUTE_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE => $metadata_property_attribute_value->get_id(), MetadataManager :: PARAM_CONTENT_OBJECT => $this->content_object->get_id())). '">delete</a>');
+
+            $this->addGroup($group, '', $this->property_attribute_types[$metadata_property_attribute_value->get_property_attribute_type_id()]);
+            
         }
     }
 
@@ -361,7 +368,7 @@ class ContentObjectMetadataEditorForm extends MetadataForm
                 {
                     $group[] = $this->createElement('select', MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id() . '_' . $metadata_property_attribute_value->get_id(), Translation :: get('Value'), $this->property_attribute_types);
                 }
-                $group[] = $this->createElement('static', null, null, '<a href="' . $this->application->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_DELETE_METADATA_PROPERTY_ATTRIBUTE_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE => $metadata_property_attribute_value->get_id(), MetadataManager :: PARAM_CONTENT_OBJECT => $this->content_object->get_id())). '">delete</a>');
+                $group[] = $this->createElement('static', null, null, '<a href="' . $this->application->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_DELETE_CONTENT_OBJECT_METADATA_PROPERTY_ATTRIBUTE_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE => $metadata_property_attribute_value->get_id(), MetadataManager :: PARAM_CONTENT_OBJECT => $this->content_object->get_id())). '">delete</a>');
                 
                 $this->addGroup($group, '', $this->property_attribute_types[$metadata_property_attribute_value->get_property_attribute_type_id()]);
             }

@@ -1,6 +1,9 @@
 <?php
 namespace migration;
 
+use user\CountriesTracker;
+
+use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 

@@ -7,8 +7,6 @@ use common\libraries\InCondition;
 use common\libraries\AndCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
-use repository\content_object\portfolio_item\PortfolioItem;
-use repository\content_object\portfolio_item\HandbookItem;
 
 /**
  * $Id: quota_manager.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -105,8 +103,7 @@ class QuotaManager
         if (is_null($this->used_database_space))
         {
             $datamanager = RepositoryDataManager :: get_instance();
-            $condition = new AndCondition(new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner->get_id()),
-            							 new NotCondition(new InCondition(ContentObject :: PROPERTY_TYPE, array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name()))));
+            $condition = new AndCondition(new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner->get_id()), new NotCondition(new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_active_helper_types())));
             $this->used_database_space = $datamanager->count_content_objects($condition);
         }
         return $this->used_database_space;

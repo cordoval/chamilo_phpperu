@@ -1,6 +1,7 @@
 <?php
 namespace rights;
 
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
@@ -51,7 +52,10 @@ class UserLocationBrowserTableCellRenderer extends DefaultLocationTableCellRende
             case Location :: PROPERTY_LOCATION :
                 if ($location->has_children())
                 {
-                    return '<a href="' . htmlentities($this->browser->get_url(array(UserRightManager :: PARAM_USER => $this->browser->get_current_user()->get_id(), UserRightManager :: PARAM_SOURCE => $location->get_application(), UserRightManager :: PARAM_LOCATION => $location->get_id()))) . '">' . parent :: render_cell($column, $location) . '</a>';
+                    return '<a href="' . htmlentities($this->browser->get_url(array(
+                            UserRightManager :: PARAM_USER => $this->browser->get_current_user()->get_id(),
+                            UserRightManager :: PARAM_SOURCE => $location->get_application(),
+                            UserRightManager :: PARAM_LOCATION => $location->get_id()))) . '">' . parent :: render_cell($column, $location) . '</a>';
                 }
                 else
                 {
@@ -93,12 +97,7 @@ class UserLocationBrowserTableCellRenderer extends DefaultLocationTableCellRende
     {
         $toolbar = new Toolbar();
 
-        $toolbar->add_item(new ToolbarItem(
-       		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
-       		Theme :: get_common_image_path().'action_reset.png',
-			null,
-			ToolbarItem :: DISPLAY_ICON
-		));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_reset.png', null, ToolbarItem :: DISPLAY_ICON));
 
         return $toolbar->as_html();
     }
@@ -110,14 +109,20 @@ class UserLocationBrowserTableCellRenderer extends DefaultLocationTableCellRende
         $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
         $user_id = $browser->get_current_user()->get_id();
 
-        $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
+        $location_url = $browser->get_url(array(
+                'application' => $this->application,
+                'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
 
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Translation :: get(Utilities :: underscores_to_camelcase(strtolower($right_name)));
             if ($column->get_name() == $column_name)
             {
-                $rights_url = $browser->get_url(array(UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_SET_USER_RIGHTS, 'user_id' => $user_id, 'right_id' => $right_id, UserRightManager :: PARAM_LOCATION => $location->get_id()));
+                $rights_url = $browser->get_url(array(
+                        UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_SET_USER_RIGHTS,
+                        'user_id' => $user_id,
+                        'right_id' => $right_id,
+                        UserRightManager :: PARAM_LOCATION => $location->get_id()));
                 return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $browser->get_current_user(), $location);
             }
         }

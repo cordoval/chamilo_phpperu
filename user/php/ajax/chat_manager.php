@@ -1,4 +1,7 @@
 <?php
+namespace user;
+
+use common\libraries\Translation;
 use common\libraries\Request;
 
 /**
@@ -21,14 +24,14 @@ $to_user = $udm->retrieve_user($to_user_id);
 
 $cm = new ChatManager($from_user, $to_user, null);
 
-switch($action)
+switch ($action)
 {
-	case 'send_message':
-		$cm->send_message($message);
-		break;
-	case 'retrieve_messages':
-		echo $cm->to_xml($last_message_date);
-		break;
+    case 'send_message' :
+        $cm->send_message($message);
+        break;
+    case 'retrieve_messages' :
+        echo $cm->to_xml($last_message_date);
+        break;
 }
 
 ?>

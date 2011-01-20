@@ -1,7 +1,7 @@
 <?php
 namespace repository;
 
-use DOMText;
+use \DOMText;
 
 class ImsLomReader extends ImsMetadataReader
 {
@@ -30,25 +30,25 @@ class ImsLomReader extends ImsMetadataReader
 
     public function to_metadata_object()
     {
-        $result = new ImscpObjectMetadata();
-
-        $general = $this->get_general();
-        $idenfiers = $general->get_identifiers();
-        $ids = array();
-        foreach ($idenfiers as $identifier)
-        {
-            $catalog = $identifier->get_catalog();
-            $entry = $identifier->get_entry();
-            $ids[$catalog] = $entry;
-        }
-
-        $title = $general->get_title();
-        $description = $general->get_description();
-
-        $result->def_description($description);
-        $result->def_title($title);
-        $result->def_ids($ids);
-        return $result;
+//        $result = new ImscpObjectMetadata();
+//
+//        $general = $this->get_general();
+//        $idenfiers = $general->get_identifiers();
+//        $ids = array();
+//        foreach ($idenfiers as $identifier)
+//        {
+//            $catalog = $identifier->get_catalog();
+//            $entry = $identifier->get_entry();
+//            $ids[$catalog] = $entry;
+//        }
+//
+//        $title = $general->get_title();
+//        $description = $general->get_description();
+//
+//        $result->def_description($description);
+//        $result->def_title($title);
+//        $result->def_ids($ids);
+//        return $result;
     }
 
     public function get_general()

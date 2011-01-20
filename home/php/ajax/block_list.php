@@ -24,6 +24,7 @@ $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: AP
 
 // TODO: Add styles to css instead of leaving them hardcoded.
 
+
 if ($user_home_allowed && Authentication :: is_valid())
 {
     $user_id = Session :: get_user_id();
@@ -40,10 +41,10 @@ if ($user_home_allowed && Authentication :: is_valid())
     echo '<div style="clear: both;">';
 
     echo '<div id="applications" style="float: left; margin-right: 30px;">';
-    echo '<div id="show_all" style="clear: both; margin-bottom: 5px;"><a href="#">::&nbsp;' . Translation :: get('ShowAll', null, Utilities::COMMON_LIBRARIES) . '&nbsp;::</a></div>';
-    foreach ($applications as $application_key => $application_value)
+    echo '<div id="show_all" style="clear: both; margin-bottom: 5px;"><a href="#">::&nbsp;' . Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES) . '&nbsp;::</a></div>';
+    foreach ($applications as $block_application_key => $block_application_value)
     {
-        echo '<div class="application" id="' . $application_key . '" style="clear: both; margin-bottom: 5px;"><a href="#">' . $application_value . '</a></div>';
+        echo '<div class="application" id="' . $block_application_key . '" style="clear: both; margin-bottom: 5px;"><a href="#">' . $block_application_value . '</a></div>';
     }
     echo '</div>';
 

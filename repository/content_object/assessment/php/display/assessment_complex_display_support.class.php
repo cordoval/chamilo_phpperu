@@ -34,10 +34,32 @@ interface AssessmentComplexDisplaySupport extends ComplexDisplaySupport
     function get_assessment_current_attempt_id();
 
     /**
+     * Get the question attempt trackers for all question in
+     * a specific assessment context
+     * @return multitype<QuestionAttemptsTracker>
+     */
+    function get_assessment_question_attempts();
+
+    /**
+     * Get the question attempt tracker for a specific question in
+     * a specific assessment context
+     *
+     * @param integer $complex_question_id
+     * @return QuestionAttemptsTracker
+     */
+    function get_assessment_question_attempt($complex_question_id);
+
+    /**
      * Get the url to go back to after finishing the assessment
      *
      * @return string
      */
     function get_assessment_go_back_url();
+
+    /**
+     * Get the configuration parameters for the display of the assessment
+     * @return FeedbackDisplayConfiguration
+     */
+    function get_assessment_feedback_configuration();
 }
 ?>

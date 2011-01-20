@@ -1,9 +1,13 @@
 <?php
-
 namespace application\assessment;
 
-use common\libraries\EqualityCondition;
+use user\UserDataManager;
+
+use repository\content_object\hotspot_question\HotspotQuestion;
+use repository\content_object\feedback\Feedback;
 use repository\ComplexContentObjectItem;
+
+use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 /**
  * $Id: export_csv.class.php 193 2009-11-13 11:53:37Z chellee $
@@ -13,7 +17,7 @@ class ResultsCsvExport extends ResultsExport
 {
     private $currentrow;
     private $data;
-    
+
     const PROPERTY_ASSESSMENT_TITLE = 'assessment_title';
     const PROPERTY_ASSESSMENT_DESCRIPTION = 'assessment_description';
     const PROPERTY_ASSESSMENT_TYPE = 'assessment_type';
@@ -63,9 +67,18 @@ class ResultsCsvExport extends ResultsExport
         $this->data[] = $this->currentrow;
         $this->currentrow = array();
         $this->data[] = $this->currentrow;
-        $this->currentrow = array(self :: PROPERTY_USERNAME, self :: PROPERTY_RESULT, self :: PROPERTY_DATE_TIME_TAKEN, self :: PROPERTY_QUESTION_TITLE, self :: PROPERTY_QUESTION_DESCRIPTION, self :: PROPERTY_QUESTION_TYPE, self :: PROPERTY_WEIGHT, //self :: PROPERTY_FEEDBACK_TITLE,
-        //self :: PROPERTY_FEEDBACK_DESCRIPTION,
-        self :: PROPERTY_ANSWER, self :: PROPERTY_SCORE, 'feedback');
+        $this->currentrow = array(
+                self :: PROPERTY_USERNAME,
+                self :: PROPERTY_RESULT,
+                self :: PROPERTY_DATE_TIME_TAKEN,
+                self :: PROPERTY_QUESTION_TITLE,
+                self :: PROPERTY_QUESTION_DESCRIPTION,
+                self :: PROPERTY_QUESTION_TYPE,
+                self :: PROPERTY_WEIGHT,  //self :: PROPERTY_FEEDBACK_TITLE,
+                //self :: PROPERTY_FEEDBACK_DESCRIPTION,
+                self :: PROPERTY_ANSWER,
+                self :: PROPERTY_SCORE,
+                'feedback');
         $this->data[] = $this->currentrow;
         $this->currentrow = array();
     }
@@ -89,7 +102,7 @@ class ResultsCsvExport extends ResultsExport
         $this->export_user($user_assessment->get_user_id());
         $this->currentrow[self :: PROPERTY_RESULT] = $user_assessment->get_total_score();
         $this->currentrow[self :: PROPERTY_DATE_TIME_TAKEN] = $user_assessment->get_date();
-        
+
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment_id, ComplexContentObjectItem :: get_table_name());
         $clo_questions = $this->rdm->retrieve_complex_content_object_items($condition);
         while ($clo_question = $clo_questions->next_result())
@@ -109,23 +122,23 @@ class ResultsCsvExport extends ResultsExport
     {
         $question = $this->rdm->retrieve_content_object($clo_question->get_ref());
         $this->currentrow[self :: PROPERTY_QUESTION_TITLE] = $question->get_title();
-        
+
         $description = trim(htmlspecialchars(strip_tags($question->get_description())));
-        
+
         $this->currentrow[self :: PROPERTY_QUESTION_DESCRIPTION] = $description;
         $this->currentrow[self :: PROPERTY_QUESTION_TYPE] = $question->get_type();
         $this->currentrow[self :: PROPERTY_WEIGHT] = $clo_question->get_weight();
-        
+
         $track = new AssessmentQuestionAttemptsTracker();
         $condition_q = new EqualityCondition(AssessmentQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $clo_question->get_id());
         $condition_a = new EqualityCondition(AssessmentQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
         $condition = new AndCondition(array($condition_q, $condition_a));
         $user_answers = $track->retrieve_tracker_items($condition);
         $user_answer = $user_answers[0];
-        
+
         if ($user_answer->get_feedback() != null && $user_answer->get_feedback() > 0)
             $data['feedback'] = $this->export_feedback($user_answer->get_feedback());
-        
+
         $answers = unserialize($user_answer->get_answer());
         $answer_data = array();
         foreach ($answers as $answer)
@@ -142,7 +155,7 @@ class ResultsCsvExport extends ResultsExport
                 $answer_data[] = htmlspecialchars(strip_tags($answer));
             }
         }
-        
+
         $this->currentrow[self :: PROPERTY_ANSWER] = implode(" / ", $answer_data);
         $this->currentrow[self :: PROPERTY_SCORE] = $user_answer->get_score();
         $this->currentrow['feedback'] = htmlspecialchars($user_answer->get_feedback());

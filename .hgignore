@@ -123,3 +123,9 @@ syntax: regexp
 ^repository/php/lib/content_object$
 syntax: regexp
 ^repository/content_object/survey/php/template$
+syntax: regexp
+^common/libraries/resources/images/ruby/background_footer\.png$
+syntax: regexp
+^common/libraries/resources/images/ruby/background_header\.png$
+syntax: regexp
+^application/survey/php/lib/export_manager/component/survey_opleiding_exporter\.class\.php$

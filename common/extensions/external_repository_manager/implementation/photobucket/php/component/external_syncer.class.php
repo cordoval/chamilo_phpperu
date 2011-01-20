@@ -1,12 +1,15 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\photobucket;
 
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+
+use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
 use repository\RepositoryManager;
-use common\extensions\external_repository_manager\ExternalRepositoryManager;
-use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 class PhotobucketExternalRepositoryManagerExternalSyncerComponent extends PhotobucketExternalRepositoryManager
 {

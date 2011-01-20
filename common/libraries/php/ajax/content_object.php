@@ -1,4 +1,10 @@
 <?php
+
+namespace common\libraries;
+use repository\RepositoryDataManager;
+
+
+
 /**
  * $Id: content_object.php 157 2009-11-10 13:44:02Z vanpouckesven $
  * @package common.javascript.ajax

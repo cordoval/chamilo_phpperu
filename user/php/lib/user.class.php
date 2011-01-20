@@ -80,6 +80,9 @@ class User extends DataClass
 
     const ANONYMOUS_ID = "1";
 
+    const STATUS_TEACHER = 1;
+    const STATUS_STUDENT = 5;
+
     /**
      * @var array
      */
@@ -89,7 +92,7 @@ class User extends DataClass
      * Get the default properties of all users.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(
                 self :: PROPERTY_LASTNAME,
@@ -480,7 +483,7 @@ class User extends DataClass
         $this->delete_picture();
         $path = Path :: get(SYS_USER_PATH);
         Filesystem :: create_dir($path);
-        $img_file = Filesystem :: create_unique_name($path, $this->get_id() . '-' . $this->get_fullname() . '-' . $file_info['name']);
+        $img_file = Filesystem :: create_unique_name($path, $this->get_id() . '-' . $file_info['name']);
         move_uploaded_file($file_info['tmp_name'], $path . $img_file);
         $image_manipulation = ImageManipulation :: factory($path . $img_file);
         //Scale image to fit in 400x400 box. Should be configurable somewhere
@@ -633,25 +636,25 @@ class User extends DataClass
         //}
 
 
-        if (! UserRights :: create_location_in_users_subtree($this->get_fullname(), $this->get_id(), UserRights :: get_users_subtree_root_id()))
-        {
-            $this->delete();
-            return false;
-        }
+//        if (! UserRights :: create_location_in_users_subtree($this->get_fullname(), $this->get_id(), UserRights :: get_users_subtree_root_id()))
+//        {
+//            $this->delete();
+//            return false;
+//        }
 
         return $succes;
     }
 
     function delete()
     {
-        $location = UserRights :: get_location_by_identifier_from_users_subtree($this->get_id());
-        if ($location)
-        {
-            if (! $location->remove())
-            {
-                return false;
-            }
-        }
+//        $location = UserRights :: get_location_by_identifier_from_users_subtree($this->get_id());
+//        if ($location)
+//        {
+//            if (! $location->remove())
+//            {
+//                return false;
+//            }
+//        }
 
         return parent :: delete();
     }
@@ -671,6 +674,11 @@ class User extends DataClass
         {
             $group_ids[] = $user_group->get_group_id();
             $group = $gdm->retrieve_group($user_group->get_group_id());
+            if(!$group)
+            {
+                continue;
+            }
+            
             $subgroups = $group->get_parents(false);
 
             while ($subgroup = $subgroups->next_result())

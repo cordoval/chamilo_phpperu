@@ -2,14 +2,18 @@
 namespace application\weblcms;
 
 use repository\content_object\introduction\Introduction;
-use group\GroupDataManager;
 use repository\ContentObjectDisplay;
-use common\extensions\repo_viewer\RepoViewer;
 use repository\RepositoryDataManager;
-use common\libraries\Toolbar;
-use common\libraries\ToolbarItem;
+
+use group\GroupDataManager;
 use admin\AdminDataManager;
 use user\UserDataManager;
+
+use common\extensions\repo_viewer\RepoViewer;
+
+use common\libraries\Mail;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
 use common\libraries\FormValidator;
 use common\libraries\PlatformSetting;
 use common\libraries\WebApplication;
@@ -20,7 +24,10 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+
 use application\gradebook\GradebookInternalItemForm;
+
+use html2text;
 
 /**
  * $Id: content_object_publication_form.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -104,16 +111,21 @@ class ContentObjectPublicationForm extends FormValidator
             case self :: TYPE_SINGLE :
                 if ($content_object instanceof Introduction)
                 {
-                    $parameters = array_merge($pub_param, array(ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id(), Tool :: PARAM_ACTION => $in_repo_viewer ? Tool :: ACTION_PUBLISH_INTRODUCTION : null));
+                    $parameters = array_merge($pub_param, array(
+                            ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id(),
+                            Tool :: PARAM_ACTION => $in_repo_viewer ? Tool :: ACTION_PUBLISH_INTRODUCTION : null));
                 }
                 else
                 {
                     //$parameters = array_merge($pub_param, array(ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id(), Tool :: PARAM_ACTION => $in_repo_viewer ? Tool :: ACTION_PUBLISH : null));
-                    $parameters = array_merge($pub_param, array(ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id()));
+                    $parameters = array_merge($pub_param, array(
+                            ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id()));
                 }
                 break;
             case self :: TYPE_MULTI :
-                $parameters = array_merge($pub_param, array(Tool :: PARAM_ACTION => $in_repo_viewer ? Tool :: ACTION_PUBLISH : null, ContentObjectRepoViewer :: PARAM_ID => $content_object));
+                $parameters = array_merge($pub_param, array(
+                        Tool :: PARAM_ACTION => $in_repo_viewer ? Tool :: ACTION_PUBLISH : null,
+                        ContentObjectRepoViewer :: PARAM_ID => $content_object));
                 break;
         }
 
@@ -290,7 +302,7 @@ class ContentObjectPublicationForm extends FormValidator
                 $gradebook_internal_item_form->build_evaluation_question($this);
             }
         }
-        $this->categories[0] = Translation :: get('Root', null ,Utilities:: COMMON_LIBRARIES);
+        $this->categories[0] = Translation :: get('Root', null, Utilities :: COMMON_LIBRARIES);
         $this->get_categories(0);
 
         //$categories = $this->repo_viewer->get_categories(true);
@@ -300,7 +312,7 @@ class ContentObjectPublicationForm extends FormValidator
             if ($this->tool->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             {
                 // More than one category -> let user select one
-                $this->addElement('select', self :: PARAM_CATEGORY_ID, Translation :: get('Category', null ,Utilities:: COMMON_LIBRARIES), $this->categories);
+                $this->addElement('select', self :: PARAM_CATEGORY_ID, Translation :: get('Category', null, Utilities :: COMMON_LIBRARIES), $this->categories);
             }
             else
             {
@@ -317,9 +329,9 @@ class ContentObjectPublicationForm extends FormValidator
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/weblcms/php/xml_feeds/xml_course_user_group_feed.php?course=' . $this->course->get_id() . '&show_groups=1';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
-        $locale['Searching'] = Translation :: get('Searching', null ,Utilities:: COMMON_LIBRARIES);
-        $locale['NoResults'] = Translation :: get('NoResults', null ,  Utilities:: COMMON_LIBRARIES);
-        $locale['Error'] = Translation :: get('Error', null ,Utilities:: COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->tool->get_user_id());
         $attributes['defaults'] = array();
@@ -334,10 +346,10 @@ class ContentObjectPublicationForm extends FormValidator
         $legend->set_items($legend_items);
         $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
 
-        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor', null ,Utilities:: COMMON_LIBRARIES), $attributes, 'Everybody', $legend);
+        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor', null, Utilities :: COMMON_LIBRARIES), $attributes, 'Everybody', $legend);
 
         $this->add_forever_or_timewindow();
-        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden', null ,Utilities:: COMMON_LIBRARIES));
+        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden', null, Utilities :: COMMON_LIBRARIES));
         if ($this->email_option)
         {
             $this->addElement('checkbox', self :: PARAM_EMAIL, Translation :: get('SendByEMail'));
@@ -347,8 +359,10 @@ class ContentObjectPublicationForm extends FormValidator
 
     function add_footer()
     {
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'positive publish'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'positive publish'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 

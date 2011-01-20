@@ -6,6 +6,8 @@ use common\libraries\SubManager;
 use common\libraries\Path;
 use common\libraries\Translation;
 
+use Exception;
+
 abstract class ExternalRepositoryComponent extends SubManager
 {
     const BROWSER_COMPONENT = 'browser';
@@ -20,6 +22,7 @@ abstract class ExternalRepositoryComponent extends SubManager
     const CONFIGURER_COMPONENT = 'configurer';
     const INTERNAL_SYNCER_COMPONENT = 'internal_syncer';
     const EXTERNAL_SYNCER_COMPONENT = 'external_syncer';
+    const NEWFOLDER_COMPONENT = 'newfolder';
 
     static function factory($type, $application)
     {
@@ -28,9 +31,9 @@ abstract class ExternalRepositoryComponent extends SubManager
         {
             throw new Exception(Translation :: get('ExternalRepositoryComponentTypeDoesNotExist', array('type' => $type)));
         }
-        
+
         require_once $file;
-        
+
         $class = __NAMESPACE__ . '\\' . 'ExternalRepositoryComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
         return new $class($application);
     }
@@ -129,7 +132,7 @@ abstract class ExternalRepositoryComponent extends SubManager
     {
         return $this->get_parent()->get_user_setting($variable);
     }
-    
+
     /**
      * Helper function for the SubManager class,
      * pending access to class constants via variables in PHP 5.3

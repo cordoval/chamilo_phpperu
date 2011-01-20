@@ -2,18 +2,23 @@
 namespace application\assessment;
 
 use common\libraries\Request;
-use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
-use tracking\Tracker;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
+
+use tracking\Tracker;
 use tracking\Event;
+
 use repository\content_object\hotpotatoes\Hotpotatoes;
+
+use repository\RepositoryDataManager;
 use repository\ComplexDisplay;
+
 use repository\content_object\assessment\AssessmentComplexDisplaySupport;
+use repository\content_object\assessment\FeedbackDisplayConfiguration;
 
 /**
  * $Id: viewer.class.php 193 2009-11-13 11:53:37Z chellee $
@@ -23,8 +28,7 @@ use repository\content_object\assessment\AssessmentComplexDisplaySupport;
 require_once Path :: get_application_path() . '/assessment/php/trackers/assessment_assessment_attempts_tracker.class.php';
 require_once Path :: get_application_path() . '/assessment/php/trackers/assessment_question_attempts_tracker.class.php';
 
-class AssessmentManagerViewerComponent extends AssessmentManager implements
-        AssessmentComplexDisplaySupport
+class AssessmentManagerViewerComponent extends AssessmentManager implements AssessmentComplexDisplaySupport
 {
     private $datamanager;
 
@@ -41,17 +45,6 @@ class AssessmentManagerViewerComponent extends AssessmentManager implements
         if (Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION))
         {
             $this->pid = Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION);
-            $this->pub = $this->datamanager->retrieve_assessment_publication($this->pid);
-            $assessment_id = $this->pub->get_content_object();
-            $this->assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($assessment_id);
-        }
-
-        if (Request :: get(AssessmentManager :: PARAM_INVITATION_ID))
-        {
-            $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_INVITATION_CODE, Request :: get(AssessmentManager :: PARAM_INVITATION_ID));
-            $invitation = $this->datamanager->retrieve_survey_invitations($condition)->next_result();
-
-            $this->pid = $invitation->get_survey_id();
             $this->pub = $this->datamanager->retrieve_assessment_publication($this->pid);
             $assessment_id = $this->pub->get_content_object();
             $this->assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($assessment_id);
@@ -122,9 +115,7 @@ class AssessmentManagerViewerComponent extends AssessmentManager implements
 
     function get_additional_parameters()
     {
-        return array(
-                self :: PARAM_ASSESSMENT_PUBLICATION,
-                self :: PARAM_INVITATION_ID);
+        return array(self :: PARAM_ASSESSMENT_PUBLICATION);
     }
 
     function get_root_content_object()
@@ -144,8 +135,7 @@ class AssessmentManagerViewerComponent extends AssessmentManager implements
 
     function create_tracker()
     {
-        $parameters = array(
-                AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID => $this->pid,
+        $parameters = array(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID => $this->pid,
                 AssessmentAssessmentAttemptsTracker :: PROPERTY_USER_ID => $this->get_user_id(),
                 AssessmentAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE => 0);
         $tracker = Event :: trigger('attempt_assessment', AssessmentManager :: APPLICATION_NAME, $parameters);
@@ -179,11 +169,43 @@ class AssessmentManagerViewerComponent extends AssessmentManager implements
         return $this->active_tracker->get_id();
     }
 
+    function get_assessment_question_attempts()
+    {
+        $assessment_question_attempt_data = array();
+
+        $condition = new EqualityCondition(AssessmentQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->active_tracker->get_id());
+
+        $dummy = new AssessmentQuestionAttemptsTracker();
+        $trackers = $dummy->retrieve_tracker_items($condition);
+
+        foreach ($trackers as $tracker)
+        {
+            $assessment_question_attempt_data[$tracker->get_question_cid()] = $tracker;
+        }
+
+        return $assessment_question_attempt_data;
+    }
+
+    function get_assessment_question_attempt($complex_question_id)
+    {
+        $answers = $this->get_assessment_question_attempts($complex_question_id);
+        return $answers[$complex_question_id];
+    }
+
     function get_assessment_go_back_url()
     {
         return $this->get_url(array(
                 AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS,
                 AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => null));
+    }
+
+    function get_assessment_feedback_configuration()
+    {
+        $default_configuration = new FeedbackDisplayConfiguration();
+        $default_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_BOTH);
+        $default_configuration->disable_feedback_per_page();
+        $default_configuration->enable_feedback_summary();
+        return $default_configuration;
     }
 
     /**

@@ -1,23 +1,28 @@
 <?php
-
 namespace common\libraries;
+
+use webservice\WebserviceManager;
+
+use Exception;
 
 /**
  * Class to provide authentication for webservices
  */
 abstract class WebserviceAuthentication
 {
+
     static function factory()
     {
-        $type = 'chamilo';
-        
+        //Digest for testing with browser
+        $type = 'digest';
+
         $path = dirname(__FILE__) . '/' . $type . '/' . $type . '_webservice_authentication.class.php';
-        if(!file_exists($path))
+        if (! file_exists($path))
         {
-            throw new Exception(Translation :: get('CouldNotCreateWebserviceAuthenticationType', array('TYPE' => $type)));
+            throw new Exception(Translation :: get('CouldNotCreateWebserviceAuthenticationType', array('TYPE' => $type), WebserviceManager :: APPLICATION_NAME));
         }
 
-        require_once($path);
+        require_once ($path);
 
         $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'WebserviceAuthentication';
         return new $class();

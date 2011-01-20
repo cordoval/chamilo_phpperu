@@ -4,6 +4,8 @@ namespace application\weblcms;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 
+use Exception;
+
 /**
  * $Id: tool_list_renderer.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
@@ -50,7 +52,7 @@ abstract class ToolListRenderer
 
         if (! file_exists($file))
         {
-            throw new exception(Translation :: get('CanNotLoadToolListRenderer'));
+            throw new Exception(Translation :: get('CanNotLoadToolListRenderer'));
         }
 
         require_once $file;

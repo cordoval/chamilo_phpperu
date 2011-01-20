@@ -1,5 +1,9 @@
 <?php
+namespace application\internship_organizer;
 
+use common\libraries\OrCondition;
+use common\libraries\NotCondition;
+use common\libraries\Authentication;
 use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\CoreApplication;
@@ -20,19 +24,25 @@ Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
 if (Authentication :: is_valid())
 {
     $conditions = array();
-    
+
     $organisation_id = $_GET[InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID];
     if (isset($organisation_id))
     {
         $conditions[] = new EqualityCondition(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $organisation_id);
     }
-    
-    $query_condition = Utilities :: query_to_condition($_GET['query'], array(InternshipOrganizerLocation :: PROPERTY_NAME, InternshipOrganizerLocation :: PROPERTY_ADDRESS, InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, InternshipOrganizerLocation :: PROPERTY_EMAIL, InternshipOrganizerLocation :: PROPERTY_FAX, InternshipOrganizerLocation :: PROPERTY_TELEPHONE));
+
+    $query_condition = Utilities :: query_to_condition($_GET['query'], array(
+            InternshipOrganizerLocation :: PROPERTY_NAME,
+            InternshipOrganizerLocation :: PROPERTY_ADDRESS,
+            InternshipOrganizerLocation :: PROPERTY_DESCRIPTION,
+            InternshipOrganizerLocation :: PROPERTY_EMAIL,
+            InternshipOrganizerLocation :: PROPERTY_FAX,
+            InternshipOrganizerLocation :: PROPERTY_TELEPHONE));
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
     }
-    
+
     if (is_array($_GET['exclude']))
     {
         $c = array();
@@ -42,7 +52,7 @@ if (Authentication :: is_valid())
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     if (count($conditions) > 0)
     {
         $condition = new AndCondition($conditions);
@@ -51,10 +61,10 @@ if (Authentication :: is_valid())
     {
         $condition = null;
     }
-    
+
     $dm = InternshipOrganizerDataManager :: get_instance();
     $objects = $dm->retrieve_locations($condition);
-    
+
     while ($location = $objects->next_result())
     {
         $locations[] = $location;
@@ -73,7 +83,7 @@ function dump_tree($locations)
     if (contains_results($locations))
     {
         echo '<node id="0" classes="category unlinked" title="', Translation :: get('Locations'), '">', "\n";
-        
+
         foreach ($locations as $location)
         {
             $id = 'location_' . $location->get_id();
@@ -82,9 +92,9 @@ function dump_tree($locations)
             $description = preg_replace("/[\n\r]/", "", $description);
             echo '<leaf id="' . $id . '" classes="" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
-        
+
         echo '</node>', "\n";
-    
+
     }
 }
 

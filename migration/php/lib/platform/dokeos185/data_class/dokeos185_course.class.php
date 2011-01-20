@@ -53,6 +53,7 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
     const PROPERTY_UNSUBSCRIBE = 'unsubscribe';
     const PROPERTY_REGISTRATION_CODE = 'registration_code';
 
+    private $language_to_iso_mapping = array ("english" => "en", "dutch" => "nl", "french" => "fr");
     /**
      * Get the default properties of all courses.
      * @return array The property names.
@@ -312,7 +313,7 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
 
             if ($titular)
             {
-                $titular_id = $this->get_id_reference($titular->get_optional_property('user_id'), 'main_database.user');
+                $titular_id = $this->get_id_reference($titular->get_user_id(), 'main_database.user');
             }
             else
             {
@@ -331,16 +332,16 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
             //departement_name & url
             $chamilo_course->set_external_name($this->get_department_name());
             $chamilo_course->set_external_url($this->get_department_url());
-
+            
             //Course - Settings
             if (AdminDataManager :: is_language_active($this->get_course_language()))
             {
-                $chamilo_course->set_language($this->get_course_language());
+                $chamilo_course->set_language($this->language_to_iso_mapping($this->get_course_language()));
 
             }
             else
             {
-                $chamilo_course->set_language('english');
+                $chamilo_course->set_language('en');
             }
 
             //visibility = 3: Open - access allowed for the whole world
@@ -385,6 +386,7 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
             $this->create_id_reference($this->get_code(), $chamilo_course->get_id());
 
             $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'course', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_course->get_code())));
+
         }
     }
 

@@ -71,20 +71,27 @@ class Redirect
 
         $link .= '.php';
 
-        if (count($filter) > 0)
-        {
-            foreach ($parameters as $key => $value)
-            {
-                if (! in_array($key, $filter))
-                {
-                    $url_parameters[$key] = $value;
-                }
-            }
+        $filtered_parameters = self :: filter_out_parameters($parameters, $filter);
+        return self :: get_web_link($link, $filtered_parameters, $encode_entities);
+    }
 
-            $parameters = $url_parameters;
+    private static function filter_out_parameters($parameters, $filter)
+    {
+        if (empty($filter)) return $parameters;
+
+        $filter = is_array($filter) ? $filter : array($filter);
+        $filtered_parameters = array();
+        
+        foreach ($parameters as $key => $value)
+        {
+            if (! in_array($key, $filter))
+            {
+                $filtered_parameters[$key] = $value;
+            }
         }
 
-        return self :: get_web_link($link, $parameters, $encode_entities);
+        return $filtered_parameters;
+
     }
 
     /**
@@ -106,23 +113,9 @@ class Redirect
      */
     static function get_url($parameters = array (), $filter = array(), $encode_entities = false)
     {
-        $url = $_SERVER['PHP_SELF'];
-        $filter = is_array($filter) ? $filter : array($filter);
-
-        if (count($filter) > 0)
-        {
-            foreach ($parameters as $key => $value)
-            {
-                if (! in_array($key, $filter))
-                {
-                    $url_parameters[$key] = $value;
-                }
-            }
-
-            $parameters = $url_parameters;
-        }
-
-        return self :: get_web_link($url, $parameters, $encode_entities);
+        $url = $_SERVER['PHP_SELF'];              
+        $filtered_parameters = self :: filter_out_parameters($parameters, $filter);
+        return self :: get_web_link($url, $filtered_parameters, $encode_entities);
     }
 
     /**
@@ -135,10 +128,25 @@ class Redirect
     {
         if (count($parameters))
         {
+            //remove anchor
+            $anchor = strstr($url, "#", false);
+            if($anchor)
+            {
+                $url = strstr($url, "#", true);
+            }
+            if(strpos($url, '?') === false)
+            {
+                $url .= '?';
+            }
+            else
+            {
+                $url .= self :: ARGUMENT_SEPARATOR;
+            }
             // Because the argument separator can be defined in the php.ini
             // file, we explicitly add it as a parameter here to avoid
             // trouble when parsing the resulting urls
-            $url .= '?' . http_build_query($parameters, '', self :: ARGUMENT_SEPARATOR);
+            $url .= http_build_query($parameters, '', self :: ARGUMENT_SEPARATOR);
+            $url .= $anchor;
         }
 
         if ($encode_entities)
@@ -204,6 +212,8 @@ class Redirect
         {
             $port = '';
         }
+        
+
         return $protocol . $host . $port . $php_request_uri;
     }
 }

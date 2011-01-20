@@ -227,6 +227,7 @@ class MatterhornExternalRepositoryManagerConnector extends ExternalRepositoryMan
         $media_package = $result['mediapackage'];
         $matterhorn_external_repository_object = new MatterhornExternalRepositoryObject();
         $matterhorn_external_repository_object->set_id($media_package['id']);
+        $matterhorn_external_repository_object->set_external_repository_id($this->get_external_repository_instance_id());
         $matterhorn_external_repository_object->set_duration($result['dcExtent']);
         $matterhorn_external_repository_object->set_title($result['dcTitle']);
         $matterhorn_external_repository_object->set_description($result['dcDescription']);

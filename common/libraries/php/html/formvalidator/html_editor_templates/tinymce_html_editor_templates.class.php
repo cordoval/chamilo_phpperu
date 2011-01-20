@@ -6,6 +6,8 @@ namespace common\libraries;
  * @author Scaramanga
  */
 
+use repository\RepositoryDataManager;
+
 class FormValidatorTinymceHtmlEditorTemplates extends FormValidatorHtmlEditorTemplates
 {
     const TEMPLATE_ID = 'template';

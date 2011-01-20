@@ -15,7 +15,7 @@ class HandbookForm extends ContentObjectForm
     // Inherited
     function create_content_object()
     {
-        $object = new Handbook();
+         $object = new Handbook();
 //        $object->set_uuid($this->exportValue(Handbook :: PROPERTY_UUID));
         $object->set_uuid();
         $this->set_content_object($object);

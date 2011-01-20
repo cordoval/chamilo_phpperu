@@ -5,9 +5,20 @@ namespace application\survey;
  * $Id: survey_question_type_reporting.class.php $Shoira Mukhsinova
  * @package application/lib/survey/reporting/blocks
  */
-//require_once dirname ( __FILE__ ) . '/../survey_reporting_block.class.php';
-//require_once dirname ( __FILE__ ) . '/../../survey_manager/survey_manager.class.php';
 
+use reporting\ReportingChartFormatter;
+use reporting\ReportingFormatter;
+use reporting\ReportingData;
+
+use common\libraries\Translation;
+
+use repository\content_object\survey_description\SurveyDescription;
+use repository\content_object\survey_matrix_question\SurveyMatrixQuestion;
+use repository\content_object\survey_select_question\SurveySelectQuestion;
+use repository\content_object\survey_matching_question\SurveyMatchingQuestion;
+use repository\content_object\survey_multiple_choice_question\SurveyMultipleChoiceQuestion;
+use repository\content_object\survey_open_question\SurveyOpenQuestion;
+use repository\content_object\survey_rating_question\SurveyRatingQuestion;
 
 class SurveyQuestionTypeReportingBlock extends SurveyReportingBlock
 {
@@ -64,10 +75,10 @@ class SurveyQuestionTypeReportingBlock extends SurveyReportingBlock
                         $question_type[Translation :: get(SurveyMultipleChoiceQuestion :: get_type_name())] ++;
                         switch ($question->get_answer_type())
                         {
-                            case MultipleChoiceQuestion :: ANSWER_TYPE_RADIO :
+                            case SurveyMultipleChoiceQuestion :: ANSWER_TYPE_RADIO :
                                 $question_type[Translation :: get(SurveyMultipleChoiceQuestion :: get_type_name()) . self :: ANSWER_TYPE_CHECKBOX] ++;
                                 break;
-                            case MultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX :
+                            case SurveyMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX :
                                 $question_type[Translation :: get(SurveyMultipleChoiceQuestion :: get_type_name()) . self :: ANSWER_TYPE_RADIO] ++;
                                 break;
                         }
@@ -92,10 +103,10 @@ class SurveyQuestionTypeReportingBlock extends SurveyReportingBlock
                         $question_type[Translation :: get(SurveyMatrixQuestion :: get_type_name())] ++;
                         switch ($question->get_matrix_type())
                         {
-                            case MatrixQuestion :: MATRIX_TYPE_RADIO :
+                            case SurveyMatrixQuestion :: MATRIX_TYPE_RADIO :
                                 $question_type[Translation :: get(SurveyMatrixQuestion :: get_type_name()) . self :: MATRIX_TYPE_RADIO] ++;
                                 break;
-                            case MatrixQuestion :: MATRIX_TYPE_CHECKBOX :
+                            case SurveyMatrixQuestion :: MATRIX_TYPE_CHECKBOX :
                                 $question_type[Translation :: get(SurveyMatrixQuestion :: get_type_name()) . self :: MATRIX_TYPE_CHECKBOX] ++;
                                 break;
                         }

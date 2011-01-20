@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -29,12 +30,13 @@ class RepositoryManagerContentObjectManagerComponent extends RepositoryManager
         if (isset($object_type) && isset($manage_type))
         {
             require_once Path :: get_repository_content_object_path() . $object_type . '/php/manage/' . $manage_type . '/' . $object_type . '_' . $manage_type . '_manager.class.php';
-            $class = 'repository\\content_object\\'. $object_type.'\\'.Utilities :: underscores_to_camelcase($object_type . '_' . $manage_type) . 'Manager';
+            $class = 'repository\\content_object\\' . $object_type . '\\' . Utilities :: underscores_to_camelcase($object_type . '_' . $manage_type) . 'Manager';
             call_user_func(array($class, 'launch'), $this);
         }
         else
         {
-            $this->redirect(null, false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
+            $this->redirect(null, false, array(
+                    Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
             Display :: header(BreadcrumbTrail :: get_instance());
             Display :: warning_message(Translation :: get('NoSuchContentObjectManagerExists'));
             Display :: footer();
@@ -43,7 +45,8 @@ class RepositoryManagerContentObjectManagerComponent extends RepositoryManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
         $breadcrumbtrail->add_help('repository_content_object_manager');
     }
 

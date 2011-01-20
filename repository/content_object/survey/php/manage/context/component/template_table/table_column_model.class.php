@@ -1,9 +1,9 @@
-<?php namespace repository\content_object\survey;
+<?php 
 namespace repository\content_object\survey;
 
+use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\StaticTableColumn;
-
 
 class SurveyTemplateTableColumnModel extends DefaultSurveyTemplateTableColumnModel
 {
@@ -15,9 +15,9 @@ class SurveyTemplateTableColumnModel extends DefaultSurveyTemplateTableColumnMod
     /**
      * Constructor
      */
-    function __construct($survey_template)
+    function __construct()
     {
-        parent :: __construct($survey_template);
+        parent :: __construct();
         $this->set_default_order_column(0);
         $this->add_column(self :: get_modification_column());
     }

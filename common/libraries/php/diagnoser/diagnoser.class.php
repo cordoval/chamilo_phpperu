@@ -106,8 +106,8 @@ class Diagnoser
         $array[] = $this->build_setting($status, '[PHP]', 'phpversion()', 'http://www.php.net/manual/en/function.phpversion.php', phpversion(), '>= 5.2', null, Translation :: get('PHPVersionInfo'));
 
         $setting = ini_get('output_buffering');
-	    $req_setting = 0;
-	    $status = $setting == $req_setting ? self :: STATUS_OK : self :: STATUS_ERROR;
+        $req_setting = 0;
+        $status = $setting == $req_setting ? self :: STATUS_OK : self :: STATUS_ERROR;
         $array[] = $this->build_setting($status, '[INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('OutputBufferingInfo'));
 
         $setting = ini_get('file_uploads');
@@ -221,13 +221,28 @@ class Diagnoser
      */
     function get_mysql_data()
     {
+        // Direct use of mysql_* functions without specifying
+        // a connection is not reliable here. See Bug #2499.
+        //$host_info   = mysql_get_host_info();
+        //$server_info = mysql_get_server_info();
+        //$proto_info  = mysql_get_proto_info();
+        //$client_info = mysql_get_client_info();
+
+        $connection = Connection :: get_instance()->get_connection()->connection;
+        $host_info   = $connection->host_info;
+        $server_info = $connection->server_info;
+        $proto_info  = $connection->protocol_version;
+        $client_info = $connection->client_info;
+
         $array = array();
 
-        $array[] = $this->build_setting(self :: STATUS_INFORMATION, '[MySQL]', 'mysql_get_host_info()', 'http://www.php.net/manual/en/function.mysql-get-host-info.php', mysql_get_host_info(), null, null, Translation :: get('MysqlHostInfo'));
+        $array[] = $this->build_setting(self :: STATUS_INFORMATION, '[MySQL]', 'mysql_get_host_info()', 'http://www.php.net/manual/en/function.mysql-get-host-info.php', $host_info, null, null, Translation :: get('MysqlHostInfo'));
 
-        $array[] = $this->build_setting(self :: STATUS_INFORMATION, '[MySQL]', 'mysql_get_server_info()', 'http://www.php.net/manual/en/function.mysql-get-server-info.php', mysql_get_server_info(), null, null, Translation :: get('MysqlServerInfo'));
+        $array[] = $this->build_setting(self :: STATUS_INFORMATION, '[MySQL]', 'mysql_get_server_info()', 'http://www.php.net/manual/en/function.mysql-get-server-info.php', $server_info, null, null, Translation :: get('MysqlServerInfo'));
 
-        $array[] = $this->build_setting(self :: STATUS_INFORMATION, '[MySQL]', 'mysql_get_proto_info()', 'http://www.php.net/manual/en/function.mysql-get-proto-info.php', mysql_get_proto_info(), null, null, Translation :: get('MysqlProtoInfo'));
+        $array[] = $this->build_setting(self :: STATUS_INFORMATION, '[MySQL]', 'mysql_get_client_info()', 'http://www.php.net/manual/en/function.mysql-get-client-info.php', $client_info, null, null, Translation :: get('MysqlClientInfo'));
+
+        $array[] = $this->build_setting(self :: STATUS_INFORMATION, '[MySQL]', 'mysql_get_proto_info()', 'http://www.php.net/manual/en/function.mysql-get-proto-info.php', $proto_info, null, null, Translation :: get('MysqlProtoInfo'));
 
         return $array;
     }
@@ -291,11 +306,11 @@ class Diagnoser
 
         if($url)
         {
-        	$url = $this->get_link($title, $url);
+            $url = $this->get_link($title, $url);
         }
         else
         {
-        	$url = $title;
+            $url = $title;
         }
 
         $formatted_current_value = $current_value;

@@ -9,6 +9,10 @@ namespace migration;
  * Cleanupscript to clean the lcms database
  */
 
+use common\libraries\Configuration;
+
+use MDB2;
+
 ini_set('include_path', realpath(dirname(__FILE__) . '/../../common/libraries/plugin/pear'));
 require_once dirname(__FILE__) . '/../../common/global.inc.php';
 

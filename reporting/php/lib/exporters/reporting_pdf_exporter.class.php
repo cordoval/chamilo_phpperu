@@ -1,6 +1,7 @@
 <?php
 namespace reporting;
 
+use common\libraries\Export;
 use common\libraries\Path;
 
 class ReportingPdfExporter extends ReportingExporter

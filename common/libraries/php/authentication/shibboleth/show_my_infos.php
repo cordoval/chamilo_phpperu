@@ -1,17 +1,19 @@
 <?php
+namespace common\libraries;
+
 /**
  * $Id: show_my_infos.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.authentication.shibboleth
  */
-/** 
- * This file allows to see the current Shibboleth user attribute values 
- * that are sent to Chamilo. It can be useful to debug the Shibboleth authentication. 
+/**
+ * This file allows to see the current Shibboleth user attribute values
+ * that are sent to Chamilo. It can be useful to debug the Shibboleth authentication.
  */
 require_once dirname(__FILE__) . '/../../../global.inc.php';
 require_once dirname(__FILE__) . '/shibboleth_authentication.class.php';
 
 /*
- * Set this security code to whatever you want if you 
+ * Set this security code to whatever you want if you
  * want to disable users to see their own Shibboleth infos by accessing the URL
  * of this file
  */

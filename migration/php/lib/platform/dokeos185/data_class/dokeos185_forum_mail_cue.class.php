@@ -4,7 +4,7 @@ namespace migration;
  * $Id: dokeos185_forum_mail_cue.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
+use Exception;
 /**
  * This class presents a Dokeos185 forum_mailcue
  *
@@ -13,14 +13,14 @@ namespace migration;
 class Dokeos185ForumMailcue extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
-    
+
     /**
      * Dokeos185ForumMailcue properties
      */
     const PROPERTY_THREAD_ID = 'thread_id';
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_POST_ID = 'post_id';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -110,7 +110,7 @@ class Dokeos185ForumMailcue extends Dokeos185MigrationDataClass
     /**
      * Check if the forum mailcue is valid
      * @param array $array the parameters for the validation
-     * @return true if the forum mailcue is valid 
+     * @return true if the forum mailcue is valid
      */
     function is_valid()
     {
@@ -147,11 +147,11 @@ class Dokeos185ForumMailcue extends Dokeos185MigrationDataClass
     static function retrieve_data($parameters)
     {
         self :: $mgdm = $parameters['mgdm'];
-        
+
         $db = $parameters['course']->get_db_name();
         $tablename = 'forum_mailcue';
         $classname = 'Dokeos185ForumMailcue';
-        
+
         return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
     }
 

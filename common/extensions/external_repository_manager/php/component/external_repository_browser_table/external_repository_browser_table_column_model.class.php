@@ -7,6 +7,8 @@ namespace common\extensions\external_repository_manager;
 /**
  * Table column model for the repository browser table
  */
+use common\libraries\StaticTableColumn;
+
 class ExternalRepositoryBrowserTableColumnModel extends DefaultExternalRepositoryObjectTableColumnModel
 {
     /**
@@ -21,8 +23,8 @@ class ExternalRepositoryBrowserTableColumnModel extends DefaultExternalRepositor
     {
         parent :: __construct();
         $this->set_default_order_column(1);
-//        $this->add_column(new ObjectTableColumn(ContentObject :: PROPERTY_MODIFICATION_DATE));
-//        $this->add_column(new StaticTableColumn(Translation :: get('Versions')));
+        //        $this->add_column(new ObjectTableColumn(ContentObject :: PROPERTY_MODIFICATION_DATE));
+        //        $this->add_column(new StaticTableColumn(Translation :: get('Versions')));
         $this->add_column(self :: get_modification_column());
     }
 

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\geolocation;
 
+use application\weblcms\ObjectPublicationTableColumnModel;
 use application\weblcms\ObjectPublicationTableCellRenderer;
 
 /**
@@ -27,7 +28,7 @@ class GeolocationCellRenderer extends ObjectPublicationTableCellRenderer
         {
             return $this->get_actions($publication, null, true, false)->as_html();
         }
-        
+
         return parent :: render_cell($column, $publication);
     }
 

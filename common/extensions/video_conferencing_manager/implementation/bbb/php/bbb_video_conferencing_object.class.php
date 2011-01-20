@@ -19,7 +19,7 @@ class BbbVideoConferencingObject extends VideoConferencingObject
     const PROPERTY_VIEWERS = 'viewers';
     const PROPERTY_FORCIBLY_ENDED = 'forcibly_ended';
 
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(
                 self :: PROPERTY_RUNNING, self :: PROPERTY_MODERATORS, self :: PROPERTY_VIEWERS, self :: PROPERTY_END_TIME, self :: PROPERTY_START_TIME, self :: PROPERTY_ATTENDEE_PW, self :: PROPERTY_MODERATOR_PW, self :: PROPERTY_WELCOME, 

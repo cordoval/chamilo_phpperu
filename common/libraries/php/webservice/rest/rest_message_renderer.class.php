@@ -1,6 +1,9 @@
 <?php
-
 namespace common\libraries;
+
+use webservice\WebserviceManager;
+
+use Exception;
 
 /**
  * A REST message that will be returned when a REST server has been called.
@@ -23,7 +26,7 @@ abstract class RestMessageRenderer
         }
         else
         {
-            if(is_array($object) && count($object) > 0 && $object[1] instanceof DataClass)
+            if(is_array($object) && count($object) > 0 && $object[0] instanceof DataClass)
             {
                $this->render_multiple_objects($object);
             }
@@ -40,7 +43,7 @@ abstract class RestMessageRenderer
         $path = dirname(__FILE__) . '/rest_message_renderer/' . $type . '_rest_message_renderer.class.php';
         if(!file_exists($path))
         {
-            throw new Exception(Translation :: get('CouldNotCreateRestMessageRendererType', array('TYPE' => $type)));
+            throw new Exception(Translation :: get('CouldNotCreateRestMessageRendererType', array('TYPE' => $type), WebserviceManager :: APPLICATION_NAME));
         }
 
         require_once($path);

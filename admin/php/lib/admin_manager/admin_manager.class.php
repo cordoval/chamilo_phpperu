@@ -80,7 +80,7 @@ class AdminManager extends CoreApplication
      * @param boolean $display_search Should the header include a search form or
      * not?
      */
-    function display_header($breadcrumbtrail = null, $display_search = false, $helpitem)
+    function display_header($breadcrumbtrail = null, $display_search = false)
     {
         if (is_null($breadcrumbtrail))
         {
@@ -93,7 +93,7 @@ class AdminManager extends CoreApplication
         {
             $title_short = substr($title_short, 0, 50) . '&hellip;';
         }
-        Display :: header($breadcrumbtrail, $helpitem);
+        Display :: header($breadcrumbtrail);
         echo '<h3 style="float: left;" title="' . $title . '">' . $title_short . '</h3>';
         if ($display_search)
         {
@@ -122,7 +122,7 @@ class AdminManager extends CoreApplication
         Display :: footer();
     }
 
-    public static function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: APPLICATION_NAME)
     {
         $info = array();
 

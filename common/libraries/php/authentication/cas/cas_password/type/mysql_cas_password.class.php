@@ -1,5 +1,8 @@
 <?php
 namespace common\libraries;
+
+use MDB2;
+
 require_once dirname(__FILE__) . '/../cas_password.class.php';
 require_once Path :: get_library_path() . 'webservice/webservice.class.php';
 

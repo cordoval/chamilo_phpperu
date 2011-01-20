@@ -1,7 +1,7 @@
 <?php
-
 namespace application\gradebook;
 
+use common\libraries\Request;
 use common\libraries\SubManager;
 use common\libraries\Path;
 
@@ -103,12 +103,16 @@ class EvaluationManager extends SubManager
     //url creation
     function get_evaluation_editing_url($evaluation)
     {
-        return $this->get_url(array(self :: PARAM_EVALUATION_ACTION => self :: ACTION_UPDATE, self :: PARAM_EVALUATION_ID => $evaluation->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_EVALUATION_ACTION => self :: ACTION_UPDATE,
+                self :: PARAM_EVALUATION_ID => $evaluation->get_id()));
     }
 
     function get_evaluation_deleting_url($evaluation)
     {
-        return $this->get_url(array(self :: PARAM_EVALUATION_ACTION => self :: ACTION_DELETE, self :: PARAM_EVALUATION_ID => $evaluation->get_id()));
+        return $this->get_url(array(
+                self :: PARAM_EVALUATION_ACTION => self :: ACTION_DELETE,
+                self :: PARAM_EVALUATION_ID => $evaluation->get_id()));
     }
 
     /**

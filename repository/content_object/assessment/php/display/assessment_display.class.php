@@ -43,6 +43,16 @@ class AssessmentDisplay extends ComplexDisplay
         return $this->get_parent()->get_assessment_current_attempt_id();
     }
 
+    function get_assessment_question_attempts()
+    {
+        return $this->get_parent()->get_assessment_question_attempts();
+    }
+
+    function get_assessment_question_attempt($complex_content_object_question_id)
+    {
+        return $this->get_parent()->get_assessment_question_attempt($complex_content_object_question_id);
+    }
+
     function get_assessment_go_back_url()
     {
         return $this->get_parent()->get_assessment_go_back_url();
@@ -51,6 +61,54 @@ class AssessmentDisplay extends ComplexDisplay
     function get_application_component_path()
     {
         return dirname(__FILE__) . '/component/';
+    }
+
+    /**
+     * @return FeedbackDisplayConfiguration
+     */
+    function get_feedback_display_configuration()
+    {
+        return $this->get_parent()->get_assessment_feedback_configuration();
+    }
+
+    /**
+     * @return number
+     */
+    function get_feedback_type()
+    {
+        return $this->get_feedback_display_configuration()->get_feedback_type();
+    }
+
+    /**
+     * @return boolean
+     */
+    function get_feedback_summary()
+    {
+        return $this->get_feedback_display_configuration()->get_feedback_summary();
+    }
+
+    /**
+     * @return boolean
+     */
+    function get_feedback_per_page()
+    {
+        return $this->get_feedback_display_configuration()->get_feedback_per_page();
+    }
+
+    /**
+     * @return boolean
+     */
+    function display_numeric_feedback()
+    {
+        return $this->get_feedback_display_configuration()->display_numeric_feedback();
+    }
+
+    /**
+     * @return boolean
+     */
+    function display_textual_feedback()
+    {
+        return $this->get_feedback_display_configuration()->display_textual_feedback();
     }
 
     /**
