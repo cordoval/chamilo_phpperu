@@ -68,7 +68,7 @@ class Dokeos185Resource extends Dokeos185CourseDataMigrationDataClass
      * Returns the res_type of this resource.
      * @return string the res_type.
      */
-    function get_res_type()
+    function get_resource_type()
     {
         return $this->get_default_property(self :: PROPERTY_RESOURCE_TYPE);
     }
