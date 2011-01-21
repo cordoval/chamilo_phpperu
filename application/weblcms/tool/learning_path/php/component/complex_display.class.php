@@ -342,6 +342,16 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
         return new FeedbackDisplayConfiguration();
     }
 
+    function get_assessment_question_attempt($complex_question_id)
+    {
+        
+    }
+
+    function get_assessment_question_attempts()
+    {
+        
+    }
+
     function forum_topic_viewed($complex_topic_id)
     {
         require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_forum_topic_views_tracker.class.php';
