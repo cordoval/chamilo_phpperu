@@ -99,6 +99,7 @@ class Segment implements IteratorAggregate, Countable
 			if ($this->file->getFromName('Pictures/' . $imageValue) === false) {
 				$this->file->addFile($imageKey, 'Pictures/' . $imageValue);
 			}
+                        $this->odf->addImageToManifest($imageValue);
         }
         $this->file->close();		
         return $this->xmlParsed;
@@ -161,12 +162,27 @@ class Segment implements IteratorAggregate, Countable
         $width *= Odf::PIXEL_TO_CM;
         $height *= Odf::PIXEL_TO_CM;
         $xml = <<<IMG
-<draw:frame draw:style-name="fr1" draw:name="$filename" text:anchor-type="char" svg:width="{$width}cm" svg:height="{$height}cm" draw:z-index="3"><draw:image xlink:href="Pictures/$file" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>
+<draw:frame draw:style-name="fr1" draw:name="$filename" text:anchor-type="as-char" svg:width="{$width}cm" svg:height="{$height}cm" draw:z-index="3"><draw:image xlink:href="Pictures/$file" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>
 IMG;
         $this->images[$value] = $file;
         $this->setVars($key, $xml, false);
         return $this;
-    }	
+    }
+
+    public function setImageReplace($key, $value)
+    {
+        $filename = strtok(strrchr($value, '/'), '/.');
+        $file = substr(strrchr($value, '/'), 1);
+        $size = @getimagesize($value);
+        if ($size === false) {
+            throw new OdfException("Invalid image");
+        }
+        $this->images[$value] = $file;
+        $this->vars[$key] = $file;
+        return $this;
+    }
+
+
     /**
      * Shortcut to retrieve a child
      *

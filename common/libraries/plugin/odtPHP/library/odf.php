@@ -28,6 +28,7 @@ class Odf
     protected $file;
     protected $contentXml;
     protected $tmpfile;
+    protected $manifestXml;
     protected $images = array();
     protected $vars = array();
     protected $segments = array();
@@ -58,6 +59,9 @@ class Odf
         }
         if (($this->contentXml = $this->file->getFromName('content.xml')) === false) {
             throw new OdfException("Nothing to parse - check that the content.xml file is correctly formed");
+        }
+        if (($this->manifestXml = $this->file->getFromName('META-INF/manifest.xml')) === false) {
+        throw new OdfException("Something is wrong with META-INF/manifest.xml");
         }
 
         $this->file->close();
@@ -112,6 +116,21 @@ IMG;
         $this->setVars($key, $xml, false);
         return $this;
     }
+
+    public function setImageReplace($key, $value)
+    {
+        $filename = strtok(strrchr($value, '/'), '/.');
+        $file = substr(strrchr($value, '/'), 1);
+        $size = @getimagesize($value);
+        if ($size === false) {
+            throw new OdfException("Invalid image");
+        }
+        $this->images[$value] = $file;
+        $this->vars[$key] = $file;
+        return $this;
+    }
+
+
     /**
      * Move segment tags for lines of tables
      * Called automatically within the constructor
@@ -241,18 +260,42 @@ IMG;
      * @throws OdfException
      * @return void
      */
+//    private function _save()
+//    {
+//    	$this->file->open($this->tmpfile);
+//        $this->_parse();
+//        if (! $this->file->addFromString('content.xml', $this->contentXml)) {
+//            throw new OdfException('Error during file export');
+//        }
+//        foreach ($this->images as $imageKey => $imageValue) {
+//            $this->file->addFile($imageKey, 'Pictures/' . $imageValue);
+//        }
+//        $this->file->close(); // seems to bug on windows CLI sometimes
+//    }
     private function _save()
     {
-    	$this->file->open($this->tmpfile);
+       $this->file->open($this->tmpfile);
         $this->_parse();
         if (! $this->file->addFromString('content.xml', $this->contentXml)) {
             throw new OdfException('Error during file export');
         }
         foreach ($this->images as $imageKey => $imageValue) {
             $this->file->addFile($imageKey, 'Pictures/' . $imageValue);
+            $this->addImageToManifest($imageValue);
+        }
+        if (! $this->file->addFromString('META-INF/manifest.xml', $this->manifestXml)) {
+            throw new OdfException('Error during file export: manifest.xml');
         }
         $this->file->close(); // seems to bug on windows CLI sometimes
     }
+
+    public function addImageToManifest($file) {
+        $extension = explode('.', $file);
+        $replace = '<manifest:file-entry manifest:media-type="image/'.$extension[1].'" manifest:full-path="Pictures/'.$file.'"/></manifest:manifest>';
+
+        $this->manifestXml = str_replace('</manifest:manifest>', $replace, $this->manifestXml);
+}
+
     /**
      * Export the file as attached file by HTTP
      *
