@@ -283,7 +283,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
     function save_assessment_answer($complex_question_id, $answer, $score)
     {
         $tracker = $this->retrieve_learning_path_tracker();
-        $items = $this->retrieve_tracker_items($tracker);
+        $items = $this->retrieve_learning_path_tracker_items($tracker);
 
         $parameters = array();
         $parameters[WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID] = $this->get_parameter(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID);
@@ -303,6 +303,11 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
         $trackers = $dummy->retrieve_tracker_items($condition);
         $lpi_tracker = $trackers[0];
 
+        if(!$lpi_tracker)
+        {
+            return;
+        }
+        
         $lpi_tracker->set_score($total_score);
         $lpi_tracker->set_total_time($lpi_tracker->get_total_time() + (time() - $lpi_tracker->get_start_time()));
 

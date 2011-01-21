@@ -91,8 +91,16 @@ class RequirementsInstallWizardPage extends InstallWizardPage
         {
             $this->fatal = true;
         }
-
         $array[] = $diagnoser->build_setting($status, '[PHP-INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('OutputBufferingInfo', null, Utilities :: COMMON_LIBRARIES), $path);
+
+        $setting = ini_get('magic_quotes_gpc');
+        $req_setting = 0;
+        $status = $setting == $req_setting ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
+        if ($status == Diagnoser :: STATUS_ERROR)
+        {
+            $this->fatal = true;
+        }
+        $array[] = $diagnoser->build_setting($status, '[PHP-INI]', 'magic_quotes_gpc', 'http://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-gpc', $setting, $req_setting, 'on_off', Translation :: get('MagicQuotesGpcInfo', null, Utilities :: COMMON_LIBRARIES), $path);
 
         $extensions = array('gd' => 'http://www.php.net/gd', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://www.php.net/xsl'/*, 'openssl' => 'http://www.php.net/openssl', 'curl' => 'http://www.php.net/curl'*/);
 
