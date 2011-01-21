@@ -38,7 +38,7 @@ require_once dirname(__FILE__) . '/../../handbook_rights.class.php';
  * Component to view a handbook and it's content
  * @author Nathalie Blocry
  */
-class HandbookManagerHandbookViewerComponent extends HandbookManager
+abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
 {
     const PARAMETER_SHOW_ALTERNATIVES = 'sa';
     const ALL_ALTERNATIVES = 'aa';
@@ -48,83 +48,19 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     const METADATA_SHORT = 0;
     const METADATA_LONG = 1;
 
-    private $handbook_publication_id; //the id of the publication
-    private $handbook_id; //the id of the parent handbook for the selection
-    private $handbook_selection_id; //the id of the current selection
-    private $complex_selection_id; //the id of the complex content object item wrapper
-    private $top_handbook_id; //the id of the top handbook
-    private $selected_object;
-    private $user_preferences = array();
-    private $handbook_preferences = array();
-    private $next_item_id;
-    private $previous_item_id;
-    private $edit_right;
-    private $view_right;
-
+    protected $handbook_publication_id; //the id of the publication
+    protected $handbook_id; //the id of the parent handbook for the selection
+    protected $handbook_selection_id; //the id of the current selection
+    protected $complex_selection_id; //the id of the complex content object item wrapper
+    protected $top_handbook_id; //the id of the top handbook
+    protected $selected_object;
+    protected $user_preferences = array();
+    protected $handbook_preferences = array();
+    protected $next_item_id;
+    protected $previous_item_id;
+    protected $edit_right;
+    protected $view_right;
     private $light_mode;
-
-    /**
-     * Runs this component and displays its output.
-     */
-    function run()
-    {
-        //TOGGLE MENU REQUIRED?
-        if (Request::get(HandbookManager::ACTION_VIEW_COLLAPSED) == '1')
-        {
-            //yes
-            if ($_SESSION[HandbookManager::PARAM_MENU_STYLE] == HandbookManager::MENU_OPEN)
-            {
-                $_SESSION[HandbookManager::PARAM_MENU_STYLE] = HandbookManager::MENU_COMPACT;
-            }
-            else
-            {
-                $_SESSION[HandbookManager::PARAM_MENU_STYLE] = HandbookManager::MENU_OPEN;
-            }
-        }
-
-        $this->light_mode = Request::get(self::PARAM_LIGHT_MODE);
-
-        //GET CONTENT OBJECTS TO DISPLAY
-        $this->get_rights();
-        if ($this->view_right)
-        {
-            $this->get_content_objects();
-            $this->get_preferences($this->handbook_id);
-
-            $this->display_header();
-
-            
-            if($this->light_mode != 1)
-            {
-                //ACTIONBAR
-                $this->action_bar = $this->get_action_bar();
-                $html[] = $this->action_bar->as_html();
-           
-
-                //MENU
-                $html[] = $this->get_menu();
-             }
-            //CONTENT
-            $html[] = '<div>';
-            $html[] = $this->display_content();
-            $html[] = '</div>';
-
-            $html[] = '</div>';
-            $html[] = '</div>';
-
-            echo implode("\n", $html);
-            $this->display_footer();
-        }
-        else
-        {
-            $this->display_header();
-            $html[] = '<div>';
-            $html[] = $this->display_not_allowed();
-            $html[] = '</div>';
-            echo implode("\n", $html);
-           $this->display_footer();
-        }
-    }
 
     function get_allowed_content_object_types()
     {
@@ -273,19 +209,35 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 //         return implode ("\n", $html);
     }
 
-    function display_content()
+    function display_text_content()
+    {
+        $this->display_preferences();
+        if ($this->selected_object && $this->selected_object->get_type() == Handbook::get_type_name())
+        {
+            $html[] = $this->get_full_handbook_html($this->selected_object->get_id());
+        }
+        else if ($this->selected_object)
+        {
+            //SHOW ONLY THE SELECTED ITEM
+            $html[] = $this->get_text_item_html($this->selected_object->get_id());
+        }
+
+        return implode("\n", $html);
+    }
+
+    function display_full_content()
     {
         $this->display_preferences();
         if ($this->selected_object && $this->selected_object->get_type() == Handbook::get_type_name())
         {
             //SHOW ALL ITEMS IN THIS HANDBOOK (one level)
             //TODO: implement
-            $html[] = $this->get_handbook_html($this->selected_object->get_id());
+            $html[] = $this->get_full_handbook_html($this->selected_object->get_id());
         }
         else if ($this->selected_object)
         {
             //SHOW ONLY THE SELECTED ITEM
-            $html[] = $this->get_item_html($this->selected_object->get_id());
+            $html[] = $this->get_full_item_html($this->selected_object->get_id());
         }
 
         return implode("\n", $html);
@@ -407,14 +359,258 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         return implode("\n", $html);
     }
 
-    function get_item_html($co_id, $show_alternatives_button = true)
+    /**
+     * return the html to display the image alternatives for a content-item
+     * @param <type> $co_id: the id of the orignal co
+     * @param <type> $alternatives_array; the alternatives if they have already been retrieved
+     * @param <type> $show_alternatives; boolean to determine wether the alternatives have to be shown
+     * @return <type> string
+     */
+    function get_image_item_html($co_id, $alternatives_array = null, $show_alternatives = true)
+    {
+        //GET ALTERNATIVES
+        if ($alternatives_array == null)
+        {
+            $alternatives_array = HandbookManager::get_alternatives_preferences_types($co_id, $this->handbook_id);
+        }
+
+        if ($alternatives_array['image_main'] != null)
+        {
+            $image_tabs = new DynamicTabsRenderer('imagetabs');
+            $i = 0;
+
+            $html[] = '<div class = "handbook_item_images" style="padding: 10px;">';
+            $object = $alternatives_array['image_main'];
+            $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
+            //TODO SHOW POPUP WITH LARGER PIC ON CLICK INSTEAD OF DOWNLOAD
+            $htmli['tab' . $i][] = '<div>';
+            $htmli['tab' . $i][] = '<a href="' . $url . '"><img style = "max-width:100%" src="' . $url . '"></a>';
+            $htmli['tab' . $i][] = '</div>';
+
+
+            //ALTERNATIVE IMAGES
+            if (count($alternatives_array['image']) > 0 && $show_alternatives != false)
+            {
+                $tab_name = $this->print_metadata($alternatives_array['image_main']->get_id());
+                $image_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmli['tab' . $i])));
+                $i++;
+                while (list($key, $value) = each($alternatives_array['image']))
+                {
+                    $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($value->get_id());
+                    //TODO SHOW POPUP WITH LARGER PIC ON CLICK INSTEAD OF DOWNLOAD
+                    $htmli['tab' . $i] = array();
+                    $htmli['tab' . $i][] = '<div>';
+                    $htmli['tab' . $i][] = '<a href="' . $url . '"><img style = "max-width:100%" src="' . $url . '"></a>';
+                    $htmli['tab' . $i][] = '</div>';
+                    $tab_name = $this->print_metadata($value->get_id());
+
+                    $image_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmli['tab' . $i])));
+
+                    $i++;
+                }
+
+                $html[] = $image_tabs->render();
+            }
+            else
+            {
+                $html[] = implode("\n", $htmli['tab' . $i]);
+            }
+        }
+        else
+        {
+            $html[] = 'no image content';
+        }
+        return implode("\n", $html);
+    }
+
+    /**
+     * return the html to display the less important alternatives (links & others) for a content-item
+     * @param <type> $co_id: the id of the orignal co
+     * @param <type> $alternatives_array; the alternatives if they have already been retrieved
+     * @param <type> $show_alternatives; boolean to determine wether the alternatives have to be shown
+     * @return <type> string
+     */
+    function get_secondary_item_html($co_id, $alternatives_array = null, $show_alternatives = true)
+    {
+        //GET ALTERNATIVES
+        if ($alternatives_array == null)
+        {
+            $alternatives_array = HandbookManager::get_alternatives_preferences_types($co_id, $this->handbook_id);
+        }
+
+        $html[] = '<div>';
+        $html[] = ' . ';
+        $html[] = '</div>';
+
+        if (count($alternatives_array['link']) > 0 || count($alternatives_array['other']) > 0)
+        {
+            $other_tabs = new DynamicTabsRenderer('other_tabs');
+            if (count($alternatives_array['link']) > 0)
+            {
+                //SHOW LINKS TAB
+                $html_links = array();
+                while (list($key, $value) = each($alternatives_array['link']))
+                {
+                    $display3 = ContentObjectDisplay :: factory($value);
+                    $html_links[] = $display3->get_short_html();
+                    $html_links[] = '</br>';
+                }
+                $other_tabs->add_tab(new DynamicContentTab('link', 'links', Theme :: get_content_object_image_path(Link::get_type_name()), implode("\n", $html_links)));
+            }
+            if (count($alternatives_array['other']) > 0)
+            {
+                //SHOW OTHERS
+                while (list($key, $value) = each($alternatives_array['other']))
+                {
+                    $display = ContentObjectDisplay :: factory($value);
+
+                    $html_others[] = $display->get_full_html();
+                    $html_others[] = '</div>';
+                }
+                $other_tabs->add_tab(new DynamicContentTab('others', 'others', Theme :: get_content_object_image_path(Link::get_type_name()), implode("\n", $html_others)));
+            }
+            $html[] = $other_tabs->render();
+            $html[] = '</div>';
+        }
+        else
+        {
+            $html[] = 'no secondary content';
+        }
+        return implode("\n", $html);
+    }
+
+    /**
+     * return the html to display the video alternatives for a content-item
+     * @param <type> $co_id: the id of the orignal co
+     * @param <type> $alternatives_array; the alternatives if they have already been retrieved
+     * @param <type> $show_alternatives; boolean to determine wether the alternatives have to be shown
+     * @return <type> string
+     */
+    function get_video_item_html($co_id, $alternatives_array = null, $show_alternatives = true)
+    {
+        //GET ALTERNATIVES
+        if ($alternatives_array == null)
+        {
+            $alternatives_array = HandbookManager::get_alternatives_preferences_types($co_id, $this->handbook_id);
+        }
+        //VIDEO
+        if ($alternatives_array['video_main'] != null)
+        {
+            $video_tabs = new DynamicTabsRenderer('videotabs');
+            $i = 0;
+            $html[] = '<div class = "handbook_item_videos" style="padding: 10px;">';
+            $object = $alternatives_array['video_main'];
+            $display = ContentObjectDisplay :: factory($alternatives_array['video_main']);
+            $htmlv['tab' . $i][] = $display->get_preview(true);
+            $htmlv['tab' . $i][] = '</div>';
+
+            //ALTERNATIVE VIDEO
+            if (count($alternatives_array['video']) > 0 && $show_alternatives != true)
+            {
+                $tab_name = $this->print_metadata($alternatives_array['video_main']->get_id());
+                $video_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmlv['tab' . $i])));
+                $i++;
+                while (list($key, $value) = each($alternatives_array['video']))
+                {
+                    $display2 = ContentObjectDisplay :: factory($value);
+                    $htmlv['tab' . $i][] = $display2->get_preview(true);
+                    $tab_name = $this->print_metadata($value->get_id());
+                    $video_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Youtube::get_type_name()), implode("\n", $htmlv['tab' . $i])));
+                    $i++;
+                }
+                $html[] = $video_tabs->render();
+            }
+            else
+            {
+                $html[] = implode("\n", $htmlv['tab' . $i]);
+            }
+            $html[] = '</div>';
+        }
+        else
+        {
+            $html[] = 'no video content';
+        }
+
+        return implode("\n", $html);
+    }
+
+    /**
+     * return the html to display the textual alternatives for a content-item
+     * @param <type> $co_id: the id of the orignal co
+     * @param <type> $alternatives_array; the alternatives if they have already been retrieved
+     * @param <type> $show_alternatives; boolean to determine wether the alternatives have to be shown
+     * @return <type> string
+     */
+    function get_text_item_html($co_id, $alternatives_array = null, $text_width = 100, $show_alternatives = true)
+    {
+        //GET ALTERNATIVES
+        if ($alternatives_array == null)
+        {
+            $alternatives_array = HandbookManager::get_alternatives_preferences_types($co_id, $this->handbook_id);
+        }
+        //TEXT
+        if ($alternatives_array['text_main'] != null)
+        {
+            $text_tabs = new DynamicTabsRenderer('texttabs');
+            $i = 0;
+
+            $htmlt['tab' . $i][] = '<div class = "handbook_topic_title">';
+            $htmlt['tab' . $i][] = $alternatives_array['text_main']->get_title();
+            $htmlt['tab' . $i][] = '</div>';
+
+            $htmlt['tab' . $i][] = '<div class = "handbook_topic_text">';
+            $htmlt['tab' . $i][] = $alternatives_array['text_main']->get_text();
+            $htmlt['tab' . $i][] = '</div>';
+
+
+            //ALTERNATIVE TEXT
+            if (count($alternatives_array['text']) > 0 && $show_alternatives != false)
+            {
+                $tab_name = $this->print_metadata($alternatives_array['text_main']->get_id());
+                $text_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmlt['tab' . $i])));
+                $i++;
+
+                while (list($key, $value) = each($alternatives_array['text']))
+                {
+                    if ($value != $alternatives_array['text_main'])
+                    {
+                        $htmlt['ctab' . $i][] = '<div class = "handbook_topic_title">';
+                        $htmlt['ctab' . $i][] = $value->get_title();
+                        $htmlt['ctab' . $i][] = '</div>';
+
+                        $htmlt['ctab' . $i][] = '<div class = "handbook_topic_text">';
+                        $htmlt['ctab' . $i][] = $value->get_text();
+                        $htmlt['ctab' . $i][] = '</div>';
+
+                        $tab_name = $this->print_metadata($value->get_id());
+                        $text_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmlt['ctab' . $i])));
+                        $i++;
+                    }
+                }
+
+                $html[] = $text_tabs->render();
+            }
+            else
+            {
+                $html[] = implode("\n", $htmlt['tab' . $i]);
+            }
+        }
+        else
+        {
+            $html[] = 'no text content';
+        }
+
+        return implode("\n", $html);
+    }
+
+    function get_full_item_html($co_id, $show_alternatives = true)
     {
         //GET ALTERNATIVES
         $alternatives_array = HandbookManager::get_alternatives_preferences_types($co_id, $this->handbook_id);
 
+        //DETERMINE PAGE LAYOUT
         $text_width;
         $visual_width;
-
         if (($alternatives_array['image_main'] != null || $alternatives_array['video_main'] != null) && $this->light_mode != 1)
         {
             $text_width = '67%';
@@ -431,222 +627,43 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         $html[] = '<div class = "handbook_item_primary_info"  style="float:left;   width:99%;">';
 
         //TEXT
-        if ($alternatives_array['text_main'] != null)
+        $html[] = '<div class = "handbook_item_text" style="float:left; width:' . $text_width . ';">';
+        $html[] = $this->get_text_item_html($co_id, $alternatives_array, $text_width);
+        $html[] = '</div>'; //close text
+        //IMAGES & VIDEO
+        if ($alternatives_array['video_main'] != null || $alternatives_array['image_main'] != null)
         {
-            $html[] = '<div class = "handbook_item_text" style="float:left; width:' . $text_width . ';">';
-
-            $text_tabs = new DynamicTabsRenderer('texttabs');
-
-            $i = 0;
-
-            $htmlt['tab' . $i][] = '<div class = "handbook_item_text" style="float:left; width:100%;">';
-
-
-            $htmlt['tab' . $i][] = $alternatives_array['text_main']->get_title();
-
-            $htmlt['tab' . $i][] = $alternatives_array['text_main']->get_text();
-
-
-            $htmlt['tab' . $i][] = '</div>';
-
-
-            //ALTERNATIVE TEXT
-            if (count($alternatives_array['text']) > 0)
-            {
-
-                $tab_name = $this->print_metadata($alternatives_array['text_main']->get_id());
-                $text_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmlt['tab' . $i])));
-                $i++;
-
-                while (list($key, $value) = each($alternatives_array['text']))
-                {
-
-                    if ($value != $alternatives_array['text_main'])
-                    {
-
-                        $htmlt['ctab' . $i][] = '<div class = "handbook_item_text" style="float:left; width:100%;">';
-
-
-                        $htmlt['ctab' . $i][] = $value->get_title();
-
-                        $htmlt['ctab' . $i][] = $value->get_text();
-                        $htmlt['ctab' . $i][] = '</div>';
-
-                        $tab_name = $this->print_metadata($value->get_id());
-
-                        $text_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmlt['ctab' . $i])));
-
-                        $i++;
-                    }
-                }
-
-                $html[] = $text_tabs->render();
-            }
-            else
-            {
-                $html[] = implode("\n", $htmlt['tab' . $i]);
-            }
-
-            $html[] = '</div>';
-            ;
-        }
-
-
-        if($this->light_mode != 1)
-        {
-            //IMAGES
             $html[] = '<div class = "handbook_item_visual" style="float:left; width:' . $visual_width . '">';
             if ($alternatives_array['image_main'] != null)
             {
-                $image_tabs = new DynamicTabsRenderer('imagetabs');
-                $i = 0;
-
-                $html[] = '<div class = "handbook_item_images" style="padding: 10px;">';
-                $object = $alternatives_array['image_main'];
-                $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
-                //TODO SHOW POPUP WITH LARGER PIC ON CLICK INSTEAD OF DOWNLOAD
-                $htmli['tab' . $i][] = '<div>';
-                $htmli['tab' . $i][] = '<a href="' . $url . '"><img style = "max-width:100%" src="' . $url . '"></a>';
-                $htmli['tab' . $i][] = '</div>';
-
-
-                //ALTERNATIVE IMAGES
-                if (count($alternatives_array['image']) > 0)
-                {
-                    $tab_name = $this->print_metadata($alternatives_array['image_main']->get_id());
-                    $image_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmli['tab' . $i])));
-                    $i++;
-                    while (list($key, $value) = each($alternatives_array['image']))
-                    {
-                        $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($value->get_id());
-                        //TODO SHOW POPUP WITH LARGER PIC ON CLICK INSTEAD OF DOWNLOAD
-                        $htmli['tab' . $i] = array();
-                        $htmli['tab' . $i][] = '<div>';
-                        $htmli['tab' . $i][] = '<a href="' . $url . '"><img style = "max-width:100%" src="' . $url . '"></a>';
-                         $htmli['tab' . $i][] = '</div>';
-                        $tab_name = $this->print_metadata($value->get_id());
-
-                        $image_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmli['tab' . $i])));
-
-                        $i++;
-                    }
-
-                    $html[] = $image_tabs->render();
-                }
-                else
-                {
-                    $html[] = implode("\n", $htmli['tab' . $i]);
-                }
+                $html[] = $this->get_image_item_html($co_id, $alternatives_array);
             }
-
-            //VIDEO
             if ($alternatives_array['video_main'] != null)
             {
-                $video_tabs = new DynamicTabsRenderer('videotabs');
-                $i = 0;
-
-                $html[] = '<div class = "handbook_item_videos" style="padding: 10px;">';
-
-                $object = $alternatives_array['video_main'];
-                $display = ContentObjectDisplay :: factory($alternatives_array['video_main']);
-
-                $htmlv['tab' . $i][] = $display->get_preview(true);
-                ;
-                $htmlv['tab' . $i][] = '</div>';
-
-
-                //ALTERNATIVE VIDEO
-                if (count($alternatives_array['video']) > 0)
-                {
-                    $tab_name = $this->print_metadata($alternatives_array['video_main']->get_id());
-                    $video_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Glossary::get_type_name()), implode("\n", $htmlv['tab' . $i])));
-                    $i++;
-
-                    while (list($key, $value) = each($alternatives_array['video']))
-                    {
-                        $display2 = ContentObjectDisplay :: factory($value);
-
-                        $htmlv['tab' . $i][] = $display2->get_preview(true);
-
-
-                        $tab_name = $this->print_metadata($value->get_id());
-
-                        $video_tabs->add_tab(new DynamicContentTab('tab' . $i, $tab_name, Theme :: get_content_object_image_path(Youtube::get_type_name()), implode("\n", $htmlv['tab' . $i])));
-
-                        $i++;
-                    }
-
-                    $html[] = $video_tabs->render();
-                }
-                else
-                {
-                    $html[] = implode("\n", $htmlv['tab' . $i]);
-                }
-                $html[] = '</div>';
+                $html[] = $this->get_video_item_html($co_id, $alternatives_array);
             }
-
-
-            $html[] = '</div>';
-            $html[] = '</div>';
-            $html[] = '</div>';
-
-            $html[] = '<div class = "handbook_item_secondary_info" style="width:79%;">';
-            $html[] = '<div>';
-            $html[] = ' . ';
-            $html[] = '</div>';
-
-            $other_tabs = new DynamicTabsRenderer('other_tabs');
-            if (count($alternatives_array['link']) > 0)
-            {
-                //SHOW LINKS TAB
-
-
-                $html_links = array();
-                while (list($key, $value) = each($alternatives_array['link']))
-                {
-                    $display3 = ContentObjectDisplay :: factory($value);
-                    $html_links[] = $display3->get_short_html();
-                    $html_links[] = '</br>';
-
-                }
-
-                $other_tabs->add_tab(new DynamicContentTab('link', 'links', Theme :: get_content_object_image_path(Link::get_type_name()), implode("\n", $html_links)));
-            }
-
-
-            if (count($alternatives_array['other']) > 0)
-            {
-                //SHOW OTHERS
-
-                while (list($key, $value) = each($alternatives_array['other']))
-                {
-                    $display = ContentObjectDisplay :: factory($value);
-
-                    $html_others[] = $display->get_full_html();
-                    $html_others[] = '</div>';
-                }
-
-                $other_tabs->add_tab(new DynamicContentTab('others', 'others', Theme :: get_content_object_image_path(Link::get_type_name()), implode("\n", $html_others)));
-            }
-            $html[] = $other_tabs->render();
+            $html[] = '</div>'; //close visual info
         }
-        $html[] = '</div>';
 
-        $html[] = '</div>';
-        
+        $html[] = '</div>'; //close primary info
+        //OTHER
+        if (count($alternatives_array['link']) > 0 || count($alternatives_array['other']) > 0)
+        {
+            $html[] = '<div class = "handbook_item_secondary_info" style="width:79%;">';
+            $html[] = $this->get_secondary_item_html($co_id, $alternatives_array);
+            $html[] = '</div>'; //close secondary info
+        }
+        $html[] = '</div>'; //close handbook item
+
         return implode("\n", $html);
     }
 
-    function get_handbook_html($co_id, $show_alternatives_button = true)
+    function get_handbook_html($co_id, $show_alternatives = true)
     {
-
         //GET ALTERNATIVES
-
         $alternatives_array = HandbookManager::get_alternatives_preferences_types($co_id, $this->handbook_id);
-
         //DISPLAY TITLES
         //todo: implement';
-
         $html[] = '<H1>' . $alternatives_array['handbook_main']->get_title() . '</H1>';
         $html[] = $alternatives_array['handbook_main']->get_description();
         $html[] = 'alternative titles: ';
@@ -658,31 +675,14 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         return implode("\n", $html);
     }
 
-
-
     function display_header()
     {
-        if($this->light_mode == 1)
-        {
-            
-            Display :: small_header();
-        }
-        else
-        {
-            parent::display_header();
-        }
+        parent::display_header();
     }
 
     function display_footer()
     {
-        if($this->light_mode == 1)
-        {
-            Display :: small_footer();
-        }
-        else
-        {
-            parent::display_footer();
-        }
+        parent::display_footer();
     }
 
 }

@@ -32,7 +32,7 @@ abstract class LauncherApplication extends Application
         return new $class($user);
     }
 
-    function display_header()
+    function display_header($breadcrumbtrail = null, $display_title = true)
     {
         Display :: small_header();
     }

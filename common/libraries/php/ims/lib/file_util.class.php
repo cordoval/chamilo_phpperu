@@ -17,7 +17,7 @@ class FileUtil{
   		$is_dir = strpos(basename($path), '.') === false;
   		$dir = $is_dir ? $path : dirname($path);
   		if(!file_exists($dir)){
-  			$result = mkdir($dir, '0777', true);
+  			$result = mkdir($dir, 0777, true);
   			return $result;
   		}else{
   			return true;

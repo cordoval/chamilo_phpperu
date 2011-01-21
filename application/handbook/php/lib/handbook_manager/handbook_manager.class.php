@@ -61,7 +61,9 @@ class HandbookManager extends WebApplication
     const ACTION_EDIT_HANDBOOK_PUBLICATION = 'handbook_publication_editor';
     const ACTION_CREATE_HANDBOOK_PUBLICATION = 'handbook_publication_creator';
     const ACTION_BROWSE_HANDBOOK_PUBLICATIONS = 'handbook_publications_browser';
-    const ACTION_VIEW_HANDBOOK = 'handbook_viewer';
+    const ACTION_VIEW_HANDBOOK = 'handbook_full_viewer';
+    const ACTION_VIEW_FULL_HANDBOOK = 'handbook_full_viewer';
+    const ACTION_VIEW_LIGHT_HANDBOOK = 'handbook_light_viewer';
     const ACTION_EDIT_RIGHTS = 'rights_editor';
     const ACTION_VIEW_PREFERENCES = 'handbook_preferences_viewer';
     const ACTION_VIEW_HANDBOOK_PUBLICATION = 'handbook_publications_browser';
@@ -77,6 +79,7 @@ class HandbookManager extends WebApplication
     const ACTION_SEARCH = 'search_results_browser';
     const ACTION_CREATE_PREFERENCE = 'handbook_preferences_creator';
     const ACTION_VIEW_COLLAPSED = 'toggle_menu';
+    const ACTION_CREATE_ODF = 'odf_creator';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LIGHT_MODE = 'light';

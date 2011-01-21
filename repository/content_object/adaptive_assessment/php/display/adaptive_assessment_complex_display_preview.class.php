@@ -113,12 +113,18 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
     {
     }
 
-    function get_assessment_question_attempts($attempt_id)
+    /* (non-PHPdoc)
+     * @see repository\content_object\assessment.AssessmentComplexDisplaySupport::get_assessment_question_attempts()
+     */
+    function get_assessment_question_attempts()
     {
         $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
         return $answers[$this->get_root_content_object()->get_id()];
     }
 
+    /* (non-PHPdoc)
+     * @see repository\content_object\assessment.AssessmentComplexDisplaySupport::get_assessment_question_attempt()
+     */
     function get_assessment_question_attempt($complex_question_id)
     {
         $answers = $this->get_assessment_question_attempts($complex_question_id);

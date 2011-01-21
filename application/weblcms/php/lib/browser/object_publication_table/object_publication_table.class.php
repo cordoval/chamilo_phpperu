@@ -33,7 +33,7 @@ class ObjectPublicationTable extends ObjectTable
             $cell_renderer = new ObjectPublicationTableCellRenderer($table_renderer);
         }
 
-        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(_CLASS__, true), $column_model, $cell_renderer);
+        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(__CLASS__, true), $column_model, $cell_renderer);
 
         $cell_renderer->set_object_count($this->get_object_count());
         $actions = $table_renderer->get_actions();

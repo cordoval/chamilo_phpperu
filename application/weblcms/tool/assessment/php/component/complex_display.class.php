@@ -175,6 +175,29 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool implements
         return $this->active_tracker->get_id();
     }
 
+    function get_assessment_question_attempts()
+    {
+        $assessment_question_attempt_data = array();
+
+        $condition = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->active_tracker->get_id());
+
+        $dummy = new WeblcmsQuestionAttemptsTracker();
+        $trackers = $dummy->retrieve_tracker_items($condition);
+
+        foreach ($trackers as $tracker)
+        {
+            $assessment_question_attempt_data[$tracker->get_question_cid()] = $tracker;
+        }
+
+        return $assessment_question_attempt_data;
+    }
+
+    function get_assessment_question_attempt($complex_question_id)
+    {
+        $answers = $this->get_assessment_question_attempts($complex_question_id);
+        return $answers[$complex_question_id];
+    }
+
     function get_assessment_go_back_url()
     {
         return $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW));
@@ -182,7 +205,11 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool implements
 
     function get_assessment_feedback_configuration()
     {
-        return new FeedbackDisplayConfiguration();
+        $default_configuration = new FeedbackDisplayConfiguration();
+        $default_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_BOTH);
+        $default_configuration->disable_feedback_per_page();
+        $default_configuration->enable_feedback_summary();
+        return $default_configuration;
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)

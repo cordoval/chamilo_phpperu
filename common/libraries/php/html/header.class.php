@@ -70,6 +70,7 @@ class Header
     public function add_default_headers()
     {
         $this->add_http_header('Content-Type: text/html; charset=UTF-8');
+        $this->add_http_header('X-Powered-By: Chamilo ' . $this->get_setting('version', 'admin'));
         $this->add_css_file_header(Theme :: get_common_css_path());
         $this->add_css_file_header(Theme :: get_css_path());
         $this->add_css_file_header(Theme :: get_css_path(RepositoryManager :: APPLICATION_NAME));

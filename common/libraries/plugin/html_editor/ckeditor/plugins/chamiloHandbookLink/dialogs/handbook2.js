@@ -117,7 +117,7 @@ CKEDITOR.dialog.add('chamiloHandbookLink',function(a){
 
             var selected_uid = this.getContentElement('tab1','uid')
 
-	    this.getParentEditor().insertHtml('<a href="' + web_path + '/run.php?go=handbook_viewer&amp;application=handbook&amp;uid='+ selected_uid.getValue() +'&blabla=blabla'  +'">'+selectedText+'</a>');
+	    this.getParentEditor().insertHtml('<a href="' + web_path + '/run.php?go=handbook_light_viewer&amp;application=handbook&amp;uid='+ selected_uid.getValue() +'&blabla=blabla'  +'">'+selectedText+'</a>');
         },
         contents:[{
             id:'tab1',

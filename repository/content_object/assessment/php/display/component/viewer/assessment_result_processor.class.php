@@ -47,7 +47,14 @@ class AssessmentResultProcessor
 
         $questions_cloi = $this->assessment_viewer->get_questions($results_page_number);
 
-        $question_number = ($results_page_number * $this->assessment_viewer->get_root_content_object()->get_questions_per_page());
+        if ($this->assessment_viewer->get_root_content_object()->get_questions_per_page() == 0)
+        {
+            $question_number = 1;
+        }
+        else
+        {
+            $question_number = ($results_page_number * $this->assessment_viewer->get_root_content_object()->get_questions_per_page());
+        }
 
         $values = $_POST;
 
@@ -87,7 +94,7 @@ class AssessmentResultProcessor
             {
                 $this->assessment_viewer->save_assessment_answer($question_cloi->get_id(), serialize($answers), $score);
             }
-            elseif (!is_null($tracker) && !$this->assessment_viewer->get_feedback_per_page())
+            elseif (! is_null($tracker) && ! $this->assessment_viewer->get_feedback_per_page())
             {
                 $tracker->set_answer(serialize($answers));
                 $tracker->set_score($score);
@@ -133,7 +140,11 @@ class AssessmentResultProcessor
         while ($question_cloi = $questions_cloi->next_result())
         {
             $tracker = $answers[$question_cloi->get_id()];
-
+            if(!$tracker)
+            {
+                continue;
+            }
+            
             $score = $tracker->get_score();
             $total_score += $score;
             $total_weight += $question_cloi->get_weight();

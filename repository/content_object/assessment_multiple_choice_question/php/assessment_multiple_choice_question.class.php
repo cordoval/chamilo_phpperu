@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\assessment_multiple_choice_question;
 
+use common\libraries\StringUtilities;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Versionable;
@@ -13,8 +15,7 @@ use repository\ContentObject;
  */
 require_once dirname(__FILE__) . '/assessment_multiple_choice_question_option.class.php';
 
-class AssessmentMultipleChoiceQuestion extends ContentObject implements
-        Versionable
+class AssessmentMultipleChoiceQuestion extends ContentObject implements Versionable
 {
     const CLASS_NAME = __CLASS__;
 
@@ -37,6 +38,9 @@ class AssessmentMultipleChoiceQuestion extends ContentObject implements
         return $this->set_additional_property(self :: PROPERTY_OPTIONS, serialize($options));
     }
 
+    /**
+     * @return multitype:AssessmentMultipleChoiceQuestionOption
+     */
     public function get_options()
     {
         if ($result = unserialize($this->get_additional_property(self :: PROPERTY_OPTIONS)))
@@ -44,6 +48,22 @@ class AssessmentMultipleChoiceQuestion extends ContentObject implements
             return $result;
         }
         return array();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function has_feedback()
+    {
+        foreach ($this->get_options() as $option)
+        {
+            if ($option->has_feedback())
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function get_number_of_options()
@@ -73,16 +93,12 @@ class AssessmentMultipleChoiceQuestion extends ContentObject implements
 
     static function get_additional_property_names()
     {
-        return array(
-                self :: PROPERTY_ANSWER_TYPE,
-                self :: PROPERTY_OPTIONS,
-                self :: PROPERTY_HINT);
+        return array(self :: PROPERTY_ANSWER_TYPE, self :: PROPERTY_OPTIONS, self :: PROPERTY_HINT);
     }
 
     function has_hint()
     {
-        $hint = trim(strip_tags($this->get_hint()));
-        return !empty($hint);
+        return StringUtilities :: has_value($this->get_hint(), true);
     }
 
     static function get_type_name()

@@ -1,7 +1,7 @@
 <?php
 namespace test\acceptance;
 
-require_once __DIR__ . '/__file/RequirerTestCase.php';
+require_once __DIR__ . '/__files/RequirerTestCase.php';
 
 class TheCodeIsLoadableTest extends \PHPUnit_Framework_TestSuite
 {

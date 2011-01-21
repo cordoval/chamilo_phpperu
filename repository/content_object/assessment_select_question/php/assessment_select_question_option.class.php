@@ -66,5 +66,10 @@ class AssessmentSelectQuestionOption
     {
         return $this->correct;
     }
+
+    function has_feedback()
+    {
+        return StringUtilities :: has_value($this->get_feedback(), true);
+    }
 }
 ?>

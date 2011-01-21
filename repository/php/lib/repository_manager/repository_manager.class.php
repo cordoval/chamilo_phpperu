@@ -1031,7 +1031,7 @@ class RepositoryManager extends CoreApplication
         echo $this->get_search_form()->display();
     }
 
-    public static function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: APPLICATION_NAME)
     {
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
 

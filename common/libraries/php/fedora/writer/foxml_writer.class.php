@@ -157,7 +157,7 @@ class FoxmlWriter extends XmlWriterBase {
         }
         $result->set_attribute('xmlns:dcterms', 'http://purl.org/dc/terms/');
         $result->set_attribute('xmlns:chor_dc', 'http://purl.org/switch/chor/');
-        $result->set_attribute('xmlns:chor_dcterms', 'http://purl.org/switch/terms/');
+        $result->set_attribute('xmlns:chor_dcterms', 'http://purl.org/switch/chor/terms/');
         $result->set_attribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
         $result->set_attribute('xsi:schemaLocation', 'http://collection.switch.ch/ http://collection.switch.ch/spec/2008/chor_dcterms.xsd');
         return $result;
@@ -513,7 +513,7 @@ class FoxmlWriter extends XmlWriterBase {
         $result->set_attribute('xmlns:oai', 'http://www.openarchives.org/OAI/2.0/');
         $result->set_attribute('xmlns:dcterms', 'http://purl.org/dc/terms/');
         $result->set_attribute('xmlns:chor_dc', 'http://purl.org/switch/chor/');
-        $result->set_attribute('xmlns:chor_dcterms', 'http://purl.org/switch/terms/');
+        $result->set_attribute('xmlns:chor_dcterms', 'http://purl.org/switch/chor/terms/');
         $result->set_attribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
         return $result;
     }
@@ -531,7 +531,7 @@ class FoxmlWriter extends XmlWriterBase {
         $result->set_attribute('xmlns:oai', 'http://www.openarchives.org/OAI/2.0/');
         $result->set_attribute('xmlns:dcterms', 'http://purl.org/dc/terms/');
         $result->set_attribute('xmlns:chor_dc', 'http://purl.org/switch/chor/');
-        $result->set_attribute('xmlns:chor_dcterms', 'http://purl.org/switch/terms/');
+        $result->set_attribute('xmlns:chor_dcterms', 'http://purl.org/switch/chor/terms/');
         $result->set_attribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
         return $result;
     }
