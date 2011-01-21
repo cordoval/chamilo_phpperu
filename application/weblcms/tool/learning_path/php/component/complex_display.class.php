@@ -303,6 +303,11 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
         $trackers = $dummy->retrieve_tracker_items($condition);
         $lpi_tracker = $trackers[0];
 
+        if(!$lpi_tracker)
+        {
+            return;
+        }
+        
         $lpi_tracker->set_score($total_score);
         $lpi_tracker->set_total_time($lpi_tracker->get_total_time() + (time() - $lpi_tracker->get_start_time()));
 
