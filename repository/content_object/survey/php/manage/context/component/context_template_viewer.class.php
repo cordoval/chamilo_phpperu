@@ -77,7 +77,7 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
         $tabs->add_tab(new DynamicContentTab(self :: TAB_TEMPLATES, Translation :: get('Templates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
         
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_USERS;
-        $table = new SurveyUserTable($this, $parameters, $this->get_template_user_condition());
+        $table = new SurveyUserTable($this, $parameters, $this->get_user_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
         
         
@@ -89,7 +89,7 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
         return implode($html, "\n");
     }
 	
-    function get_template_user_condition()
+    function get_user_condition()
     {
     	
 //    	$template_condition = new EqualityCondition(SurveyTemplate::PROPERTY_CONTEXT_TEMPLATE_ID, $this->context_template->get_id());

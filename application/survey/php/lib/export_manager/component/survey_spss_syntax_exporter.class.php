@@ -866,7 +866,7 @@ class SurveyExportManagerSurveySpssSyntaxExporterComponent extends SurveyExportM
             $survey = $survey_publication->get_publication_object();
             $this->surveys[] = $survey;
 
-     //            $context_templates[$survey->get_context_template_id()] = $survey->get_context_template();
+     //            $context_templates[$survey->get_context_template_id()] = $survey->get_context_template_for_level();
 
 
         }

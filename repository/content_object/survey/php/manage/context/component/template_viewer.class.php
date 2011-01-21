@@ -27,6 +27,7 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
 {
     
     const TAB_TEMPLATE_USERS = 1;
+    const TAB_USERS = 2;
     
     private $ab;
     private $template;
@@ -69,6 +70,11 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
         $table = new SurveyTemplateUserTable($this, $parameters, $this->get_template_user_condition(), $this->context_template);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_TEMPLATE_USERS, Translation :: get('Templates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
         
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_USERS;
+        $table = new SurveyUserTable($this, $parameters, $this->get_user_condition());
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+        
+        
         $html[] = $tabs->render();
         
         $html[] = '</div>';
@@ -77,6 +83,47 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
         return implode($html, "\n");
     }
 
+ function get_user_condition()
+    {
+    	
+//    	$template_condition = new EqualityCondition(SurveyTemplate::PROPERTY_CONTEXT_TEMPLATE_ID, $this->context_template->get_id());
+//    	$templates = SurveyContextDataManager::get_instance()->retrieve_survey_templates($template_condition);
+//    	$template_ids = array();
+//    	while ($template = $templates->next_result()){
+//    		$template_ids[] = $template->get_id();
+//    	}
+//    	$template_user_condition = new InCondition(SurveyTemplateUser::PROPERTY_TEMPLATE_ID, $template_ids, SurveyTemplateUser :: get_table_name());
+    	
+    	$template_users = SurveyContextDataManager::get_instance()->retrieve_survey_template_users($this->context_template->get_type());
+    	
+    	$user_ids = array();
+    	while ($template_user = $template_users->next_result()){
+    		$user_ids[] = $template_user->get_user_id();
+    	}
+    	
+    	if(count($user_ids) == 0){
+    		$user_ids[] = 0;
+    	}
+    	
+    	$conditions = array();
+        $conditions[] = new InCondition(User::PROPERTY_ID, $user_ids);
+        
+        $query = $this->ab->get_query();
+        
+        if (isset($query) && $query != '')
+        {
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', User :: get_table_name());
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', User :: get_table_name());
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*', User :: get_table_name());
+            $conditions[] = new OrCondition($search_conditions);
+        
+        }
+        
+        $condition = new AndCondition($conditions);
+        return $condition;
+    }
+    
     function get_template_user_condition()
     {
         

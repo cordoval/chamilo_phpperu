@@ -25,7 +25,7 @@ abstract class SurveyQuestionDisplay
     private $visible;
     private $contex_path;
 
-    function __construct($formvalidator, $complex_question, $question, $answer, $context_path, $survey)
+    function __construct($formvalidator, $complex_question, $question, $answer, $context_path, $survey = null)
     {
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
@@ -35,7 +35,12 @@ abstract class SurveyQuestionDisplay
         $this->answer = $answer;
         $this->contex_path = $context_path;
         $this->survey = $survey;
-        $this->question_nr = $this->survey->get_question_nr($context_path);
+        if($survey){
+        	$this->question_nr = $this->survey->get_question_nr($context_path);	
+        }else{
+        	$this->question_nr = 1;
+        }
+        
     }
 
     function get_complex_question()
@@ -70,7 +75,7 @@ abstract class SurveyQuestionDisplay
 
     function get_survey()
     {
-        return $this->survey;
+       return $this->survey;
     }
 
     function display()
@@ -187,7 +192,13 @@ abstract class SurveyQuestionDisplay
 
     function parse($value)
     {
-        return $this->get_survey()->parse($this->get_context_path(), $value);
+        
+    	if($this->get_survey()){
+    		return $this->get_survey()->parse($this->get_context_path(), $value);
+    	}else{
+    		return value;
+    	}
+    	 
     }
 
 }

@@ -10,11 +10,6 @@ use common\libraries\Utilities;
 use common\libraries\Path;
 use repository\content_object\survey_page\SurveyPage;
 
-
-require_once Path :: get_repository_content_object_path() . 'survey/php/builder/component/inc/survey_question_display.class.php';
-
-//require_once dirname ( __FILE__ ) . '/../component/inc/survey_question_display.class.php';
-
 class ConfigureQuestionForm extends FormValidator {
 
 	const TYPE_CREATE = 1;
@@ -23,13 +18,14 @@ class ConfigureQuestionForm extends FormValidator {
 	const RESULT_ERROR = 'QuestionConfigurationUpdateFailed';
 
 	private $survey_page;
+	private $complex_question;
 
-	function __construct($form_type, $complex_item, $action, $page_id) {
+	function __construct($form_type, $action, $complex_item, $page_id) {
 		parent::__construct ( 'create_context_template', 'post', $action );
 		Request::set_get( SurveyBuilder::PARAM_SURVEY_PAGE_ID, $page_id );
 
-		$this->question = RepositoryDataManager::get_instance ()->retrieve_content_object ( $complex_item->get_ref () );
-
+//		$this->question = RepositoryDataManager::get_instance ()->retrieve_content_object ( $complex_item->get_ref () );
+		$this->complex_question = $complex_item;
 		$this->survey_page = RepositoryDataManager::get_instance ()->retrieve_content_object ( $page_id );
 
 		$this->form_type = $form_type;
@@ -44,13 +40,13 @@ class ConfigureQuestionForm extends FormValidator {
 
 	function build_basic_form() {
 
-		$question_display = SurveyQuestionDisplay::factory ( $this, $this->question, 1, null, 1, $answer );
+		$question_display = SurveyQuestionDisplay::factory ( $this, $this->complex_question, $answer );
 		$question_display->display ();
 		//    	$this->addElement('text', SurveyContextTemplate :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
 		//        $this->addRule(SurveyContextTemplate :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
 
-		$this->addElement ( 'advmultiselect', SurveyPage:: TO_VISIBLE_QUESTIONS_IDS, Translation::get ( 'Questions' ), $this->get_questions () , array('style'=> 'width: 250px'));
+		$this->addElement ( 'multiselect', SurveyPage:: TO_VISIBLE_QUESTIONS_IDS, Translation::get ( 'Questions' ), $this->get_questions () , array('style'=> 'width: 250px'));
 		$this->addRule ( SurveyPage:: TO_VISIBLE_QUESTIONS_IDS, Translation::get ( 'ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES ), 'required' );
 
 	}
@@ -91,13 +87,13 @@ class ConfigureQuestionForm extends FormValidator {
 
 		     $config = array();
 
-			 $config[SurveyPage :: FROM_VISIBLE_QUESTION_ID] = $this->question->get_id();
+			 $config[SurveyPage :: FROM_VISIBLE_QUESTION_ID] = $this->complex_question->get_id();
 			 $config[SurveyPage::TO_VISIBLE_QUESTIONS_IDS] = $values[SurveyPage::TO_VISIBLE_QUESTIONS_IDS];
 		     $keys = array_keys($values);
 		     $answers = array();
 		     foreach ($keys as $key) {
 		     	$ids = explode( '_', $key);
-		     	if($ids[0]== $this->question->get_id()){
+		     	if($ids[0]== $this->complex_question->get_id()){
 		     		$answers[$key] = $values[$key];
 		     	}
 		     }
@@ -146,7 +142,7 @@ class ConfigureQuestionForm extends FormValidator {
 			if($complex_question_item->get_visible()== 0){
 				$question = RepositoryDataManager::get_instance ()->retrieve_content_object ( $complex_question_item->get_ref ());
 				$id = $question->get_id();
-				$questions[$question->get_id()] = Utilities :: truncate_string($id.' : '.$question->get_title(), 40);
+				$questions[$complex_question_item->get_id()] = Utilities :: truncate_string($id.' : '.$question->get_title(), 40);
 			}
 		}
 		return $questions;

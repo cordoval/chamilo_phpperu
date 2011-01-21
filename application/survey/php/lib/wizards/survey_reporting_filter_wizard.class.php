@@ -124,7 +124,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         $context_template_ids = array();
         while ($level <= $levels)
         {
-            $context_template = $survey->get_context_template($level);
+            $context_template = $survey->get_context_template_for_level($level);
             $this->addElement('hidden', 'context_templates[]', $context_template->get_id());
             $level ++;
         }
@@ -142,7 +142,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         $level = 1;
         while ($level <= $levels)
         {
-            $context_template = $survey->get_context_template($level);
+            $context_template = $survey->get_context_template_for_level($level);
             $context_template_id = $context_template->get_id();
             $context_template_name = $context_template->get_context_type_name();
             $attributes[$context_template_id] = $context_template_name;

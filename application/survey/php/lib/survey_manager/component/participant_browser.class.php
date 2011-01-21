@@ -177,7 +177,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
 
         $survey = $survey_publication->get_publication_object();
 
-        $context_template = $survey->get_context_template();
+        $context_template = $survey->get_context_template_for_level();
 
         if ($context_template)
         {
