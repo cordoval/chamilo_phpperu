@@ -140,7 +140,11 @@ class AssessmentResultProcessor
         while ($question_cloi = $questions_cloi->next_result())
         {
             $tracker = $answers[$question_cloi->get_id()];
-
+            if(!$tracker)
+            {
+                continue;
+            }
+            
             $score = $tracker->get_score();
             $total_score += $score;
             $total_weight += $question_cloi->get_weight();
