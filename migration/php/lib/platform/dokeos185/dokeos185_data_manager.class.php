@@ -320,12 +320,13 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     function retrieve_resources($course, $source_id, $source_type)
     {
         $this->set_database($course->get_db_name());
-
+        require_once (dirname(__FILE__) . '/data_class/dokeos185_resource.class.php');
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(Dokeos185Resource :: PROPERTY_SOURCE_ID, $source_id);
         $conditions[] = new EqualityCondition(Dokeos185Resource :: PROPERTY_SOURCE_TYPE, $source_type);
         $condition = new AndCondition($conditions);
-
+        
         return $this->retrieve_objects(Dokeos185Resource :: get_table_name(), $condition, null, null, null, Dokeos185Resource :: get_class_name());
     }
 
