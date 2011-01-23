@@ -72,7 +72,7 @@ class HandbookPublicationBrowserTableCellRenderer extends DefaultHandbookPublica
         $view_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::VIEW_RIGHT, $handbook_publication_id, $user_id);
         $edit_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::EDIT_RIGHT, $handbook_publication_id, $user_id);
         $delete_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::DELETE_PUBLICATION_RIGHT, $handbook_publication_id, $user_id);
-
+        $change_rights_right = HandbookRights::is_allowed_in_handbooks_subtree(HandbookRights::CHANGE_RIGHTS_RIGHT, $handbook_publication_id, $user_id);
 
 
         if($view_right)
@@ -93,7 +93,7 @@ class HandbookPublicationBrowserTableCellRenderer extends DefaultHandbookPublica
                             ToolbarItem :: DISPLAY_ICON
             ));
         }
-        if($edit_right)
+        if($change_rights_right)
         {
             //handbook preferences
             //handbook rights

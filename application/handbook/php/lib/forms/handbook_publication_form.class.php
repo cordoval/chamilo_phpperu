@@ -3,6 +3,7 @@ namespace application\handbook;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use rights\RightsUtilities;
 
 require_once dirname(__FILE__) . '/../handbook_publication.class.php';
 
@@ -105,7 +106,12 @@ class HandbookPublicationForm extends FormValidator
 
 
             //TODO: implement rights
-
+            $user_id = $this->user->get_id();
+            $location_id = HandbookRights::get_location_id_by_identifier_from_handbooks_subtree($handbook_publication->get_id());
+            $value = 1;
+            RightsUtilities:: set_user_right_location_value(HandbookRights::EDIT_RIGHT, $user_id, $location_id, $value);
+            RightsUtilities:: set_user_right_location_value(HandbookRights::VIEW_RIGHT, $user_id, $location_id, $value);
+            RightsUtilities:: set_user_right_location_value(HandbookRights::CHANGE_RIGHTS_RIGHT, $user_id, $location_id, $value);
 
         }
         if($success)

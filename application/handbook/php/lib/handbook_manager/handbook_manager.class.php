@@ -35,6 +35,9 @@ use application\metadata\MetadataPropertyType;
 use common\libraries\ArrayResultSet;
 use common\libraries\SubselectCondition;
 use common\libraries\InCondition;
+use common\libraries\DynamicAction;
+use common\libraries\Redirect;
+use common\libraries\Application;
 
 require_once dirname(__FILE__) . '/../handbook_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/handbook_publication_browser/handbook_publication_browser_table.class.php';
@@ -80,6 +83,7 @@ class HandbookManager extends WebApplication
     const ACTION_CREATE_PREFERENCE = 'handbook_preferences_creator';
     const ACTION_VIEW_COLLAPSED = 'toggle_menu';
     const ACTION_CREATE_ODF = 'odf_creator';
+    const ACTION_ADMIN_SET_PUBLISHING_RIGHTS = 'admin_rights_editor';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LIGHT_MODE = 'light';
@@ -851,6 +855,22 @@ class HandbookManager extends WebApplication
         }
         return $glossaries_array;
 
+    }
+
+
+    /**
+     * Gets the available links to display in the platform admin
+     * @retun array of links and actions
+     */
+    public static function get_application_platform_admin_links()
+    {
+        $links = array();
+        $links[] = new DynamicAction(Translation :: get('SetHandbookPublishingRights'), Translation :: get('SetHandbookPublishingRightsDescription'), \common\libraries\Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                Application :: PARAM_ACTION => self :: ACTION_ADMIN_SET_PUBLISHING_RIGHTS)));
+
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
+        $info['links'] = $links;
+        return $info;
     }
 
     
