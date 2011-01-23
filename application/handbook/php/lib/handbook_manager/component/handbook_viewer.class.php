@@ -232,7 +232,7 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
         {
             //SHOW ALL ITEMS IN THIS HANDBOOK (one level)
             //TODO: implement
-            $html[] = $this->get_full_handbook_html($this->selected_object->get_id());
+            $html[] = $this->get_handbook_html($this->selected_object->get_id());
         }
         else if ($this->selected_object)
         {
@@ -253,6 +253,7 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
             $actions[] = new ToolbarItem(Translation :: get('ViewHandbookPreferences'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_CREATE_PREFERENCE, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id)));
             $actions[] = new ToolbarItem(Translation :: get('AddNewItemToHandbook'), Theme :: get_content_object_image_path(HandbookTopic::get_type_name()), $this->get_create_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
             $actions[] = new ToolbarItem(Translation :: get('ConvertWiki'), Theme :: get_content_object_image_path(Wiki::get_type_name()), $this->get_convert_wiki_to_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id, $this->handbook_selection_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+            $actions[] = new ToolbarItem(Translation :: get('MakeOdf'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_CREATE_ODF, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id, self::PARAM_HANDBOOK_ID => $this->handbook_id)));
         }
 
         if ($this->selected_object && $this->edit_right)

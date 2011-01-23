@@ -21,10 +21,10 @@ class OdfException extends Exception
 class Odf
 {
     protected $config = array(
-    	'ZIP_PROXY' => 'PclZipProxy',
-    	'DELIMITER_LEFT' => '{',
-    	'DELIMITER_RIGHT' => '}'
-   	);
+        'ZIP_PROXY' => 'PclZipProxy',
+        'DELIMITER_LEFT' => '{',
+        'DELIMITER_RIGHT' => '}'
+    );
     protected $file;
     protected $contentXml;
     protected $tmpfile;
@@ -42,13 +42,13 @@ class Odf
     public function __construct($filename, $config = array())
     {
     	if (! is_array($config)) {
-    		throw new OdfException('Configuration data must be provided as array');
-    	}
-    	foreach ($config as $configKey => $configValue) {
-    		if (array_key_exists($configKey, $this->config)) {
-    			$this->config[$configKey] = $configValue;
-    		}
-    	}
+            throw new OdfException('Configuration data must be provided as array');
+        }
+        foreach ($config as $configKey => $configValue) {
+            if (array_key_exists($configKey, $this->config)) {
+                $this->config[$configKey] = $configValue;
+            }
+        }
         if (! class_exists($this->config['ZIP_PROXY'])) {
             throw new OdfException($this->config['ZIP_PROXY'] . ' class not found - check your php settings');
         }
@@ -61,11 +61,11 @@ class Odf
             throw new OdfException("Nothing to parse - check that the content.xml file is correctly formed");
         }
         if (($this->manifestXml = $this->file->getFromName('META-INF/manifest.xml')) === false) {
-        throw new OdfException("Something is wrong with META-INF/manifest.xml");
+            throw new OdfException("Something is wrong with META-INF/manifest.xml");
         }
 
         $this->file->close();
-        
+
         $tmp = tempnam($this->config['PATH_TO_TMP'], md5(uniqid()));
         copy($filename, $tmp);
         $this->tmpfile = $tmp;
@@ -110,7 +110,7 @@ class Odf
         $width *= self::PIXEL_TO_CM;
         $height *= self::PIXEL_TO_CM;
         $xml = <<<IMG
-<draw:frame draw:style-name="fr1" draw:name="$filename" text:anchor-type="char" svg:width="{$width}cm" svg:height="{$height}cm" draw:z-index="3"><draw:image xlink:href="Pictures/$file" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>
+<draw:frame draw:style-name="fr1" draw:name="$filename" text:anchor-type="as-char" svg:width="{$width}cm" svg:height="{$height}cm" draw:z-index="3"><draw:image xlink:href="Pictures/$file" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/></draw:frame>
 IMG;
         $this->images[$value] = $file;
         $this->setVars($key, $xml, false);
@@ -136,28 +136,28 @@ IMG;
      * Called automatically within the constructor
      *
      * @return void
-     */    
+     */
     private function _moveRowSegments()
     {
-    	// Search all possible rows in the document
-    	$reg1 = "#<table:table-row[^>]*>(.*)</table:table-row>#smU";
-		preg_match_all($reg1, $this->contentXml, $matches);
-		for ($i = 0, $size = count($matches[0]); $i < $size; $i++) {
-			// Check if the current row contains a segment row.*
-			$reg2 = '#\[!--\sBEGIN\s(row.[\S]*)\s--\](.*)\[!--\sEND\s\\1\s--\]#sm';
-			if (preg_match($reg2, $matches[0][$i], $matches2)) {
-				$balise = str_replace('row.', '', $matches2[1]);
-				// Move segment tags around the row
-				$replace = array(
-					'[!-- BEGIN ' . $matches2[1] . ' --]'	=> '',
-					'[!-- END ' . $matches2[1] . ' --]'		=> '',
-					'<table:table-row'							=> '[!-- BEGIN ' . $balise . ' --]<table:table-row',
-					'</table:table-row>'						=> '</table:table-row>[!-- END ' . $balise . ' --]'
-				);
-				$replacedXML = str_replace(array_keys($replace), array_values($replace), $matches[0][$i]);
-				$this->contentXml = str_replace($matches[0][$i], $replacedXML, $this->contentXml);
-			}
-		}
+        // Search all possible rows in the document
+        $reg1 = "#<table:table-row[^>]*>(.*)</table:table-row>#smU";
+        preg_match_all($reg1, $this->contentXml, $matches);
+        for ($i = 0, $size = count($matches[0]); $i < $size; $i++) {
+            // Check if the current row contains a segment row.*
+            $reg2 = '#\[!--\sBEGIN\s(row.[\S]*)\s--\](.*)\[!--\sEND\s\\1\s--\]#sm';
+            if (preg_match($reg2, $matches[0][$i], $matches2)) {
+                $balise = str_replace('row.', '', $matches2[1]);
+                // Move segment tags around the row
+                $replace = array(
+                    '[!-- BEGIN ' . $matches2[1] . ' --]' => '',
+                    '[!-- END ' . $matches2[1] . ' --]' => '',
+                    '<table:table-row' => '[!-- BEGIN ' . $balise . ' --]<table:table-row',
+                    '</table:table-row>' => '</table:table-row>[!-- END ' . $balise . ' --]'
+                );
+                $replacedXML = str_replace(array_keys($replace), array_values($replace), $matches[0][$i]);
+                $this->contentXml = str_replace($matches[0][$i], $replacedXML, $this->contentXml);
+            }
+        }
     }
     /**
      * Merge template variables
@@ -182,8 +182,8 @@ IMG;
             throw new OdfException($segment->getName() . 'cannot be parsed, has it been set yet ?');
         }
         $string = $segment->getName();
-		// $reg = '@<text:p[^>]*>\[!--\sBEGIN\s' . $string . '\s--\](.*)\[!--.+END\s' . $string . '\s--\]<\/text:p>@smU';
-		$reg = '@\[!--\sBEGIN\s' . $string . '\s--\](.*)\[!--.+END\s' . $string . '\s--\]@smU';
+        // $reg = '@<text:p[^>]*>\[!--\sBEGIN\s' . $string . '\s--\](.*)\[!--.+END\s' . $string . '\s--\]<\/text:p>@smU';
+        $reg = '@\[!--\sBEGIN\s' . $string . '\s--\](.*)\[!--.+END\s' . $string . '\s--\]@smU';
         $this->contentXml = preg_replace($reg, $segment->getXmlParsed(), $this->contentXml);
         return $this;
     }
@@ -222,19 +222,35 @@ IMG;
      * @throws OdfException
      * @return Segment
      */
-    public function setSegment($segment)
-    {
+    public function setSegment($segment) {
         if (array_key_exists($segment, $this->segments)) {
             return $this->segments[$segment];
         }
-        // $reg = "#\[!--\sBEGIN\s$segment\s--\]<\/text:p>(.*)<text:p\s.*>\[!--\sEND\s$segment\s--\]#sm";
         $reg = "#\[!--\sBEGIN\s$segment\s--\](.*)\[!--\sEND\s$segment\s--\]#sm";
-        if (preg_match($reg, html_entity_decode($this->contentXml), $m) == 0) {
-            throw new OdfException("'$segment' segment not found in the document");
+
+        for ($counter = 50000; $counter <= 50100; $counter += 1) {
+            $ss = $this->splitByLength($this->contentXml, $counter);
+            foreach ($ss as $s) {
+                if (preg_match($reg, html_entity_decode($s), $m)) {
+                    $this->segments[$segment] = new Segment($segment, $m[1], $this);
+                    return $this->segments[$segment];
+                }
+            }
         }
-        $this->segments[$segment] = new Segment($segment, $m[1], $this);
-        return $this->segments[$segment];
+        throw new OdfException("'$segment' segment not found in the document");
     }
+
+    function splitByLength($string, $chunkLength=1)
+    {
+   $Result = array();
+   $Remainder = strlen($string) % $chunkLength;
+   $cycles = ((strlen($string) - $Remainder) / $chunkLength) + (($Remainder != 0) ? 1 : 0);
+   for ($x=0; $x < $cycles; $x++)
+      $Result[$x] = substr($string, ($x * $chunkLength), $chunkLength);
+   return $Result;
+    }
+
+
     /**
      * Save the odt file on the disk
      * 
@@ -245,11 +261,11 @@ IMG;
     public function saveToDisk($file = null)
     {
         if ($file !== null && is_string($file)) {
-        	if (file_exists($file) && !(is_file($file) && is_writable($file))) {
-            	throw new OdfException('Permission denied : can\'t create ' . $file);
-        	}
+            if (file_exists($file) && !(is_file($file) && is_writable($file))) {
+                throw new OdfException('Permission denied : can\'t create ' . $file);
+            }
             $this->_save();
-            copy($this->tmpfile, $file);     
+            copy($this->tmpfile, $file);
         } else {
             $this->_save();
         }
@@ -274,7 +290,7 @@ IMG;
 //    }
     private function _save()
     {
-       $this->file->open($this->tmpfile);
+        $this->file->open($this->tmpfile);
         $this->_parse();
         if (! $this->file->addFromString('content.xml', $this->contentXml)) {
             throw new OdfException('Error during file export');
@@ -294,7 +310,7 @@ IMG;
         $replace = '<manifest:file-entry manifest:media-type="image/'.$extension[1].'" manifest:full-path="Pictures/'.$file.'"/></manifest:manifest>';
 
         $this->manifestXml = str_replace('</manifest:manifest>', $replace, $this->manifestXml);
-}
+    }
 
     /**
      * Export the file as attached file by HTTP
@@ -309,12 +325,12 @@ IMG;
         if (headers_sent($filename, $linenum)) {
             throw new OdfException("headers already sent ($filename at $linenum)");
         }
-        
+
         if( $name == "" )
         {
-        		$name = md5(uniqid()) . ".odt";
+            $name = md5(uniqid()) . ".odt";
         }
-        
+
         header('Content-type: application/vnd.oasis.opendocument.text');
         header('Content-Disposition: attachment; filename="'.$name.'"');
         readfile($this->tmpfile);
@@ -326,10 +342,10 @@ IMG;
      */
     public function getConfig($configKey)
     {
-    	if (array_key_exists($configKey, $this->config)) {
-    		return $this->config[$configKey];
-    	}
-    	return false;
+        if (array_key_exists($configKey, $this->config)) {
+            return $this->config[$configKey];
+        }
+        return false;
     }
     /**
      * Returns the temporary working file
@@ -338,14 +354,14 @@ IMG;
      */
     public function getTmpfile()
     {
-    	return $this->tmpfile;
+        return $this->tmpfile;
     }
     /**
      * Delete the temporary file when the object is destroyed
-     */    
+     */
     public function __destruct() {
-          if (file_exists($this->tmpfile)) {
-        	unlink($this->tmpfile);
+        if (file_exists($this->tmpfile)) {
+            unlink($this->tmpfile);
         }
     }
 }
