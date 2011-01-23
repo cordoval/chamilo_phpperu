@@ -319,15 +319,17 @@ class HandbookManager extends WebApplication
         //get all alternatives for this item
         $alternatives_array = HandbookManager::get_alternative_items($co_id);
 
+        $rdm = RepositoryDataManager::get_instance();
+        $original_co = $rdm->retrieve_content_object($co_id);
+        
 
         //add original to array
-        //TODO: get actual data
-        $original['alt_' . ContentObject :: PROPERTY_TITLE] = 'orig';
-        $original['orig_' . ContentObject :: PROPERTY_TITLE] = 'orig';
-        $original['alt_' . ContentObject :: PROPERTY_TYPE] = 'orig';
-        $original[MetadataPropertyType :: PROPERTY_NS_PREFIX] = 'orig';
-        $original[MetadataPropertyType :: PROPERTY_NAME] = 'orig';
-        $original[MetadataPropertyValue :: PROPERTY_VALUE] = 'orig';
+        $original['alt_' . ContentObject :: PROPERTY_TITLE] = $original_co->get_title();
+        $original['orig_' . ContentObject :: PROPERTY_TITLE] = '';
+        $original['alt_' . ContentObject :: PROPERTY_TYPE] = $original_co->get_type();
+        $original[MetadataPropertyType :: PROPERTY_NS_PREFIX] = '';
+        $original[MetadataPropertyType :: PROPERTY_NAME] = '';
+        $original[MetadataPropertyValue :: PROPERTY_VALUE] = '';
         $original['alt_id'] = $co_id;
         $alternatives_array[] = $original;
 
