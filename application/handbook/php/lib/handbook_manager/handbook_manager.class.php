@@ -84,6 +84,8 @@ class HandbookManager extends WebApplication
     const ACTION_VIEW_COLLAPSED = 'toggle_menu';
     const ACTION_CREATE_ODF = 'odf_creator';
     const ACTION_ADMIN_SET_PUBLISHING_RIGHTS = 'admin_rights_editor';
+    const ACTION_PICK_TOPIC = 'handbook_topic_picker';
+    const ACTION_PASS_UID = 'handbook_topic_uid_passer';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LIGHT_MODE = 'light';
