@@ -105,7 +105,7 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
     {
         $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'announcement', $this->get_id()));
 
-        if (!($this->get_title() || $this->get_content()) || ! $this->get_item_property())
+        if (!($this->get_title() || $this->get_content()) || !$this->get_item_property() || $this->get_item_property()->get_visibility() == 2)
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'announcement', 'ID' => $this->get_id())));
@@ -168,11 +168,6 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         $chamilo_announcement->set_owner_id($new_user_id);
         $chamilo_announcement->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
         $chamilo_announcement->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
-
-        if ($this->get_item_property()->get_visibility() == 2)
-        {
-            $chamilo_announcement->set_state(1);
-        }
 
         //create announcement in database
         $chamilo_announcement->create_all();

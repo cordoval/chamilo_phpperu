@@ -213,7 +213,7 @@ class Dokeos185Lp extends Dokeos185CourseDataMigrationDataClass
     {
         $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'learnpath', $this->get_id()));
         
-        if (! $this->get_id() || ! $this->get_lp_type() || !($this->get_name() || $this->get_description()))
+        if (! $this->get_id() || ! $this->get_lp_type() || !($this->get_name() || $this->get_description()) || !$this->get_item_property() || $this->get_item_property()->get_visibility() == 2)
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'learningpath', 'ID' => $this->get_id())));

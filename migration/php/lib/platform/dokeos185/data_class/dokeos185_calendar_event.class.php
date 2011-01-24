@@ -143,7 +143,7 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
     {
         $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'calendar_event', $this->get_id()));
 
-        if (!$this->get_id() || !($this->get_title() || $this->get_content()) || !$this->get_item_property() || !$this->get_start_date())
+        if (!$this->get_id() || !($this->get_title() || $this->get_content()) || !$this->get_item_property() || !$this->get_start_date() || $this->get_item_property()->get_visibility() == 2)
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'calendar_event', 'ID' => $this->get_id())));

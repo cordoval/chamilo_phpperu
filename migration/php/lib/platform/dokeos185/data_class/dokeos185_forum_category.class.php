@@ -91,7 +91,9 @@ class Dokeos185ForumCategory extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (! ($this->get_cat_title()))
+        $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'forum_category', $this->get_thread_id()));
+
+        if (!$this->get_cat_title() || !$this->get_item_property() || $this->get_item_property()->get_visibility() == 2)
         {
             $this->create_failed_element($this->get_cat_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'forum_category', 'ID' => $this->get_cat_id())));

@@ -160,7 +160,8 @@ class Dokeos185ForumThread extends Dokeos185CourseDataMigrationDataClass
     {
         $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'forum_thread', $this->get_thread_id()));
         
-        if (! $this->get_thread_id() || ! $this->get_thread_title() || ! $this->item_property || ! $this->item_property->get_ref() || ! $this->item_property->get_insert_date())
+        if (! $this->get_thread_id() || ! $this->get_thread_title() || ! $this->item_property || ! $this->item_property->get_ref() || ! $this->item_property->get_insert_date()
+                 || $this->get_item_property()->get_visibility() == 2)
         {
             $this->create_failed_element($this->get_thread_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'forum_thread', 'ID' => $this->get_thread_id())));
