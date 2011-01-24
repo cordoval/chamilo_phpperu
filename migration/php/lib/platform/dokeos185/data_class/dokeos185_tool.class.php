@@ -24,7 +24,9 @@ class Dokeos185Tool extends Dokeos185CourseDataMigrationDataClass
     /**
      * Migration data manager
      */
-    private $convert = array('course_description' => 'description', 'calendar_event' => 'calendar', 'document' => 'document', 'learnpath' => 'learning_path', 'link' => 'link', 'announcement' => 'announcement', 'forum' => 'forum', 'dropbox' => 'dropbox', 'user' => 'user', 'group' => 'group', 'chat' => 'chat', 'tracking' => 'statics', 'course_setting' => 'course_settings', 'survey' => 'learning_style_survey', 'course_maintenance' => 'maintenance');
+    private $convert = array('course_description' => 'description', 'calendar_event' => 'calendar', 'document' => 'document', 'learnpath' => 'learning_path',
+        'link' => 'link', 'announcement' => 'announcement', 'forum' => 'forum', 'dropbox' => 'dropbox', 'user' => 'user', 'group' => 'course_group',
+        'chat' => 'chat', 'tracking' => 'reporting', 'course_setting' => 'course_settings', 'survey' => 'survey', 'course_maintenance' => 'maintenance', 'wiki' => 'wiki');
 
     /**
      * Announcement properties
