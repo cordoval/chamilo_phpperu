@@ -197,7 +197,8 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
         }
         else
         {
-            $chamilo_calendar_event->set_description($this->get_content());
+            $content = $this->parse_text_field($this->get_content());
+            $chamilo_calendar_event->set_description($content);
         }
 
         $chamilo_calendar_event->set_owner_id($new_user_id);

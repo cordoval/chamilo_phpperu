@@ -162,7 +162,8 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         }
         else
         {
-            $chamilo_announcement->set_description($this->get_content());
+            $content = $this->parse_text_field($this->get_content());
+            $chamilo_announcement->set_description($content);
         }
 
         $chamilo_announcement->set_owner_id($new_user_id);
