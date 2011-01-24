@@ -74,7 +74,7 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
      * @param array() $target_users
      * @param array() $target_groups
      */
-    function create_publication($object, $course_id, $user_id, $tool, $category_id = 0, $target_users = null, $target_groups = null, $show_on_homepage = null)
+    function create_publication($object, $course_id, $user_id, $tool, $category_id = 0, $target_users = null, $target_groups = null, $show_on_homepage = 0)
     {
         //publication
         $publication = new ContentObjectPublication();
