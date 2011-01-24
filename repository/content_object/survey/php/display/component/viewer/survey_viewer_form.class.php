@@ -5,10 +5,14 @@ use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Security;
+use common\libraries\StringUtilities;
 
 class SurveyViewerForm extends FormValidator
 {
-    const BACK_BUTTON = 'back';
+    
+	const FORM_NAME = 'survey_viewer_form';
+	
+	const BACK_BUTTON = 'back';
     const NEXT_BUTTON = 'next';
     const FINISH_BUTTON = 'finish';
     
@@ -27,7 +31,7 @@ class SurveyViewerForm extends FormValidator
 
     function __construct($name, $parent, $context_path, $survey, $action, $page_order, $page_nr)
     {
-        parent :: __construct($name, 'post', $action);
+        parent :: __construct(self :: FORM_NAME, 'post', $action);
         $this->context_path = $context_path;
         $this->parent = $parent;
         $this->survey = $survey;
@@ -69,18 +73,23 @@ class SurveyViewerForm extends FormValidator
         // Add question forms
         $complex_questions = $this->survey->get_page_complex_questions($this->context_path);
 //        dump('page_context_path '.$this->context_path);
-        
+        $answers = array();
         foreach ($complex_questions as $complex_question)
         {
             
 		
         	$question_context_path = $this->context_path . '_' . $complex_question->get_id();
             $answer = $this->parent->get_answer($complex_question->get_id(), $question_context_path);
-            $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $question_context_path, $this->survey);
-//            dump($question_display);
+           
+            $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $question_context_path, $this->survey, $answers);
+			if($answer){
+				$answers[$complex_question->get_id()] = $answer;
+			}
+            
+            //            dump($question_display);
             $question_display->display();
         }
-        
+               
         // Add buttons second time
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         
@@ -117,7 +126,7 @@ class SurveyViewerForm extends FormValidator
             
             if (is_numeric($complex_question_id))
             {
-               if ((strlen(strip_tags($value)) > 0) || ($value == 0))
+               if (!StringUtilities :: is_null_or_empty($value, true))
                 {
                     $answer_index = $split_key[1];
                     if ($count == 3)

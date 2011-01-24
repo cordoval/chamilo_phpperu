@@ -49,6 +49,7 @@ class Autoloader
             'default_survey_template_user_table_cell_renderer' => 'manage/context/tables/template_user_table/default_template_user_table_cell_renderer',
         	'default_survey_template_user_table_column_model' => 'manage/context/tables/template_user_table/default_template_user_table_column_model',
             'survey_viewer_form' => 'display/component/viewer/survey_viewer_form',
+            'survey_answer_processor' => 'display/component/viewer/survey_answer_processor',
             'survey_question_display' => 'display/component/viewer/inc/survey_question_display',
             'survey_context_manager' => 'manage/context/survey_context_manager',
             'default_survey_page_table_column_model' => 'manage/context/tables/page_table/default_page_table_column_model',

@@ -3,6 +3,7 @@ namespace repository\content_object\survey;
 
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
+use repository\content_object\survey_page\SurveyPage;
 
 abstract class SurveyQuestionDisplay
 {
@@ -24,13 +25,14 @@ abstract class SurveyQuestionDisplay
     private $answer;
     private $visible;
     private $contex_path;
+    private $page_answers;
 
-    function __construct($formvalidator, $complex_question, $question, $answer, $context_path, $survey = null)
+    function __construct($formvalidator, $complex_question, $question, $answer, $context_path, $survey = null, $page_answers)
     {
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
         $this->complex_question = $complex_question;
-        
+        $this->page_answers = $page_answers;
         $this->question = $question;
         $this->answer = $answer;
         $this->contex_path = $context_path;
@@ -81,6 +83,11 @@ abstract class SurveyQuestionDisplay
         return $this->survey;
     }
 
+    function get_page_answers()
+    {
+        return $this->page_answers;
+    }
+
     function display()
     {
         $formvalidator = $this->formvalidator;
@@ -120,9 +127,29 @@ abstract class SurveyQuestionDisplay
             }
             else
             {
-                $html[] = '<div style="display:none" class="question" id="survey_question_' . $this->complex_question->get_id() . '">';
+                $context_path = $this->get_context_path();
+                if ($this->get_survey()->has_context())
+                {
+                    $path_ids = explode('|', $context_path);
+                    $ids = explode('_', $path_ids[2]);
+                    $page_id = $ids[0];
+                }
+                else
+                {
+                    $ids = explode('_', $context_path);
+                    $page_id = $ids[1];
+                }
+                
+                if ($this->is_question_visible($page_id))
+                {
+                    $html[] = '<div  class="question" id="survey_question_' . $this->complex_question->get_id() . '">';
+                    $html[] = '<a name=' . $this->complex_question->get_id() . '></a>';
+                }
+                else
+                {
+                    $html[] = '<div style="display:none" class="question" id="survey_question_' . $this->complex_question->get_id() . '">';
+                }
             }
-        
         }
         else
         {
@@ -181,7 +208,7 @@ abstract class SurveyQuestionDisplay
 
     abstract function get_instruction();
 
-    static function factory($formvalidator, $complex_question, $answer, $context_path, $survey)
+    static function factory($formvalidator, $complex_question, $answer, $context_path, $survey, $page_answers)
     {
         
         $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_question->get_ref());
@@ -198,7 +225,7 @@ abstract class SurveyQuestionDisplay
         require_once $file;
         
         $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'Display';
-        $question_display = new $class($formvalidator, $complex_question, $question, $answer, $context_path, $survey);
+        $question_display = new $class($formvalidator, $complex_question, $question, $answer, $context_path, $survey, $page_answers);
         return $question_display;
     }
 
@@ -216,5 +243,52 @@ abstract class SurveyQuestionDisplay
     
     }
 
+    function is_question_visible($page_id)
+    {
+        $survey_page = RepositoryDataManager :: get_instance()->retrieve_content_object($page_id);
+        $configs = $survey_page->get_config();
+	       
+        $page_answers = $this->get_page_answers();
+              
+        foreach ($configs as $config)
+        {
+            
+            foreach ($page_answers as $question_id => $answer_to_match)
+            {
+                
+                $from_question_id = $config[SurveyPage :: FROM_VISIBLE_QUESTION_ID];
+                if ($question_id == $from_question_id)
+                {
+                   
+                    $answer = $config[SurveyPage :: ANSWERMATCHES];
+                    $answers_to_match = array();
+                    foreach ($answer as $key => $value)
+                    {
+                        $oids = explode('_', $key);
+                        if (count($oids) == 2)
+                        {
+                            $answers_to_match[] = $oids[1];
+                        }
+                        elseif (count($oids) == 3)
+                        {
+                            $option = $oids[1];
+                            $answers_to_match[$option] = $value;
+                        
+                        }
+                    }
+
+                    $diff = array_diff($answers_to_match, $answer_to_match);
+                    if (count($diff) == 0)
+                    {
+                        if(in_array($this->get_complex_question()->get_id(), $config[SurveyPage :: TO_VISIBLE_QUESTIONS_IDS]))
+                        {
+                        	return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
 ?>

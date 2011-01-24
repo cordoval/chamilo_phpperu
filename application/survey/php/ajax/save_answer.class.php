@@ -6,6 +6,7 @@ use common\libraries\Utilities;
 use common\libraries\AjaxManager;
 use common\libraries\JsonAjaxResult;
 use common\libraries\Request;
+use common\libraries\StringUtilities;
 use common\libraries\Path;
 use repository\content_object\survey_page\SurveyPage;
 use common\libraries\EqualityCondition;
@@ -52,8 +53,9 @@ class SurveyAjaxSaveAnswer extends AjaxManager
             $value = Security :: remove_XSS($value);
             $split_key = explode('_', $key);
             $count = count($split_key);
-            $stripped_value = strip_tags($value);
-            if ((strlen($stripped_value) > 1) || ($value == 0))
+            
+            //            if ((StringUtilities :: is_null_or_empty($value)) || ($value == 0))
+            if (!StringUtilities :: is_null_or_empty($value, true))
             {
                 $answer_index = $split_key[1];
                 if ($count == 3)

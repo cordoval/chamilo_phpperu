@@ -98,6 +98,7 @@ class SurveyAjaxProcesAnswer extends AjaxManager
             }
             //	dump($question_visibility);
             $configs = $survey_page->get_config();
+                      
             //
             //    $question_visibility = array();
             $rconfig;
@@ -204,7 +205,7 @@ class SurveyAjaxProcesAnswer extends AjaxManager
     function process_question_results($question_results)
     {
         $question_selections = array();
-        //	dump($question_results);
+//       	dump($question_results);
         foreach ($question_results as $question_identifier => $question_value)
         {
             $question_identifier = explode('_', $question_identifier);
