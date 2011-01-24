@@ -1,8 +1,6 @@
 Versions = "Versies"
-
-
 TranscodeNeeded = "De video moet worden gecompresseerd"
-Creator = ""
+Creator = "Creator"
 NoTranscodeProfiles = "Er zijn geen transcode profielen ingesteld"
 UploadVideo = "Upload een video"
 PlayerNotAvailable = "De vereiste player is niet beschikbaar"
