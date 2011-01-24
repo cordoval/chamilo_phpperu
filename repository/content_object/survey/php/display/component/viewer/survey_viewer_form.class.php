@@ -48,7 +48,7 @@ class SurveyViewerForm extends FormValidator
     function buildForm()
     {
         $this->addElement('hidden', 'survey_page', $this->survey_page->get_id());
-       
+       	$this->addElement('hidden', 'context_path', $this->context_path);
         // Add buttons
         if ($this->page_number > 1)
         {
@@ -117,7 +117,7 @@ class SurveyViewerForm extends FormValidator
             
             if (is_numeric($complex_question_id))
             {
-                if (($value) || ($value == 0))
+               if ((strlen(strip_tags($value)) > 0) || ($value == 0))
                 {
                     $answer_index = $split_key[1];
                     if ($count == 3)
@@ -146,7 +146,7 @@ class SurveyViewerForm extends FormValidator
                 if (count($answers) > 0)
                 {
 //                    dump($answer);
-                	$this->parent->save_answer($complex_question_id, serialize($answers), $this->context_path . '_' . $complex_question_id);
+                	$this->parent->save_answer($complex_question_id, $answers, $this->context_path . '_' . $complex_question_id);
                 }
             }
         }

@@ -17,6 +17,7 @@ class Autoloader
         $list = array(
             'survey' => 'survey',
             'survey_context_template' => 'survey_context_template',
+        	'survey_ajax_proces_answer' => 'ajax/proces_answer',
             'survey_template' => 'survey_template',
             'survey_context_data_manager' => 'context_data_manager/database_context_data_manager',
             'survey_table' => 'manage/context/component/survey_table/table',

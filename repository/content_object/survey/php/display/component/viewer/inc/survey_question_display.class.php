@@ -35,12 +35,15 @@ abstract class SurveyQuestionDisplay
         $this->answer = $answer;
         $this->contex_path = $context_path;
         $this->survey = $survey;
-        if($survey){
-        	$this->question_nr = $this->survey->get_question_nr($context_path);	
-        }else{
-        	$this->question_nr = 1;
+        if ($survey)
+        {
+            $this->question_nr = $this->survey->get_question_nr($context_path);
         }
-        
+        else
+        {
+            $this->question_nr = 1;
+        }
+    
     }
 
     function get_complex_question()
@@ -75,7 +78,7 @@ abstract class SurveyQuestionDisplay
 
     function get_survey()
     {
-       return $this->survey;
+        return $this->survey;
     }
 
     function display()
@@ -110,7 +113,16 @@ abstract class SurveyQuestionDisplay
         
         if (! $this->get_complex_question()->is_visible())
         {
-            $html[] = '<div style="display:none" class="question" id="survey_question_' . $this->complex_question->get_id() . '">';
+            if ($this->get_answer())
+            {
+                $html[] = '<div  class="question" id="survey_question_' . $this->complex_question->get_id() . '">';
+                $html[] = '<a name=' . $this->complex_question->get_id() . '></a>';
+            }
+            else
+            {
+                $html[] = '<div style="display:none" class="question" id="survey_question_' . $this->complex_question->get_id() . '">';
+            }
+        
         }
         else
         {
@@ -193,12 +205,15 @@ abstract class SurveyQuestionDisplay
     function parse($value)
     {
         
-    	if($this->get_survey()){
-    		return $this->get_survey()->parse($this->get_context_path(), $value);
-    	}else{
-    		return value;
-    	}
-    	 
+        if ($this->get_survey())
+        {
+            return $this->get_survey()->parse($this->get_context_path(), $value);
+        }
+        else
+        {
+            return value;
+        }
+    
     }
 
 }
