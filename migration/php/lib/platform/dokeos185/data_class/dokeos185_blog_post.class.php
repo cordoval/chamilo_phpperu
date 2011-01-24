@@ -144,7 +144,8 @@ class Dokeos185BlogPost extends Dokeos185CourseDataMigrationDataClass
         }
         else
         {
-            $chamilo_blog_item->set_description($this->get_full_text());
+            $blog_text = $this->parse_text_field($this->get_full_text());
+            $chamilo_blog_item->set_description($blog_text);
         }
         
         $chamilo_blog_item->set_owner_id($new_user_id);
