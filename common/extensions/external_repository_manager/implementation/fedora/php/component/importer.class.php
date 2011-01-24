@@ -2,8 +2,6 @@
 
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
-use common\libraries\Filecompression;
-
 use repository\content_object\document\Document;
 use common\libraries\Path;
 use common\libraries\Translation;
