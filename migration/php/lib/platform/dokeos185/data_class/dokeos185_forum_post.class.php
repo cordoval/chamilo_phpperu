@@ -204,7 +204,8 @@ class Dokeos185ForumPost extends Dokeos185CourseDataMigrationDataClass
         }
         else
         {
-            $chamilo_forum_post->set_description($this->get_post_text());
+            $post_text = $this->parse_text_field($this->get_post_text());
+            $chamilo_forum_post->set_description($post_text);
         }
         
         $chamilo_forum_post->set_owner_id($new_user_id);

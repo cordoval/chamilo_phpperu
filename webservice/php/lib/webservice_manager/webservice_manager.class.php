@@ -78,7 +78,7 @@ class WebserviceManager extends CoreApplication
         return WebserviceDataManager :: get_instance()->retrieve_webservice_by_name($name);
     }
 
-    public static function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: APPLICATION_NAME)
     {
         $links = array();
         $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_WEBSERVICES), array(), false, Redirect :: TYPE_CORE));

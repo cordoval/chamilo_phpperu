@@ -219,7 +219,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js');
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.elementfinder.js');
         $html[] = '<script type="text/javascript">';
-
+        
         $exclude_ids = array();
         if (count($this->exclude))
         {

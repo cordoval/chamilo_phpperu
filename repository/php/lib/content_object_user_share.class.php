@@ -38,7 +38,7 @@ class ContentObjectUserShare extends ContentObjectShare
      * Get the default properties of all groups.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID));
     }

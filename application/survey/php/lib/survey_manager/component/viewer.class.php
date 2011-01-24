@@ -152,7 +152,7 @@ class SurveyManagerViewerComponent extends SurveyManagerTakerComponent
     //                $path_ids = explode('|', $context_path);
     //                $context_ids = explode('_', $path_ids[1]);
     //                $context_count = count($context_ids);
-    //                $context_template = $survey->get_context_template($context_count);
+    //                $context_template = $survey->get_context_template_for_level($context_count);
     //                $parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $context_template->get_id();
     //                $parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID] = array_pop($context_ids);
     //

@@ -74,6 +74,7 @@ ObjectsNotMigrated = "<b>{OBJECTCOUNT}</b> objects are not migrated because they
 ObjectMigrated = "<b>1</b> object is migrated.";
 ObjectNotMigrated = "<b>1</b> object is not migrated because it is invalid.";
 GeneralInvalidMessage = "FAILED: {TYPE} is not valid ( ID: {ID} )";
+InvalidScormLearningPathMessage = "FAILED: {TYPE} is not valid ( ID: {ID} ): Scorm";
 TypeFolderDeprecatedMessage = "FAILED: {TYPE}: Documents of type folder are deprecated ( ID: {ID} )";
 FileDoesNotExistMessage = "FAILED: {TYPE} is not valid ( ID: {ID} , OF: {ORIGINALFILENAME}, NF: {FILENAME})";
 GeneralConvertedMessage ="SUCCES: new {TYPE} added ( OLD ID: {OLD_ID} - NEW ID: {NEW_ID} )";

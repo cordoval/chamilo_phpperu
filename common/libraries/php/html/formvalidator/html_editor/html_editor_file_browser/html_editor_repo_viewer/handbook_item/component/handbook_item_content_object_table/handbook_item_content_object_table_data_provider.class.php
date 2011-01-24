@@ -40,12 +40,12 @@ class HandbookItemContentObjectTableDataProvider extends ContentObjectTableDataP
 
         if (! $this->get_parent()->is_shared_object_browser())
         {
-            var_dump('1' . $dm->retrieve_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $order_property, $offset, $count));
+//            var_dump('1' . $dm->retrieve_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $order_property, $offset, $count));
             return $dm->retrieve_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $order_property, $offset, $count);
         }
         else
         {
-            var_dump('2' . $dm->retrieve_shared_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $offset, $count, $order_property));
+//            var_dump('2' . $dm->retrieve_shared_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $offset, $count, $order_property));
             return $dm->retrieve_shared_type_content_objects(HandbookItem :: get_type_name(), $this->get_condition(), $offset, $count, $order_property);
         }
     }

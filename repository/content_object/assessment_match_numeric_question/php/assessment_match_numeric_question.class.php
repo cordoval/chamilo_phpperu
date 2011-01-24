@@ -29,8 +29,7 @@ class AssessmentMatchNumericQuestion extends ContentObject implements Versionabl
 
     public static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_TOLERANCE_TYPE, self :: PROPERTY_OPTIONS,
-                self :: PROPERTY_HINT);
+        return array(self :: PROPERTY_TOLERANCE_TYPE, self :: PROPERTY_OPTIONS, self :: PROPERTY_HINT);
     }
 
     public function ContentObject($defaultProperties = array (), $additionalProperties = null)
@@ -63,6 +62,22 @@ class AssessmentMatchNumericQuestion extends ContentObject implements Versionabl
         return array();
     }
 
+    /**
+     * @return boolean
+     */
+    public function has_feedback()
+    {
+        foreach ($this->get_options() as $option)
+        {
+            if ($option->has_feedback())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function get_number_of_options()
     {
         return count($this->get_options());
@@ -90,7 +105,6 @@ class AssessmentMatchNumericQuestion extends ContentObject implements Versionabl
 
     function has_hint()
     {
-        $hint = trim(strip_tags($this->get_hint()));
-        return ! empty($hint);
+        return StringUtilities :: has_value($this->get_hint(), true);
     }
 }

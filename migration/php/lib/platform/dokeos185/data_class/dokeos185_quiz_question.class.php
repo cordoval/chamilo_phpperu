@@ -168,7 +168,8 @@ class Dokeos185QuizQuestion extends Dokeos185CourseDataMigrationDataClass
         }
         else
         {
-            $chamilo_question->set_description($this->get_description());
+            $description = $this->parse_text_field($this->get_description());
+            $chamilo_question->set_description($description);
         }
         
         $chamilo_question->set_owner_id($new_user_id);

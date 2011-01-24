@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\survey;
 
+use user\User;
 use common\libraries\Path;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
@@ -14,6 +15,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\AndCondition;
@@ -25,6 +27,7 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
     const TAB_SURVEYS = 1;
     const TAB_ADD_TEMPLATE = 2;
     const TAB_TEMPLATES = 3;
+    const TAB_USERS = 4;
     
     private $ab;
     private $context_template;
@@ -34,8 +37,8 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
      */
     function run()
     {
-        $context_template_id = Request :: get(SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID);
-        $this->set_parameter(SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID, $context_template_id);
+        $context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
+        $this->set_parameter(self :: PARAM_CONTEXT_TEMPLATE_ID, $context_template_id);
         $this->context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
         
         $this->ab = $this->get_action_bar();
@@ -73,6 +76,11 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
         $table = new SurveyTemplateTable($this, $parameters, $this->get_template_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_TEMPLATES, Translation :: get('Templates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
         
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_USERS;
+        $table = new SurveyUserTable($this, $parameters, $this->get_user_condition());
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+        
+        
         $html[] = $tabs->render();
         
         $html[] = '</div>';
@@ -80,7 +88,48 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
         
         return implode($html, "\n");
     }
-
+	
+    function get_user_condition()
+    {
+    	
+//    	$template_condition = new EqualityCondition(SurveyTemplate::PROPERTY_CONTEXT_TEMPLATE_ID, $this->context_template->get_id());
+//    	$templates = SurveyContextDataManager::get_instance()->retrieve_survey_templates($template_condition);
+//    	$template_ids = array();
+//    	while ($template = $templates->next_result()){
+//    		$template_ids[] = $template->get_id();
+//    	}
+//    	$template_user_condition = new InCondition(SurveyTemplateUser::PROPERTY_TEMPLATE_ID, $template_ids, SurveyTemplateUser :: get_table_name());
+    	
+    	$template_users = SurveyContextDataManager::get_instance()->retrieve_survey_template_users($this->context_template->get_type());
+    	
+    	$user_ids = array();
+    	while ($template_user = $template_users->next_result()){
+    		$user_ids[] = $template_user->get_user_id();
+    	}
+    	
+    	if(count($user_ids) == 0){
+    		$user_ids[] = 0;
+    	}
+    	
+    	$conditions = array();
+        $conditions[] = new InCondition(User::PROPERTY_ID, $user_ids);
+        
+        $query = $this->ab->get_query();
+        
+        if (isset($query) && $query != '')
+        {
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', User :: get_table_name());
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', User :: get_table_name());
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*', User :: get_table_name());
+            $conditions[] = new OrCondition($search_conditions);
+        
+        }
+        
+        $condition = new AndCondition($conditions);
+        return $condition;
+    }
+    
     function get_template_condition()
     {
         

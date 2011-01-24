@@ -150,9 +150,14 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
             $chamilo_description->set_title($this->get_title());
 
         if (!$this->get_content())
+        {
             $chamilo_description->set_description($this->get_title());
+        }
         else
-            $chamilo_description->set_description($this->get_content());
+        {
+            $content = $this->parse_text_field($this->get_content());
+            $chamilo_description->set_description($content);
+        }
 
         $new_user_id = $this->get_id_reference($this->get_data_manager()->get_admin_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');

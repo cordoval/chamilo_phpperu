@@ -161,11 +161,6 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilder implements
                     ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
         }
     }
-
-    function is_allowed_to_create($type)
-    {
-        return RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT)->get_id());
-    }
 }
 
 ?>

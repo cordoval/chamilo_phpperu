@@ -64,15 +64,14 @@ class TestInitializer
 
     private static function initAutoload()
     {
+        require_once 'PHPUnit/Autoload.php';
         spl_autoload_register('common\libraries\Utilities::autoload');
     }
 
     private static function initPHPSettings()
     {
-	// I do not understand why but Fatal error aren't shown 
-	// when setting these parameters
-        // Sven: the error reporting parameters are constants and should not be defined between quotes.
-        ini_set('error_reporting', E_ALL & ~E_DEPRECATED);
+        ini_set('error_reporting', E_ALL | E_STRICT);
+        ini_set('output_buffering', 'Off');
     }
     
     private static function initServerGlobals()
@@ -85,3 +84,4 @@ class TestInitializer
 }
 
 TestInitializer::init();
+

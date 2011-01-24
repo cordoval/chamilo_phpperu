@@ -1031,7 +1031,7 @@ class RepositoryManager extends CoreApplication
         echo $this->get_search_form()->display();
     }
 
-    public static function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: APPLICATION_NAME)
     {
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
 
@@ -1462,6 +1462,11 @@ class RepositoryManager extends CoreApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_INSTANCES), array(
                 ExternalInstanceManager :: PARAM_INSTANCE_ACTION));
+    }
+
+    function is_object_shared_with_me($object)
+    {
+        return RepositoryDataManager :: is_object_shared_with_user($this->get_user(), $object);
     }
 
     /**

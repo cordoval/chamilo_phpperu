@@ -41,25 +41,62 @@ class GlossaryDisplayViewerComponent extends GlossaryDisplay
 
     function run()
     {
+//        $this->action_bar = $this->get_action_bar();
+//
+//        $dm = RepositoryDataManager :: get_instance();
+//
+//        $object = $this->get_root_content_object();
+//
+//        $trail = BreadcrumbTrail :: get_instance();
+//        if(!is_array($object))
+//        {
+//            $trail->add(new Breadcrumb($this->get_url(), $object->get_title()));
+//        }
+        $this->display_header();
+
+//        echo $this->action_bar->as_html();
+//
+//        if ($this->get_view() == self :: VIEW_TABLE)
+//        {
+//            $table = new GlossaryViewerTable($this);
+//            echo $table->as_html();
+//        }
+//        else
+//        {
+//            if(!is_array($object))
+//            {
+//                $object = array($object);
+//            }
+//            foreach($object as $obj)
+//            {
+//                $children = $dm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $obj->get_id(), ComplexContentObjectItem :: get_table_name()));
+//                while ($child = $children->next_result())
+//                {
+//                    $content_object = $dm->retrieve_content_object($child->get_ref());
+//                    echo $this->display_content_object($content_object, $child);
+//                }
+//            }
+//        }
+        echo $this->to_html();
+        $this->display_footer();
+    }
+
+    function to_html()
+    {
+        $html = array();
         $this->action_bar = $this->get_action_bar();
-
         $dm = RepositoryDataManager :: get_instance();
-
-        $object = $this->get_root_content_object();
-
+        $object = $this->get_parent()->get_root_content_object($this);
         $trail = BreadcrumbTrail :: get_instance();
         if(!is_array($object))
         {
             $trail->add(new Breadcrumb($this->get_url(), $object->get_title()));
         }
-        $this->display_header();
-
-        echo $this->action_bar->as_html();
-
+        $html[] = $this->action_bar->as_html();
         if ($this->get_view() == self :: VIEW_TABLE)
         {
             $table = new GlossaryViewerTable($this);
-            echo $table->as_html();
+            $html[] =  $table->as_html();
         }
         else
         {
@@ -73,12 +110,11 @@ class GlossaryDisplayViewerComponent extends GlossaryDisplay
                 while ($child = $children->next_result())
                 {
                     $content_object = $dm->retrieve_content_object($child->get_ref());
-                    echo $this->display_content_object($content_object, $child);
+                    $html[] =  $this->display_content_object($content_object, $child);
                 }
             }
         }
-
-        $this->display_footer();
+        return implode("\n" , $html);
     }
 
     function display_content_object($content_object, $complex_content_object_item)
@@ -157,7 +193,7 @@ class GlossaryDisplayViewerComponent extends GlossaryDisplay
             $conditions[] = new OrCondition($search_conditions);
         }
 
-        $objects = $this->get_root_content_object();
+        $objects = $this->get_parent()->get_root_content_object($this);;
         if(!is_array($objects))
         {
             $objects = array($objects);

@@ -21,7 +21,7 @@ class SurveyInactiveContextReportingBlock extends SurveyReportingBlock
     private $context_template_id;
     private $user_id;
 
-    function SurveyInactiveContextReportingBlock($parent, $context_template_id, $user_id)
+    function  __construct($parent, $context_template_id, $user_id)
     {
         parent :: __construct($parent);
         $this->context_template_id = $context_template_id;

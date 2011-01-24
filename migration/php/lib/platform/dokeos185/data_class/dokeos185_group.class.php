@@ -1,5 +1,7 @@
 <?php
+
 namespace migration;
+
 use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
@@ -20,7 +22,7 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'group_info';
-    
+
     /**
      * Group properties
      */
@@ -44,8 +46,8 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
     static function get_default_property_names()
     {
         return array(
-                self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_MAX_STUDENT, self :: PROPERTY_DOC_STATE, self :: PROPERTY_CALENDAR_STATE, 
-                self :: PROPERTY_WORK_STATE, self :: PROPERTY_ANNOUNCEMENTS_STATE, self :: PROPERTY_SECRET_DIRECTORY, self :: PROPERTY_self_REGISTRATION_ALLOWED, self :: PROPERTY_self_UNREGISTRATION_ALLOWED);
+            self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_MAX_STUDENT, self :: PROPERTY_DOC_STATE, self :: PROPERTY_CALENDAR_STATE,
+            self :: PROPERTY_WORK_STATE, self :: PROPERTY_ANNOUNCEMENTS_STATE, self :: PROPERTY_SECRET_DIRECTORY, self :: PROPERTY_self_REGISTRATION_ALLOWED, self :: PROPERTY_self_UNREGISTRATION_ALLOWED);
     }
 
     /**
@@ -165,15 +167,15 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
     {
         $course = $this->get_course();
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
-        
-        if (! $this->get_name() || $this->get_self_registration_allowed() == NULL || $this->get_self_unregistration_allowed() == NULL || !$new_course_code)
+
+        if (!$this->get_name() || $this->get_self_registration_allowed() == NULL || $this->get_self_unregistration_allowed() == NULL || !$new_course_code)
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'group', 'ID' => $this->get_id())));
-            
+
             return false;
         }
-        
+
         return true;
     }
 
@@ -186,12 +188,12 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
     {
         $course = $this->get_course();
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
-        
+
         $chamilo_lcms_group = new CourseGroup();
         $chamilo_lcms_group->set_course_code($new_course_code);
         $chamilo_lcms_group->set_name($this->get_name());
         $chamilo_lcms_group->set_max_number_of_members($this->get_max_student());
-        
+
         if ($this->get_description())
         {
             $chamilo_lcms_group->set_description($this->get_description());
@@ -200,27 +202,27 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
         {
             $chamilo_lcms_group->set_description($this->get_name());
         }
-        
+
         $chamilo_lcms_group->set_self_registration_allowed($this->get_self_registration_allowed());
         $chamilo_lcms_group->set_self_unregistration_allowed($this->get_self_unregistration_allowed());
-        
+
         $group_category = $this->get_id_reference($this->get_category_id(), $this->get_database_name() . '.group_category');
-        if($group_category)
+        if ($group_category)
         {
             $chamilo_lcms_group->set_parent_id($group_category);
         }
-        
+
         $chamilo_lcms_group->create();
-        
+
         $this->create_id_reference($this->get_id(), $chamilo_lcms_group->get_id());
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'group', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_lcms_group->get_id())));
-        
+
         return $chamilo_lcms_group;
     }
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return self :: TABLE_NAME;
     }
 
     static function get_class_name()
@@ -229,4 +231,5 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
     }
 
 }
+
 ?>

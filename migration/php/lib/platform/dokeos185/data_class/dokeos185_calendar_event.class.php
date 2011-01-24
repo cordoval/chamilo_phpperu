@@ -143,7 +143,7 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
     {
         $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'calendar_event', $this->get_id()));
 
-        if (!$this->get_id() || !($this->get_title() || $this->get_content()) || !$this->get_item_property() || !$this->get_start_date())
+        if (!$this->get_id() || !($this->get_title() || $this->get_content()) || !$this->get_item_property() || !$this->get_start_date() || $this->get_item_property()->get_visibility() == 2)
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'calendar_event', 'ID' => $this->get_id())));
@@ -197,7 +197,8 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
         }
         else
         {
-            $chamilo_calendar_event->set_description($this->get_content());
+            $content = $this->parse_text_field($this->get_content());
+            $chamilo_calendar_event->set_description($content);
         }
 
         $chamilo_calendar_event->set_owner_id($new_user_id);
@@ -211,6 +212,8 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
 
         //create announcement in database
         $chamilo_calendar_event->create_all();
+
+        $this->add_resources($chamilo_calendar_event, 'agenda');
 
         //publication
 

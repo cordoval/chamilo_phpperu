@@ -29,7 +29,7 @@ class FeedbackPublication extends DataClass
      * Get the default properties of all feedbacks.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_PID, self :: PROPERTY_CID, self :: PROPERTY_FID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE));
     }

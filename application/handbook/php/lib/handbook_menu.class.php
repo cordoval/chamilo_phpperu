@@ -14,6 +14,7 @@ use common\libraries\Utilities;
 use repository\content_object\handbook_item\HandbookItem;
 use repository\content_object\handbook\Handbook;
 use repository\content_object\glossary\Glossary;
+use common\libraries\Request;
 
 /**
  * This class provides a navigation menu representing the structure of a handbook
@@ -37,16 +38,51 @@ class HandbookMenu extends HTML_Menu
     private $handbook_selection_id;
     private $handbook_publication_id;
     private $top_handbook_id;
+    private $type;
 
+    const PARAM_TYPE_PICKER = 'picker';
+    const PARAM_TYPE_MENU = 'menu';
+
+
+
+    function __construct()
+    {
+        $args = \func_get_args();
+        switch (\func_num_args())
+        {
+            case 1:
+                self::__construct1($args[0]);
+                break;
+            case 5:
+                self::__construct5($args[0], $args[1], $args[2], $args[3], $args[4]);
+                break;
+        }
+    }
+
+    function __construct1($handbook_id)
+    {
+        $this->urlFmt ='run.php?go='.HandbookManager::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_TOP_HANDBOOK_ID.'=%s&'.HandbookManager::PARAM_HANDBOOK_SELECTION_ID.'=%s&'. HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID.'=%s&' . HandbookManager::PARAM_COMPLEX_OBJECT_ID . '=%s&' . HandbookManager::PARAM_HANDBOOK_ID . '=%s' ;
+
+        $this->handbook_id = $handbook_id;
+        $this->handbook_selection_id = $handbook_id;
+        $this->handbook_publication_id = $handbook_id;
+        $this->top_handbook_id = $handbook_id;
+        $this->type = self::PARAM_TYPE_PICKER;
+
+        $menu = $this->get_menu();
+        parent :: __construct($menu);
+         $this->forceCurrentUrl($this->get_root_url());
+
+    }
 
     /**
-     * Creates a new category navigation menu.
+     * Creates a new navigation menu.
      * @param string $url_format The format to use for the URL of a category.
      *                           Passed to sprintf(). Defaults to the string
      *                           "?category=%s".
      *
      */
-    function __construct($url_format, $handbook_id, $handbook_selection_id, $handbook_publication_id, $top_handbook_id)
+    function __construct5($url_format, $handbook_id, $handbook_selection_id, $handbook_publication_id, $top_handbook_id)
     {
         
         $this->urlFmt ='run.php?go='.HandbookManager::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_TOP_HANDBOOK_ID.'=%s&'.HandbookManager::PARAM_HANDBOOK_SELECTION_ID.'=%s&'. HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID.'=%s&' . HandbookManager::PARAM_COMPLEX_OBJECT_ID . '=%s&' . HandbookManager::PARAM_HANDBOOK_ID . '=%s' ;
@@ -55,7 +91,7 @@ class HandbookMenu extends HTML_Menu
         $this->handbook_selection_id = $handbook_selection_id;
         $this->handbook_publication_id = $handbook_publication_id;
         $this->top_handbook_id = $top_handbook_id;
-        
+        $this->type = self::PARAM_TYPE_MENU;
  
         $menu = $this->get_menu();
         parent :: __construct($menu);
@@ -194,7 +230,20 @@ class HandbookMenu extends HTML_Menu
 
     private function get_sub_item_url($top_handbook_id, $handbook_selection_id, $hpid, $coid, $handbook_id)
     {
-        return htmlentities(sprintf($this->urlFmt, $top_handbook_id, $handbook_selection_id, $hpid, $coid, $handbook_id));
+        if($this->type == self::PARAM_TYPE_PICKER)
+        {
+
+            //TODO insert correct code for plugin (refer to uid)
+            $this->urlFmt ='run.php?go='.HandbookManager::ACTION_PASS_UID.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_SELECTION_ID.'='.$handbook_selection_id.'&CKEditorFuncNum='.Request::get('CKEditorFuncNum');
+            return $this->urlFmt;
+
+
+//            return 'test' . $handbook_selection_id . '  ' . $this->get_parameter('CKEditorFuncNum');
+        }
+        else
+        {
+            return htmlentities(sprintf($this->urlFmt, $top_handbook_id, $handbook_selection_id, $hpid, $coid, $handbook_id));
+        }
     }
 
     /**
@@ -220,10 +269,17 @@ class HandbookMenu extends HTML_Menu
 	function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
+
+        if($this->type == self::PARAM_TYPE_PICKER || $_SESSION[HandbookManager::PARAM_MENU_STYLE] == HandbookManager::MENU_OPEN)
+        {
 //       show complete menu: nothing collapsed
-//         $this->setMenuType('sitemap');
+         $this->setMenuType('sitemap');
+        }
+        else
+        {
 //        all collapsed
-        $this->setMenuType('tree');
+            $this->setMenuType('tree');
+        }
         
 
         $this->render($renderer);

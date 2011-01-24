@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/table_cell_renderer.class.php';
 
 class SurveyTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'survey_context_table';
+    const DEFAULT_NAME = 'survey_table';
 
     function __construct($component, $parameters, $condition)
     {

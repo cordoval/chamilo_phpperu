@@ -92,7 +92,7 @@ class User extends DataClass
      * Get the default properties of all users.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(
                 self :: PROPERTY_LASTNAME,
@@ -674,6 +674,11 @@ class User extends DataClass
         {
             $group_ids[] = $user_group->get_group_id();
             $group = $gdm->retrieve_group($user_group->get_group_id());
+            if(!$group)
+            {
+                continue;
+            }
+            
             $subgroups = $group->get_parents(false);
 
             while ($subgroup = $subgroups->next_result())

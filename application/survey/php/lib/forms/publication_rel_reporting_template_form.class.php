@@ -152,7 +152,7 @@ class SurveyPublicationRelReportingTemplateRegistrationForm extends FormValidato
             $level = 1;
             while ($level_count > 0)
             {
-                $context_template = $survey->get_context_template($level_count);
+                $context_template = $survey->get_context_template_for_level($level_count);
                 $name = $context_template->get_context_type_name();
                 $levels[$context_template->get_id()] = $name;
                 $level_count --;

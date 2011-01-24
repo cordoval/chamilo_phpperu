@@ -1,9 +1,12 @@
 <?php
+namespace repository\content_object\survey;
+
 use repository\content_object\survey_page\SurveyPage;
 use repository\RepositoryDataManager;
 use common\libraries\Request;
-require_once dirname(__FILE__) . '/../../global.inc.php';
-require_once Path :: get_application_path() . 'lib/survey/survey_data_manager.class.php';
+
+require_once dirname(__FILE__) . '/../../../global.inc.php';
+//require_once Path :: get_application_path() . 'lib/survey/survey_data_manager.class.php';
 
 function process_question_results($question_results)
 {

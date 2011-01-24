@@ -2,8 +2,6 @@
 
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
-use common\libraries\Filecompression;
-
 use repository\content_object\document\Document;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -12,6 +10,7 @@ use common\libraries\Session;
 use common\libraries\Utilities;
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 use common\libraries\Filesystem;
+use common\libraries\Filecompression;
 use repository\ContentObjectImport;
 use application\weblcms\WeblcmsDataManager;
 use common\libraries\Application;

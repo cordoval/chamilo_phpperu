@@ -1,113 +1,115 @@
 <?php
+
 namespace migration;
 
 use common\libraries\Filesystem;
 use common\libraries\Translation;
 use common\libraries\Utilities;
-
 use Exception;
 
 require_once dirname(__FILE__) . '/dokeos185_data_manager.class.php';
 
 class Dokeos185MigrationProperties extends MigrationProperties
 {
-	/**
-	 * Validates the settings of the migration
-	 * @param $settings - The general settings
-	 * @param $blocks - The selected blocks
-	 */
-	function validate_settings($settings, $selected_blocks, $migrated_blocks)
-	{
-		$succes = $this->check_system_availability($settings);
-		if(!$succes)
-		{
-			return false;
-		}
 
-		return $this->validate_blocks($selected_blocks, $migrated_blocks);
-	}
+    /**
+     * Validates the settings of the migration
+     * @param $settings - The general settings
+     * @param $blocks - The selected blocks
+     */
+    function validate_settings($settings, $selected_blocks, $migrated_blocks)
+    {
+        $succes = $this->check_system_availability($settings);
+        if (!$succes)
+        {
+            return false;
+        }
 
-	/**
-	 * Checks the availability of the system
-	 * @param String[] $settings
-	 */
-	function check_system_availability($settings)
-	{
-		try
-		{
-			$data_manager = Dokeos185DataManager::get_instance();
-		}
-		catch(Exception $e)
-		{
-			$this->get_message_logger()->add_message($e->getMessage());
-			return false;
-		}
+        return $this->validate_blocks($selected_blocks, $migrated_blocks);
+    }
 
-		return true;
-	}
+    /**
+     * Checks the availability of the system
+     * @param String[] $settings
+     */
+    function check_system_availability($settings)
+    {
+        try
+        {
+            $data_manager = Dokeos185DataManager::get_instance();
+        }
+        catch (Exception $e)
+        {
+            $this->get_message_logger()->add_message($e->getMessage());
+            return false;
+        }
 
-	/**
-	 * Validates every block
-	 * Checks if every block his prerequisite is selected as well
-	 * @param String[] $blocks - The selected blocks
-	 */
-	function validate_blocks($selected_blocks, $migrated_blocks)
-	{
-		if(count($selected_blocks) == 0)
-		{
-			$this->get_message_logger()->add_message(Translation :: get('NoBlocksSelected'));
-			return false;
-		}
+        return true;
+    }
 
-		$blocks = array_merge($selected_blocks, $migrated_blocks);
+    /**
+     * Validates every block
+     * Checks if every block his prerequisite is selected as well
+     * @param String[] $blocks - The selected blocks
+     */
+    function validate_blocks($selected_blocks, $migrated_blocks)
+    {
+        if (count($selected_blocks) == 0)
+        {
+            $this->get_message_logger()->add_message(Translation :: get('NoBlocksSelected'));
+            return false;
+        }
 
-		$result = true;
+        $blocks = array_merge($selected_blocks, $migrated_blocks);
 
-		foreach($selected_blocks as $block)
-		{
-			$class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($block) . 'MigrationBlock';
-			$object = new $class();
-			if(!$object->check_prerequisites($blocks))
-			{
-				$result = false;
-				$this->get_message_logger()->add_message(Translation :: get('BlockPrerequisitesCheckFailed', array('BLOCK' => Utilities :: underscores_to_camelcase($block))));
-			}
-		}
+        $result = true;
 
-		return $result;
-	}
+        foreach ($selected_blocks as $block)
+        {
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($block) . 'MigrationBlock';
+            $object = new $class();
+            if (!$object->check_prerequisites($blocks))
+            {
+                $result = false;
+                $this->get_message_logger()->add_message(Translation :: get('BlockPrerequisitesCheckFailed', array('BLOCK' => Utilities :: underscores_to_camelcase($block))));
+            }
+        }
 
-	/**
-	 * We need to define this manually because the order of the migration blocks is of very big importance for the prerequisites of some blocks
-	 */
-	function get_migration_blocks()
-	{
-		$this->require_migration_blocks();
+        return $result;
+    }
 
-		$blocks = array(UsersMigrationBlock :: MIGRATION_BLOCK_NAME, ClassesMigrationBlock :: MIGRATION_BLOCK_NAME, PersonalAgendasMigrationBlock :: MIGRATION_BLOCK_NAME,
-					    SettingsMigrationBlock :: MIGRATION_BLOCK_NAME, CoursesMigrationBlock :: MIGRATION_BLOCK_NAME, CourseGroupsMigrationBlock :: MIGRATION_BLOCK_NAME,
-					    CourseAnnouncementsMigrationBlock :: MIGRATION_BLOCK_NAME, CourseCalendarEventsMigrationBlock :: MIGRATION_BLOCK_NAME, CourseDocumentsMigrationBlock :: MIGRATION_BLOCK_NAME,
-					    CourseDropboxesMigrationBlock :: MIGRATION_BLOCK_NAME, CourseBlogsMigrationBlock :: MIGRATION_BLOCK_NAME, CourseForumsMigrationBlock :: MIGRATION_BLOCK_NAME,
-					    CourseLinksMigrationBlock :: MIGRATION_BLOCK_NAME, CourseMetaDataMigrationBlock :: MIGRATION_BLOCK_NAME,
-					    CourseQuizzesMigrationBlock :: MIGRATION_BLOCK_NAME, CourseLearningPathsMigrationBlock :: MIGRATION_BLOCK_NAME, TrackersMigrationBlock :: MIGRATION_BLOCK_NAME);
+    /**
+     * We need to define this manually because the order of the migration blocks is of very big importance for the prerequisites of some blocks
+     */
+    function get_migration_blocks()
+    {
+        $this->require_migration_blocks();
 
-		return $blocks;
-	}
+        $blocks = array(UsersMigrationBlock :: MIGRATION_BLOCK_NAME, ClassesMigrationBlock :: MIGRATION_BLOCK_NAME, PersonalAgendasMigrationBlock :: MIGRATION_BLOCK_NAME,
+            SettingsMigrationBlock :: MIGRATION_BLOCK_NAME, CoursesMigrationBlock :: MIGRATION_BLOCK_NAME, CourseGroupsMigrationBlock :: MIGRATION_BLOCK_NAME,
+            CourseDocumentsMigrationBlock :: MIGRATION_BLOCK_NAME, CourseAnnouncementsMigrationBlock :: MIGRATION_BLOCK_NAME, CourseCalendarEventsMigrationBlock :: MIGRATION_BLOCK_NAME,
+            CourseDropboxesMigrationBlock :: MIGRATION_BLOCK_NAME, CourseBlogsMigrationBlock :: MIGRATION_BLOCK_NAME, CourseForumsMigrationBlock :: MIGRATION_BLOCK_NAME,
+            CourseLinksMigrationBlock :: MIGRATION_BLOCK_NAME, CourseMetaDataMigrationBlock :: MIGRATION_BLOCK_NAME,
+            CourseQuizzesMigrationBlock :: MIGRATION_BLOCK_NAME, CourseLearningPathsMigrationBlock :: MIGRATION_BLOCK_NAME, TrackersMigrationBlock :: MIGRATION_BLOCK_NAME);
 
-	function require_migration_blocks()
-	{
-		$dir = dirname(__FILE__) . '/migration_block/';
+        return $blocks;
+    }
 
-    	if(!file_exists($dir))
-    	{
-    		return;
-    	}
+    function require_migration_blocks()
+    {
+        $dir = dirname(__FILE__) . '/migration_block/';
 
-    	$files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES, false);
+        if (!file_exists($dir))
+        {
+            return;
+        }
 
-    	foreach($files as $file)
-    	{
-    		require_once($dir . $file);
-    	}
-	}
+        $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES, false);
+
+        foreach ($files as $file)
+        {
+            require_once($dir . $file);
+        }
+    }
+
 }

@@ -110,7 +110,7 @@ class RightsManager extends CoreApplication
         return RightsDataManager :: get_instance()->retrieve_right($id);
     }
 
-    public static function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: APPLICATION_NAME)
     {
         $links = array();
 //        $links[] = new DynamicAction(Translation :: get('Locations'), Translation :: get('LocationsDescription'), Theme :: get_image_path() . 'browse_location.png', Redirect :: get_link(self :: APPLICATION_NAME, array(

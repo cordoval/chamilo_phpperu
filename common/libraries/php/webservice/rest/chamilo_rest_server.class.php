@@ -27,7 +27,7 @@ class ChamiloRestServer extends RestServer
         $this->process_request();
         $this->manipulate_retrieved_data();
 
-        if($this->determine_webservice_handler())
+        if ($this->determine_webservice_handler())
         {
             $this->call_webservice_handler();
         }
@@ -47,16 +47,16 @@ class ChamiloRestServer extends RestServer
         $application = Request :: get(self :: PARAM_APPLICATION);
         $object = Request :: get(self :: PARAM_OBJECT);
 
-        if($application && $object)
+        if ($application && $object)
         {
-            $type = Application :: get_type($application);
+            $type = Application :: get_application_type($application);
             $path = $type :: get_application_path($application) . 'php/webservices/' . $object . '/webservice_handler.class.php';
-            if(!file_exists($path))
+            if (! file_exists($path))
             {
                 $this->result = new SuccessRestMessage(false, Translation :: get('WebserviceHandlerNotImplemented', null, WebserviceManager :: APPLICATION_NAME));
                 return false;
             }
-            require_once($path);
+            require_once ($path);
             $class = Application :: determine_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($object) . 'WebserviceHandler';
 
             $this->webservice_handler = new $class();
@@ -103,7 +103,7 @@ class ChamiloRestServer extends RestServer
 
         if (method_exists($this->webservice_handler, $function))
         {
-            if($this->is_allowed(Request :: get(self :: PARAM_APPLICATION), Request :: get(self :: PARAM_OBJECT), $function))
+            if ($this->is_allowed(Request :: get(self :: PARAM_APPLICATION), Request :: get(self :: PARAM_OBJECT), $function))
             {
                 $this->result = call_user_func(array($this->webservice_handler, $function), $parameters);
             }
@@ -112,27 +112,27 @@ class ChamiloRestServer extends RestServer
         {
             $this->result = new SuccessRestMessage(false, Translation :: get('MethodNotImplemented', null, WebserviceManager :: APPLICATION_NAME));
         }
-        
+
     }
 
     private function is_allowed($application, $object, $function)
     {
         $user = WebserviceAuthentication :: factory()->is_valid();
-        
-        if(!$user)
+
+        if (! $user)
         {
             $this->result = new SuccessRestMessage(false, Translation :: get('NotAuthorized', null, WebserviceManager :: APPLICATION_NAME));
             return false;
         }
 
         $registration = WebserviceDataManager :: retrieve_webservice_registration_by_code($application . '_' . $object . '_' . $function);
-        if(!$registration)
+        if (! $registration)
         {
             $this->result = new SuccessRestMessage(false, Translation :: get('WebserviceNotRegistered', null, WebserviceManager :: APPLICATION_NAME));
             return false;
         }
 
-        if(!WebserviceRights :: is_allowed_in_webservices_subtree(WebserviceRights :: USE_RIGHT, $registration->get_id(), WebserviceRights :: TYPE_WEBSERVICE, $user->get_id()))
+        if (! WebserviceRights :: is_allowed_in_webservices_subtree(WebserviceRights :: USE_RIGHT, $registration->get_id(), WebserviceRights :: TYPE_WEBSERVICE, $user->get_id()))
         {
             $this->result = new SuccessRestMessage(false, Translation :: get('NoRightsToExecuteWebservice', null, WebserviceManager :: APPLICATION_NAME));
             return false;

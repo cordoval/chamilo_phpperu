@@ -18,7 +18,7 @@ require_once dirname(__FILE__) . '/../question_result_display.class.php';
 class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
 {
 
-    function display_question_result()
+    function get_question_result()
     {
         $question = $this->get_question();
         $type = $question->get_question_type();
@@ -29,27 +29,28 @@ class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
         switch ($type)
         {
             case AssessmentOpenQuestion :: TYPE_OPEN :
-                $this->display_open($html, $answers[0]);
+                $html[] = $this->display_open($answers[0]);
                 break;
             case AssessmentOpenQuestion :: TYPE_OPEN_WITH_DOCUMENT :
-                $this->display_open($html, $answers[0]);
-                $this->display_document_box($html, $answers[2], true);
+                $html[] = $this->display_open($answers[0]);
+                $html[] = $this->display_document_box($answers[2], true);
                 break;
             case AssessmentOpenQuestion :: TYPE_DOCUMENT :
-                $this->display_document_box($html, $answers[2]);
+                $html[] = $this->display_document_box($answers[2]);
                 break;
         }
 
         $html[] = '<div class="splitter" style="margin: -10px; border-left: none; border-right: none; border-top: 1px solid #B5CAE7;">';
         $html[] = Translation :: get('Feedback');
         $html[] = '</div><br />';
+        $html[] = '<div class="warning-message">' . Translation :: get('NotYetRatedWarning') . '</div>';
 
-        //$html[] = '<div class="warning-message">' . Translation :: get('NotYetRatedWarning') . '</div>';
+        if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback())
+        {
+            $html[] = $question->get_feedback();
+        }
 
-
-        $html[] = $question->get_feedback();
-
-        echo implode("\n", $html);
+        return implode("\n", $html);
     }
 
     function add_borders()
@@ -57,8 +58,9 @@ class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
         return true;
     }
 
-    function display_open(&$html, $answer)
+    function display_open($answer)
     {
+        $html = array();
         $html[] = '<div class="splitter" style="margin: -10px; border-left: none; border-right: none;">';
         $html[] = Translation :: get('Answer');
         $html[] = '</div>';
@@ -76,10 +78,12 @@ class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
 
         $html[] = '<div class="clear"></div>';
         $html[] = '<br />';
+        return implode("\n", $html);
     }
 
-    function display_document_box(&$html, $answer, $with_open = false)
+    function display_document_box($answer, $with_open = false)
     {
+        $html = array();
         if ($with_open)
         {
             $html[] = '<div class="splitter" style="margin: -10px; border-left: none; border-right: none; border-top: 1px solid #B5CAE7;">';
@@ -112,6 +116,7 @@ class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
 
         $html[] = '</div>';
         $html[] = '<br />';
+        return implode("\n", $html);
     }
 }
 ?>

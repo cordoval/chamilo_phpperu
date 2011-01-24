@@ -17,7 +17,7 @@ class MatchQuestionOption
      * The weight of this answer in the question
      */
     private $weight;
-    
+
     private $comment;
 
     /**
@@ -54,6 +54,11 @@ class MatchQuestionOption
     function get_weight()
     {
         return $this->weight;
+    }
+
+    function has_coment()
+    {
+        return StringUtilities :: has_value($this->get_comment(), true);
     }
 }
 ?>

@@ -31,7 +31,7 @@ class CourseTypeRights extends CourseRights
      * Get the default properties of all courses.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(
                 self :: PROPERTY_COURSE_TYPE_ID, self :: PROPERTY_DIRECT_SUBSCRIBE_FIXED, self :: PROPERTY_REQUEST_SUBSCRIBE_FIXED, self :: PROPERTY_CODE_SUBSCRIBE_FIXED, self :: PROPERTY_UNSUBSCRIBE_FIXED, self :: PROPERTY_CREATION_AVAILABLE, self :: PROPERTY_CREATION_ON_REQUEST_AVAILABLE));

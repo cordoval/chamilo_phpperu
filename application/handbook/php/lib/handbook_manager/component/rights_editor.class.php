@@ -27,7 +27,7 @@ class HandbookManagerRightsEditorComponent extends HandbookManager implements De
             if($publication != null)
             {
 
-                if ($this->get_user()->is_platform_admin() || $publication->get_publisher() == $this->get_user_id())
+                if ($this->get_user()->is_platform_admin() || $publication->get_publisher_id() == $this->get_user_id())
         	{
                     //TODO: also when user has editrights on publication
         		$locations[] = HandbookRights::get_location_by_identifier_from_handbooks_subtree($publication_id);

@@ -16,14 +16,15 @@ require_once (dirname(__FILE__) . '/banner.class.php');
 // The error ignorance is due to the non compatibility of function_exists()
 // with the object syntax of Database::get_language_isocode()
 
-$document_language = Translation :: get_language();
+$document_language = Translation :: get_instance()-> get_language();
 if (empty($document_language))
 {
     //if there was no valid iso-code, use the english one
     $document_language = 'en';
 }
 
-$header = new Header($document_language);
+$header = Header::get_instance();
+$header->set_language_code($document_language);
 $header->add_default_headers();
 $header->set_page_title(PlatformSetting :: get('institution') . ' - ' . PlatformSetting :: get('site_name'));
 if (isset($httpHeadXtra) && $httpHeadXtra)

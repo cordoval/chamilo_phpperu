@@ -178,7 +178,8 @@ class Dokeos185BlogComment extends Dokeos185CourseDataMigrationDataClass
         }
         else
         {
-            $chamilo_feedback->set_description($this->get_comment());
+            $comment = $this->get_parse_textfield($this->get_comment());
+            $chamilo_feedback->set_description($comment);
         }
         
         $chamilo_feedback->set_owner_id($new_user_id);

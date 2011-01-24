@@ -208,6 +208,7 @@ abstract class MigrationDataClass extends DataClass
             }
             else
             {
+                $this->create_file_recovery($source_file, $destination_file);
                 return RepositoryDataManager :: retrieve_document_from_hash($user_id, $hash);
             }
         }
@@ -222,7 +223,9 @@ abstract class MigrationDataClass extends DataClass
         {
             Filesystem :: copy_file($source_file, $destination_file);
         }
-        
+
+        $this->create_file_recovery($source_file, $destination_file);
+
         $document = new Document();
         $document->set_filename($source_filename);
         $document->set_path($user_id . '/' . Text :: char_at($hash, 0) . '/' . $hash);

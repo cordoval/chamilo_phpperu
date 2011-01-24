@@ -24,7 +24,7 @@ class ContentObjectAttachment extends DataClass
      * Get the default properties of all content object attachments.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_ATTACHMENT_ID, self :: PROPERTY_TYPE);
     }

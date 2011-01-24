@@ -26,7 +26,7 @@ class SurveyBuilderConfigureQuestionComponent extends SurveyBuilder
         $complex_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_item_id);
         $this->page_id = $complex_item->get_parent();
 
-        $form = new ConfigureQuestionForm(ConfigureQuestionForm :: TYPE_CREATE, $complex_item, $this->get_url(array(SurveyBuilder :: PARAM_SURVEY_PAGE_ID => $this->page_id, SurveyBuilder :: PARAM_COMPLEX_QUESTION_ITEM_ID => $complex_item_id)), $this->page_id);
+        $form = new ConfigureQuestionForm(ConfigureQuestionForm :: TYPE_CREATE, $this->get_url(array(SurveyBuilder :: PARAM_SURVEY_PAGE_ID => $this->page_id, SurveyBuilder :: PARAM_COMPLEX_QUESTION_ITEM_ID => $complex_item_id)),$complex_item, $this->page_id);
 
         if ($form->validate())
         {

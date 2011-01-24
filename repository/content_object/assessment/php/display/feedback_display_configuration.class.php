@@ -107,7 +107,7 @@ class FeedbackDisplayConfiguration
     }
 
     /**
-     * Display numeric feedback
+     * Display numeric feedback (score)
      * @return boolean
      */
     function display_numeric_feedback()

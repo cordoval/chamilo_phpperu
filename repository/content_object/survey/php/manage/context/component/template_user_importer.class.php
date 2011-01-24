@@ -2,7 +2,6 @@
 namespace repository\content_object\survey;
 
 use common\libraries\DynamicTabsRenderer;
-
 use common\libraries\Translation;
 use common\libraries\Request;
 
@@ -16,14 +15,14 @@ class SurveyContextManagerTemplateUserImporterComponent extends SurveyContextMan
     function run()
     {
         
-        $context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
-      
-    	$form = new ImportTemplateUserForm($this, $this->get_url(), $context_template_id);
+        $template_id = Request :: get(self :: PARAM_TEMPLATE_ID);
+      	
+    	$form = new ImportTemplateUserForm($this, $this->get_url(), $template_id);
 
         if ($form->validate())
         {
             $success = $form->process();
-        	$this->redirect(Translation :: get($success ? 'TemplatesImported' : 'TemplatessNotImported'), $success, array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextTemplateViewerComponent :: TAB_TEMPLATES ));
+        	$this->redirect(Translation :: get($success ? 'TemplatesImported' : 'TemplatessNotImported'), $success, array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => $template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerTemplateViewerComponent :: TAB_TEMPLATE_USERS ));
         }
         else
         {
@@ -34,7 +33,7 @@ class SurveyContextManagerTemplateUserImporterComponent extends SurveyContextMan
     }
     
     function get_additional_parameters(){
-    	return array(self :: PARAM_CONTEXT_TEMPLATE_ID);
+    	return array(self :: PARAM_CONTEXT_TEMPLATE_ID, self :: PARAM_TEMPLATE_ID);
     }
 }
 ?>

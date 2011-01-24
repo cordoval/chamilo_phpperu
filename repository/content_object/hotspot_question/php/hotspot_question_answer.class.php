@@ -63,5 +63,10 @@ class HotspotQuestionAnswer
     {
         return $this->hotspot_type;
     }
+
+    function has_comment()
+    {
+        return StringUtilities :: has_value($this->get_comment(), true);
+    }
 }
 ?>

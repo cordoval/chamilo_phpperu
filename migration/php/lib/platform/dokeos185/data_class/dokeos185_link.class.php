@@ -1,10 +1,12 @@
 <?php
 
 namespace migration;
+
 use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use repository\content_object\link\Link;
+
 /**
  * $Id: dokeos185_link.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
@@ -164,7 +166,9 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
     {
         $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'link', $this->get_id()));
 
-        if (!$this->get_url() || !$this->get_id() || !$this->get_title() || !$this->get_item_property() || !$this->get_item_property()->get_ref() || !$this->get_item_property()->get_insert_date()) {
+        if (!$this->get_url() || !$this->get_id() || !$this->get_title() || !$this->get_item_property() 
+                || !$this->get_item_property()->get_ref() || !$this->get_item_property()->get_insert_date() || $this->get_item_property()->get_visibility() == 2)
+        {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'calendar_event', 'ID' => $this->get_id())));
             return false;
@@ -189,7 +193,7 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
         //the $this->category_id is the id of the category in which the link resides in a dokeos 1.8.5 course (in chamilo: the publication category, not the repository category id!)
         $new_publication_category_id = $this->get_id_reference($this->get_category_id(), $this->get_database_name() . '.link_category');
 
-        if (!$new_user_id) 
+        if (!$new_user_id)
         {
             $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         }
@@ -219,15 +223,16 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
         //create link in database
         $chamilo_link->create_all();
 
-        $this->create_publication($chamilo_link, $new_course_code, $new_user_id, 'link', $new_publication_category_id, $new_to_user_id, $new_to_group_id);
-        
-		$this->create_id_reference($this->get_id(), $chamilo_link->get_id());
+        $this->create_publication($chamilo_link, $new_course_code, $new_user_id, 'link', $new_publication_category_id, $new_to_user_id, $new_to_group_id, $this->get_on_homepage());
+
+        $this->create_id_reference($this->get_id(), $chamilo_link->get_id());
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'link', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_link->get_id())));
     }
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
     static function get_class_name()
@@ -236,4 +241,5 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
     }
 
 }
+
 ?>

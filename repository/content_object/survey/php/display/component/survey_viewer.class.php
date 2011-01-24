@@ -170,7 +170,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $html[] = $this->context_paths[$this->context_path] . ' / ' . $this->survey->count_pages();
         $html[] = '</div>';
         $html[] = '</div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/survey/resources/javascript/survey.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/survey/resources/javascript/survey_question.js');
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         

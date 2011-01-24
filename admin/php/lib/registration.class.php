@@ -40,7 +40,7 @@ class Registration extends DataClass
      * Get the default properties of registrations.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_ID, self :: PROPERTY_TYPE, self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_STATUS, self :: PROPERTY_VERSION));
     }

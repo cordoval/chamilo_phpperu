@@ -1,8 +1,8 @@
 <?php
+
 namespace application\handbook;
 
 use repository\content_object\handbook\Handbook;
-
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ActionBarRenderer;
@@ -12,10 +12,7 @@ use common\libraries\ActionBarSearchForm;
 use common\libraries\Application;
 use common\libraries\PatternMatchCondition;
 use common\libraries\AndCondition;
-
-/**
- * @package application.handbook.handbook.component
- */
+use rights\RightsUtilities;
 
 require_once dirname(__FILE__) . '/../handbook_manager.class.php';
 require_once dirname(__FILE__) . '/../../handbook_publication.class.php';
@@ -24,13 +21,11 @@ require_once dirname(__FILE__) . '/../../handbook_publication.class.php';
  * handbook component which allows the user to browse his handbook_publications
  * @author Nathalie Blocry
  */
-class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManager
-{
+class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManager {
 
     private $action_bar;
 
-    function run()
-    {
+    function run() {
         $this->action_bar = $this->get_action_bar();
         $output = $this->get_publications_html();
 
@@ -53,26 +48,30 @@ class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManage
         $this->display_footer();
     }
 
-    function get_action_bar()
-    {
+    function get_action_bar() {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishObject', array(
-                'OBJECT' => Translation :: get('HandbookPublication')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_handbook_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
+
+
+        $user_id = $this->get_user_id();
+        $publish_right = RightsUtilities::is_allowed(HandbookRights::PUBLISH_RIGHT, 0, 0, self::APPLICATION_NAME, $user_id);
+        if ($publish_right) {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishObject', array(
+                                'OBJECT' => Translation :: get('HandbookPublication')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_handbook_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
         return $action_bar;
     }
 
-    private function get_publications_html()
-    {
+    private function get_publications_html() {
         $parameters = $this->get_parameters(true);
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $parameters[Application :: PARAM_APPLICATION] = 'handbook';
         $parameters[Application :: PARAM_ACTION] = HandbookManager :: ACTION_BROWSE;
 
         $table = new HandbookPublicationBrowserTable($this, array(
-                Application :: PARAM_APPLICATION => 'handbook',
-                Application :: PARAM_ACTION => HandbookManager :: ACTION_BROWSE), $this->get_condition());
+                    Application :: PARAM_APPLICATION => 'handbook',
+                    Application :: PARAM_ACTION => HandbookManager :: ACTION_BROWSE), $this->get_condition());
 
         $html = array();
         $html[] = $table->as_html();
@@ -80,8 +79,7 @@ class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManage
         return implode($html, "\n");
     }
 
-    function get_condition()
-    {
+    function get_condition() {
 
         $conditions = array();
 
@@ -90,8 +88,7 @@ class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManage
 
         $search = $this->action_bar->get_query();
 
-        if (isset($search) && $search != '')
-        {
+        if (isset($search) && $search != '') {
             $conditions[] = new PatternMatchCondition(Handbook :: PROPERTY_TITLE, '*' . $search . '*');
         }
 
@@ -103,4 +100,5 @@ class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManage
     }
 
 }
+
 ?>

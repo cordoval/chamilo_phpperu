@@ -20,6 +20,7 @@ class Autoloader
                 'adaptive_assessment_display' => 'display/adaptive_assessment_display',
                 'adaptive_assessment_display_embedder' => 'display/adaptive_assessment_display_embedder',
                 'dummy_adaptive_assessment_attempt_tracker' => 'display/preview/dummy_adaptive_assessment_attempt_tracker',
+                'dummy_question_attempts_tracker' => 'display/preview/dummy_question_attempts_tracker',
                 'dummy_adaptive_assessment_item_attempt_tracker' => 'display/preview/dummy_adaptive_assessment_item_attempt_tracker',
                 'adaptive_assessment_content_object_display' => 'display/adaptive_assessment_content_object_display',
                 'adaptive_assessment_tree' => 'display/adaptive_assessment_tree',
