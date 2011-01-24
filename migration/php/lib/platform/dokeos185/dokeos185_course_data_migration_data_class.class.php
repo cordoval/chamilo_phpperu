@@ -101,9 +101,15 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
             
         if($this->item_property)
         {
-      		$publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
-      		$publication->set_publication_date(strtotime($this->item_property->get_insert_date()));
-        	$publication->set_modified_date(strtotime($this->item_property->get_lastedit_date()));
+
+            if($this->item_property->get_visibility() == 2)
+            {
+                return;
+            }
+            
+            $publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
+            $publication->set_publication_date(strtotime($this->item_property->get_insert_date()));
+            $publication->set_modified_date(strtotime($this->item_property->get_lastedit_date()));
         }
         else
         {
