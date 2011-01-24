@@ -41,14 +41,14 @@ CKEDITOR.dialog.add('chamiloHandbookLink',function(a){
                 }
         }
         var application = getData['application'];
-        var pid;
+        var thid;
         if(application == 'handbook')
             {
-                pid = getData['hpid'];
+                thid = getData['thid'];
             }
             else
                 {
-                    pid = 0;
+                    thid = 0;
                 }
 
 
@@ -62,7 +62,7 @@ CKEDITOR.dialog.add('chamiloHandbookLink',function(a){
                         [
                             {
                                 type:'html',
-                                html:'<div> qsdqs handboek-topic' + ' test '+ application + '</div>'
+                                html:'<div>' + a.lang.chamiloHandbookLink.explain + '</div>'
                             },
                             {
                                 type : 'hbox',
@@ -88,10 +88,10 @@ CKEDITOR.dialog.add('chamiloHandbookLink',function(a){
                                                     {
 
                                                         parent_application: application,
-                                                        pub: pid
+                                                        top: thid
                                                     }
                                             },
-                                        label : a.lang.chamiloHandbookLink.filebrowserLabel
+                                        label : a.lang.chamiloHandbookLink.button
                                         
                                     }
                                     
@@ -117,7 +117,7 @@ CKEDITOR.dialog.add('chamiloHandbookLink',function(a){
 
             var selected_uid = this.getContentElement('tab1','uid')
 
-	    this.getParentEditor().insertHtml('<a href="' + web_path + '/run.php?go=handbook_light_viewer&amp;application=handbook&amp;uid='+ selected_uid.getValue() +'&blabla=blabla'  +'">'+selectedText+'</a>');
+	    this.getParentEditor().insertHtml('<a href="' + web_path + '/run.php?go=handbook_full_viewer&amp;application=handbook&amp;uid='+ selected_uid.getValue() +'&blabla=blabla'  +'">'+selectedText+'</a>');
         },
         contents:[{
             id:'tab1',

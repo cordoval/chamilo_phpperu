@@ -515,7 +515,9 @@ CKEDITOR.lang.en = {
 		standby : 'Loading video ...'
 	},
         chamiloHandbookLink : {
-            title : 'chamilo handbook link title'
+            title : 'chamilo handbook link title',
+            explain: 'push the button to select a topic or copy the uid directly in the box. then push OK',
+            button: 'select item to link to'
             },
 	chamiloaudio : {
 		properties : 'Audio Properties',

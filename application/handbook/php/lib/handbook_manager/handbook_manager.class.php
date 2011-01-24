@@ -35,6 +35,9 @@ use application\metadata\MetadataPropertyType;
 use common\libraries\ArrayResultSet;
 use common\libraries\SubselectCondition;
 use common\libraries\InCondition;
+use common\libraries\DynamicAction;
+use common\libraries\Redirect;
+use common\libraries\Application;
 
 require_once dirname(__FILE__) . '/../handbook_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/handbook_publication_browser/handbook_publication_browser_table.class.php';
@@ -80,6 +83,9 @@ class HandbookManager extends WebApplication
     const ACTION_CREATE_PREFERENCE = 'handbook_preferences_creator';
     const ACTION_VIEW_COLLAPSED = 'toggle_menu';
     const ACTION_CREATE_ODF = 'odf_creator';
+    const ACTION_ADMIN_SET_PUBLISHING_RIGHTS = 'admin_rights_editor';
+    const ACTION_PICK_TOPIC = 'handbook_topic_picker';
+    const ACTION_PASS_UID = 'handbook_topic_uid_passer';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LIGHT_MODE = 'light';
@@ -313,15 +319,17 @@ class HandbookManager extends WebApplication
         //get all alternatives for this item
         $alternatives_array = HandbookManager::get_alternative_items($co_id);
 
+        $rdm = RepositoryDataManager::get_instance();
+        $original_co = $rdm->retrieve_content_object($co_id);
+        
 
         //add original to array
-        //TODO: get actual data
-        $original['alt_' . ContentObject :: PROPERTY_TITLE] = 'orig';
-        $original['orig_' . ContentObject :: PROPERTY_TITLE] = 'orig';
-        $original['alt_' . ContentObject :: PROPERTY_TYPE] = 'orig';
-        $original[MetadataPropertyType :: PROPERTY_NS_PREFIX] = 'orig';
-        $original[MetadataPropertyType :: PROPERTY_NAME] = 'orig';
-        $original[MetadataPropertyValue :: PROPERTY_VALUE] = 'orig';
+        $original['alt_' . ContentObject :: PROPERTY_TITLE] = $original_co->get_title();
+        $original['orig_' . ContentObject :: PROPERTY_TITLE] = '';
+        $original['alt_' . ContentObject :: PROPERTY_TYPE] = $original_co->get_type();
+        $original[MetadataPropertyType :: PROPERTY_NS_PREFIX] = '';
+        $original[MetadataPropertyType :: PROPERTY_NAME] = '';
+        $original[MetadataPropertyValue :: PROPERTY_VALUE] = '';
         $original['alt_id'] = $co_id;
         $alternatives_array[] = $original;
 
@@ -851,6 +859,22 @@ class HandbookManager extends WebApplication
         }
         return $glossaries_array;
 
+    }
+
+
+    /**
+     * Gets the available links to display in the platform admin
+     * @retun array of links and actions
+     */
+    public static function get_application_platform_admin_links()
+    {
+        $links = array();
+        $links[] = new DynamicAction(Translation :: get('SetHandbookPublishingRights'), Translation :: get('SetHandbookPublishingRightsDescription'), \common\libraries\Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                Application :: PARAM_ACTION => self :: ACTION_ADMIN_SET_PUBLISHING_RIGHTS)));
+
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
+        $info['links'] = $links;
+        return $info;
     }
 
     

@@ -10,6 +10,8 @@ use common\libraries\ArrayResultSet;
 use repository\ContentObject;
 use application\metadata\MetadataPropertyType;
 use application\metadata\MetadataPropertyValue;
+use repository\content_object\handbook_item\HandbookItem;
+use repository\content_object\handbook\Handbook;
 
 /**
  * Data provider for a user browser table.
@@ -39,11 +41,16 @@ class HandbookAlternativesPickerItemTableDataProvider extends ObjectTableDataPro
      */
     function get_objects($offset, $count, $order_property = null) {
         $order_property = $this->get_order_property($order_property);
-        
+
         $rdm = RepositoryDataManager::get_instance();
         $item_id = Request :: get(HandbookManager::PARAM_HANDBOOK_SELECTION_ID);
         $selected_object = $rdm->retrieve_content_object($item_id);
-        $co_id = $selected_object->get_reference();
+        if ($selected_object->get_type() == HandbookItem::get_type_name()) {
+            $co_id = $selected_object->get_reference();
+        } else if ($selected_object->get_type() == Handbook::get_type_name()) {
+            $co_id = $selected_object->get_id();
+        }
+
 
         return HandbookManager::get_resultset_with_original_and_alternatives($co_id);
     }
@@ -52,8 +59,7 @@ class HandbookAlternativesPickerItemTableDataProvider extends ObjectTableDataPro
      * Gets the number of handbooks in the table
      * @return int
      */
-    function get_object_count()
-    {
+    function get_object_count() {
 //        return 1;
 //        $condition = $this->get_condition();
         return HandbookManager::get_alternative_items($item_id);
