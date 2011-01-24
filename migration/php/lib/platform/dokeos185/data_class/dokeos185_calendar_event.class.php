@@ -213,6 +213,8 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
         //create announcement in database
         $chamilo_calendar_event->create_all();
 
+        $this->add_resources($chamilo_calendar_event, 'calendar_event');
+
         //publication
 
         $this->create_publication($chamilo_calendar_event, $new_course_code, $new_user_id, 'calendar', 0, $new_to_user_id, $new_to_group_id);
