@@ -8,6 +8,7 @@ use repository\RepositoryDataManager;
 use repository\content_object\portfolio\Portfolio;
 use common\libraries\InequalityCondition;
 use common\libraries\OrCondition;
+use common\libraries\Request;
 
 /**
  * class to handle the different rights in the portfolio application
@@ -958,8 +959,12 @@ class PortfolioRights
         $nr_locations = $location_set->size();
         if (! ($nr_locations > 0))
         {
-            //TODO: no locations found --> error or imported from repository????
-            $location = false;
+            //item added in repositor -> create location at correct place
+            $parent_type = array();
+            $parent_type[] = 1;
+            $parent_type[] = 2;            
+            $parent_location = PortfolioRights :: get_location_id_by_identifier_from_portfolio_subtree($parent_type, Request::get(PortfolioManager::PROPERTY_PID), $user_id);
+            $location = PortfolioRights :: create_location_in_portfolio_tree(PortfolioRights :: TYPE_PORTFOLIO_ITEM, $type, Request::get(PortfolioManager::PROPERTY_CID), $parent_location, $user_id, true, false, true);
         }
         else
             if ($nr_locations == 1)
