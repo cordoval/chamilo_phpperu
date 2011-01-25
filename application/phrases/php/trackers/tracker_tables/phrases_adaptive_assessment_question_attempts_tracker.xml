@@ -3,7 +3,7 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1"
 			autoincrement="true" />
-		<property name="adaptive_assessment_attempt_id" type="integer"
+		<property name="adaptive_assessment_item_attempt_id" type="integer"
 			unsigned="1" notnull="1" />
 		<property name="complex_question_id" type="integer" unsigned="1"
 			notnull="1" />
