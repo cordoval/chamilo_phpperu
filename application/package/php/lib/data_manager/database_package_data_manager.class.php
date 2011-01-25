@@ -78,7 +78,7 @@ class DatabasePackageDataManager extends Database implements PackageDataManagerI
 
     function retrieve_dependency($id)
     {
-        $condition = new EqualityCondition(Author :: PROPERTY_ID, $id);
+        $condition = new EqualityCondition(Dependency :: PROPERTY_ID, $id);
         return $this->retrieve_object(Dependency :: get_table_name(), $condition, null, Dependency :: CLASS_NAME);
     }
 

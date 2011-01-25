@@ -3,10 +3,8 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1"
 			autoincrement="true" />
-		<property name="id_dependency" type="text" length="255" fixed="true" />
-		<property name="version" type="text" length="255" fixed="true" />
-		<property name="severity" type="integer" unsigned="1"/>
-		<property name="compare" type="integer" unsigned="1"/>
-		<property name="type" type="integer" unsigned="1"/>
+		<property name="name" type="text" length="255" fixed="true" notnull="1"/>
+		<property name="type" type="integer" unsigned="1" notnull="1"/>
+		<property name="version" type="text" lenght="25" notnull="1"/>
 	</properties>
 </object>

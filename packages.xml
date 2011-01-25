@@ -85,6 +85,58 @@
     </dependencies>
   </package>
   <package>
+    <name>test</name>
+    <code>dfsqsd</code>
+    <section>etrer</section>
+    <category>fsqdfsd</category>
+    <version>sd&lt;fsd</version>
+    <cycle>
+      <phase>alpha</phase>
+      <realm>main</realm>
+    </cycle>
+    <description>sdf</description>
+    <homepage>dsqfqsd</homepage>
+    <tagline></tagline>
+    <filename>opentok-php-sdk.zip</filename>
+    <authors>
+      <author>
+        <name>author1</name>
+        <email>author1@ehb.be</email>
+        <company>Ehb</company>
+      </author>
+    </authors>
+    <dependencies>
+      <server>
+        <dependency>
+          <id>dep3</id>
+          <version type="0">1.3</version>
+          <severity>0</severity>
+        </dependency>
+      </server>
+      <content_objects/>
+      <applications>
+        <dependency>
+          <id>dep1</id>
+          <version type="0">1.0</version>
+          <severity>0</severity>
+        </dependency>
+      </applications>
+      <core/>
+      <extension/>
+      <extensions>
+        <dependency>
+          <id>dep2</id>
+          <version type="0">1.2</version>
+          <severity>0</severity>
+        </dependency>
+      </extensions>
+      <external_repository_manager/>
+      <library/>
+      <settings/>
+      <video_conferencing_manager/>
+    </dependencies>
+  </package>
+  <package>
     <name>rdfg</name>
     <code>dfg</code>
     <section>dsfg</section>

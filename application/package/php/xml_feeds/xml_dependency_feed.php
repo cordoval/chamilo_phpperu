@@ -24,7 +24,7 @@ if (Authentication :: is_valid())
 {
     $conditions = array();
     
-    $query_condition = Utilities :: query_to_condition($_GET['query'], array(Dependency :: PROPERTY_ID_DEPENDENCY));
+    $query_condition = Utilities :: query_to_condition($_GET['query'], array(Dependency :: PROPERTY_NAME));
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
@@ -41,7 +41,7 @@ if (Authentication :: is_valid())
     
     $udm = PackageDataManager :: get_instance();
     $dependencies = $udm->retrieve_dependencies($condition, null, null, array(
-            new ObjectTableOrder(Dependency :: PROPERTY_ID_DEPENDENCY)));
+            new ObjectTableOrder(Dependency :: PROPERTY_NAME)));
             
 }
 else
@@ -70,7 +70,7 @@ function dump_tree($dependencies)
     
     while ($dependency = $dependencies->next_result())
     {
-        echo '<leaf id="dependency_' . $dependency->get_id() . '" classes="type type_dependency" title="' . htmlspecialchars($dependency->get_id_dependency()) . '" description="' . htmlspecialchars($dependency->get_id_dependency()) . '"/>' . "\n";
+        echo '<leaf id="dependency_' . $dependency->get_id() . '" classes="type type_dependency" title="' . htmlspecialchars($dependency->get_name()) . '" description="' . htmlspecialchars($dependency->get_name()) . '"/>' . "\n";
     }
     
     echo '</node>' . "\n";

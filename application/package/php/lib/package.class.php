@@ -553,25 +553,27 @@ class Package extends DataClass
      */
     function get_dependencies($only_ids = true)
     {
-        $package_dependencies = $this->get_package_dependencies();
-        $package_dependencies_ids = array();
-        
-        while ($package_dependency = $package_dependencies->next_result())
-        {
-            $package_dependencies_ids[] = $package_dependency->get_dependency_id();
-        }
-        
+        $condition = new EqualityCondition(PackageDependency :: PROPERTY_PACKAGE_ID, $this->get_id());
+        $package_dependencies = $this->get_data_manager()->retrieve_package_dependencies($condition);
+
         if ($only_ids)
         {
+             
+            $package_dependencies_ids = array();
+            while ($package_dependency = $package_dependencies->next_result())
+            {
+                $package_dependencies_ids[] = $package_dependency->get_id();
+            }
             return $package_dependencies_ids;
         }
         else
         {
-            $package_dependencies_ids[] = - 1;
-            $condition = new InCondition(Package :: PROPERTY_ID, $package_dependencies_ids);
-            return $this->get_data_manager()->retrieve_dependencies($condition);
+            $package_dependencies;
         }
+
+        
     }
+    
 
     function get_package_dependencies($only_ids = false)
     {
