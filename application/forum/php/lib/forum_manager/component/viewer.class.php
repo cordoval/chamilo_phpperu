@@ -40,7 +40,7 @@ class ForumManagerViewerComponent extends ForumManager implements
     {
         $this->publication_id = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
 
-        ComplexDisplay :: launch(Forum :: get_type_name(), $this);
+        ComplexDisplay :: launch(Forum :: get_type_name(), $this, false);
     }
 
     function display_header($trail)

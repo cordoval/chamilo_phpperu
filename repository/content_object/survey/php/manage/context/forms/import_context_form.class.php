@@ -108,7 +108,7 @@ class ImportContextForm extends FormValidator
                 $this->context->set_additional_property($context_property, $excel_array[$i][$index]);
                 $index ++;
             }
-            $succes = $this->context->create();
+            $success = $this->context->create();
         }
         return $success;
     }
