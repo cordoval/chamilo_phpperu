@@ -45,8 +45,7 @@
 					"survey_publication" : surveyPublicationId,
 					"results" : $.json.serialize(checkedQuestionResults)
 				});
-
-
+	
 		var questionVisibilities = eval('(' + displayResult + ')');
 		
 		$.each(questionVisibilities.properties.question_visibility, function(questionId, questionVisible) {

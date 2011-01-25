@@ -12,7 +12,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
     
     const FORM_BACK = 'back';
     const FORM_NEXT = 'next';
-    const FORM_SUBMIT = 'submit';
+    const FORM_FINISH = 'finish';
     
     const PARAM_SURVEY_ID = 'survey_id';
     const PARAM_PUBLICATION_ID = 'publication_id';
@@ -59,26 +59,44 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         
         $this->context_path = Request :: get(self :: PARAM_CONTEXT_PATH);
         
-        if ($this->survey_view_form_submitted() && $this->get_action() != self :: FORM_BACK)
+        if ($this->survey_view_form_submitted() && $this->get_action() == self :: FORM_NEXT)
         {
             $answer_processor = new SurveyAnswerProcessor($this);
             $this->context_path = $answer_processor->save_answers();
         }
         
-        if (! $this->context_path)
+        if ($this->survey_view_form_submitted() && $this->get_action() == self :: FORM_BACK)
         {
-            $this->context_path = $page_context_paths[$total_page_count - 1];
+            $answer_processor = new SurveyAnswerProcessor($this);
+            $this->context_path = $answer_processor->get_previous_context_path();
         }
+        $finished = false;
         
-        $this->current_page = $this->survey->get_survey_page($this->context_path);
-        
-        $action = $this->get_parent()->get_url();
-        $page_nrs = array_flip($page_order);
-        $page_nr = $page_nrs[$this->context_path] + 1;
-        
-        $form = new SurveyViewerForm($this->context_path, $this, $this->context_path, $this->survey, $action, $page_order, $page_nr);
-        
-        $this->build_question_viewer($form);
+        if ($this->survey_view_form_submitted() && $this->get_action() == self :: FORM_FINISH)
+        {
+            $finished = true;
+        }
+        if ($finished)
+        {
+        	$this->build_summery_viewer();
+        }
+        else
+        {
+            if (! $this->context_path)
+            {
+                $this->context_path = $page_context_paths[$total_page_count - 1];
+            }
+            
+            $this->current_page = $this->survey->get_survey_page($this->context_path);
+            
+            $action = $this->get_parent()->get_url();
+            $page_nrs = array_flip($page_order);
+            $page_nr = $page_nrs[$this->context_path] + 1;
+            
+            $form = new SurveyViewerForm($this->context_path, $this, $this->context_path, $this->survey, $action, $page_order, $page_nr);
+            
+            $this->build_question_viewer($form);
+        }
     
     }
 
@@ -146,7 +164,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $html[] = '<div class="assessment">';
         $html[] = '<div class="description">';
         $finish_text = $this->survey->get_finish_text();
-        $html[] = $this->survey->parse($context_path, $finish_text);
+        $html[] = $this->survey->parse($this->context_path, $finish_text);
         $html[] = '</div></div>';
         $back_url = $this->get_go_back_url();
         $html[] = '<a href="' . $back_url . '">' . Translation :: get('GoBack') . '</a>';
@@ -233,7 +251,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
 
     function get_action()
     {
-        $actions = array(self :: FORM_NEXT, self :: FORM_SUBMIT, self :: FORM_BACK);
+        $actions = array(self :: FORM_NEXT, self :: FORM_FINISH, self :: FORM_BACK);
         
         foreach ($actions as $action)
         {
@@ -248,6 +266,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
 
     function get_previous_context_path($context_path)
     {
+        //        dump('now '.$context_path);
         $previous_page_nr = $this->context_paths[$context_path] - 1;
         $previous_context_path = null;
         foreach ($this->context_paths as $context_path => $page_nr)
@@ -258,6 +277,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
                 break;
             }
         }
+        //        dump('prev '.$previous_context_path);
         return $previous_context_path;
     }
 }
