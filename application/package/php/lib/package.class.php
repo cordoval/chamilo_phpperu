@@ -9,6 +9,12 @@ use common\libraries\DataClass;
 use common\libraries\NotCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\InCondition;
+use common\libraries\Text;
+use common\libraries\Filesystem;
+use common\libraries\StringUtilities;
+
+use admin;
+
 /**
  * This class describes a Package data object
  *
@@ -120,8 +126,8 @@ class Package extends DataClass
         $unique_hash = Filesystem :: create_unique_name($full_folder_path, $filename_hash);
         
         $relative_path = $relative_folder_path . '/' . $unique_hash;
-        $path_to_save = $full_folder_path . '/' . $unique_hash;      
-
+        $path_to_save = $full_folder_path . '/' . $unique_hash;
+        
         $save_success = false;
         if (StringUtilities :: has_value($this->temporary_file_path))
         {
@@ -247,7 +253,9 @@ class Package extends DataClass
     {
         $condition = new EqualityCondition(PackageAuthor :: PROPERTY_PACKAGE_ID, $this->get_id());
         $package_authors = $this->get_data_manager()->retrieve_package_authors($condition);
+        
         $package_authors_ids = array();
+        
         while ($package_author = $package_authors->next_result())
         {
             $package_authors_ids[] = $package_author->get_author_id();
@@ -546,8 +554,8 @@ class Package extends DataClass
     function get_dependencies($only_ids = true)
     {
         $package_dependencies = $this->get_package_dependencies();
-        
         $package_dependencies_ids = array();
+        
         while ($package_dependency = $package_dependencies->next_result())
         {
             $package_dependencies_ids[] = $package_dependency->get_dependency_id();
@@ -561,7 +569,7 @@ class Package extends DataClass
         {
             $package_dependencies_ids[] = - 1;
             $condition = new InCondition(Package :: PROPERTY_ID, $package_dependencies_ids);
-            return $this->get_data_manager()->retrieve_packages($condition);
+            return $this->get_data_manager()->retrieve_dependencies($condition);
         }
     }
 
@@ -569,7 +577,6 @@ class Package extends DataClass
     {
         $condition = new EqualityCondition(PackageDependency :: PROPERTY_PACKAGE_ID, $this->get_id());
         $package_dependencies = $this->get_data_manager()->retrieve_package_dependencies($condition);
-        
         if ($only_ids)
         {
             $package_dependencies_ids = array();
@@ -600,15 +607,13 @@ class Package extends DataClass
         return $this->get_cycle_phase() == self :: PHASE_GENERAL_AVAILABILITY;
     }
 
-    
-        function create()
-        {                
-            $succes = parent :: create();
-            $this->save_file();
-            
-            return $succes;
-        }
-    
+    function create()
+    {
+        $succes = parent :: create();
+        $this->save_file();
+        
+        return $succes;
+    }
 
     function update()
     {

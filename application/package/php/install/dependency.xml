@@ -6,6 +6,7 @@
 		<property name="id_dependency" type="text" length="255" fixed="true" />
 		<property name="version" type="text" length="255" fixed="true" />
 		<property name="severity" type="integer" unsigned="1"/>
-
+		<property name="compare" type="integer" unsigned="1"/>
+		<property name="type" type="integer" unsigned="1"/>
 	</properties>
 </object>
