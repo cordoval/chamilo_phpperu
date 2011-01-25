@@ -56,11 +56,17 @@
 					$(this).attr('checked', false);
 				});
 				
+				var cleartextarea = $("textarea.html_editor[name="+questionId+"]");
+				cleartextarea.each(function(i){
+					$(this).empty();
+				});
+				
+				
 				$("div#" + "survey_question_" +questionId).hide();
 				$("a[id="+contextPath+"]").parent().siblings().children().find("a[id="+contextPath+"_"+questionId+"]").each(function(i){
 					$(this).parent().parent().remove();
 				});
-	
+					
 				var delete_answer = doAjaxPost(
 						ajaxUri, {
 							"context" : "application\\survey",
