@@ -7,6 +7,7 @@ use common\libraries\Path;
 use common\libraries\Versionable;
 
 use repository\ContentObject;
+use common\libraries\StringUtilities;
 
 /**
  * $Id: assessment_open_question.class.php $
