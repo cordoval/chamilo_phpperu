@@ -104,6 +104,9 @@ class PackageDataManager
             $package = $doc->createElement('tagline', $package_data->get_tagline());
             $root->appendChild($package);
             
+            $package = $doc->createElement('filename', $package_data->get_filename());
+            $root->appendChild($package);
+            
             //package/authors
             $package = $doc->createElement('authors');
             $root->appendChild($package);
@@ -127,7 +130,7 @@ class PackageDataManager
             
             $dependencies_data = $package_data->get_package_dependencies(false);
             
-            //package/dependencies
+            //package dependencies       
             $dependencies = $doc->createElement('dependencies');
             $root->appendChild($dependencies);
             
@@ -163,54 +166,61 @@ class PackageDataManager
             
             while ($dependency_data = $dependencies_data->next_result())
             {
-                $dependency = $doc->createElement('dependency');
+                $dep = PackageDataManager :: get_instance()->retrieve_dependency($dependency_data->get_dependency_id());
+                $package = PackageDataManager :: get_instance()->retrieve_package($dependency_data->get_package_id());
                 
-                $dependency->appendChild($doc->createElement('id', $dependency_data->get_dependency()->get_code()));
-                $version = $doc->createElement('version', $dependency_data->get_dependency()->get_version());
+                $dependency = $doc->createElement('dependency');
+                //                $dependency->appendChild($doc->createElement('id', $dependency_data->get_dependency()->get_code()));
+                //                $version = $doc->createElement('version', $dependency_data->get_dependency()->get_version());
+                $dependency->appendChild($doc->createElement('id', $dep->get_id_dependency()));
+                $version = $doc->createElement('version', $dep->get_version());
                 $type = $doc->createAttribute('type');
                 $type->appendChild($doc->createTextNode($dependency_data->get_compare()));
                 $version->appendChild($type);
                 $dependency->appendChild($version);
-                
                 $dependency->appendChild($doc->createElement('severity', $dependency_data->get_severity()));
-                
                 $dependencies->appendChild($dependency);
-                switch ($dependency_data->get_dependency()->get_section())
+
+                switch ($dep->get_type())
                 {
-                    case Registration :: TYPE_CONTENT_OBJECT :
-                        $content_objects->appendChild($dependency);
-                        break;
-                    case Registration :: TYPE_CORE :
-                        $core->appendChild($dependency);
-                        break;
-                    case Registration :: TYPE_APPLICATION :
+                    case Dependency :: TYPE_APPLICATIONS :
                         $applications->appendChild($dependency);
                         break;
-                    case Registration :: TYPE_EXTENSION :
+                    case Dependency :: TYPE_EXTENSION :
+                        $extension->appendChild($dependency);
+                        break;
+                    case Dependency :: TYPE_EXTENSIONS :
                         $extensions->appendChild($dependency);
                         break;
-                    case Registration :: TYPE_LIBRARY :
-                        $library->appendChild($dependency);
+                    case Dependency :: TYPE_SERVER :
+                        $server->appendChild($dependency);
                         break;
-                    case Registration :: TYPE_EXTERNAL_REPOSITORY_MANAGER :
+                    case Dependency :: TYPE_CONTENT_OBJECTS :
+                        $content_objects->appendChild($dependency);
+                        break;
+                    case Dependency :: TYPE_EXTERNAL_REPOSITORY_MANAGER :
                         $external_repository_manager->appendChild($dependency);
                         break;
-                    case Registration :: TYPE_VIDEO_CONFERENCING_MANAGER :
+                    case Dependency :: TYPE_VIDEO_CONFERENCING :
                         $video_conferencing_manager->appendChild($dependency);
                         break;
+                    case Dependency :: TYPE_LIBRARY :
+                        $library->appendChild($dependency);
+                        break;
+                    case Dependency :: TYPE_SETTINGS :
+                        $settings->appendChild($dependency);
+                        break;
                 }
-            
             }
-        
         }
         
         //create .xml
-        $temp_dir = Path::get(SYS_PATH);
-               
+        $temp_dir = Path :: get(SYS_PATH);
+        
         $xml_path = $temp_dir . 'packages.xml';
         if (file_exists($xml_path))
         {
-            Filesystem::remove($xml_path);
+            Filesystem :: remove($xml_path);
         }
         
         $doc->save($xml_path);

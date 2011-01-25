@@ -98,7 +98,11 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
 
     function set_answer($answer)
     {
-        $this->set_default_property(self :: PROPERTY_ANSWER, $answer);
+//        $old_answer = $this->get_answer();
+//        if(count($old_answer)>0){
+//        	$answer = array_merge($answer, $old_answer);
+//        }
+    	$this->set_default_property(self :: PROPERTY_ANSWER, serialize($answer));
     }
 
     function get_publication_id()

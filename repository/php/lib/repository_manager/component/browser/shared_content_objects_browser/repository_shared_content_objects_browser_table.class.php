@@ -29,7 +29,7 @@ class RepositorySharedContentObjectsBrowserTable extends ObjectTable
         $model = new RepositorySharedContentObjectsBrowserTableColumnModel($browser);
         $renderer = new RepositorySharedContentObjectsBrowserTableCellRenderer($browser);
         $data_provider = new RepositorySharedContentObjectsBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(_CLASS__, true), $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(__CLASS__, true), $model, $renderer);
         if ($browser instanceof RepositoryManagerBrowserComponent)
         {
             $actions = array();

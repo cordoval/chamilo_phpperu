@@ -36,7 +36,8 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
 
         $this->pid = Request :: get(self :: PARAM_PUBLICATION_ID);
         $this->action_bar = $this->get_action_bar();
-
+		
+        $this->display_header();
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
 

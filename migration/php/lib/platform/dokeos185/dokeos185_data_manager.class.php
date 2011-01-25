@@ -244,20 +244,26 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
      */
     function retrieve_user_by_fullname($fullname)
     {
-        $name = explode(' ', $fullname);
-        $firstname = $name[0];
-        $lastname = $name[1];
+        
 
         $conditions = array();
         $conditions1 = array();
         $conditions2 = array();
 
+        $name1 = explode(' ', $fullname);
+        $firstname = array_shift($name1);
+        $lastname = implode(' ', $name1);
+
         $conditions1[] = new EqualityCondition(Dokeos185User :: PROPERTY_FIRSTNAME, $firstname);
         $conditions1[] = new EqualityCondition(Dokeos185User :: PROPERTY_LASTNAME, $lastname);
         $conditions[] = new AndCondition($conditions1);
 
-        $conditions2[] = new EqualityCondition(Dokeos185User :: PROPERTY_FIRSTNAME, $lastname);
-        $conditions2[] = new EqualityCondition(Dokeos185User :: PROPERTY_LASTNAME, $firstname);
+        $name2 = explode(' ', $fullname);
+        $firstname = array_pop($name2);
+        $lastname = implode(' ', $name2);
+        
+        $conditions2[] = new EqualityCondition(Dokeos185User :: PROPERTY_FIRSTNAME, $firstname);
+        $conditions2[] = new EqualityCondition(Dokeos185User :: PROPERTY_LASTNAME, $lastname);
         $conditions[] = new AndCondition($conditions2);
 
         $condition = new OrCondition($conditions);

@@ -30,7 +30,7 @@ class QuotaBoxBrowserTable extends ObjectTable
         $model = new QuotaBoxBrowserTableColumnModel();
         $renderer = new QuotaBoxBrowserTableCellRenderer($browser);
         $data_provider = new QuotaBoxBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(_CLASS__, true), $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(__CLASS__, true), $model, $renderer);
         $this->set_additional_parameters($parameters);
 
         if ($browser->get_user() && $browser->get_user()->is_platform_admin())

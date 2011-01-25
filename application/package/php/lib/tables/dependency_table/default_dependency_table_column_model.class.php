@@ -35,7 +35,9 @@ class DefaultDependencyTableColumnModel extends ObjectTableColumnModel
 		$columns = array();
 		$columns[] = new ObjectTableColumn(Dependency :: PROPERTY_ID_DEPENDENCY);
 		$columns[] = new ObjectTableColumn(Dependency :: PROPERTY_SEVERITY);
+		$columns[] = new ObjectTableColumn(Dependency :: PROPERTY_COMPARE);
 		$columns[] = new ObjectTableColumn(Dependency :: PROPERTY_VERSION);
+		$columns[] = new ObjectTableColumn(Dependency :: PROPERTY_TYPE);
 
 		return $columns;
 	}

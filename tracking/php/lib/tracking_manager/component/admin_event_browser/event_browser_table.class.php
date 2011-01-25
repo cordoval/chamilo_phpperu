@@ -30,7 +30,7 @@ class EventBrowserTable extends ObjectTable
         $model = new EventBrowserTableColumnModel();
         $renderer = new EventBrowserTableCellRenderer($browser);
         $data_provider = new EventBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(_CLASS__, true), $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(__CLASS__, true), $model, $renderer);
         $this->set_additional_parameters($parameters);
 
         $actions = new ObjectTableFormActions(__NAMESPACE__);

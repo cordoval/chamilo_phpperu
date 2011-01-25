@@ -105,7 +105,7 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
     {
         $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'announcement', $this->get_id()));
 
-        if (!($this->get_title() || $this->get_content()) || ! $this->get_item_property())
+        if (!($this->get_title() || $this->get_content()) || !$this->get_item_property() || $this->get_item_property()->get_visibility() == 2)
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'announcement', 'ID' => $this->get_id())));
@@ -162,17 +162,13 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         }
         else
         {
-            $chamilo_announcement->set_description($this->get_content());
+            $content = $this->parse_text_field($this->get_content());
+            $chamilo_announcement->set_description($content);
         }
 
         $chamilo_announcement->set_owner_id($new_user_id);
         $chamilo_announcement->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
         $chamilo_announcement->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
-
-        if ($this->get_item_property()->get_visibility() == 2)
-        {
-            $chamilo_announcement->set_state(1);
-        }
 
         //create announcement in database
         $chamilo_announcement->create_all();
@@ -183,15 +179,7 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         //create id reference
         $this->create_id_reference($this->get_id(), $chamilo_announcement->get_id());
 
-        $resources = $this->get_data_manager()->retrieve_resources($this->get_course(), $this->get_id(), 'ad_valvas');
-        while($resource = $resources->next_result())
-        {
-            $new_resource_id = $this->get_id_reference($resource->get_resource_id(), $this->get_database_name() . '.' . $resource->get_resource_type());
-            if($new_resource_id)
-            {
-                $chamilo_announcement->attach_content_object($new_resource_id);
-            }
-        }
+        $this->add_resources($chamilo_announcement, 'ad_valvas');
 
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'annoucement', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_announcement->get_id())));
     }

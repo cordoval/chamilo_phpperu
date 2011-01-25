@@ -6,8 +6,6 @@
 			<setting name="platform_path" field="text" default="-"
 				locked="true" />
 			<setting name="move_files" field="text" default="0" locked="true" />
-			<setting name="migrate_deleted_files" field="text" default="0"
-				locked="true" />
 			<setting name="in_migration" field="text" default="0" locked="true" />
 		</category>
 	</settings>

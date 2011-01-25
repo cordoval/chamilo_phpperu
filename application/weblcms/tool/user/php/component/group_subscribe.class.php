@@ -4,7 +4,7 @@ namespace application\weblcms\tool\user;
 use application\weblcms\Tool;
 use common\libraries\Request;
 use common\libraries\Translation;
-
+use application\weblcms\CourseGroupRelation;
 /**
  * $Id: subscribe.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
@@ -36,7 +36,7 @@ class UserToolGroupSubscribeComponent extends UserTool
 
                 foreach ($group_ids as $group_id)
                 {
-                    if (! $this->get_parent()->subscribe_group_to_course($course, $group_id))
+                    if (! $this->get_parent()->subscribe_group_to_course($course, $group_id, CourseGroupRelation :: STATUS_STUDENT))
                     {
                         $failures ++;
                     }
