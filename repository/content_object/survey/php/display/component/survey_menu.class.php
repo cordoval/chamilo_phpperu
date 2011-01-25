@@ -353,7 +353,7 @@ class SurveyMenu extends HTML_Menu
                                 $title = Theme :: get_common_image('status_ok_mini') . ' ' . $title;
                                 $this->finished_questions[] = $context_path;
                             }
-                            $menu_item['class'] = self :: TYPE_QUESTION;
+                            $menu_item['class'] = $question->get_type_name();
                             $menu_item['url'] = $current_url . '#' . $complex_question_id;
                             
 //                        }
