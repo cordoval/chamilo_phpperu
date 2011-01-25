@@ -1,8 +1,6 @@
 <?php
 namespace application\package;
 
-use common\libraries;
-
 use common\libraries\OrCondition;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
@@ -25,66 +23,26 @@ require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 if (Authentication :: is_valid())
 {
     $conditions = array();
-        
-    $query = Request :: get('query');
-    $exclude = Request :: get('exclude');
     
-    $package_conditions = array();
-    
-    if ($query)
+    $query_condition = Utilities :: query_to_condition($_GET['query'], array(Dependency :: PROPERTY_ID_DEPENDENCY));
+    if (isset($query_condition))
     {
-        $q = '*' . $query . '*';
-        $package_conditions[] = new PatternMatchCondition(Package :: PROPERTY_NAME, $q);
+        $conditions[] = $query_condition;
     }
     
-    if ($exclude)
+    if (count($conditions) > 0)
     {
-        if (! is_array($exclude))
-        {
-            $exclude = array($exclude);
-        }
-        
-        $exclude_conditions = array();
-        $exclude_conditions['package'] = array();
-        
-        foreach ($exclude as $id)
-        {
-            $id = explode('_', $id);
+        $condition = new AndCondition($conditions);
+    }
+    else
+    {
+        $condition = null;
+    }
+    
+    $udm = PackageDataManager :: get_instance();
+    $dependencies = $udm->retrieve_dependencies($condition, null, null, array(
+            new ObjectTableOrder(Dependency :: PROPERTY_ID_DEPENDENCY)));
             
-            if ($id[0] == 'package')
-            {
-                $condition = new NotCondition(new EqualityCondition(Package :: PROPERTY_ID, $id[1]));
-            }
-            
-            $exclude_conditions[$id[0]][] = $condition;
-        }
-        
-        if (count($exclude_conditions['package']) > 0)
-        {
-            $package_conditions[] = new AndCondition($exclude_conditions['package']);
-        }
-    }
-    
-    $package_condition = null;
-    if (count($package_conditions) > 1)
-    {
-        $package_condition = new AndCondition($package_conditions);
-    }
-    elseif (count($package_conditions) == 1)
-    {
-        $package_condition = $package_conditions[0];
-    }
-    
-    $packages = array();
-    
-    $package_result_set = PackageDataManager :: get_instance()->retrieve_packages($package_condition, null, null, array(
-            new ObjectTableOrder(Package :: PROPERTY_NAME)));
-    
-    while ($package = $package_result_set->next_result())
-    {
-        $packages[$package->get_section()][$package->get_category()][] = $package;
-    
-    }
 }
 else
 {
@@ -94,9 +52,9 @@ else
 header('Content-Type: text/xml');
 echo '<?xml version="1.0" encoding="utf-8"?>' . "\n" . '<tree>', "\n";
 
-if (isset($packages))
+if (isset($dependencies))
 {
-    dump_packages_tree($packages);
+    dump_tree($dependencies);
 }
 
 echo '</tree>';
@@ -112,28 +70,10 @@ function dump_tree($dependencies)
     
     while ($dependency = $dependencies->next_result())
     {
-        echo '<leaf id="dependency_' . $dependency->get_id() . '" classes="type type_dependency" title="' . htmlspecialchars($dependency->get_id_dependency() . ' ' . $dependency->get_version()) . '" description="' . htmlspecialchars($dependency->get_id()) . '"/>' . "\n";
+        echo '<leaf id="dependency_' . $dependency->get_id() . '" classes="type type_dependency" title="' . htmlspecialchars($dependency->get_id_dependency()) . '" description="' . htmlspecialchars($dependency->get_id_dependency()) . '"/>' . "\n";
     }
     
     echo '</node>' . "\n";
-}
-
-function dump_packages_tree($result)
-{
-    foreach ($result as $section => $categories)
-    {
-        echo '<node classes="category" title="' . htmlspecialchars($section) . '" description="' . htmlspecialchars($section) . '">', "\n";
-        foreach ($categories as $category => $packages)
-        {
-            echo '<node classes="category" title="' . htmlspecialchars($category) . '" description="' . htmlspecialchars($category) . '">', "\n";
-            foreach ($packages as $package)
-            {
-                echo '<leaf id="dependency_' . $package->get_id() . '" classes="type type_package" title="' . htmlspecialchars($package->get_name() . ' ' . $package->get_version()) . '" description="' . htmlspecialchars($package->get_name()) . '"/>' . "\n";
-            }
-            echo '</node>', "\n";
-        }
-        echo '</node>', "\n";
-    }
 }
 
 function contains_results($node, $objects)
