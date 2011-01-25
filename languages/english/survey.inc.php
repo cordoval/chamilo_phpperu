@@ -204,7 +204,4 @@ $lang['survey']['SurveyManagerTakerComponent'] = 'Take Survey';
 
 
 
-
-
-
 ?>
