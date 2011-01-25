@@ -1430,10 +1430,10 @@ class WeblcmsManager extends WebApplication
      * @param int $group_id
      * @return boolean
      */
-    function subscribe_group_to_course($course, $group_id)
+    function subscribe_group_to_course($course, $group_id, $status)
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        return $wdm->subscribe_group_to_course($course, $group_id);
+        return $wdm->subscribe_group_to_course($course, $group_id, $status);
     }
 
     /**
