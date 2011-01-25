@@ -41,7 +41,7 @@ class WikiPageTable extends ObjectTable
         $model = new WikiPageTableColumnModel();
         $renderer = new WikiPageTableCellRenderer($parent);
         $data_provider = new WikiPageTableDataProvider($parent, $owner);
-        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(_CLASS__, true), $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(__CLASS__, true), $model, $renderer);
 
         $actions = new ObjectTableFormActions(__NAMESPACE__, ComplexDisplay :: PARAM_DISPLAY_ACTION);
 

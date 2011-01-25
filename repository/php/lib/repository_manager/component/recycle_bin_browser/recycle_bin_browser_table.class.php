@@ -29,7 +29,7 @@ class RecycleBinBrowserTable extends ObjectTable
         $model = new RecycleBinBrowserTableColumnModel();
         $renderer = new RecycleBinBrowserTableCellRenderer($browser);
         $data_provider = new RecycleBinBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(_CLASS__, true), $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: get_classname_from_namespace(__CLASS__, true), $model, $renderer);
         $this->set_additional_parameters($parameters);
 
         $actions = new ObjectTableFormActions(__NAMESPACE__);
