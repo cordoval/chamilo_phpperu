@@ -34,7 +34,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager imp
      */
     function run()
     {
-        $parent = Request :: get('parent');
+        $parent = Request :: get(PortfolioManager::PARAM_PARENT);
         $pp = Request :: get(PortfolioManager :: PARAM_PARENT_PORTFOLIO);
 
 
@@ -46,7 +46,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager imp
 
 
             $repo_viewer = RepoViewer :: construct($this);
-            $repo_viewer->set_parameter('parent', $parent);
+            $repo_viewer->set_parameter(PortfolioManager::PARAM_PARENT, $parent);
 
             $repo_viewer->set_parameter(PortfolioManager :: PARAM_PARENT_PORTFOLIO, $pp);
             $repo_viewer->set_excluded_objects($exclude);
