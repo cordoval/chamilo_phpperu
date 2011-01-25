@@ -42,8 +42,7 @@ ul.tree-menu li div.collapse {
 }
 
 ul.tree-menu li div.lastCollapse {
-	background-image: url(../../images/aqua/treemenu/tree-node-open-end.png)
-		;
+	background-image: url(../../images/aqua/treemenu/tree-node-open-end.png);
 }
 
 ul.tree-menu li div.expand {
