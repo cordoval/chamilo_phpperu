@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<packages>
+        <package>
+                <name>Personal Messenger</name>
+                <code>personal_messenger</code>
+                <section>application</section>
+                <category>communication</category>
+                <authors></authors>
+                <version>1.0.0</version>
+                <release>
+                        <phase>general_availability</phase>
+                        <realm>main</realm>
+                </release>
+                <filename>pool/main/application/p/personal_messenger/personal_messenger-1.0.0.zip</filename>
+                <size></size>
+                <md5></md5>
+                <sha1></sha1>
+                <sha256></sha256>
+                <sha512></sha512>
+                <tagline></tagline>
+                <description>An online messaging system to provide communication between users.</description>
+                <homepage></homepage>
+                <dependencies>
+                        <server>
+                                <dependency>
+                                        <id>php</id>
+                                        <version type="4">5.3.0</version>
+                                        <severity>1</severity>
+                                </dependency>
+                        </server>
+                        <content_objects>
+                                <dependency>
+                                        <id>personal_message</id>
+                                        <version type="4">1.0.0</version>
+                                        <severity>1</severity>
+                                </dependency>
+                        </content_objects>
+                </dependencies>
+        </package>
+        <package>
+                <name>Administration</name>
+                <code>admin</code>
+                <section>core</section>
+                <category>core</category>
+                <authors></authors>
+                <version>1.0.0</version>
+                <release>
+                        <phase>general_availability</phase>
+                        <realm>main</realm>
+                </release>
+                <filename>pool/main/core/a/admin/admin-1.0.0.zip</filename>
+                <size></size>
+                <md5></md5>
+                <sha1></sha1>
+                <sha256></sha256>
+                <sha512></sha512>
+                <tagline></tagline>
+                <description></description>
+                <homepage></homepage>
+                <dependencies>
+                        <server>
+                                <dependency>
+                                        <id>php</id>
+                                        <version type="4">5.3.0</version>
+                                        <severity>1</severity>
+                                </dependency>
+                        </server>
+                </dependencies>
+        </package>
+        <package>
+                <name>External repository manager</name>
+                <code>external_repository_manager</code>
+                <section>extension</section>
+                <category>core</category>
+                <authors>
+                        <author>
+                                <name>Hans De Bisschop</name>
+                                <email>hans.de.bisschop@ehb.be</email>
+                                <company>Erasmushogeschool Brussel</company>
+                        </author>
+                        <author>
+                                <name>Magali Gillard</name>
+                                <email>magali.gillard@ehb.be</email>
+                                <company>Erasmushogeschool Brussel</company>
+                        </author>
+                </authors>
+                <version>1.0.0</version>
+                <release>
+                        <phase>general_availability</phase>
+                        <realm>main</realm>
+                </release>
+                <filename>pool/main/extension/e/external_repository_manager/external_repository_manager-1.0.0.zip</filename>
+                <size></size>
+                <md5></md5>
+                <sha1></sha1>
+                <sha256></sha256>
+                <sha512></sha512>
+                <tagline></tagline>
+                <description>An abstraction layer to implement external content repositories in a generalized way, using general components wherever possible.</description>
+                <homepage></homepage>
+                <dependencies>
+                        <server>
+                                <dependency>
+                                        <id>php</id>
+                                        <version type="4">5.3.0</version>
+                                        <severity>1</severity>
+                                </dependency>
+                        </server>
+                </dependencies>
+        </package>
+</packages>

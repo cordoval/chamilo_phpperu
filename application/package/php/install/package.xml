@@ -12,7 +12,7 @@
 		<property name="cycle_phase" type="text" />
 		<property name="cycle_realm" type="text" />
 		<property name="filename" type="text" length="255" fixed="true" />
-		<property name="size" type="integer" notnull="0" default="0" />
+		<property name="size" type="integer" default="0" />
 		<property name="md5" type="text" length="32" fixed="true" />
 		<property name="sha1" type="text" length="40" fixed="true" />
 		<property name="sha256" type="text" length="64" fixed="true" />

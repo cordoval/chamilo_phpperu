@@ -5,6 +5,9 @@ use common\libraries\DataClass;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\InCondition;
+use common\libraries\Translation;
+
+use admin;
 
 /**
  * This class describes a Package data object
@@ -20,6 +23,18 @@ class Dependency extends DataClass
     const PROPERTY_ID_DEPENDENCY = 'id_dependency';
     const PROPERTY_VERSION = 'version';
     const PROPERTY_SEVERITY = 'severity';
+    const PROPERTY_COMPARE = 'compare';
+    const PROPERTY_TYPE = 'type';
+    
+    const TYPE_APPLICATIONS = 1;
+    const TYPE_EXTENSION = 2;
+    const TYPE_EXTENSIONS = 3;
+    const TYPE_SERVER = 4;
+    const TYPE_CONTENT_OBJECTS = 5;
+    const TYPE_EXTERNAL_REPOSITORY_MANAGER = 6;
+    const TYPE_VIDEO_CONFERENCING = 7;
+    const TYPE_LIBRARY = 8;
+    const TYPE_SETTINGS = 9;
 
     /**
      * Get the default properties
@@ -29,7 +44,9 @@ class Dependency extends DataClass
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_ID_DEPENDENCY, 
                 self :: PROPERTY_VERSION, 
-                self :: PROPERTY_SEVERITY));
+                self :: PROPERTY_SEVERITY, 
+                self :: PROPERTY_COMPARE, 
+                self :: PROPERTY_TYPE));
     }
 
     /**
@@ -85,6 +102,11 @@ class Dependency extends DataClass
         return $this->get_default_property(self :: PROPERTY_SEVERITY);
     }
 
+    function get_severity_string()
+    {
+        return admin\PackageDependency :: get_severity_name($this->get_severity());
+    }
+
     /**
      * Sets the severity of this Package.
      * @param severity
@@ -92,6 +114,81 @@ class Dependency extends DataClass
     function set_severity($severity)
     {
         $this->set_default_property(self :: PROPERTY_SEVERITY, $severity);
+    }
+
+    function get_compare()
+    {
+        return $this->get_default_property(self :: PROPERTY_COMPARE);
+    }
+
+    function set_compare($compare)
+    {
+        $this->set_default_property(self :: PROPERTY_COMPARE, $compare);
+    }
+
+    function get_compare_string()
+    {
+        return admin\PackageDependency :: get_operator_name($this->get_compare());
+    }
+
+    function get_type()
+    {
+        return $this->get_default_property(self :: PROPERTY_TYPE);
+    }
+
+    function set_type($type)
+    {
+        $this->set_default_property(self :: PROPERTY_TYPE, $type);
+    }
+
+    static function get_type_name($type)
+    {
+        switch ($type)
+        {
+            case self :: TYPE_APPLICATIONS :
+                return Translation :: get('Applications');
+                break;
+            case self :: TYPE_CONTENT_OBJECTS :
+                return Translation :: get('ContentObjects');
+                break;
+            case self :: TYPE_EXTENSION :
+                return Translation :: get('Extension');
+                break;
+            case self :: TYPE_EXTENSIONS :
+                return Translation :: get('Extensions');
+                break;
+            case self :: TYPE_EXTERNAL_REPOSITORY_MANAGER:
+                return Translation :: get('ExternalRepositoryManager');
+                break;
+            case self :: TYPE_VIDEO_CONFERENCING :
+                return Translation :: get('VideoConferencing');
+                break;
+            case self :: TYPE_LIBRARY :
+                return Translation :: get('Library');
+                break;
+            case self :: TYPE_SERVER :
+                return Translation :: get('Server');
+                break;
+            case self :: TYPE_SETTINGS :
+                return Translation :: get('Settings');
+                break;
+        }
+    }
+    
+    static function get_types()
+    {
+        $types = array();
+        $types[self :: TYPE_APPLICATIONS] = self :: get_type_name(self :: TYPE_APPLICATIONS);
+        $types[self :: TYPE_CONTENT_OBJECTS] = self :: get_type_name(self :: TYPE_CONTENT_OBJECTS);
+        $types[self :: TYPE_EXTENSION] = self :: get_type_name(self :: TYPE_EXTENSION);
+        $types[self :: TYPE_EXTENSIONS] = self :: get_type_name(self :: TYPE_EXTENSIONS);
+        $types[self :: TYPE_EXTERNAL_REPOSITORY_MANAGER] = self :: get_type_name(self :: TYPE_EXTERNAL_REPOSITORY_MANAGER);
+        $types[self :: TYPE_VIDEO_CONFERENCING] = self :: get_type_name(self :: TYPE_VIDEO_CONFERENCING);
+        $types[self :: TYPE_LIBRARY] = self :: get_type_name(self :: TYPE_LIBRARY);
+        $types[self :: TYPE_SERVER] = self :: get_type_name(self :: TYPE_SERVER);
+        $types[self :: TYPE_SETTINGS] = self :: get_type_name(self :: TYPE_SETTINGS);
+        
+        return $types;
     }
 
     static function get_table_name()
@@ -103,11 +200,10 @@ class Dependency extends DataClass
     {
         $condition = new EqualityCondition(PackageDependency :: PROPERTY_DEPENDENCY_ID, $this->get_id());
         $package_dependencies = $this->get_data_manager()->retrieve_package_dependencies($condition);
-        
         $package_dependencies_ids = array();
         while ($package_dependency = $package_dependencies->next_result())
         {
-            $package_dependencies_ids[] = $package_dependencies->get_package_id();
+            $package_dependencies_ids[] = $package_dependency->get_package_id();
         }
         
         if ($only_ids)
@@ -122,5 +218,4 @@ class Dependency extends DataClass
         }
     }
 }
-
 ?>
