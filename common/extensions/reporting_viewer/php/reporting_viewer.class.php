@@ -106,7 +106,7 @@ class ReportingViewer extends SubManager
 
 	function run()
 	{
-		$parent = $this->get_parameter(self :: PARAM_REPORTING_VIEWER_ACTION);
+            $parent = $this->get_parameter(self :: PARAM_REPORTING_VIEWER_ACTION);
 
         switch ($parent)
         {
