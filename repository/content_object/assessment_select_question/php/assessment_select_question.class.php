@@ -3,7 +3,7 @@ namespace repository\content_object\assessment_select_question;
 
 use common\libraries\Utilities;
 use common\libraries\Path;
-
+use common\libraries\StringUtilities;
 use repository\ContentObject;
 
 /**
