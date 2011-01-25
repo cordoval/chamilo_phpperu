@@ -57,16 +57,16 @@ class AssessmentViewerForm extends FormValidator
     {
         if ($this->assessment_viewer->get_feedback_per_page())
         {
-            if (($this->get_page_number() <= $this->assessment_viewer->get_total_pages()))
-            {
+//            if (($this->get_page_number() <= $this->assessment_viewer->get_total_pages()))
+//            {
                 $buttons[] = $this->createElement('style_submit_button', 'next', Translation :: get('Check', null, Utilities :: COMMON_LIBRARIES), array(
                         'class' => 'normal next'));
-            }
-            else
-            {
-                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Finish', null, Utilities :: COMMON_LIBRARIES), array(
-                        'class' => 'positive finish'));
-            }
+//            }
+//            else
+//            {
+//                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Finish', null, Utilities :: COMMON_LIBRARIES), array(
+//                        'class' => 'positive finish'));
+//            }
         }
         else
         {
