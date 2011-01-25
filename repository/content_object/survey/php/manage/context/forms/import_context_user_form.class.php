@@ -122,7 +122,7 @@ class ImportContextUserForm extends FormValidator
                 if (isset($context))
                 {
                 	$context_user->set_context_id($context->get_id());
-                    $succes = $context_user->create();
+                    $success = $context_user->create();
                 }
             
             }

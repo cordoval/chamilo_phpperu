@@ -43,7 +43,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
     function run()
     {
         $topic = $this->get_complex_content_object_item();
-    	$this->retrieve_children($topic->get_ref());
+            $this->retrieve_children($topic->get_ref());
 
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $this->get_root_content_object()->get_title()));

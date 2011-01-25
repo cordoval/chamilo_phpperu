@@ -102,7 +102,8 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         }
         
         $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
-        $this->delete_objects(SurveyContext :: get_table_name(), $condition);
+        $success = $this->delete_objects(SurveyContext :: get_table_name(), $condition);
+        return $success;
     }
 
     function update_survey_context($context)

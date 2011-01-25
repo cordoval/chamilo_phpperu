@@ -32,6 +32,7 @@ class LearningPathComplexDisplayPreview extends ComplexDisplayPreview implements
         BlogComplexDisplaySupport,
         WikiComplexDisplaySupport
 {
+    const TEMPORARY_STORAGE = 'learning_path_assessment_preview';
 
     function run()
     {
@@ -156,19 +157,45 @@ class LearningPathComplexDisplayPreview extends ComplexDisplayPreview implements
     {
     }
 
+    function get_assessment_question_attempts()
+    {
+        $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
+        return $answers[$this->get_root_content_object()->get_id()];
+    }
+
+    function get_assessment_question_attempt($complex_question_id)
+    {
+        $answers = $this->get_assessment_question_attempts($complex_question_id);
+        return $answers[$complex_question_id];
+    }
+
     /**
      * Preview mode is launched in standalone mode,
      * so there's nothing to go back to.
      *
      * @return void
      */
-    function get_assessment_go_back_url()
+    function get_assessment_back_url()
+    {
+    }
+
+    /**
+     * Preview mode is launched in standalone mode,
+     * so there's nothing to continue to.
+     *
+     * @return void
+     */
+    function get_assessment_continue_url()
     {
     }
 
     function get_assessment_feedback_configuration()
     {
-        return new FeedbackDisplayConfiguration();
+        $dummy_configuration = new FeedbackDisplayConfiguration();
+        $dummy_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_BOTH);
+        $dummy_configuration->enable_feedback_per_page();
+        $dummy_configuration->enable_feedback_summary();
+        return $dummy_configuration;
     }
 
     /**

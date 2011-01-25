@@ -133,20 +133,40 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
 
     /**
      * Preview mode is launched in standalone mode,
-     * so there's nothing to go back to.
+     * so just close the window.
      *
      * @return void
      */
-    function get_assessment_go_back_url()
+    function get_assessment_back_url()
     {
+        return 'javascript: self.close()';
+    }
+
+    /**
+     * Preview mode is launched in standalone mode,
+     * so there's nothing to continue to.
+     *
+     * @return void
+     */
+    function get_assessment_continue_url()
+    {
+        dump($this);
+//        $adaptive_assessment = $this->get_root_content_object();
+//        $adaptive_assessment_item_attempt_data = $this->retrieve_adaptive_assessment_tracker_items($this->retrieve_adaptive_assessment_tracker());
+//        $current_step = Request :: get('step') ? Request :: get('step') : 1;
+//        $adaptive_assessment_menu = new AdaptiveAssessmentTree($adaptive_assessment->get_id(), $current_step, $this->get_adaptive_assessment_tree_menu_url(), $adaptive_assessment_item_attempt_data);
+//
+//        dump($adaptive_assessment_menu);
+        exit;
     }
 
     function get_assessment_feedback_configuration()
     {
         $dummy_configuration = new FeedbackDisplayConfiguration();
-        $dummy_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_BOTH);
+        $dummy_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_TEXT);
         $dummy_configuration->enable_feedback_per_page();
-        //$dummy_configuration->enable_feedback_summary();
+        $dummy_configuration->enable_feedback_summary();
+        //$dummy_configuration->disable_feedback_summary();
         return $dummy_configuration;
     }
 

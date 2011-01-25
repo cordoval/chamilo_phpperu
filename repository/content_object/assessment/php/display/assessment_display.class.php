@@ -53,9 +53,14 @@ class AssessmentDisplay extends ComplexDisplay
         return $this->get_parent()->get_assessment_question_attempt($complex_content_object_question_id);
     }
 
-    function get_assessment_go_back_url()
+    function get_assessment_back_url()
     {
-        return $this->get_parent()->get_assessment_go_back_url();
+        return $this->get_parent()->get_assessment_back_url();
+    }
+
+    function get_assessment_continue_url()
+    {
+        return $this->get_parent()->get_assessment_continue_url();
     }
 
     function get_application_component_path()

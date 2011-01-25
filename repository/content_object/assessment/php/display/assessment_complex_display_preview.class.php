@@ -81,7 +81,17 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
      *
      * @return void
      */
-    function get_assessment_go_back_url()
+    function get_assessment_back_url()
+    {
+    }
+
+    /**
+     * Preview mode is launched in standalone mode,
+     * so there's nothing to continue to.
+     *
+     * @return void
+     */
+    function get_assessment_continue_url()
     {
     }
 
@@ -90,7 +100,7 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
         $dummy_configuration = new FeedbackDisplayConfiguration();
         $dummy_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_BOTH);
         $dummy_configuration->enable_feedback_per_page();
-        //$dummy_configuration->enable_feedback_summary();
+        $dummy_configuration->enable_feedback_summary();
         return $dummy_configuration;
     }
 }
