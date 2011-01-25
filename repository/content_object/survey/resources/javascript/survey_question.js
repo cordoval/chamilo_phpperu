@@ -7,10 +7,12 @@
 
 		surveyPageId = $("input[name=survey_page]").val();
 		contextPath = $("input[name=context_path]").val();
-		
+			
 		checkedQuestions = $(".question input:checked");
+		
 		checkedQuestionResults = {};
 		answers = {};
+		
 		checkedQuestions.each(function(i) {
 			checkedQuestionResults[$(this).attr('type') + '_'
 					+ $(this).attr('name')] = $(this).val();
@@ -49,7 +51,6 @@
 		
 		$.each(questionVisibilities.properties.question_visibility, function(questionId, questionVisible) {
 			if (!questionVisible) {
-				
 				var uncheckquestions = $("div#" + "survey_question_" +questionId+" input:checked");
 				uncheckquestions.each(function(i){
 					$(this).attr('checked', false);

@@ -82,7 +82,7 @@ class ConfigureQuestionForm extends FormValidator {
 	function create_config() {
 
 		     $values = $this->exportValues();
-
+					    
 		     $configs = $this->survey_page->get_config();
 
 		     $config = array();
@@ -99,7 +99,7 @@ class ConfigureQuestionForm extends FormValidator {
 		     }
 		     $config[SurveyPage:: ANSWERMATCHES] = $answers;
 
-
+		    
 		     $duplicat = false;
 
 		     foreach ($configs as $conf){
@@ -114,7 +114,7 @@ class ConfigureQuestionForm extends FormValidator {
 		     	}
 
 		     }
-
+					     
 		     if(!$duplicat){
 		     	$configs[] = $config;
 		     	$this->survey_page->set_config($configs);

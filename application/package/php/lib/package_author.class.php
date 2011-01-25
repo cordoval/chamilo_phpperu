@@ -16,7 +16,7 @@ use common\libraries\DataClass;
 class PackageAuthor extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_PACKAGE_ID = 'package_id';
     const PROPERTY_AUTHOR_ID = 'author_id';
 
@@ -46,7 +46,8 @@ class PackageAuthor extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_PACKAGE_ID, self :: PROPERTY_AUTHOR_ID));
+        return parent :: get_default_property_names(array(self :: PROPERTY_PACKAGE_ID, 
+                self :: PROPERTY_AUTHOR_ID));
     }
 
     /**

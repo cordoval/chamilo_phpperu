@@ -113,7 +113,7 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
         }
         else
         {
-            $publication->set_hidden($object->get_state() - 1);
+            $publication->set_hidden($object->get_state());
             $publication->set_publication_date($object->get_creation_date());
             $publication->set_modified_date($object->get_modification_date());
         }

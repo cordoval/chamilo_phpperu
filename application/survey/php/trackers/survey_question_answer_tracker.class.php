@@ -98,10 +98,10 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
 
     function set_answer($answer)
     {
-        $old_answer = $this->get_answer();
-        if(count($old_answer)){
-        	$answer = array_merge($answer, $old_answer);
-        }
+//        $old_answer = $this->get_answer();
+//        if(count($old_answer)>0){
+//        	$answer = array_merge($answer, $old_answer);
+//        }
     	$this->set_default_property(self :: PROPERTY_ANSWER, serialize($answer));
     }
 

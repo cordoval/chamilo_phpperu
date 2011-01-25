@@ -10,6 +10,10 @@ use common\libraries\Translation;
 class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
 {
     
+    const FORM_BACK = 'back';
+    const FORM_NEXT = 'next';
+    const FORM_SUBMIT = 'submit';
+    
     const PARAM_SURVEY_ID = 'survey_id';
     const PARAM_PUBLICATION_ID = 'publication_id';
     const PARAM_CONTEXT_TEMPLATE_ID = 'context_template_id';
@@ -29,97 +33,125 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
     
     function run()
     {
+        
+    	$this->started();
+    	
+        if ($this->survey_view_form_submitted() && $this->get_action() != self :: FORM_BACK)
+        {
+            $answer_processor = new SurveyAnswerProcessor($this);
+            $next_context_path = $answer_processor->save_answers();
+//            exit;
+        }
+        
+        if($next_context_path){
+        	$this->context_path = $next_context_path;
+        }else{
+        	$this->context_path = Request :: get(self :: PARAM_CONTEXT_PATH);
+        }
+        
+//        dump($next_context_path);
+//        exit;
+      
+        
         $survey_id = Request :: get(self :: PARAM_SURVEY_ID);
-        $this->context_path = Request :: get(self :: PARAM_CONTEXT_PATH);
+        
         
         $invitee_id = $this->get_parent()->get_user_id();
         $this->survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
         
         $this->survey->initialize($invitee_id);
         $paths = $this->survey->get_context_paths();
-//        dump('surveypaths: ');
-//        dump($paths);
+        //        dump('surveypaths: ');
+        //        dump($paths);
         
+
         $page_context_paths = $this->survey->get_page_context_paths();
         $total_page_count = count($page_context_paths);
-//        dump('pagepaths: ');
-//        dump($page_context_paths);
-//        
-//        exit;
-//        
+        //        dump('pagepaths: ');
+        //        dump($page_context_paths);
+        //        
+        //        exit;
+        //        
         $this->context_paths = array();
         $page_order = array();
         $page_count = $total_page_count;
         foreach ($page_context_paths as $page_context_path)
         {
-//            $page_count ++;
+            //            $page_count ++;
             $page_order[$page_count - 1] = $page_context_path;
             $this->context_paths[$page_context_path] = $page_count;
-            $page_count--;
-         }
-//             dump('surveycontextpaths: ');
-//   dump($this->context_paths);
+            $page_count --;
+        }
+        //             dump('surveycontextpaths: ');
+        //   dump($this->context_paths);
         
-//        exit; 
+
+        //        exit; 
         
+
         if (! $this->context_path)
         {
-            $this->context_path = $page_context_paths[$total_page_count-1];
+            $this->context_path = $page_context_paths[$total_page_count - 1];
         }
         
-//        dump($this->context_path);
+        //        dump($this->context_path);
         
-       
-        
+
         $current_page = $this->survey->get_survey_page($this->context_path);
         
-//        dump($current_page);
-//         exit;
-         
+        //        dump($current_page);
+        //         exit;
+        
+
         $this->current_page = $current_page;
-              
-        $this->started();
+        
+        
         
         $action = $this->get_parent()->get_url();
-        $page_nrs  = array_flip($page_order);
-//        dump($page_order);
-        $page_nr = $page_nrs[$this->context_path]+1;
+        $page_nrs = array_flip($page_order);
+        //        dump($page_order);
+        $page_nr = $page_nrs[$this->context_path] + 1;
+        
+        //        dump($page_nr);
+        
 
-//        dump($page_nr);
-        
         $form = new SurveyViewerForm($this->context_path, $this, $this->context_path, $this->survey, $action, $page_order, $page_nr);
-     
+        //        dump($form);
+        //     exit;
         
-        if ($form->validate())
-        {
-            $form->process_answers();
-            if ($form->is_finished())
-            {
-                $this->finished($this->survey_menu->get_progress());
-                $this->build_summery_viewer();
-            }
-            else
-            {
-                $this->context_path = $form->get_next_context_path();
-//                dump($page_order);
-                $page_nrs  = array_flip($page_order);
-//                dump($pages);
-                
-            	$page_nr = $page_nrs[$this->context_path]+1;
-            	
-//            	dump($page_nr);
-//            	exit;
-            	
-            	$this->current_page = $this->survey->get_survey_page($this->context_path);
-                $action = $this->get_parent()->get_url(array(self :: PARAM_CONTEXT_PATH => $this->context_path));
-                $form = new SurveyViewerForm($this->context_path, $this, $this->context_path, $this->survey, $action, $page_order, $page_nr);
-                $this->build_question_viewer($form);
-            }
-        }
-        else
-        {
+
+//        if ($form->validate())
+//        {
+//            $form->process_answers();
+//            if ($form->is_finished())
+//            {
+//                $this->finished($this->survey_menu->get_progress());
+//                $this->build_summery_viewer();
+//            }
+//            else
+//            {
+//                $this->context_path = $form->get_next_context_path();
+//                //                dump($page_order);
+//                $page_nrs = array_flip($page_order);
+//                //                dump($pages);
+//                
+//
+//                $page_nr = $page_nrs[$this->context_path] + 1;
+//                
+//                //            	dump($page_nr);
+//                //            	exit;
+//                
+//
+//                $this->current_page = $this->survey->get_survey_page($this->context_path);
+//                $action = $this->get_parent()->get_url(array(self :: PARAM_CONTEXT_PATH => $this->context_path));
+//                $form = new SurveyViewerForm($this->context_path, $this, $this->context_path, $this->survey, $action, $page_order, $page_nr);
+//                $this->build_question_viewer($form);
+//            }
+//        }
+//        else
+//        {
             $this->build_question_viewer($form);
-        }
+//        }
     
     }
 
@@ -136,8 +168,6 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $html[] = $this->context_paths[$this->context_path] . ' / ' . $this->survey->count_pages();
         $html[] = '</div>';
         $html[] = '<br />';
-        
-       
         
         $html[] = '</div>';
         $html[] = '<div>';
@@ -201,7 +231,8 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
 
     function get_menu_html()
     {
-        $url = $this->get_parent()->get_url(array(), array(SurveyDisplay :: PARAM_DISPLAY_ACTION, self :: PARAM_PUBLICATION_ID, self :: PARAM_SURVEY_ID, self :: PARAM_CONTEXT_PATH));
+        $url = $this->get_parent()->get_url(array(), array(SurveyDisplay :: PARAM_DISPLAY_ACTION, 
+                self :: PARAM_PUBLICATION_ID, self :: PARAM_SURVEY_ID, self :: PARAM_CONTEXT_PATH));
         $url = explode('?', $url);
         $url_format = $url[1];
         $url_format = '?' . $url_format . '&' . self :: PARAM_PUBLICATION_ID . '=%s&' . self :: PARAM_SURVEY_ID . '=%s&' . self :: PARAM_CONTEXT_PATH . '=%s';
@@ -241,15 +272,16 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $this->get_menu_html();
         return $this->survey_menu->get_progress();
     }
-        
+
     function started()
     {
         $this->get_parent()->started();
     }
 
-    function finished($progress)
+    function finished()
     {
-        $this->get_parent()->finished($progress);
+        $progress = $this->get_progress();
+    	$this->get_parent()->finished($progress);
     }
 
     function save_answer($question_id, $answer, $context_path)
@@ -265,6 +297,26 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
     function get_go_back_url()
     {
         return $this->get_parent()->get_go_back_url();
+    }
+
+    function survey_view_form_submitted()
+    {
+        return ! is_null(Request :: post('_qf__' . SurveyViewerForm :: FORM_NAME));
+    }
+
+    function get_action()
+    {
+        $actions = array(self :: FORM_NEXT, self :: FORM_SUBMIT, self :: FORM_BACK);
+        
+        foreach ($actions as $action)
+        {
+            if (! is_null(Request :: post($action)))
+            {
+                return $action;
+            }
+        }
+        
+        return self :: FORM_NEXT;
     }
 }
 ?>
