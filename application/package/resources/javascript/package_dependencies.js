@@ -60,8 +60,8 @@ $(function() {
 
 	$(document).ready(function() {
 		activeBox = $('#elf_dependency_active');
-		$("a", activeBox).live("click", removeDependency);
+		$("a:not(.disabled, .category)", activeBox).live("click", removeDependency);
 		inactiveBox = $('#elf_dependency_inactive');
-		$("a", inactiveBox).live("click", addDependency);
+		$("a:not(.disabled, .category)", inactiveBox).live("click", addDependency);
 	});
 });

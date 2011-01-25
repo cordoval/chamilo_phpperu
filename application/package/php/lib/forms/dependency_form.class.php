@@ -12,6 +12,8 @@ use common\libraries\Utilities;
 use common\libraries\WebApplication;
 use common\libraries\ObjectTableOrder;
 
+use admin;
+
 use rights\RightsUtilities;
 
 use user\UserDataManager;
@@ -53,16 +55,22 @@ class DependencyForm extends FormValidator
     }
 
     function build_basic_form()
-    {
+    {        
         $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('text', Dependency :: PROPERTY_ID_DEPENDENCY, Translation :: get('Id'));
         $this->addRule(Dependency :: PROPERTY_ID_DEPENDENCY, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-        
-        $this->addElement('text', Dependency :: PROPERTY_SEVERITY, Translation :: get('Severity'));
+       
+        $this->addElement('select', Dependency :: PROPERTY_SEVERITY, Translation :: get('Severity'), admin\PackageDependency :: get_severity_options(), array());
         $this->addRule(Dependency :: PROPERTY_SEVERITY, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-        
+
+        $this->addElement('select', Dependency :: PROPERTY_COMPARE, Translation :: get('Compare'), PackageForm :: get_compare_options(), array());
+        $this->addRule(Dependency :: PROPERTY_COMPARE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+                 
         $this->addElement('text', Dependency :: PROPERTY_VERSION, Translation :: get('Version'));
         $this->addRule(Dependency :: PROPERTY_VERSION, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+
+        $this->addElement('select', Dependency :: PROPERTY_TYPE, Translation :: get('Type'), Dependency :: get_types(), array());
+        $this->addRule(Dependency :: PROPERTY_TYPE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');     
         
         $url = WebApplication :: get_application_web_path('package') . 'php/xml_feeds/xml_package_feed.php';
         $locale = array();
@@ -71,17 +79,16 @@ class DependencyForm extends FormValidator
         $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
         $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $hidden = true;
-        
+       
         $elem = $this->addElement('element_finder', self :: PACKAGE, Translation :: get('Packages'), $url, $locale, $this->packages_for_element_finder());
         
         $this->addElement('category');
     }
 
     function packages_for_element_finder()
-    {
+    {       
         $packages = $this->package->get_packages(false);
-
-        $return = array();
+               $return = array();
         
         while ($package = $packages->next_result())
         {
@@ -92,16 +99,12 @@ class DependencyForm extends FormValidator
             $return_package['description'] = $package->get_name();
             $return[$package->get_id()] = $return_package;
         }
-        
         return $return;
     }
 
     function build_editing_form()
     {
-        $this->build_basic_form();
-        
-        //$this->addElement('hidden', PackageLanguage :: PROPERTY_ID);
-        
+        $this->build_basic_form();     
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array(
                 'class' => 'positive update'));
@@ -127,16 +130,17 @@ class DependencyForm extends FormValidator
     {
         $dependency = $this->package;
         $values = $this->exportValues();
-        
         $dependency->set_id_dependency($values[Dependency :: PROPERTY_ID_DEPENDENCY]);
         $dependency->set_severity($values[Dependency :: PROPERTY_SEVERITY]);
         $dependency->set_version($values[Dependency :: PROPERTY_VERSION]);
+        $dependency->set_compare($values[Dependency :: PROPERTY_COMPARE]);
+        $dependency->set_type($values[Dependency :: PROPERTY_TYPE]);
         
         if (! $dependency->update())
         {
             return false;
         }
-
+        
         $original_packages = $dependency->get_packages();
         $current_packages = $values[self :: PACKAGE][self :: PACKAGE];
         $packages_to_remove = array_diff($original_packages, $current_packages);
@@ -147,6 +151,9 @@ class DependencyForm extends FormValidator
             $package_dependency = new PackageDependency();
             $package_dependency->set_dependency_id($dependency->get_id());
             $package_dependency->set_package_id($package);
+            $package_dependency->set_compare($dependency->get_compare());
+            $package_dependency->set_severity($dependency->get_severity());
+            
             if (! $package_dependency->create())
             {
                 return false;
@@ -173,10 +180,11 @@ class DependencyForm extends FormValidator
     {
         $dependency = $this->package;
         $values = $this->exportValues();
-        
         $dependency->set_id_dependency($values[Dependency :: PROPERTY_ID_DEPENDENCY]);
         $dependency->set_severity($values[Dependency :: PROPERTY_SEVERITY]);
         $dependency->set_version($values[Dependency :: PROPERTY_VERSION]);
+        $dependency->set_compare($values[Dependency :: PROPERTY_COMPARE]);
+        $dependency->set_type($values[Dependency :: PROPERTY_TYPE]);
 
         if (! $dependency->create())
         {
@@ -185,11 +193,13 @@ class DependencyForm extends FormValidator
         else
         {
             $packages = $values[self :: PACKAGE];
-            foreach ($packages as $package)
+            foreach ($packages[self :: PACKAGE] as $package)
             {
                 $package_dependency = new PackageDependency();
-                $package_dependency->set_author_id($dependency->get_id());
+                $package_dependency->set_dependency_id($dependency->get_id());
                 $package_dependency->set_package_id($package);
+                $package_dependency->set_compare($dependency->get_compare());
+                $package_dependency->set_severity($dependency->get_severity());
                 
                 if (! $package_dependency->create())
                 {
@@ -197,7 +207,6 @@ class DependencyForm extends FormValidator
                 }
             }
         }
-        
         return true;
     }
 
@@ -212,6 +221,8 @@ class DependencyForm extends FormValidator
         $defaults[Dependency :: PROPERTY_ID_DEPENDENCY] = $package->get_id_dependency();
         $defaults[Dependency :: PROPERTY_SEVERITY] = $package->get_severity();
         $defaults[Dependency :: PROPERTY_VERSION] = $package->get_version();
+        $defaults[Dependency :: PROPERTY_COMPARE] = $package->get_compare();
+        $defaults[Dependency :: PROPERTY_TYPE] = $package->get_type();
         
         parent :: setDefaults($defaults);
     }

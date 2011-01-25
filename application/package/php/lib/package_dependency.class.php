@@ -21,6 +21,7 @@ class PackageDependency extends DataClass
     const PROPERTY_DEPENDENCY_ID = 'dependency_id';
     const PROPERTY_COMPARE = 'compare';
     const PROPERTY_SEVERITY = 'severity';
+    const PROPERTY_TYPE = 'type';
 
     function get_package_id()
     {
@@ -61,6 +62,16 @@ class PackageDependency extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_SEVERITY, $severity);
     }
+    
+    function get_type()
+    {
+        return $this->get_default_property(self :: PROPERTY_TYPE);
+    }
+
+    function set_type($type)
+    {
+        $this->set_default_property(self :: PROPERTY_TYPE, $type);
+    }
 
     /**
      * Get the default properties of all groups.
@@ -69,7 +80,10 @@ class PackageDependency extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_PACKAGE_ID, 
-                self :: PROPERTY_DEPENDENCY_ID, self :: PROPERTY_COMPARE, self :: PROPERTY_SEVERITY));
+                self :: PROPERTY_DEPENDENCY_ID, 
+                self :: PROPERTY_COMPARE, 
+                self :: PROPERTY_SEVERITY,
+                self :: PROPERTY_TYPE));
     }
 
     function get_package()
@@ -93,6 +107,6 @@ class PackageDependency extends DataClass
     static function get_table_name()
     {
         return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
-    }
+    }  
 }
 ?>
