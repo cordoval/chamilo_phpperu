@@ -340,24 +340,30 @@ class SurveyMenu extends HTML_Menu
                                 $visible = false;
                             }
                         }
-//                        if ($visible)
-//                        {
-                            //                            dump('visible');
-                            //                            dump($complex_question_id);
-                            $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_question->get_ref());
-                            $title = $question->get_title();
-                            $title = $this->get_survey()->parse($context_path, $title);
-                            //                        $answer = $this->parent->get_answer($complex_question_id, $context_path);
-                            if ($answer)
-                            {
-                                $title = Theme :: get_common_image('status_ok_mini') . ' ' . $title;
-                                $this->finished_questions[] = $context_path;
-                            }
+                        //                        if ($visible)
+                        //                        {
+                        //                            dump('visible');
+                        //                            dump($complex_question_id);
+                        $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_question->get_ref());
+                        $title = $question->get_title();
+                        $title = $this->get_survey()->parse($context_path, $title);
+                        //                        $answer = $this->parent->get_answer($complex_question_id, $context_path);
+                        if ($answer)
+                        {
+                            $menu_item['class'] = $question->get_type_name().'_checked';
+//                            $title = Theme :: get_common_image('status_ok_mini') . ' ' . $title;
+                            $this->finished_questions[] = $context_path;
+                        }
+                        else
+                        {
                             $menu_item['class'] = $question->get_type_name();
-                            $menu_item['url'] = $current_url . '#' . $complex_question_id;
-                            
-//                        }
                         
+                        }
+                        $menu_item['url'] = $current_url . '#' . $complex_question_id;
+                        
+                        //                        }
+                        
+
                         break;
                     default :
                         ;
@@ -366,8 +372,8 @@ class SurveyMenu extends HTML_Menu
                 
                 if ($visible)
                 {
-//                    $menu_item['title'] = $title;
-                     $menu_item['title'] = $complex_question_id ." ".$title;
+                    //                    $menu_item['title'] = $title;
+                    $menu_item['title'] = $complex_question_id . " " . $title;
                     $sub_menu_items = $this->get_menu_items($context_path_relation[self :: ID], $context_path, $current_url);
                     
                     if (count($sub_menu_items))

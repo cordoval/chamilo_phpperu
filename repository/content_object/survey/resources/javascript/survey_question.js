@@ -106,6 +106,7 @@
 
 	$(document).ready(function() {
 		$(".question input").live('click', processAnswers);
+		$("textarea.html_editor").live()
 	});
 
 })(jQuery);
