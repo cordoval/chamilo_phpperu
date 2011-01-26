@@ -3,9 +3,10 @@
 		var surveyPublicationId, surveyPageId, contextPath, checkedQuestions, checkedQuestionResults, answers, displayResult, ajaxUri = getPath('WEB_PATH')
 		+ 'ajax.php';
 
-		surveyPublicationId = $.query.get('publication_id');
-
+		
+		surveyPublicationId =$("input[name=publication_id]").val();
 		surveyPageId = $("input[name=survey_page]").val();
+		userId = $("input[name=user_id]").val();
 		contextPath = $("input[name=context_path]").val();
 			
 		checkedQuestions = $(".question input:checked");
@@ -82,7 +83,22 @@
 				if(!exist){
 					var href = $("a[id="+contextPath+"]").attr('href');
 					href = href+"#"+questionId;
-					$("<li><div class='' ><a id="+contextPath+"_"+questionId+" href="+href+"  >question_id="+ questionId+"</a></div></li>").insertAfter($("a[id="+contextPath+"]").parent().siblings().children().last());
+//					alert(href);		
+					var result = doAjaxPost(
+							ajaxUri, {
+								"context" : "repository\\content_object\\survey",
+								"method" : "get_question",
+								"complex_question_id" : questionId,
+								"context_path" : contextPath+"_"+questionId,
+								"user_id" : userId
+							});
+					var question = eval('(' + result + ')');
+					var title = question.properties.title;
+					var type = question.properties.type;
+//					alert(title);
+//					alert(type);
+//					alert("<li><div class="" ><a   id="+contextPath+"_"+questionId+" href="+href+"  >question_id="+ questionId+" "+title+"</a></div></li>");
+//					$("<li><div class="" ><a   id="+contextPath+"_"+questionId+" href="+href+"  >question_id="+ questionId+" "+title+"</a></div></li>").insertAfter($("a[id="+contextPath+"]").parent().siblings().children().last());
 				}else{
 					var answer = answers[questionId];
 					for(i in answer){
@@ -106,7 +122,6 @@
 
 	$(document).ready(function() {
 		$(".question input").live('click', processAnswers);
-		$("textarea.html_editor").live()
 	});
 
 })(jQuery);

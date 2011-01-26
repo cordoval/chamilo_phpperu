@@ -59,10 +59,10 @@ ul.tree-menu li div a {
 	display: block;
 	height: 16px;
 	padding-left: 21px;
-	background-repeat: no-repeat;
-	background-image: url(../../images/aqua/treemenu/tree-document.png);
 	white-space: nowrap;
 	font-weight: bold;
+	background-image: url(../../images/aqua/treemenu/tree-document.png);
+	background-repeat: no-repeat;
 }
 
 /*****************************

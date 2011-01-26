@@ -93,7 +93,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
             $page_nrs = array_flip($page_order);
             $page_nr = $page_nrs[$this->context_path] + 1;
             
-            $form = new SurveyViewerForm($this->context_path, $this, $this->context_path, $this->survey, $action, $page_order, $page_nr);
+            $form = new SurveyViewerForm($this->context_path, $this, $this->context_path, $this->survey, $action, $page_order, $page_nr, $invitee_id);
             
             $this->build_question_viewer($form);
         }

@@ -671,21 +671,48 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     //        $this->context_path_tree = $context_path_tree;
     }
 
-    function parse($context_path, $value)
+    static function parse($user_id, $context_path, $value)
     {
         
         
 //    	dump('contextpath '.$context_path);
 //        dump('value '.$value);
     	
-    	$context_objects = $this->get_context_objects($context_path);
-        
+//    	$context_objects = self->get_context_objects($context_path);
+    		$context_objects = array();
+            
+            $user = UserDataManager :: get_instance()->retrieve_user($user_id);
+            $context_objects['user'] = $user;
+//            $level_count = $this->count_levels();
+            $context_ids = explode('|', $context_path);
+//            dump('contextids');
+//            dump($context_ids);
+            $ids = explode('_', $context_ids[1]);
+//            dump($level_count);
+//            dump($ids);
+            $count = count($ids);
+            $level_count = $count;
+//              dump($level_count);
+            if ($count > 0)
+            {
+                $index = 0;
+                while ($index < $count)
+                {
+                    $context_id = $ids[$index];
+//                	dump($context_id);
+                    $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
+                	$context_objects[$level_count-$index] = $context;
+                    $index ++;
+                }
+            }
+    	
     	
 //    	dump($context_objects);
-    	
+//    	exit;
         $explode = explode('$V{', $value);
 //        dump('explode');
 //        dump($explode);
+//        exit;
         $new_value = array();
         foreach ($explode as $part)
         {
@@ -723,6 +750,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
 //        dump('inbetween nv '.implode(' ', $new_value));
         }
 //        dump('newvalue '.implode(' ', $new_value));
+//        exit;
         return implode(' ', $new_value);
     
     }
@@ -777,6 +805,113 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         $managers[] = self :: MANAGER_CONTEXT;
         return $managers;
     }
-}
 
+    //old not static way
+//   function parse($context_path, $value)
+//    {
+//        
+//        
+////    	dump('contextpath '.$context_path);
+////        dump('value '.$value);
+//    	
+//    	$context_objects = $this->get_context_objects($context_path);
+//        
+//    	
+////    	dump($context_objects);
+//    	
+//        $explode = explode('$V{', $value);
+////        dump('explode');
+////        dump($explode);
+//        $new_value = array();
+//        foreach ($explode as $part)
+//        {
+//            
+//            $vars = explode('}', $part);
+////            dump($vars);
+//            if (count($vars) == 1)
+//            {
+//                $new_value[] = $vars[0];
+//            }
+//            else
+//            {
+//                $var = $vars[0];
+////                dump('var '.$var);
+//                $level =1;
+//                foreach ($context_objects as $index => $context_object)
+//                {
+//                    if ($index != 'user')
+//                    {
+////                        dump($context_object);
+//                    	$replace = $context_object->get_additional_property($var);
+////                    	dump('replace '.$replace);
+//                    }
+//                    else
+//                    {
+//                        $replace = $context_object->get_default_property($var);
+//                    }
+//                    if(isset($replace)){
+//                    	break;
+//                    }
+//                }
+//                
+//                $new_value[] = $replace . ' ' . $vars[1];
+//            }
+////        dump('inbetween nv '.implode(' ', $new_value));
+//        }
+////        dump('newvalue '.implode(' ', $new_value));
+//        return implode(' ', $new_value);
+//    
+//    }
+//
+//    private function get_context_objects($context_path)
+//    {
+//        
+////        if ($this->context_objects)
+////        {
+////            return $this->context_objects;
+////        }
+////        else
+////        {
+////		dump($context_path);
+//    	$this->context_objects = array();
+//            
+//            $user = UserDataManager :: get_instance()->retrieve_user($this->invitee_id);
+//            $this->context_objects['user'] = $user;
+//            $level_count = $this->count_levels();
+//            $context_ids = explode('|', $context_path);
+////            dump('contextids');
+////            dump($context_ids);
+//            $ids = explode('_', $context_ids[1]);
+////            dump($level_count);
+////            dump($ids);
+//            $count = count($ids);
+//            if ($count > 1)
+//            {
+//                $index = 0;
+//                while ($index < $level_count)
+//                {
+//                    $context_id = $ids[$index];
+////                	dump($context_id);
+//                    $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
+//                	$this->context_objects[$level_count-$index] = $context;
+//                    $index ++;
+//                }
+//            }
+//            return $this->context_objects;
+////        }
+//    }
+//
+//    function get_question_nr($question_context_path)
+//    {
+//        //        dump($this->question_context_paths);
+//        return $this->question_context_paths[$question_context_path];
+//    }
+//
+//    static function get_managers()
+//    {
+//        $managers = array();
+//        $managers[] = self :: MANAGER_CONTEXT;
+//        return $managers;
+//    }
+}
 ?>
