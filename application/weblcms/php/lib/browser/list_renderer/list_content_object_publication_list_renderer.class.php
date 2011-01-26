@@ -87,6 +87,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             $html[] = '</select>';
             $html[] = '<input type="hidden" name="' . $table_name . '_action_name" value="' . $this->get_actions()->get_action() . '"/>';
             $html[] = '<input type="hidden" name="table_name" value="' . $table_name . '"/>';
+            $html[] = '<input type="hidden" name="'.$table_name.'_namespace" value="' . __NAMESPACE__ . '"/>';
             $html[] = ' <input type="submit" value="' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES) . '"/>';
             $html[] = '</div>';
             $html[] = '</form>';

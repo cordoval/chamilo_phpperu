@@ -147,7 +147,8 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
         $chamilo_tool_intro = new Introduction();
         $chamilo_tool_intro->set_title(Translation :: get('Introduction'));
 
-        $chamilo_tool_intro->set_description($this->get_intro_text());
+        $content = $this->parse_text_field($this->get_intro_text());
+        $chamilo_tool_intro->set_description($content);
 
         // Category for contents already exists?
         $chamilo_repository_category_id = RepositoryDataManager::get_repository_category_by_name_or_create_new($owner_id, Translation :: get('Introductions'));

@@ -308,8 +308,7 @@ class ContentObjectPublicationForm extends FormValidator
         //$categories = $this->repo_viewer->get_categories(true);
         if (count($this->categories) > 1)
         {
-            //TODO: changes this to real roles and rights
-            if ($this->tool->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+            if ($this->tool->is_allowed(WeblcmsRights :: ADD_RIGHT))
             {
                 // More than one category -> let user select one
                 $this->addElement('select', self :: PARAM_CATEGORY_ID, Translation :: get('Category', null, Utilities :: COMMON_LIBRARIES), $this->categories);
@@ -500,6 +499,12 @@ class ContentObjectPublicationForm extends FormValidator
 
         $ids = unserialize($values['ids']);
 
+        $category = $values[self :: PARAM_CATEGORY_ID];
+        if ($category)
+        {
+             $category = 0;
+        }
+               
         foreach ($ids as $id)
         {
             $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($id);
