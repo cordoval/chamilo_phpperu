@@ -28,7 +28,6 @@ class SurveyContextManagerContextTemplateBrowserComponent extends SurveyContextM
 
         $trail = BreadcrumbTrail :: get_instance();
 
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseContextTemplate')));
         $this->ab = $this->get_action_bar();
 
         $output = $this->get_browser_html();

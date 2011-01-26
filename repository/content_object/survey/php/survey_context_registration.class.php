@@ -109,7 +109,7 @@ class SurveyContextRegistration extends DataClass
 
     function update()
     {
-        $this->get_data_manager()->update_survey_context_registration($this);
+        return $this->get_data_manager()->update_survey_context_registration($this);
     }
 }
 ?>

@@ -129,3 +129,5 @@ syntax: regexp
 ^common/libraries/resources/images/ruby/background_header\.png$
 syntax: regexp
 ^application/survey/php/lib/export_manager/component/survey_opleiding_exporter\.class\.php$
+syntax: regexp
+^repository/content_object/survey/resources/i18n/en\.i18n_old$
