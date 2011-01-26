@@ -49,7 +49,10 @@ class HomeManagerEditorComponent extends HomeManager implements
         //            }
 
 
-        $user_id = '0';
+        if ($user_home_allowed && Authentication :: is_valid())
+        {
+            $user_id = $user->get_id();
+        }
         //        }
 
 
@@ -79,7 +82,7 @@ class HomeManagerEditorComponent extends HomeManager implements
                     break;
             }
 
-            if ($object->get_user() == $user_id || ($object->get_user() == '0' && $user->is_platform_admin()))
+            if ($object->get_user() == $user_id || (!$object->get_user() && $user->is_platform_admin()))
             {
                 if ($form->validate())
                 {
