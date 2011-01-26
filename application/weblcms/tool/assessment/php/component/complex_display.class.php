@@ -203,6 +203,16 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool implements
         return $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW));
     }
 
+    function get_assessment_continue_url()
+    {
+
+    }
+
+    function get_assessment_back_url()
+    {
+        
+    }
+
     function get_assessment_feedback_configuration()
     {
         $default_configuration = new FeedbackDisplayConfiguration();

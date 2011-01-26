@@ -412,5 +412,15 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
     {
         throw new Exception("Unimplemented method : " . "application\\weblcms\\tool\\learning_path\\" . _CLASS__ . "get_wiki_publication()");
     }
+
+    function get_assessment_continue_url()
+    {
+
+    }
+
+    function get_assessment_back_url()
+    {
+
+    }
 }
 ?>
