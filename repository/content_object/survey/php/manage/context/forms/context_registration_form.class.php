@@ -59,14 +59,14 @@ class SurveyContextRegistrationForm extends FormValidator
     function build_header()
     {
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('SurveyContextRegistrationGeneral') . '</span>');
-        $this->add_textfield(SurveyContextRegistration :: PROPERTY_NAME, Translation :: get('SurveyContextRegistrationName'), true);
-        $this->add_html_editor(SurveyContextRegistration :: PROPERTY_DESCRIPTION, Translation :: get('SurveyContextRegistrationDescription'), false);
+        $this->addElement('html', '<span class="category">' . Translation :: get('General', null, Utilities::COMMON_LIBRARIES) . '</span>');
+        $this->add_textfield(SurveyContextRegistration :: PROPERTY_NAME, Translation :: get('Name', null, Utilities::COMMON_LIBRARIES), true);
+        $this->add_html_editor(SurveyContextRegistration :: PROPERTY_DESCRIPTION, Translation :: get('Description', null, Utilities::COMMON_LIBRARIES), false);
         $this->addElement('html', '<div style="clear: both;"></div>');
         $this->addElement('html', '</div>');
 
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('SurveyContextRegistrationProperties') . '</span>');
+        $this->addElement('html', '<span class="category">' . Translation :: get('Properties', null, Utilities::COMMON_LIBRARIES) . '</span>');
     }
 
     function build_footer($action_name)
@@ -140,14 +140,14 @@ class SurveyContextRegistrationForm extends FormValidator
             {
                 $group = array();
                 $group[] = $this->add_property_field($option_number);
-                $group[] = $this->createElement('static', '', 'label', ' ' . Translation :: get('SurveyContextRegistrationPropertyIsKey') . ' ');
+                $group[] = $this->createElement('static', '', 'label', ' ' . Translation :: get('PropertyIsKey') . ' ');
                 $group[] = $this->add_property_key_field($option_number);
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 1)
                 {
                     $group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_list_remove.png', array(
                             'style="border: 0px;"'));
                 }
-                $this->addGroup($group, self :: PROPERTIES . $option_number, Translation :: get('SurveyContextRegistrationProperty'), '', false);
+                $this->addGroup($group, self :: PROPERTIES . $option_number, Translation :: get('Property'), '', false);
                 $this->addRule(self :: PROPERTIES . $option_number, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
             }
         }
@@ -247,7 +247,7 @@ class SurveyContextRegistrationForm extends FormValidator
         $context_registration = $this->context_registration;
         $context_registration->set_name($this->exportValue(SurveyContextRegistration :: PROPERTY_NAME));
         $context_registration->set_description($this->exportValue(SurveyContextRegistration :: PROPERTY_DESCRIPTION));
-
+		
         return $context_registration->update();
     }
 

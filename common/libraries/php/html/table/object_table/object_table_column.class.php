@@ -42,7 +42,9 @@ class ObjectTableColumn implements TableColumn
         $this->property = $property;
         if ($translate)
         {
-            $this->title = Translation :: get(Utilities :: underscores_to_camelcase($this->property));
+        	$backtrace = debug_backtrace();
+        	$called_class = $backtrace[1]['class'];
+            $this->title = Translation :: get(Utilities :: underscores_to_camelcase($this->property), array(), Utilities::get_namespace_from_classname($called_class));
         
         }
         else

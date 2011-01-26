@@ -60,16 +60,16 @@ class SurveyContextTemplateForm extends FormValidator
     function build_header()
     {
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('SurveyContextTemplateGeneral') . '</span>');
-        $this->add_textfield(SurveyContextTemplate :: PROPERTY_NAME, Translation :: get('SurveyContextTemplateName'), true);
-        $this->add_html_editor(SurveyContextTemplate :: PROPERTY_DESCRIPTION, Translation :: get('SurveyContextTemplateDescription'), false);
+        $this->addElement('html', '<span class="category">' . Translation :: get('General', null,Utilities::COMMON_LIBRARIES) . '</span>');
+        $this->add_textfield(SurveyContextTemplate :: PROPERTY_NAME, Translation :: get('Name',null,Utilities::COMMON_LIBRARIES), true);
+        $this->add_html_editor(SurveyContextTemplate :: PROPERTY_DESCRIPTION, Translation :: get('Description',null,Utilities::COMMON_LIBRARIES), false);
         $this->addElement('html', '<div style="clear: both;"></div>');
         $this->addElement('html', '</div>');
 
         if ($this->form_type == self :: TYPE_CREATE)
         {
             $this->addElement('html', '<div class="configuration_form">');
-            $this->addElement('html', '<span class="category">' . Translation :: get('SurveyContextTemplateLevels') . '</span>');
+            $this->addElement('html', '<span class="category">' . Translation :: get('Levels') . '</span>');
         }
     }
 
@@ -81,7 +81,7 @@ class SurveyContextTemplateForm extends FormValidator
             $this->addElement('html', '</div>');
         }
 
-        $buttons[] = $this->createElement('style_submit_button', 'create', Translation :: get($action_name), array(
+        $buttons[] = $this->createElement('style_submit_button', 'create', Translation :: get($action_name,null,Utilities::COMMON_LIBRARIES), array(
                 'class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array(
                 'class' => 'normal empty'));
