@@ -170,6 +170,11 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
         return $dummy_configuration;
     }
 
+    function get_assessment_parameters()
+    {
+        return array();
+    }
+
     /* (non-PHPdoc)
      * @see repository\content_object\adaptive_assessment.AdaptiveAssessmentComplexDisplaySupport::retrieve_adaptive_assessment_tracker()
      */

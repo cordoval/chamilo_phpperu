@@ -57,9 +57,14 @@ class AssessmentResultViewerForm extends FormValidator
 
     function add_buttons()
     {
-        //$progress = round(($this->get_page_number() / $this->get_total_pages()) * 100);
-        //Display::get_progress_bar($progress)
-        $this->addElement('html', '<div style="float: left; padding: 7px; font-weight: bold; line-height: 100%;">' . Translation :: get('PageNumberOfTotal', array('CURRENT' => $this->get_page_number(), 'TOTAL' => $this->get_total_pages())) . '</div>');
+        if ($this->get_page_number() != ($this->get_total_pages() + 1))
+        {
+            //$progress = round(($this->get_page_number() / $this->get_total_pages()) * 100);
+            //Display::get_progress_bar($progress)
+            $this->addElement('html', '<div style="float: left; padding: 7px; font-weight: bold; line-height: 100%;">' . Translation :: get('PageNumberOfTotal', array(
+                    'CURRENT' => $this->get_page_number(),
+                    'TOTAL' => $this->get_total_pages())) . '</div>');
+        }
 
         if (($this->get_page_number() < $this->assessment_result_processor->get_assessment_viewer()->get_total_pages()))
         {
@@ -72,7 +77,7 @@ class AssessmentResultViewerForm extends FormValidator
             $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('ViewResults', null, Utilities :: COMMON_LIBRARIES), array(
                     'class' => 'positive finish'));
         }
-        elseif ($this->get_page_number() == ($this->assessment_result_processor->get_assessment_viewer()->get_total_pages() + 1))
+        elseif ($this->get_page_number() == ($this->get_total_pages() + 1))
         {
             $back_url = $this->assessment_result_processor->get_assessment_viewer()->get_assessment_back_url();
             $continue_url = $this->assessment_result_processor->get_assessment_viewer()->get_assessment_continue_url();

@@ -26,9 +26,9 @@ class WeblcmsLearningPathQuestionAttemptsTracker extends SimpleTracker
         $this->set_score($parameters[self :: PROPERTY_SCORE]);
     }
 
-    static function get_default_default_property_names()
+    static function get_default_property_names()
     {
-        return parent :: get_default_default_property_names(array(self :: PROPERTY_LPI_ATTEMPT_ID, self :: PROPERTY_QUESTION_CID, self :: PROPERTY_ANSWER, self :: PROPERTY_FEEDBACK, self :: PROPERTY_SCORE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_LPI_ATTEMPT_ID, self :: PROPERTY_QUESTION_CID, self :: PROPERTY_ANSWER, self :: PROPERTY_FEEDBACK, self :: PROPERTY_SCORE));
     }
 
     function get_lpi_attempt_id()

@@ -252,6 +252,11 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
         return $configuration;
     }
 
+    function get_assessment_parameters()
+    {
+        return array(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID, ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+    }
+
     /**
      * TODO: Provide a tracker with actual data
      *

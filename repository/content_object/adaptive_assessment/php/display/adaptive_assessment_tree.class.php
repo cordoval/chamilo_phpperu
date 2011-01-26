@@ -103,8 +103,7 @@ class AdaptiveAssessmentTree extends HTML_Menu
         $menu_item['url'] = $this->get_progress_url();
         $menu_item['class'] = 'type_statistics';
         $menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;
-        $adaptive_assessment_item['sub'] = array_merge($adaptive_assessment_item['sub'], array(
-                $menu_item));
+        $adaptive_assessment_item['sub'] = array_merge($adaptive_assessment_item['sub'], array($menu_item));
 
         $menu[] = $adaptive_assessment_item;
 
@@ -183,7 +182,7 @@ class AdaptiveAssessmentTree extends HTML_Menu
         if (! $this->get_current_parent())
             return;
 
-    //        $control_mode = $this->get_current_parent()->get_control_mode();
+     //        $control_mode = $this->get_current_parent()->get_control_mode();
 
 
     //        if ($control_mode['forwardOnly'] != 0)
