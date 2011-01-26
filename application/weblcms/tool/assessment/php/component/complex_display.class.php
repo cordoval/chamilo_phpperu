@@ -198,19 +198,14 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool implements
         return $answers[$complex_question_id];
     }
 
-    function get_assessment_go_back_url()
-    {
-        return $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW));
-    }
-
     function get_assessment_continue_url()
     {
-
+        return null;
     }
 
     function get_assessment_back_url()
     {
-        
+        return $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW));
     }
 
     function get_assessment_feedback_configuration()

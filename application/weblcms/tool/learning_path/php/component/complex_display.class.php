@@ -333,15 +333,6 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
         return $this->get_parameter(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID);
     }
 
-    /**
-     * This is an embedded assessment so there's nothing to go back to
-     *
-     * @return void
-     */
-    function get_assessment_go_back_url()
-    {
-    }
-
     function get_assessment_feedback_configuration()
     {
         $default_configuration = new FeedbackDisplayConfiguration();
