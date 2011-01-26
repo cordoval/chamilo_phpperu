@@ -215,5 +215,15 @@ class AssessmentManagerViewerComponent extends AssessmentManager implements Asse
     {
         return true;
     }
+
+    function get_assessment_continue_url()
+    {
+
+    }
+
+    function get_assessment_back_url()
+    {
+
+    }
 }
 ?>
