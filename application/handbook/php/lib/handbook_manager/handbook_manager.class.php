@@ -548,16 +548,7 @@ class HandbookManager extends WebApplication
                         }
                         else
                         {
-                            $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $selected_object->get_id());
-                            $metadata_property_values = MetadataManager :: retrieve_metadata_property_values($condition);
-
-                            $metadata_array = array();
-
-                            while ($metadata = $metadata_property_values->next_result())
-                            {
-                                $metadata_array[$metadata->get_property_type_id()] = $metadata->get_value();
-                            }
-                            $texts[] = $selected_object;
+                            $others[] = $selected_object;
                         }
                 }
                 else
