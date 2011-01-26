@@ -67,7 +67,11 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
 
         if (! $this->type)
         {
-            $this->type = $content_object->get_allowed_types();
+            $this->type = $rtype = Request :: post(ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE);
+            if(!$this->type)
+            {
+                $this->type = $content_object->get_allowed_types();
+            }
         }
 
         if (! RepoViewer :: is_ready_to_be_published())
