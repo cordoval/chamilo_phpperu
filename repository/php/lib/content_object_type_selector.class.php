@@ -58,14 +58,28 @@ class ContentObjectTypeSelector
     private $form;
 
     /**
-     * @param array $content_object_types
+     * @var String
      */
-    function __construct($parent, $content_object_types = array(), $additional_links = array(), $use_general_statistics = false)
+    private $postback_url;
+
+    /**
+     * @param $parent
+     * @param array $content_object_types
+     * @param array $additional_links
+     * @param boolean $use_general_statistics
+     * @param String $postback_url
+     */
+    function __construct($parent, $content_object_types = array(), $additional_links = array(), $use_general_statistics = false, $postback_url = null)
     {
         $this->parent = $parent;
         $this->content_object_types = $content_object_types;
         $this->additional_links = $additional_links;
         $this->use_general_statistics = $use_general_statistics;
+        if(!$postback_url)
+        {
+            $postback_url = $parent->get_url();
+        }
+        $this->postback_url = $postback_url;
         $this->prepare();
     }
 
@@ -202,7 +216,7 @@ class ContentObjectTypeSelector
 
         asort($this->categories);
 
-        $this->form = new FormValidator('select_content_object_type', 'post', $this->parent->get_url());
+        $this->form = new FormValidator('select_content_object_type', 'post', $this->postback_url);
         $select = $this->form->addElement('select', self :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('CreateANew'), array(), array('class' => 'learning-object-creation-type postback'));
 
         foreach ($this->as_tree() as $key => $type)

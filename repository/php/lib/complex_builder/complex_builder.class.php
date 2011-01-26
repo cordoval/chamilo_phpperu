@@ -322,7 +322,7 @@ abstract class ComplexBuilder extends SubManager
             $types = $content_object->get_allowed_types();
         }
 
-        $type_selector = new ContentObjectTypeSelector($this, $types, $this->get_additional_links());
+        $type_selector = new ContentObjectTypeSelector($this, $types, $this->get_additional_links(), null, $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM)));
         $html[] = $type_selector->as_html();
 
         return implode("\n", $html);
