@@ -38,26 +38,26 @@ class SurveyContextManagerRegistrationDeleterComponent extends SurveyContextMana
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedContextRegistrationNotDeleted';
+                    $message = 'ObjectNotDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedContextRegistrationsNotDeleted';
+                    $message = 'ObjectsNotDeleted';
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedContextRegistrationDeleted';
+                    $message = 'ObjectDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedContextRegistrationsDeleted';
+                    $message = 'ObjectsDeleted';
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_REGISTRATION));
+            $this->redirect(Translation :: get($message,array('OBJECT' => Translation :: get('SelectedContextRegistration'), 'OBJECTS' => Translation :: get('SelectedContextRegistrations'))), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_REGISTRATION));
         }
         else
         {

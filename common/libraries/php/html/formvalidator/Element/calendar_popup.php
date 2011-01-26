@@ -1,20 +1,45 @@
 <?php
-use common\libraries\Theme;
-use common\libraries\Translation;
+
+namespace common\libraries;
+
 /**
  * @package common.html.formvalidator.Element
  */
 // $Id: calendar_popup.php 128 2009-11-09 13:13:20Z vanpouckesven $
 // including the global init script
-require ('../../../global.inc.php');
-Translation :: set_application('home');
+require (dirname(__FILE__) . '/../../../../../global.inc.php');
 // the variables for the days and the months
 // Defining the shorts for the days
-$DaysShort = array(Translation :: get("SundayShort"), Translation :: get("MondayShort"), Translation :: get("TuesdayShort"), Translation :: get("WednesdayShort"), Translation :: get("ThursdayShort"), Translation :: get("FridayShort"), Translation :: get("SaturdayShort"));
+$DaysShort = array(Translation :: get("SundayShort", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("MondayShort", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("TuesdayShort", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("WednesdayShort", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("ThursdayShort", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("FridayShort", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("SaturdayShort", null, Utilities :: COMMON_LIBRARIES));
+
 // Defining the days of the week to allow translation of the days
-$DaysLong = array(Translation :: get("SundayLong"), Translation :: get("MondayLong"), Translation :: get("TuesdayLong"), Translation :: get("WednesdayLong"), Translation :: get("ThursdayLong"), Translation :: get("FridayLong"), Translation :: get("SaturdayLong"));
+$DaysLong = array(Translation :: get("SundayLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("MondayLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("TuesdayLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("WednesdayLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("ThursdayLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("FridayLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("SaturdayLong", null, Utilities :: COMMON_LIBRARIES));
+
 // Defining the months of the year to allow translation of the months
-$MonthsLong = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
+$MonthsLong = array(Translation :: get("JanuaryLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("FebruaryLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("MarchLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("AprilLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("MayLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("JuneLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("JulyLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("AugustLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("SeptemberLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("OctoberLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("NovemberLong", null, Utilities :: COMMON_LIBRARIES),
+        Translation :: get("DecemberLong", null, Utilities :: COMMON_LIBRARIES));
 
 $iso_lang = Translation :: get_language();
 if (empty($document_language))

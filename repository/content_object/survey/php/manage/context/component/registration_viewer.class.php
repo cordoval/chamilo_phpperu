@@ -86,8 +86,8 @@ class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManag
         $action_bar->set_search_url($this->get_url());
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_context_creation_url($this->context_registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportContexts'), Theme :: get_common_image_path() . 'action_import.png', $this->get_context_import_url($this->context_registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-      	 $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportContextUser'), Theme :: get_common_image_path() . 'action_import.png', $this->get_context_user_import_url($this->context_registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportObjects',array('OBJECTS' => Translation :: get('Contexts')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_import.png', $this->get_context_import_url($this->context_registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+      	 $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportObject',array('OBJECT' => Translation :: get('ContextUser')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_import.png', $this->get_context_user_import_url($this->context_registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         
         return $action_bar;
@@ -95,7 +95,7 @@ class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManag
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_REGISTRATION)), Translation :: get('BrowseContextRegistrations')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_REGISTRATION)), Translation :: get('BrowseObjects',array('OBJECTS' => Translation :: get('ContextRegistrations')), Utilities :: COMMON_LIBRARIES)));
     }
 
     function get_additional_parameters()
