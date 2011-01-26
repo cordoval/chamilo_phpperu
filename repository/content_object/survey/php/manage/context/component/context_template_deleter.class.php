@@ -39,26 +39,26 @@ class SurveyContextManagerContextTemplateDeleterComponent extends SurveyContextM
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedContextTemplateNotDeleted';
+                    $message = 'ObjectNotDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedContextTemplatesNotDeleted';
+                    $message = 'ObjectsNotDeleted';
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedContextTemplateDeleted';
+                    $message = 'ObjectDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedContextTemplatesDeleted';
+                    $message = 'ObjectsDeleted';
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_BROWSE_CONTEXT_TEMPLATE));
+            $this->redirect(Translation :: get($message,array('OBJECT' => Translation::get('SelectedContextTemplate'), 'OBJECTS' => Translation::get('SelectedContextTemplates')),Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_BROWSE_CONTEXT_TEMPLATE));
         }
         else
         {

@@ -70,7 +70,7 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
         
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_ADD_TEMPLATE;
         $table = new SurveyTable($this, $parameters, $this->get_survey_condition(false));
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_ADD_TEMPLATE, Translation :: get('AddTemplates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_ADD_TEMPLATE, Translation :: get('AddObjects',array('OBJECTS' => Translation::get('Templates')),Utilities::COMMON_LIBRARIES), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
         
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_TEMPLATES;
         $table = new SurveyTemplateTable($this, $parameters, $this->get_template_condition());
@@ -78,7 +78,7 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
         
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_USERS;
         $table = new SurveyUserTable($this, $parameters, $this->get_user_condition());
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users',null,Utilities::COMMON_LIBRARIES), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
         
         
         $html[] = $tabs->render();
@@ -196,8 +196,8 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_TEMPLATE)), Translation :: get('BrowseContextTemplates')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewContextTemplate')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_TEMPLATE)), Translation :: get('BrowseObjects',array('OBJECTS' => Translation::get('ContextTemplates')),Utilities::COMMON_LIBRARIES)));
+        //$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewContextTemplate')));
     
     }
 

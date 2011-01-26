@@ -41,11 +41,11 @@ class SurveyContextManagerSubscribeUserComponent extends SurveyContextManager
             $success = $form->create_context_rel_users();
             if ($success)
             {
-                $this->redirect(Translation :: get('SurveyContextRelUsersCreated'), (false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context_id,  self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id,DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS));
+                $this->redirect(Translation :: get('ObjectsCreated',array('OBJECTS' => Translation::get('SurveyContextRelUsers')),Utilities::COMMON_LIBRARIES), (false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context_id,  self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id,DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS));
             }
             else
             {
-                $this->redirect(Translation :: get('SurveyContextRelUsersNotCreated'), (true), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context_id,  self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id,DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS));
+                $this->redirect(Translation :: get('ObjectsNotCreated',array('OBJECTS' => Translation::get('SurveyContextRelUsers')),Utilities::COMMON_LIBRARIES), (true), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context_id,  self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id,DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS));
             }
         }
         else
@@ -58,9 +58,9 @@ class SurveyContextManagerSubscribeUserComponent extends SurveyContextManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_REGISTRATION)), Translation :: get('BrowseContextRegistrations')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_REGISTRATION, self :: PARAM_CONTEXT_REGISTRATION_ID => Request :: get(self :: PARAM_CONTEXT_REGISTRATION_ID))), Translation :: get('ViewContextRegistration')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => Request :: get(self :: PARAM_CONTEXT_ID), DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS)), Translation :: get('ViewSurveyContext')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_REGISTRATION)), Translation :: get('BrowseObjects',array('OBJECTS' => Translation::get('ContextRegistrations')),Utilities::COMMON_LIBRARIES)));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_REGISTRATION, self :: PARAM_CONTEXT_REGISTRATION_ID => Request :: get(self :: PARAM_CONTEXT_REGISTRATION_ID))), Translation :: get('ViewObject', array('OBJECT' => Translation::get('ContextRegistration')),Utilities::COMMON_LIBRARIES)));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => Request :: get(self :: PARAM_CONTEXT_ID), DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_USERS)), Translation :: get('ViewObject', array('OBJECT' => Translation::get('SurveyContext')),Utilities::COMMON_LIBRARIES)));
     }
 
     function get_additional_parameters()
