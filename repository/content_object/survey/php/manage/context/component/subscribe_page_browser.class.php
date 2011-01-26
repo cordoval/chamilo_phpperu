@@ -81,7 +81,7 @@ class SurveyContextManagerSubscribePageBrowserComponent extends SurveyContextMan
 
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_ADD_PAGES;
         $table = new SurveyPageTable($this, $parameters, $this->get_survey_page_condition());
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_ADD_PAGES, Translation :: get('AddPages'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_ADD_PAGES, Translation :: get('AddObjects', array('OBJECTS' => Translation::get('Pages')),Utilities::COMMON_LIBRARIES), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
 
         $html[] = $tabs->render();
         $html[] = '</div>';
@@ -184,8 +184,8 @@ class SurveyContextManagerSubscribePageBrowserComponent extends SurveyContextMan
     
 function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_TEMPLATE)), Translation :: get('BrowseContextTemplates')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewContextTemplate')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_TEMPLATE)), Translation :: get('BrowseObjects',array('OBJECTS' => Translation::get('ContextTemplates')),Utilities::COMMON_LIBRARIES)));
+        //$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewContextTemplate')));
 
     }
 

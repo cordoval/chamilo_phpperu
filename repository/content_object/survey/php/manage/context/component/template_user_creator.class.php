@@ -39,11 +39,11 @@ class SurveyContextManagerTemplateUserCreatorComponent extends SurveyContextMana
             $success = $form->create_survey_template_user();
             if ($success)
             {
-                $this->redirect(Translation :: get('SurveyTemplateUserCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_TEMPLATE, SurveyContextManager :: PARAM_TEMPLATE_ID => $template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
+                $this->redirect(Translation :: get('ObjectCreated', array('OBJECT' => Translation::get('SurveyTemplateUser')),Utilities::COMMON_LIBRARIES), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_TEMPLATE, SurveyContextManager :: PARAM_TEMPLATE_ID => $template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
             }
             else
             {
-                $this->redirect(Translation :: get('SurveyTemplateUserNotCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_TEMPLATE, SurveyContextManager :: PARAM_TEMPLATE_ID => $template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
+                $this->redirect(Translation :: get('ObjectNotCreated', array('OBJECT' => Translation::get('SurveyTemplateUser')),Utilities::COMMON_LIBRARIES), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_TEMPLATE, SurveyContextManager :: PARAM_TEMPLATE_ID => $template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
             }
         }
         else
@@ -56,8 +56,8 @@ class SurveyContextManagerTemplateUserCreatorComponent extends SurveyContextMana
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewContextTemplate')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => Request :: get(self :: PARAM_TEMPLATE_ID))), Translation :: get('ViewTemplate')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewObject', array('OBJECT' => Translation::get('ContextTemplate')),Utilities::COMMON_LIBRARIES)));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => Request :: get(self :: PARAM_TEMPLATE_ID))), Translation :: get('ViewObject', array('OBJECT' => Translation::get('Template')),Utilities::COMMON_LIBRARIES)));
     
     }
 

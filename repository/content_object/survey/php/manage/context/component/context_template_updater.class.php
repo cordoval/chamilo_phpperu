@@ -32,11 +32,11 @@ class SurveyContextManagerContextTemplateUpdaterComponent extends SurveyContextM
             $success = $form->update_context_template();
             if ($success)
             {
-                $this->redirect(Translation :: get('SurveyContextTemplateUpdated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_BROWSE_CONTEXT_TEMPLATE));
+                $this->redirect(Translation :: get('ObjectUpdated',array('OBJECT' => Translation::get('SurveyContextTemplate')),Utilities::COMMON_LIBRARIES), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_BROWSE_CONTEXT_TEMPLATE));
             }
             else
             {
-                $this->redirect(Translation :: get('SurveyContextTemplateNotUpdated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_BROWSE_CONTEXT_TEMPLATE));
+                $this->redirect(Translation :: get('ObjectNotUpdated',array('OBJECT' => Translation::get('SurveyContextTemplate')),Utilities::COMMON_LIBRARIES), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_BROWSE_CONTEXT_TEMPLATE));
             	            }
         }
         else

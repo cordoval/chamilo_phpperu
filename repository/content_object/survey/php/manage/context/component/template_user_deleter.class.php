@@ -46,26 +46,26 @@ class SurveyContextManagerTemplateUserDeleterComponent extends SurveyContextMana
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedTemplateUserNotDeleted';
+                    $message = 'ObjectNotDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedTemplateUsersNotDeleted';
+                    $message = 'ObjectsNotDeleted';
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedTemplateUserDeleted';
+                    $message = 'ObjectDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedTemplateUsersDeleted';
+                    $message = 'ObjectsDeleted';
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id));
+            $this->redirect(Translation :: get($message, array('OBJECT' => Translation::get('SelectedTemplateUser'),'OBJECTS' => Translation::get('SelectedTemplateUsers')),Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id));
         }
         else
         {
