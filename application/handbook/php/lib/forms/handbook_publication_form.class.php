@@ -105,7 +105,7 @@ class HandbookPublicationForm extends FormValidator
             $success &= $handbook_publication->create();
 
 
-            //TODO: implement rights
+            //implement rights
             $user_id = $this->user->get_id();
             $location_id = HandbookRights::get_location_id_by_identifier_from_handbooks_subtree($handbook_publication->get_id());
             $value = 1;
