@@ -50,10 +50,10 @@ class ForumManager extends WebApplication
      */
     function __construct($user = null)
     {
+        parent::__construct($user);
         $this->user = $user;
         $this->parameters = array();
         $this->load_rights();
-        $this->set_action(Request :: get(self :: PARAM_ACTION));
     }
 
     function get_application_name()
