@@ -50,7 +50,7 @@ THE SOFTWARE.
 				allTabsWidth = 0, currentPage = 0, maxPageWidth = 0, buttonWidth = 0,
 				pages = new Array(), tabWidths = new Array(), selectedTabWidths = new Array();
 			
-				containerWidth = $(self).width() - 25;
+				containerWidth = $(self).width();
 				
 				// create next button			
 				$li = $('<ul><li><a href="#">'+ opts.nextButton +'</a></li></ul>')

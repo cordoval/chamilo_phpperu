@@ -37,7 +37,7 @@ class SurveyContextManagerContextDeleterComponent extends SurveyContextManager
                 }
             }
             
-            if ($failures)
+            if ($failures > 0)
             {
                 if (count($ids) == 1)
                 {

@@ -42,8 +42,7 @@ ul.tree-menu li div.collapse {
 }
 
 ul.tree-menu li div.lastCollapse {
-	background-image: url(../../images/aqua/treemenu/tree-node-open-end.png)
-		;
+	background-image: url(../../images/aqua/treemenu/tree-node-open-end.png);
 }
 
 ul.tree-menu li div.expand {
@@ -59,10 +58,10 @@ ul.tree-menu li div a {
 	display: block;
 	height: 16px;
 	padding-left: 21px;
+	background-repeat: no-repeat;
+	background-image: url(../../images/aqua/treemenu/tree-document.png);
 	white-space: nowrap;
 	font-weight: bold;
-	background-image: url(../../images/aqua/treemenu/tree-document.png);
-	background-repeat: no-repeat;
 }
 
 /*****************************

@@ -225,16 +225,16 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             $count = $rdm->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexContentObjectItem :: get_table_name()));
             $last_post = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexContentObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), 0, 1)->next_result();
 
-            $src = Theme :: get_image_path() . 'forum/topic_read.png';
+            $src = Theme :: get_image_path() . 'topic_read.png';
             $hover = 'NoNewPosts';
             switch ($topic->get_type())
             {
                 case 1 :
-                    $src = Theme :: get_image_path() . 'forum/sticky_read.gif';
+                    $src = Theme :: get_image_path() . 'sticky_read.gif';
                     $hover = 'Sticky';
                     break;
                 case 2 :
-                    $src = Theme :: get_image_path() . 'forum/important_read.gif';
+                    $src = Theme :: get_image_path() . 'important_read.gif';
                     $hover = 'Important';
                     break;
             }
@@ -262,7 +262,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             if ($last_post)
             {
                 $link = $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_TOPIC, 'pid' => $this->pid, 'cid' => $topic->get_id())) . '#post_' . $last_post->get_id();
-                $table->setCellContents($row, 5, DatetimeUtilities :: format_locale_date(null, $last_post->get_add_date()) . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() . ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') . '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
+                $table->setCellContents($row, 5, DatetimeUtilities :: format_locale_date(null, $last_post->get_add_date()) . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() . ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') . '" src="' . Theme :: get_image_path() . 'icon_topic_latest.gif" /></a>');
             }
             else
             {
@@ -434,7 +434,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             $udm = UserDataManager :: get_instance();
             $title = '<a href="' . $this->get_url(array(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $forum->get_id())) . '">' . $forum->get_ref()->get_title() . '</a><br />' . strip_tags($forum->get_ref()->get_description());
 
-            $src = Theme :: get_image_path() . 'forum/forum_read.png';
+            $src = Theme :: get_image_path() . 'forum_read.png';
             if($this->is_locked || $forum->get_ref()->get_locked())
             {
             	$src = Theme :: get_common_image_path() . 'action_lock.png';

@@ -10,7 +10,10 @@ use admin\Registration;
 
 abstract class WebApplication extends BasicApplication
 {
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
+
+    static $application_path_cache = array();
+    
     /**
      * Determines whether the given learning object has been published in this
      * application.
@@ -251,16 +254,11 @@ abstract class WebApplication extends BasicApplication
 
     static function exists($application)
     {
-    	$application_path = self :: get_application_path($application);
-
-        if (file_exists($application_path) && is_dir($application_path) )
-        {
-            return true;
+        if (!isset(self :: $application_path_cache[$application])) {
+            $application_path = self :: get_application_path($application);
+            self :: $application_path_cache[$application] = is_dir($application_path);
         }
-        else
-        {
-            return false;
-        }
+        return self :: $application_path_cache[$application];
     }
 }
 ?>
