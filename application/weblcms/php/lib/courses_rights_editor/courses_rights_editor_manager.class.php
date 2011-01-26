@@ -7,7 +7,7 @@ use common\libraries\AndCondition;
 
 class CoursesRightsEditorManager extends RightsEditorManager
 {
-    const PARAM_COURSE_GROUP = 'course_group_id';
+    const PARAM_COURSE_GROUP = 'course_group';
     const ACTION_SET_COURSE_GROUP_RIGHTS = 'set_course_group_rights';
 
     function __construct($parent, $locations)

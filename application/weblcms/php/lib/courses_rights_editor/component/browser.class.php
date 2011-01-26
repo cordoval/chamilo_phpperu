@@ -105,7 +105,7 @@ class CoursesRightsEditorManagerBrowserComponent extends RightsEditorManagerBrow
         return implode("\n", $html);
     }
 
-    function get_course_group_conditions($get_children = true)
+    function get_course_group_conditions()
     {
         $conditions = array();
 
@@ -116,17 +116,16 @@ class CoursesRightsEditorManagerBrowserComponent extends RightsEditorManagerBrow
         }
 
         $course_group = Request :: get(CoursesRightsEditorManager :: PARAM_COURSE_GROUP) ? Request :: get(CoursesRightsEditorManager :: PARAM_COURSE_GROUP) : 0;
-        if ($get_children)
-        {
-            $conditions[] = new InequalityCondition(CourseGroup :: PROPERTY_PARENT_ID, InequalityCondition::GREATER_THAN, $course_group);
-            $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, request :: get(WeblcmsManager :: PARAM_COURSE));
-        }
-        else
+        if($course_group == 0)//request the parent
         {
             $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_PARENT_ID, $course_group);
             $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, request :: get(WeblcmsManager :: PARAM_COURSE));
         }
-
+        else
+        {
+            $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_ID, $course_group);
+            $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, request :: get(WeblcmsManager :: PARAM_COURSE));
+        }
         return new AndCondition($conditions);
     }
 
