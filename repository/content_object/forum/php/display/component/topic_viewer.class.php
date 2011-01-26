@@ -185,7 +185,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
                 {
                     $url = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=attachment_viewer&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $attachment->get_id();
                 	$url = 'javascript:openPopup(\'' . $url . '\'); return false;';
-                	$message .= '<li><a href="#" onClick="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
+                	$message .= '<li><a href="#" onClick="' . $url . '"><img src="' . Theme :: get_content_object_image($attachment->get_type()) . '" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
                 }
 
                 $message .= '</ul></div>';
