@@ -59,7 +59,7 @@ class SystemAnnouncerMultipublisher
 
             while ($content_object = $content_objects->next_result())
             {
-                $html[] = '<li><img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($content_object->get_type())) . 'logo/' . $content_object->get_icon_name(Theme :: ICON_MINI) . '.png" alt="' . htmlentities(Translation :: get('TypeName', array(), ContentObject :: get_content_object_namespace($content_object->get_type()))) . '"/> ' . $content_object->get_title() . '</li>';
+                $html[] = '<li><img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($content_object->get_type())) . 'logo/' . $content_object->get_icon_name(Theme :: ICON_MINI) . '.png" alt="' . htmlentities(Translation :: get('TypeName', array(), ContentObject :: get_content_object_type_namespace($content_object->get_type()))) . '"/> ' . $content_object->get_title() . '</li>';
             }
 
             $html[] = '</ul>';

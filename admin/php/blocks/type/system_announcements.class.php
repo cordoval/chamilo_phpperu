@@ -7,6 +7,7 @@ use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\CoreApplication;
+use common\libraries\Redirect;
 /**
  * @package admin.block
  * $Id: system_announcements.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
@@ -59,9 +60,10 @@ class AdminSystemAnnouncements extends AdminBlock
             if ($announcement->is_visible_for_target_users())
             {
                 $object = $announcement->get_publication_object();
-                $html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($object->get_type())) . 'logo/' . $object->get_icon_name(Theme :: ICON_MINI) . '.png" />&nbsp;&nbsp;<a href="' . $this->get_parent()->get_link(array(
+                $html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($object->get_type())) . 'logo/' . $object->get_icon_name(Theme :: ICON_MINI) . '.png" />&nbsp;&nbsp;<a href="' . 
+                        Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(
                         Application :: PARAM_ACTION => AdminManager :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT,
-                        AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $announcement->get_id())) . '">' . $object->get_title() . '</a></li>';
+                        AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $announcement->get_id()), null, null, Redirect :: TYPE_CORE) . '">' . $object->get_title() . '</a></li>';
             }
         }
 

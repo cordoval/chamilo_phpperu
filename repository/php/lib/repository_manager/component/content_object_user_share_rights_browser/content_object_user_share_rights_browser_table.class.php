@@ -24,7 +24,7 @@ class ContentObjectUserShareRightsBrowserTable extends ObjectTable
         $model = new ContentObjectUserShareRightsBrowserTableColumnModel();
         $renderer = new ContentObjectUserShareRightsBrowserTableCellRenderer($browser);
         $data_provider = new ContentObjectUserShareRightsBrowserTableDataProvider($browser, $condition);
-        ObjectTable :: __construct($data_provider, Utilities :: get_classname_from_namespace(_CLASS__, true), $model, $renderer);
+        ObjectTable :: __construct($data_provider, Utilities :: get_classname_from_namespace(__CLASS__, true), $model, $renderer);
 
         $table_form_actions = new ObjectTableFormActions(__NAMESPACE__);
         $table_form_actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_CONTENT_OBJECT_SHARE_DELETER, Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), true));

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application name="phrases">
-	<event name="attempt_assessment">
-		<tracker name="phrases_assessment_attempts" />
+	<event name="attempt_adaptive_assessment">
+		<tracker name="phrases_adaptive_assessment_attempt" />
 	</event>
+	<event name="attempt_adaptive_assessment_item">
+		<tracker name="phrases_adaptive_assessment_item_attempt" />
+	</event>	
 	<event name="attempt_question">
-		<tracker name="phrases_question_attempts" />
-	</event>
-	<event name="phrases_participation">
-		<tracker name="phrases_participant" />
+		<tracker name="phrases_adaptive_assessment_question_attempts" />
 	</event>
 </application>

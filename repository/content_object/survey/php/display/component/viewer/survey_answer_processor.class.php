@@ -34,22 +34,12 @@ class SurveyAnswerProcessor
 
     function save_answers()
     {
-       
-//    	$this->survey_viewer->save_answer($question_id, $answer, $context_path);
-
-      
-
-//        $questions_cloi = $this->survey_viewer->get_questions($results_page_number);
-       
-        
+         
         $post_values = $_POST;
-		$context_path = $post_values['context_path'];
-        
-		dump($context_path);
 		$values = array();
-        
-        dump($post_values);
-//        exit;
+ 	
+		
+		
         foreach ($post_values as $key => $value)
         {
             
@@ -84,13 +74,10 @@ class SurveyAnswerProcessor
                 }
             }
         }
-        
-//            dump($values);
-           
+        $context_path = $this->survey_viewer->get_previous_context_path($next_context_path);
+          
         $complex_question_ids = array_keys($values);
         
-//        dump($complex_question_ids);
-      
         if (count($complex_question_ids) > 0)
         {
             foreach ($complex_question_ids as $complex_question_id)
@@ -99,13 +86,11 @@ class SurveyAnswerProcessor
                 
                 if (count($answers) > 0)
                 {
-//                    dump($answers);
                 	$this->survey_viewer->save_answer($complex_question_id, $answers, $context_path . '_' . $complex_question_id);
                 }
             }
         }
-
-           exit;
+        unset($_POST);
         return $next_context_path;
     }
 
