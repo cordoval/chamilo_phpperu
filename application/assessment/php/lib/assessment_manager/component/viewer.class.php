@@ -192,11 +192,26 @@ class AssessmentManagerViewerComponent extends AssessmentManager implements Asse
         return $answers[$complex_question_id];
     }
 
-    function get_assessment_go_back_url()
+    /**
+     * TODO: Get a valid go back url
+     *
+     * @return string
+     */
+    function get_assessment_back_url()
     {
         return $this->get_url(array(
                 AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS,
                 AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => null));
+    }
+
+    /**
+     * TODO: Get a valid go back url
+     *
+     * @return string
+     */
+    function get_assessment_continue_url()
+    {
+        return null;
     }
 
     function get_assessment_feedback_configuration()
