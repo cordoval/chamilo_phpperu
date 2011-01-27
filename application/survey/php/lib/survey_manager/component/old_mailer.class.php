@@ -29,7 +29,7 @@ class SurveyManagerMailerComponent extends SurveyManager
     {
         $this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         
-        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION, $user_id))
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION, $this->get_user_id()))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
