@@ -2,7 +2,6 @@
 namespace repository\content_object\assessment_multiple_choice_question;
 
 use common\libraries\StringUtilities;
-
 use common\libraries\Path;
 
 /**

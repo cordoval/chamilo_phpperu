@@ -108,7 +108,7 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
 
             $html[] = '<td>' . $option->get_value() . '</td>';
 
-            if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback() && $option->has_feedback())
+            if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback() && ($option->has_feedback() || $question->has_feedback()))
             {
                 $html[] = '<td>' . $option->get_feedback() . '</td>';
             }
