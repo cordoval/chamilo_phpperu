@@ -23,12 +23,12 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
         $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
         $html[] = '<tr>';
-        $html[] = '<th class="list"></th>';
-        $html[] = '<th class="list">' . Translation :: get('Answer') . '</th>';
+        $html[] = '<th class="checkbox_answer"></th>';
+        $html[] = '<th>' . Translation :: get('Answer') . '</th>';
 
         if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback() && $question->has_feedback())
         {
-            $html[] = '<th class="list">' . Translation :: get('Feedback') . '</th>';
+            $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
         }
 
         $html[] = '</tr>';

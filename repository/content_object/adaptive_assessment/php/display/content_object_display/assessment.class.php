@@ -18,6 +18,9 @@ class AdaptiveAssessmentAssessmentContentObjectDisplay extends AdaptiveAssessmen
         $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = null;
         $parameters[self :: PARAM_EMBEDDED_CONTENT_OBJECT_ID] = $content_object->get_id();
 
+        $step = Request :: get(AdaptiveAssessmentDisplay :: PARAM_STEP) ? Request :: get(AdaptiveAssessmentDisplay :: PARAM_STEP) : 1;
+        $parameters[AdaptiveAssessmentDisplay :: PARAM_STEP] = $step;
+
         $html[] = $this->display_link($this->get_parent()->get_url($parameters));
 
         return implode("\n", $html);

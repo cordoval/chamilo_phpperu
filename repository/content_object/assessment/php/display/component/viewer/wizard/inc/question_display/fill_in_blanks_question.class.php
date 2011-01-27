@@ -47,38 +47,54 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
             $name = $clo_question->get_id() . "[$index]";
 
             $formvalidator = $this->get_formvalidator();
-            $this->add_html('<span class="fill_in_the_blanks_gap">' . Translation :: get('GapNumber', array(
-                    'NUMBER' => ($index + 1)), ContentObject :: get_content_object_type_namespace($question->get_type_name())) . '</span>');
+            if (count($parts) > 1)
+            {
+                $this->add_html('<span class="fill_in_the_blanks_gap">' . Translation :: get('GapNumber', array(
+                        'NUMBER' => ($index + 1)), ContentObject :: get_content_object_type_namespace($question->get_type_name())) . '</span>');
+            }
+            else
+            {
+                $this->add_html('<span class="fill_in_the_blanks_gap">' . Translation :: get('Answer') . '</span>');
+            }
 
             //            $this->add_question($name, $index, $question_type, $answers);
             $this->add_html($part);
             $index ++;
 
-        //$renderer->setElementTemplate($element_template, $name);
+     //$renderer->setElementTemplate($element_template, $name);
         }
         $this->add_html('</div>');
         $this->add_html('<div class="clear"></div>');
         $this->add_html('</div>');
 
+        $parts = preg_split(FillInBlanksQuestionAnswer :: QUESTIONS_REGEX, $answer_text);
+        array_shift($parts);
+
         $table_header = array();
         $table_header[] = '<table class="data_table take_assessment">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
-        $table_header[] = '<th class="checkbox"></th>';
-        $table_header[] = '<th>' . Translation :: get('Answers', null, ContentObject :: get_content_object_type_namespace($question->get_type_name())) . '</th>';
+
+        if (count($parts) > 1)
+        {
+            $table_header[] = '<th class="checkbox"></th>';
+            $table_header[] = '<th>' . Translation :: get('Answers', null, ContentObject :: get_content_object_type_namespace($question->get_type_name())) . '</th>';
+        }
+        else
+        {
+            $table_header[] = '<th>' . Translation :: get('Answer', null, ContentObject :: get_content_object_type_namespace($question->get_type_name())) . '</th>';
+        }
         $table_header[] = '<th>' . Translation :: get('Hint') . '</th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $this->add_html($table_header);
 
-        $parts = preg_split(FillInBlanksQuestionAnswer :: QUESTIONS_REGEX, $answer_text);
-        array_shift($parts);
         $index = 0;
         foreach ($parts as $part)
         {
             $name = $clo_question->get_id() . "[$index]";
-            $this->add_question($name, $index, $question_type, $answers);
+            $this->add_question($name, $index, $question_type, $answers, count($parts) > 1);
             $index ++;
         }
 
@@ -110,12 +126,15 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
         return $formvalidator->createElement('text', $name, null, array('size' => $size));
     }
 
-    function add_question($name, $index, $question_type, $answers)
+    function add_question($name, $index, $question_type, $answers, $multiple_answers)
     {
         $formvalidator = $this->get_formvalidator();
 
         $group = array();
-        $group[] = $formvalidator->createElement('static', null, null, ($index + 1));
+        if ($multiple_answers)
+        {
+            $group[] = $formvalidator->createElement('static', null, null, ($index + 1));
+        }
 
         $options = $this->get_question_options($index, $answers);
         if ($question_type == FillInBlanksQuestion :: TYPE_SELECT)
@@ -136,7 +155,7 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
         if ($this->get_question()->get_best_answer_for_question($index)->has_hint() || $question_type == FillInBlanksQuestion :: TYPE_TEXT)
         {
             $hint_name = 'hint_' . $this->get_complex_content_object_question()->get_id() . '_' . $index;
-            $group[] = $formvalidator->createElement('static', null, null, '<a id="' . $hint_name . '" class="button hint_button">' . Translation :: get('GetAHint') . '</a>');
+            $group[] = $formvalidator->createElement('static', null, null, '<a id="' . $hint_name . '" class="button hint_button">' . Translation :: get('GetFirstLetter') . '</a>');
         }
         else
         {
