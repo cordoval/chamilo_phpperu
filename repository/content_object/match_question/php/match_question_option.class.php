@@ -7,6 +7,8 @@ namespace repository\content_object\match_question;
 /**
  * This class represents an option in a match question.
  */
+use common\libraries\StringUtilities;
+
 class MatchQuestionOption
 {
     /**
