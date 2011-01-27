@@ -7,6 +7,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\DynamicTabsRenderer;
+use common\libraries\Utilities;
 
 require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/forms/context_subscribe_user_form.class.php';
 require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/component/context_viewer.class.php';

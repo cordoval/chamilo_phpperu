@@ -9,6 +9,7 @@ use common\libraries\Utilities;
 use application\weblcms\WeblcmsDataManager;
 use common\libraries\EqualityCondition;
 use application\weblcms\CourseModule;
+use application\weblcms\CourseLayout;
 /**
  * $Id: dokeos185_course.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
@@ -331,7 +332,7 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
 
             //departement_name & url
             $chamilo_course->set_external_name($this->get_department_name());
-            $chamilo_course->set_external_url($this->get_department_url());
+//            $chamilo_course->set_external_url($this->get_department_url());
             
             //Course - Settings
             if (AdminDataManager :: is_language_active($this->get_course_language()))
@@ -359,7 +360,7 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
             $chamilo_course->set_max_number_of_members(0);
 
             //Course - Lay-out
-
+            $chamilo_course->set_menu(CourseLayout :: MENU_RIGHT_TEXT);
 
             //Course - Tools
 

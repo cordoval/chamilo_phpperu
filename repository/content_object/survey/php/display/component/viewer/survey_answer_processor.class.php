@@ -37,7 +37,8 @@ class SurveyAnswerProcessor
          
         $post_values = $_POST;
 		$values = array();
- 	
+ 		
+//		dump($post_values);
 		
 		
         foreach ($post_values as $key => $value)
@@ -86,6 +87,7 @@ class SurveyAnswerProcessor
                 
                 if (count($answers) > 0)
                 {
+//                	dump($context_path);
                 	$this->survey_viewer->save_answer($complex_question_id, $answers, $context_path . '_' . $complex_question_id);
                 }
             }
@@ -93,7 +95,12 @@ class SurveyAnswerProcessor
         unset($_POST);
         return $next_context_path;
     }
-
+	
+    function get_previous_context_path(){
+    	$post_values = $_POST;
+    	return $post_values[SurveyViewerForm :: BACK_BUTTON];
+   	}
+    
     function finish_survey()
     {
        $this->get_survey_viewer()->finished();

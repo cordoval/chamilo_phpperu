@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\DynamicTabsRenderer;
 use common\libraries\Path;
 use common\libraries\Request;
+use common\libraries\Utilities;
 
 
 require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/component/context_template_viewer.class.php';

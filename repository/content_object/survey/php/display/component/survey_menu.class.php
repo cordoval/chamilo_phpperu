@@ -9,6 +9,7 @@ use common\libraries\OptionsMenuRenderer;
 use common\libraries\TreeMenuRenderer;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use repository\content_object\survey_page\SurveyPage;
 
 use repository\RepositoryDataManager;
 
@@ -56,6 +57,8 @@ class SurveyMenu extends HTML_Menu
     
     private $question_count;
     
+    private $visible_question_count;
+    
     private $parent;
 
     function __construct($parent, $current_context_path, $url_format, $survey)
@@ -77,6 +80,7 @@ class SurveyMenu extends HTML_Menu
     function get_menu()
     {
         $this->create_context_path_relations();
+        $this->visible_question_count =0;
         return $this->get_menu_items();
     }
 
@@ -87,7 +91,7 @@ class SurveyMenu extends HTML_Menu
         //        $context_paths = array_reverse($context_paths);
         
 
-        //        dump($context_paths);
+//               dump($context_paths);
         
 
         $this->context_path_relations = array();
@@ -276,11 +280,12 @@ class SurveyMenu extends HTML_Menu
      * is the structure needed by PEAR::HTML_Menu, on which this
      * class is based.
      */
-    private function get_menu_items($parent_id = 0, $path = null, $current_url = null)
+    private function get_menu_items($parent_id = 0, $path = null, $current_url = null, $page_id)
     {
         
         $menu = array();
-        
+        $page_answers = array();
+                
         $level_count = $this->survey->count_levels();
         if (! $current_url)
         {
@@ -297,32 +302,36 @@ class SurveyMenu extends HTML_Menu
             {
                 $path_ids = explode('_', $context_path);
                 $id_count = count($path_ids);
-                
+                             
                 $type = $context_path_relation[self :: MENU_ITEM_TYPE];
-                
+                if ($type == self :: TYPE_PAGE)
+                {
+                    $page_id = $context_path_relation[self :: PAGE_ID]; 
+                	unset($page_answers);
+                }
+                                
                 $menu_item = array();
                 $visible = true;
                 switch ($type)
                 {
                     case self :: TYPE_SURVYEY :
                         $title = $this->survey->get_title();
-                        $title = $this->get_survey()->parse($context_path, $title);
+                        $title = Survey :: parse($this->get_survey()->get_invitee_id(), $context_path, $title);
                         $menu_item['class'] = self :: TYPE_SURVYEY;
                         $menu_item['url'] = $current_url;
                         break;
                     case self :: TYPE_CONTEXT :
                         $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_path_relation[self :: CONTEXT_ID]);
                         $title = $context->get_name();
-                        $title = $this->get_survey()->parse($context_path, $title);
                         $menu_item['class'] = self :: TYPE_CONTEXT;
                         //                        $menu_item['url'] = $current_url;
                         break;
                     case self :: TYPE_PAGE :
                         $survey_page = $this->survey->get_page_by_id($context_path_relation[self :: PAGE_ID]);
                         $title = $survey_page->get_title();
-                        $title = $this->get_survey()->parse($context_path, $title);
-                        $title = 'page ' . $this->page_contexts[$context_path] . ' title: ' . $title;
-                        $menu_item['class'] = self :: TYPE_PAGE;
+//                       	$title = Survey :: parse($this->get_survey()->get_invitee_id(), $context_path, $title);
+//                        $title = 'page ' . $this->page_contexts[$context_path] . ' title: ' . $title;
+                        $menu_item['class'] = self :: TYPE_PAGE . '_tree';
                         $current_url = $this->get_url($context_path);
                         $menu_item['url'] = $current_url;
                         break;
@@ -337,27 +346,41 @@ class SurveyMenu extends HTML_Menu
                             if (! $answer)
                             {
                                 //                                dump('invisible');
-                                $visible = false;
+                                if(!$this->is_question_visible($complex_question_id, $page_id, $page_answers)){
+                                	$visible = false;
+                                }
                             }
                         }
-//                        if ($visible)
-//                        {
-                            //                            dump('visible');
-                            //                            dump($complex_question_id);
-                            $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_question->get_ref());
-                            $title = $question->get_title();
-                            $title = $this->get_survey()->parse($context_path, $title);
-                            //                        $answer = $this->parent->get_answer($complex_question_id, $context_path);
-                            if ($answer)
-                            {
-                                $title = Theme :: get_common_image('status_ok_mini') . ' ' . $title;
-                                $this->finished_questions[] = $context_path;
-                            }
-                            $menu_item['class'] = self :: TYPE_QUESTION;
-                            $menu_item['url'] = $current_url . '#' . $complex_question_id;
-                            
-//                        }
                         
+                        if ($answer)
+                        {
+                            $page_answers[$complex_question_id] = $answer;
+                        }
+                        
+                        //                        if ($visible)
+                        //                        {
+                        //                            dump('visible');
+                        //                            dump($complex_question_id);
+                        $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_question->get_ref());
+                        $title = $question->get_title();
+                        $title = Survey :: parse($this->get_survey()->get_invitee_id(), $context_path, $title);
+                        //                        $answer = $this->parent->get_answer($complex_question_id, $context_path);
+                        if ($answer)
+                        {
+                            $menu_item['class'] = $question->get_type_name() . '_checked';
+                            //                            $title = Theme :: get_common_image('status_ok_mini') . ' ' . $title;
+                            $this->finished_questions[] = $context_path;
+                        }
+                        else
+                        {
+                            $menu_item['class'] = $question->get_type_name();
+                        
+                        }
+                        $menu_item['url'] = $current_url . '#' . $complex_question_id;
+                        
+                        //                        }
+                        
+
                         break;
                     default :
                         ;
@@ -366,9 +389,14 @@ class SurveyMenu extends HTML_Menu
                 
                 if ($visible)
                 {
-//                    $menu_item['title'] = $title;
-                     $menu_item['title'] = $complex_question_id ." ".$title;
-                    $sub_menu_items = $this->get_menu_items($context_path_relation[self :: ID], $context_path, $current_url);
+                    if($type == self :: TYPE_QUESTION){
+                    	$this->visible_question_count++;
+                    }
+                	
+                	$title = Utilities :: truncate_string($title, 50);
+                	$menu_item['title'] = $title;
+//                    $menu_item['title'] = $complex_question_id . " " . $title;
+                    $sub_menu_items = $this->get_menu_items($context_path_relation[self :: ID], $context_path, $current_url, $page_id);
                     
                     if (count($sub_menu_items))
                     {
@@ -404,7 +432,56 @@ class SurveyMenu extends HTML_Menu
 
     function get_progress()
     {
-        return (count($this->finished_questions) / ($this->question_count)) * 100;
+//        dump(count($this->finished_questions));
+//        dump($this->question_count);
+//        dump($this->visible_question_count);
+    	return (count($this->finished_questions) / ($this->visible_question_count)) * 100;
+    }
+
+    function is_question_visible($guestion_id_tocheck, $page_id, $page_answers)
+    {
+        $survey_page = RepositoryDataManager :: get_instance()->retrieve_content_object($page_id);
+        $configs = $survey_page->get_config();
+               
+        foreach ($configs as $config)
+        {
+            
+            foreach ($page_answers as $question_id => $answer_to_match)
+            {
+                
+                $from_question_id = $config[SurveyPage :: FROM_VISIBLE_QUESTION_ID];
+                if ($question_id == $from_question_id)
+                {
+                    
+                    $answer = $config[SurveyPage :: ANSWERMATCHES];
+                    $answers_to_match = array();
+                    foreach ($answer as $key => $value)
+                    {
+                        $oids = explode('_', $key);
+                        if (count($oids) == 2)
+                        {
+                            $answers_to_match[] = $oids[1];
+                        }
+                        elseif (count($oids) == 3)
+                        {
+                            $option = $oids[1];
+                            $answers_to_match[$option] = $value;
+                        
+                        }
+                    }
+                    
+                    $diff = array_diff($answers_to_match, $answer_to_match);
+                    if (count($diff) == 0)
+                    {
+                        if (in_array($guestion_id_tocheck, $config[SurveyPage :: TO_VISIBLE_QUESTIONS_IDS]))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
