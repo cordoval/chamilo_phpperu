@@ -4,6 +4,7 @@ namespace repository\content_object\survey;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 class SurveyContextManagerTemplateUserDeleterComponent extends SurveyContextManager
 {

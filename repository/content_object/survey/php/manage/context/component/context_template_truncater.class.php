@@ -4,6 +4,7 @@ namespace repository\content_object\survey;
 use common\libraries\Translation;
 
 use common\libraries\Request;
+use common\libraries\Utilities;
 
 class SurveyContextManagerContextTemplateTruncaterComponent extends SurveyContextManager
 {

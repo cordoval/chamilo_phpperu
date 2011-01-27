@@ -6,6 +6,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\DynamicTabsRenderer;
+use common\libraries\Utilities;
 
 class SurveyContextManagerTemplateCreatorComponent extends SurveyContextManager
 {
