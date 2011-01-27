@@ -54,12 +54,28 @@ interface AssessmentComplexDisplaySupport extends ComplexDisplaySupport
      *
      * @return string
      */
-    function get_assessment_go_back_url();
+    function get_assessment_back_url();
+
+    /**
+     * Get the url to continue to after finishing this assessment
+     * (Particularly useful in complex structures)
+     *
+     * @return string
+     */
+    function get_assessment_continue_url();
 
     /**
      * Get the configuration parameters for the display of the assessment
      * @return FeedbackDisplayConfiguration
      */
     function get_assessment_feedback_configuration();
+
+    /**
+     * Get the names of the additional parameters that need to be
+     * maintained by the assessment
+     *
+     * @return array
+     */
+    function get_assessment_parameters();
 }
 ?>

@@ -77,22 +77,22 @@ class SurveyContextManagerSubscribePageComponent extends SurveyContextManager
             {
                 if (count($pages) == 1)
                 {
-                    $message = 'SelectedPageNotAddedToSurveyContextTemlplate' . ($contains_dupes ? 'Dupes' : '');
+                    $message = 'SelectedPageNotAddedToSurveyContextTemplate' . ($contains_dupes ? 'Dupes' : '');
                 }
                 else
                 {
-                    $message = 'SelectedPagesNotAddedToSurveyContextTemlplate' . ($contains_dupes ? 'Dupes' : '');
+                    $message = 'SelectedPagesNotAddedToSurveyContextTemplate' . ($contains_dupes ? 'Dupes' : '');
                 }
             }
             else
             {
                 if (count($pages) == 1)
                 {
-                    $message = 'SelectedPageAddedToSurveyContextTemlplate' . ($contains_dupes ? 'Dupes' : '');
+                    $message = 'SelectedPageAddedToSurveyContextTemplate' . ($contains_dupes ? 'Dupes' : '');
                 }
                 else
                 {
-                    $message = 'SelectedPagesAddedToSurveyContextTemlplate' . ($contains_dupes ? 'Dupes' : '');
+                    $message = 'SelectedPagesAddedToSurveyContextTemplate' . ($contains_dupes ? 'Dupes' : '');
                 }
             }
             

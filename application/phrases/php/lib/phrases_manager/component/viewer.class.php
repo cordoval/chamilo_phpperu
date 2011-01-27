@@ -30,7 +30,8 @@ use repository\content_object\adaptive_assessment\AdaptiveAssessmentDisplay;
  * @package application.phrases
  */
 
-class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAssessmentComplexDisplaySupport, AssessmentComplexDisplaySupport
+class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAssessmentComplexDisplaySupport,
+        AssessmentComplexDisplaySupport
 {
     private $publication;
 
@@ -69,7 +70,6 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
     {
         return array(self :: PARAM_PHRASES_PUBLICATION);
     }
-
 
     function get_root_content_object()
     {
@@ -141,6 +141,17 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
      */
     function save_assessment_answer($complex_question_id, $answer, $score)
     {
+//        $tracker = $this->retrieve_learning_path_tracker();
+//        $items = $this->retrieve_learning_path_tracker_items($tracker);
+
+        $parameters = array();
+        $parameters[PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID] = $this->get_parameter(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID);
+        $parameters[PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_COMPLEX_QUESTION_ID] = $complex_question_id;
+        $parameters[PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_ANSWER] = $answer;
+        $parameters[PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_SCORE] = $score;
+        $parameters[PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_FEEDBACK] = '';
+
+        Event :: trigger('attempt_question', PhrasesManager :: APPLICATION_NAME, $parameters);
     }
 
     /**
@@ -150,6 +161,35 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
      */
     function save_assessment_result($total_score)
     {
+        $condition = new EqualityCondition(PhrasesAdaptiveAssessmentItemAttemptTracker :: PROPERTY_ID, $this->get_parameter(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID));
+
+        $dummy = new PhrasesAdaptiveAssessmentItemAttemptTracker();
+        $trackers = $dummy->retrieve_tracker_items($condition);
+        $lpi_tracker = $trackers[0];
+
+        if (! $lpi_tracker)
+        {
+            return;
+        }
+
+        $lpi_tracker->set_score($total_score);
+        $lpi_tracker->set_total_time($lpi_tracker->get_total_time() + (time() - $lpi_tracker->get_start_time()));
+
+        $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item(Request :: get(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID));
+        $lp_item = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_ref());
+        $mastery_score = $lp_item->get_mastery_score();
+
+        if ($mastery_score)
+        {
+            $status = ($total_score >= $mastery_score) ? 'passed' : 'failed';
+        }
+        else
+        {
+            $status = 'completed';
+        }
+
+        $lpi_tracker->set_status($status);
+        $lpi_tracker->update();
     }
 
     /**
@@ -157,6 +197,30 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
      */
     function get_assessment_current_attempt_id()
     {
+        return $this->get_parameter(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID);
+    }
+
+    function get_assessment_question_attempts()
+    {
+        $assessment_question_attempt_data = array();
+
+        $condition = new EqualityCondition(PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID, $this->get_parameter(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID));
+
+        $dummy = new PhrasesAdaptiveAssessmentQuestionAttemptsTracker();
+        $trackers = $dummy->retrieve_tracker_items($condition);
+
+        foreach ($trackers as $tracker)
+        {
+            $assessment_question_attempt_data[$tracker->get_complex_question_id()] = $tracker;
+        }
+
+        return $assessment_question_attempt_data;
+    }
+
+    function get_assessment_question_attempt($complex_question_id)
+    {
+        $answers = $this->get_assessment_question_attempts($complex_question_id);
+        return $answers[$complex_question_id];
     }
 
     /**
@@ -164,13 +228,33 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
      *
      * @return string
      */
-    function get_assessment_go_back_url()
+    function get_assessment_back_url()
     {
+        return null;
+    }
+
+    /**
+     * TODO: Get a valid go back url
+     *
+     * @return string
+     */
+    function get_assessment_continue_url()
+    {
+        return null;
     }
 
     function get_assessment_feedback_configuration()
     {
-        return new FeedbackDisplayConfiguration();
+        $configuration = new FeedbackDisplayConfiguration();
+        $configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_TEXT);
+        $configuration->enable_feedback_per_page();
+        $configuration->enable_feedback_summary();
+        return $configuration;
+    }
+
+    function get_assessment_parameters()
+    {
+        return array(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID, ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
     }
 
     /**
@@ -180,7 +264,26 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
      */
     function retrieve_adaptive_assessment_tracker()
     {
-        return new PhrasesAdaptiveAssessmentAttemptTracker();
+        $conditions[] = new EqualityCondition(PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ID, $this->get_publication()->get_id());
+        $conditions[] = new EqualityCondition(PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_USER_ID, $this->get_user_id());
+        $condition = new AndCondition($conditions);
+
+        $dummy = new PhrasesAdaptiveAssessmentAttemptTracker();
+        $trackers = $dummy->retrieve_tracker_items($condition);
+        $adaptive_assessment_tracker = $trackers[0];
+
+        if (! $adaptive_assessment_tracker)
+        {
+            $parameters = array();
+            $parameters[PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_USER_ID] = $this->get_user_id();
+            $parameters[PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ID] = $this->get_publication()->get_id();
+            $parameters[PhrasesAdaptiveAssessmentAttemptTracker :: PROPERTY_PROGRESS] = 0;
+
+            $return = Event :: trigger('attempt_adaptive_assessment', PhrasesManager :: APPLICATION_NAME, $parameters);
+            $adaptive_assessment_tracker = $return[0];
+        }
+
+        return $adaptive_assessment_tracker;
     }
 
     /**
@@ -190,6 +293,43 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
      */
     function retrieve_adaptive_assessment_tracker_items($adaptive_assessment_tracker)
     {
+        $adaptive_assessment_item_attempt_data = array();
+
+        $condition = new EqualityCondition(PhrasesAdaptiveAssessmentItemAttemptTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_VIEW_ID, $adaptive_assessment_tracker->get_id());
+
+        $dummy = new PhrasesAdaptiveAssessmentItemAttemptTracker();
+        $trackers = $dummy->retrieve_tracker_items($condition);
+
+        foreach ($trackers as $tracker)
+        {
+            $item_id = $tracker->get_adaptive_assessment_item_id();
+
+            if (! $adaptive_assessment_item_attempt_data[$item_id])
+            {
+                $adaptive_assessment_item_attempt_data[$item_id]['score'] = 0;
+                $adaptive_assessment_item_attempt_data[$item_id]['time'] = 0;
+            }
+
+            $adaptive_assessment_item_attempt_data[$item_id]['trackers'][] = $tracker;
+            $adaptive_assessment_item_attempt_data[$item_id]['size'] ++;
+            $adaptive_assessment_item_attempt_data[$item_id]['score'] += $tracker->get_score();
+
+            if ($tracker->get_total_time())
+            {
+                $adaptive_assessment_item_attempt_data[$item_id]['time'] += $tracker->get_total_time();
+            }
+
+            if ($tracker->get_status() == 'completed' || $tracker->get_status() == 'passed')
+            {
+                $adaptive_assessment_item_attempt_data[$item_id]['completed'] = 1;
+            }
+            else
+            {
+                $adaptive_assessment_item_attempt_data[$item_id]['active_tracker'] = $tracker;
+            }
+        }
+
+        return $adaptive_assessment_item_attempt_data;
     }
 
     /**
@@ -199,7 +339,7 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
      */
     function get_adaptive_assessment_tree_menu_url()
     {
-        return '%s';
+        return Path :: get(WEB_PATH) . 'run.php?application=phrases&go=viewer&phrases_publication=' . $this->publication->get_id() . '&' . AdaptiveAssessmentDisplay :: PARAM_STEP . '=%s';
     }
 
     /**
@@ -220,9 +360,18 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
      */
     function create_adaptive_assessment_item_tracker($adaptive_assessment_tracker, $current_complex_content_object_item)
     {
-        $item_tracker = new PhrasesAdaptiveAssessmentItemAttemptTracker();
-        $item_tracker->set_adaptive_assessment_item_id($adaptive_assessment_tracker->get_id());
-        return $item_tracker;
+        $parameters = array();
+        $parameters[PhrasesAdaptiveAssessmentItemAttemptTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_VIEW_ID] = $adaptive_assessment_tracker->get_id();
+        $parameters[PhrasesAdaptiveAssessmentItemAttemptTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ID] = $current_complex_content_object_item->get_id();
+        $parameters[PhrasesAdaptiveAssessmentItemAttemptTracker :: PROPERTY_START_TIME] = time();
+        $parameters[PhrasesAdaptiveAssessmentItemAttemptTracker :: PROPERTY_TOTAL_TIME] = 0;
+        $parameters[PhrasesAdaptiveAssessmentItemAttemptTracker :: PROPERTY_SCORE] = 0;
+        $parameters[PhrasesAdaptiveAssessmentItemAttemptTracker :: PROPERTY_MIN_SCORE] = 0;
+        $parameters[PhrasesAdaptiveAssessmentItemAttemptTracker :: PROPERTY_MAX_SCORE] = 0;
+        $parameters[PhrasesAdaptiveAssessmentItemAttemptTracker :: PROPERTY_STATUS] = 'not attempted';
+
+        $result = Event :: trigger('attempt_adaptive_assessment_item', PhrasesManager :: APPLICATION_NAME, $parameters);
+        return $result[0];
     }
 
     /**

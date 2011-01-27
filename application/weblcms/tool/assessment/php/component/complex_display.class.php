@@ -198,7 +198,12 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool implements
         return $answers[$complex_question_id];
     }
 
-    function get_assessment_go_back_url()
+    function get_assessment_continue_url()
+    {
+        return null;
+    }
+
+    function get_assessment_back_url()
     {
         return $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW));
     }
@@ -210,6 +215,11 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool implements
         $default_configuration->disable_feedback_per_page();
         $default_configuration->enable_feedback_summary();
         return $default_configuration;
+    }
+
+    function get_assessment_parameters()
+    {
+        return array();
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)

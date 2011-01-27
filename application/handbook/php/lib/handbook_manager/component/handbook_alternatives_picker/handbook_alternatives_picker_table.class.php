@@ -16,8 +16,7 @@ class HandbookAlternativesPickerItemTable extends ObjectTable
 
     /**
      * Constructor
-     * @see ContentObjectTable::ContentObjectTable()
-     */
+    */
     function __construct($browser, $parameters, $condition)
     {
         $model = new HandbookAlternativesPickerItemTableColumnModel();

@@ -287,7 +287,7 @@ abstract class Tool extends SubManager
         if ($show_introduction_text)
         {
             $introduction_text = $this->get_introduction_text();
-            if (! $introduction_text)
+            if (!$introduction_text)
             {
                 if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
                 {

@@ -87,7 +87,7 @@ class LocationCourseGroupBrowserTableCellRenderer extends ObjectTableCellRendere
             $column_name = Translation :: get(Utilities :: underscores_to_camelcase(strtolower($right_name)));
             if ($column->get_name() == $column_name)
             {
-                $rights_url = $browser->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => CoursesRightsEditorManager :: ACTION_SET_COURSE_GROUP_RIGHTS, 'course_group_id' => $course_group_id, 'right_id' => $right_id));
+                $rights_url = $browser->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => CoursesRightsEditorManager :: ACTION_SET_COURSE_GROUP_RIGHTS, CoursesRightsEditorManager :: PARAM_COURSE_GROUP => $course_group_id, 'right_id' => $right_id));
                 return WeblcmsRights :: get_course_group_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $course_group, $locations[0]);
             }
         }

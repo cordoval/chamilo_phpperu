@@ -18,19 +18,15 @@ class SurveyAjaxProcesAnswer extends AjaxManager
 {
     
     const PARAM_SURVEY_PAGE_ID = 'survey_page';
-    const PARAM_SURVEY_PUBLICATION_ID = 'survey_publication';
     const PARAM_RESULTS = 'results';
     const PARAM_QUESTION_VISIBILITY = 'question_visibility';
-    
-    const PROPERTY_HINT = 'hint';
-    const PROPERTY_ELEMENT_NAME = 'element_name';
-
+  
     /* (non-PHPdoc)
      * @see common\libraries.AjaxManager::required_parameters()
      */
     function required_parameters()
     {
-        return array(self :: PARAM_SURVEY_PAGE_ID, self :: PARAM_SURVEY_PUBLICATION_ID, self :: PARAM_RESULTS);
+        return array(self :: PARAM_SURVEY_PAGE_ID, self :: PARAM_RESULTS);
     }
 
     /* (non-PHPdoc)

@@ -144,7 +144,7 @@ class AssessmentResultProcessor
             {
                 continue;
             }
-            
+
             $score = $tracker->get_score();
             $total_score += $score;
             $total_weight += $question_cloi->get_weight();

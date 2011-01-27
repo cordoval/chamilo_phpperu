@@ -37,12 +37,18 @@ class ObjectTableColumn implements TableColumn
      * object property, false
      * otherwise.
      */
-    function __construct($property, $is_sortable = true, $storage_unit_alias = null, $translate = true)
+    function __construct($property, $is_sortable = true, $storage_unit_alias = null, $translate = true, $context = null)
     {
         $this->property = $property;
         if ($translate)
         {
-            $this->title = Translation :: get(Utilities :: underscores_to_camelcase($this->property));
+            if(!$context)
+            {
+                $backtrace = debug_backtrace();
+        	$called_class = $backtrace[1]['class'];
+                $context = Utilities::get_namespace_from_classname($called_class);
+            }
+            $this->title = Translation :: get(Utilities :: underscores_to_camelcase($this->property), array(), $context);
         
         }
         else

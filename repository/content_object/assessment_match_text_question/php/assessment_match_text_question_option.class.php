@@ -5,7 +5,7 @@ namespace repository\content_object\assessment_match_text_question;
  * @package repository.lib.content_object.match_text_question
  */
 require_once dirname(__FILE__) . '/main.php';
-
+use common\libraries\StringUtilities;
 /**
  * This class represents an option in a match tex question.
  */

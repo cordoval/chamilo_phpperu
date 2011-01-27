@@ -102,7 +102,8 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         }
         
         $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
-        $this->delete_objects(SurveyContext :: get_table_name(), $condition);
+        $success = $this->delete_objects(SurveyContext :: get_table_name(), $condition);
+        return $success;
     }
 
     function update_survey_context($context)
@@ -126,8 +127,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         $props[SurveyContext :: PROPERTY_NAME] = $this->quote($context->get_default_property(SurveyContext :: PROPERTY_NAME));
         
         $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
-        $this->update_objects(Utilities :: get_classname_from_namespace(SurveyContext :: CLASS_NAME, true), $props, $condition);
-        return true;
+        return $this->update_objects(Utilities :: get_classname_from_namespace(SurveyContext :: CLASS_NAME, true), $props, $condition);
     }
 
     function create_survey_context_template($survey_context_template)
@@ -467,8 +467,8 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         }
         
         $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_ID, $template->get_id());
-        $succes = $this->delete_objects(SurveyTemplateUser :: get_table_name(), $condition);
-        return $succes;
+        $success = $this->delete_objects(SurveyTemplateUser :: get_table_name(), $condition);
+        return $success;
     }
 
     function update_survey_template_user($template_user)
@@ -484,9 +484,9 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
                 $properties[$property_name] = $this->quote($template_user->get_additional_property($property_name));
             }
             $condition = new EqualityCondition(SurveyTemplateUser :: PROPERTY_ID, $template_user->get_id());
-            $succes = $this->update_objects(Utilities :: get_classname_from_namespace(get_class($template_user), true), $properties, $condition);
+            $success = $this->update_objects(Utilities :: get_classname_from_namespace(get_class($template_user), true), $properties, $condition);
         }
-        return $succes;
+        return $success;
     }
 
     function create_survey_template_user($template_user)

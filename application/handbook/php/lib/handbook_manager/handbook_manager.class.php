@@ -38,6 +38,9 @@ use common\libraries\InCondition;
 use common\libraries\DynamicAction;
 use common\libraries\Redirect;
 use common\libraries\Application;
+use common\libraries\Session;
+use rights\RightsUtilities;
+use common\libraries\Theme;
 
 require_once dirname(__FILE__) . '/../handbook_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/handbook_publication_browser/handbook_publication_browser_table.class.php';
@@ -545,16 +548,7 @@ class HandbookManager extends WebApplication
                         }
                         else
                         {
-                            $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $selected_object->get_id());
-                            $metadata_property_values = MetadataManager :: retrieve_metadata_property_values($condition);
-
-                            $metadata_array = array();
-
-                            while ($metadata = $metadata_property_values->next_result())
-                            {
-                                $metadata_array[$metadata->get_property_type_id()] = $metadata->get_value();
-                            }
-                            $texts[] = $selected_object;
+                            $others[] = $selected_object;
                         }
                 }
                 else
@@ -797,6 +791,71 @@ class HandbookManager extends WebApplication
          return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONVERT_WIKI, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id, self::PARAM_HANDBOOK_SELECTION_ID => $selection_id));
     }
 
+    static function get_content_object_publication_locations($content_object)
+    {
+        $allowed_types = array(Handbook :: get_type_name());
+
+        $type = $content_object->get_type();
+        $user_id = Session::get_user_id();
+        $publish_right = RightsUtilities::is_allowed(HandbookRights::PUBLISH_RIGHT, 0, 0, self::APPLICATION_NAME, $user_id);
+
+        if (in_array($type, $allowed_types) && $publish_right)
+        {
+            $locations = array(__CLASS__);
+            return $locations;
+        }
+            return array();           
+    }
+
+    /**
+     * this method is used to publish a handbook with the wizard from the repository
+     * @param <type> $content_object
+     * @param <type> $location
+     * @param <type> $owner_id
+     * @return <type>
+     */
+    static function publish_content_object($content_object, $location, $owner_id = null)
+    {
+        $success = true;
+
+        //TODO: where do I check if this user is allowed to publish handbooks?
+        $publication = new HandbookPublication();
+        $publication->set_content_object_id($content_object->get_id());
+        $publication->set_publisher_id(Session :: get_user_id());
+
+        //TODO: ownr should get all the rights on handbook
+        if ($owner_id == null)
+        {
+            $owner_id = Session :: get_user_id();
+        }
+
+        $publication->set_owner_id($owner_id);
+        $publication->set_published(time());
+        $success &= $publication->create();
+        
+        if($success)
+        {
+            //implement rights
+            $user_id = $owner_id;
+            $location_id = HandbookRights::get_location_id_by_identifier_from_handbooks_subtree($publication->get_id());
+            $value = 1;
+            RightsUtilities:: set_user_right_location_value(HandbookRights::EDIT_RIGHT, $user_id, $location_id, $value);
+            RightsUtilities:: set_user_right_location_value(HandbookRights::VIEW_RIGHT, $user_id, $location_id, $value);
+            RightsUtilities:: set_user_right_location_value(HandbookRights::DELETE_PUBLICATION_RIGHT, $user_id, $location_id, $value);
+            RightsUtilities:: set_user_right_location_value(HandbookRights::CHANGE_RIGHTS_RIGHT, $user_id, $location_id, $value);
+        }
+
+        if ($success)
+        {
+            return Translation :: get('ObjectCreated', array('OBJECT' => Translation::get('HandbookPublication')), Utilities::COMMON_LIBRARIES);
+        }
+        else
+        {
+            return Translation :: get('ObjectNotCreation', array('OBJECT' => Translation::get('HandbookPublication')), Utilities::COMMON_LIBRARIES);
+        }
+    }
+
+
     /**
      * Helper function for the Application class,
      * pending access to class constants via variables in PHP 5.3
@@ -869,7 +928,7 @@ class HandbookManager extends WebApplication
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('SetHandbookPublishingRights'), Translation :: get('SetHandbookPublishingRightsDescription'), \common\libraries\Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('SetHandbookPublishingRights'), Translation :: get('SetHandbookPublishingRightsDescription'), Theme :: get_image_path() . 'admin/manage.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 Application :: PARAM_ACTION => self :: ACTION_ADMIN_SET_PUBLISHING_RIGHTS)));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);

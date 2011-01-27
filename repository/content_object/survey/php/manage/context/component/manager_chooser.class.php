@@ -38,10 +38,10 @@ class SurveyContextManagerManagerChooserComponent extends SurveyContextManager i
         $context_manager_tabs = new DynamicTabsRenderer($renderer_name);
         
         $actions = $this->get_actions_for_tab(self :: TAB_CONTEXT);
-        $context_manager_tabs->add_tab(new DynamicActionsTab(self :: TAB_CONTEXT, Translation :: get('ContextTab'), Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Survey :: get_type_name())) . 'tab_place_holder.png', $actions));
+        $context_manager_tabs->add_tab(new DynamicActionsTab(self :: TAB_CONTEXT, Translation :: get('ObjectTab',array('OBJECT' => Translation :: get('Context')), Utilities::COMMON_LIBRARIES), Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Survey :: get_type_name())) . 'tab_place_holder.png', $actions));
         
         $actions = $this->get_actions_for_tab(self :: TAB_CONTEXT_TEMPLATE);
-        $context_manager_tabs->add_tab(new DynamicActionsTab(self :: TAB_CONTEXT_TEMPLATE, Translation :: get('ContextTemplateTab'), Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Survey :: get_type_name())) . 'tab_place_holder.png', $actions));
+        $context_manager_tabs->add_tab(new DynamicActionsTab(self :: TAB_CONTEXT_TEMPLATE, Translation :: get('ObjectTab', array('OBJECT' => Translation :: get('ContextTemplate')), Utilities::COMMON_LIBRARIES), Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Survey :: get_type_name())) . 'tab_place_holder.png', $actions));
                 
         return $context_manager_tabs->render();
     }
@@ -54,7 +54,7 @@ class SurveyContextManagerManagerChooserComponent extends SurveyContextManager i
         {
             case self :: TAB_CONTEXT :
                 $registration_link = new DynamicAction();
-                $registration_link->set_title(Translation :: get('SurveyContextRegistrationLink'));
+                $registration_link->set_title(Translation :: get('ObjectLink', array('OBJECT' => Translation :: get('SurveyContextRegistration')), Utilities::COMMON_LIBRARIES));
                 $registration_link->set_description(Translation :: get('SurveyContextRegistrationDescription'));
                 $registration_link->set_image(Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Survey :: get_type_name())) . 'action_place_holder.png');
                 $registration_link->set_url($this->get_context_registration_browsing_url());
@@ -63,7 +63,7 @@ class SurveyContextManagerManagerChooserComponent extends SurveyContextManager i
             
             case self :: TAB_CONTEXT_TEMPLATE :
                 $template_link = new DynamicAction();
-                $template_link->set_title(Translation :: get('SurveyContextTemplateLink'));
+                $template_link->set_title(Translation :: get('ObjectLink', array('OBJECT' => Translation :: get('SurveyContextTemplate')), Utilities::COMMON_LIBRARIES));
                 $template_link->set_description(Translation :: get('SurveyContextTemplateDescription'));
                 $template_link->set_image(Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Survey :: get_type_name())) . 'action_place_holder.png');
                 $template_link->set_url($this->get_context_template_browsing_url());

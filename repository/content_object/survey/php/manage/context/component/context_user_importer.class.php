@@ -5,6 +5,7 @@ use common\libraries\DynamicTabsRenderer;
 
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Utilities;
 
 
 class SurveyContextManagerContextUserImporterComponent extends SurveyContextManager
@@ -23,7 +24,7 @@ class SurveyContextManagerContextUserImporterComponent extends SurveyContextMana
         if ($form->validate())
         {
             $success = $form->process();
-        	$this->redirect(Translation :: get($success ? 'ContextUsersImported' : 'ContextUsersNotImported'), $success, array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_REGISTRATION, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id));
+        	$this->redirect(Translation :: get($success ? 'ObjectsImported' : 'ObjectsNotImported',array('OBJECTS' => Translation::get('ContextUsers')),Utilities::COMMON_LIBRARIES), !$success, array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_REGISTRATION, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id));
         }
         else
         {

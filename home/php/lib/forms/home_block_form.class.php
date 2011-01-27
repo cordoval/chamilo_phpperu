@@ -7,6 +7,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\SubselectCondition;
 use common\libraries\FormValidator;
 use common\libraries\Block;
+use common\libraries\Application;
 
 /**
  * $Id: home_block_form.class.php 227 2009-11-13 14:45:05Z kariboe $
@@ -183,8 +184,8 @@ class HomeBlockForm extends FormValidator
         $homeblock = $this->homeblock;
         $defaults[HomeBlock :: PROPERTY_ID] = $homeblock->get_id();
         $defaults[HomeBlock :: PROPERTY_TITLE] = $homeblock->get_title();
-        $defaults[HomeBlock :: PROPERTY_COLUMN] = $homeblock->get_column();
-        $defaults[HomeBlock :: PROPERTY_COMPONENT] = $homeblock->get_component();
+        $defaults[HomeBlock :: PROPERTY_COLUMN] = $homeblock->get_column();        
+        $defaults[HomeBlock :: PROPERTY_COMPONENT] = "{$homeblock->get_application()}.{$homeblock->get_component()}";
         $defaults[HomeBlock :: PROPERTY_USER] = $homeblock->get_user();
         parent :: setDefaults($defaults);
     }

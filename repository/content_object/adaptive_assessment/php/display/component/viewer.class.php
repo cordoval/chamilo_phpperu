@@ -91,19 +91,22 @@ class AdaptiveAssessmentDisplayViewerComponent extends AdaptiveAssessmentDisplay
             }
             else
             {
-                $rtv = ReportingViewer :: construct($this);
-                $rtv->set_breadcrumb_trail($trail);
-                $rtv->show_all_blocks();
-                if ($complex_content_object_item_id)
-                {
-                    $rtv->add_template_by_name($this->get_parent()->get_adaptive_assessment_attempt_progress_details_reporting_template_name(), $this->get_parent()->get_adaptive_assessment_template_application_name());
-                }
-                else
-                {
-
-                    $rtv->add_template_by_name($this->get_parent()->get_adaptive_assessment_attempt_progress_reporting_template_name(), $this->get_parent()->get_adaptive_assessment_template_application_name());
-                }
-                $rtv->run();
+                $this->display_header();
+                $this->display_message(Translation :: get('ComingSoon'));
+                $this->display_footer();
+//                $rtv = ReportingViewer :: construct($this);
+//                $rtv->set_breadcrumb_trail($trail);
+//                $rtv->show_all_blocks();
+//                if ($complex_content_object_item_id)
+//                {
+//                    $rtv->add_template_by_name($this->get_parent()->get_adaptive_assessment_attempt_progress_details_reporting_template_name(), $this->get_parent()->get_adaptive_assessment_template_application_name());
+//                }
+//                else
+//                {
+//
+//                    $rtv->add_template_by_name($this->get_parent()->get_adaptive_assessment_attempt_progress_reporting_template_name(), $this->get_parent()->get_adaptive_assessment_template_application_name());
+//                }
+//                $rtv->run();
             }
         }
         else

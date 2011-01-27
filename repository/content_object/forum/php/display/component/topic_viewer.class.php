@@ -43,7 +43,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
     function run()
     {
         $topic = $this->get_complex_content_object_item();
-    	$this->retrieve_children($topic->get_ref());
+            $this->retrieve_children($topic->get_ref());
 
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $this->get_root_content_object()->get_title()));
@@ -185,7 +185,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
                 {
                     $url = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=attachment_viewer&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $attachment->get_id();
                 	$url = 'javascript:openPopup(\'' . $url . '\'); return false;';
-                	$message .= '<li><a href="#" onClick="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
+                	$message .= '<li><a href="#" onClick="' . $url . '">'. Theme :: get_content_object_image($attachment->get_type()) . $attachment->get_title() . '</a></li>';
                 }
 
                 $message .= '</ul></div>';
@@ -253,7 +253,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
 
 	        $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('Quote'),
-	        		Theme :: get_image_path() . 'forum/buttons/icon_post_quote.gif',
+	        		Theme :: get_image_path() . 'buttons/icon_post_quote.gif',
 					$this->get_url($parameters),
 					ToolbarItem :: DISPLAY_ICON
 			));
@@ -262,7 +262,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
 
 	        $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('Reply'),
-	        		Theme :: get_image_path() . 'forum/buttons/button_pm_reply.gif',
+	        		Theme :: get_image_path() . 'buttons/button_pm_reply.gif',
 					$this->get_url($parameters),
 					ToolbarItem :: DISPLAY_ICON
 			));
@@ -273,7 +273,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
             $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_EDIT_FORUM_POST;
             $toolbar->add_item(new ToolbarItem(
         		Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES),
-        		Theme :: get_image_path() . 'forum/buttons/icon_post_edit.gif',
+        		Theme :: get_image_path() . 'buttons/icon_post_edit.gif',
 				$this->get_url($parameters),
 				ToolbarItem :: DISPLAY_ICON
 			));
@@ -284,7 +284,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
             $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_DELETE_FORUM_POST;
              $toolbar->add_item(new ToolbarItem(
         		Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES),
-        		Theme :: get_image_path() . 'forum/buttons/icon_post_delete.gif',
+        		Theme :: get_image_path() . 'buttons/icon_post_delete.gif',
 				$this->get_url($parameters),
 				ToolbarItem :: DISPLAY_ICON,
 				true

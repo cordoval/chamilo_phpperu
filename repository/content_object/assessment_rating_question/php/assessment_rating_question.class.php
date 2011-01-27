@@ -4,7 +4,7 @@ namespace repository\content_object\assessment_rating_question;
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Versionable;
-
+use common\libraries\StringUtilities;
 use repository\ContentObject;
 
 /**

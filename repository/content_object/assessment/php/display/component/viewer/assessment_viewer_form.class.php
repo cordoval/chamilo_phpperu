@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\Display;
+
 use common\libraries\FormValidator;
 use common\libraries\EqualityCondition;
 use common\libraries\Session;
@@ -41,6 +43,11 @@ class AssessmentViewerForm extends FormValidator
         return $this->assessment_viewer->get_questions_page();
     }
 
+    function get_total_pages()
+    {
+        return $this->assessment_viewer->get_total_pages();
+    }
+
     function get_assessment_viewer()
     {
         return $this->assessment_viewer;
@@ -55,18 +62,22 @@ class AssessmentViewerForm extends FormValidator
 
     function add_buttons()
     {
+        //$progress = round(($this->get_page_number() / $this->get_total_pages()) * 100);
+        //Display::get_progress_bar($progress)
+        $this->addElement('html', '<div style="float: left; padding: 7px; font-weight: bold; line-height: 100%;">' . Translation :: get('PageNumberOfTotal', array('CURRENT' => $this->get_page_number(), 'TOTAL' => $this->get_total_pages())) . '</div>');
+
         if ($this->assessment_viewer->get_feedback_per_page())
         {
-            if (($this->get_page_number() <= $this->assessment_viewer->get_total_pages()))
-            {
+//            if (($this->get_page_number() <= $this->assessment_viewer->get_total_pages()))
+//            {
                 $buttons[] = $this->createElement('style_submit_button', 'next', Translation :: get('Check', null, Utilities :: COMMON_LIBRARIES), array(
                         'class' => 'normal next'));
-            }
-            else
-            {
-                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Finish', null, Utilities :: COMMON_LIBRARIES), array(
-                        'class' => 'positive finish'));
-            }
+//            }
+//            else
+//            {
+//                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Finish', null, Utilities :: COMMON_LIBRARIES), array(
+//                        'class' => 'positive finish'));
+//            }
         }
         else
         {
@@ -76,7 +87,7 @@ class AssessmentViewerForm extends FormValidator
                         'class' => 'previous'));
             }
 
-            if ($this->get_page_number() < $this->assessment_viewer->get_total_pages())
+            if ($this->get_page_number() < $this->get_total_pages())
             {
                 $buttons[] = $this->createElement('style_submit_button', 'next', Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES), array(
                         'class' => 'next'));

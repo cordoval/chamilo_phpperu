@@ -598,7 +598,7 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
         }
         else
         {
-            $html[] = 'no text content';
+//            $html[] = 'no text content';
         }
 
         return implode("\n", $html);

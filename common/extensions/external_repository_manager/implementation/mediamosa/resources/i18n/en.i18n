@@ -1,5 +1,4 @@
 Versions = "Versions"
-
 TranscodeNeeded = "The file still has to be transcoded"
 Creator = ""
 NoTranscodeProfiles = "No transcode profiles set"

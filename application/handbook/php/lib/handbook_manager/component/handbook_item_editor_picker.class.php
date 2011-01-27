@@ -108,13 +108,15 @@ function get_action_bar()
         private function get_table()
     {
         $parameters = $this->get_parameters(true);
-        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $parameters[Application :: PARAM_APPLICATION] = 'handbook';
-        $parameters[Application :: PARAM_ACTION] = HandbookManager :: ACTION_BROWSE;
+        $parameters[Application :: PARAM_ACTION] = HandbookManager :: ACTION_PICK_ITEM_TO_EDIT;
+        $parameters[HandbookManager::PARAM_HANDBOOK_SELECTION_ID] =  Request :: get(HandbookManager::PARAM_HANDBOOK_SELECTION_ID);
+        $parameters[HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID] = Request :: get(HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID);
+        $parameters[HandbookManager::PARAM_TOP_HANDBOOK_ID] =  Request :: get(HandbookManager::PARAM_TOP_HANDBOOK_ID);
+        $parameters[HandbookManager::PARAM_HANDBOOK_ID] = Request :: get(HandbookManager::PARAM_HANDBOOK_ID);
+        $parameters[HandbookManager::PARAM_COMPLEX_OBJECT_ID] =  Request :: get(HandbookManager::PARAM_COMPLEX_OBJECT_ID);
 
-        $table = new HandbookAlternativesPickerItemTable($this, array(
-                Application :: PARAM_APPLICATION => 'handbook',
-                Application :: PARAM_ACTION => HandbookManager :: ACTION_PICK_ITEM_TO_EDIT), $this->get_condition());
+        $table = new HandbookAlternativesPickerItemTable($this, $parameters, $this->get_condition());
 
         $html = array();
         $html[] = $table->as_html();

@@ -6,7 +6,8 @@ use common\libraries\Theme;
 
 require_once dirname(__FILE__) . '/../../common/global.inc.php';
 
-header("Content-type: text/css");
+header("Content-type: text/css; charset=iso-8859-1");
+header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 60) . ' GMT');
 
 $html = array();
 $html[] = '@CHARSET "ISO-8859-1";';

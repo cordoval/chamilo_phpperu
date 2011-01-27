@@ -66,14 +66,16 @@ class ForumTopic extends ContentObject implements Versionable, AttachmentSupport
         return $succes;
     }
 
-    function attach_content_object($aid)
+    function attach_content_object($aid, $type = self :: ATTACHMENT_NORMAL)
     {
-        parent :: attach_content_object($aid);
+        $success = parent :: attach_content_object($aid, $type);
 
         if ($this->first_post)
         {
-            $this->first_post->attach_content_object($aid);
+            $success &= $this->first_post->attach_content_object($aid, $type);
         }
+
+        return $success;
     }
 
     function get_locked()

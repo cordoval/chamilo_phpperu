@@ -31,7 +31,7 @@ class FeedbackDisplayConfiguration
      * @param boolean $feedback_per_page
      * @param int $feedback_type
      */
-    function __construct($feedback_summary = true, $feedback_per_page = false, $feedback_type)
+    function __construct($feedback_summary = false, $feedback_per_page = false, $feedback_type)
     {
         $this->feedback_summary = $feedback_summary;
         $this->feedback_per_page = $feedback_per_page;

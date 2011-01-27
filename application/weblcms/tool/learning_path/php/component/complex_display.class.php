@@ -307,7 +307,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
         {
             return;
         }
-        
+
         $lpi_tracker->set_score($total_score);
         $lpi_tracker->set_total_time($lpi_tracker->get_total_time() + (time() - $lpi_tracker->get_start_time()));
 
@@ -333,28 +333,41 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
         return $this->get_parameter(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID);
     }
 
-    /**
-     * This is an embedded assessment so there's nothing to go back to
-     *
-     * @return void
-     */
-    function get_assessment_go_back_url()
-    {
-    }
-
     function get_assessment_feedback_configuration()
     {
-        return new FeedbackDisplayConfiguration();
+        $default_configuration = new FeedbackDisplayConfiguration();
+        $default_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_BOTH);
+        $default_configuration->disable_feedback_per_page();
+        $default_configuration->enable_feedback_summary();
+        return $default_configuration;
     }
 
-    function get_assessment_question_attempt($complex_question_id)
+    function get_assessment_parameters()
     {
-        
+        return array(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID, ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
     }
 
     function get_assessment_question_attempts()
     {
-        
+        $assessment_question_attempt_data = array();
+
+        $condition = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID, $this->get_parameter(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID));
+
+        $dummy = new WeblcmsLearningPathQuestionAttemptsTracker();
+        $trackers = $dummy->retrieve_tracker_items($condition);
+
+        foreach ($trackers as $tracker)
+        {
+            $assessment_question_attempt_data[$tracker->get_question_cid()] = $tracker;
+        }
+
+        return $assessment_question_attempt_data;
+    }
+
+    function get_assessment_question_attempt($complex_question_id)
+    {
+        $answers = $this->get_assessment_question_attempts($complex_question_id);
+        return $answers[$complex_question_id];
     }
 
     function forum_topic_viewed($complex_topic_id)
@@ -394,6 +407,16 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
     public function get_wiki_publication()
     {
         throw new Exception("Unimplemented method : " . "application\\weblcms\\tool\\learning_path\\" . _CLASS__ . "get_wiki_publication()");
+    }
+
+    function get_assessment_continue_url()
+    {
+
+    }
+
+    function get_assessment_back_url()
+    {
+
     }
 }
 ?>

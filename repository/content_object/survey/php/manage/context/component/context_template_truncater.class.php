@@ -4,6 +4,7 @@ namespace repository\content_object\survey;
 use common\libraries\Translation;
 
 use common\libraries\Request;
+use common\libraries\Utilities;
 
 class SurveyContextManagerContextTemplateTruncaterComponent extends SurveyContextManager
 {
@@ -44,29 +45,29 @@ class SurveyContextManagerContextTemplateTruncaterComponent extends SurveyContex
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedSurveyContextTemplateNotEmptied';
+                    $message = 'ObjectNotEmptied';
                 }
                 else
                 {
-                    $message = 'SelectedSurveyContextTemplatesNotEmptied';
+                    $message = 'ObjectsNotEmptied';
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedSurveyContextTemplateEmptied';
+                    $message = 'ObjectEmptied';
                 }
                 else
                 {
-                    $message = 'SelectedSurveyContextTemplatesEmptied';
+                    $message = 'ObjectsEmptied';
                 }
 
             }
 
             if (count($ids) == 1)
             {
-                $this->redirect(Translation :: get($message), ($failures ? true : false), array(
+                $this->redirect(Translation :: get($message, array('OBJECT' => Translation::get('SelectedContextTemplate'), 'OBJECTS' => Translation::get('SelectedContextTemplates')),Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(
                         SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_VIEW_CONTEXT,
                         SurveyBuilder :: PARAM_TEMPLATE_ID => $ids[0]));
             }
@@ -80,7 +81,7 @@ class SurveyContextManagerContextTemplateTruncaterComponent extends SurveyContex
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoSurveyContextTemplateSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoContextTemplatesSelected')));
         }
     }
 }
