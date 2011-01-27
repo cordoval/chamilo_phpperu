@@ -228,9 +228,13 @@ if (Request :: get('adminuser'))
 {
     $checkurl = Session :: retrieve('checkChamiloURL');
     $admin_user = Session :: retrieve('_as_admin');
-    Session :: clear();
-    Session :: register('_uid', $admin_user);
-    Session :: register('checkChamiloURL', $checkurl);
+
+    if($admin_user)
+    {
+        Session :: clear();
+        Session :: register('_uid', $admin_user);
+        Session :: register('checkChamiloURL', $checkurl);
+    }
 }
 
 $user = Session :: get_user_id();
