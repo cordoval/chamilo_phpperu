@@ -75,6 +75,6 @@ interface AssessmentComplexDisplaySupport extends ComplexDisplaySupport
      * maintained by the assessment
      * @return array
      */
-//    function get_assessment_parameters();
+    function get_assessment_parameters();
 }
 ?>

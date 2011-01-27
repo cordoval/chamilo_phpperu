@@ -223,6 +223,11 @@ class AssessmentManagerViewerComponent extends AssessmentManager implements Asse
         return $default_configuration;
     }
 
+    function get_assessment_parameters()
+    {
+        return array();
+    }
+
     /**
      * Unused for assessments
      */

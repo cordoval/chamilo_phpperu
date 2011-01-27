@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\Request;
+
 use repository\ComplexDisplay;
 /**
  * $Id: assessment_display.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -17,6 +19,12 @@ class AssessmentDisplay extends ComplexDisplay
     const ACTION_VIEW_ASSESSMENT_RESULT = 'results_viewer';
 
     const DEFAULT_ACTION = self :: ACTION_VIEW_ASSESSMENT;
+
+    function __construct($parent)
+    {
+        parent :: __construct($parent);
+        $this->register_parameters();
+    }
 
     function save_assessment_answer($complex_question_id, $answer, $score)
     {
@@ -114,6 +122,14 @@ class AssessmentDisplay extends ComplexDisplay
     function display_textual_feedback()
     {
         return $this->get_feedback_display_configuration()->display_textual_feedback();
+    }
+
+    function register_parameters()
+    {
+        foreach ($this->get_parent()->get_assessment_parameters() as $parameter)
+        {
+            $this->set_parameter($parameter, Request :: get($parameter));
+        }
     }
 
     /**

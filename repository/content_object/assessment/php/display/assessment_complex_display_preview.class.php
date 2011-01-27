@@ -103,5 +103,10 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
         $dummy_configuration->enable_feedback_summary();
         return $dummy_configuration;
     }
+
+    function get_assessment_parameters()
+    {
+        return array();
+    }
 }
 ?>
