@@ -17,6 +17,7 @@ use common\libraries\ResourceManager;
 use common\libraries\Request;
 use common\libraries\PlatformSetting;
 use common\libraries\ArrayResultSet;
+use common\libraries\ResultSet;
 
 use admin;
 use admin\Registration;
@@ -35,6 +36,7 @@ class PackageForm extends FormValidator
     const TYPE_EDIT = 2;
     
     const DEPENDENCY = 'dependency';
+    const PACKAGE = 'package';
     const AUTHOR = 'author';
     
     const PHASE = 'phase';
@@ -68,16 +70,16 @@ class PackageForm extends FormValidator
         $this->addElement('text', Package :: PROPERTY_NAME, Translation :: get('Name'));
         $this->addRule(Package :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
-        $this->addElement('text', Package :: PROPERTY_SECTION, Translation :: get('Section'));
+        $this->addElement('select', Package :: PROPERTY_SECTION, Translation :: get('Section'), Package :: get_section_types());
         $this->addRule(Package :: PROPERTY_SECTION, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
         $this->addElement('text', Package :: PROPERTY_VERSION, Translation :: get('Version'));
         $this->addRule(Package :: PROPERTY_VERSION, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
-        $this->addElement('select', Package :: PROPERTY_CYCLE_PHASE, Translation :: get('Phase'), Package :: get_phases(), array());
+        $this->addElement('select', Package :: PROPERTY_CYCLE_PHASE, Translation :: get('Phase'), Package :: get_phases());
         $this->addRule(Package :: PROPERTY_CYCLE_PHASE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
-        $this->addElement('select', Package :: PROPERTY_CYCLE_REALM, Translation :: get('Realm'), Package :: get_realms(), array());
+        $this->addElement('select', Package :: PROPERTY_CYCLE_REALM, Translation :: get('Realm'), Package :: get_realms());
         $this->addRule(Package :: PROPERTY_CYCLE_REALM, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
         $this->addElement('textarea', Package :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
@@ -107,19 +109,20 @@ class PackageForm extends FormValidator
         $elem = $this->addElement('element_finder', self :: AUTHOR, Translation :: get('Authors'), $url, $locale, $this->authors_for_element_finder());
         
         //dependencies
-        $url = WebApplication :: get_application_web_path('package') . 'php/xml_feeds/xml_dependency_feed.php';
+        $url_dependency = WebApplication :: get_application_web_path('package') . 'php/xml_feeds/xml_package_dependency_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddPackageDependencies');
         $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
         $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
         $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         
-        $elem = $this->addElement('element_finder', self :: DEPENDENCY, Translation :: get('Dependencies'), $url, $locale, $this->dependencies_for_element_finder());
+        $elem = $this->addElement('element_finder', self :: DEPENDENCY, Translation :: get('Dependencies'), $url_dependency, $locale, $this->dependencies_for_element_finder());
+        
         $this->addElement('category');
+        
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(WebApplication :: get_application_web_path('package') . 'resources/javascript/package_dependencies.js'));
         
         $this->add_dependencies();
-    
     }
 
     function allow_file_type($fields)
@@ -187,18 +190,52 @@ class PackageForm extends FormValidator
         if ($this->package->get_id())
         {
             $dependencies = $this->package->get_dependencies(false);
-            
             while ($dependency = $dependencies->next_result())
             {
+                $data = $dependency->get_dependency(PackageDependency :: TYPE_DEPENDENCY);
+                
                 $return_dependency = array();
-                $return_dependency['id'] = 'dependency_' . $dependency->get_id();
+                $return_dependency['id'] = 'dependency_' . $data->get_id();
                 $return_dependency['classes'] = 'type type_dependency';
-                $return_dependency['title'] = $dependency->get_name();
-                $return_dependency['description'] = $dependency->get_name() . ' ' . $dependency->get_version();
+                $return_dependency['title'] = $data->get_name();
+                $return_dependency['description'] = $data->get_name() . ' ' . $data->get_version();
+                $return[$dependency->get_id()] = $return_dependency;
+            }
+        
+            $dependencies = $this->package->get_package_dependencies(false);
+            while ($dependency = $dependencies->next_result())
+            {
+                $data = $dependency->get_dependency(PackageDependency :: TYPE_PACKAGE);
+                
+                $return_dependency = array();
+                $return_dependency['id'] = 'package_' . $data->get_id();
+                $return_dependency['classes'] = 'type type_package_';
+                $return_dependency['title'] = $data->get_name();
+                $return_dependency['description'] = $data->get_name() . ' ' . $data->get_version();
                 $return[$dependency->get_id()] = $return_dependency;
             }
         }
-        
+        return $return;
+    }
+
+    function packages_for_element_finder()
+    {
+        $return = array();
+        if ($this->package->get_id())
+        {
+            $dependencies = $this->package->get_package_dependencies(false);
+            while ($dependency = $dependencies->next_result())
+            {
+                $data = $dependency->get_dependency(PackageDependency :: TYPE_PACKAGE);
+                
+                $return_dependency = array();
+                $return_dependency['id'] = 'dependency_' . $data->get_id();
+                $return_dependency['classes'] = 'type type_dependency';
+                $return_dependency['title'] = $data->get_name();
+                $return_dependency['description'] = $data->get_name() . ' ' . $data->get_version();
+                $return[$dependency->get_id()] = $return_dependency;
+            }
+        }
         return $return;
     }
 
@@ -207,7 +244,8 @@ class PackageForm extends FormValidator
         $renderer = $this->defaultRenderer();
         if ($this->isSubmitted())
         {
-            $packages = $values[self :: DEPENDENCY][self :: DEPENDENCY];
+            //dependency
+            $dependencies = $values[self :: DEPENDENCY][self :: DEPENDENCY];
             
             $packages[] = '-1';
             $condition = new InCondition(Package :: PROPERTY_ID, $packages);
@@ -216,16 +254,30 @@ class PackageForm extends FormValidator
             {
                 $dependencies[] = new PackageDependency(array(
                         PackageDependency :: PROPERTY_DEPENDENCY_ID => $package->get_id()));
-            
             }
             $dependencies = new ArrayResultSet($dependencies);
+            
+            //package            
+            $package_dependencies = $values[self :: DEPENDENCY][self :: PACKAGE];
+            
+            $packages[] = '-1';
+            $condition = new InCondition(Package :: PROPERTY_ID, $packages);
+            $packages = PackageDataManager :: get_instance()->retrieve_packages($condition);
+            while ($package = $packages->next_result())
+            {
+                $package_dependencies[] = new PackageDependency(array(
+                        PackageDependency :: PROPERTY_DEPENDENCY_ID => $package->get_id()));
+            }
+            $package_dependencies = new ArrayResultSet($package_dependencies);
         }
         else
         {
             $dependencies = $this->package->get_dependencies(false);
+            
+            $package_dependencies = $this->package->get_package_dependencies(false); 
         }
         
-        if (! $dependencies || $dependencies->size() > 0)
+        if (($dependencies instanceof ResultSet && $dependencies->size() > 0) || ($package_dependencies instanceof ResultSet && $package_dependencies->size() > 0))
         {
             $classes = '';
         }
@@ -233,48 +285,67 @@ class PackageForm extends FormValidator
         {
             $classes = 'hidden';
         }
+        
+        $this->addElement('category', Translation :: get('Dependencies'), $classes);
+        $table_header = array();
+        $table_header[] = '<table id="dependencies_table" class="data_table">';
+        $table_header[] = '<thead>';
+        $table_header[] = '<tr>';
+        $table_header[] = '<th>' . Translation :: get('Name') . '</th>';
+        $table_header[] = '<th>' . Translation :: get('Version') . '</th>';
+        $table_header[] = '<th>' . Translation :: get('Compare') . '</th>';
+        $table_header[] = '<th>' . Translation :: get('Severity') . '</th>';
+        $table_header[] = '</tr>';
+        $table_header[] = '</thead>';
+        $table_header[] = '<tbody>';
+        $this->addElement('html', implode("\n", $table_header));
+        
         if ($dependencies)
         {
-            $this->addElement('category', Translation :: get('Dependencies'), $classes);
-            $table_header = array();
-            $table_header[] = '<table id="dependencies_table" class="data_table">';
-            $table_header[] = '<thead>';
-            $table_header[] = '<tr>';
-            $table_header[] = '<th>' . Translation :: get('Name') . '</th>';
-            $table_header[] = '<th>' . Translation :: get('Version') . '</th>';
-            $table_header[] = '<th>' . Translation :: get('Compare') . '</th>';
-            $table_header[] = '<th>' . Translation :: get('Severity') . '</th>';
-            $table_header[] = '<th>' . Translation :: get('Type') . '</th>';
-            $table_header[] = '</tr>';
-            $table_header[] = '</thead>';
-            $table_header[] = '<tbody>';
-            $this->addElement('html', implode("\n", $table_header));
-            
             while ($dependency = $dependencies->next_result())
             {
-                $dependency_data = PackageDataManager :: get_instance()->retrieve_dependency($dependency->get_id());
+                $dependency_data = $dependency->get_dependency(PackageDependency :: TYPE_DEPENDENCY);
                 
                 $option_number = $dependency->get_id();
                 
                 $group = array();
                 $group[] = $this->createElement('static', null, null, $dependency_data->get_name());
                 $group[] = $this->createElement('static', null, null, $dependency_data->get_version());
-                
-                $group[] = $this->createElement('select', 'severity_' . $option_number, null, admin\PackageDependency :: get_severity_options());
-                $group[] = $this->createElement('select', 'compare_' . $option_number, null, self :: get_compare_options());
-                $group[] = $this->createElement('select', 'type_' . $option_number, null, Dependency :: get_types());
+                $group[] = $this->createElement('select', 'dependency_compare_' . $option_number, null, self :: get_compare_options());   
+                $group[] = $this->createElement('select', 'dependency_severity_' . $option_number, null, admin\PackageDependency :: get_severity_options());
                 
                 $this->addGroup($group, PackageDependency :: PROPERTY_DEPENDENCY_ID . '_' . $option_number, null, '', false);
                 
                 $renderer->setElementTemplate('<tr id="dependency_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', PackageDependency :: PROPERTY_DEPENDENCY_ID . '_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', PackageDependency :: PROPERTY_DEPENDENCY_ID . '_' . $option_number);
             }
-            
-            $table_footer[] = '</tbody>';
-            $table_footer[] = '</table>';
-            $this->addElement('html', implode("\n", $table_footer));
-            $this->addElement('category');
         }
+        
+        if ($package_dependencies)
+        {
+            while ($dependency = $package_dependencies->next_result())
+            {
+                $dependency_data = $dependency->get_dependency(PackageDependency :: TYPE_PACKAGE);
+                
+                $option_number = $dependency->get_id();
+                
+                $group = array();
+                $group[] = $this->createElement('static', null, null, $dependency_data->get_name());
+                $group[] = $this->createElement('static', null, null, $dependency_data->get_version());
+                $group[] = $this->createElement('select', 'package_compare_' . $option_number, null, self :: get_compare_options());   
+                $group[] = $this->createElement('select', 'package_severity_' . $option_number, null, admin\PackageDependency :: get_severity_options());
+                
+                $this->addGroup($group, PackageDependency :: PROPERTY_DEPENDENCY_ID . '_' . $option_number, null, '', false);
+                
+                $renderer->setElementTemplate('<tr id="package_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', PackageDependency :: PROPERTY_DEPENDENCY_ID . '_' . $option_number);
+                $renderer->setGroupElementTemplate('<td>{element}</td>', PackageDependency :: PROPERTY_DEPENDENCY_ID . '_' . $option_number);
+            }
+        }
+        
+        $table_footer[] = '</tbody>';
+        $table_footer[] = '</table>';
+        $this->addElement('html', implode("\n", $table_footer));
+        $this->addElement('category');
     }
 
     static function get_compare_options()
@@ -376,13 +447,12 @@ class PackageForm extends FormValidator
         
         foreach ($dependencies_to_add as $dependency)
         {
-            $dependency_data = PackageDataManager :: get_instance()->retrieve_dependency($dependency);
             $package_dependency = new PackageDependency();
             $package_dependency->set_dependency_id($dependency);
             $package_dependency->set_package_id($package->get_id());
-            $package_dependency->set_compare($dependency_data->get_compare());
-            $package_dependency->set_severity($dependency_data->get_severity());
-            $package_dependency->set_type(Request :: post('type_' . $dependency));
+            $package_dependency->set_compare(Request :: post('compare_' . $dependency));
+            $package_dependency->set_severity(Request :: post('severity_' . $dependency));
+            $package_dependency->set_dependency_type(PackageDependency :: TYPE_DEPENDENCY);
             
             if (! $package_dependency->create())
             {
@@ -413,7 +483,6 @@ class PackageForm extends FormValidator
             $package_dependency = PackageDataManager :: get_instance()->retrieve_package_dependencies($condition)->next_result();
             $package_dependency->set_compare($values['compare_' . $dependency]);
             $package_dependency->set_severity($values['severity_' . $dependency]);
-            $package_dependency->set_type($values['type_' . $dependency]);
             
             if (! $package_dependency->update())
             {
@@ -460,7 +529,6 @@ class PackageForm extends FormValidator
                     return false;
                 }
             }
-            
             $dependencies = $values[self :: DEPENDENCY][self :: DEPENDENCY];
             foreach ($dependencies as $dependency)
             {
@@ -468,12 +536,25 @@ class PackageForm extends FormValidator
                 $package_dependency->set_dependency_id($dependency);
                 $package_dependency->set_package_id($package->get_id());
                 
-                $dependency_data = PackageDataManager :: get_instance()->retrieve_dependency($dependency);
+                $package_dependency->set_compare(Request :: post('dependency_compare_' . $dependency));
+                $package_dependency->set_severity(Request :: post('dependency_severity_' . $dependency));
+                $package_dependency->set_dependency_type(PackageDependency :: TYPE_DEPENDENCY);
+                if (! $package_dependency->create())
+                {
+                    return false;
+                }
+            }
+            
+            $other_packages = $values[self :: DEPENDENCY][self :: PACKAGE];
+            foreach ($other_packages as $other_package)
+            {
+                $package_dependency = new PackageDependency();
+                $package_dependency->set_dependency_id($other_package);
+                $package_dependency->set_package_id($package->get_id());
                 
-                $package_dependency->set_compare($dependency_data->get_compare());
-                $package_dependency->set_severity($dependency_data->get_severity());
-                $package_dependency->set_type($dependency_data->get_type());
-                
+                $package_dependency->set_compare(Request :: post('package_compare_' . $other_package));
+                $package_dependency->set_severity(Request :: post('package_severity_' . $other_package));
+                $package_dependency->set_dependency_type(PackageDependency :: TYPE_PACKAGE);
                 if (! $package_dependency->create())
                 {
                     return false;
@@ -504,14 +585,13 @@ class PackageForm extends FormValidator
         $defaults[Package :: PROPERTY_TAGLINE] = $package->get_tagline();
         $defaults[Package :: PROPERTY_STATUS] = $package->get_status();
         
-        $dependencies = $this->package->get_dependencies();
+        $dependencies = $this->package->get_dependencies(false);
         if ($dependencies)
         {
             while ($dependency = $dependencies->next_result())
             {
                 $defaults['compare_' . $dependency->get_id()] = $dependency->get_compare();
                 $defaults['severity_' . $dependency->get_id()] = $dependency->get_severity();
-                $defaults['type_' . $dependency->get_id()] = $dependency->get_type();
             }
         }
         parent :: setDefaults($defaults);

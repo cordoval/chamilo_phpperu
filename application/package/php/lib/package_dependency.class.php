@@ -22,6 +22,9 @@ class PackageDependency extends DataClass
     const PROPERTY_COMPARE = 'compare';
     const PROPERTY_SEVERITY = 'severity';
     const PROPERTY_DEPENDENCY_TYPE = 'dependency_type';
+    
+    const TYPE_PACKAGE = 1;
+    const TYPE_DEPENDENCY = 2;
 
     function get_package_id()
     {
@@ -62,7 +65,7 @@ class PackageDependency extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_SEVERITY, $severity);
     }
-    
+
     function get_dependency_type()
     {
         return $this->get_default_property(self :: PROPERTY_DEPENDENCY_TYPE);
@@ -82,20 +85,36 @@ class PackageDependency extends DataClass
         return parent :: get_default_property_names(array(self :: PROPERTY_PACKAGE_ID, 
                 self :: PROPERTY_DEPENDENCY_ID, 
                 self :: PROPERTY_COMPARE, 
-                self :: PROPERTY_SEVERITY,
+                self :: PROPERTY_SEVERITY, 
                 self :: PROPERTY_DEPENDENCY_TYPE));
     }
 
-    function get_package()
+    function get_dependency($type)
     {
-        return $this->get_data_manager()->retrieve_package($this->get_package_id());
+        switch ($type)
+        {
+            case self :: TYPE_DEPENDENCY :
+                return $this->get_data_manager()->retrieve_dependency($this->get_dependency_id());
+                break;
+            case self :: TYPE_PACKAGE :
+                return $this->get_data_manager()->retrieve_package($this->get_package_id());
+                break;
+        }    
     }
 
-    function get_dependency()
+    static function get_dependency_type_string($type)
     {
-        return $this->get_data_manager()->retrieve_package($this->get_dependency_id());
+        switch ($type)
+        {
+            case self :: TYPE_DEPENDENCY :
+                return 'dependency';
+                break;
+            case self :: TYPE_PACKAGE :
+                return 'package';
+                break;
+        }
     }
-
+    
     /**
      * inherited
      */
@@ -107,6 +126,6 @@ class PackageDependency extends DataClass
     static function get_table_name()
     {
         return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
-    }  
+    }
 }
 ?>

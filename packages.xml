@@ -1,47 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
   <package>
-    <name>Personal Messenger</name>
-    <code>personal_messenger</code>
-    <section>application</section>
-    <category>communication</category>
+    <name>Administration</name>
+    <code>admin</code>
+    <section>Applications</section>
+    <category>core</category>
     <version>1.0.0</version>
     <cycle>
       <phase>alpha</phase>
       <realm>main</realm>
     </cycle>
-    <description>An online messaging system to provide communication between users.</description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <filename>opentok-php-sdk.zip</filename>
-    <authors/>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications/>
-      <core/>
-      <extension/>
-      <extensions/>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>Administration</name>
-    <code>admin</code>
-    <section>core</section>
-    <category>core</category>
-    <version>1.0.0</version>
-    <cycle>
-      <phase></phase>
-      <realm></realm>
-    </cycle>
     <description></description>
     <homepage></homepage>
     <tagline></tagline>
-    <filename></filename>
+    <filename>opentok-php-sdk.zip</filename>
     <authors/>
     <dependencies>
       <server/>
@@ -59,17 +31,17 @@
   <package>
     <name>External repository manager</name>
     <code>external_repository_manager</code>
-    <section>extension</section>
+    <section>ExternalRepositoryManager</section>
     <category>core</category>
     <version>1.0.0</version>
     <cycle>
-      <phase></phase>
-      <realm></realm>
+      <phase>alpha</phase>
+      <realm>main</realm>
     </cycle>
     <description>An abstraction layer to implement external content repositories in a generalized way, using general components wherever possible.</description>
     <homepage></homepage>
     <tagline></tagline>
-    <filename></filename>
+    <filename>opentok-php-sdk.zip</filename>
     <authors/>
     <dependencies>
       <server/>
@@ -85,131 +57,152 @@
     </dependencies>
   </package>
   <package>
-    <name>test</name>
-    <code>dfsqsd</code>
-    <section>etrer</section>
-    <category>fsqdfsd</category>
-    <version>sd&lt;fsd</version>
+    <name>package 33</name>
+    <code>package 33</code>
+    <section>Applications</section>
+    <category>test</category>
+    <version>1.33</version>
     <cycle>
       <phase>alpha</phase>
       <realm>main</realm>
     </cycle>
-    <description>sdf</description>
-    <homepage>dsqfqsd</homepage>
+    <description></description>
+    <homepage></homepage>
+    <tagline></tagline>
+    <filename>opentok-php-sdk.zip</filename>
+    <authors/>
+    <dependencies>
+      <server/>
+      <content_objects/>
+      <applications/>
+      <core/>
+      <extension/>
+      <extensions/>
+      <external_repository_manager>
+        <dependency>
+          <id>External repository manager</id>
+          <version type="1">1.0.0</version>
+          <severity>1</severity>
+        </dependency>
+      </external_repository_manager>
+      <library/>
+      <settings/>
+      <video_conferencing_manager/>
+    </dependencies>
+  </package>
+  <package>
+    <name>package new</name>
+    <code>package nw</code>
+    <section>Applications</section>
+    <category>test</category>
+    <version>1.0.0</version>
+    <cycle>
+      <phase>alpha</phase>
+      <realm>main</realm>
+    </cycle>
+    <description></description>
+    <homepage></homepage>
+    <tagline></tagline>
+    <filename>opentok-php-sdk.zip</filename>
+    <authors/>
+    <dependencies>
+      <server/>
+      <content_objects/>
+      <applications>
+        <dependency>
+          <id>Administration</id>
+          <version type="1">1.0.0</version>
+          <severity>1</severity>
+        </dependency>
+      </applications>
+      <core/>
+      <extension/>
+      <extensions/>
+      <external_repository_manager>
+        <dependency>
+          <id>External repository manager</id>
+          <version type="1">1.0.0</version>
+          <severity>1</severity>
+        </dependency>
+      </external_repository_manager>
+      <library/>
+      <settings/>
+      <video_conferencing_manager/>
+    </dependencies>
+  </package>
+  <package>
+    <name>xxxxxxxxxxxxxxxx</name>
+    <code>xxxxx</code>
+    <section>Applications</section>
+    <category>xxx</category>
+    <version>xxx</version>
+    <cycle>
+      <phase>alpha</phase>
+      <realm>main</realm>
+    </cycle>
+    <description></description>
+    <homepage></homepage>
     <tagline></tagline>
     <filename>opentok-php-sdk.zip</filename>
     <authors>
       <author>
         <name>author1</name>
-        <email>author1@ehb.be</email>
-        <company>Ehb</company>
+        <email>dqsd</email>
+        <company>dsfdsf</company>
+      </author>
+      <author>
+        <name>author2</name>
+        <email>dfsd</email>
+        <company>dsfsd</company>
       </author>
     </authors>
     <dependencies>
       <server>
         <dependency>
-          <id>dep3</id>
-          <version type="0">1.3</version>
-          <severity>0</severity>
+          <id>dependency1</id>
+          <version type="1">1.2</version>
+          <severity>1</severity>
+        </dependency>
+        <dependency>
+          <id>dep2</id>
+          <version type="1">dsfsd</version>
+          <severity>1</severity>
         </dependency>
       </server>
       <content_objects/>
       <applications>
         <dependency>
-          <id>dep1</id>
-          <version type="0">1.0</version>
-          <severity>0</severity>
+          <id>package 44</id>
+          <version type="1">1.44</version>
+          <severity>1</severity>
+        </dependency>
+        <dependency>
+          <id>package 33</id>
+          <version type="1">1.33</version>
+          <severity>1</severity>
         </dependency>
       </applications>
       <core/>
       <extension/>
-      <extensions>
-        <dependency>
-          <id>dep2</id>
-          <version type="0">1.2</version>
-          <severity>0</severity>
-        </dependency>
-      </extensions>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>rdfg</name>
-    <code>dfg</code>
-    <section>dsfg</section>
-    <category>sgfdfsg</category>
-    <version>1.0</version>
-    <cycle>
-      <phase>alpha</phase>
-      <realm>main</realm>
-    </cycle>
-    <description></description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <filename>opentok-php-sdk.zip</filename>
-    <authors/>
-    <dependencies>
-      <server>
-        <dependency>
-          <id>dep3</id>
-          <version type="1">1.3</version>
-          <severity>1</severity>
-        </dependency>
-      </server>
-      <content_objects/>
-      <applications/>
-      <core/>
-      <extension/>
       <extensions/>
-      <external_repository_manager/>
-      <library/>
-      <settings/>
-      <video_conferencing_manager/>
-    </dependencies>
-  </package>
-  <package>
-    <name>test</name>
-    <code>SDS DS</code>
-    <section>rz</section>
-    <category>DFSQ SD</category>
-    <version>dsf</version>
-    <cycle>
-      <phase>alpha</phase>
-      <realm>main</realm>
-    </cycle>
-    <description></description>
-    <homepage></homepage>
-    <tagline></tagline>
-    <filename>opentok-php-sdk.zip</filename>
-    <authors/>
-    <dependencies>
-      <server/>
-      <content_objects/>
-      <applications/>
-      <core/>
-      <extension/>
-      <extensions>
+      <external_repository_manager>
         <dependency>
-          <id>dep2</id>
-          <version type="1">1.2</version>
+          <id>External repository manager</id>
+          <version type="1">1.0.0</version>
           <severity>1</severity>
         </dependency>
-      </extensions>
-      <external_repository_manager/>
+      </external_repository_manager>
       <library/>
       <settings/>
       <video_conferencing_manager/>
     </dependencies>
   </package>
   <package>
-    <name>package1</name>
-    <code>test</code>
-    <section>test</section>
+    <name>package 44</name>
+    <code>package 44</code>
+    <section>Applications</section>
     <category>test</category>
-    <version>1</version>
+    <version>1.44</version>
     <cycle>
       <phase>alpha</phase>
       <realm>main</realm>
@@ -218,13 +211,7 @@
     <homepage></homepage>
     <tagline></tagline>
     <filename>opentok-php-sdk.zip</filename>
-    <authors>
-      <author>
-        <name>author1</name>
-        <email>author1@ehb.be</email>
-        <company>Ehb</company>
-      </author>
-    </authors>
+    <authors/>
     <dependencies>
       <server/>
       <content_objects/>
@@ -232,7 +219,115 @@
       <core/>
       <extension/>
       <extensions/>
-      <external_repository_manager/>
+      <external_repository_manager>
+        <dependency>
+          <id>External repository manager</id>
+          <version type="1">1.0.0</version>
+          <severity>1</severity>
+        </dependency>
+      </external_repository_manager>
+      <library/>
+      <settings/>
+      <video_conferencing_manager/>
+    </dependencies>
+  </package>
+  <package>
+    <name>package 55</name>
+    <code>package 55</code>
+    <section>Applications</section>
+    <category>test</category>
+    <version>1.55</version>
+    <cycle>
+      <phase>alpha</phase>
+      <realm>main</realm>
+    </cycle>
+    <description></description>
+    <homepage></homepage>
+    <tagline></tagline>
+    <filename>opentok-php-sdk.zip</filename>
+    <authors/>
+    <dependencies>
+      <server/>
+      <content_objects/>
+      <applications/>
+      <core/>
+      <extension/>
+      <extensions/>
+      <external_repository_manager>
+        <dependency>
+          <id>External repository manager</id>
+          <version type="1">1.0.0</version>
+          <severity>1</severity>
+        </dependency>
+      </external_repository_manager>
+      <library/>
+      <settings/>
+      <video_conferencing_manager/>
+    </dependencies>
+  </package>
+  <package>
+    <name>package 66</name>
+    <code>package 66</code>
+    <section>Extensions</section>
+    <category>test</category>
+    <version>1.66</version>
+    <cycle>
+      <phase>alpha</phase>
+      <realm>main</realm>
+    </cycle>
+    <description></description>
+    <homepage></homepage>
+    <tagline></tagline>
+    <filename>opentok-php-sdk.zip</filename>
+    <authors/>
+    <dependencies>
+      <server/>
+      <content_objects/>
+      <applications/>
+      <core/>
+      <extension/>
+      <extensions/>
+      <external_repository_manager>
+        <dependency>
+          <id>External repository manager</id>
+          <version type="1">1.0.0</version>
+          <severity>1</severity>
+        </dependency>
+      </external_repository_manager>
+      <library/>
+      <settings/>
+      <video_conferencing_manager/>
+    </dependencies>
+  </package>
+  <package>
+    <name>package 77</name>
+    <code>package 77</code>
+    <section>Applications</section>
+    <category>test</category>
+    <version>1.77</version>
+    <cycle>
+      <phase>alpha</phase>
+      <realm>main</realm>
+    </cycle>
+    <description></description>
+    <homepage></homepage>
+    <tagline></tagline>
+    <filename>opentok-php-sdk.zip</filename>
+    <authors/>
+    <dependencies>
+      <server/>
+      <content_objects/>
+      <applications/>
+      <core/>
+      <extension/>
+      <extensions/>
+      <external_repository_manager>
+        <dependency>
+          <id>External repository manager</id>
+          <version type="1">1.0.0</version>
+          <severity>1</severity>
+        </dependency>
+      </external_repository_manager>
       <library/>
       <settings/>
       <video_conferencing_manager/>

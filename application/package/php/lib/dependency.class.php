@@ -24,15 +24,9 @@ class Dependency extends DataClass
     const PROPERTY_VERSION = 'version';
     const PROPERTY_TYPE = 'type';
     
-    const TYPE_APPLICATIONS = 1;
-    const TYPE_EXTENSION = 2;
-    const TYPE_EXTENSIONS = 3;
-    const TYPE_SERVER = 4;
-    const TYPE_CONTENT_OBJECTS = 5;
-    const TYPE_EXTERNAL_REPOSITORY_MANAGER = 6;
-    const TYPE_VIDEO_CONFERENCING = 7;
-    const TYPE_LIBRARY = 8;
-    const TYPE_SETTINGS = 9;
+    const TYPE_EXTENSION = 1;
+    const TYPE_SERVER = 2;
+    const TYPE_SETTINGS = 3;
 
     /**
      * Get the default properties
@@ -103,26 +97,8 @@ class Dependency extends DataClass
     {
         switch ($type)
         {
-            case self :: TYPE_APPLICATIONS :
-                return Translation :: get('Applications');
-                break;
-            case self :: TYPE_CONTENT_OBJECTS :
-                return Translation :: get('ContentObjects');
-                break;
             case self :: TYPE_EXTENSION :
                 return Translation :: get('Extension');
-                break;
-            case self :: TYPE_EXTENSIONS :
-                return Translation :: get('Extensions');
-                break;
-            case self :: TYPE_EXTERNAL_REPOSITORY_MANAGER:
-                return Translation :: get('ExternalRepositoryManager');
-                break;
-            case self :: TYPE_VIDEO_CONFERENCING :
-                return Translation :: get('VideoConferencing');
-                break;
-            case self :: TYPE_LIBRARY :
-                return Translation :: get('Library');
                 break;
             case self :: TYPE_SERVER :
                 return Translation :: get('Server');
@@ -136,13 +112,7 @@ class Dependency extends DataClass
     static function get_types()
     {
         $types = array();
-        $types[self :: TYPE_APPLICATIONS] = self :: get_type_name(self :: TYPE_APPLICATIONS);
-        $types[self :: TYPE_CONTENT_OBJECTS] = self :: get_type_name(self :: TYPE_CONTENT_OBJECTS);
         $types[self :: TYPE_EXTENSION] = self :: get_type_name(self :: TYPE_EXTENSION);
-        $types[self :: TYPE_EXTENSIONS] = self :: get_type_name(self :: TYPE_EXTENSIONS);
-        $types[self :: TYPE_EXTERNAL_REPOSITORY_MANAGER] = self :: get_type_name(self :: TYPE_EXTERNAL_REPOSITORY_MANAGER);
-        $types[self :: TYPE_VIDEO_CONFERENCING] = self :: get_type_name(self :: TYPE_VIDEO_CONFERENCING);
-        $types[self :: TYPE_LIBRARY] = self :: get_type_name(self :: TYPE_LIBRARY);
         $types[self :: TYPE_SERVER] = self :: get_type_name(self :: TYPE_SERVER);
         $types[self :: TYPE_SETTINGS] = self :: get_type_name(self :: TYPE_SETTINGS);
         
