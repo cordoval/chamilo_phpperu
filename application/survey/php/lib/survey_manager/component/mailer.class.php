@@ -128,18 +128,18 @@ class SurveyManagerMailerComponent extends SurveyManager
         {
             case self :: TAB_INVITEES :
                 
-                $tab_links['application'] = array('name' => Translation :: get('PeriodTab'), 'class' => 'period');
+                $tab_links['application'] = array('name' => Translation :: get('InviteeTab'), 'class' => 'invitee');
                 
                 $period_link = new DynamicAction();
-                $period_link->set_title(Translation :: get('PeriodLink'));
-                $period_link->set_description(Translation :: get('PeriodLinkDescription'));
-                $period_link->set_image(Theme :: get_image_path() . 'browse_period.png');
+                $period_link->set_title(Translation :: get('InviteeLink'));
+                $period_link->set_description(Translation :: get('InviteeLinkDescription'));
+                $period_link->set_image(Theme :: get_image_path() . 'browse.png');
                 //                $period_link->set_url($this->get_period_application_url());
                 $links[] = $period_link;
                 
                 $agreement_link = new DynamicAction();
-                $agreement_link->set_title(Translation :: get('AgreementRightLink'));
-                $agreement_link->set_description(Translation :: get('AgreementRightLinkDescription'));
+                $agreement_link->set_title(Translation :: get('ReportingRightLink'));
+                $agreement_link->set_description(Translation :: get('ReportingRightLinkDescription'));
                 $agreement_link->set_image(Theme :: get_image_path() . 'browse_agreement.png');
                 //                $agreement_link->set_url($this->get_administration_url(SurveyRights :: LOCATION_MAILER_COMPONENT_AGREEMENT));
                 $links[] = $agreement_link;
@@ -148,19 +148,19 @@ class SurveyManagerMailerComponent extends SurveyManager
                 break;
             case self :: TAB_REPORTING :
                 
-                $tab_links['application'] = array('name' => Translation :: get('AdministrationTab'), 
+                $tab_links['application'] = array('name' => Translation :: get('ReportingTab'), 
                         'class' => 'administration');
                 
                 $period_link = new DynamicAction();
-                $period_link->set_title(Translation :: get('PeriodRightLink'));
-                $period_link->set_description(Translation :: get('PeriodRightLinkDescription'));
+                $period_link->set_title(Translation :: get('InviteeRightLink'));
+                $period_link->set_description(Translation :: get('InviteeRightLinkDescription'));
                 $period_link->set_image(Theme :: get_image_path() . 'browse_period.png');
                 //                $period_link->set_url($this->get_administration_url(SurveyRights :: LOCATION_MAILER_COMPONENT_PERIOD));
                 $links[] = $period_link;
                 
                 $agreement_link = new DynamicAction();
-                $agreement_link->set_title(Translation :: get('AgreementRightLink'));
-                $agreement_link->set_description(Translation :: get('AgreementRightLinkDescription'));
+                $agreement_link->set_title(Translation :: get('ReportingRightLink'));
+                $agreement_link->set_description(Translation :: get('ReportingRightLinkDescription'));
                 $agreement_link->set_image(Theme :: get_image_path() . 'browse_agreement.png');
                 //                $agreement_link->set_url($this->get_administration_url(SurveyRights :: LOCATION_MAILER_COMPONENT_AGREEMENT));
                 $links[] = $agreement_link;
