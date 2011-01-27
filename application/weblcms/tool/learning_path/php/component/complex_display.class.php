@@ -342,6 +342,11 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
         return $default_configuration;
     }
 
+    function get_assessment_parameters()
+    {
+        return array(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID, ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+    }
+
     function get_assessment_question_attempts()
     {
         $assessment_question_attempt_data = array();

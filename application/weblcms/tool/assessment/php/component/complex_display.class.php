@@ -217,6 +217,11 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool implements
         return $default_configuration;
     }
 
+    function get_assessment_parameters()
+    {
+        return array();
+    }
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('AssessmentToolBrowserComponent')));

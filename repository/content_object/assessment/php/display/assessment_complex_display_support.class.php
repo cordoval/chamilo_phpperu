@@ -69,5 +69,13 @@ interface AssessmentComplexDisplaySupport extends ComplexDisplaySupport
      * @return FeedbackDisplayConfiguration
      */
     function get_assessment_feedback_configuration();
+
+    /**
+     * Get the names of the additional parameters that need to be
+     * maintained by the assessment
+     *
+     * @return array
+     */
+    function get_assessment_parameters();
 }
 ?>

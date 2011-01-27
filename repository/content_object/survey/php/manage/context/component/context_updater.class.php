@@ -5,6 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
 
 require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/forms/context_form.class.php';
 require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context.class.php';
@@ -35,11 +36,11 @@ class SurveyContextManagerContextUpdaterComponent extends SurveyContextManager
             $success = $form->update_survey_context();
             if ($success)
             {
-                $this->redirect(Translation :: get('SurveyContextUpdated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_REGISTRATION, SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id));
+                $this->redirect(Translation :: get('ObjectUpdated',array('OBJECT' => Translation::get('SurveyContext')),Utilities::COMMON_LIBRARIES), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_REGISTRATION, SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id));
             }
             else
             {
-                $this->redirect(Translation :: get('SurveyContextNotUpdated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_REGISTRATION, SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id));
+                $this->redirect(Translation :: get('ObjectNotUpdated',array('OBJECT' => Translation::get('SurveyContext')),Utilities::COMMON_LIBRARIES), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_REGISTRATION, SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id));
             	            }
         }
         else

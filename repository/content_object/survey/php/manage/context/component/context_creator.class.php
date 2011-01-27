@@ -6,6 +6,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 
 
@@ -36,11 +37,11 @@ class SurveyContextManagerContextCreatorComponent extends SurveyContextManager
             $success = $form->create_survey_context();
             if ($success)
             {
-                $this->redirect(Translation :: get('SurveyContextCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_REGISTRATION, SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id));
+                $this->redirect(Translation :: get('ObjectCreated',array('OBJECT' => Translation::get('SurveyContext'),Utilities::COMMON_LIBRARIES)), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_REGISTRATION, SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id));
             }
             else
             {
-                $this->redirect(Translation :: get('SurveyContextNotCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_REGISTRATION, SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id));
+                $this->redirect(Translation :: get('ObjectNotCreated',array('OBJECT' => Translation::get('SurveyContext'),Utilities::COMMON_LIBRARIES)), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_REGISTRATION, SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id));
             	            }
         }
         else

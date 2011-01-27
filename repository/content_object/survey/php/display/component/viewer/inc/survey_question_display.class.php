@@ -234,7 +234,9 @@ abstract class SurveyQuestionDisplay
         
         if ($this->get_survey())
         {
-            return $this->get_survey()->parse($this->get_context_path(), $value);
+//            dump($this->get_survey()->get_invitee_id());
+//        	dump(Survey :: parse($this->get_survey()->get_invitee_id(), $this->get_context_path(), $value));
+        	return Survey :: parse($this->get_survey()->get_invitee_id(), $this->get_context_path(), $value);
         }
         else
         {

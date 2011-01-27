@@ -198,6 +198,11 @@ class LearningPathComplexDisplayPreview extends ComplexDisplayPreview implements
         return $dummy_configuration;
     }
 
+    function get_assessment_parameters()
+    {
+        return array();
+    }
+
     /**
      *
      *
