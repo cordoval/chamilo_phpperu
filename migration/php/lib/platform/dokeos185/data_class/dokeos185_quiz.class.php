@@ -206,8 +206,14 @@ class Dokeos185Quiz extends Dokeos185CourseDataMigrationDataClass
 	        $chamilo_assessment->set_modification_date(time());
         }
         
-		$chamilo_assessment->set_random_questions($this->get_random());
-        
+	$chamilo_assessment->set_random_questions($this->get_random());
+
+        //1 question per page
+        if($this->get_type() == 2)
+        {
+            $chamilo_assessment->set_questions_per_page(1);
+        }
+
         $chamilo_assessment->create_all();
         
         if($this->get_included_objects())
