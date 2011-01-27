@@ -223,7 +223,16 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
         //create link in database
         $chamilo_link->create_all();
 
-        $this->create_publication($chamilo_link, $new_course_code, $new_user_id, 'link', $new_publication_category_id, $new_to_user_id, $new_to_group_id, $this->get_on_homepage());
+        if(is_null($this->get_on_homepage()))
+        {
+            $on_homepage = 0;
+        }
+        else
+        {
+            $on_homepage = $this->get_on_homepage();
+        }
+
+        $this->create_publication($chamilo_link, $new_course_code, $new_user_id, 'link', $new_publication_category_id, $new_to_user_id, $new_to_group_id, $on_homepage);
 
         $this->create_id_reference($this->get_id(), $chamilo_link->get_id());
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'link', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_link->get_id())));
