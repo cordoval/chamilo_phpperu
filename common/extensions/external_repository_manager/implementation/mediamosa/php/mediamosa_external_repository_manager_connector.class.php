@@ -463,15 +463,15 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
 
         if ($offset)
             $params['offset'] = $offset;
-        $params['user_id'] = $this->get_mediamosa_user_id($chamilo_user->get_id());
-        $params['app_id'] = $this->get_app_id();
-        $params['hide_empty_assets'] = 'TRUE';
+            $params['user_id'] = $this->get_mediamosa_user_id($chamilo_user->get_id());
+            $params['app_id'] = $this->get_app_id();
+            $params['hide_empty_assets'] = 'TRUE';
         if ($chamilo_user->is_platform_admin())
             $params['is_app_admin'] = 'TRUE';
 
         if ($condition)
             $this->create_cql_sets($condition);
-        $cql = $this->create_cql_query();
+            $cql = $this->create_cql_query();
         //echo $cql;
         if ($this->cql_error)
             $params['limit'] = 0;
@@ -621,8 +621,8 @@ class MediamosaExternalRepositoryManagerConnector extends ExternalRepositoryMana
 
             $mediamosa_asset->set_id((string) $asset->asset_id);
             $mediamosa_asset->set_title((string) $asset->dublin_core->title);
-            $mediamosa_asset->set_created(strtotime($asset->videotimestamp));
-            $mediamosa_asset->set_modified(strtotime($asset->videotimestampmodified));
+            $mediamosa_asset->set_created(strtotime((string) $asset->videotimestamp));
+            $mediamosa_asset->set_modified(strtotime((string) $asset->videotimestampmodified));
             $mediamosa_asset->set_owner_id((int) $asset->owner_id);
             //$metadata['language'] = (string)$asset->dublin_core->language;
             //$metadata['subject'] = (string)$asset->dublin_core->subject;
