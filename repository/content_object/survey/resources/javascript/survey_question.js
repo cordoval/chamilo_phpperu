@@ -97,8 +97,8 @@
 					var type = question.properties.type;
 //					alert(title);
 //					alert(type);
-//					alert("<li><div class="" ><a   id="+contextPath+"_"+questionId+" href="+href+"  >question_id="+ questionId+" "+title+"</a></div></li>");
-//					$("<li><div class="" ><a   id="+contextPath+"_"+questionId+" href="+href+"  >question_id="+ questionId+" "+title+"</a></div></li>").insertAfter($("a[id="+contextPath+"]").parent().siblings().children().last());
+//					alert("<li><div><a id="+contextPath+"_"+questionId+"  class="+type+" href="+href+" >"+title+"</a></div></li>");
+					$("<li><div><a id="+contextPath+"_"+questionId+"  class="+type+" href="+href+" >"+title+"</a></div></li>").insertAfter($("a[id="+contextPath+"]").parent().siblings().children().last());
 				}else{
 					var answer = answers[questionId];
 					for(i in answer){
@@ -113,6 +113,11 @@
 									"survey_publication" : surveyPublicationId,
 									"answer" : $.json.serialize(answer)
 								});
+						var type = $("a[id="+contextPath+"_"+questionId+"]").attr('class');
+						if(!type.match(/_checked$/)){
+							$("a[id="+contextPath+"_"+questionId+"]").attr('class', type+"_checked");
+						}
+						
 					}
 				}
 			}

@@ -57,6 +57,8 @@ class SurveyMenu extends HTML_Menu
     
     private $question_count;
     
+    private $visible_question_count;
+    
     private $parent;
 
     function __construct($parent, $current_context_path, $url_format, $survey)
@@ -78,6 +80,7 @@ class SurveyMenu extends HTML_Menu
     function get_menu()
     {
         $this->create_context_path_relations();
+        $this->visible_question_count =0;
         return $this->get_menu_items();
     }
 
@@ -88,7 +91,7 @@ class SurveyMenu extends HTML_Menu
         //        $context_paths = array_reverse($context_paths);
         
 
-        //        dump($context_paths);
+//               dump($context_paths);
         
 
         $this->context_path_relations = array();
@@ -313,22 +316,21 @@ class SurveyMenu extends HTML_Menu
                 {
                     case self :: TYPE_SURVYEY :
                         $title = $this->survey->get_title();
-                        $title = $this->get_survey()->parse($context_path, $title);
+                        $title = Survey :: parse($this->get_survey()->get_invitee_id(), $context_path, $title);
                         $menu_item['class'] = self :: TYPE_SURVYEY;
                         $menu_item['url'] = $current_url;
                         break;
                     case self :: TYPE_CONTEXT :
                         $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_path_relation[self :: CONTEXT_ID]);
                         $title = $context->get_name();
-                        $title = $this->get_survey()->parse($context_path, $title);
                         $menu_item['class'] = self :: TYPE_CONTEXT;
                         //                        $menu_item['url'] = $current_url;
                         break;
                     case self :: TYPE_PAGE :
                         $survey_page = $this->survey->get_page_by_id($context_path_relation[self :: PAGE_ID]);
                         $title = $survey_page->get_title();
-                        $title = $this->get_survey()->parse($context_path, $title);
-                        $title = 'page ' . $this->page_contexts[$context_path] . ' title: ' . $title;
+//                       	$title = Survey :: parse($this->get_survey()->get_invitee_id(), $context_path, $title);
+//                        $title = 'page ' . $this->page_contexts[$context_path] . ' title: ' . $title;
                         $menu_item['class'] = self :: TYPE_PAGE . '_tree';
                         $current_url = $this->get_url($context_path);
                         $menu_item['url'] = $current_url;
@@ -361,7 +363,7 @@ class SurveyMenu extends HTML_Menu
                         //                            dump($complex_question_id);
                         $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_question->get_ref());
                         $title = $question->get_title();
-                        $title = $this->get_survey()->parse($context_path, $title);
+                        $title = Survey :: parse($this->get_survey()->get_invitee_id(), $context_path, $title);
                         //                        $answer = $this->parent->get_answer($complex_question_id, $context_path);
                         if ($answer)
                         {
@@ -387,8 +389,13 @@ class SurveyMenu extends HTML_Menu
                 
                 if ($visible)
                 {
-                    //                    $menu_item['title'] = $title;
-                    $menu_item['title'] = $complex_question_id . " " . $title;
+                    if($type == self :: TYPE_QUESTION){
+                    	$this->visible_question_count++;
+                    }
+                	
+                	$title = Utilities :: truncate_string($title, 50);
+                	$menu_item['title'] = $title;
+//                    $menu_item['title'] = $complex_question_id . " " . $title;
                     $sub_menu_items = $this->get_menu_items($context_path_relation[self :: ID], $context_path, $current_url, $page_id);
                     
                     if (count($sub_menu_items))
@@ -425,7 +432,10 @@ class SurveyMenu extends HTML_Menu
 
     function get_progress()
     {
-        return (count($this->finished_questions) / ($this->question_count)) * 100;
+//        dump(count($this->finished_questions));
+//        dump($this->question_count);
+//        dump($this->visible_question_count);
+    	return (count($this->finished_questions) / ($this->visible_question_count)) * 100;
     }
 
     function is_question_visible($guestion_id_tocheck, $page_id, $page_answers)

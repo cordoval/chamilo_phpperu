@@ -498,7 +498,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                         $page_nr ++;
                         if (! array_key_exists($page_path, $this->page_context_paths))
                         {
-                            $this->page_context_paths[$page_path] = $page_nr;
+//                            dump($page_path);
+                        	$this->page_context_paths[$page_path] = $page_nr;
                         }
                         
                         $this->survey_pages[$page_path] = $survey_page;
@@ -573,7 +574,23 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             //                  dump('pagecontesxtpaths');
             //              dump($this->page_context_paths);
             $this->context_paths = array_unique($this->context_paths);
-        
+            sort($this->context_paths);
+            
+//        	dump($this->page_context_paths);
+            $page_cp_keys = array_keys($this->page_context_paths);
+//            dump($page_cp_keys);
+            sort($page_cp_keys, SORT_STRING);
+//            dump($page_cp_keys);
+            $index = 1;
+            $page_cps = array();
+            foreach ($page_cp_keys as $page_key){
+            	$page_cps[$page_key] = $index;
+            	$index++;
+            }
+            $this->page_context_paths = $page_cps;
+//            dump($this->context_paths);
+//            dump($this->page_context_paths);
+//        	exit;
      //             dump($this->test_context_paths);
         //		exit;
         }

@@ -23,6 +23,7 @@ class SurveyViewerForm extends FormValidator
     private $page_order;
     private $next_context_path;
     private $user_id;
+    private $publication_id;
     private $finished = false;
     
     /**
@@ -30,7 +31,7 @@ class SurveyViewerForm extends FormValidator
      */
     private $survey;
 
-    function __construct($name, $parent, $context_path, $survey, $action, $page_order, $page_nr, $user_id)
+    function __construct($name, $parent, $context_path, $survey, $action, $page_order, $page_nr, $user_id, $publication_id)
     {
         parent :: __construct(self :: FORM_NAME, 'post', $action);
         $this->context_path = $context_path;
@@ -41,6 +42,7 @@ class SurveyViewerForm extends FormValidator
 //        dump($this->context_path);
         $this->page_number = $page_nr;
         $this->user_id = $user_id;
+        $this->publication_id = $publication_id;
         
 //        $this->page_number = $this->survey->get_page_nr($this->context_path);
         
@@ -56,6 +58,7 @@ class SurveyViewerForm extends FormValidator
         $this->addElement('hidden', 'survey_page', $this->survey_page->get_id());
        	$this->addElement('hidden', 'context_path', $this->context_path);
        	$this->addElement('hidden', 'user_id', $this->user_id);
+       	$this->addElement('hidden', 'publication_id', $this->publication_id);
        	
         // Add buttons
         if ($this->page_number > 1)
