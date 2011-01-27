@@ -72,7 +72,7 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
         
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_USERS;
         $table = new SurveyUserTable($this, $parameters, $this->get_user_condition());
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users',null,Utilities::COMMON_LIBRARIES), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
         
         
         $html[] = $tabs->render();
@@ -175,7 +175,7 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
                 self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_TEMPLATE)), Translation :: get('BrowseContextTemplates')));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
                 self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, 
-                self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewContextTemplate')));
+                self :: PARAM_CONTEXT_TEMPLATE_ID => Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID))), Translation :: get('ViewObject', array("OBJECT" => Translation::get('ContextTemplate')), Utilities::COMMON_LIBRARIES)));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, 
                 self :: PARAM_TEMPLATE_ID => Request :: get(self :: PARAM_TEMPLATE_ID))), Translation :: get('ViewTemplate')));
     

@@ -9,6 +9,7 @@ use common\libraries\Request;
 use common\libraries\DynamicTabsRenderer;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 
 //require_once Path :: get_repository_content_object_path() . '/survey/php/survey_context_template_rel_page.class.php';
 
@@ -69,30 +70,30 @@ class SurveyContextManagerUnsubscribePageComponent extends SurveyContextManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedSurveyContextTemplateRelPageNotDeleted';
+                    $message = 'ObjectNotDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedSurveyContextTemplateRelPagesNotDeleted';
+                    $message = 'ObjectsNotDeleted';
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedSurveyContextTemplateRelPageDeleted';
+                    $message = 'ObjectDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedSurveyContextTemplateRelPagesDeleted';
+                    $message = 'ObjectsDeleted';
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_PAGE_BROWSER, self :: PARAM_TEMPLATE_ID => $templaterelpage_ids[1]));
+            $this->redirect(Translation :: get($message, array('OBJECT' => Translation::get('SelectedSurveyContextTemplateRelPage'), 'OBJECTS' => Translation::get('SelectedSurveyContextTemplateRelPages')),Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_PAGE_BROWSER, self :: PARAM_TEMPLATE_ID => $templaterelpage_ids[1]));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoSurveyContextTemplateRelPageSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoSurveyContextTemplateRelPagesSelected')));
         
         }
     }
