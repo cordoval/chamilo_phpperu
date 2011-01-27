@@ -97,7 +97,7 @@ class PackageDependency extends DataClass
                 return $this->get_data_manager()->retrieve_dependency($this->get_dependency_id());
                 break;
             case self :: TYPE_PACKAGE :
-                return $this->get_data_manager()->retrieve_package($this->get_package_id());
+                return $this->get_data_manager()->retrieve_package($this->get_dependency_id());
                 break;
         }    
     }

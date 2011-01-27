@@ -625,6 +625,17 @@ class Package extends DataClass
         }
     }
 
+    function get_dependencies_ids()
+    {
+        $dependencies = $this->get_dependencies(false);
+        $package_dependencies_ids = array();
+        while ($package_dependency = $dependencies->next_result())
+        {
+            $package_dependencies_ids[] = $package_dependency->get_dependency_id();
+        }
+        return $package_dependencies_ids;
+    }
+
     function get_package_dependencies($only_ids = true)
     {
         $conditions[] = new EqualityCondition(PackageDependency :: PROPERTY_PACKAGE_ID, $this->get_id());
@@ -646,6 +657,17 @@ class Package extends DataClass
         {
             return $package_dependencies;
         }
+    }
+
+    function get_package_dependencies_ids()
+    {
+        $dependencies = $this->get_package_dependencies(false);
+        $package_dependencies_ids = array();
+        while ($package_dependency = $dependencies->next_result())
+        {
+            $package_dependencies_ids[] = $package_dependency->get_dependency_id();
+        }
+        return $package_dependencies_ids;
     }
 
     static function get_table_name()

@@ -90,10 +90,6 @@ class PackageForm extends FormValidator
         $this->addElement('text', Package :: PROPERTY_CATEGORY, Translation :: get('Category'));
         $this->addRule(Package :: PROPERTY_CATEGORY, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
-        $this->addElement('file', Package :: PROPERTY_FILENAME, Translation :: get('FileName'));
-        $this->addRule(Package :: PROPERTY_FILENAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-        $this->addFormRule(array($this, 'allow_file_type'));
-        
         $this->addElement('text', Package :: PROPERTY_HOMEPAGE, Translation :: get('Homepage'));
         
         $this->addElement('text', Package :: PROPERTY_TAGLINE, Translation :: get('Tagline'));
@@ -201,7 +197,7 @@ class PackageForm extends FormValidator
                 $return_dependency['description'] = $data->get_name() . ' ' . $data->get_version();
                 $return[$dependency->get_id()] = $return_dependency;
             }
-        
+            
             $dependencies = $this->package->get_package_dependencies(false);
             while ($dependency = $dependencies->next_result())
             {
@@ -246,7 +242,7 @@ class PackageForm extends FormValidator
         {
             //dependency
             $dependencies = $values[self :: DEPENDENCY][self :: DEPENDENCY];
-            
+            $packages = array();
             $packages[] = '-1';
             $condition = new InCondition(Package :: PROPERTY_ID, $packages);
             $packages = PackageDataManager :: get_instance()->retrieve_packages($condition);
@@ -259,7 +255,7 @@ class PackageForm extends FormValidator
             
             //package            
             $package_dependencies = $values[self :: DEPENDENCY][self :: PACKAGE];
-            
+            $packages = array();
             $packages[] = '-1';
             $condition = new InCondition(Package :: PROPERTY_ID, $packages);
             $packages = PackageDataManager :: get_instance()->retrieve_packages($condition);
@@ -274,7 +270,7 @@ class PackageForm extends FormValidator
         {
             $dependencies = $this->package->get_dependencies(false);
             
-            $package_dependencies = $this->package->get_package_dependencies(false); 
+            $package_dependencies = $this->package->get_package_dependencies(false);
         }
         
         if (($dependencies instanceof ResultSet && $dependencies->size() > 0) || ($package_dependencies instanceof ResultSet && $package_dependencies->size() > 0))
@@ -311,7 +307,7 @@ class PackageForm extends FormValidator
                 $group = array();
                 $group[] = $this->createElement('static', null, null, $dependency_data->get_name());
                 $group[] = $this->createElement('static', null, null, $dependency_data->get_version());
-                $group[] = $this->createElement('select', 'dependency_compare_' . $option_number, null, self :: get_compare_options());   
+                $group[] = $this->createElement('select', 'dependency_compare_' . $option_number, null, self :: get_compare_options());
                 $group[] = $this->createElement('select', 'dependency_severity_' . $option_number, null, admin\PackageDependency :: get_severity_options());
                 
                 $this->addGroup($group, PackageDependency :: PROPERTY_DEPENDENCY_ID . '_' . $option_number, null, '', false);
@@ -332,7 +328,7 @@ class PackageForm extends FormValidator
                 $group = array();
                 $group[] = $this->createElement('static', null, null, $dependency_data->get_name());
                 $group[] = $this->createElement('static', null, null, $dependency_data->get_version());
-                $group[] = $this->createElement('select', 'package_compare_' . $option_number, null, self :: get_compare_options());   
+                $group[] = $this->createElement('select', 'package_compare_' . $option_number, null, self :: get_compare_options());
                 $group[] = $this->createElement('select', 'package_severity_' . $option_number, null, admin\PackageDependency :: get_severity_options());
                 
                 $this->addGroup($group, PackageDependency :: PROPERTY_DEPENDENCY_ID . '_' . $option_number, null, '', false);
@@ -376,6 +372,10 @@ class PackageForm extends FormValidator
     function build_creation_form()
     {
         $this->build_basic_form();
+        
+        $this->addElement('file', Package :: PROPERTY_FILENAME, Translation :: get('FileName'));
+        $this->addRule(Package :: PROPERTY_FILENAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $this->addFormRule(array($this, 'allow_file_type'));
         
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array(
                 'class' => 'positive'));
@@ -439,7 +439,8 @@ class PackageForm extends FormValidator
             }
         }
         
-        $original_dependencies = $package->get_dependencies();
+        //dependency
+        $original_dependencies = $package->get_dependencies_ids();
         $current_dependencies = (array) $values[self :: DEPENDENCY][self :: DEPENDENCY];
         $dependencies_to_remove = array_diff($original_dependencies, $current_dependencies);
         $dependencies_to_add = array_diff($current_dependencies, $original_dependencies);
@@ -450,8 +451,8 @@ class PackageForm extends FormValidator
             $package_dependency = new PackageDependency();
             $package_dependency->set_dependency_id($dependency);
             $package_dependency->set_package_id($package->get_id());
-            $package_dependency->set_compare(Request :: post('compare_' . $dependency));
-            $package_dependency->set_severity(Request :: post('severity_' . $dependency));
+            $package_dependency->set_compare(Request :: post('dependency_compare_' . $dependency));
+            $package_dependency->set_severity(Request :: post('dependency_severity_' . $dependency));
             $package_dependency->set_dependency_type(PackageDependency :: TYPE_DEPENDENCY);
             
             if (! $package_dependency->create())
@@ -465,10 +466,13 @@ class PackageForm extends FormValidator
             $conditions = array();
             $conditions[] = new InCondition(PackageDependency :: PROPERTY_DEPENDENCY_ID, $dependencies_to_remove);
             $conditions[] = new EqualityCondition(PackageDependency :: PROPERTY_PACKAGE_ID, $package->get_id());
+            $conditions[] = new EqualityCondition(PackageDependency :: PROPERTY_DEPENDENCY_TYPE, PackageDependency :: TYPE_DEPENDENCY);
+            
             $condition = new AndCondition($conditions);
             
             if (! PackageDataManager :: get_instance()->delete_objects(PackageDependency :: get_table_name(), $condition))
             {
+                echo ('remove dep');
                 return false;
             }
         }
@@ -478,11 +482,71 @@ class PackageForm extends FormValidator
             $conditions = array();
             $conditions[] = new EqualityCondition(PackageDependency :: PROPERTY_DEPENDENCY_ID, $dependency);
             $conditions[] = new EqualityCondition(PackageDependency :: PROPERTY_PACKAGE_ID, $package->get_id());
+            $conditions[] = new EqualityCondition(PackageDependency :: PROPERTY_DEPENDENCY_TYPE, PackageDependency :: TYPE_DEPENDENCY);
+            
             $condition = new AndCondition($conditions);
             
             $package_dependency = PackageDataManager :: get_instance()->retrieve_package_dependencies($condition)->next_result();
-            $package_dependency->set_compare($values['compare_' . $dependency]);
-            $package_dependency->set_severity($values['severity_' . $dependency]);
+            $package_dependency->set_compare($values['dependency_compare_' . $dependency]);
+            $package_dependency->set_severity($values['dependency_severity_' . $dependency]);
+            
+            if (! $package_dependency->update())
+            {
+                return false;
+            }
+        }
+        
+        //package
+        $original_dependencies = $package->get_package_dependencies_ids();
+//        dump($original_dependencies);
+        $current_dependencies = (array) $values[self :: DEPENDENCY][self :: PACKAGE];
+//        dump($current_dependencies);
+        $dependencies_to_remove = array_diff($original_dependencies, $current_dependencies);
+        $dependencies_to_add = array_diff($current_dependencies, $original_dependencies);
+        $dependencies_to_update = array_intersect($current_dependencies, $original_dependencies);
+//        dump($dependencies_to_add);
+        foreach ($dependencies_to_add as $dependency)
+        {
+            $package_dependency = new PackageDependency();
+            $package_dependency->set_dependency_id($dependency);
+            $package_dependency->set_package_id($package->get_id());
+            $package_dependency->set_compare(Request :: post('package_compare_' . $dependency));
+            $package_dependency->set_severity(Request :: post('package_severity_' . $dependency));
+            $package_dependency->set_dependency_type(PackageDependency :: TYPE_PACKAGE);
+            
+            if (! $package_dependency->create())
+            {
+                return false;
+            }
+        }
+        
+        if (count($dependencies_to_remove) > 0)
+        {
+            $conditions = array();
+            $conditions[] = new InCondition(PackageDependency :: PROPERTY_DEPENDENCY_ID, $dependencies_to_remove);
+            $conditions[] = new EqualityCondition(PackageDependency :: PROPERTY_PACKAGE_ID, $package->get_id());
+            $conditions[] = new EqualityCondition(PackageDependency :: PROPERTY_DEPENDENCY_TYPE, PackageDependency :: TYPE_PACKAGE);
+            $condition = new AndCondition($conditions);
+            
+            if (! PackageDataManager :: get_instance()->delete_objects(PackageDependency :: get_table_name(), $condition))
+            {
+                echo ('remove package');
+                return false;
+            }
+        }
+        
+        foreach ($dependencies_to_update as $dependency)
+        {
+            $conditions = array();
+            $conditions[] = new EqualityCondition(PackageDependency :: PROPERTY_DEPENDENCY_ID, $dependency);
+            $conditions[] = new EqualityCondition(PackageDependency :: PROPERTY_PACKAGE_ID, $package->get_id());
+            $conditions[] = new EqualityCondition(PackageDependency :: PROPERTY_DEPENDENCY_TYPE, PackageDependency :: TYPE_PACKAGE);
+            
+            $condition = new AndCondition($conditions);
+            
+            $package_dependency = PackageDataManager :: get_instance()->retrieve_package_dependencies($condition)->next_result();
+            $package_dependency->set_compare($values['package_compare_' . $dependency]);
+            $package_dependency->set_severity($values['package_severity_' . $dependency]);
             
             if (! $package_dependency->update())
             {

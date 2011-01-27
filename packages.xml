@@ -78,13 +78,7 @@
       <core/>
       <extension/>
       <extensions/>
-      <external_repository_manager>
-        <dependency>
-          <id>External repository manager</id>
-          <version type="1">1.0.0</version>
-          <severity>1</severity>
-        </dependency>
-      </external_repository_manager>
+      <external_repository_manager/>
       <library/>
       <settings/>
       <video_conferencing_manager/>
@@ -108,23 +102,11 @@
     <dependencies>
       <server/>
       <content_objects/>
-      <applications>
-        <dependency>
-          <id>Administration</id>
-          <version type="1">1.0.0</version>
-          <severity>1</severity>
-        </dependency>
-      </applications>
+      <applications/>
       <core/>
       <extension/>
       <extensions/>
-      <external_repository_manager>
-        <dependency>
-          <id>External repository manager</id>
-          <version type="1">1.0.0</version>
-          <severity>1</severity>
-        </dependency>
-      </external_repository_manager>
+      <external_repository_manager/>
       <library/>
       <settings/>
       <video_conferencing_manager/>
@@ -143,7 +125,7 @@
     <description></description>
     <homepage></homepage>
     <tagline></tagline>
-    <filename>opentok-php-sdk.zip</filename>
+    <filename></filename>
     <authors>
       <author>
         <name>author1</name>
@@ -159,27 +141,17 @@
     <dependencies>
       <server>
         <dependency>
-          <id>dependency1</id>
-          <version type="1">1.2</version>
-          <severity>1</severity>
-        </dependency>
-        <dependency>
           <id>dep2</id>
-          <version type="1">dsfsd</version>
-          <severity>1</severity>
+          <version type="0">dsfsd</version>
+          <severity>0</severity>
         </dependency>
       </server>
       <content_objects/>
       <applications>
         <dependency>
           <id>package 44</id>
-          <version type="1">1.44</version>
-          <severity>1</severity>
-        </dependency>
-        <dependency>
-          <id>package 33</id>
-          <version type="1">1.33</version>
-          <severity>1</severity>
+          <version type="0">1.44</version>
+          <severity>0</severity>
         </dependency>
       </applications>
       <core/>
@@ -188,8 +160,8 @@
       <external_repository_manager>
         <dependency>
           <id>External repository manager</id>
-          <version type="1">1.0.0</version>
-          <severity>1</severity>
+          <version type="0">1.0.0</version>
+          <severity>0</severity>
         </dependency>
       </external_repository_manager>
       <library/>
@@ -219,13 +191,7 @@
       <core/>
       <extension/>
       <extensions/>
-      <external_repository_manager>
-        <dependency>
-          <id>External repository manager</id>
-          <version type="1">1.0.0</version>
-          <severity>1</severity>
-        </dependency>
-      </external_repository_manager>
+      <external_repository_manager/>
       <library/>
       <settings/>
       <video_conferencing_manager/>
@@ -253,13 +219,7 @@
       <core/>
       <extension/>
       <extensions/>
-      <external_repository_manager>
-        <dependency>
-          <id>External repository manager</id>
-          <version type="1">1.0.0</version>
-          <severity>1</severity>
-        </dependency>
-      </external_repository_manager>
+      <external_repository_manager/>
       <library/>
       <settings/>
       <video_conferencing_manager/>
@@ -287,13 +247,7 @@
       <core/>
       <extension/>
       <extensions/>
-      <external_repository_manager>
-        <dependency>
-          <id>External repository manager</id>
-          <version type="1">1.0.0</version>
-          <severity>1</severity>
-        </dependency>
-      </external_repository_manager>
+      <external_repository_manager/>
       <library/>
       <settings/>
       <video_conferencing_manager/>
@@ -321,13 +275,7 @@
       <core/>
       <extension/>
       <extensions/>
-      <external_repository_manager>
-        <dependency>
-          <id>External repository manager</id>
-          <version type="1">1.0.0</version>
-          <severity>1</severity>
-        </dependency>
-      </external_repository_manager>
+      <external_repository_manager/>
       <library/>
       <settings/>
       <video_conferencing_manager/>
