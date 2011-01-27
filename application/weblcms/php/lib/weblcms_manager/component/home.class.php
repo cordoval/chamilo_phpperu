@@ -58,7 +58,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
 
         $renderer->show_new_publication_icons();
         $html[] = $renderer->as_html();
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/home_ajax.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . htmlspecialchars(Path :: get(WEB_LIB_PATH)) . 'libraries/resources/javascript/home_ajax.js' . '"></script>';
         $toolbar_state = Session :: retrieve('toolbar_state');
         if ($toolbar_state == 'hide')
         {
@@ -87,9 +87,10 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
 
         $html[] = '<div id="tool_bar" class="tool_bar tool_bar_right">';
 
+        $img_path = htmlspecialchars(Theme :: get_common_image_path());
         $html[] = '<div id="tool_bar_hide_container" class="hide">';
-        $html[] = '<a id="tool_bar_hide" href="#"><img src="' . Theme :: get_common_image_path() . 'action_action_bar_right_hide.png" /></a>';
-        $html[] = '<a id="tool_bar_show" href="#"><img src="' . Theme :: get_common_image_path() . 'action_action_bar_right_show.png" /></a>';
+        $html[] = '<a id="tool_bar_hide" href="#"><img src="' . $img_path . 'action_action_bar_right_hide.png" /></a>';
+        $html[] = '<a id="tool_bar_show" href="#"><img src="' . $img_path . 'action_action_bar_right_show.png" /></a>';
         $html[] = '</div>';
 
         $html[] = '<div class="tool_menu">';
@@ -97,7 +98,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
 
         if ($this->get_user()->is_platform_admin())
         {
-            $html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('CourseManagement') . '</li><br />';
+            $html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . htmlspecialchars(Translation :: get('CourseManagement')) . '</li><br />';
             $html[] = $this->display_platform_admin_course_list_links();
             $html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';
         }
@@ -108,19 +109,19 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
             {
                 if ($display = $this->display_create_course_link())
                 {
-                    $html[] = '<li class="tool_list_menu" style="font-weight: bold">' . Translation :: get('MenuUser') . '</li><br />';
+                    $html[] = '<li class="tool_list_menu" style="font-weight: bold">' . htmlspecialchars(Translation :: get('MenuUser')) . '</li><br />';
                     $html[] = $display;
                 }
             }
         }
 
-        $html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('UserCourseManagement') . '</li><br />';
+        $html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . htmlspecialchars(Translation :: get('UserCourseManagement')) . '</li><br />';
         $html[] = $this->display_edit_course_list_links();
         $html[] = '</ul>';
         $html[] = '</div>';
 
         $html[] = '</div>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/tool_bar.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . htmlspecialchars(Path :: get(WEB_LIB_PATH)) . 'libraries/resources/javascript/tool_bar.js' . '"></script>';
         $html[] = '<div class="clear"></div>';
         return implode($html, "\n");
     }
@@ -130,6 +131,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
         $html = array();
         $wdm = WeblcmsDataManager :: get_instance();
 
+        $img_path = htmlspecialchars(Theme :: get_common_image_path());
+        
         $count_direct = count($wdm->retrieve_course_types_by_user_right($this->get_user(), CourseTypeGroupCreationRight :: CREATE_DIRECT));
         if (PlatformSetting :: get('allow_course_creation_without_coursetype', 'weblcms'))
         {
@@ -137,13 +140,13 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
         }
         if ($count_direct)
         {
-            $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)) . '">' . Translation :: get('CourseCreate') . '</a></li>';
+            $html[] = '<li class="tool_list_menu" style="background-image: url(' . $img_path . 'action_create.png)"><a style="top: -3px; position: relative;" href="' . htmlspecialchars($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE))) . '">' . htmlspecialchars(Translation :: get('CourseCreate')) . '</a></li>';
         }
 
         $count_request = count($wdm->retrieve_course_types_by_user_right($this->get_user(), CourseTypeGroupCreationRight :: CREATE_REQUEST));
         if ($count_request)
         {
-            $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CREATE_REQUEST_CREATOR)) . '">' . Translation :: get('CourseRequest') . '</a></li>';
+            $html[] = '<li class="tool_list_menu" style="background-image: url(' . $img_path . 'action_create.png)"><a style="top: -3px; position: relative;" href="' . htmlspecialchars($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CREATE_REQUEST_CREATOR))) . '">' . htmlentitites(Translation :: get('CourseRequest')) . '</a></li>';
         }
 
         if ($count_direct + $count_request)
@@ -159,34 +162,37 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
     function display_edit_course_list_links()
     {
         $html = array();
-        $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_reset.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT)) . '">' . Translation :: get('SortMyCourses') . '</a></li>';
+        $img_path = htmlspecialchars(Theme :: get_common_image_path());
+        $html[] = '<li class="tool_list_menu" style="background-image: url(' . $img_path . 'action_reset.png)"><a style="top: -3px; position: relative;" href="' . htmlspecialchars($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT))) . '">' . htmlspecialchars(Translation :: get('SortMyCourses')) . '</a></li>';
 
         if (PlatformSetting :: get('show_subscribe_button_on_course_home', 'weblcms'))
         {
-            $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_subscribe.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SUBSCRIBE)) . '">' . Translation :: get('CourseSubscribe') . '</a></li>';
-            $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_unsubscribe.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_UNSUBSCRIBE)) . '">' . Translation :: get('CourseUnsubscribe') . '</a></li>';
+            $html[] = '<li class="tool_list_menu" style="background-image: url(' . $img_path . 'action_subscribe.png)"><a style="top: -3px; position: relative;" href="' . htmlspecialchars($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SUBSCRIBE))) . '">' . htmlspecialchars(Translation :: get('CourseSubscribe')) . '</a></li>';
+            $html[] = '<li class="tool_list_menu" style="background-image: url(' . $img_path . 'action_unsubscribe.png)"><a style="top: -3px; position: relative;" href="' . htmlspecialchars($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_UNSUBSCRIBE))) . '">' . htmlspecialchars(Translation :: get('CourseUnsubscribe')) . '</a></li>';
         }
 
-        $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'treemenu_types/rss_feed.png)"><a style="top: -3px; position: relative;" href="' . RssIconGenerator :: generate_rss_url(WeblcmsManager :: APPLICATION_NAME, 'publication', $this->get_user()) . '">' . Translation :: get('RssFeed') . '</a></li>';
+        $html[] = '<li class="tool_list_menu" style="background-image: url(' . $img_path . 'treemenu_types/rss_feed.png)"><a style="top: -3px; position: relative;" href="' . htmlspecialchars(RssIconGenerator :: generate_rss_url(WeblcmsManager :: APPLICATION_NAME, 'publication', $this->get_user())) . '">' . htmlspecialchars(Translation :: get('RssFeed')) . '</a></li>';
         return implode($html, "\n");
     }
 
     function display_platform_admin_course_list_links()
     {
         $html = array();
-        $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)) . '">' . Translation :: get('CourseCreate') . '</a></li>';
-        $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)) . '">' . Translation :: get('CourseList') . '</a></li>';
-        $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER)) . '">' . Translation :: get('RequestList') . '</a></li>';
-        $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_move.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)) . '">' . Translation :: get('CourseCategoryManagement') . '</a></li>';
-        $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_add.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)) . '">' . Translation :: get('ImportCourseCSV') . '</a></li>';
-        $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_add.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)) . '">' . Translation :: get('ImportUsersForCourseCSV') . '</a></li>';
+        $img_path = htmlspecialchars(Theme :: get_common_image_path());
+        $html[] = '<li class="tool_list_menu" style="background-image: url(' . $img_path . 'action_create.png)"><a style="top: -3px; position: relative;" href="' . htmlspecialchars($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE))) . '">' . htmlspecialchars(Translation :: get('CourseCreate')) . '</a></li>';
+        $html[] = '<li class="tool_list_menu" style="background-image: url(' . $img_path . 'action_browser.png)"><a style="top: -3px; position: relative;" href="' . htmlspecialchars($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER))) . '">' . htmlspecialchars(Translation :: get('CourseList')) . '</a></li>';
+        $html[] = '<li class="tool_list_menu" style="background-image: url(' . $img_path . 'action_browser.png)"><a style="top: -3px; position: relative;" href="' . htmlspecialchars($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER))) . '">' . htmlspecialchars(Translation :: get('RequestList')) . '</a></li>';
+        $html[] = '<li class="tool_list_menu" style="background-image: url(' . $img_path . 'action_move.png)"><a style="top: -3px; position: relative;" href="' . htmlspecialchars($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER))) . '">' . htmlspecialchars(Translation :: get('CourseCategoryManagement')) . '</a></li>';
+        $html[] = '<li class="tool_list_menu" style="background-image: url(' . $img_path . 'action_add.png)"><a style="top: -3px; position: relative;" href="' . htmlspecialchars($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES))) . '">' . htmlspecialchars(Translation :: get('ImportCourseCSV')) . '</a></li>';
+        $html[] = '<li class="tool_list_menu" style="background-image: url(' . $img_path . 'action_add.png)"><a style="top: -3px; position: relative;" href="' . htmlspecialchars($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS))) . '">' . htmlspecialchars(Translation :: get('ImportUsersForCourseCSV')) . '</a></li>';
 
         return implode($html, "\n");
     }
 
     function get_course_user_category_actions(CourseUserCategory $course_user_category, CourseType $course_type, $offset, $count)
     {
-        return '<a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
+        $img_path = htmlspecialchars(Theme :: get_common_image_path());
+        return '<a href="#" class="closeEl"><img class="visible" src="' . $img_path . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . $img_path . 'action_invisible.png" /></a>';
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)

@@ -38,7 +38,7 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
                 {
                     if (! $calendar->contains_events_for_time($table_date))
                     {
-                        $marker = '<br /><div class="event_marker" style="width: 14px; height: 15px;"><img src="' . Theme :: get_common_image_path() . 'action_marker.png"/></div>';
+                        $marker = '<br /><div class="event_marker" style="width: 14px; height: 15px;"><img src="' . htmlspecialchars(Theme :: get_common_image_path()) . 'action_marker.png"/></div>';
                         $calendar->add_event($table_date, $marker);
                     }
 
@@ -75,7 +75,7 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
     //     */
     //    private function render_event($event)
     //    {
-    //        $html[] = '<a href="' . $event->get_url() . '"><br /><img src="' . Theme :: get_common_image_path() . 'action_marker.png"/></a>';
+    //        $html[] = '<a href="' . $event->get_url() . '"><br /><img src="' . htmlspecialchars(Theme :: get_common_image_path()) . 'action_marker.png"/></a>';
     //        return implode("\n", $html);
     //    }
 
@@ -104,7 +104,7 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
             $html[] = '&rarr;';
         }
 
-        $html[] = '<a href="' . $event->get_url() . '">';
+        $html[] = '<a href="' . htmlspecialchars($event->get_url()) . '">';
         $html[] = htmlspecialchars($event->get_title());
         $html[] = '</a>';
 

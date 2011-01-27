@@ -52,7 +52,7 @@ class AdminSystemAnnouncements extends AdminBlock
 
         if ($announcements->size() == 0)
         {
-            $html[] = '<li style="margin-bottom: 2px;">' . Translation :: get('NoNewSystemAnnouncements') . '</a></li>';
+            $html[] = '<li style="margin-bottom: 2px;">' . htmlspecialchars(Translation :: get('NoNewSystemAnnouncements')) . '</a></li>';
         }
 
         while ($announcement = $announcements->next_result())
@@ -60,10 +60,10 @@ class AdminSystemAnnouncements extends AdminBlock
             if ($announcement->is_visible_for_target_users())
             {
                 $object = $announcement->get_publication_object();
-                $html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($object->get_type())) . 'logo/' . $object->get_icon_name(Theme :: ICON_MINI) . '.png" />&nbsp;&nbsp;<a href="' . 
-                        Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(
+                $html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="' . htmlspecialchars(Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($object->get_type()))) . 'logo/' . $object->get_icon_name(Theme :: ICON_MINI) . '.png" />&nbsp;&nbsp;<a href="' . 
+                    htmlspecialchars(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(
                         Application :: PARAM_ACTION => AdminManager :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT,
-                        AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $announcement->get_id()), null, null, Redirect :: TYPE_CORE) . '">' . $object->get_title() . '</a></li>';
+                        AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $announcement->get_id()), null, null, Redirect :: TYPE_CORE)) . '">' . htmlspecialchars($object->get_title()) . '</a></li>';
             }
         }
 

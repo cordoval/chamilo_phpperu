@@ -69,6 +69,7 @@ class HomeManagerHomeComponent extends HomeManager
 
         //if ($tabs->size() > 1)
         //{
+        $img_path = htmlspecialchars(Theme :: get_image_path());
         $html[] = '<div id="tab_menu"><ul id="tab_elements">';
         while ($tab = $tabs->next_result())
         {
@@ -83,16 +84,16 @@ class HomeManagerHomeComponent extends HomeManager
                 $class = 'normal';
             }
 
-            $html[] = '<li class="' . $class . '" id="tab_select_' . $tab->get_id() . '"><a class="tabTitle" href="' . $this->get_home_tab_viewing_url($tab) . '">' . $tab->get_title() . '</a><a class="deleteTab"><img src="' . Theme :: get_image_path() . 'action_delete_tab.png" /></a></li>';
+            $html[] = '<li class="' . $class . '" id="tab_select_' . $tab->get_id() . '"><a class="tabTitle" href="' . htmlspecialchars($this->get_home_tab_viewing_url($tab)) . '">' . htmlspecialchars($tab->get_title()) . '</a><a class="deleteTab"><img src="' . $img_path . 'action_delete_tab.png" /></a></li>';
         }
         $html[] = '</ul>';
 
         if ($user_home_allowed && Authentication :: is_valid())
         {
             $html[] = '<div id="tab_actions">';
-            $html[] = '<a class="addTab" href="#"><img src="' . Theme :: get_image_path() . 'action_add_tab.png" />&nbsp;' . Translation :: get('NewTab') . '</a>';
-            $html[] = '<a class="addColumn" href="#"><img src="' . Theme :: get_image_path() . 'action_add_column.png" />&nbsp;' . Translation :: get('NewColumn') . '</a>';
-            $html[] = '<a class="addEl" style="display: none;" href="#"><img src="' . Theme :: get_image_path() . 'action_add_block.png" />&nbsp;' . Translation :: get('NewBlock') . '</a>';
+            $html[] = '<a class="addTab" href="#"><img src="' . $img_path . 'action_add_tab.png" />&nbsp;' . htmlspecialchars(Translation :: get('NewTab')) . '</a>';
+            $html[] = '<a class="addColumn" href="#"><img src="' . $img_path . 'action_add_column.png" />&nbsp;' . htmlspecialchars(Translation :: get('NewColumn')) . '</a>';
+            $html[] = '<a class="addEl" style="display: none;" href="#"><img src="' . $img_path . 'action_add_block.png" />&nbsp;' . htmlspecialchars(Translation :: get('NewBlock')) . '</a>';
             $html[] = '</div>';
         }
 
@@ -180,7 +181,7 @@ class HomeManagerHomeComponent extends HomeManager
                     else
                     {
                         $html[] = '<div class="empty_column">';
-                        $html[] = Translation :: get('EmptyColumnText');
+                        $html[] = htmlspecialchars(Translation :: get('EmptyColumnText'));
                         $html[] = '<div class="deleteColumn"></div>';
                         $html[] = '</div>';
                     }
