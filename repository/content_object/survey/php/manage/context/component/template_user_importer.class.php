@@ -4,7 +4,7 @@ namespace repository\content_object\survey;
 use common\libraries\DynamicTabsRenderer;
 use common\libraries\Translation;
 use common\libraries\Request;
-
+use common\libraries\Utilities;
 
 class SurveyContextManagerTemplateUserImporterComponent extends SurveyContextManager
 {
@@ -22,7 +22,7 @@ class SurveyContextManagerTemplateUserImporterComponent extends SurveyContextMan
         if ($form->validate())
         {
             $success = $form->process();
-        	$this->redirect(Translation :: get($success ? 'TemplatesImported' : 'TemplatesNotImported'), $success, array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => $template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerTemplateViewerComponent :: TAB_TEMPLATE_USERS ));
+        	$this->redirect(Translation :: get($success ? 'ObjectsImported' : 'ObjectsNotImported', array('OBJECTS' => Translation::get('Templates')),Utilities::COMMON_LIBRARIES), $success, array(self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => $template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerTemplateViewerComponent :: TAB_TEMPLATE_USERS ));
         }
         else
         {

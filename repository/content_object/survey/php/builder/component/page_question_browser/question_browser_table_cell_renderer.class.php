@@ -6,6 +6,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/question_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../tables/page_question_table/default_page_question_table_cell_renderer.class.php';
@@ -50,11 +51,11 @@ class SurveyPageQuestionBrowserTableCellRenderer extends DefaultSurveyPageQuesti
         
         $toolbar = new Toolbar();
         
-        $toolbar->add_item(new ToolbarItem(Translation :: get('ToggleVisibility'), Theme :: get_common_image_path() . 'action_visible.png', $this->browser->get_change_question_visibility_url($complex_item), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ToggleVisibility',null,Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_visible.png', $this->browser->get_change_question_visibility_url($complex_item), ToolbarItem :: DISPLAY_ICON));
         
         if ($complex_item->get_visible() == 1)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Configure'), Theme :: get_common_image_path() . 'action_build_prerequisites.png', $this->browser->get_configure_question_url($complex_item), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Configure',null,Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_build_prerequisites.png', $this->browser->get_configure_question_url($complex_item), ToolbarItem :: DISPLAY_ICON));
         }
         
         return $toolbar->as_html();
