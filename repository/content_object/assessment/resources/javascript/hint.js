@@ -12,7 +12,6 @@
                     'method' : 'hint',
                     'hint_identifier' : hintIdentifier
                 });
-        
         result = eval('(' + result + ')');
 
         $(this).after(result.properties.hint).remove();

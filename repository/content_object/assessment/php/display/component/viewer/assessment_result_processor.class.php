@@ -140,7 +140,7 @@ class AssessmentResultProcessor
         while ($question_cloi = $questions_cloi->next_result())
         {
             $tracker = $answers[$question_cloi->get_id()];
-            if(!$tracker)
+            if (! $tracker)
             {
                 continue;
             }
@@ -155,26 +155,30 @@ class AssessmentResultProcessor
             $question_number ++;
         }
 
-        $this->question_results[] = '<div class="question">';
-        $this->question_results[] = '<div class="title">';
-        $this->question_results[] = '<div class="text">';
-        $this->question_results[] = '<div class="bevel" style="float: left;">';
-        $this->question_results[] = Translation :: get('TotalScore');
-        $this->question_results[] = '</div>';
-        $this->question_results[] = '<div class="bevel" style="text-align: right;">';
-
         if ($total_score < 0)
+        {
             $total_score = 0;
+        }
 
         $percent = round(($total_score / $total_weight) * 100);
-
-        $this->question_results[] = $total_score . ' / ' . $total_weight . ' (' . $percent . '%)';
-        $this->question_results[] = '</div>';
-
-        $this->question_results[] = '</div></div></div>';
-        $this->question_results[] = '<div class="clear"></div>';
-
         $this->get_assessment_viewer()->save_assessment_result($percent);
+
+        if ($this->get_assessment_viewer()->display_numeric_feedback())
+        {
+            $this->question_results[] = '<div class="question">';
+            $this->question_results[] = '<div class="title">';
+            $this->question_results[] = '<div class="text">';
+            $this->question_results[] = '<div class="bevel" style="float: left;">';
+            $this->question_results[] = Translation :: get('TotalScore');
+            $this->question_results[] = '</div>';
+            $this->question_results[] = '<div class="bevel" style="text-align: right;">';
+
+            $this->question_results[] = $total_score . ' / ' . $total_weight . ' (' . $percent . '%)';
+            $this->question_results[] = '</div>';
+
+            $this->question_results[] = '</div></div></div>';
+            $this->question_results[] = '<div class="clear"></div>';
+        }
 
         unset($_SESSION['questions']);
 

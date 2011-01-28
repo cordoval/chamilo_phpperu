@@ -1,4 +1,5 @@
 <?php
+
 namespace application\handbook;
 
 use common\libraries\ObjectTable;
@@ -7,17 +8,13 @@ use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableOrder;
-
 use group\Group;
 use group\GroupDataManager;
-
 use application\context_linker\ContextLinkerDataManager;
 use application\context_linker\ContextLink;
 use application\context_linker\ContextLinkerManager;
-
 use application\metadata\MetadataManager;
 use application\metadata\MetadataPropertyValue;
-
 use repository\RepositoryDataManager;
 use repository\ContentObjectDisplay;
 use repository\content_object\handbook\Handbook;
@@ -41,6 +38,7 @@ use common\libraries\Application;
 use common\libraries\Session;
 use rights\RightsUtilities;
 use common\libraries\Theme;
+use application\metadata\MetadataDataManager;
 
 require_once dirname(__FILE__) . '/../handbook_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/handbook_publication_browser/handbook_publication_browser_table.class.php';
@@ -92,8 +90,8 @@ class HandbookManager extends WebApplication
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LIGHT_MODE = 'light';
-    const PARAM_LANGUAGE = 'dc:Language';
-    const PARAM_PUBLISHER = 'dc:publisher';
+//    const PARAM_LANGUAGE = 'dc:Language';
+//    const PARAM_PUBLISHER = 'dc:publisher';
 
     const PARAM_MENU_STYLE = 'menu_style';
     const MENU_COMPACT = 0;
@@ -104,8 +102,7 @@ class HandbookManager extends WebApplication
     const ACTION_BROWSE = 'browse';
 
     static $language_metadata_properties = array('dc:Language', 'dc:language');
-    static $publisher_metadata_properties = array('dc:publisher, dc:Publisher');
-
+    static $publisher_metadata_properties = array('dc:Publisher', 'dc:publisher');
     static $found_glossaries = array();
 
     /**
@@ -115,21 +112,23 @@ class HandbookManager extends WebApplication
     function __construct($user = null)
     {
         parent :: __construct($user);
-
     }
 
     static function get_language_metadata_properties()
     {
         return self::$language_metadata_properties;
     }
+
     static function get_first_language_metadata_property()
     {
         return self::$language_metadata_properties[0];
     }
+
     static function get_publisher_metadata_properties()
     {
         return self::$publisher_metadata_properties;
     }
+
     static function get_first_publisher_metadata_property()
     {
         return self::$publisher_metadata_properties[0];
@@ -149,7 +148,7 @@ class HandbookManager extends WebApplication
                     {
                         $selected_ids = array();
                     }
-                    elseif (! is_array($selected_ids))
+                    elseif (!is_array($selected_ids))
                     {
                         $selected_ids = array($selected_ids);
                     }
@@ -158,7 +157,6 @@ class HandbookManager extends WebApplication
                     $_GET[self :: PARAM_HANDBOOK_PUBLICATION] = $selected_ids;
                     break;
             }
-
         }
     }
 
@@ -166,9 +164,6 @@ class HandbookManager extends WebApplication
     {
         return self :: APPLICATION_NAME;
     }
-
-    // Data Retrieving
-
 
     function count_handbook_publications($condition)
     {
@@ -185,9 +180,6 @@ class HandbookManager extends WebApplication
         return HandbookDataManager :: get_instance()->retrieve_handbook_publication($id);
     }
 
-    // Url Creation
-
-
     function get_create_handbook_publication_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_HANDBOOK_PUBLICATION));
@@ -196,17 +188,17 @@ class HandbookManager extends WebApplication
     function get_update_handbook_publication_url($handbook_publication)
     {
         return $this->get_url(array(
-                self :: PARAM_ACTION => self :: ACTION_EDIT_HANDBOOK_PUBLICATION,
-                self :: PARAM_HANDBOOK_PUBLICATION => $handbook_publication->get_id()));
+            self :: PARAM_ACTION => self :: ACTION_EDIT_HANDBOOK_PUBLICATION,
+            self :: PARAM_HANDBOOK_PUBLICATION => $handbook_publication->get_id()));
     }
 
     function get_delete_handbook_publication_url($handbook_publication_id)
     {
         return $this->get_url(array(
-                self :: PARAM_ACTION => self :: ACTION_DELETE_HANDBOOK_PUBLICATION,
-                self :: PARAM_HANDBOOK_PUBLICATION => $handbook_publication_id));
+            self :: PARAM_ACTION => self :: ACTION_DELETE_HANDBOOK_PUBLICATION,
+            self :: PARAM_HANDBOOK_PUBLICATION => $handbook_publication_id));
     }
-  
+
     function get_browse_handbook_publications_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_HANDBOOK_PUBLICATIONS));
@@ -219,7 +211,7 @@ class HandbookManager extends WebApplication
 
     function get_view_handbook_publication_url($handbook_id, $handbook_publication_id = null)
     {
-        if($handbook_publication_id == null)
+        if ($handbook_publication_id == null)
         {
             $hdm = HandbookDataManager :: get_instance();
             $condition = new EqualityCondition(HandbookPublication :: PROPERTY_CONTENT_OBJECT_ID, $handbook_id);
@@ -230,36 +222,36 @@ class HandbookManager extends WebApplication
             }
         }
         return $this->get_url(array(
-                self :: PARAM_ACTION => self :: ACTION_VIEW_HANDBOOK,
-                self :: PARAM_TOP_HANDBOOK_ID => $handbook_id,
-                self :: PARAM_HANDBOOK_ID => $handbook_id,
-                self :: PARAM_HANDBOOK_PUBLICATION_ID => $handbook_publication_id));
+            self :: PARAM_ACTION => self :: ACTION_VIEW_HANDBOOK,
+            self :: PARAM_TOP_HANDBOOK_ID => $handbook_id,
+            self :: PARAM_HANDBOOK_ID => $handbook_id,
+            self :: PARAM_HANDBOOK_PUBLICATION_ID => $handbook_publication_id));
     }
 
     function get_view_handbook_url($handbook_id)
     {
         return $this->get_url(array(
-                self :: PARAM_ACTION => self :: ACTION_VIEW_HANDBOOK,
-                self :: PARAM_HANDBOOK_ID => $handbook_id));
+            self :: PARAM_ACTION => self :: ACTION_VIEW_HANDBOOK,
+            self :: PARAM_HANDBOOK_ID => $handbook_id));
     }
 
     function get_edit_handbook_item_url($selection_to_edit, $thid, $hsid, $hpid, $coid, $hid)
     {
         return $this->get_url(array(
-                HandbookManager :: PARAM_ACTION => HandbookManager :: ACTION_EDIT_ITEM,
-                HandbookManager::PARAM_HANDBOOK_SELECTION_ID => $hsid,
-                HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID => $hpid,
-                HandbookManager::PARAM_TOP_HANDBOOK_ID => $thid,
-                HandbookManager::PARAM_HANDBOOK_ID => $hid,
-                HandbookManager::PARAM_SELECTION_TO_EDIT => $selection_to_edit,
-                HandbookManager::PARAM_COMPLEX_OBJECT_ID =>$coid));
-
+            HandbookManager :: PARAM_ACTION => HandbookManager :: ACTION_EDIT_ITEM,
+            HandbookManager::PARAM_HANDBOOK_SELECTION_ID => $hsid,
+            HandbookManager::PARAM_HANDBOOK_PUBLICATION_ID => $hpid,
+            HandbookManager::PARAM_TOP_HANDBOOK_ID => $thid,
+            HandbookManager::PARAM_HANDBOOK_ID => $hid,
+            HandbookManager::PARAM_SELECTION_TO_EDIT => $selection_to_edit,
+            HandbookManager::PARAM_COMPLEX_OBJECT_ID => $coid));
     }
 
     static function translate_chamilo_language_to_iso_code($language)
     {
         //should probably be put somewhere else (stored in db?) so one can easily add new languages
         //for testing the app this should do
+        //OBSOLETE SINCE CHAMILO USES ISO CODES NOW
         $iso_639_code;
         switch ($language)
         {
@@ -299,8 +291,9 @@ class HandbookManager extends WebApplication
         $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $co_id);
         $context_links = $cldm->retrieve_full_context_links_recursive($co_id, null, null, null, ContextLinkerManager::ARRAY_TYPE_FLAT);
 
-        $rdm = RepositoryDataManager :: get_instance();   
-             
+        $rdm = RepositoryDataManager :: get_instance();
+
+        //TODO: does this return a resultset or an array? I think this was changed in the context linker
         return $context_links;
     }
 
@@ -318,13 +311,11 @@ class HandbookManager extends WebApplication
     static function get_resultset_with_original_and_alternatives($co_id)
     {
         //TODO: this should probably be moved to the contextlinker
-
         //get all alternatives for this item
         $alternatives_array = HandbookManager::get_alternative_items($co_id);
 
         $rdm = RepositoryDataManager::get_instance();
         $original_co = $rdm->retrieve_content_object($co_id);
-        
 
         //add original to array
         $original['alt_' . ContentObject :: PROPERTY_TITLE] = $original_co->get_title();
@@ -355,12 +346,9 @@ class HandbookManager extends WebApplication
      */
     static function get_all_alternative_ids($co_id)
     {
-
         //TODO: this should probably be moved to the context linker
         $alternatives_array = HandbookManager::get_alternative_items($co_id);
-
-        $ids=array();
-
+        $ids = array();
         foreach ($alternatives_array as $alternative)
         {
             $ids[] = $alternative['alt_id'];
@@ -368,9 +356,7 @@ class HandbookManager extends WebApplication
         $ids[] = $co_id;
 
         return $ids;
-
     }
-
 
     /**
      * return the ids of all the handbook topics in a handbook and their text alternatives
@@ -378,26 +364,24 @@ class HandbookManager extends WebApplication
      */
     static function get_all_text_items_of_handbook($handbook_id)
     {
-        if(!is_array($handbook_id))
+        if (!is_array($handbook_id))
         {
             $handbook_id = array($handbook_id);
         }
         $top_level = self::get_handbook_children_ids($handbook_id);
-        
+
         $all_alternatives = array();
-        foreach($top_level as $orig_id)
+        foreach ($top_level as $orig_id)
         {
             $all_alternatives = array_merge($all_alternatives, self::get_all_alternative_ids($orig_id));
         }
 
         return $all_alternatives;
-
     }
-
 
     static function get_handbook_children_ids($ids_to_check, $recursive_array = array())
     {
-        if(!is_array($ids_to_check))
+        if (!is_array($ids_to_check))
         {
             $ids_to_check = array($ids_to_check);
         }
@@ -406,18 +390,18 @@ class HandbookManager extends WebApplication
         $object_set = $rdm->retrieve_objects(ComplexContentObjectItem :: get_table_name(), $condition, null, null, null, ComplexContentObjectItem :: CLASS_NAME);
         $recursive_array = array_merge($ids_to_check, $recursive_array);
         $new_ids_to_check = array();
-        while($complex_child = $object_set->next_result())
+        while ($complex_child = $object_set->next_result())
         {
             $child_id = $complex_child->get_ref();
-            if(!in_array($child_id , $recursive_array))
-            {                
+            if (!in_array($child_id, $recursive_array))
+            {
                 $child = $rdm->retrieve_content_object($child_id);
-                if($child->get_type() == Handbook::get_type_name())
+                if ($child->get_type() == Handbook::get_type_name())
                 {
-                 //is child a handbook -> get children
+                    //is child a handbook -> get children
                     $new_ids_to_check[] = $child->get_id();
                 }
-                else if($child->get_type() == HandbookItem::get_type_name())
+                else if ($child->get_type() == HandbookItem::get_type_name())
                 {
                     //is child a handbook_item --> get co and add to array
                     $recursive_array[] = $child->get_reference();
@@ -430,12 +414,10 @@ class HandbookManager extends WebApplication
                 }
             }
         }
-        if(count($new_ids_to_check)>0)
+        if (count($new_ids_to_check) > 0)
         {
-            //the handbooks had children that have so perform a recursive check
-//            $recursive_array = \array_merge($recursive_array ,self::get_handbook_children_ids($new_ids_to_check, $recursive_array));
-         $recursive_array = self::get_handbook_children_ids($new_ids_to_check, $recursive_array);
-
+            //the handbooks had children so perform a recursive check
+            $recursive_array = self::get_handbook_children_ids($new_ids_to_check, $recursive_array);
         }
         return $recursive_array;
     }
@@ -461,12 +443,9 @@ class HandbookManager extends WebApplication
         $handbooks = array();
         $rdm = RepositoryDataManager :: get_instance();
 
-
         while ($context_links_resultset != false && (count($context_links_resultset) > 0) && list($key, $item) = each($context_links_resultset))
         {
-
             $alternative_co = $rdm->retrieve_content_object($item[ContextLinkerManager :: PROPERTY_ALT_ID]);
-
             if ($alternative_co)
             {
                 $display = ContentObjectDisplay :: factory($alternative_co);
@@ -475,52 +454,47 @@ class HandbookManager extends WebApplication
                     $handbooks[] = $alternative_co;
                 }
                 else
-                    if ($alternative_co->get_type() == HandbookTopic :: get_type_name())
-                    {
+                if ($alternative_co->get_type() == HandbookTopic :: get_type_name())
+                {
 
-                        $texts[] = $alternative_co;
+                    $texts[] = $alternative_co;
+                }
+                else
+                if ($alternative_co->get_type() == Document :: get_type_name())
+                {
+                    if ($alternative_co->is_image())
+                    {
+                        $images[] = $alternative_co;
                     }
                     else
-                        if ($alternative_co->get_type() == Document :: get_type_name())
-                        {
-                            if ($alternative_co->is_image())
-                            {
-                                $images[] = $alternative_co;
-                            }
-                            else
-                                if ($alternative_co->is_flash() || $alternative_co->is_video() || $alternative_co->is_audio())
-                                {
-                                    $videos[] = $alternative_co;
-                                }
-                                else
-                                    if ($alternative_co->is_showable())
-                                    {
-                                        $others[] = $alternative_co;
-                                    }
-                                    else
-                                    {
-                                        $others[] = $alternative_co;
-                                    }
-                        }
-                        else
-                            if ($alternative_co->get_type() == Youtube :: get_type_name())
-                            {
-                                $videos[] = $alternative_co;
-                            }
-                            else
-                                if ($alternative_co->get_type() == Link :: get_type_name())
-                                {
-                                    $links[] = $alternative_co;
-                                }
-                                else
-                                    if ($alternative_co->get_type() == WikiPage :: get_type_name())
-                                    {
-                                        $texts[] = $alternative_co;
-                                    }
-                                    else
-                                    {
-                                        $others[] = $alternative_co;
-                                    }
+                    if ($alternative_co->is_flash() || $alternative_co->is_video() || $alternative_co->is_audio())
+                    {
+                        $videos[] = $alternative_co;
+                    }
+                    else
+                    if ($alternative_co->is_showable())
+                    {
+                        $others[] = $alternative_co;
+                    }
+                    else
+                    {
+                        $others[] = $alternative_co;
+                    }
+                }
+                else
+                if ($alternative_co->get_type() == Youtube :: get_type_name())
+                {
+                    $videos[] = $alternative_co;
+                }
+                else
+                if ($alternative_co->get_type() == Link :: get_type_name())
+                {
+                    $links[] = $alternative_co;
+                }
+                else
+                {
+                    $others[] = $alternative_co;
+                }
             }
         }
 
@@ -529,58 +503,52 @@ class HandbookManager extends WebApplication
             $handbooks[] = $selected_object;
         }
         else
-            if ($selected_object->get_type() == HandbookTopic :: get_type_name())
-            {
+        if ($selected_object->get_type() == HandbookTopic :: get_type_name())
+        {
 
-                $texts[] = $selected_object;
+            $texts[] = $selected_object;
+        }
+        else
+        if ($selected_object->get_type() == Document :: get_type_name())
+        {
+            if ($selected_object->is_image())
+            {
+                $images[] = $alternative_co;
             }
             else
-                if ($selected_object->get_type() == Document :: get_type_name())
-                {
-                    if ($selected_object->is_image())
-                    {
-                        $images[] = $alternative_co;
-                    }
-                    else
-                        if ($selected_object->is_flash() || $selected_object->is_video() || $selected_object->is_audio())
-                        {
-                            $videos[] = $alternative_co;
-                        }
-                        else
-                        {
-                            $others[] = $selected_object;
-                        }
-                }
-                else
-                    if ($selected_object->get_type() == Youtube :: get_type_name())
-                    {
-                        $videos[] = $selected_object;
-                    }
-                    else
-                        if ($selected_object->get_type() == Link :: get_type_name())
-                        {
-                            $links[] = $selected_object;
-                        }
-                        else
-                            if ($selected_object->get_type() == WikiPage :: get_type_name())
-                            {
-                                $texts[] = $selected_object;
-                            }
-                            else
-                            {
-                                $others[] = $selected_object;
-                            }
-        //                 $alternatives['text'] = $texts;
-        //                 $alternatives['image'] = $images;
-        //                 $alternatives['video'] = $videos;
+            if ($selected_object->is_flash() || $selected_object->is_video() || $selected_object->is_audio())
+            {
+                $videos[] = $alternative_co;
+            }
+            else
+            {
+                $others[] = $selected_object;
+            }
+        }
+        else
+        if ($selected_object->get_type() == Youtube :: get_type_name())
+        {
+            $videos[] = $selected_object;
+        }
+        else
+        if ($selected_object->get_type() == Link :: get_type_name())
+        {
+            $links[] = $selected_object;
+        }
+        else
+        if ($selected_object->get_type() == WikiPage :: get_type_name())
+        {
+            $texts[] = $selected_object;
+        }
+        else
+        {
+            $others[] = $selected_object;
+        }
         $alternatives['other'] = $others;
         $alternatives['link'] = $links;
-        //                 $alternatives['handbook'] = $handbooks;
 
-
-        //GET USER & PUBLICATION PREFERENCES
+        //GET USER PREFERENCES (metadata)
         $preferences = self :: get_preferences($publication_id);
-
         //determine wich preferences are more important:
         $preference_importance = self :: get_publication_preferences_importance($publication_id);
 
@@ -594,7 +562,6 @@ class HandbookManager extends WebApplication
         {
             $alternatives['text'] = $texts;
         }
-
         //IMAGE
         if (count($images > 0))
         {
@@ -605,7 +572,6 @@ class HandbookManager extends WebApplication
         {
             $alternatives['image'] = $images;
         }
-
         //VIDEO
         if (count($videos > 0))
         {
@@ -616,7 +582,6 @@ class HandbookManager extends WebApplication
         {
             $alternatives['video'] = $videos;
         }
-
         //HANDBOOK
         if (count($videos > 0))
         {
@@ -627,8 +592,6 @@ class HandbookManager extends WebApplication
         {
             $alternatives['handbook'] = $handbooks;
         }
-
-
         return $alternatives;
     }
 
@@ -639,18 +602,16 @@ class HandbookManager extends WebApplication
         $best_found_flag = false;
         $array_to_check = array();
         $array_to_check = $co_array;
-        $i = 1;
+        $i = 0;
         $x = count($preference_importance);
-
-        while ($best_found_flag == false && $i <= $x)
+        while ($best_found_flag == false && $i < $x)
         {
-            if (array_key_exists(key($preference_importance[$i]), $preferences) && array_key_exists($preference_importance[$i][key($preference_importance[$i])], $preferences[key($preference_importance[$i])]))
+            if (array_key_exists($preference_importance[$i], $preferences))
             {
                 //if a value for this preference has been set
-                $metadata_to_check = $preference_importance[$i][key($preference_importance[$i])];
-                $preference_value_to_check = $preferences[key($preference_importance[$i])][$preference_importance[$i][key($preference_importance[$i])]];
+                $metadata_to_check = $preference_importance[$i];
+                $preference_value_to_check = $preferences[$preference_importance[$i]];
                 $candidates = self :: determine_most_suitable_candidates($array_to_check, $metadata_to_check, $preference_value_to_check);
-
                 //are there one or more good candidates, based on preference?
                 if (count($candidates['yes']) > 0)
                 {
@@ -660,24 +621,21 @@ class HandbookManager extends WebApplication
                         $best_found_flag = true;
                         $alternatives[$label . '_main'] = current($candidates['yes']);
                         $array_to_check = $candidates['no'];
-
                     }
                     else
                     { //multiple suitable co's found, keep looking
                         $array_to_check = $candidates['yes'];
                         $alternatives[$label] = array_merge($alternatives[$label], $candidates['no']);
                     }
-
                 }
                 else
                 {
                     //no suitable co's found for this preference/value
                     $array_to_check = $candidates['no'];
                 }
-
             }
             //check next preference
-            $i ++;
+            $i++;
         }
 
         if ($best_found_flag == false)
@@ -685,12 +643,10 @@ class HandbookManager extends WebApplication
             //no "most suitable" found by metadata & preferences: pick first one as most suitable
             $alternatives[$label . '_main'] = current($array_to_check);
             unset($array_to_check[key($array_to_check)]);
-
         }
         $alternatives[$label] = array_merge($alternatives[$label], $array_to_check);
 
         return $alternatives;
-
     }
 
     static function determine_most_suitable_candidates($candidates_array, $metadata_property, $metadata_property_value)
@@ -698,7 +654,7 @@ class HandbookManager extends WebApplication
         $meets_criteria = array();
         $doesnt_meet_criteria = array();
 
-        if(!\is_array($metadata_property))
+        if (!\is_array($metadata_property))
         {
             $metadata_property = array($metadata_property);
         }
@@ -707,12 +663,11 @@ class HandbookManager extends WebApplication
         {
             //get metadata for co
             $metadata = MetadataManager :: retrieve_metadata_for_content_object($co->get_id());
-            foreach($metadata_property as $prop)
+            foreach ($metadata_property as $prop)
             {
                 if (array_key_exists($prop, $metadata) && $metadata[$prop] == $metadata_property_value)
                 {
                     $meets_criteria[] = $co;
-
                 }
                 else
                 {
@@ -726,34 +681,29 @@ class HandbookManager extends WebApplication
         $result['yes'] = $meets_criteria;
         $result['no'] = array_merge($doesnt_meet_criteria);
         return $result;
-
     }
 
-    static function get_preferences($handbook_publication_id)
+    static function get_preferences($handbook_publication_id, $user_id)
     {
-        //USER PREFERENCES
-        //prefered language = chosen platform language
-        $user_preferences[self :: get_first_language_metadata_property()] = Translation :: get_instance()->get_language();
+        $user_id = Session::get_user_id();
+        //Load metadata set on user & groups
+        $user_preferences = MetadataDataManager::get_instance()->retrieve_all_user_metadata_property_values_as_array($user_id);
 
-        //for now: get institution name from root group
-        $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
-        $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();
-        $user_preferences[self :: get_first_publisher_metadata_property()] = $group->get_name();
-        //TODO: load other metadata for user & user's groups
+        if (!$user_preferences[self :: get_first_language_metadata_property()])
+        {
+            //default prefered language = chosen platform language
+            $user_preferences[self :: get_first_language_metadata_property()] = Translation :: get_instance()->get_language();
+        }
+        if (!$user_preferences[self :: get_first_publisher_metadata_property()])
+        {
+            //default for now: get institution name from root group
+            //TODO: better way to do this?
+            $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
+            $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();
+            $user_preferences[self :: get_first_publisher_metadata_property()] = $group->get_name();
+        }
 
-        //HANDBOOK PREFERENCES
-        //TODO: this should be gotten from a handbook-publication-preferences table
-        $handbook_preferences = self::get_publication_preferences($pid);
-
-
-        //SYSTEM PREFERENCES
-        //TODO get default platform language & move publisher here (is system default, not user-specific anyway!)
-
-        $preferences = array();
-        $preferences['user'] = $user_preferences;
-        $preferences['handbook'] = $handbook_preferences;
-
-        return $preferences;
+        return $user_preferences;
     }
 
     /**
@@ -766,29 +716,28 @@ class HandbookManager extends WebApplication
         return array();
     }
 
-    function get_publication_preferences_importance($publication_id)
+    static function get_publication_preferences_importance($publication_id)
     {
-        //TODO: this should not be hardcoded?!
-        //determinable per handbook or general system admin setting?
-        //at least the other preferences should be put in the array at random
+        //TODO: this should not be hardcoded?
+        //get from publication preferences
+        //if not in publication context return defaults
+        //for now return default
 
         $preference_importance = array();
-        $preference_importance[1] = array('user' => self :: PARAM_LANGUAGE);
-        $preference_importance[2] = array('handbook' => self :: PARAM_LANGUAGE);
-        $preference_importance[3] = array('user' => self :: PARAM_PUBLISHER);
-        $preference_importance[4] = array('handbook' => self :: PARAM_PUBLISHER);
+        $preference_importance[] = self :: get_first_language_metadata_property();
+        $preference_importance[] = self :: get_first_publisher_metadata_property();
 
         return $preference_importance;
     }
 
     function get_create_handbook_item_url($handbook_id, $top_handbook_id, $publication_id)
     {
-         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_HANDBOOK_ITEM, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_HANDBOOK_ITEM, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id));
     }
 
     function get_convert_wiki_to_handbook_item_url($handbook_id, $top_handbook_id, $publication_id, $selection_id)
     {
-         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONVERT_WIKI, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id, self::PARAM_HANDBOOK_SELECTION_ID => $selection_id));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONVERT_WIKI, self :: PARAM_HANDBOOK_ID => $handbook_id, self::PARAM_HANDBOOK_PUBLICATION => $publication_id, self::PARAM_TOP_HANDBOOK_ID => $top_handbook_id, self::PARAM_HANDBOOK_SELECTION_ID => $selection_id));
     }
 
     static function get_content_object_publication_locations($content_object)
@@ -804,7 +753,7 @@ class HandbookManager extends WebApplication
             $locations = array(__CLASS__);
             return $locations;
         }
-            return array();           
+        return array();
     }
 
     /**
@@ -832,8 +781,8 @@ class HandbookManager extends WebApplication
         $publication->set_owner_id($owner_id);
         $publication->set_published(time());
         $success &= $publication->create();
-        
-        if($success)
+
+        if ($success)
         {
             //implement rights
             $user_id = $owner_id;
@@ -854,7 +803,6 @@ class HandbookManager extends WebApplication
             return Translation :: get('ObjectNotCreation', array('OBJECT' => Translation::get('HandbookPublication')), Utilities::COMMON_LIBRARIES);
         }
     }
-
 
     /**
      * Helper function for the Application class,
@@ -881,16 +829,12 @@ class HandbookManager extends WebApplication
 
         //TODO: re-think this glossary thing: how to handle different languages,
         //glossaries in alternative handbooks, ...
-
         //find the glossaries in this handbook
         $glossaries = self::find_glossaries_ids_only($handbook_id);
 
         //find the alternatives for these glossaries
-
         //find the glossaries in this handbook's alternatives
-
         //find the alternatives for these glossaries
-
         //get the languages for all the glossaries
 
         return $glossaries;
@@ -906,7 +850,7 @@ class HandbookManager extends WebApplication
         while ($cloi = $clois->next_result())
         {
             $lo = $datamanager->retrieve_content_object($cloi->get_ref());
-            
+
             if ($lo->get_type() == HandbookItem::get_type_name())
             {
                 $lo = $datamanager->retrieve_content_object($lo->get_reference());
@@ -917,9 +861,7 @@ class HandbookManager extends WebApplication
             }
         }
         return $glossaries_array;
-
     }
-
 
     /**
      * Gets the available links to display in the platform admin
@@ -929,14 +871,13 @@ class HandbookManager extends WebApplication
     {
         $links = array();
         $links[] = new DynamicAction(Translation :: get('SetHandbookPublishingRights'), Translation :: get('SetHandbookPublishingRightsDescription'), Theme :: get_image_path() . 'admin/manage.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
-                Application :: PARAM_ACTION => self :: ACTION_ADMIN_SET_PUBLISHING_RIGHTS)));
+                            Application :: PARAM_ACTION => self :: ACTION_ADMIN_SET_PUBLISHING_RIGHTS)));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
         return $info;
     }
 
-    
-
 }
+
 ?>

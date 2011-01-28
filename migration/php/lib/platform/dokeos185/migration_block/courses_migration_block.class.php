@@ -23,7 +23,7 @@ class CoursesMigrationBlock extends MigrationBlock
 	
 	function get_data_classes()
 	{
-		return array(new Dokeos185CourseCategory(), new Dokeos185Course(), new Dokeos185UserCourseCategory(), new Dokeos185CourseRelUser(), new Dokeos185CourseRelClass());
+		return array(new Dokeos185CourseCategory(), new Dokeos185Course(), new Dokeos185CourseRelUser(), new Dokeos185CourseRelClass());
 	}
 	
 	function get_block_name()

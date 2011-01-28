@@ -73,7 +73,10 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
         $html[] = '<tr>';
-        $html[] = '<th class="list">#</th>';
+        if (count($this->parts) > 1)
+        {
+            $html[] = '<th class="list">#</th>';
+        }
         $html[] = '<th class="list">' . Translation :: get('Answer') . '</th>';
 
         if ($this->get_assessment_result_processor()->get_assessment_viewer()->display_textual_feedback() && $this->has_feedback())
@@ -92,7 +95,7 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
 
         foreach ($this->parts as $index => $part)
         {
-            $html[] = $this->get_question_feedback($index, $answers[$index]);
+            $html[] = $this->get_question_feedback($index, $answers[$index], count($this->parts) > 1);
         }
 
         $html[] = '</tbody>';
@@ -101,11 +104,15 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
         return implode("\n", $html);
     }
 
-    function get_question_feedback($index, $answer)
+    function get_question_feedback($index, $answer, $multiple_answers)
     {
 
         $html[] = '<tr class="' . ($index % 2 == 0 ? 'row_even' : 'row_odd') . '">';
-        $html[] = '<td>' . ($index + 1) . '</td>';
+
+        if ($multiple_answers)
+        {
+            $html[] = '<td>' . ($index + 1) . '</td>';
+        }
 
         $weight = $this->get_question()->get_weight_from_answer($index, $answer);
         $max_question_weight = $this->get_question()->get_question_maximum_weight($index);
@@ -188,6 +195,7 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
         if (! isset($this->has_feedback))
         {
             $answers = $this->get_answers();
+
             $this->has_feedback = false;
 
             foreach ($this->parts as $index => $part)
@@ -209,14 +217,8 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
                 }
                 else
                 {
-                    $best_answer = $this->get_question()->get_best_answer_for_question($index);
-                    if ($best_answer->has_comment())
-                    {
-                        $this->has_feedback = true;
-                    }
+                    $this->has_feedback = true;
                 }
-
-                $html[] = $this->get_question_feedback($index, $answers[$index]);
             }
 
         }

@@ -74,7 +74,7 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
      * @param array() $target_users
      * @param array() $target_groups
      */
-    function create_publication($object, $course_id, $user_id, $tool, $category_id = 0, $target_users = null, $target_groups = null, $show_on_homepage = 0)
+    function create_publication($object, $course_id, $user_id, $tool, $category_id = 0, $target_users = null, $target_groups = null, $show_on_homepage = 0, $hidden = null)
     {
         //publication
         $publication = new ContentObjectPublication();
@@ -107,13 +107,29 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
                 return;
             }
 
-            $publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
+            if($hidden)
+            {
+                $publication->set_hidden($hidden);
+            }
+            else
+            {
+                $publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
+            }
+
             $publication->set_publication_date(strtotime($this->item_property->get_insert_date()));
             $publication->set_modified_date(strtotime($this->item_property->get_lastedit_date()));
         }
         else
         {
-            $publication->set_hidden($object->get_state());
+            if($hidden)
+            {
+                $publication->set_hidden($hidden);
+            }
+            else
+            {
+                $publication->set_hidden(0);
+            }
+            
             $publication->set_publication_date($object->get_creation_date());
             $publication->set_modified_date($object->get_modification_date());
         }
