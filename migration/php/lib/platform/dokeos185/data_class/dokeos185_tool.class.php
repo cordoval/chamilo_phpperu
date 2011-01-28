@@ -33,7 +33,9 @@ class Dokeos185Tool extends Dokeos185CourseDataMigrationDataClass
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_NAME = 'name';
+    const PROPERTY_LINK = 'link';
     const PROPERTY_VISIBILITY = 'visibility';
+    const PROPERTY_ADDED_TOOL = 'added_tool';
 
     /**
      * Default properties stored in an associative array.
@@ -119,6 +121,24 @@ class Dokeos185Tool extends Dokeos185CourseDataMigrationDataClass
     function get_visibility()
     {
         return $this->get_default_property(self :: PROPERTY_VISIBILITY);
+    }
+
+    /**
+     * Returns the link of this tool.
+     * @return string the link.
+     */
+    function get_link()
+    {
+        return $this->get_default_property(self :: PROPERTY_LINK);
+    }
+
+    /**
+     * Returns the added tool of this tool.
+     * @return boolean the added tool.
+     */
+    function get_added_tool()
+    {
+        return $this->get_default_property(self :: PROPERTY_ADDED_TOOL);
     }
 
     /**

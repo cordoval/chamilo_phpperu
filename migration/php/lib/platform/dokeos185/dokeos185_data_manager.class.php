@@ -336,6 +336,16 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
         return $this->retrieve_objects(Dokeos185Resource :: get_table_name(), $condition, null, null, null, Dokeos185Resource :: get_class_name());
     }
 
+    function is_learning_path_publish_on_homepage($lp_id)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(Dokeos185Tool :: PROPERTY_ADDED_TOOL, 1);
+        $conditions[] = new EqualityCondition(Dokeos185Tool :: PROPERTY_LINK, 'newscorm/lp_controller.php?action=view&lp_id=' . $lp_id);
+        $condition = new AndCondition($conditions);
+
+        return ($this->count_objects(Dokeos185Tool :: get_table_name(), $condition) > 0);
+    }
+
 }
 
 ?>

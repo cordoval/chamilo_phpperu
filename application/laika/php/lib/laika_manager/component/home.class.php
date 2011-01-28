@@ -77,8 +77,8 @@ class LaikaManagerHomeComponent extends LaikaManager
 
         // Introduction text for users
         $html[] = '<div style="float: left; width: 59%;">';
-        $html[] = '<div class="block" style="background-image: url(' . Theme :: get_image_path() . 'block_laika.png);">';
-        $html[] = '<div class="title">' . Translation :: get('TakeLaikaTest') . '</div>';
+        $html[] = '<div class="block" style="background-image: url(' . htmlspecialchars(Theme :: get_image_path()) . 'block_laika.png);">';
+        $html[] = '<div class="title">' . htmlspecialchars(Translation :: get('TakeLaikaTest')) . '</div>';
         $html[] = '<div class="description">';
         $html[] = Translation :: get('LaikaIntro');
         $html[] = '<div style="clear: both;"></div>';
@@ -88,8 +88,8 @@ class LaikaManagerHomeComponent extends LaikaManager
         if (($has_taken_laika && $maximum_attempts > 1) || ! $has_taken_laika)
         {
             $html[] = '<div style="text-align: center; clear: both; margin-bottom: 15px; margin-top: 15px;">';
-            $html[] = '<a href="' . $this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_TAKE_TEST)) .
-            '" class="button normal_button select_button">' . Translation :: get('StartLaika') . '</a>';
+            $html[] = '<a href="' . htmlspecialchars($this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_TAKE_TEST))) .
+            '" class="button normal_button select_button">' . htmlspecialchars(Translation :: get('StartLaika')) . '</a>';
             $html[] = '</div>';
             $html[] = '<div style="clear: both;"></div>';
         }
@@ -110,18 +110,18 @@ class LaikaManagerHomeComponent extends LaikaManager
 
         // Introduction text for admins
         $html[] = '<div>';
-        $html[] = '<div class="block" style="background-image: url(' . Theme :: get_image_path() . 'block_laika.png);">';
-        $html[] = '<div class="title">' . Translation :: get('LaikaFull') . '</div>';
+        $html[] = '<div class="block" style="background-image: url(' . htmlspecialchars(Theme :: get_image_path()) . 'block_laika.png);">';
+        $html[] = '<div class="title">' . htmlspecialchars(Translation :: get('LaikaFull')) . '</div>';
         $html[] = '<div class="description">';
 
-        $introduction = Translation :: get('LaikaAdminIntro');
+        $introduction = htmlspecialchars(Translation :: get('LaikaAdminIntro'));
         $introduction = str_replace('{LAIKA_CONTACT}', '', $introduction);
         $introduction = str_replace('{INSTITUTION}', PlatformSetting :: get('institution'), $introduction);
 
-        $administrator_name = PlatformSetting :: get('administrator_firstname') . '&nbsp;' . PlatformSetting :: get('administrator_surname');
+        $administrator_name = htmlspecialchars(PlatformSetting :: get('administrator_firstname')) . '&nbsp;' . htmlspecialchars(PlatformSetting :: get('administrator_surname'));
 
         $introduction = str_replace('{ADMINISTRATOR_NAME}', $administrator_name, $introduction);
-        $introduction = str_replace('{ADMINISTRATOR_MAIL}', PlatformSetting :: get('administrator_email'), $introduction);
+        $introduction = str_replace('{ADMINISTRATOR_MAIL}', htmlspecialchars(PlatformSetting :: get('administrator_email')), $introduction);
 
         $html[] = $introduction;
         $html[] = '<div style="clear: both;"></div>';
@@ -153,14 +153,14 @@ class LaikaManagerHomeComponent extends LaikaManager
 
         $maximum_attempts = PlatformSetting :: get('maximum_attempts', LaikaManager :: APPLICATION_NAME);
 
-        $html[] = '<div class="block" style="background-image: url(' . Theme :: get_image_path() . 'block_results.png);">';
+        $html[] = '<div class="block" style="background-image: url(' . htmlspecialchars(Theme :: get_image_path()) . 'block_results.png);">';
         if ($maximum_attempts == 1)
         {
-            $html[] = '<div class="title">' . Translation :: get('Results');
+            $html[] = '<div class="title">' . htmlspecialchars(Translation :: get('Results'));
         }
         else
         {
-            $html[] = '<div class="title">' . Translation :: get('MostRecentResults');
+            $html[] = '<div class="title">' . htmlspecialchars(Translation :: get('MostRecentResults'));
         }
         $html[] = '</div>';
         $html[] = '<div class="description">';
@@ -175,8 +175,8 @@ class LaikaManagerHomeComponent extends LaikaManager
 
             if ($attempts_count > 1)
             {
-                $html[] = '<div class="block" style="background-image: url(' . Theme :: get_image_path() . 'block_archive.png);">';
-                $html[] = '<div class="title">' . Translation :: get('PreviousResults');
+                $html[] = '<div class="block" style="background-image: url(' . htmlspecialchars(Theme :: get_image_path()) . 'block_archive.png);">';
+                $html[] = '<div class="title">' . htmlspecialchars(Translation :: get('PreviousResults'));
                 $html[] = '</div>';
                 $html[] = '<div class="description">';
 

@@ -2,6 +2,8 @@
 
 namespace application\package;
 
+use admin;
+
 use common\libraries;
 
 use common\libraries\Configuration;
@@ -76,7 +78,7 @@ class PackageDataManager
             $package = $doc->createElement('code', $package_data->get_code());
             $root->appendChild($package);
             
-            $package = $doc->createElement('section', $package_data->get_section());
+            $package = $doc->createElement('section', $package_data->get_section_type_name($package_data->get_section()));
             $root->appendChild($package);
             
             $package = $doc->createElement('category', $package_data->get_category());
@@ -112,9 +114,9 @@ class PackageDataManager
             $root->appendChild($package);
             
             $authors_data = $package_data->get_authors(false);
+            
             while ($author_data = $authors_data->next_result())
             {
-                
                 $authors = $doc->createElement('author');
                 $package->appendChild($authors);
                 
@@ -127,8 +129,6 @@ class PackageDataManager
                 $author = $doc->createElement('company', $author_data->get_company());
                 $authors->appendChild($author);
             }
-            
-            $dependencies_data = $package_data->get_package_dependencies(false);
             
             //package dependencies       
             $dependencies = $doc->createElement('dependencies');
@@ -164,15 +164,14 @@ class PackageDataManager
             $video_conferencing_manager = $doc->createElement('video_conferencing_manager');
             $dependencies->appendChild($video_conferencing_manager);
             
+            //package dependencies
+            $dependencies_data = $package_data->get_package_dependencies(false);
+            
             while ($dependency_data = $dependencies_data->next_result())
-            {
-                $dep = PackageDataManager :: get_instance()->retrieve_dependency($dependency_data->get_dependency_id());
-                $package = PackageDataManager :: get_instance()->retrieve_package($dependency_data->get_package_id());
-                
+            {             
+                $dep = PackageDataManager :: get_instance()->retrieve_package($dependency_data->get_dependency_id());
                 $dependency = $doc->createElement('dependency');
-                //                $dependency->appendChild($doc->createElement('id', $dependency_data->get_dependency()->get_code()));
-                //                $version = $doc->createElement('version', $dependency_data->get_dependency()->get_version());
-                $dependency->appendChild($doc->createElement('id', $dep->get_id_dependency()));
+                $dependency->appendChild($doc->createElement('id', $dep->get_name()));
                 $version = $doc->createElement('version', $dep->get_version());
                 $type = $doc->createAttribute('type');
                 $type->appendChild($doc->createTextNode($dependency_data->get_compare()));
@@ -180,38 +179,61 @@ class PackageDataManager
                 $dependency->appendChild($version);
                 $dependency->appendChild($doc->createElement('severity', $dependency_data->get_severity()));
                 $dependencies->appendChild($dependency);
-
-                switch ($dep->get_type())
+                
+                switch ($dep->get_section())
                 {
-                    case Dependency :: TYPE_APPLICATIONS :
+                    case Package :: TYPE_APPLICATIONS :
                         $applications->appendChild($dependency);
                         break;
+                    case Package :: TYPE_EXTENSIONS :
+                        $extensions->appendChild($dependency);
+                        break;
+                    case Package :: TYPE_CONTENT_OBJECTS :
+                        $content_objects->appendChild($dependency);
+                        break;
+                    case Package :: TYPE_EXTERNAL_REPOSITORY_MANAGER :
+                        $external_repository_manager->appendChild($dependency);
+                        break;
+                    case Package :: TYPE_VIDEO_CONFERENCING :
+                        $video_conferencing_manager->appendChild($dependency);
+                        break;
+                    case Package :: TYPE_LIBRARY :
+                        $library->appendChild($dependency);
+                        break;
+                    case Package :: TYPE_CORE :
+                        $core->appendChild($dependency);
+                        break;
+                }
+            }
+            
+            $dependencies_data = $package_data->get_dependencies(false);
+            
+            while ($dependency_data = $dependencies_data->next_result())
+            {
+                $dep = PackageDataManager :: get_instance()->retrieve_dependency($dependency_data->get_dependency_id());
+                $dependency = $doc->createElement('dependency');
+                $dependency->appendChild($doc->createElement('id', $dep->get_name()));
+                $version = $doc->createElement('version', $dep->get_version());
+                $type = $doc->createAttribute('type');
+                $type->appendChild($doc->createTextNode($dependency_data->get_compare()));
+                $version->appendChild($type);
+                $dependency->appendChild($version);
+                $dependency->appendChild($doc->createElement('severity', $dependency_data->get_severity()));
+                $dependencies->appendChild($dependency);
+                
+                switch ($dep->get_type())
+                {
                     case Dependency :: TYPE_EXTENSION :
                         $extension->appendChild($dependency);
                         break;
-                    case Dependency :: TYPE_EXTENSIONS :
-                        $extensions->appendChild($dependency);
-                        break;
                     case Dependency :: TYPE_SERVER :
                         $server->appendChild($dependency);
-                        break;
-                    case Dependency :: TYPE_CONTENT_OBJECTS :
-                        $content_objects->appendChild($dependency);
-                        break;
-                    case Dependency :: TYPE_EXTERNAL_REPOSITORY_MANAGER :
-                        $external_repository_manager->appendChild($dependency);
-                        break;
-                    case Dependency :: TYPE_VIDEO_CONFERENCING :
-                        $video_conferencing_manager->appendChild($dependency);
-                        break;
-                    case Dependency :: TYPE_LIBRARY :
-                        $library->appendChild($dependency);
                         break;
                     case Dependency :: TYPE_SETTINGS :
                         $settings->appendChild($dependency);
                         break;
                 }
-            }
+            }            
         }
         
         //create .xml

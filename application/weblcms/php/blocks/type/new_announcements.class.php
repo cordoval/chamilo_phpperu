@@ -82,14 +82,14 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
             foreach ($items as $item)
             {
 
-                $html[] = '<li><a href="' . $weblcms->get_link(array('go' => 'courseviewer', 'application' => 'weblcms', 'tool' => 'announcement', 'tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $item['id'], 'course' => $item['course'])) . '">' . $item['title'] . '</a>';
+                $html[] = '<li><a href="' . htmlspecialchars($weblcms->get_link(array('go' => 'courseviewer', 'application' => 'weblcms', 'tool' => 'announcement', 'tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $item['id'], 'course' => $item['course']))) . '">' . htmlspecialchars($item['title']) . '</a>';
                 $html[] = '</li>';
             }
             $html[] = '</ul>';
         }
         else
         {
-            $html[] = Translation :: get('NoNewAnnouncements');
+            $html[] = htmlspecialchars(Translation :: get('NoNewAnnouncements'));
         }
         return implode($html, "\n");
     }

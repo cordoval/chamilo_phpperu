@@ -1,8 +1,7 @@
 <?php
 namespace application\phrases;
 
-use repository\content_object\assessment;
-
+use common\libraries\DelegateComponent;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
@@ -31,7 +30,7 @@ use repository\content_object\adaptive_assessment\AdaptiveAssessmentDisplay;
  */
 
 class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAssessmentComplexDisplaySupport,
-        AssessmentComplexDisplaySupport
+        AssessmentComplexDisplaySupport, DelegateComponent
 {
     private $publication;
 
@@ -141,8 +140,9 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
      */
     function save_assessment_answer($complex_question_id, $answer, $score)
     {
-//        $tracker = $this->retrieve_learning_path_tracker();
-//        $items = $this->retrieve_learning_path_tracker_items($tracker);
+        //        $tracker = $this->retrieve_learning_path_tracker();
+        //        $items = $this->retrieve_learning_path_tracker_items($tracker);
+
 
         $parameters = array();
         $parameters[PhrasesAdaptiveAssessmentQuestionAttemptsTracker :: PROPERTY_ADAPTIVE_ASSESSMENT_ITEM_ATTEMPT_ID] = $this->get_parameter(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID);
@@ -230,7 +230,15 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
      */
     function get_assessment_back_url()
     {
-        return null;
+        $filter = array();
+        $filter[] = AdaptiveAssessmentContentObjectDisplay :: PARAM_EMBEDDED_CONTENT_OBJECT_ID;
+        $filter[] = ComplexDisplay :: PARAM_DISPLAY_ACTION;
+        $filter[] = AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID;
+        $filter[] = ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID;
+        $filter[] = self :: PARAM_PHRASES_PUBLICATION;
+        $filter[] = AdaptiveAssessmentDisplay :: PARAM_STEP;
+
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PHRASES_PUBLICATIONS), $filter);
     }
 
     /**
@@ -240,7 +248,14 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
      */
     function get_assessment_continue_url()
     {
-        return null;
+        $filter = array();
+        $filter[] = AdaptiveAssessmentContentObjectDisplay :: PARAM_EMBEDDED_CONTENT_OBJECT_ID;
+        $filter[] = ComplexDisplay :: PARAM_DISPLAY_ACTION;
+        $filter[] = AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID;
+        $filter[] = ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID;
+
+        $current_step = Request :: get(AdaptiveAssessmentDisplay :: PARAM_STEP);
+        return $this->get_url(array(AdaptiveAssessmentDisplay :: PARAM_STEP => $current_step + 1), $filter);
     }
 
     function get_assessment_feedback_configuration()
@@ -254,7 +269,10 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
 
     function get_assessment_parameters()
     {
-        return array(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID, ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+        return array(
+                AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID,
+                ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID,
+                AdaptiveAssessmentDisplay :: PARAM_STEP);
     }
 
     /**

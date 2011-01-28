@@ -4,6 +4,8 @@ namespace repository\content_object\hotspot_question;
  * $Id: hotspot_question_answer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.hotspot_question
  */
+use common\libraries\StringUtilities;
+
 class HotspotQuestionAnswer
 {
     private $answer;

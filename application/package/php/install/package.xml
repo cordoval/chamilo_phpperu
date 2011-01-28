@@ -8,7 +8,7 @@
 		<property name="section" type="text" length="255" fixed="true" />
 		<property name="category" type="text" length="255" fixed="true" />
 		<property name="authors" type="text" />
-		<property name="version" type="text" length="255" fixed="true" />
+		<property name="version" type="text" length="25" fixed="true" />
 		<property name="cycle_phase" type="text" />
 		<property name="cycle_realm" type="text" />
 		<property name="filename" type="text" length="255" fixed="true" />

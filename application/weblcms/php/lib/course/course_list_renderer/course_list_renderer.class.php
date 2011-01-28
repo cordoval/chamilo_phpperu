@@ -140,7 +140,7 @@ class CourseListRenderer
                     continue;
                 }
 
-                $html[] = '<li><a href="' . $this->get_course_url($course) . '">' . $course->get_name() . '</a>';
+                $html[] = '<li><a href="' . htmlspecialchars($this->get_course_url($course)) . '">' . htmlspecialchars($course->get_name()) . '</a>';
 
                 if ($this->get_new_publication_icons())
                 {
@@ -168,7 +168,7 @@ class CourseListRenderer
         {
             if ($tool->visible && WeblcmsDataManager :: tool_has_new_publications($tool->name, $this->get_user(), $course))
             {
-                $html[] = '<a href="' . $this->get_tool_url($tool->name, $course) . '"><img src="' . Theme :: get_image_path(Tool :: get_tool_type_namespace($tool->name)) . 'logo/' . Theme :: ICON_MEDIUM . '_new.png" alt="' . Translation :: get('New', null, Utilities :: COMMON_LIBRARIES ) . '"/></a>';
+                $html[] = '<a href="' . htmlspecialchars($this->get_tool_url($tool->name, $course)) . '"><img src="' . htmlspecialchars(Theme :: get_image_path(Tool :: get_tool_type_namespace($tool->name))) . 'logo/' . Theme :: ICON_MEDIUM . '_new.png" alt="' . htmlspecialchars(Translation :: get('New', null, Utilities :: COMMON_LIBRARIES )) . '"/></a>';
             }
         }
         return implode($html, "\n");

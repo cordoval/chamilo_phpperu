@@ -290,8 +290,10 @@ class Dokeos185Lp extends Dokeos185CourseDataMigrationDataClass
             
         //create announcement in database
         $chamilo_learning_path->create_all();
-        
-        $this->create_publication($chamilo_learning_path, $new_course_code, $new_user_id, 'learning_path');
+
+        $show_on_homepage = $this->get_data_manager()->is_learning_path_publish_on_homepage($this->get_id()) ?  1 : 0;
+
+        $this->create_publication($chamilo_learning_path, $new_course_code, $new_user_id, 'learning_path', 0, null, null, $show_on_homepage);
         
         $this->create_id_reference($this->get_id(), $chamilo_learning_path->get_id());
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'learning_path', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_learning_path->get_id())));

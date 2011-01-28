@@ -90,7 +90,7 @@ class PersonalCalendarMiniDayRenderer extends PersonalCalendarRenderer
             $html[] = '&darr;';
         }
 
-        $html[] = '<a href="' . $event->get_url() . '">';
+        $html[] = '<a href="' . htmlspecialchars($event->get_url()) . '">';
         $html[] = htmlspecialchars($event->get_title());
         $html[] = '</a>';
 

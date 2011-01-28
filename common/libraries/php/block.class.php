@@ -91,7 +91,7 @@ class Block
     {
         $html = array();
 
-        $html[] = '<div class="title"><div style="float: left;">' . $this->get_block_info()->get_title() . '</div>';
+        $html[] = '<div class="title"><div style="float: left;">' . htmlspecialchars($this->get_block_info()->get_title()) . '</div>';
         $html[] = $this->display_actions();
         $html[] = '<div style="clear: both;"></div>';
         $html[] = '</div>';
@@ -105,29 +105,30 @@ class Block
 
         $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: APPLICATION_NAME);
 
+        $img_path = htmlspecialchars(Theme :: get_common_image_path());
         if (($user_home_allowed && Authentication :: is_valid()) || (! is_null($this->get_user()) && $this->get_user()->is_platform_admin()))
         {
             if ($this->is_deletable())
             {
-                $html[] = '<a href="' . $this->get_block_deleting_link($this->get_block_info()) . '" class="deleteEl"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" /></a>';
+                $html[] = '<a href="' . htmlspecialchars($this->get_block_deleting_link($this->get_block_info())) . '" class="deleteEl"><img src="' . $img_path . 'action_delete.png" /></a>';
             }
 
             if ($this->block_info->is_configurable())
             {
-                $html[] = '<a href="' . $this->get_block_configuring_link($this->get_block_info()) . '" class="configEl"><img src="' . Theme :: get_common_image_path() . 'action_config.png" /></a>';
+                $html[] = '<a href="' . htmlspecialchars($this->get_block_configuring_link($this->get_block_info())) . '" class="configEl"><img src="' . $img_path . 'action_config.png" /></a>';
             }
 
             if ($this->is_editable())
             {
-                $html[] = '<a href="' . $this->get_block_editing_link($this->get_block_info()) . '" class="editEl"><img src="' . Theme :: get_common_image_path() . 'action_edit.png" /></a>';
+                $html[] = '<a href="' . htmlspecialchars($this->get_block_editing_link($this->get_block_info())) . '" class="editEl"><img src="' .$img_path  . 'action_edit.png" /></a>';
             }
 
             if ($this->is_hidable())
             {
-                $html[] = '<a href="' . $this->get_block_visibility_link($this->get_block_info()) . '" class="closeEl"><img class="visible"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') . ' src="' . Theme :: get_common_image_path() . 'action_visible.png" /><img class="invisible"' . ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') . ' src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
+                $html[] = '<a href="' . htmlspecialchars($this->get_block_visibility_link($this->get_block_info())) . '" class="closeEl"><img class="visible"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') . ' src="' . $img_path . 'action_visible.png" /><img class="invisible"' . ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') . ' src="' . $img_path . 'action_invisible.png" /></a>';
             }
 
-            $html[] = '<a href="#" id="drag_block_' . $this->get_block_info()->get_id() . '" class="dragEl"><img src="' . Theme :: get_common_image_path() . 'action_drag.png" /></a>';
+            $html[] = '<a href="#" id="drag_block_' . $this->get_block_info()->get_id() . '" class="dragEl"><img src="' . $img_path . 'action_drag.png" /></a>';
         }
 
         return implode("\n", $html);

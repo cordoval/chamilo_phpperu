@@ -84,7 +84,7 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
         }
         else
         {
-            $html[] = Translation :: get('NoMessages');
+            $html[] = htmlspecialchars(Translation :: get('NoMessages'));
         }
         //*/
 
@@ -96,12 +96,13 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
 
     function show_publication(&$publication, &$html, $new)
     {
+        $img_path = htmlspecialchars(Theme :: get_common_image_path());
         $separator = ' - ';
-        $html[] = $new ? '<img width="15" height="15" src="' . Theme :: get_common_image_path() . 'content_object/personal_message_new.png" />' : '<img width="15" height="15" src="' . Theme :: get_common_image_path() . 'content_object/personal_message_na.png" />';
+        $html[] = $new ? '<img width="15" height="15" src="' . $img_path . 'content_object/personal_message_new.png" />' : '<img width="15" height="15" src="' . $img_path . 'content_object/personal_message_na.png" />';
 
-        $html[] = '<a href="' . $this->get_publication_viewing_link($publication) . '">';
-        //$html[] = $this->str_trim($publication->get_publication_sender()->get_fullname()) . $separator;
-        //$html[] = $this->str_trim($publication->get_publication_object()->get_title());
+        $html[] = '<a href="' . htmlspecialchars($this->get_publication_viewing_link($publication)) . '">';
+        //$html[] = htmlspecialchars($this->str_trim($publication->get_publication_sender()->get_fullname())) . $separator;
+        //$html[] = htmlspecialchars($this->str_trim($publication->get_publication_object()->get_title()));
         $html[] = Utilities :: truncate_string($publication->get_publication_sender()->get_fullname(), 32) . $separator;
         $html[] = Utilities :: truncate_string($publication->get_publication_object()->get_title(), 32);
         $html[] = '</a><br /><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';

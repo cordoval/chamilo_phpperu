@@ -23,7 +23,7 @@ class CourseMetaDataMigrationBlock extends CourseDataMigrationBlock
 
     function get_course_data_classes()
     {
-        return array(new Dokeos185CourseDescription(), new Dokeos185CourseSetting(), new Dokeos185Tool(), new Dokeos185ToolIntro());
+        return array(new Dokeos185CourseDescription(), new Dokeos185Tool(), new Dokeos185ToolIntro());
     }
 
 }

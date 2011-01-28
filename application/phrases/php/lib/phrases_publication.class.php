@@ -26,6 +26,7 @@ class PhrasesPublication extends DataClass
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
     const PROPERTY_CATEGORY = 'category_id';
+    const PROPERTY_LANGUAGE = 'language';
 
     private $target_groups;
     private $target_users;
@@ -43,7 +44,8 @@ class PhrasesPublication extends DataClass
                 self :: PROPERTY_HIDDEN,
                 self :: PROPERTY_PUBLISHER,
                 self :: PROPERTY_PUBLISHED,
-                self :: PROPERTY_CATEGORY));
+                self :: PROPERTY_CATEGORY,
+                self :: PROPERTY_LANGUAGE));
     }
 
     function get_data_manager()
@@ -175,6 +177,24 @@ class PhrasesPublication extends DataClass
     function set_category($category)
     {
         $this->set_default_property(self :: PROPERTY_CATEGORY, $category);
+    }
+
+    /**
+     * Returns the language of this PhrasesPublication.
+     * @return string
+     */
+    function get_language()
+    {
+        return $this->get_default_property(self :: PROPERTY_LANGUAGE);
+    }
+
+    /**
+     * Sets the language of this PhrasesPublication.
+     * @param string $language
+     */
+    function set_language($language)
+    {
+        $this->set_default_property(self :: PROPERTY_LANGUAGE, $language);
     }
 
     function set_target_groups($target_groups)
