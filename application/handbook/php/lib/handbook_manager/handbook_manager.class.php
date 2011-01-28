@@ -63,6 +63,7 @@ class HandbookManager extends WebApplication
     const PARAM_HANDBOOK_OWNER_ID = 'handbook_owner';
     const PARAM_SEARCH_QUERY = 'sq';
 
+    const ACTION_ITEM_SIMPLE_VIEWER = 'handbook_item_simple_viewer';
     const ACTION_DELETE_HANDBOOK_PUBLICATION = 'handbook_publication_deleter';
     const ACTION_EDIT_HANDBOOK_PUBLICATION = 'handbook_publication_editor';
     const ACTION_CREATE_HANDBOOK_PUBLICATION = 'handbook_publication_creator';
