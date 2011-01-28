@@ -23,6 +23,7 @@ use repository\content_object\forum\ForumComplexDisplaySupport;
 use repository\content_object\wiki\WikiComplexDisplaySupport;
 use repository\content_object\blog\BlogComplexDisplaySupport;
 use repository\content_object\glossary\GlossaryComplexDisplaySupport;
+use common\libraries\Session;
 
 class LearningPathComplexDisplayPreview extends ComplexDisplayPreview implements
         LearningPathComplexDisplaySupport,
