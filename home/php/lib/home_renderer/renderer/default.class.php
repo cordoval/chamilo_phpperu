@@ -135,9 +135,10 @@ class DefaultHomeRenderer extends HomeRenderer
                     {
                         while ($block = $blocks->next_result())
                         {
-                              if (! is_null($this->get_user())||( $block->get_component() == 'login') || ( $block->get_component() == 'portal_home'))
+                            $block_component = Block :: factory($this, $block);
+                              if ($block_component->is_visible())
                               {
-                        		$html[] = Block :: factory($this, $block)->as_html();
+                                    $html[] = $block_component->as_html();
                               }
                        }
                     }

@@ -68,11 +68,13 @@ class Block
 
     function as_html()
     {
-        $html = array();
+        if(!$this->is_visible()){
+            return '';
+        }
 
+        $html = array();
         $html[] = $this->display_header();
         $html[] = $this->display_footer();
-
         return implode("\n", $html);
     }
 
@@ -312,6 +314,21 @@ class Block
         return true;
     }
 
+    /**
+     * Returns true if the block is to be displayed, false otherwise. By default do not show on home page when user is not connected.
+     * 
+     * @return bool
+     */
+    function is_visible(){
+        return Session::get_user_id() != 0;
+    }
+
+    /**
+     *
+     * @param HomeRenderer $renderer
+     * @param HomeBlock $block_info
+     * @return Block
+     */
     static public function factory(HomeRenderer $renderer, HomeBlock $block_info)
     {
         $type = $block_info->get_component();
