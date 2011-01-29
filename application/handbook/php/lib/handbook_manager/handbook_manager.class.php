@@ -87,6 +87,7 @@ class HandbookManager extends WebApplication
     const ACTION_ADMIN_SET_PUBLISHING_RIGHTS = 'admin_rights_editor';
     const ACTION_PICK_TOPIC = 'handbook_topic_picker';
     const ACTION_PASS_UID = 'handbook_topic_uid_passer';
+    const ACTION_EXPORT = 'handbook_exporter';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LIGHT_MODE = 'light';
@@ -291,7 +292,6 @@ class HandbookManager extends WebApplication
         $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $co_id);
         $context_links = $cldm->retrieve_full_context_links_recursive($co_id, null, null, null, ContextLinkerManager::ARRAY_TYPE_FLAT);
 
-        $rdm = RepositoryDataManager :: get_instance();
 
         //TODO: does this return a resultset or an array? I think this was changed in the context linker
         return $context_links;

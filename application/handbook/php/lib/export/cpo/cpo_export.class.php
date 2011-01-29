@@ -6,6 +6,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\ComplexContentObjectSupport;
 use common\libraries\Filecompression;
 use common\libraries\Filesystem;
+use repository\ContentObjectExport;
 
 use DOMDocument;
 
@@ -14,6 +15,13 @@ use repository\content_object\hotpotatoes\Hotpotatoes;
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\learning_path\LearningPath;
 use repository\content_object\hotspot_question\HotspotQuestion;
+use application\metadata\MetadataDataManager;
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+use repository\ComplexContentObjectItem;
+use repository\ContentObjectAttachment;
+use application\context_linker\ContextLinkerDataManager;
+use application\context_linker\ContextLink;
 
 
 /**
@@ -291,6 +299,58 @@ class HandbookCpoExport extends ContentObjectExport
             $text = $doc->createTextNode($value);
             $text = $property->appendChild($text);
         }
+
+        //EXTRA: METADATA
+        $metadata = $doc->createElement('metadata');
+        $lo->appendChild($metadata);
+
+        $metadata_values = MetadataDataManager::get_instance()->retrieve_content_object_metadata_property_values_as_array($content_object->get_id());
+
+        foreach ($metadata_values as $element => $value)
+        {
+            $elements = $doc->createElement($element);
+            $metadata->appendChild($elements);
+            $text = $doc->createTextNode($value);
+            $text = $elements->appendChild($text);
+        }
+
+
+
+
+
+        //EXTRA: LINKED CONTENT OBJECTS & CONTEXT LINKS
+        $cdm = ContextLinkerDataManager::get_instance();
+        $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID , $content_object->get_id());
+        $links = $cdm->retrieve_full_context_links($condition);
+        if(count($links)>0)
+        {
+
+                $linked_items = $doc->createElement('linked_items');
+                $lo->appendChild($linked_items);
+
+        }
+                  foreach ($links as $link)
+            {
+                $linked_item = $doc->createElement('linked_item');
+                $linked_items->appendChild($linked_item);
+
+                $id_ref = $doc->createAttribute('idref');
+                $linked_item->appendChild($id_ref);
+
+                $id_ref_value = $doc->createTextNode('object' . $link['alt_id']);
+                $id_ref->appendChild($id_ref_value);
+
+                $metadata_link= $doc->createAttribute('metadata_link');
+                $linked_item->appendChild($metadata_link);
+                
+                $metadata_link_value = $doc->createTextNode($link['ns_prefix'].':'.$link['name']);
+                $metadata_link->appendChild($metadata_link_value);
+
+                $this->render_content_object($this->rdm->retrieve_content_object($link['alt_id']));
+            }
+
+
+
 
         //EXTRA: CHILDREN
 
