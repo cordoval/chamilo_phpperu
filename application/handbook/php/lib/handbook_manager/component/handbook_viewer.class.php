@@ -345,6 +345,7 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function print_metadata($co_id, $mode = self::METADATA_SHORT)
     {
+        $important_medatata = HandbookManager::get_publication_preferences_importance($this->handbook_publication_id);
         $metadata = MetadataManager::retrieve_metadata_for_content_object($co_id);
         while (list($key, $value) = each($metadata))
         {
@@ -354,7 +355,10 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
             }
             else
             {
-                $html[] = ' ' . $value . ' ';
+                if(in_array($key, $important_medatata))
+                {
+                    $html[] = ' ' . $value . ' ';
+                }
             }
         }
         return implode("\n", $html);

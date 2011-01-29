@@ -716,12 +716,12 @@ class HandbookManager extends WebApplication
         return array();
     }
 
-    static function get_publication_preferences_importance($publication_id)
+    static function get_publication_preferences_importance($publication_id = null)
     {
         //TODO: this should not be hardcoded?
         //get from publication preferences
         //if not in publication context return defaults
-        //for now return default
+        //for now just return default
 
         $preference_importance = array();
         $preference_importance[] = self :: get_first_language_metadata_property();

@@ -23,20 +23,34 @@ class HandbookManagerHandbookPreferencesCreatorComponent extends HandbookManager
     */
     function run()
     {
-        //todo_implement
-        $preference_form = new HandbookPreferenceForm();
-      
-         if($preference_form->validate())
+        //for now just display the hardcoded preferences
+        //DISPLAY PREFERENCES
+        $preference_importance = HandbookManager::get_publication_preferences_importance();
+        $html = array();
+        foreach ($preference_importance as $key=>$preference)
         {
-            
+            $html[] = $key+1 . ' - ' .$preference . '</br>';
         }
-        else
-        {
+
+        //DISPLAY FORM TO ADD PREFERENCES
+//        //todo_implement!
+//        $preference_form = new HandbookPreferenceForm();
+//
+//         if($preference_form->validate())
+//        {
+//
+//        }
+//        else
+//        {
+//            $this->display_header();
+//            echo $preference_form->toHtml();
+//
+//            $this->display_footer();
+//        }
             $this->display_header();
-            echo $preference_form->toHtml();
-            
+            echo implode("\n", $html);
             $this->display_footer();
-        }
+
     }
 
     function create_preference($preference_form)
