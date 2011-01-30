@@ -88,6 +88,7 @@ class HandbookManager extends WebApplication
     const ACTION_PICK_TOPIC = 'handbook_topic_picker';
     const ACTION_PASS_UID = 'handbook_topic_uid_passer';
     const ACTION_EXPORT = 'handbook_exporter';
+     const ACTION_IMPORT = 'handbook_importer';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LIGHT_MODE = 'light';

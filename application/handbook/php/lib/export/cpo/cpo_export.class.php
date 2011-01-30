@@ -76,6 +76,20 @@ class HandbookCpoExport extends ContentObjectExport
     private $exported_categories;
 
     /**
+     * Array of already exported namespaces
+     * @var Array
+     */
+    private $exported_namespaces;
+
+    /**
+     * Array of already exported metadata-elements
+     * @var Array
+     */
+    private $exported_metadata_elements;
+
+    private $metadata;
+
+    /**
      * Bool to determine wheter the categories should be exported
      * @var bool
      */
@@ -88,6 +102,60 @@ class HandbookCpoExport extends ContentObjectExport
         parent :: __construct($content_object);
     }
 
+    public function render_metadata_element($element_and_prefix)
+    {
+        list($namespace_prefix, $element_name) = \split(':', $element_and_prefix);
+
+        if(!in_array($namespace_prefix, $this->exported_namespaces))
+        {
+            $this->exported_namespaces[] = $namespace_prefix;
+
+            $doc = $this->doc;
+            $root = $this->metadata;
+
+            $schema = $doc->createElement('metadata_schema');
+            $root->appendChild($schema);
+
+            $namespace = MetadataDataManager::get_instance()->retrieve_metadata_namespace_by_prefix($namespace_prefix);
+
+            $prefix = $doc->createAttribute('prefix');
+            $schema->appendChild($prefix);
+            $prefix_value = $doc->createTextNode($namespace_prefix);
+            $prefix->appendChild($prefix_value);
+
+            $name = $doc->createAttribute('name');
+            $schema->appendChild($name);
+            $name_value = $doc->createTextNode($namespace->get_name());
+            $name->appendChild($name_value);
+
+            $url = $doc->createAttribute('url');
+            $schema->appendChild($url);
+            $url_value = $doc->createTextNode($namespace->get_url());
+            $url->appendChild($url_value);
+        }
+
+        if(!in_array($element_and_prefix, $this->exported_metadata_elements))
+        {
+            $this->exported_metadata_elements[] = $element_and_prefix;
+
+            $doc = $this->doc;
+            $root = $this->metadata;
+
+            $elements = $doc->createElement('metadata_element');
+            $root->appendChild($elements);
+
+            $schema_prefix = $doc->createAttribute('schema_prefix');
+            $elements->appendChild($schema_prefix);
+            $schema_prefix_value = $doc->createTextNode($namespace_prefix);
+            $schema_prefix->appendChild($schema_prefix_value);
+
+            $element = $doc->createAttribute('element');
+            $elements->appendChild($element);
+            $element_value = $doc->createTextNode($element_name);
+            $element->appendChild($element_value);
+        }
+    }
+
     public function export_content_object($export_categories = false)
     {
         $this->export_categories = $export_categories;
@@ -98,6 +166,9 @@ class HandbookCpoExport extends ContentObjectExport
 
         $parent = $this->doc->createElement('export');
         $this->doc->appendChild($parent);
+
+        $this->metadata = $this->doc->createElement('metadata_structure');
+        $parent->appendChild($this->metadata);
 
         $this->root = $this->doc->createElement('content_objects');
         $parent->appendChild($this->root);
@@ -301,18 +372,29 @@ class HandbookCpoExport extends ContentObjectExport
         }
 
         //EXTRA: METADATA
-        $metadata = $doc->createElement('metadata');
+        $metadata = $doc->createElement('content_object_metadata');
         $lo->appendChild($metadata);
 
         $metadata_values = MetadataDataManager::get_instance()->retrieve_content_object_metadata_property_values_as_array($content_object->get_id());
 
         foreach ($metadata_values as $element => $value)
         {
-            $elements = $doc->createElement($element);
+            $elements = $doc->createElement('metadata_property');
             $metadata->appendChild($elements);
-            $text = $doc->createTextNode($value);
-            $text = $elements->appendChild($text);
+            
+             $name_id = $doc->createAttribute('name');
+            $elements->appendChild($name_id);
+            $name = $doc->createTextNode($element);
+            $name_id->appendChild($name);
+
+            $value_id = $doc->createAttribute('value');
+            $elements->appendChild($value_id);
+            $value = $doc->createTextNode($value);
+            $value_id->appendChild($value);
+
+            $this->render_metadata_element($element);
         }
+        //TODO: include metadata namespace & element information
 
 
 

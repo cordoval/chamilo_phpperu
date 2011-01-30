@@ -5,6 +5,7 @@ namespace application\metadata;
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
 use common\libraries\ConditionTranslator;
+use common\libraries\AndCondition;
 
 /**
  * 	This is a data manager that uses a database for storage. It was written
@@ -91,6 +92,20 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
     {
         $condition = new EqualityCondition(MetadataNamespace :: PROPERTY_ID, $id);
         return $this->retrieve_object(MetadataNamespace :: get_table_name(), $condition, null, MetadataNamespace :: CLASS_NAME);
+    }
+
+    function retrieve_metadata_namespace_by_prefix($prefix)
+    {
+        $condition = new EqualityCondition(MetadataNamespace::PROPERTY_NS_PREFIX, $prefix);
+        $namespace_set = $this->retrieve_metadata_namespaces($condition);
+        if($namespace_set)
+        {
+            return $namespace_set->next_result();
+        }
+        else
+        {
+            return false;
+        }
     }
 
     function retrieve_metadata_namespaces($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -210,6 +225,16 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
     function retrieve_metadata_property_types($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(MetadataPropertyType :: get_table_name(), $condition, $offset, $max_objects, $order_by, MetadataPropertyType :: CLASS_NAME);
+    }
+
+    function retrieve_metadata_property_type_by_ns_name($namespace_id, $name)
+    {
+        $conditions[] = new EqualityCondition(MetadataPropertyType :: PROPERTY_NAMESPACE, $namespace_id);
+        $conditions[] = new EqualityCondition(MetadataPropertyType:: PROPERTY_NAME, $name);
+        $condition = new AndCondition($conditions);
+
+        return $this->retrieve_object(MetadataPropertyType :: get_table_name(), $condition, null, MetadataPropertyType :: CLASS_NAME);
+
     }
 
     function get_next_content_object_metadata_property_value_id()
