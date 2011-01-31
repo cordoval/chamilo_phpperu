@@ -8,7 +8,7 @@ use common\libraries\Toolbar;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\Utilities;
-
+use repository\content_object\survey\Survey;
 
 require_once dirname(__FILE__) . '/publication_browser_table_column_model.class.php';
 //require_once dirname(__FILE__) . '/../../../tables/publication_table/default_survey_publication_table_cell_renderer.class.php';
@@ -46,6 +46,8 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         {
             case ContentObject :: PROPERTY_TITLE :
                 $title = parent :: render_cell($column, $survey_publication);
+            	 $title = Survey :: parse( $this->browser->get_user_id(), null, $title);
+                
                 if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION))
                 {
                     if ($survey_publication->is_publication_period())
