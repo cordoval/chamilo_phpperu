@@ -187,6 +187,10 @@ class SurveyManagerViewerComponent extends SurveyManagerTakerComponent
         }
     }
 
+    function get_invitee_id(){
+    	return $this->invitee_id;
+    }
+    
     function get_go_back_url()
     {
         return $this->get_browse_survey_publications_url();

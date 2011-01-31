@@ -46,7 +46,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $survey_id = Request :: get(self :: PARAM_SURVEY_ID);
         $publication_id = Request :: get(self :: PARAM_PUBLICATION_ID);
         
-        $invitee_id = $this->get_parent()->get_user_id();
+        $invitee_id = $this->get_invitee_id();
         $this->survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
         
         $this->survey->initialize($invitee_id);
@@ -196,7 +196,8 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $this->get_parent()->display_header();
         $html = array();
         $html[] = '<div class="assessment">';
-        $html[] = '<h2>' . $this->survey->get_title() . '</h2>';
+        $title = $this->survey->get_title();
+        $html[] = '<h2>' . Survey :: parse($this->survey->get_invitee_id(), $this->context_path, $title) . '</h2>';
         $html[] = '</div>';
         $html[] = '<div class="assessment">';
         $html[] = '<div class="description">';
@@ -284,7 +285,11 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $progress = $this->get_progress();
         $this->get_parent()->finished($progress);
     }
-
+	
+    function get_invitee_id(){
+    	return $this->get_parent()->get_invitee_id();
+    }
+    
     function save_answer($question_id, $answer, $context_path)
     {
         $this->get_parent()->save_answer($question_id, $answer, $context_path);
