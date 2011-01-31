@@ -104,6 +104,9 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
      */
     function save_assessment_result($total_score)
     {
+        $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
+        unset($answers[$this->get_root_content_object()->get_id()]);
+        Session :: register(self :: TEMPORARY_STORAGE, $answers);
     }
 
     /* (non-PHPdoc)
@@ -150,14 +153,14 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
      */
     function get_assessment_continue_url()
     {
-        dump($this);
-//        $adaptive_assessment = $this->get_root_content_object();
-//        $adaptive_assessment_item_attempt_data = $this->retrieve_adaptive_assessment_tracker_items($this->retrieve_adaptive_assessment_tracker());
-//        $current_step = Request :: get('step') ? Request :: get('step') : 1;
-//        $adaptive_assessment_menu = new AdaptiveAssessmentTree($adaptive_assessment->get_id(), $current_step, $this->get_adaptive_assessment_tree_menu_url(), $adaptive_assessment_item_attempt_data);
+        $filter = array();
+        $filter[] = AdaptiveAssessmentContentObjectDisplay :: PARAM_EMBEDDED_CONTENT_OBJECT_ID;
+        $filter[] = ComplexDisplay :: PARAM_DISPLAY_ACTION;
+        $filter[] = AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID;
+        $filter[] = ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID;
 //
-//        dump($adaptive_assessment_menu);
-        exit;
+        $current_step = Request :: get(AdaptiveAssessmentDisplay :: PARAM_STEP);
+        return $this->get_url(array(AdaptiveAssessmentDisplay :: PARAM_STEP => $current_step + 1), $filter);
     }
 
     function get_assessment_feedback_configuration()
@@ -172,7 +175,10 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
 
     function get_assessment_parameters()
     {
-        return array();
+        return array(
+                AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID,
+                ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID,
+                AdaptiveAssessmentDisplay :: PARAM_STEP);
     }
 
     /* (non-PHPdoc)
