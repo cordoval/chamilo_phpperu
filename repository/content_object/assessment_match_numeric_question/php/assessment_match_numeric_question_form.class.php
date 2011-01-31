@@ -20,16 +20,16 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_match_numeric_question/resources/javascript/match_numeric_question.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/match_question/resources/javascript/match_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_match_numeric_question/resources/javascript/match_numeric_question.js'));
         $this->add_options();
     }
 
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_match_numeric_question/resources/javascript/match_numeric_question.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/match_question/resources/javascript/match_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_match_numeric_question/resources/javascript/match_numeric_question.js'));
         $this->add_options();
 
     }
@@ -174,7 +174,7 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
         $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddItem'), array(
                 'class' => 'normal add',
-                'id' => 'add_option'));
+                'id' => 'add_numeric_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $html_editor_options = array();
@@ -256,7 +256,7 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
         $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddItem'), array(
                 'class' => 'normal add',
-                'id' => 'add_option'));
+                'id' => 'add_numeric_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
         $this->addElement('category');
 
