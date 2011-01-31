@@ -60,6 +60,9 @@ class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManage
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishObject', array(
                                 'OBJECT' => Translation :: get('HandbookPublication')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_handbook_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
+
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_IMPORT))));
+
         return $action_bar;
     }
 

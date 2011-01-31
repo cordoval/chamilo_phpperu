@@ -509,8 +509,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                         while ($complex_question = $complex_questions->next_result())
                         {
                             //                            dump($complex_question);
-                            if (! $complex_question instanceof ComplexSurveyDescription)
-                            {
+//                            if (! $complex_question instanceof ComplexSurveyDescription)
+//                            {
                                 if ($complex_question->is_visible())
                                 {
                                     $question_id = $complex_question->get_id();
@@ -547,7 +547,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                                         $this->question_context_paths[$question_path] = $question_nr . '.' . $subindex;
                                     }
                                 }
-                            }
+//                            }
                         }
                         $pages_ids[$page_id] = $questions_ids;
                     
@@ -574,8 +574,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             //                  dump('pagecontesxtpaths');
             //              dump($this->page_context_paths);
             $this->context_paths = array_unique($this->context_paths);
-            sort($this->context_paths);
-            
+            sort($this->context_paths, SORT_STRING);
+          
 //        	dump($this->page_context_paths);
             $page_cp_keys = array_keys($this->page_context_paths);
 //            dump($page_cp_keys);
@@ -588,6 +588,21 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             	$index++;
             }
             $this->page_context_paths = $page_cps;
+            
+//            dump($this->question_context_paths); 
+//            $question_cp_keys = array_keys($this->question_context_paths);
+//            dump($question_cp_keys);
+//            sort($question_cp_keys, SORT_STRING);
+//            dump($question_cp_keys);
+//            $index = 1;
+//            $question_cps = array();
+//            foreach ($question_cp_keys as $question_key){
+//            	$question_cps[$question_key] = $index;
+//            	$index++;
+//            }
+//            $this->question_context_paths = $question_cps;
+//                dump($this->question_context_paths);
+//            exit;
 //            dump($this->context_paths);
 //            dump($this->page_context_paths);
 //        	exit;
@@ -624,8 +639,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                 $questions_ids = array();
                 while ($complex_question = $complex_questions->next_result())
                 {
-                    if (! $complex_question instanceof ComplexSurveyDescription)
-                    {
+//                    if (! $complex_question instanceof ComplexSurveyDescription)
+//                    {
                         if ($complex_question->is_visible())
                         {
                             $question_id = $complex_question->get_id();
@@ -662,7 +677,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                                 $this->question_context_paths[$question_path] = $question_nr . '.' . $subindex;
                             }
                         }
-                    }
+//                    }
                 }
             
      //                        dump($questions_ids);
@@ -702,9 +717,11 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             $context_objects['user'] = $user;
 //            $level_count = $this->count_levels();
             $context_ids = explode('|', $context_path);
-//            dump('contextids');
-//            dump($context_ids);
-            $ids = explode('_', $context_ids[1]);
+//         dump('contextids');
+//   dump($context_ids);
+//   dump(count($context_ids));         
+   if(count($context_ids) > 1){
+    $ids = explode('_', $context_ids[1]);
 //            dump($level_count);
 //            dump($ids);
             $count = count($ids);
@@ -722,6 +739,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                     $index ++;
                 }
             }
+   }
+  
     	
     	
 //    	dump($context_objects);
