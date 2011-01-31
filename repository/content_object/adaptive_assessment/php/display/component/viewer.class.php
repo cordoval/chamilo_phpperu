@@ -177,9 +177,9 @@ class AdaptiveAssessmentDisplayViewerComponent extends AdaptiveAssessmentDisplay
     {
         parent :: display_header();
         echo '<div style="width: 17%; overflow: auto; float: left;">';
-        echo $this->navigation_bar . '<br /><br />';
-        echo $this->adaptive_assessment_menu->render_as_tree() . '<br /><br />';
-        echo $this->navigation_bar . '<br /><br />';
+        echo $this->navigation_bar . '<br />';
+        echo $this->adaptive_assessment_menu->render_as_tree() . '<br />';
+        echo $this->navigation_bar . '<br />';
         echo $this->get_progress_bar();
         echo '</div>';
         echo '<div style="width: 82%; float: right; padding-left: 10px; min-height: 500px;">';
