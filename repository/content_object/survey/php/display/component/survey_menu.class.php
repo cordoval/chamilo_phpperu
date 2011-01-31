@@ -66,6 +66,8 @@ class SurveyMenu extends HTML_Menu
     
     private $page_nr = 1;
     
+    private $page_answers;
+    
     private $new_context_id;
     private $first_page_url = false;
     private $context_urls;
@@ -302,8 +304,9 @@ class SurveyMenu extends HTML_Menu
     {
         
         $menu = array();
-        $page_answers = array();
+        //        $this->page_answers = array();
         
+
         $level_count = $this->survey->count_levels();
         if (! $current_url)
         {
@@ -327,7 +330,7 @@ class SurveyMenu extends HTML_Menu
                     $page_id = $context_path_relation[self :: PAGE_ID];
                     $this->page_nrs[$context_path] = $this->page_nr;
                     $this->page_nr ++;
-                    unset($page_answers);
+                    unset($this->page_answers);
                 }
                 
                 $menu_item = array();
@@ -345,8 +348,9 @@ class SurveyMenu extends HTML_Menu
                         $title = $context->get_name();
                         $menu_item['class'] = self :: TYPE_CONTEXT;
                         $this->new_context_id = $context->get_id();
-                        if($this->first_page_url){
-                        	
+                        if ($this->first_page_url)
+                        {
+                        
                         }
                         $this->first_page_url = true;
                         //                        dump('incontext');
@@ -356,6 +360,8 @@ class SurveyMenu extends HTML_Menu
                         break;
                     case self :: TYPE_PAGE :
                         $survey_page = $this->survey->get_page_by_id($context_path_relation[self :: PAGE_ID]);
+                        $this->set_page_visible_question_answers($survey_page, $context_path);
+                        
                         $title = $survey_page->get_title();
                         //                       	$title = Survey :: parse($this->get_survey()->get_invitee_id(), $context_path, $title);
                         //                        $title = 'page ' . $this->page_contexts[$context_path] . ' title: ' . $title;
@@ -367,26 +373,28 @@ class SurveyMenu extends HTML_Menu
                             $this->first_page_url = false;
                             $in_firstpage = true;
                             $c_ids = explode('|', $context_path);
-//                            dump($context_path_relation);
+                            //                            dump($context_path_relation);
                             array_pop($c_ids);
                             $c_id = implode('|', $c_ids);
                             $c_parent_id = $context_path_relation[self :: PARENT_ID];
                             $this->context_urls[$c_parent_id] = $current_url;
-                        	$p_c_ids = explode('|', $c_parent_id);
+                            $p_c_ids = explode('|', $c_parent_id);
                             $path_c_ids = explode('_', $p_c_ids[1]);
-//                            dump($c_ids);
+                            //                            dump($c_ids);
                             array_pop($path_c_ids);
-                            $p_p_c_id = $p_c_ids[0].'|'.implode('_', $path_c_ids);
-                        	
+                            $p_p_c_id = $p_c_ids[0] . '|' . implode('_', $path_c_ids);
+                            
                             $p_c_id = implode('|', $c_ids);
-//                        	dump($p_c_id);
-                        	if(!array_key_exists($p_p_c_id, $this->context_urls)){
-//                        		dump('notexist');
-                        		$this->context_urls[$p_p_c_id] = $current_url;
-                        	}
-//                        	dump($this->context_urls);
+                            //                        	dump($p_c_id);
+                            if (! array_key_exists($p_p_c_id, $this->context_urls))
+                            {
+                                //                        		dump('notexist');
+                                $this->context_urls[$p_p_c_id] = $current_url;
+                            }
+                        
+     //                        	dump($this->context_urls);
                         }
-     //							dump('inpage');
+                        //							dump('inpage');
                         //                            dump($this->new_context_id);
                         //                            dump($context_path);
                         //                            dump($menu);
@@ -394,6 +402,7 @@ class SurveyMenu extends HTML_Menu
 
                         //                        	exit;
                         
+
                         break;
                     case self :: TYPE_QUESTION :
                         $complex_question_id = $context_path_relation[self :: QUESTION_ID];
@@ -407,7 +416,8 @@ class SurveyMenu extends HTML_Menu
                             //                            dump($complex_question_id);
                             if (! $answer)
                             {
-                                //                                dump('invisible');
+                                //                                                                dump('invisible');
+                                //                                                                dump($complex_question_id);
                                 if (! $this->is_question_visible($complex_question_id, $page_id, $page_answers))
                                 {
                                     $visible = false;
@@ -417,7 +427,7 @@ class SurveyMenu extends HTML_Menu
                         
                         if ($answer)
                         {
-                            $page_answers[$complex_question_id] = $answer;
+                            $this->page_answers[$complex_question_id] = $answer;
                         }
                         
                         //                        if ($visible)
@@ -479,9 +489,10 @@ class SurveyMenu extends HTML_Menu
                         //                    	dump($context_path_relation); 
                         if (! $this->context_urls[$context_path_relation[self :: ID]])
                         {
-//                             dump($this->context_urls);
-//                        	dump($menu_item);
+                            //                             dump($this->context_urls);
+                        //                        	dump($menu_item);
                         
+
                         }
                         
                         $menu_item['url'] = $this->context_urls[$context_path_relation[self :: ID]];
@@ -538,15 +549,17 @@ class SurveyMenu extends HTML_Menu
         return $this->page_nrs;
     }
 
-    function is_question_visible($guestion_id_tocheck, $page_id, $page_answers)
+    function is_question_visible($guestion_id_tocheck, $page_id)
     {
         $survey_page = RepositoryDataManager :: get_instance()->retrieve_content_object($page_id);
         $configs = $survey_page->get_config();
+//        dump($this->page_answers);
+//        dump($configs);
         
         foreach ($configs as $config)
         {
             
-            foreach ($page_answers as $question_id => $answer_to_match)
+            foreach ($this->page_answers as $question_id => $answer_to_match)
             {
                 
                 $from_question_id = $config[SurveyPage :: FROM_VISIBLE_QUESTION_ID];
@@ -571,6 +584,7 @@ class SurveyMenu extends HTML_Menu
                     }
                     
                     $diff = array_diff($answers_to_match, $answer_to_match);
+                    //                    dump($guestion_id_tocheck);
                     if (count($diff) == 0)
                     {
                         if (in_array($guestion_id_tocheck, $config[SurveyPage :: TO_VISIBLE_QUESTIONS_IDS]))
@@ -582,6 +596,30 @@ class SurveyMenu extends HTML_Menu
             }
         }
         return false;
+    }
+
+    private function set_page_visible_question_answers(SurveyPage $page, $context_path)
+    {
+        //    	dump($context_path);
+        $complex_questions = $page->get_questions(true);
+        while ($complex_question = $complex_questions->next_result())
+        {
+            //    		dump($complex_question->get_id());
+            if ($complex_question->is_visible())
+            {
+                $complex_question_id = $complex_question->get_id();
+                //    			dump('visible');
+//                dump('qcp ' . $context_path . '_' . $complex_question_id);
+                $answer = $this->parent->get_answer($complex_question_id, $context_path . '_' . $complex_question_id);
+//                dump($answer);
+                if ($answer)
+                {
+                    $this->page_answers[$complex_question_id] = $answer;
+                
+                }
+            }
+        }
+    
     }
 
     /**
