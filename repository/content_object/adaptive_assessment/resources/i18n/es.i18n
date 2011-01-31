@@ -1,0 +1,6 @@
+TypeName = "Adaptive assessment"
+
+AdaptiveAssessmentDisplayViewerComponent = "Evaluación"
+PreviousNA = "Anterior"
+Next = "Siguiente"
+Previous = "Anterior"

@@ -55,29 +55,35 @@ class AssessmentViewerForm extends FormValidator
 
     function add_general()
     {
-
         $current_page = self :: PAGE_NUMBER . '-' . $this->get_page_number();
         $this->addElement('hidden', $current_page, $this->get_page_number());
+
+        if ($this->get_page_number() == 1)
+        {
+            $this->add_information_message(null, null, $this->assessment_viewer->get_assessment()->get_description(), true);
+        }
     }
 
     function add_buttons()
     {
         //$progress = round(($this->get_page_number() / $this->get_total_pages()) * 100);
         //Display::get_progress_bar($progress)
-        $this->addElement('html', '<div style="float: left; padding: 7px; font-weight: bold; line-height: 100%;">' . Translation :: get('PageNumberOfTotal', array('CURRENT' => $this->get_page_number(), 'TOTAL' => $this->get_total_pages())) . '</div>');
+        $this->addElement('html', '<div style="float: left; padding: 7px; font-weight: bold; line-height: 100%;">' . Translation :: get('PageNumberOfTotal', array(
+                'CURRENT' => $this->get_page_number(), 'TOTAL' => $this->get_total_pages())) . '</div>');
 
         if ($this->assessment_viewer->get_feedback_per_page())
         {
-//            if (($this->get_page_number() <= $this->assessment_viewer->get_total_pages()))
-//            {
-                $buttons[] = $this->createElement('style_submit_button', 'next', Translation :: get('Check', null, Utilities :: COMMON_LIBRARIES), array(
-                        'class' => 'normal next'));
-//            }
-//            else
-//            {
-//                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Finish', null, Utilities :: COMMON_LIBRARIES), array(
-//                        'class' => 'positive finish'));
-//            }
+            //            if (($this->get_page_number() <= $this->assessment_viewer->get_total_pages()))
+            //            {
+            $buttons[] = $this->createElement('style_submit_button', 'next', Translation :: get('Check', null, Utilities :: COMMON_LIBRARIES), array(
+                    'class' => 'normal next'));
+
+     //            }
+        //            else
+        //            {
+        //                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Finish', null, Utilities :: COMMON_LIBRARIES), array(
+        //                        'class' => 'positive finish'));
+        //            }
         }
         else
         {

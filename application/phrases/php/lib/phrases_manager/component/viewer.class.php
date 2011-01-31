@@ -32,6 +32,9 @@ use repository\content_object\adaptive_assessment\AdaptiveAssessmentDisplay;
 class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAssessmentComplexDisplaySupport,
         AssessmentComplexDisplaySupport, DelegateComponent
 {
+    /**
+     * @var PhrasesPublication
+     */
     private $publication;
 
     function run()
@@ -46,6 +49,8 @@ class PhrasesManagerViewerComponent extends PhrasesManager implements AdaptiveAs
         else
         {
             $this->publication = PhrasesDataManager :: get_instance()->retrieve_phrases_publication($publication_id);
+
+            Translation :: get_instance()->set_language($this->publication->get_language());
 
             if ($this->publication && ! $this->publication->is_visible_for_target_user($this->get_user()))
             {

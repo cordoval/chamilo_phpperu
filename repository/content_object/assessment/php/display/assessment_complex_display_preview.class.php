@@ -54,6 +54,9 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
      */
     function save_assessment_result($total_score)
     {
+        $answers = Session :: retrieve(self :: TEMPORARY_STORAGE);
+        unset($answers[$this->get_root_content_object()->get_id()]);
+        Session :: register(self :: TEMPORARY_STORAGE, $answers);
     }
 
     /**
@@ -83,6 +86,7 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
      */
     function get_assessment_back_url()
     {
+        return null;
     }
 
     /**
@@ -93,13 +97,14 @@ class AssessmentComplexDisplayPreview extends ComplexDisplayPreview implements A
      */
     function get_assessment_continue_url()
     {
+        return null;
     }
 
     function get_assessment_feedback_configuration()
     {
         $dummy_configuration = new FeedbackDisplayConfiguration();
         $dummy_configuration->set_feedback_type(FeedbackDisplayConfiguration :: TYPE_BOTH);
-        $dummy_configuration->enable_feedback_per_page();
+        $dummy_configuration->disable_feedback_per_page();
         $dummy_configuration->enable_feedback_summary();
         return $dummy_configuration;
     }

@@ -147,7 +147,7 @@ class HandbookImportForm extends FormValidator
             $importer = new HandbookCpoImport($_FILES[self :: IMPORT_FILE_NAME], $this->get_user(), $this->exportValue(RepositoryManager :: PARAM_CATEGORY_ID));
             $result = $importer->import_content_object();
 
-            $this->log = $importer->get_log();
+            $this->log .= '<p style="color: green;">'. implode("</br>", $importer->get_log()) . '</p>';
             $this->messages = $importer->get_messages();
             $this->warnings = $importer->get_warnings();
             $this->errors = $importer->get_errors();
@@ -160,6 +160,7 @@ class HandbookImportForm extends FormValidator
 
             $importer = new HandbookCpoImport($_FILES[self :: IMPORT_FILE_NAME], $this->get_user(), $this->exportValue(RepositoryManager :: PARAM_CATEGORY_ID));
             $result = $importer->import_metadata();
+            $this->log .= '<p style="color: blue;">'. implode("</br>", $importer->get_log()) . '</p>';
             $this->messages = $importer->get_messages();
             $this->warnings = $importer->get_warnings();
             $this->errors = $importer->get_errors();

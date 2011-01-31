@@ -52,7 +52,7 @@ $(function ()
 
     $(document).ready(function ()
     {
-    	$('#add_option').live('click', addNumericOption);
+    	$('#add_numeric_option').live('click', addNumericOption);
     });
     
 });
