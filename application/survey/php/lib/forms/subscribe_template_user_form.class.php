@@ -62,6 +62,7 @@ class SurveySubscribeTemplateUserForm extends FormValidator
         
         $survey = $publication->get_publication_object();
         $contex_template = $survey->get_context_template_for_level();
+      
         $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_CONTEXT_TEMPLATE_ID, $contex_template->get_id());
         $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($condition);
         $temps = array();
