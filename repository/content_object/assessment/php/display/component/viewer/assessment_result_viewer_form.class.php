@@ -2,7 +2,6 @@
 namespace repository\content_object\assessment;
 
 use common\libraries\StringUtilities;
-
 use common\libraries\FormValidator;
 use common\libraries\EqualityCondition;
 use common\libraries\Session;

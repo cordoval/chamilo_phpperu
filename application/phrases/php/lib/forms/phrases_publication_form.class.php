@@ -1,6 +1,8 @@
 <?php
 namespace application\phrases;
 
+use admin\AdminDataManager;
+
 use common\libraries\FormValidator;
 use user\UserDataManager;
 use group\GroupDataManager;
@@ -151,6 +153,7 @@ class PhrasesPublicationForm extends FormValidator
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor', null, Utilities :: COMMON_LIBRARIES), $attributes);
         $this->add_forever_or_timewindow();
         $this->addElement('checkbox', PhrasesPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden', null, Utilities :: COMMON_LIBRARIES));
+        $this->addElement('select', PhrasesPublication :: PROPERTY_LANGUAGE, Translation :: get('Language', null, Utilities :: COMMON_LIBRARIES), AdminDataManager :: get_languages());
     }
 
     function add_footer()
@@ -195,6 +198,7 @@ class PhrasesPublicationForm extends FormValidator
         $pub->set_from_date($from);
         $pub->set_to_date($to);
         $pub->set_hidden($hidden);
+        $pub->set_language($values[PhrasesPublication :: PROPERTY_LANGUAGE]);
         $pub->set_target_users($users);
         $pub->set_target_groups($groups);
 
@@ -236,6 +240,7 @@ class PhrasesPublicationForm extends FormValidator
             $pub->set_from_date($from);
             $pub->set_to_date($to);
             $pub->set_hidden($hidden);
+            $pub->set_language($values[PhrasesPublication :: PROPERTY_LANGUAGE]);
             $pub->set_target_users($users);
             $pub->set_target_groups($groups);
 

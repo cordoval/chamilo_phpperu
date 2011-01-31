@@ -95,7 +95,7 @@ class ExternalRepositoryLauncher extends LauncherApplication
                 $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . RepositoryManager :: PARAM_EXTERNAL_INSTANCE . '=' . $instance->get_id();
                 $image = Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($instance->get_type())) . 'logo/16.png';
                 $title = Translation :: get('BrowseObject', array('OBJECT' => $instance->get_title()), Utilities :: COMMON_LIBRARIES);
-                $buttons[] = '<a class="button normal_button upload_button" style="background-image: url(' . $image . ');" onclick="javascript:openPopup(\'' . $link . '\');"> ' . $title . '</a>';
+                $buttons[] = '<a class="button normal_button upload_button" style="background-image: url(' . htmlspecialchars($image) . ');" onclick="javascript:openPopup(\'' . htmlspecialchars($link) . '\');"> ' . htmlspecialchars($title) . '</a>';
             }
 
             $html[] = '<div style="margin-bottom: 10px;">' . implode(' ', $buttons) . '</div>';
@@ -105,7 +105,7 @@ class ExternalRepositoryLauncher extends LauncherApplication
                 $html[] = '<script type="text/javascript">';
                 $html[] = '$(document).ready(function ()';
                 $html[] = '{';
-                $html[] = '	openPopup(\'' . $link . '\');';
+                $html[] = '	openPopup(\'' . htmlspecialchars($link) . '\');';
                 $html[] = '});';
                 $html[] = '</script>';
             }

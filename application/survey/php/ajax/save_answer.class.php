@@ -47,17 +47,18 @@ class SurveyAjaxSaveAnswer extends AjaxManager
         $complex_question_id = array_pop($ids);
         $answers = $this->get_parameter(self :: PARAM_ANSWER);
         $answers = json_decode($answers, true);
-        
         foreach ($answers as $key => $value)
         {
             $value = Security :: remove_XSS($value);
             $split_key = explode('_', $key);
+//            dump( $split_key);
             $count = count($split_key);
             
             //            if ((StringUtilities :: is_null_or_empty($value)) || ($value == 0))
             if (!StringUtilities :: is_null_or_empty($value, true))
             {
                 $answer_index = $split_key[1];
+//                dump($answer_index);
                 if ($count == 3)
                 {
                     $sub_index = $split_key[2];
@@ -65,11 +66,14 @@ class SurveyAjaxSaveAnswer extends AjaxManager
                 }
                 else
                 {
-                    $answer[$answer_index] = $value;
+//                    $answer[$answer_index] = $value;
+                     $answer[$key] = $value;
                 }
             }
         
         }
+        
+//        dump($answer);
         
         if ($answer)
         {

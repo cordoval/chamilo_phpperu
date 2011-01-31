@@ -7,6 +7,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\DynamicTabsRenderer;
+use common\libraries\Utilities;
 
 require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/component/context_viewer.class.php';
 
@@ -58,29 +59,29 @@ class SurveyContextManagerUnsubscribeGroupComponent extends SurveyContextManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedSurveyContextRelGroupNotDeleted';
+                    $message = 'ObjectNotDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedSurveyContextRelGroupsNotDeleted';
+                    $message = 'ObjectsNotDeleted';
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedSurveyContextRelGroupDeleted';
+                    $message = 'ObjectDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedSurveyContextRelGroupsDeleted';
+                    $message = 'ObjectsDeleted';
                 }
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context_rel_group_ids[0],  self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id ,DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_GROUPS));
+            $this->redirect(Translation :: get($message, array('OBJECT' => Translation::get('SelectedSurveyContextRelGroup'), 'OBJECTS' => Translation::get('SelectedSurveyContextRelGroups')),Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context_rel_group_ids[0],  self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id ,DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextViewerComponent :: TAB_GROUPS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoSurveyContextRelGroupSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoSurveyContextRelGroupsSelected')));
         }
     }
 }

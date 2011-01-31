@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once Path :: get_repository_content_object_path() . '/survey/php/manage/context/tables/context_rel_group_table/default_context_rel_group_table_cell_renderer.class.php';
@@ -38,7 +39,7 @@ class SurveyContextRelGroupTableCellRenderer extends DefaultSurveyContextRelGrou
         
 //        if (SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: SUBSCRIBE_USER_RIGHT, $rel_group->get_period_id(), SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION))
 //        {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_context_unsubscribe_group_url($rel_group), ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_context_unsubscribe_group_url($rel_group), ToolbarItem :: DISPLAY_ICON, true));
 //        }
         return $toolbar->as_html();
     }

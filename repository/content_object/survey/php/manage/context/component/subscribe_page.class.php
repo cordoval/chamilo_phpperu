@@ -101,7 +101,7 @@ class SurveyContextManagerSubscribePageComponent extends SurveyContextManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoSurveyContextTemplateRelPageSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoSurveyContextTemplateRelPagesSelected')));
         }
     }
 }

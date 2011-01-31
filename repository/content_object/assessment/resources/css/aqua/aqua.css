@@ -1,5 +1,9 @@
 @CHARSET "ISO-8859-1";
 
+.take_assessment th.checkbox_answer {
+	width: 48px;
+}
+
 div.assessment {
 	margin-bottom: 15px;
 }

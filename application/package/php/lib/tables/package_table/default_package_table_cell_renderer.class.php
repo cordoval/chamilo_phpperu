@@ -37,7 +37,7 @@ class DefaultPackageTableCellRenderer extends ObjectTableCellRenderer
             case Package :: PROPERTY_ID :
                 return $package->get_id();
             case Package :: PROPERTY_SECTION :
-                return $package->get_section();
+                return $package->get_section_type_name($package->get_section());
             case Package :: PROPERTY_NAME :
                 return $package->get_name();
             case Package :: PROPERTY_VERSION :

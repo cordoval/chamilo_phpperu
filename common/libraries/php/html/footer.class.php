@@ -82,7 +82,7 @@ class Footer
 
         if ($this->get_setting('show_version_data', 'admin') == '1')
         {
-            $links[] = Translation :: get('Version') . ' ' . $this->get_setting('version', 'admin');
+            $links[] = htmlspecialchars(Translation :: get('Version')) . ' ' . $this->get_setting('version', 'admin');
         }
 
         //        $links[] = Translation :: get('License');
@@ -97,7 +97,7 @@ class Footer
                 || ( \key_exists('_uid', $_SESSION) && $world == "2")
             )
         {
-            $links[] = '<a href="' . Path :: get(WEB_PATH) . 'core.php?go=whois_online&application=admin">' . Translation :: get('WhoisOnline') . '</a>';
+            $links[] = '<a href="' . htmlspecialchars(Path :: get(WEB_PATH) . 'core.php?go=whois_online&application=admin') . '">' . Translation :: get('WhoisOnline') . '</a>';
         }
 
         $links[] = '&copy;&nbsp;' . date('Y');

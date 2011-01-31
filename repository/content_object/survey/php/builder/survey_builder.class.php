@@ -4,43 +4,22 @@ namespace repository\content_object\survey;
 use repository\ComplexBuilder;
 use common\libraries\ComplexMenuSupport;
 
-//require_once dirname ( __FILE__ ) . '/survey_builder_component.class.php';
-
-
-//require_once dirname(__FILE__) . '/component/context_template_browser/browser_table.class.php';
-//require_once dirname(__FILE__) . '/component/context_template_rel_page_browser/rel_page_browser_table.class.php';
-//require_once dirname(__FILE__) . '/component/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
-
-
 class SurveyBuilder extends ComplexBuilder implements ComplexMenuSupport
 {
     
-    //    const ACTION_CREATE_SURVEY = 'creater';
-    
-
-    //    const ACTION_CONFIGURE_CONTEXT = 'configure_context';
-    //    const ACTION_BROWSE_CONTEXT = 'context_browser';
-    //    const ACTION_VIEW_CONTEXT = 'context_viewer';
-    //    const ACTION_SUBSCRIBE_PAGE_BROWSER = 'context_template_subscribe_page_browser';
-    //    const ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE = 'page_unsubscriber';
-    //    const ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE = 'page_subscriber';
-    //    const ACTION_TRUNCATE_TEMPLATE = 'context_template_truncater';
-    //
     const ACTION_CONFIGURE_PAGE = 'configure';
     const ACTION_CHANGE_QUESTION_VISIBILITY = 'visibility_changer';
     const ACTION_CONFIGURE_QUESTION = 'configure_question';
-    //    
-    //    const ACTION_SUBSCRIBE_CONTEXT_TEMPLATE = 'subscribe_context_template';
-    //    
+    const ACTION_DELETE_CONFIG = 'config_deleter';
+    const ACTION_UPDATE_CONFIG = 'config_updater';
+    
     const PARAM_SURVEY_PAGE_ID = 'survey_page';
-    //    const PARAM_SURVEY_ID = 'survey';
-    //    const PARAM_TEMPLATE_ID = 'template_id';
-    //    const PARAM_TEMPLATE_REL_PAGE_ID = 'template_rel_page_id';
     const PARAM_COMPLEX_QUESTION_ITEM_ID = 'complex_question_item_id';
+    const PARAM_CONFIG_INDEX = 'config_index';
 
     function __construct($parent)
     {
-		parent :: __construct($parent);
+        parent :: __construct($parent);
     }
 
     function get_application_component_path()
@@ -53,32 +32,15 @@ class SurveyBuilder extends ComplexBuilder implements ComplexMenuSupport
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CONFIGURE_PAGE, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(), self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_cloi, self :: PARAM_SURVEY_PAGE_ID => $selected_cloi->get_ref()));
     }
 
-    //    function get_add_context_url()
-    //    {
-    //        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_SUBSCRIBE_CONTEXT_TEMPLATE, self :: PARAM_SURVEY_ID => $this->get_root_content_object()->get_id()));
-    //    }
-    //
-    //    function get_configure_context_url()
-    //    {
-    //        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE_CONTEXT, self :: PARAM_TEMPLATE_ID => $this->get_root_content_object()->get_context_template_id()));
-    //    }
-    //
-    //    function get_template_viewing_url($template_id)
-    //    {
-    //        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_TEMPLATE_ID => $template_id));
-    //    }
-    //
-    
+    function get_config_delete_url($config_index)
+    {
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_DELETE_CONFIG, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(), self :: PARAM_CONFIG_INDEX => $config_index));
+    }
 
-    //
-    
-
-    //
-    //    function get_template_emptying_url($template_id)
-    //    {
-    //        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_TRUNCATE_TEMPLATE, self :: PARAM_TEMPLATE_ID => $template_id));
-    //    }
-    
+    function get_config_update_url($config_index)
+    {
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_CONFIG, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(), self :: PARAM_CONFIG_INDEX => $config_index));
+    }
 
     function get_change_question_visibility_url($complex_question_item)
     {

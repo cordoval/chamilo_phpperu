@@ -32,7 +32,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
 
         foreach ($matches as $match)
         {
-            $table_header[] = '<th class="center">' . strip_tags($match) . '</th>';
+            $table_header[] = '<th class="center">' . trim(strip_tags($match)) . '</th>';
         }
 
         $table_header[] = '</tr>';

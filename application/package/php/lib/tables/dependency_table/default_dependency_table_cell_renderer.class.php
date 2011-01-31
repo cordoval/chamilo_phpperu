@@ -34,12 +34,12 @@ class DefaultDependencyTableCellRenderer extends ObjectTableCellRenderer
     {
         switch ($column->get_name())
         {
-            case Dependency :: PROPERTY_ID_DEPENDENCY :
-                return $package->get_id_dependency();
-            case Dependency :: PROPERTY_SEVERITY :
-                return $package->get_severity_string();
-            case Dependency :: PROPERTY_COMPARE :
-                return $package->get_compare_string();
+            case Dependency :: PROPERTY_NAME :
+                return $package->get_name();
+//            case Dependency :: PROPERTY_SEVERITY :
+//                return $package->get_severity_string();
+//            case Dependency :: PROPERTY_COMPARE :
+//                return $package->get_compare_string();
             case Dependency :: PROPERTY_VERSION :
                 return $package->get_version();
             case Dependency :: PROPERTY_TYPE :

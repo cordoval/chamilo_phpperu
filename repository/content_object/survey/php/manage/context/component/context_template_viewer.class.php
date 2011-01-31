@@ -179,7 +179,6 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
             $conditions[] = new OrCondition($search_conditions);
         
         }
-        
         return new AndCondition($conditions);
     }
 

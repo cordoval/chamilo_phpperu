@@ -35,14 +35,14 @@ class PersonalMessengerNew extends PersonalMessengerBlock
             while ($publication = $publications->next_result())
             {
                 $html[] = '<li>';
-                $html[] = '<a href="' . $this->get_publication_viewing_link($publication) . '">' . $publication->get_publication_object()->get_title() . '</a>';
+                $html[] = '<a href="' . htmlspecialchars($this->get_publication_viewing_link($publication)) . '">' . htmlspecialchars($publication->get_publication_object()->get_title()) . '</a>';
                 $html[] = '</li>';
             }
             $html[] = '</ul>';
         }
         else
         {
-            $html[] = Translation :: get('NoNewMessages');
+            $html[] = htmlspecialchars(Translation :: get('NoNewMessages'));
         }
 
         $html[] = $this->display_footer();

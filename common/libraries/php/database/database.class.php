@@ -2,6 +2,7 @@
 namespace common\libraries;
 
 use MDB2;
+use MDB2_Error;
 use Exception;
 /**
  * $Id: database.class.php 229 2009-11-16 09:02:34Z scaramanga $
@@ -17,11 +18,11 @@ use Exception;
 class Database
 {
     const ALIAS_MAX_SORT = 'max_sort';
-
+    
     private $connection;
     private $prefix;
     private $aliases;
-
+    
     /**
      * Used for debug
      * @var int
@@ -125,7 +126,7 @@ class Database
         {
             $table .= $table_alias . '.';
         }
-
+        
         return $table . $this->connection->quoteIdentifier($name);
     }
 
@@ -169,7 +170,7 @@ class Database
         $default_properties = array();
         $optional_properties = array();
         $object = new $class_name();
-
+        
         $default_property_names = $object->get_default_property_names();
         foreach ($default_property_names as $property)
         {
@@ -179,16 +180,16 @@ class Database
                 unset($record[$property]);
             }
         }
-
+        
         $object->set_default_properties($default_properties);
-
+        
         if (count($record) > 0 && $object instanceof DataClass)
         {
             foreach ($record as $optional_property_name => $optional_property_value)
             {
                 $optional_properties[$optional_property_name] = $optional_property_value;
             }
-
+            
             $object->set_optional_properties($optional_properties);
         }
         return $object;
@@ -200,7 +201,7 @@ class Database
         $this->connection->loadModule('Manager');
         $manager = $this->connection->manager;
         $table_fields = $manager->listTableFields($name);
-
+        
         if (! MDB2 :: isError($table_fields))
         {
             return true;
@@ -220,27 +221,27 @@ class Database
      */
     function create_storage_unit($name, $properties, $indexes)
     {
-
+        
         $check_name = $this->prefix . $name;
         $name = $this->get_table_name($name);
-
+        
         $this->connection->loadModule('Manager');
         $manager = $this->connection->manager;
         // If table allready exists -> drop it
         // @todo This should change: no automatic table drop but warning to user
         $tables = $manager->listTables();
-
+        
         if (in_array($check_name, $tables))
         {
             $manager->dropTable($name);
         }
         $options['charset'] = 'utf8';
         $options['collate'] = 'utf8_unicode_ci';
-
+        
         $result = $manager->createTable($name, $properties, $options);
-
+        
         $constraint_table_alias = $this->get_constraint_name($name);
-
+        
         if (! MDB2 :: isError($result))
         {
             foreach ($indexes as $index_name => $index_info)
@@ -315,21 +316,22 @@ class Database
     function create($object, $auto_id = true)
     {
         $object_table = $object->get_table_name();
-
+        
         $props = array();
         foreach ($object->get_default_properties() as $key => $value)
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-
+        
         if ($auto_id && in_array('id', $object->get_default_property_names()))
         {
             $props[$this->escape_column_name('id')] = $this->get_better_next_id($object_table, 'id');
         }
-
+        
         $this->connection->loadModule('Extended');
+        $result = $this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_INSERT);
 
-        if ($this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_INSERT))
+        if (! $result instanceof MDB2_Error)
         {
             if ($auto_id && in_array('id', $object->get_default_property_names()))
             {
@@ -358,7 +360,7 @@ class Database
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this);
@@ -368,11 +370,11 @@ class Database
         {
             return false;
         }
-
+        
         $this->connection->loadModule('Extended');
-        $this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_UPDATE, $condition);
-
-        return true;
+        $result = $this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+        
+        return (! $result instanceof MDB2_Error);
     }
 
     function update_objects($table_name, $properties = array(), $condition, $offset = null, $max_objects = null, $order_by = array())
@@ -380,26 +382,26 @@ class Database
         if (count($properties) > 0)
         {
             $table_name_alias = $this->get_alias($table_name);
-
+            
             $query = 'UPDATE ' . $this->escape_table_name($table_name) . ' AS ' . $table_name_alias . ' SET ';
-
+            
             $updates = array();
-
+            
             foreach ($properties as $column => $property)
             {
                 $updates[] = $this->escape_column_name($column) . '=' . $property;
             }
-
+            
             $query .= implode(", ", $updates);
-
+            
             if (isset($condition))
             {
                 $translator = new ConditionTranslator($this, $this->get_alias($table_name));
                 $query .= $translator->render_query($condition);
             }
-
+            
             $orders = array();
-
+            
             if (is_null($order_by))
             {
                 $order_by = array();
@@ -408,7 +410,7 @@ class Database
             {
                 $order_by = array($order_by);
             }
-
+            
             foreach ($order_by as $order)
             {
                 if ($order)
@@ -420,14 +422,14 @@ class Database
             {
                 $query .= ' ORDER BY ' . implode(', ', $orders);
             }
-
+            
             if ($max_objects > 0)
             {
                 $query .= ' LIMIT ' . $max_objects;
             }
-
+            
             $res = $this->query($query);
-
+            
             if (MDB2 :: isError($res))
             {
                 return false;
@@ -453,15 +455,15 @@ class Database
     function delete($table_name, $condition)
     {
         $query = 'DELETE ' . $this->get_alias($table_name) . '.* FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $this->get_alias($table_name));
             $query .= $translator->render_query($condition);
         }
-
+        
         $res = $this->query($query);
-
+        
         if (MDB2 :: isError($res))
         {
             return false;
@@ -482,15 +484,15 @@ class Database
     function delete_objects($table_name, $condition = null)
     {
         $query = 'DELETE ' . $this->get_alias($table_name) . '.* FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $this->get_alias($table_name));
             $query .= $translator->render_query($condition);
         }
-
+        
         $res = $this->query($query);
-
+        
         if (MDB2 :: isError($res))
         {
             return false;
@@ -511,9 +513,9 @@ class Database
     {
         $this->connection->loadModule('Manager');
         $manager = $this->connection->manager;
-
+        
         $result = $manager->dropTable($this->escape_table_name($table_name));
-
+        
         if (MDB2 :: isError($result))
         {
             return false;
@@ -533,7 +535,7 @@ class Database
     function count_objects($table_name, $condition = null)
     {
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
-
+        
         return $this->count_result_set($query, $table_name, $condition);
     }
 
@@ -544,13 +546,13 @@ class Database
             $translator = new ConditionTranslator($this, $this->get_alias($table_name));
             $query .= $translator->render_query($condition);
         }
-
+        
         //                      dump($query);
         //                exit;
-
+        
 
         $res = $this->query($query);
-
+        
         if (MDB2 :: isError($res))
         {
             return false;
@@ -589,12 +591,12 @@ class Database
             $translator = new ConditionTranslator($this, $this->get_alias($table_name));
             $query .= $translator->render_query($condition);
         }
-
+        
         $orders = array();
-
-//           dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
-      //        dump($order_by);
-
+        
+        //           dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
+        //        dump($order_by);
+        
 
         if (is_null($order_by))
         {
@@ -604,7 +606,7 @@ class Database
         {
             $order_by = array($order_by);
         }
-
+        
         foreach ($order_by as $order)
         {
             if ($order)
@@ -620,24 +622,24 @@ class Database
         {
             $max_objects = null;
         }
-
+        
         $this->set_limit(intval($max_objects), intval($offset));
-
+        
         return $this->query($query);
     }
 
     function retrieve_object_set($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null)
     {
         $res = $this->retrieve_result($query, $table_name, $condition, $offset, $max_objects, $order_by);
-
+        
         if (is_null($class_name))
         {
             $called_class = get_called_class();
             $namespace = Utilities :: get_namespace_from_classname($called_class);
-
+            
             $class_name = $namespace . '\\' . Utilities :: underscores_to_camelcase($table_name);
         }
-
+        
         return new ObjectResultSet($this, $res, $class_name);
     }
 
@@ -649,13 +651,13 @@ class Database
     function retrieve_max_sort_value($table_name, $column, $condition = null)
     {
         $query = 'SELECT MAX(' . $this->escape_column_name($column) . ') as ' . self :: ALIAS_MAX_SORT . ' FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $this->get_alias($table_name));
             $query .= $translator->render_query($condition);
         }
-
+        
         $res = $this->query($query);
         if ($res->numRows() >= 1)
         {
@@ -713,7 +715,7 @@ class Database
     function retrieve_record($table_name, $condition = null, $order_by = array())
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
-
+        
         return $this->retrieve_row($query, $table_name, $condition, $order_by);
     }
 
@@ -724,9 +726,9 @@ class Database
             $translator = new ConditionTranslator($this, $this->get_alias($table_name));
             $query .= $translator->render_query($condition);
         }
-
+        
         $orders = array();
-
+        
         foreach ($order_by as $order)
         {
             if ($order)
@@ -738,7 +740,7 @@ class Database
         {
             $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-
+        
         $this->set_limit(1);
         $res = $this->query($query);
         if (! MDB2 :: isError($res))
@@ -750,12 +752,12 @@ class Database
         {
             dump($res);
         }
-
+        
         if (MDB2 :: isError($record))
         {
             dump($record);
         }
-
+        
         if ($record)
         {
             return $record;
@@ -773,10 +775,10 @@ class Database
         {
             $called_class = get_called_class();
             $namespace = Utilities :: get_namespace_from_classname($called_class);
-
+            
             $class_name = $namespace . '\\' . Utilities :: underscores_to_camelcase($table_name);
         }
-
+        
         if ($record)
         {
             return self :: record_to_object($record, $class_name);
@@ -790,15 +792,15 @@ class Database
     function retrieve_distinct($table_name, $column_name, $condition = null)
     {
         $query = 'SELECT DISTINCT(' . $this->escape_column_name($column_name) . ') FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $this->get_alias($table_name));
             $query .= $translator->render_query($condition);
         }
-
+        
         $res = $this->query($query);
-
+        
         $distinct_elements = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
@@ -811,13 +813,13 @@ class Database
     function count_distinct($table_name, $column_name, $condition = null)
     {
         $query = 'SELECT COUNT(DISTINCT(' . $this->escape_column_name($column_name) . ')) FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $this->get_alias($table_name));
             $query .= $translator->render_query($condition);
         }
-
+        
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
         $res->free();
@@ -835,8 +837,8 @@ class Database
     function get_alias($table_name)
     {
         return DatabaseAliasGenerator :: get_instance()->get_table_alias($table_name, $this->get_prefix());
-
-     //        if (!array_key_exists($table_name, $this->aliases))
+        
+    //        if (!array_key_exists($table_name, $this->aliases))
     //        {
     //            $possible_name = substr($table_name, 0, 2) . substr($table_name, - 2);
     //            $index = 0;
@@ -859,7 +861,7 @@ class Database
         {
             $possible_name .= $part{0};
         }
-
+        
         return $possible_name;
     }
 
@@ -896,7 +898,7 @@ class Database
     /**************************************************************************
      * FUNCTIONALITY THAT ENABLES NESTED TREES VIA NESTED_TREE_NODE.CLASS.PHP *
      **************************************************************************/
-
+    
     /**
      * Counts the children of a tree node
      * @param NestedTreeNode $node - the node
@@ -929,7 +931,7 @@ class Database
     private function nested_tree_build_children_condition($node, $recursive = false, $condition = null)
     {
         $children_conditions = array();
-
+        
         if ($recursive)
         {
             $children_conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $node->get_left_value());
@@ -939,12 +941,12 @@ class Database
         {
             $children_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_PARENT_ID, $node->get_id());
         }
-
+        
         if ($condition)
         {
             $children_conditions[] = $condition;
         }
-
+        
         return new AndCondition($children_conditions);
     }
 
@@ -984,7 +986,7 @@ class Database
     private function nested_tree_build_parents_condition($node, $recursive = false, $include_object = false, $condition = null)
     {
         $parent_conditions = array();
-
+        
         if ($recursive)
         {
             if ($include_object)
@@ -1002,12 +1004,12 @@ class Database
         {
             $parent_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $node->get_parent_id());
         }
-
+        
         if ($condition)
         {
             $parent_conditions[] = $condition;
         }
-
+        
         return new AndCondition($parent_conditions);
     }
 
@@ -1044,19 +1046,19 @@ class Database
     private function nested_tree_build_sibblings_condition($node, $include_object = false, $condition = null)
     {
         $siblings_conditions = array();
-
+        
         $siblings_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_PARENT_ID, $node->get_parent());
-
+        
         if (! $include_object)
         {
             $siblings_conditions[] = new NotCondition(new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $node->get_id()));
         }
-
+        
         if ($condition)
         {
             $siblings_conditions[] = $condition;
         }
-
+        
         return new AndCondition($siblings_conditions);
     }
 
@@ -1071,7 +1073,7 @@ class Database
         {
             return false;
         }
-
+        
         $condition = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $id);
         return $this->retrieve_object($node->get_table_name(), $condition, array(), get_class($node));
     }
@@ -1098,43 +1100,43 @@ class Database
         // Update all necessary left-values
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
-
+        
         if ($condition)
         {
             $conditions[] = $condition;
         }
-
+        
         $update_condition = new AndCondition($conditions);
-
+        
         $properties = array(
                 NestedTreeNode :: PROPERTY_LEFT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_LEFT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
-
+        
         if (! $res)
         {
             return false;
         }
-
+        
         // Update all necessary right-values
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
-
+        
         if ($condition)
         {
             $conditions[] = $condition;
         }
-
+        
         $update_condition = new AndCondition($conditions);
-
+        
         $properties = array(
                 NestedTreeNode :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
-
+        
         if (! $res)
         {
             return false;
         }
-
+        
         return true;
     }
 
@@ -1146,49 +1148,49 @@ class Database
     function nested_tree_delete_nested_values($node, $condition)
     {
         $delta = $node->get_right_value() - $node->get_left_value() + 1;
-
+        
         // Update all necessary nested-values
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $node->get_left_value());
-
+        
         if ($condition)
         {
             $conditions[] = $condition;
         }
-
+        
         $update_condition = new AndCondition($conditions);
-
+        
         $properties = array();
         $properties[NestedTreeNode :: PROPERTY_LEFT_VALUE] = $this->escape_column_name(NestedTreeNode :: PROPERTY_LEFT_VALUE) . ' - ' . $this->quote($delta);
         $properties[NestedTreeNode :: PROPERTY_RIGHT_VALUE] = $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta);
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
-
+        
         if (! $res)
         {
             return false;
         }
-
+        
         // Update some more nested-values
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $node->get_left_value());
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $node->get_right_value());
-
+        
         if ($condition)
         {
             $conditions[] = $condition;
         }
-
+        
         $update_condition = new AndCondition($conditions);
-
+        
         $properties = array(
                 NestedTreeNode :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta));
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
-
+        
         if (! $res)
         {
             return false;
         }
-
+        
         return true;
     }
 

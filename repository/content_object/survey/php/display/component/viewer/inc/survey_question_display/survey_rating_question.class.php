@@ -36,10 +36,12 @@ class SurveyRatingQuestionDisplay extends SurveyQuestionDisplay
         $formvalidator->addElement('select', $question_name, Translation :: get('Rating') . ': ', $scores, 'class="rating_slider"');
 
         $answer = $this->get_answer();
-
+		
+//        dump($answer);
+        
         if ($answer)
         {
-            $formvalidator->setDefaults(array($question_name => $answer[0]));
+            $formvalidator->setDefaults(array($question_name => $answer[$question_name]));
         }
 
         $renderer->setElementTemplate($element_template, $question_name);

@@ -13,14 +13,9 @@ use common\libraries\Path;
 
 class HandbookPreferenceForm extends MetadataForm
 {
-    const TYPE_ORIGINAL = 1; // for original content object
-    const TYPE_ALTERNATIVE = 2; // for ...
-
+    
     const TYPE = 'content_object';
 
-    private $context_link;
-    private $user;
-    private $metadata_property_values;
         
     function __construct()
      {

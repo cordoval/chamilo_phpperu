@@ -10,8 +10,8 @@
 		<property name="compare" type="integer" unsigned="1" notnull="1"
 			length="1" />
 		<property name="severity" type="integer" unsigned="1"
-			notnull="1" length="1" />
-		<property name="type" type="integer" unsigned="1" notnull="1"
+			notnull="1" length="1" />	
+		<property name="dependency_type" type="integer" unsigned="1" notnull="1"
 			length="1" />
 	</properties>
 	<index name="package_dependency_id">

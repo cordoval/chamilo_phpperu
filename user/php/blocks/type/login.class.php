@@ -52,12 +52,12 @@ class UserLogin extends UserBlock
             $user = $this->get_user();
 
             $html[] = '<br />';
-            $html[] = '<img src="' . $user->get_full_picture_url() . '" style="max-width: 100%;" />';
+            $html[] = '<img src="' . htmlspecialchars($user->get_full_picture_url()) . '" style="max-width: 100%;" />';
             $html[] = '<br /><br />';
-            $html[] = $user->get_fullname() . '<br />';
-            $html[] = $user->get_email() . '<br />';
+            $html[] = htmlspecialchars($user->get_fullname()) . '<br />';
+            $html[] = htmlspecialchars($user->get_email()) . '<br />';
             $html[] = '<br /><br />';
-            $html[] = '<a href="' . Path :: get(WEB_PATH) . 'index.php?logout=true" class="button normal_button logout_button">' . Translation :: get('Logout') . '</a>';
+            $html[] = '<a href="' . htmlspecialchars(Path :: get(WEB_PATH)) . 'index.php?logout=true" class="button normal_button logout_button">' . htmlspecialchars(Translation :: get('Logout')) . '</a>';
             $html[] = '<br /><br />';
 
         //            if(PlatformSetting :: get('page_after_login') == 'weblcms')
@@ -97,12 +97,12 @@ class UserLogin extends UserBlock
             if (PlatformSetting :: get('allow_registration', 'user'))
             {
                 $link = Redirect :: get_link(UserManager :: APPLICATION_NAME, array(Application :: PARAM_ACTION => UserManager :: ACTION_REGISTER_USER), array(), false, Redirect :: TYPE_CORE);
-                $buttons[] = $form->createElement('static', null, null, '<a href="' . $link . '" class="button normal_button register_button">' . Translation :: get('Reg') . '</a>');
+                $buttons[] = $form->createElement('static', null, null, '<a href="' . htmlspecialchars($link) . '" class="button normal_button register_button">' . htmlspecialchars(Translation :: get('Reg')) . '</a>');
             }
             if (PlatformSetting :: get('allow_password_retrieval', 'user'))
             {
                 $link = Redirect :: get_link(UserManager :: APPLICATION_NAME, array(Application :: PARAM_ACTION => UserManager :: ACTION_RESET_PASSWORD), array(), false, Redirect :: TYPE_CORE);
-                $buttons[] = $form->createElement('static', null, null, '<a href="' . $link . '" class="button normal_button help_button">' . Translation :: get('ResetPassword') . '</a>');
+                $buttons[] = $form->createElement('static', null, null, '<a href="' . htmlspecialchars($link) . '" class="button normal_button help_button">' . htmlspecialchars(Translation :: get('ResetPassword')) . '</a>');
             }
         }
 
