@@ -12,7 +12,7 @@ use common\libraries\EqualityCondition;
  * @author Sven Vanpoucke
  * @author Jens Vanderheyden
  */
-class MetadataPropertyValue extends DataClass
+abstract class MetadataPropertyValue extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 

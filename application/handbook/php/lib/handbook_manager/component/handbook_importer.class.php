@@ -77,11 +77,12 @@ class HandbookManagerHandbookImporterComponent extends HandbookManager
                 echo '</br>';
                 echo implode('/n', $errors);
                 echo '</br>';
-                foreach ($log as $l)
-                {
-                    echo $l;
-                    echo '</br>';
-                }
+//                foreach ($log as $l)
+//                {
+//                    echo $l;
+//                    echo '</br>';
+//                }
+                echo $log;
                 $this->display_footer();
                 
         }

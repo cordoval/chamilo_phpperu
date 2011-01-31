@@ -22,6 +22,7 @@ use repository\RepositoryDataManager;
 use repository\ContentObject;
 use application\metadata\MetadataDataManager;
 use repository\ComplexContentObjectItem;
+use application\metadata\ContentObjectMetadataPropertyValue;
 
 /**
  * Exports content object to the chamilo learning object format (xml)
@@ -173,7 +174,7 @@ class HandbookCpoImport extends ContentObjectImport
         {
             $this->create_metadata_element($element);
         }
-//        var_dump($this->log);
+
         return true;
     }
 
@@ -216,6 +217,9 @@ class HandbookCpoImport extends ContentObjectImport
         $this->update_learning_path_prerequisites();
         $this->update_hotspot_questions();
 //        $this->create_context_links();
+
+        var_dump($this->context_links);
+        var_dump($this->content_object_reference);
 
         if ($temp)
         {
@@ -381,6 +385,10 @@ class HandbookCpoImport extends ContentObjectImport
                 //TODO: problem-> catch and resolve!
                 $this->log[] = 'schema already exists but inconsistency in information: ' . $namespace->get_name() . '/' . $name . '  -  ' . $namespace->get_url() . '/' . $url;
             }
+            else
+            {
+                $this->log[] = 'schema already exists and is consistent: ' . $namespace->get_name();
+            }
         }
     }
 
@@ -407,7 +415,7 @@ class HandbookCpoImport extends ContentObjectImport
         {
             $ns_id = $namespace->get_id();
 
-            $property = MetadataDataManager::get_instance()->retrieve_metadata_property_type_by_ns_name($namespace_id, $element_name);
+            $property = MetadataDataManager::get_instance()->retrieve_metadata_property_type_by_ns_name($ns_id, $element_name);
             if (!$property)
             {
                 //property does not exist & needs to be created
@@ -417,12 +425,16 @@ class HandbookCpoImport extends ContentObjectImport
                 $success = $property->create();
                 if ($success)
                 {
-                    $this->log[] = 'property ' . $namespace_prefix . ':' . $element_name . ' created ';
+                    $this->log[] = '<b>property ' . $namespace_prefix . ':' . $element_name . ' created </b>';
                 }
                 else
                 {
-                    $this->log[] = 'problem! property ' . $namespace_prefix . ':' . $element_name . ' could not be created';
+                    $this->log[] = 'problem! property ' . $namespace_prefix . ':' . $element_name . ' could not be created in namespace ' . $ns_id;
                 }
+            }
+            else
+            {
+                $this->log[] = 'property ' . $namespace_prefix . ':' . $element_name . ' already exists in system ';
             }
         }
         else
@@ -460,7 +472,7 @@ class HandbookCpoImport extends ContentObjectImport
 
             $object_number = $general->getElementsByTagName('object_number')->item(0)->nodeValue;
 
-            //handbook_item and handbook: check uuid
+            //handbook_item and handbook: check uuid to see if item already exists (if exists: don't import -> update
             if (($type == 'handbook') || ($type == 'handbook_item'))
             {
                 $extended = $content_object->getElementsByTagName('extended')->item(0);
@@ -488,12 +500,12 @@ class HandbookCpoImport extends ContentObjectImport
                 if ($co != false)
                 {
                     $exists_already = true;
-                    $this->log[] = 'item with uid ' . $uuid . ' exists already';
+                    $this->log[] = 'item with uid ' . $uuid . ' (' . $id . ')exists already';
                     $this->copies[] = $id;
-                    if($reference_id)
+                    if ($reference_id)
                     {
-                    $this->log[] = 'item with id ' . $reference_id . ' added to list linked to copy (wrapper exists)';
-                    $this->linked_to_copy['children'][] = $reference_id ;
+                        $this->log[] = 'item with id ' . $reference_id . ' added to list linked to copy (wrapper exists)';
+                        $this->linked_to_copy['children'][] = $reference_id;
                     }
                 }
             }
@@ -529,9 +541,8 @@ class HandbookCpoImport extends ContentObjectImport
                 {
                     $lo->set_parent_id($this->categories[$category]);
                 }
-
+                //extended
                 $extended = $content_object->getElementsByTagName('extended')->item(0);
-
                 if ($extended->hasChildNodes())
                 {
                     $nodes = $extended->childNodes;
@@ -549,17 +560,13 @@ class HandbookCpoImport extends ContentObjectImport
                             $additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
                         }
                     }
-
                     $additionalProperties = $this->import_extra_properties($type, $additionalProperties, $lo);
-
                     $lo->set_additional_properties($additionalProperties);
                 }
-
                 if ($type == Document :: get_type_name() && !$lo->get_path())
                 {
                     return;
                 }
-
                 if ($object_number_exists)
                 {
                     $lo->version();
@@ -569,22 +576,126 @@ class HandbookCpoImport extends ContentObjectImport
                     $lo->create_all();
                     $this->object_numbers[$object_number] = $lo->get_object_number();
                 }
-
                 if (in_array($type, RepositoryDataManager :: get_active_helper_types()))
                 {
                     $this->references[$lo->get_id()] = $additionalProperties['reference_id'];
                 }
-
                 if ($type == HotspotQuestion :: get_type_name())
                 {
                     $this->hotspot_questions[$lo->get_id()] = $lo->get_image();
                 }
-
                 $this->content_object_reference[$id] = $lo->get_id();
+
+                //metadata
+                $metadata = $content_object->getElementsByTagName('content_object_metadata')->item(0);
+                if (is_object($metadata))
+                {
+                    $children = $metadata->childNodes;
+                    for ($i = 0; $i < $children->length; $i++)
+                    {
+                        $co_metadata = $children->item($i);
+                        if ($co_metadata->nodeName == "#text")
+                            continue;
+                        if ($co_metadata->hasAttributes())
+                        {
+
+                            foreach ($co_metadata->attributes as $attrName => $attrNode)
+                            {
+                                if ($attrName == 'name')
+                                {
+                                    $property = $attrNode->value;
+                                }
+                                elseif ($attrName == 'value')
+                                {
+                                    $value = $attrNode->value;
+                                }
+                            }
+                            list($namespace_prefix, $element_name) = explode(':', $property);
+//                        var_dump('exploded ' .$namespace_prefix . ' ' . $element_name);
+
+                            $namespace = MetadataDataManager::get_instance()->retrieve_metadata_namespace_by_prefix($namespace_prefix);
+
+                            if ($namespace)
+                            {
+                                $ns_id = $namespace->get_id();
+
+                                $property = MetadataDataManager::get_instance()->retrieve_metadata_property_type_by_ns_name($ns_id, $element_name);
+                                if ($property)
+                                {
+                                    $mpv = new ContentObjectMetadataPropertyValue();
+                                    $mpv->set_content_object_id($lo->get_id());
+                                    $mpv->set_property_type_id($property->get_id());
+                                    $mpv->set_value($value);
+                                    $success = $mpv->create();
+                                    if ($success)
+                                    {
+                                        $this->log[] = '<b> metadata ' . $element_name . '=' . $value . ' added to item with id ' . $lo->get_id() . '/' . $id . '</b>';
+                                    }
+                                    else
+                                    {
+                                        //problem: metadata_property_value not created
+                                        $this->log[] = 'Problem! metadata ' . $element_name . '=' . $value . ' was not added to item with id ' . $lo->get_id() . '/' . $id;
+                                    }
+                                }
+                                else
+                                {
+                                    //problem: property was not imported
+                                    $this->log[] = 'Problem! metadata ' . $element_name . '=' . $value . ' was not added to item with id ' . $lo->get_id() . '/' . $id . ' because property does not exist in namespace with id ' . $namespace_id;
+                                }
+                            }
+                            else
+                            {
+                                //problem: namespace was not imported
+                                $this->log[] = 'Problem! metadata ' . $element_name . '=' . $value . ' was not added to item with id ' . $lo->get_id() . '/' . $id . ' because namespace ' . $namespace_prefix . ' does not exist';
+                            }
+                        }
+                    }
+                }
             }
             else
             {
                 $this->log[] = 'item with id ' . $id . ' linked to copy';
+            }
+
+            //contextlinks
+            $links = $content_object->getElementsByTagName('linked_items')->item(0);
+            if (is_object($links))
+            {
+                $children = $links->childNodes;
+                for ($i = 0; $i < $children->length; $i++)
+                {
+                    $context_link = $co_metadata = $children->item($i);
+
+                    if ($context_link->nodeName == "#text")
+                        continue;
+
+                    if ($context_link->hasAttributes())
+                    {
+                        foreach ($context_link->attributes as $attrName => $attrNode)
+                        {
+                            if ($attrName == 'idref')
+                            {
+                                $idref = $attrNode->value;
+                            }
+                            elseif ($attrName == 'metadata_link')
+                            {
+                                $metadata_link = $attrNode->value;
+                            }
+                        }
+
+                        list($namespace_prefix, $element_name) = explode(':', $metadata_link);
+
+                        if (!$exists_already && !in_array($id, $this->linked_to_copy['children']))
+                        {
+                            //store original id - alternative id - metadata id
+                            $this->context_links[] = array($id, $idref, $metadata_link);
+                        }
+                        else
+                        {
+                            $this->linked_to_copy['children'][] = $idref;
+                        }
+                    }
+                }
             }
 
             // Complex children
@@ -617,155 +728,68 @@ class HandbookCpoImport extends ContentObjectImport
                                 $properties[$attrName] = $attrNode->value;
                             }
                         }
-                    }
 
-                    $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
-                    if (!$exists_already && !in_array($id, $this->linked_to_copy['children']))
-                    {
-                        $this->log[] = 'item with id ' . $idref . ' added to list of subitems';
+
                         $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
 
-                    }
-                    else
-                    {
-                        $this->log[] = 'item with id ' . $idref . ' added to list linked to copy';
-                        $this->linked_to_copy['children'][] = $idref;
+                        if (!$exists_already && !in_array($id, $this->linked_to_copy['children']))
+                        {
+                            $this->log[] = 'item with id ' . $idref . ' added to list of subitems';
+                            $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
+                        }
+                        else
+                        {
+                            $this->log[] = 'item with id ' . $idref . ' added to list linked to copy';
+                            $this->linked_to_copy['children'][] = $idref;
+                        }
                     }
                 }
+            }
 
-                if (!$exists_already && !in_array($id, $this->linked_to_copy['children']))
+            if (!$exists_already && !in_array($id, $this->linked_to_copy['children']))
+            {
+                // Attachments
+                $attachments = $content_object->getElementsByTagName('attachments')->item(0);
+                if (is_object($attachments))
                 {
-                    // Attachments
-                    $attachments = $content_object->getElementsByTagName('attachments')->item(0);
-                    if (is_object($attachments))
+                    $children = $attachments->childNodes;
+                    if ($children)
                     {
-                        $children = $attachments->childNodes;
-                        if ($children)
+                        for ($i = 0; $i < $children->length; $i++)
                         {
-                            for ($i = 0; $i < $children->length; $i++)
-                            {
-                                $attachment = $children->item($i);
-                                if ($attachment->nodeName == "#text")
-                                    continue;
+                            $attachment = $children->item($i);
+                            if ($attachment->nodeName == "#text")
+                                continue;
 
-                                $idref = $attachment->getAttribute('idref');
-                                $type = $attachment->getAttribute('type');
-                                $this->lo_attachments[$id][] = array('idref' => $idref, 'type' => $type);
-                            }
+                            $idref = $attachment->getAttribute('idref');
+                            $type = $attachment->getAttribute('type');
+                            $this->lo_attachments[$id][] = array('idref' => $idref, 'type' => $type);
                         }
                     }
-
-                    // Includes
-                    $includes = $content_object->getElementsByTagName('includes')->item(0);
-                    if (is_object($includes))
-                    {
-                        $children = $includes->childNodes;
-
-                        if ($children)
-                        {
-                            for ($i = 0; $i < $children->length; $i++)
-                            {
-                                $include = $children->item($i);
-                                if ($include->nodeName == "#text")
-                                    continue;
-
-                                $idref = $include->getAttribute('idref');
-                                $this->lo_includes[$id][] = $idref;
-                            }
-                        }
-                    }
-
-//            //metadata
-//            $metadata = $content_object->getElementsByTagName('content_object_metadata')->item(0);
-//            if (is_object($metadata) && $metadata->hasChildNodes())
-//            {
-//                $nodes = $metadata->childNodes;
-//
-//                foreach ($nodes as $node)
-//                {
-////                    $property = $node->getAttribute('name');
-////                    $value = $node->getAttribute('value');
-//                    foreach ($node->attributes as $attrName => $attrNode)
-//                        {
-//                            if ($attrName == 'name')
-//                            {
-//                                $property = $attrNode->value;
-//                            }
-//                            elseif ($attrName == 'value')
-//                            {
-//                                $value = $attrNode->value;
-//                            }
-//                        }
-//
-//                    list($namespace_prefix, $element_name) = split(':', $property);
-//
-//                    $namespace = MetadataDataManager::get_instance()->retrieve_metadata_namespace_by_prefix($namespace_prefix);
-//
-//                    if ($namespace)
-//                    {
-//                        $ns_id = $namespace->get_id();
-//
-//                        $property = MetadataDataManager::get_instance()->retrieve_metadata_property_type_by_ns_name($namespace_id, $element_name);
-//                        if ($property)
-//                        {
-//                            $mpv = new MetadataPropertyValue();
-//                            $mpv->set_content_object_id($lo->get_id());
-//                            $mpv->set_property_type_id($property->get_id());
-//                            $mpv->set_value($value);
-//                            $success = $mpv->create();
-//                            if($success)
-//                            {
-//
-//                            }
-//                            else
-//                            {
-//                                //problem: metadata_property_value not created
-//                            }
-//
-//                        }
-//                        else
-//                        {
-//                            //problem: property was not imported
-//                        }
-//                    }
-//                    else
-//                    {
-//                        //problem: namespace was not imported
-//                    }
-//                }
-//            }
-//
-//            //contextlinks
-//            $links = $content_object->getElementsByTagName('linked_items')->item(0);
-//            if (is_object($links) && $links->hasChildNodes())
-//            {
-//                $nodes = $links->childNodes;
-//                foreach ($nodes as $node)
-//                {
-////                    $idref = $node->getAttribute('idref');
-////                    $metadata_link = $node->getAttribute('metadata_link');
-//
-//                    foreach ($node->attributes as $attrName => $attrNode)
-//                        {
-//                            if ($attrName == 'idref')
-//                            {
-//                                $idref = $attrNode->value;
-//                            }
-//                            elseif ($attrName == 'metadata_link')
-//                            {
-//                                $metadata_link = $attrNode->value;
-//                            }
-//                        }
-//
-//                    list($namespace_prefix, $element_name) = split(':', $metadata_link);
-//
-//                    //store original id - alternative id - metadata id
-//                    $this->context_links[] = array($lo->get_id(), $idref, $metadata_property_value_id);
-//                }
-//
-//
-//            }
                 }
+
+                // Includes
+                $includes = $content_object->getElementsByTagName('includes')->item(0);
+                if (is_object($includes))
+                {
+                    $children = $includes->childNodes;
+
+                    if ($children)
+                    {
+                        for ($i = 0; $i < $children->length; $i++)
+                        {
+                            $include = $children->item($i);
+                            if ($include->nodeName == "#text")
+                                continue;
+
+                            $idref = $include->getAttribute('idref');
+                            $this->lo_includes[$id][] = $idref;
+                        }
+                    }
+                }
+
+
+         
             }
         }
     }
@@ -996,7 +1020,8 @@ class HandbookCpoImport extends ContentObjectImport
                   {
                   $this->categories[$id] = $categories->next_result()->get_id();
                   }
-                  else */ {
+                  else */
+                {
                     $category = new RepositoryCategory();
                     $category->set_name($name);
 
