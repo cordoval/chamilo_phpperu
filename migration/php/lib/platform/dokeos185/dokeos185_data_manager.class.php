@@ -338,6 +338,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
 
     function is_learning_path_publish_on_homepage($lp_id)
     {
+        require_once dirname(__FILE__) . '/../data_class/dokeos185_tool.class.php';
         $conditions = array();
         $conditions[] = new EqualityCondition(Dokeos185Tool :: PROPERTY_ADDED_TOOL, 1);
         $conditions[] = new EqualityCondition(Dokeos185Tool :: PROPERTY_LINK, 'newscorm/lp_controller.php?action=view&lp_id=' . $lp_id);
