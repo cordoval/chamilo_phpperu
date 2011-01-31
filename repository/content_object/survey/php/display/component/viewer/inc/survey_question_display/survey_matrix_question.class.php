@@ -43,7 +43,8 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
         $question_id = $complex_question->get_id();
 
         $answer = $this->get_answer();
-
+	
+        
         foreach ($options as $i => $option)
         {
             $group = array();
