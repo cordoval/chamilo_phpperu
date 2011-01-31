@@ -84,7 +84,7 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager implem
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_system_announcement_publication_creating_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('EditSystemAnnouncementRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('EditSystemAnnouncementRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }
 
