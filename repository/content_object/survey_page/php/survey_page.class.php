@@ -34,6 +34,9 @@ class SurveyPage extends ContentObject implements ComplexContentObjectSupport
     const FROM_VISIBLE_QUESTION_ID = 'from_visible_question_id';
     const TO_VISIBLE_QUESTIONS_IDS = 'to_visible_question_ids';
     const ANSWERMATCHES = 'answer_matches';
+    const CONFIG_NAME = 'name';
+    const CONFIG_CREATED = 'config_created';
+    const CONFIG_UPDATED = 'config_updated';
 
     const CLASS_NAME = __CLASS__;
 

@@ -26,6 +26,21 @@
 			answers[question_id] [$(this).attr('name')]= $(this).val();
 		});
 		
+		selectQuestions = $(".question select option:selected");
+		
+		selectQuestions.each(function(i) {
+			name = $(this).parent().attr('name')
+			checkedQuestionResults[name] = $(this).val();
+			var ids = name.split('_');
+			var question_id = ids[0];
+			if(!answers[question_id]){
+				answers[question_id] =  {};	
+			}
+//			alert(question_id+" "+name+" "+$(this).val());
+			answers[question_id] [name]= $(this).val();
+		});
+		
+		
 		var openquestions = $("textarea.html_editor");
 		openquestions.each(function(i){
 			var name = $(this).attr('name');
@@ -127,6 +142,7 @@
 
 	$(document).ready(function() {
 		$(".question input").live('click', processAnswers);
+		$(".question select").live('change', processAnswers);
 	});
 
 })(jQuery);

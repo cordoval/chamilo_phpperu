@@ -34,6 +34,9 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
 
         $question_id = $complex_question->get_id();
 
+//        dump($question_id);
+//        dump($answer);
+        
         foreach ($options as $i => $option)
         {
             $group = array();
@@ -47,10 +50,11 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
                 if ($answer)
                 {
 
-                    $key = $answer[0];
+//                    $key = $answer[0];
+                    $key = $answer[$option_name];
                     if ($i == $key)
                     {
-                        $formvalidator->setDefaults(array($option_name => $key));
+                       	$formvalidator->setDefaults(array($option_name => $key));
                     }
                 }
 

@@ -254,6 +254,9 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
             $actions[] = new ToolbarItem(Translation :: get('AddNewItemToHandbook'), Theme :: get_content_object_image_path(HandbookTopic::get_type_name()), $this->get_create_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
             $actions[] = new ToolbarItem(Translation :: get('ConvertWiki'), Theme :: get_content_object_image_path(Wiki::get_type_name()), $this->get_convert_wiki_to_handbook_item_url($this->handbook_id, $this->top_handbook_id, $this->handbook_publication_id, $this->handbook_selection_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
             $actions[] = new ToolbarItem(Translation :: get('MakeOdf'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_CREATE_ODF, self :: PARAM_HANDBOOK_PUBLICATION_ID => $this->handbook_publication_id, self::PARAM_HANDBOOK_ID => $this->handbook_id)));
+            $actions[] = new ToolbarItem(Translation :: get('Export'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_EXPORT, self :: PARAM_HANDBOOK_ID => $this->handbook_id)));
+            $actions[] = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_IMPORT)));
+
         }
 
         if ($this->selected_object && $this->edit_right)
@@ -345,6 +348,7 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function print_metadata($co_id, $mode = self::METADATA_SHORT)
     {
+        $important_medatata = HandbookManager::get_publication_preferences_importance($this->handbook_publication_id);
         $metadata = MetadataManager::retrieve_metadata_for_content_object($co_id);
         while (list($key, $value) = each($metadata))
         {
@@ -354,7 +358,10 @@ abstract class HandbookManagerHandbookViewerComponent extends HandbookManager
             }
             else
             {
-                $html[] = ' ' . $value . ' ';
+                if(in_array($key, $important_medatata))
+                {
+                    $html[] = ' ' . $value . ' ';
+                }
             }
         }
         return implode("\n", $html);

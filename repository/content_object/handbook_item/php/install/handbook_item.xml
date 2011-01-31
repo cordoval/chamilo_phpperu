@@ -11,7 +11,7 @@
 	<index name="reference_id">
 		<indexproperty name="reference_id" />
 	</index>
-	<index name="uuid">
+	<index name="uuid" type ="unique">
 		<indexproperty name="uuid" />
 	</index>
 </object>

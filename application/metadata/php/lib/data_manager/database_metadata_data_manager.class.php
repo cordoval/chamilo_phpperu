@@ -5,6 +5,7 @@ namespace application\metadata;
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
 use common\libraries\ConditionTranslator;
+use common\libraries\AndCondition;
 
 /**
  * 	This is a data manager that uses a database for storage. It was written
@@ -91,6 +92,20 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
     {
         $condition = new EqualityCondition(MetadataNamespace :: PROPERTY_ID, $id);
         return $this->retrieve_object(MetadataNamespace :: get_table_name(), $condition, null, MetadataNamespace :: CLASS_NAME);
+    }
+
+    function retrieve_metadata_namespace_by_prefix($prefix)
+    {
+        $condition = new EqualityCondition(MetadataNamespace::PROPERTY_NS_PREFIX, $prefix);
+        $namespace_set = $this->retrieve_metadata_namespaces($condition);
+        if($namespace_set)
+        {
+            return $namespace_set->next_result();
+        }
+        else
+        {
+            return false;
+        }
     }
 
     function retrieve_metadata_namespaces($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -210,6 +225,16 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
     function retrieve_metadata_property_types($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(MetadataPropertyType :: get_table_name(), $condition, $offset, $max_objects, $order_by, MetadataPropertyType :: CLASS_NAME);
+    }
+
+    function retrieve_metadata_property_type_by_ns_name($namespace_id, $name)
+    {
+        $conditions[] = new EqualityCondition(MetadataPropertyType :: PROPERTY_NAMESPACE, $namespace_id);
+        $conditions[] = new EqualityCondition(MetadataPropertyType:: PROPERTY_NAME, $name);
+        $condition = new AndCondition($conditions);
+
+        return $this->retrieve_object(MetadataPropertyType :: get_table_name(), $condition, null, MetadataPropertyType :: CLASS_NAME);
+
     }
 
     function get_next_content_object_metadata_property_value_id()
@@ -361,17 +386,49 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 
     function retrieve_all_user_metadata_property_values_as_array($user_id)
     {
-        $user_metadata = MetadataDataManager::get_instance()->retrieve_all_user_metadata_property_values($user_id);
+        $user_metadata = self::retrieve_all_user_metadata_property_values($user_id);
         $user_metadata_array = array();
         while ($metadata = $user_metadata->next_result())
         {
-            $metadata_property = MetadataDataManager::get_instance()->retrieve_metadata_property_type($metadata->get_property_type_id());
+            $metadata_property = self::retrieve_metadata_property_type($metadata->get_property_type_id());
             $prefix = $metadata_property->get_ns_prefix();
             $element = $metadata_property->get_name();
             $user_metadata_array[$prefix . ':' . $element] = $metadata->get_value();
         }
 
         return $user_metadata_array;
+    }
+
+    function retrieve_content_object_metadata_property_values_as_array($co_id)
+    {
+        $condition = new EqualityCondition(ContentObjectMetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $co_id);
+//        $object_metadata_array = self::retrieve_full_content_object_metadata_property_values($condition);
+//        return $object_metadata_array;
+        $namespace_alias = $this->get_alias(MetadataNamespace :: get_table_name());
+        $type_alias = $this->get_alias(MetadataPropertyType :: get_table_name());
+        $value_alias = $this->get_alias(ContentObjectMetadataPropertyValue :: get_table_name());
+
+        $query = 'SELECT ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_ID . ', ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE . ', ' . $namespace_alias . '.' . MetadataNamespace :: PROPERTY_NS_PREFIX . ', ' . $type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME;
+        $query .= ' FROM ' . $this->escape_table_name(ContentObjectMetadataPropertyValue :: get_table_name()) . ' AS ' . $value_alias;
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(MetadataPropertyType :: get_table_name()) . ' AS ' . $type_alias;
+        $query .= ' ON ' . $this->escape_column_name(MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, $value_alias) . ' = ' . $this->escape_column_name(MetadataPropertyType :: PROPERTY_ID, $type_alias);
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(MetadataNamespace :: get_table_name()) . ' AS ' . $namespace_alias;
+        $query .= ' ON ' . $this->escape_column_name(MetadataNamespace :: PROPERTY_ID, $namespace_alias) . ' = ' . $this->escape_column_name(MetadataPropertyType :: PROPERTY_NAMESPACE, $type_alias);
+
+        $translator = new ConditionTranslator($this);
+        $query .= $translator->render_query($condition);
+
+        $res = $this->query($query);
+
+        $property_values = array();
+        while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+        {
+            $property_values[$record[MetadataPropertyType :: PROPERTY_NS_PREFIX] . ':' . $record[MetadataPropertyType :: PROPERTY_NAME]] = $record[MetadataPropertyValue :: PROPERTY_VALUE];
+        }
+        $res->free();
+        return $property_values;
+
+
     }
 
     function get_next_group_metadata_property_value_id()

@@ -4,7 +4,7 @@ namespace repository\content_object\survey;
 use repository\RepositoryDataManager;
 use common\libraries\Request;
 use common\libraries\Translation;
-
+use common\libraries\DynamicTabsRenderer;
 
 class SurveyBuilderVisibilityChangerComponent extends SurveyBuilder
 {
@@ -30,7 +30,7 @@ class SurveyBuilderVisibilityChangerComponent extends SurveyBuilder
             
             $message = $succes ? self :: MESSAGE_VISIBILITY_CHANGED : self :: MESSAGE_VISIBILITY_NOT_CHANGED;
             
-            $this->redirect(Translation :: get($message), ! $succes, array(SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_CONFIGURE_PAGE, self::PARAM_SURVEY_PAGE_ID => $page_id));
+            $this->redirect(Translation :: get($message), ! $succes, array(SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_CONFIGURE_PAGE, self::PARAM_SURVEY_PAGE_ID => $page_id , DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyBuilderConfigureComponent :: PAGE_QUESTIONS_TAB));
         }
         else
         {

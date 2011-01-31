@@ -85,7 +85,9 @@ class SurveyMatchingQuestionDisplay extends SurveyQuestionDisplay
         }
 
         $answer = $this->get_answer();
-
+		
+//  dump($answer);
+        
         $option_count = 0;
         foreach ($options as $option_id => $option)
         {
@@ -101,9 +103,11 @@ class SurveyMatchingQuestionDisplay extends SurveyQuestionDisplay
 
             if (isset($answer))
             {
-                if (isset($answer[$option_id]))
+                if (isset($answer[$option_name]))
+//                if (isset($answer[$option_id]))
                 {
-                    $formvalidator->setDefaults(array($option_name => $answer[$option_id]));
+                    $formvalidator->setDefaults(array($option_name => $answer[$option_name]));
+//                	$formvalidator->setDefaults(array($option_name => $answer[$option_id]));
                 }
             }
 

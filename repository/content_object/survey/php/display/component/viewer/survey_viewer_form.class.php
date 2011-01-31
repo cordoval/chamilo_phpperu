@@ -23,6 +23,7 @@ class SurveyViewerForm extends FormValidator
     private $survey_page;
     private $user_id;
     private $publication_id;
+    private $page_answers;
 //    private $finished = false;
     
     /**
@@ -54,7 +55,7 @@ class SurveyViewerForm extends FormValidator
 
         $this->survey_page = $this->survey->get_survey_page($this->context_path);
         //        dump('survey_page');
-        
+        $this->set_page_visible_question_answers();
 
         //        dump($this->survey_page);
         $this->buildForm();
@@ -100,11 +101,11 @@ class SurveyViewerForm extends FormValidator
             $question_context_path = $this->context_path . '_' . $complex_question->get_id();
             $answer = $this->parent->get_answer($complex_question->get_id(), $question_context_path);
             
-            $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $question_context_path, $this->survey, $answers);
-            if ($answer)
-            {
-                $answers[$complex_question->get_id()] = $answer;
-            }
+            $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $question_context_path, $this->survey, $this->page_answers);
+//            if ($answer)
+//            {
+//                $answers[$complex_question->get_id()] = $answer;
+//            }
             
             //            dump($question_display);
             $question_display->display();
@@ -118,70 +119,29 @@ class SurveyViewerForm extends FormValidator
         $renderer->setGroupElementTemplate('{element}', 'buttons');
     }
 
-//    function process_answers()
-//    {
-//        
-//        $form_values = $this->exportValues();
-//        $values = array();
-//        
-//        //        dump($form_values);
-//        
-//
-//        foreach ($form_values as $key => $value)
-//        {
-//            
-//            if (in_array($key, array(SurveyViewerForm :: FINISH_BUTTON, SurveyViewerForm :: NEXT_BUTTON, 
-//                    SurveyViewerForm :: BACK_BUTTON)))
-//            {
-//                $this->next_context_path = $value;
-//                if ($key == SurveyViewerForm :: FINISH_BUTTON)
-//                {
-//                    $this->finished = true;
-//                    $this->parent->finished($this->parent->get_progress());
-//                }
-//            }
-//            
-//            $value = Security :: remove_XSS($value);
-//            $split_key = split('_', $key);
-//            $count = count($split_key);
-//            $complex_question_id = $split_key[0];
-//            
-//            if (is_numeric($complex_question_id))
-//            {
-//                if (! StringUtilities :: is_null_or_empty($value, true))
-//                {
-//                    $answer_index = $split_key[1];
-//                    if ($count == 3)
-//                    {
-//                        $sub_index = $split_key[2];
-//                        $values[$complex_question_id][$answer_index][$sub_index] = $value;
-//                    }
-//                    else
-//                    {
-//                        $values[$complex_question_id][$answer_index] = $value;
-//                    }
-//                }
-//            }
-//        }
-//        
-//        //            dump($values);
-//        //            exit;
-//        $complex_question_ids = array_keys($values);
-//        
-//        if (count($complex_question_ids) > 0)
-//        {
-//            foreach ($complex_question_ids as $complex_question_id)
-//            {
-//                $answers = $values[$complex_question_id];
-//                
-//                if (count($answers) > 0)
-//                {
-//                    //                    dump($answer);
-//                    $this->parent->save_answer($complex_question_id, $answers, $this->context_path . '_' . $complex_question_id);
-//                }
-//            }
-//        }
-//    }
+	private function set_page_visible_question_answers()
+    {
+        //    	dump($context_path);
+        $complex_questions = $this->survey_page->get_questions(true);
+        while ($complex_question = $complex_questions->next_result())
+        {
+            //    		dump($complex_question->get_id());
+            if ($complex_question->is_visible())
+            {
+                $complex_question_id = $complex_question->get_id();
+                //    			dump('visible');
+//                dump('qcp ' . $context_path . '_' . $complex_question_id);
+                $answer = $this->parent->get_answer($complex_question_id, $this->context_path . '_' . $complex_question_id);
+//                dump($answer);
+                if ($answer)
+                {
+                    $this->page_answers[$complex_question_id] = $answer;
+                
+                }
+            }
+        }
+    
+    }
 
     function is_finished()
     {
@@ -193,11 +153,6 @@ class SurveyViewerForm extends FormValidator
         return $this->next_context_path;
     }
 
-//    function get_page_number()
-//    {
-//        return $this->page_number;
-//    }
-
     function get_survey_page()
     {
         return $this->survey_page;
@@ -207,11 +162,6 @@ class SurveyViewerForm extends FormValidator
     {
         return $this->context_path;
     }
-
-//    function get_question_context_paths()
-//    {
-//        return $this->survey->get_page_question_context_paths($this->get_context_path());
-//    }
 
 }
 ?>

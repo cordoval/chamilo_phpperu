@@ -7,7 +7,7 @@
 	<index name="id" type="primary">
 		<indexproperty name="id" />
 	</index>	
-        <index name="uuid">
+        <index name="uuid" type="unique">
 		<indexproperty name="uuid" />
 	</index>
 </object>
