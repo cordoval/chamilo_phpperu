@@ -1,5 +1,4 @@
 <?php
-use application\phrases\PhrasesPublication;
 namespace application\phrases;
 
 use common\libraries\DelegateComponent;

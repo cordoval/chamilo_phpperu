@@ -41,6 +41,7 @@ class PhrasesPublicationForm extends FormValidator
     {
         parent :: __construct('phrases_publication_settings', 'post', $action);
         $this->content_object = $content_object;
+
         $this->user = $user;
         $this->form_type = $form_type;
 
@@ -118,6 +119,8 @@ class PhrasesPublicationForm extends FormValidator
 
         $active = $this->getElement(self :: PARAM_TARGET_ELEMENTS);
         $active->_elements[0]->setValue(serialize($defaults[self :: PARAM_TARGET_ELEMENTS]));
+
+        $defaults[PhrasesPublication :: PROPERTY_LANGUAGE] = $this->publication->get_language();
 
         parent :: setDefaults($defaults);
     }
@@ -279,6 +282,7 @@ class PhrasesPublicationForm extends FormValidator
         $pub->set_hidden($hidden);
         $pub->set_target_users($users);
         $pub->set_target_groups($groups);
+        $pub->set_language($values[PhrasesPublication :: PROPERTY_LANGUAGE]);
         return $pub->update();
     }
 
