@@ -327,10 +327,15 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
 
     function get_previous_context_path($context_path)
     {
-        //        dump('now '.$context_path);
-        $previous_page_nr = $this->context_paths[$context_path] - 1;
+//                dump('now '.$context_path);
+//                dump($this->get_page_nrs());
+//                dump();
+//        $previous_page_nr = $this->context_paths[$context_path] - 1;
+        $previous_page_nr = $this->get_page_nr($context_path) - 1;
+        
         $previous_context_path = null;
-        foreach ($this->context_paths as $context_path => $page_nr)
+//        foreach ($this->context_paths as $context_path => $page_nr)
+        foreach ($this->get_page_nrs() as $context_path => $page_nr)
         {
             if ($page_nr == $previous_page_nr)
             {

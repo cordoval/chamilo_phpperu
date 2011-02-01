@@ -119,7 +119,12 @@ class SurveyManagerTakerComponent extends SurveyManager
 
     function save_answer($complex_question_id, $answer, $context_path)
     {
-        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->participant_tracker->get_id());
+        
+//    	 dump('in save answer');
+//    	dump($context_path);
+//    	dump($answer);
+    	
+    	$conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->participant_tracker->get_id());
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $complex_question_id);
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_PATH, $context_path);
         $condition = new AndCondition($conditions);
@@ -165,8 +170,11 @@ class SurveyManagerTakerComponent extends SurveyManager
 
     function get_answer($complex_question_id, $context_path)
     {
+//        dump('in get answer');
+//    	dump($complex_question_id);
+//    	dump($context_path);
         
-        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->participant_tracker->get_id());
+    	$conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->participant_tracker->get_id());
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $complex_question_id);
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_PATH, $context_path);
         $condition = new AndCondition($conditions);

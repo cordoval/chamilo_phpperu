@@ -75,6 +75,7 @@ class SurveyAnswerProcessor
                 }
             }
         }
+//        dump($next_context_path);
         $context_path = $this->survey_viewer->get_previous_context_path($next_context_path);
           
         $complex_question_ids = array_keys($values);
