@@ -160,17 +160,16 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
     /**
      * Check if the link is valid
      * @param Course $course the course
-     * @return true if the link is valid 
+     * @return true if the link is valid
      */
     function is_valid()
     {
         $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'link', $this->get_id()));
 
-        if (!$this->get_url() || !$this->get_id() || !$this->get_title() || !$this->get_item_property() 
-                || !$this->get_item_property()->get_ref() || !$this->get_item_property()->get_insert_date() || $this->get_item_property()->get_visibility() == 2)
+        if (!$this->get_url() || !$this->get_id() || !$this->get_title() || ($this->get_item_property() && $this->get_item_property()->get_visibility() == 2))
         {
             $this->create_failed_element($this->get_id());
-            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'calendar_event', 'ID' => $this->get_id())));
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'link', 'ID' => $this->get_id())));
             return false;
         }
         return true;
@@ -185,10 +184,14 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
     {
         $course = $this->get_course();
         $mgdm = MigrationDataManager :: get_instance();
-        $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
+        if ($this->get_item_property())
+        {
+            $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
+            $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.group_info');
+            $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
+        }
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
-        $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.group_info');
-        $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
+
 
         //the $this->category_id is the id of the category in which the link resides in a dokeos 1.8.5 course (in chamilo: the publication category, not the repository category id!)
         $new_publication_category_id = $this->get_id_reference($this->get_category_id(), $this->get_database_name() . '.link_category');
@@ -214,16 +217,20 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
             $chamilo_link->set_description($this->get_title());
 
         $chamilo_link->set_owner_id($new_user_id);
-        $chamilo_link->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
-        $chamilo_link->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
 
-        if ($this->get_item_property()->get_visibility() == 2)
-            $chamilo_link->set_state(1);
+        if ($this->get_item_property())
+        {
+            $chamilo_link->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
+            $chamilo_link->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
 
+
+            if ($this->get_item_property()->get_visibility() == 2)
+                $chamilo_link->set_state(1);
+        }
         //create link in database
         $chamilo_link->create_all();
 
-        if(is_null($this->get_on_homepage()))
+        if (is_null($this->get_on_homepage()) || trim($this->get_on_homepage()==''))
         {
             $on_homepage = 0;
         }
@@ -231,6 +238,7 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
         {
             $on_homepage = $this->get_on_homepage();
         }
+
 
         $this->create_publication($chamilo_link, $new_course_code, $new_user_id, 'link', $new_publication_category_id, $new_to_user_id, $new_to_group_id, $on_homepage);
 
