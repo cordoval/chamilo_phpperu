@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use repository\content_object\link\Link;
+use common\libraries\ObjectTableOrder;
 
 /**
  * $Id: dokeos185_link.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
