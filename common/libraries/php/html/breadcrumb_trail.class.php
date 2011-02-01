@@ -115,7 +115,7 @@ class BreadcrumbTrail
         {
             foreach ($breadcrumbtrail as $breadcrumb)
             {
-                $html[] = '<li><a href="' . $breadcrumb->get_url() . '" target="_self">' . Utilities :: truncate_string($breadcrumb->get_name(), 50, true) . '</a></li>';
+                $html[] = '<li><a href="' . htmlentities($breadcrumb->get_url()) . '" target="_self">' . Utilities :: truncate_string($breadcrumb->get_name(), 50, true) . '</a></li>';
             }
         }
 
