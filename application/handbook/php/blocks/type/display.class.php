@@ -179,11 +179,13 @@ class HandbookDisplay extends ContentObjectBlock {
         $params[Application::PARAM_APPLICATION] = HandbookManager::APPLICATION_NAME;
         $params[HandbookManager :: PARAM_ACTION] = HandbookManager :: ACTION_VIEW_HANDBOOK;
         $params[HandbookManager :: PARAM_HANDBOOK_ID] = $handbook->get_id();
-        return Redirect::get_link('Handbook', $params);
+        $params[HandbookManager :: PARAM_HANDBOOK_PUBLICATION_ID] = $this->retrieve_handbook_publication($handbook);
+        $params[HandbookManager :: PARAM_TOP_HANDBOOK_ID] = $params[HandbookManager :: PARAM_HANDBOOK_PUBLICATION_ID];
+        return Redirect::get_link(HandbookManager::APPLICATION_NAME, $params);
     }
 
-    function retrieve_handbook_publication() {
-        $handbook = $this->get_object();
+    function retrieve_handbook_publication($handbook = null) {
+        $handbook = empty($handbook) ? $this->get_object() : $handbook;
         $handbook_id = $handbook->get_id();
         $store = HandbookDataManager :: get_instance();
         $condition = new EqualityCondition(HandbookPublication :: PROPERTY_CONTENT_OBJECT_ID, $handbook_id);
