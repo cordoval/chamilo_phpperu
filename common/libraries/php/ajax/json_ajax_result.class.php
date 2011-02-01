@@ -197,6 +197,7 @@ class JsonAjaxResult
 
     function display()
     {
+        header('Content-type: application/json');
         echo $this->encode();
         exit;
     }
@@ -217,7 +218,7 @@ class JsonAjaxResult
     static function error($result_code = 404, $result_message = null)
     {
         $json_ajax_result = new self($result_code);
-        if ($message)
+        if ($result_message)
         {
             $json_ajax_result->set_result_message($result_message);
         }
