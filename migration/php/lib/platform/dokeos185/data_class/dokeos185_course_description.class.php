@@ -163,8 +163,8 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
             $chamilo_description->set_description($content);
         }
 
-        $new_user_id = $this->get_id_reference($this->get_data_manager()->get_admin_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
+        $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
 
         // Category for contents already exists?
         $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Descriptions'));
