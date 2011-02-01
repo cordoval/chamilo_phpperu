@@ -300,14 +300,19 @@ class Dokeos185Lp extends Dokeos185CourseDataMigrationDataClass
         
     }
 
-	static function get_table_name()
+    static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
     
     static function get_class_name()
     {
     	return self :: CLASS_NAME;
+    }
+
+    function get_retrieve_order_property()
+    {
+        return array(new ObjectTableOrder(self :: PROPERTY_DISPLAY_ORDER));
     }
 }
 

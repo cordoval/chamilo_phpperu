@@ -124,7 +124,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     function retrieve_all_objects($data_class, $offset, $count)
     {
         $this->set_database($data_class->get_database_name());
-        return $this->retrieve_objects($data_class->get_table_name(), $data_class->get_retrieve_condition(), $offset, $count, null, $data_class->get_class_name());
+        return $this->retrieve_objects($data_class->get_table_name(), $data_class->get_retrieve_condition(), $offset, $count, $data_class->get_retrieve_order_property(), $data_class->get_class_name());
     }
 
     /**

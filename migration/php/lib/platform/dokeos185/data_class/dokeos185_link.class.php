@@ -249,6 +249,11 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
         return self :: CLASS_NAME;
     }
 
+    function get_retrieve_order_property()
+    {
+        return array(new ObjectTableOrder(self :: PROPERTY_DISPLAY_ORDER));
+    }
+
 }
 
 ?>
