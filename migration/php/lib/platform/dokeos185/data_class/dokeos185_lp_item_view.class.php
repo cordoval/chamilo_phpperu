@@ -6,6 +6,8 @@ use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use application\weblcms\WeblcmsLpiAttemptTracker;
 use common\libraries\Path;
+use common\libraries\ObjectTableOrder;
+
 /**
  * $Id: dokeos185_lp_item_view.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
