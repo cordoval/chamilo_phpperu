@@ -16,7 +16,7 @@ class SurveyAnswerProcessor
      * @var SurveyDisplaySurveyViewerComponent
      */
     private $survey_viewer;
-
+    
     /**
      * @var array
      */
@@ -34,22 +34,23 @@ class SurveyAnswerProcessor
 
     function save_answers()
     {
-         
+        
         $post_values = $_POST;
-		$values = array();
- 		
-//		dump($post_values);
-		
-		
+        $values = array();
+        
+        //		dump($post_values);
+        
+
         foreach ($post_values as $key => $value)
         {
             
-            if (in_array($key, array(SurveyViewerForm :: FINISH_BUTTON, SurveyViewerForm :: NEXT_BUTTON, SurveyViewerForm :: BACK_BUTTON)))
+            if (in_array($key, array(SurveyViewerForm :: FINISH_BUTTON, SurveyViewerForm :: NEXT_BUTTON, 
+                    SurveyViewerForm :: BACK_BUTTON)))
             {
                 $next_context_path = $value;
                 if ($key == SurveyViewerForm :: FINISH_BUTTON)
                 {
-                   $this->finish_survey();
+                    $this->finish_survey();
                 }
             }
             
@@ -60,9 +61,11 @@ class SurveyAnswerProcessor
             
             if (is_numeric($complex_question_id))
             {
-               if (!StringUtilities :: is_null_or_empty($value, true))
+                
+                if (! StringUtilities :: is_null_or_empty($value, true))
                 {
                     $answer_index = $split_key[1];
+                    //              dump($answer_index);
                     if ($count == 3)
                     {
                         $sub_index = $split_key[2];
@@ -70,14 +73,32 @@ class SurveyAnswerProcessor
                     }
                     else
                     {
-                        $values[$complex_question_id][$answer_index] = $value;
+                        //                    $answer[$answer_index] = $value;
+                        $values[$complex_question_id][$key] = $value;
                     }
                 }
+            
+     //            	if (!StringUtilities :: is_null_or_empty($value, true))
+            //                {
+            //                    $answer_index = $split_key[1];
+            //                    if ($count == 3)
+            //                    {
+            //                        $sub_index = $split_key[2];
+            //                        $values[$complex_question_id][$answer_index][$sub_index] = $value;
+            //                    }
+            //                    else
+            //                    {
+            //                        $values[$complex_question_id][$answer_index] = $value;
+            //                    }
+            //                }
             }
         }
-//        dump($next_context_path);
+        //        dump($next_context_path);
+
+//        dump($values);
+//        exit;
         $context_path = $this->survey_viewer->get_previous_context_path($next_context_path);
-          
+        
         $complex_question_ids = array_keys($values);
         
         if (count($complex_question_ids) > 0)
@@ -88,23 +109,27 @@ class SurveyAnswerProcessor
                 
                 if (count($answers) > 0)
                 {
-//                	dump($context_path);
-                	$this->survey_viewer->save_answer($complex_question_id, $answers, $context_path . '_' . $complex_question_id);
+                    //                	dump($context_path);
+                    $this->survey_viewer->save_answer($complex_question_id, $answers, $context_path . '_' . $complex_question_id);
                 }
             }
         }
         unset($_POST);
         return $next_context_path;
     }
-	
-    function get_previous_context_path(){
-    	$post_values = $_POST;
-    	return $post_values[SurveyViewerForm :: BACK_BUTTON];
-   	}
-    
+
+    function get_previous_context_path()
+    {
+        $post_values = $_POST;
+        //    	unset($_POST);
+        //    	dump($post_values);
+        unset($_POST);
+        return $post_values[SurveyViewerForm :: BACK_BUTTON];
+    }
+
     function finish_survey()
     {
-       $this->get_survey_viewer()->finished();
+        $this->get_survey_viewer()->finished();
     }
 
     /**
@@ -114,6 +139,6 @@ class SurveyAnswerProcessor
     {
         return $this->survey_viewer;
     }
-    
+
 }
 ?>

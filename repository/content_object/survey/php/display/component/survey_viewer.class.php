@@ -88,6 +88,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
                     $this->context_path = $page_context_paths[0];
                 
                 }
+//                dump($this->context_path);
                 
                 $this->current_page = $this->survey->get_survey_page($this->context_path);
                 

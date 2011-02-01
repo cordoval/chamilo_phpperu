@@ -56,7 +56,7 @@ class SurveyOpenQuestionDisplay extends SurveyQuestionDisplay
         $answer = $this->get_answer();
         if ($answer)
         {
-            $formvalidator->setDefaults(array($name => $answer[0]));
+            $formvalidator->setDefaults(array($name => array_pop($answer)));
         }
 
         $renderer->setElementTemplate($element_template, $name);

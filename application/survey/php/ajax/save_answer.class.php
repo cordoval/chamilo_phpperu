@@ -74,8 +74,8 @@ class SurveyAjaxSaveAnswer extends AjaxManager
             }
         
         }
-        
-//        dump($answer);
+//       dump($answer); 
+       
         
         if ($answer)
         {

@@ -35,7 +35,7 @@ class SurveyViewerForm extends FormValidator
     {
         parent :: __construct(self :: FORM_NAME, 'post', $action);
         $this->context_path = $context_path;
-        
+//        dump($this->context_path);
         $this->next_context_path = $next_context_path;
 //        dump($this->next_context_path);
         
@@ -100,7 +100,10 @@ class SurveyViewerForm extends FormValidator
         	$question_context_path = $this->context_path . '_' . $complex_question->get_id();
             
         	$answer = $this->parent->get_answer($complex_question->get_id(), $question_context_path);
-            
+//            dump($question_context_path);
+//        	dump($complex_question);
+//        	dump($answer);
+        	
             $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $question_context_path, $this->survey, $this->page_answers);
 //            if ($answer)
 //            {

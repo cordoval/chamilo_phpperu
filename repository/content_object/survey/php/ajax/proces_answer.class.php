@@ -51,15 +51,20 @@ class SurveyAjaxProcesAnswer extends AjaxManager
             {
                 $id = $complex_question_item->get_id();
                 
+//                dump($complex_question_item);
+                
                 if ($complex_question_item->is_visible())
                 {
-                    $question_visibility[$id] = true;
+                    
+                	$question_visibility[$id] = true;
                 }
                 else
                 {
                     $question_visibility[$id] = false;
                 }
             }
+            
+//            dump($question_visibility);
             
             $configs = $survey_page->get_config();
             
@@ -82,7 +87,8 @@ class SurveyAjaxProcesAnswer extends AjaxManager
                         
                         if (in_array($question_result, $answers_to_match))
                         {
-                            foreach ($config[SurveyPage :: TO_VISIBLE_QUESTIONS_IDS] as $id)
+//                            dump($config[SurveyPage :: TO_VISIBLE_QUESTIONS_IDS]);
+                        	foreach ($config[SurveyPage :: TO_VISIBLE_QUESTIONS_IDS] as $id)
                             {
                                 $question_visibility[$id] = true;
                             }
@@ -122,6 +128,7 @@ class SurveyAjaxProcesAnswer extends AjaxManager
             $contains_matches = (count(array_slice($question_identifier, 2, - 1)) > 1);
             $question_selections[$question_name] = $answer_match;
         }
+//        dump($question_selections);
         return $question_selections;
     }
 
