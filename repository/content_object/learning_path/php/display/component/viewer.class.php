@@ -126,7 +126,7 @@ class LearningPathDisplayViewerComponent extends LearningPathDisplay
                     if (! $translator->can_execute_item($this->get_complex_content_object_item()))
                     {
                         $this->display_header();
-                        $display = '<div class="error-message">' . Translation :: get('NotYetAllowedToView') . '</div>';
+                        echo '<div class="error-message">' . Translation :: get('NotYetAllowedToView') . '</div>';
                         $this->display_footer();
                         exit();
                     }
