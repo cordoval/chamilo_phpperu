@@ -2787,13 +2787,18 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $content_object_publication_table_alias = $this->get_alias(ContentObjectPublication :: get_table_name());
         $course_rel_user_table_alias = $this->get_alias(CourseUserRelation :: get_table_name());
 
-        $query = 'SELECT COUNT(*) as count, ' . ContentObjectPublication :: PROPERTY_PUBLISHER_ID . ' FROM ' . $content_object_publication_table_name . ' AS ' . $content_object_publication_table_alias . ' JOIN ' . $course_rel_user_table_name . ' AS ' . $course_rel_user_table_alias . ' ON ' . $course_rel_user_table_alias . '.' . CourseUserRelation :: PROPERTY_COURSE . ' = ' . $content_object_publication_table_alias . '.' . ContentObjectPublication :: PROPERTY_COURSE_ID . ' AND ' . $course_rel_user_table_alias . '.' . CourseUserRelation :: PROPERTY_USER . ' = ' . $content_object_publication_table_alias . '.' . ContentObjectPublication :: PROPERTY_PUBLISHER_ID;
+        $query =  'SELECT ' . $this->escape_column_name(CourseUserRelation :: PROPERTY_USER, $course_rel_user_table_alias);
+        $query .= ', COUNT(' . $this->escape_column_name(ContentObjectPublication :: PROPERTY_ID, $content_object_publication_table_alias) . ') as count';
+        $query .= ' FROM ' . $course_rel_user_table_name . ' AS ' . $course_rel_user_table_alias;
+        $query .= ' LEFT JOIN ' . $content_object_publication_table_name . ' AS ' . $content_object_publication_table_alias . ' ON ';
+        $query .= $this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_rel_user_table_alias) . ' = ' . $this->escape_column_name(ContentObjectPublication :: PROPERTY_COURSE_ID, $content_object_publication_table_alias);
+        $query .= ' AND ' . $this->escape_column_name(CourseUserRelation :: PROPERTY_USER, $course_rel_user_table_alias) . ' = ' . $this->escape_column_name(ContentObjectPublication :: PROPERTY_PUBLISHER_ID, $content_object_publication_table_alias);
 
-        $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_id);
-        $translator = new ConditionTranslator($this, $this->get_alias(ContentObjectPublication :: get_table_name()));
+        $condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_id, CourseUserRelation :: get_table_name());
+        $translator = new ConditionTranslator($this);
         $query .= $translator->render_query($condition);
 
-        $query .= ' GROUP BY ' . $content_object_publication_table_alias . '.' . ContentObjectPublication :: PROPERTY_PUBLISHER_ID;
+        $query .= ' GROUP BY ' . $this->escape_column_name(CourseUserRelation :: PROPERTY_USER, $course_rel_user_table_alias);
         $query .= ' ORDER BY count DESC LIMIT 0,1';
 
         $result = $this->query($query);
@@ -2803,7 +2808,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
         if ($record['count'] >= 0)
         {
-            return $record['publisher_id'];
+            return $record[CourseUserRelation :: PROPERTY_USER];
         }
     }
 
