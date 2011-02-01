@@ -16,6 +16,8 @@ use application\weblcms\ContentObjectPublicationCategory;
  * @package migration.platform.dokeos185
  */
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
+require_once dirname(__FILE__) . '/dokeos185_group.class.php';
+
 
 /**
  * This class represents an old Dokeos 1.8.5 document
@@ -225,8 +227,21 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
         $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
 
-        $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.group_info');
-        $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
+        $all_item_properties = $this->get_data_manager()->get_item_properties($this->get_course(), 'document', $this->get_id());
+
+        while ($item_property = $all_item_properties->next_result())
+        {
+            $to_group_id = $this->get_id_reference($item_property->get_to_group_id(), $this->get_database_name() . '.' . Dokeos185Group::get_table_name());
+            if ($to_group_id)
+            {
+                $new_to_group_id[] = $to_group_id;
+            }
+            $to_user_id = $this->get_id_reference($item_property->get_to_user_id(), 'main_database.user');
+            if ($to_user_id)
+            {
+                $new_to_user_id[] = $to_user_id;
+            }
+        }
 
         if (!$new_user_id)
         {

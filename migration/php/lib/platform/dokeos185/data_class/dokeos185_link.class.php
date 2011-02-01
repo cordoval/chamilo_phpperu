@@ -13,6 +13,8 @@ use common\libraries\ObjectTableOrder;
  * @package migration.platform.dokeos185
  */
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
+require_once dirname(__FILE__) . '/dokeos185_group.class.php';
+
 
 /**
  * This class represents an old Dokeos 1.8.5 course_rel_class
@@ -185,11 +187,26 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
     {
         $course = $this->get_course();
         $mgdm = MigrationDataManager :: get_instance();
+
+        $all_item_properties = $this->get_data_manager()->get_item_properties($this->get_course(), 'link', $this->get_id());
+
+        while ($item_property = $all_item_properties->next_result())
+        {
+            $to_group_id = $this->get_id_reference($item_property->get_to_group_id(), $this->get_database_name() . '.' . Dokeos185Group::get_table_name());
+            if ($to_group_id)
+            {
+                $new_to_group_id[] = $to_group_id;
+            }
+            $to_user_id = $this->get_id_reference($item_property->get_to_user_id(), 'main_database.user');
+            if ($to_user_id)
+            {
+                $new_to_user_id[] = $to_user_id;
+            }
+        }
+
         if ($this->get_item_property())
         {
             $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
-            $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.group_info');
-            $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
         }
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
 
