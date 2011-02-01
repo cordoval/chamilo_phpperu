@@ -36,7 +36,7 @@
 			if(!answers[question_id]){
 				answers[question_id] =  {};	
 			}
-//			alert(question_id+" "+name+" "+$(this).val());
+//		alert(question_id+" "+name+" "+$(this).val());
 			answers[question_id] [name]= $(this).val();
 		});
 		
