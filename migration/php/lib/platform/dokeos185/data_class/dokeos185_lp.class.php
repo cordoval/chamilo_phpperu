@@ -5,6 +5,8 @@ use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use repository\content_object\learning_path\LearningPath;
+use common\libraries\ObjectTableOrder;
+
 /**
  * $Id: dokeos185_lp.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -300,14 +302,19 @@ class Dokeos185Lp extends Dokeos185CourseDataMigrationDataClass
         
     }
 
-	static function get_table_name()
+    static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
     }
     
     static function get_class_name()
     {
     	return self :: CLASS_NAME;
+    }
+
+    function get_retrieve_order_property()
+    {
+        return array(new ObjectTableOrder(self :: PROPERTY_DISPLAY_ORDER));
     }
 }
 

@@ -5,6 +5,8 @@ use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\learning_path\LearningPath;
+use common\libraries\ObjectTableOrder;
+
 /**
  * $Id: dokeos185_lp_item.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -280,8 +282,12 @@ class Dokeos185LpItem extends Dokeos185CourseDataMigrationDataClass
        	
         if($parent_lp)
         {
-        	$prerequisites = $this->get_id_reference($this->get_prerequisite(), $this->get_database_name() . '.lp_item');
-        	$this->create_complex_content_object_item($new_object, $parent_lp, $new_user_id, null, $this->get_display_order(), array('prerequisites' => $prerequisites));
+        	$prerequisites = $this->get_id_reference($this->get_prerequisite(), $this->get_database_name() . '.lp_item.complex');
+        	$complex_content_object_item = $this->create_complex_content_object_item($new_object, $parent_lp, $new_user_id, null, $this->get_display_order(), array('prerequisites' => $prerequisites));
+                if($complex_content_object_item)
+                {
+                    $this->create_id_reference($this->get_id(), $complex_content_object_item->get_id(), $this->get_database_name() . '.lp_item.complex');
+                }
         }
         
         $this->create_id_reference($this->get_id(), $new_object->get_id());
@@ -369,6 +375,11 @@ class Dokeos185LpItem extends Dokeos185CourseDataMigrationDataClass
     static function get_class_name()
     {
     	return self :: CLASS_NAME;
+    }
+
+    function get_retrieve_order_property()
+    {
+        return array(new ObjectTableOrder(self :: PROPERTY_LP_ID), new ObjectTableOrder(self :: PROPERTY_DISPLAY_ORDER));
     }
 }
 

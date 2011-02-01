@@ -1,10 +1,12 @@
 <?php
+
 namespace migration;
 
 use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use application\weblcms\ContentObjectPublicationCategory;
+use common\libraries\ObjectTableOrder;
 
 /**
  * $Id: dokeos185_link_category.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -27,6 +29,7 @@ class Dokeos185LinkCategory extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_ID = 'id';
     const PROPERTY_CATEGORY_TITLE = 'category_title';
     const PROPERTY_DESCRIPTION = 'description';
+    const PROPERTY_DISPLAY_ORDER = 'display_order';
 
     /**
      * Default properties of the link category object, stored in an associative
@@ -117,6 +120,11 @@ class Dokeos185LinkCategory extends Dokeos185CourseDataMigrationDataClass
         return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
     }
 
+    function get_display_order()
+    {
+        return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER);
+    }
+
     /**
      * Check if the link category is valid
      * @param Course $course the course
@@ -126,7 +134,8 @@ class Dokeos185LinkCategory extends Dokeos185CourseDataMigrationDataClass
     {
         $course = $this->get_course();
 
-        if (!$this->get_id() || !($this->get_category_title() || $this->get_description())) {
+        if (!$this->get_id() || !($this->get_category_title() || $this->get_description()))
+        {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'link_category', 'ID' => $this->get_id())));
             return false;
@@ -167,7 +176,8 @@ class Dokeos185LinkCategory extends Dokeos185CourseDataMigrationDataClass
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
 
     static function get_class_name()
@@ -175,5 +185,11 @@ class Dokeos185LinkCategory extends Dokeos185CourseDataMigrationDataClass
         return self :: CLASS_NAME;
     }
 
+    function get_retrieve_order_property()
+    {
+        return array(new ObjectTableOrder(self :: PROPERTY_DISPLAY_ORDER));
+    }
+
 }
+
 ?>

@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use repository\content_object\announcement\Announcement;
 use common\libraries\Utilities;
+use common\libraries\ObjectTableOrder;
 
 /**
  * $Id: dokeos185_announcement.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -192,6 +193,11 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
     static function get_class_name()
     {
         return self :: CLASS_NAME;
+    }
+
+    function get_retrieve_order_property()
+    {
+        return array(new ObjectTableOrder(self :: PROPERTY_DISPLAY_ORDER));
     }
 
 }

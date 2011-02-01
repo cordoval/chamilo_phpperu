@@ -4,6 +4,7 @@ use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use application\weblcms\CourseGroup;
+use common\libraries\ObjectTableOrder;
 
 /**
  * $Id: dokeos185_group_category.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -216,6 +217,11 @@ class Dokeos185GroupCategory extends Dokeos185CourseDataMigrationDataClass
     static function get_class_name()
     {
         return self :: CLASS_NAME;
+    }
+
+    function get_retrieve_order_property()
+    {
+        return array(new ObjectTableOrder(self :: PROPERTY_DISPLAY_ORDER));
     }
 
 }

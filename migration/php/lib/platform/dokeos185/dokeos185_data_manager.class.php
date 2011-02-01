@@ -14,6 +14,8 @@ use user\User;
 use common\libraries\ObjectResultSet;
 use Exception;
 
+require_once (dirname(__FILE__) . '/data_class/dokeos185_tool.class.php');
+
 /**
  * Class that connects to the old dokeos185 system
  *
@@ -124,7 +126,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     function retrieve_all_objects($data_class, $offset, $count)
     {
         $this->set_database($data_class->get_database_name());
-        return $this->retrieve_objects($data_class->get_table_name(), $data_class->get_retrieve_condition(), $offset, $count, null, $data_class->get_class_name());
+        return $this->retrieve_objects($data_class->get_table_name(), $data_class->get_retrieve_condition(), $offset, $count, $data_class->get_retrieve_order_property(), $data_class->get_class_name());
     }
 
     /**
@@ -244,7 +246,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
      */
     function retrieve_user_by_fullname($fullname)
     {
-        
+
 
         $conditions = array();
         $conditions1 = array();
@@ -261,7 +263,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
         $name2 = explode(' ', $fullname);
         $firstname = array_pop($name2);
         $lastname = implode(' ', $name2);
-        
+
         $conditions2[] = new EqualityCondition(Dokeos185User :: PROPERTY_FIRSTNAME, $firstname);
         $conditions2[] = new EqualityCondition(Dokeos185User :: PROPERTY_LASTNAME, $lastname);
         $conditions[] = new AndCondition($conditions2);
@@ -327,12 +329,12 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     {
         $this->set_database($course->get_db_name());
         require_once (dirname(__FILE__) . '/data_class/dokeos185_resource.class.php');
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition(Dokeos185Resource :: PROPERTY_SOURCE_ID, $source_id);
         $conditions[] = new EqualityCondition(Dokeos185Resource :: PROPERTY_SOURCE_TYPE, $source_type);
         $condition = new AndCondition($conditions);
-        
+
         return $this->retrieve_objects(Dokeos185Resource :: get_table_name(), $condition, null, null, null, Dokeos185Resource :: get_class_name());
     }
 

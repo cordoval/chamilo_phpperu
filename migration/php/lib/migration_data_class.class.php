@@ -264,6 +264,14 @@ abstract class MigrationDataClass extends DataClass
     }
 
     /**
+     * Additional order property to retrieve data from the data class
+     */
+    function get_retrieve_order_property()
+    {
+        return null;
+    }
+
+    /**
      * Checks wether the current data is valid
      */
     abstract function is_valid();
