@@ -28,6 +28,8 @@ use repository\content_object\handbook\Handbook;
 /**
  * Exports content object to the chamilo learning object format (xml)
  * TODO: this is just a temporary class untill the cpo-export from the repository is refactored
+ * code for metadata export should go to metadata, code for co-object export should go to repository/co
+ * code for context link export should go to context linker
  */
 class HandbookCpoImport extends ContentObjectImport
 {
@@ -41,7 +43,7 @@ class HandbookCpoImport extends ContentObjectImport
 
     private $option_strict = false;
     private $option_limited = false;
-    
+    private $mode = self::MODE_NEW;
     private $metadata_limitations = array();
     /**
      * @var RepositoryDataManager
@@ -140,6 +142,8 @@ class HandbookCpoImport extends ContentObjectImport
     private $log = array();
     private $copies;
     private $linked_to_copy;
+    private $not_in_scope;
+
 
     function __construct($content_object_file, $user, $category)
     {
@@ -230,10 +234,6 @@ class HandbookCpoImport extends ContentObjectImport
         $this->update_hotspot_questions();
         $this->create_context_links();
 
-        var_dump($this->content_object_reference);
-        var_dump($this->copies);
-        var_dump($this->linked_to_copy);
-        var_dump($this->context_links);
 
         if ($temp)
         {
@@ -258,12 +258,23 @@ class HandbookCpoImport extends ContentObjectImport
                 else
                 {
                     $this->log[] = '<i> something went wrong on creating the context link between ' . $context_link_data[self::LINK_ORIGINAL] . ' and ' . $context_link_data[self::LINK_ALTERNATIVE] . ' here (on metadata = ' . $context_link_data[self::LINK_METADATA] . ')</i>';
-                    var_dump($context_link_data);
                 }
             }
             else
             {
                 $this->log[] = '<i> contextlink for ' . $context_link_data[self::LINK_ORIGINAL] . ' and ' . $context_link_data[self::LINK_ALTERNATIVE] . ' (on metadata = ' . $context_link_data[self::LINK_METADATA] . ') not created since the original is a copy or linked to copy</i>';
+                if ($this->mode == self::MODE_NEW)
+                {
+                    //do nothing
+                }
+                else if ($this->mode == self::MODE_EXTEND)
+                {
+                    $this->log[] = 'add new context links';
+                }
+                else if ($this->mode == self::MODE_FULL)
+                {
+                    $this->log[] = 'add new context links and replace data in existing co\'s with data from import';
+                }
             }
         }
     }
@@ -613,14 +624,36 @@ class HandbookCpoImport extends ContentObjectImport
             $exists_already = $this->check_uniqueness($content_object, $type, $id);
 
             //CREATE CONTENT OBJECT
-            if (!$exists_already && !in_array($id, $this->linked_to_copy))
+            if (!$exists_already && !in_array($id, $this->linked_to_copy) && !in_array($id, $this->not_in_scope))
             {
                 $this->create_object($content_object, $id, $type, $title, $description, $comment, $created, $modified, $object_number, $category);
             }
             else
             {
                 //TODO: provide update possibility
-                $this->log[] = 'item with id ' . $id . ' copy or linked to copy';
+                $this->log[] = 'item with id ' . $id . ' copy or linked to copy or not in scope';
+                if ($this->mode == self::MODE_NEW)
+                {
+                    //DO NOTHING
+                }
+                else if ($this->mode == self::MODE_EXTEND)
+                {
+                    //CREATE OBJECT IF IT IS LINKED TO COPY
+                    if (in_array($id, $this->linked_to_copy) && !in_array($id, $this->not_in_scope))
+                    {
+                        //TODO: check if co not in system & create
+                        $this->log[] = 'item with id ' . $id . ' is linked to a copy. check if it is already in system';
+                    }
+                }
+                else if ($this->mode == self::MODE_FULL)
+                {
+                    //CREATE OBJECT IF IT IS LINKED TO COPY OR UPDATE DATA OF COPY
+                    if (!in_array($id, $this->not_in_scope))
+                    {
+                        //TODO: update or create
+                        $this->log[] = 'item with id ' . $id . ' will be updated or created';
+                    }
+                }
             }
 
             //ADD CONTEXT LINKS
@@ -656,7 +689,7 @@ class HandbookCpoImport extends ContentObjectImport
                         }
                     }
                     list($namespace_prefix, $element_name) = explode(':', $metadata_link);
-                    if (!$exists_already && !in_array($id, $this->linked_to_copy))
+                    if (!$exists_already && !in_array($id, $this->linked_to_copy) && !in_array($id, $this->not_in_scope))
                     {
                         //store original id - alternative id - metadata id
                         $this->context_links[] = array(self::LINK_ORIGINAL => $id, self::LINK_ALTERNATIVE => $idref, self::LINK_METADATA => $metadata_link);
@@ -720,80 +753,87 @@ class HandbookCpoImport extends ContentObjectImport
 
     public function create_object($content_object, $id, $type, $title, $description, $comment, $created, $modified, $object_number, $category)
     {
-
-
-
-        $this->log[] = '<b>item with title ' . $title . ' and id ' . $id . ' will be created</b>';
-        $lo = ContentObject :: factory($type, array(ContentObject :: PROPERTY_STATE => ContentObject :: STATE_NORMAL));
-        if (!$lo)
+        if ($this->option_strict || $this->option_limited)
         {
-            return null;
+            //TODO: extra checks to see if content_object is in scope
+            //first get metadata for co
+            //if strict: check if dc:publisher & dc:language are set
+            //if limited: check is metadata reqs are met
         }
-        $lo->set_title($title);
-        $lo->set_description($description);
-        $lo->set_comment($comment);
-        $lo->set_creation_date($created);
-        $lo->set_modification_date($modified);
-        $lo->set_owner_id($this->get_user()->get_id());
-        $object_number_exists = array_key_exists($object_number, $this->object_numbers);
-        if ($object_number_exists)
+        if (!in_array($id, $this->not_in_scope))
         {
-            $lo->set_object_number($this->object_numbers[$object_number]);
-        }
-        if ($category == 'category0' || !$category)
-        {
-            $lo->set_parent_id($this->get_category());
-        }
-        else
-        {
-            $lo->set_parent_id($this->categories[$category]);
-        }
-
-        //extended
-        $extended = $content_object->getElementsByTagName('extended')->item(0);
-        if ($extended->hasChildNodes())
-        {
-            $nodes = $extended->childNodes;
-            $additionalProperties = array();
-            foreach ($nodes as $node)
+            $this->log[] = '<b>item with title ' . $title . ' and id ' . $id . ' will be created</b>';
+            $lo = ContentObject :: factory($type, array(ContentObject :: PROPERTY_STATE => ContentObject :: STATE_NORMAL));
+            if (!$lo)
             {
-                if ($node->nodeName == "#text" || $node->nodeName == 'id' || $node->nodeName == 'category')
-                    continue;
-                $prop_names = $lo->get_additional_property_names();
-                if (in_array($node->nodeName, $prop_names))
-                {
-                    $additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
-                }
+                return null;
             }
-            $additionalProperties = $this->import_extra_properties($type, $additionalProperties, $lo);
-            $lo->set_additional_properties($additionalProperties);
-        }
-        if ($type == Document :: get_type_name() && !$lo->get_path())
-        {
-            return;
-        }
-        if ($object_number_exists)
-        {
-            $lo->version();
-        }
-        else
-        {
-            $lo->create_all();
-            $this->object_numbers[$object_number] = $lo->get_object_number();
-        }
-        if (in_array($type, RepositoryDataManager :: get_active_helper_types()))
-        {
-            $this->references[$lo->get_id()] = $additionalProperties['reference_id'];
-        }
-        if ($type == HotspotQuestion :: get_type_name())
-        {
-            $this->hotspot_questions[$lo->get_id()] = $lo->get_image();
-        }
-        $this->content_object_reference[$id] = $lo->get_id();
+            $lo->set_title($title);
+            $lo->set_description($description);
+            $lo->set_comment($comment);
+            $lo->set_creation_date($created);
+            $lo->set_modification_date($modified);
+            $lo->set_owner_id($this->get_user()->get_id());
+            $object_number_exists = array_key_exists($object_number, $this->object_numbers);
+            if ($object_number_exists)
+            {
+                $lo->set_object_number($this->object_numbers[$object_number]);
+            }
+            if ($category == 'category0' || !$category)
+            {
+                $lo->set_parent_id($this->get_category());
+            }
+            else
+            {
+                $lo->set_parent_id($this->categories[$category]);
+            }
 
-        $this->render_metadata($content_object, $lo, $id);
-        $this->render_includes($content_object, $id);
-        $this->render_attachements($content_object, $id);
+            //extended
+            $extended = $content_object->getElementsByTagName('extended')->item(0);
+            if ($extended->hasChildNodes())
+            {
+                $nodes = $extended->childNodes;
+                $additionalProperties = array();
+                foreach ($nodes as $node)
+                {
+                    if ($node->nodeName == "#text" || $node->nodeName == 'id' || $node->nodeName == 'category')
+                        continue;
+                    $prop_names = $lo->get_additional_property_names();
+                    if (in_array($node->nodeName, $prop_names))
+                    {
+                        $additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
+                    }
+                }
+                $additionalProperties = $this->import_extra_properties($type, $additionalProperties, $lo);
+                $lo->set_additional_properties($additionalProperties);
+            }
+            if ($type == Document :: get_type_name() && !$lo->get_path())
+            {
+                return;
+            }
+            if ($object_number_exists)
+            {
+                $lo->version();
+            }
+            else
+            {
+                $lo->create_all();
+                $this->object_numbers[$object_number] = $lo->get_object_number();
+            }
+            if (in_array($type, RepositoryDataManager :: get_active_helper_types()))
+            {
+                $this->references[$lo->get_id()] = $additionalProperties['reference_id'];
+            }
+            if ($type == HotspotQuestion :: get_type_name())
+            {
+                $this->hotspot_questions[$lo->get_id()] = $lo->get_image();
+            }
+            $this->content_object_reference[$id] = $lo->get_id();
+
+            $this->render_metadata($content_object, $lo, $id);
+            $this->render_includes($content_object, $id);
+            $this->render_attachements($content_object, $id);
+        }
     }
 
     public function render_complex_children($content_object, $id)
@@ -940,8 +980,7 @@ class HandbookCpoImport extends ContentObjectImport
             }
             else
             {
-                 $this->log[] = 'wrapper to link ' . $parent_id . ' and ' . $child['idref'] . 'not created because the parent is a copy or linked to a copy';
-
+                $this->log[] = 'wrapper to link ' . $parent_id . ' and ' . $child['idref'] . 'not created because the parent is a copy or linked to a copy';
             }
         }
     }
@@ -1013,6 +1052,7 @@ class HandbookCpoImport extends ContentObjectImport
             $lo = $this->rdm->retrieve_content_object($lo_id);
             $lo->set_reference($real_reference);
             $lo->update();
+            $this->log[] = '<b> change reference to ' .$reference. ' in real id '. $real_reference . ' in content-object ' . $lo_id. '</b>';
         }
     }
 
