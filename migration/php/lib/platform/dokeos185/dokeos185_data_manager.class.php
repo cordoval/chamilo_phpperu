@@ -14,6 +14,7 @@ use user\User;
 use common\libraries\ObjectResultSet;
 use Exception;
 
+
 /**
  * Class that connects to the old dokeos185 system
  *
@@ -124,7 +125,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     function retrieve_all_objects($data_class, $offset, $count)
     {
         $this->set_database($data_class->get_database_name());
-        return $this->retrieve_objects($data_class->get_table_name(), $data_class->get_retrieve_condition(), $offset, $count, null, $data_class->get_class_name());
+        return $this->retrieve_objects($data_class->get_table_name(), $data_class->get_retrieve_condition(), $offset, $count, $data_class->get_retrieve_order_property(), $data_class->get_class_name());
     }
 
     /**
@@ -338,12 +339,8 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
 
     function is_learning_path_publish_on_homepage($lp_id)
     {
-        require_once dirname(__FILE__) . '/../data_class/dokeos185_tool.class.php';
-        $conditions = array();
-        $conditions[] = new EqualityCondition(Dokeos185Tool :: PROPERTY_ADDED_TOOL, 1);
-        $conditions[] = new EqualityCondition(Dokeos185Tool :: PROPERTY_LINK, 'newscorm/lp_controller.php?action=view&lp_id=' . $lp_id);
-        $condition = new AndCondition($conditions);
-
+        require_once dirname(__FILE__) . '/data_class/dokeos185_tool.class.php';
+        $condition = new EqualityCondition(Dokeos185Tool :: PROPERTY_LINK, 'newscorm/lp_controller.php?action=view&lp_id=' . $lp_id);
         return ($this->count_objects(Dokeos185Tool :: get_table_name(), $condition) > 0);
     }
 

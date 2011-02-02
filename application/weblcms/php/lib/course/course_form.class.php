@@ -489,7 +489,7 @@ class CourseForm extends CommonForm
 
             $tool_data[] = '<img class="' . $tool_image . '" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/>';
             $tool_data[] = $title;
-            $tool_data[] = '<div class="' . $element_default . '"/>' . $this->createElement('checkbox', $element_default . 'e', Translation :: get('IsVisible'), '', $element_default_arr)->toHtml() . '</div>';
+            $tool_data[] = '<div class="' . $element_default . '">' . $this->createElement('checkbox', $element_default . 'e', Translation :: get('IsVisible'), '', $element_default_arr)->toHtml() . '</div>';
             $count ++;
 
             $data[] = $tool_data;

@@ -58,34 +58,57 @@
 
     <target name="phpunit-coverage" depends="clean, prepare">
         <echo message="Running all the tests and generating reports (this takes several minutes)..." />
-        <exec   dir="${basedir}"
-                command="php ${basedir}/script/phpunit.php --configuration ${phpunit-coverage-config-file}"
-                checkreturn="false"
-		passthru="true"
-         />
+         <phingcall target="phpunit-config">
+            <property name="abs-config-file" value="${phpunit-coverage-config-file}" />
+        </phingcall>
     </target>
 
     <!-- ============================================  -->
     <!-- Target: phpunit (no report, much faster)      -->
-    <!-- ============================================  -->
+    <!-- ============================================  -->    
     <target name="phpunit-no-reports" >
         <echo message="Running all the tests" />
-        <exec   dir="${basedir}"
-                command="php ${basedir}/script/phpunit.php --configuration ${phpunit-no-report-config-file}"
-                checkreturn="true"
-		passthru="true"
-        />
+        <phingcall target="phpunit-config">
+            <property name="abs-config-file" value="${phpunit-no-report-config-file}" />
+        </phingcall>
     </target>
+    
 
     <!-- ============================================  -->
-    <!-- Target: phpunit (no report, much faster)      -->
+    <!-- Target: phpunit (only unit tests)             -->
     <!-- ============================================  -->
     <target name="phpunit" >
         <echo message="Running all the tests" />
+        <phingcall target="phpunit-config">
+            <property name="abs-config-file" value="${phpunit-config-file}" />
+        </phingcall>
+    </target>
+    
+    <!-- ============================================  -->
+    <!-- Target: phpunit-extra                         -->
+    <!-- ============================================  -->
+    <target name="phpunit-extra" >
+        <echo message="Running all the tests on extra packages" />
+        <foreach param="config-file" absparam="abs-config-file" target="phpunit-config">
+            <fileset dir="${basedir}">
+                <include name="application/*/test/phpunit.xml" />
+                <include name="repository/content_object/*/test/phpunit.xml" />
+                <include name="common/extensions/external_repository_manager/implementation/*/test/phpunit.xml" />
+                <include name="common/extensions/video_conferencing_manager/implementation/*/test/phpunit.xml" />
+            </fileset>
+        </foreach>
+        
+    </target>
+    
+    <!-- ============================================  -->
+    <!-- Target: phpunit-config                        -->
+    <!-- ============================================  -->
+    
+    <target name="phpunit-config" >
+        <echo message="Running all the tests on extra packages" />
         <exec   dir="${basedir}"
-                command="php ${basedir}/script/phpunit.php --configuration ${phpunit-config-file}"
-                checkreturn="true"
-		passthru="true"
+                command="php ${basedir}/script/phpunit.php --configuration ${abs-config-file}"
+                passthru="true"
         />
     </target>
 

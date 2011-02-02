@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\portfolio_item;
 
+use common\libraries\HelperContentObjectSupport;
 use common\libraries\Utilities;
 use common\libraries\Versionable;
 
@@ -10,7 +11,7 @@ use repository\ContentObject;
  * $Id: portfolio_item.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.portfolio_item
  */
-class PortfolioItem extends ContentObject implements Versionable
+class PortfolioItem extends ContentObject implements Versionable, HelperContentObjectSupport
 {
     const PROPERTY_REFERENCE = 'reference_id';
 	const CLASS_NAME = __CLASS__;

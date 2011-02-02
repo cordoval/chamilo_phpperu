@@ -145,9 +145,13 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
         $chamilo_description = new Description();
 
         if (!$this->get_title())
-            $chamilo_description->set_title(substr($this->get_content(), 0, 20));
+        {
+            $chamilo_description->set_title(Translation :: get('Description'));
+        }
         else
+        {
             $chamilo_description->set_title($this->get_title());
+        }
 
         if (!$this->get_content())
         {
@@ -159,8 +163,8 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
             $chamilo_description->set_description($content);
         }
 
-        $new_user_id = $this->get_id_reference($this->get_data_manager()->get_admin_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
+        $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
 
         // Category for contents already exists?
         $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Descriptions'));
@@ -172,32 +176,31 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
         //create in chamilo db
         $chamilo_description->create();
 
-        //create publication: To get visbility status, the dokeos185_tool table needs to be converted! (normally this status is retrieved in item property)
-        //$this->create_publication($chamilo_description, $new_course_code, $new_user_id, 'description');
+        $this->create_publication($chamilo_description, $new_course_code, $new_user_id, 'description');
 
-        $publication = new ContentObjectPublication();
-
-        $publication->set_content_object($chamilo_description);
-        $publication->set_content_object_id($chamilo_description->get_id());
-        $publication->set_course_id($new_course_code);
-        $publication->set_publisher_id($new_user_id);
-        $publication->set_tool('description');
-
-        $publication->set_category_id(0);
-
-
-        $publication->set_from_date(0);
-        $publication->set_to_date(0);
-        $publication->set_publication_date(0);
-        $publication->set_modified_date(0);
-        //$publication->set_modified_date(0);
-        //$publication->set_display_order_index($this->get_display_order());
-        $publication->set_display_order_index(0);
-
-        $publication->set_email_sent($this->get_email_sent());
-
-        //$publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
-        $publication->create();
+//        $publication = new ContentObjectPublication();
+//
+//        $publication->set_content_object($chamilo_description);
+//        $publication->set_content_object_id($chamilo_description->get_id());
+//        $publication->set_course_id($new_course_code);
+//        $publication->set_publisher_id($new_user_id);
+//        $publication->set_tool('description');
+//
+//        $publication->set_category_id(0);
+//
+//
+//        $publication->set_from_date(0);
+//        $publication->set_to_date(0);
+//        $publication->set_publication_date(0);
+//        $publication->set_modified_date(0);
+//        //$publication->set_modified_date(0);
+//        //$publication->set_display_order_index($this->get_display_order());
+//        $publication->set_display_order_index(0);
+//
+//        $publication->set_email_sent($this->get_email_sent());
+//
+//        //$publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
+//        $publication->create();
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'course_description', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_description->get_id())));
 
         return $chamilo_description;

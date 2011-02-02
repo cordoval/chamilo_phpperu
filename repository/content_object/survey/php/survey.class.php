@@ -84,13 +84,13 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     
     }
 
-    function get_context_template_for_level($level = 0)
+    function get_context_template_for_level($level = 1)
     {
         
         if (! $this->get_context_template_id() == 0)
         {
             $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_context_template_id());
-        	
+        	            
             $level_count = $this->count_levels();
             $index = 1;
             while($level_count !=0){
@@ -104,7 +104,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             	}
             	$index++;
             }
-            
+                    
             return $level_matrix[$level];
             
 //            if ($level != 1)

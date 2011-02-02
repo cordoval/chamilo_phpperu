@@ -25,6 +25,7 @@ class Autoloader
             'survey_publication_form' => 'forms/survey_publication_form.class.php',
             'survey_publication_mailer_form' => 'forms/survey_publication_mailer_form.class.php',
             'survey_mail_tester_form' => 'forms/mail_tester_form.class.php',
+        'survey_select_mail_group_form' => 'forms/select_mail_group_form.class.php',
             'survey_publication_rel_reporting_template_registration_form' => 'forms/publication_rel_reporting_template_form.class.php',
             'survey_manager' => 'survey_manager/survey_manager.class.php',
             'survey_publication_browser_table' => 'survey_manager/component/publication_browser/publication_browser_table.class.php',

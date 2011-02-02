@@ -1,10 +1,12 @@
 <?php
+
 namespace migration;
 
 use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use repository\content_object\announcement\Announcement;
 use common\libraries\Utilities;
+use common\libraries\ObjectTableOrder;
 
 /**
  * $Id: dokeos185_announcement.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -127,12 +129,19 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
 
         $all_item_properties = $this->get_data_manager()->get_item_properties($this->get_course(), 'announcement', $this->get_id());
-        $new_to_group_id = array();
-        $new_to_user_id = array();
-        while($item_property = $all_item_properties->next_result())
+
+        while ($item_property = $all_item_properties->next_result())
         {
-            $new_to_group_id[] = $this->get_id_reference($item_property->get_to_group_id(), $this->get_database_name() . '.' . Dokeos185Group::get_table_name());
-            $new_to_user_id[] = $this->get_id_reference($item_property->get_to_user_id(), 'main_database.user');
+            $to_group_id = $this->get_id_reference($item_property->get_to_group_id(), $this->get_database_name() . '.' . Dokeos185Group::get_table_name());
+            if ($to_group_id)
+            {
+                $new_to_group_id[] = $to_group_id;
+            }
+            $to_user_id = $this->get_id_reference($item_property->get_to_user_id(), 'main_database.user');
+            if ($to_user_id)
+            {
+                $new_to_user_id[] = $to_user_id;
+            }
         }
 
         if (!$new_user_id)
@@ -186,12 +195,17 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
 
     static function get_table_name()
     {
-          return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
     }
 
     static function get_class_name()
     {
         return self :: CLASS_NAME;
+    }
+
+    function get_retrieve_order_property()
+    {
+        return array(new ObjectTableOrder(self :: PROPERTY_DISPLAY_ORDER));
     }
 
 }

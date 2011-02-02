@@ -97,6 +97,8 @@ class ImportContextForm extends FormValidator
         
         $context_properties = $this->context->get_additional_property_names();
         
+//        dump($context_properties);
+        
         //each row in excel file except row 1 = headers !
         for($i = 2; $i < count($excel_array) + 1; $i ++)
         {
@@ -108,6 +110,7 @@ class ImportContextForm extends FormValidator
                 $this->context->set_additional_property($context_property, $excel_array[$i][$index]);
                 $index ++;
             }
+          
             $success = $this->context->create();
         }
         return $success;

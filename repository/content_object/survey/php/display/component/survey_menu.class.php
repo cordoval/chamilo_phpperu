@@ -363,7 +363,7 @@ class SurveyMenu extends HTML_Menu
                         $this->set_page_visible_question_answers($survey_page, $context_path);
                         
                         $title = $survey_page->get_title();
-                        //                       	$title = Survey :: parse($this->get_survey()->get_invitee_id(), $context_path, $title);
+                        $title = Survey :: parse($this->get_survey()->get_invitee_id(), $context_path, $title);
                         //                        $title = 'page ' . $this->page_contexts[$context_path] . ' title: ' . $title;
                         $menu_item['class'] = self :: TYPE_PAGE . '_tree';
                         $current_url = $this->get_url($context_path);

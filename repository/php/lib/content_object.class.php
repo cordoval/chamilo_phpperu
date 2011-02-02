@@ -13,6 +13,7 @@ use common\libraries\InCondition;
 use common\libraries\AndCondition;
 use common\libraries\AttachmentSupport;
 use common\libraries\ComplexContentObjectSupport;
+use common\libraries\HelperContentObjectSupport;
 
 use repository\ExternalSync;
 use admin\AdminDataManager;
@@ -145,6 +146,11 @@ class ContentObject extends DataClass
      * @var ObjectResultSet
      */
     private $synchronization_data;
+
+    /**
+     * @var ComplexContentObjectPath
+     */
+    private $complex_content_object_path;
 
     /**
      * Creates a new learning object.
@@ -731,20 +737,21 @@ class ContentObject extends DataClass
         if ($this->get_owner_id() == 0)
             return true;
 
-//        $parent = $this->get_parent_id();
-//        if (! $parent)
-//        {
-//            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
-//        }
-//        else
-//        {
-//            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
-//        }
-//
-//        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
-//        {
-//            return false;
-//        }
+     //        $parent = $this->get_parent_id();
+        //        if (! $parent)
+        //        {
+        //            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
+        //        }
+        //        else
+        //        {
+        //            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
+        //        }
+        //
+        //        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
+        //        {
+        //            return false;
+        //        }
+
 
         return true;
     }
@@ -763,20 +770,21 @@ class ContentObject extends DataClass
         if ($this->get_owner_id() == 0)
             return true;
 
-//        $parent = $this->get_parent_id();
-//        if (! $parent)
-//        {
-//            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
-//        }
-//        else
-//        {
-//            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
-//        }
-//
-//        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
-//        {
-//            return false;
-//        }
+     //        $parent = $this->get_parent_id();
+        //        if (! $parent)
+        //        {
+        //            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
+        //        }
+        //        else
+        //        {
+        //            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
+        //        }
+        //
+        //        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
+        //        {
+        //            return false;
+        //        }
+
 
         return true;
     }
@@ -837,18 +845,19 @@ class ContentObject extends DataClass
             return false;
         }
         return true;
-//        if ($new_parent_id == 0)
-//        {
-//            $new_parent = RepositoryRights :: get_user_root_id();
-//        }
-//        else
-//        {
-//            $new_parent = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $new_parent_id, $this->get_owner_id());
-//        }
-//
-//        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
-//
-//        return $location->move($new_parent);
+
+     //        if ($new_parent_id == 0)
+    //        {
+    //            $new_parent = RepositoryRights :: get_user_root_id();
+    //        }
+    //        else
+    //        {
+    //            $new_parent = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $new_parent_id, $this->get_owner_id());
+    //        }
+    //
+    //        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
+    //
+    //        return $location->move($new_parent);
     }
 
     function version($trueUpdate = true)
@@ -902,14 +911,14 @@ class ContentObject extends DataClass
      */
     function delete()
     {
-//        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
-//        if ($location)
-//        {
-//            if (! $location->remove())
-//            {
-//                return false;
-//            }
-//        }
+        //        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
+        //        if ($location)
+        //        {
+        //            if (! $location->remove())
+        //            {
+        //                return false;
+        //            }
+        //        }
         return RepositoryDataManager :: get_instance()->delete_content_object($this);
     }
 
@@ -1028,6 +1037,16 @@ class ContentObject extends DataClass
         return $this instanceof ComplexContentObjectSupport;
     }
 
+    function get_complex_content_object_path()
+    {
+        if (! isset($this->complex_content_object_path))
+        {
+            $this->complex_content_object_path = new ComplexContentObjectPath($this);
+        }
+
+        return $this->complex_content_object_path;
+    }
+
     /**
      * Gets the name of the icon corresponding to this learning object.
      */
@@ -1062,9 +1081,10 @@ class ContentObject extends DataClass
      */
     static function get_default_property_names($extended_property_names = array())
     {
-        return parent :: get_default_property_names(array(
-                self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE,
-                self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_COMMENT, self :: PROPERTY_CONTENT_HASH));
+        return parent :: get_default_property_names(array(self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE,
+                self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID,
+                self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER,
+                self :: PROPERTY_STATE, self :: PROPERTY_COMMENT, self :: PROPERTY_CONTENT_HASH));
     }
 
     static function get_additional_property_names()
@@ -1184,7 +1204,8 @@ class ContentObject extends DataClass
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+
+     //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     /**
@@ -1283,7 +1304,7 @@ class ContentObject extends DataClass
 
     static function get_version_header()
     {
-        return '<img src="' . Theme :: get_image_path() . 'versions_header.png" alt="'. Translation :: get('Versions') .'" title="'. Translation :: get('Versions') .'" />';
+        return '<img src="' . Theme :: get_image_path() . 'versions_header.png" alt="' . Translation :: get('Versions') . '" title="' . Translation :: get('Versions') . '" />';
     }
 }
 ?>

@@ -15,7 +15,7 @@ class SurveyBuilderConfigDeleterComponent extends SurveyBuilder
     {
     
         $config_index = Request :: get(SurveyBuilder :: PARAM_CONFIG_INDEX);
-        
+               
         if (! empty($config_index))
         {
             if (! is_array($config_index))

@@ -180,10 +180,15 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
 
         $context_template = $survey->get_context_template_for_level();
 
+//        dump($context_template);
+        
         if ($context_template)
         {
 
-            $invited_users = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_VIEW, $survey_pub_id, SurveyRights :: TYPE_PUBLICATION);
+            $invited_users = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_PARTICIPATE, $survey_pub_id, SurveyRights :: TYPE_PUBLICATION);
+            
+            
+            
             $cdm = SurveyContextDataManager :: get_instance();
 
             if (count($invited_users) > 0)

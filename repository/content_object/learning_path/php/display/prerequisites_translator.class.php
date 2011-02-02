@@ -88,7 +88,9 @@ class PrerequisitesTranslator
         $prerequisites = str_replace('~', '!', $prerequisites);
         $prerequisites = '$value = ' . $prerequisites . ';';
         
-        return eval($prerequisites);
+        eval($prerequisites);
+
+        return $value;
     }
 
     function retrieve_real_id_from_prerequisite_identifier($identifier)

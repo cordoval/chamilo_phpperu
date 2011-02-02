@@ -249,9 +249,13 @@ abstract class SurveyQuestionDisplay
     {
         $survey_page = RepositoryDataManager :: get_instance()->retrieve_content_object($page_id);
         $configs = $survey_page->get_config();
-	       
+
+//        dump($configs);
+        
         $page_answers = $this->get_page_answers();
-              
+
+//        dump($page_answers);
+        
         foreach ($configs as $config)
         {
             

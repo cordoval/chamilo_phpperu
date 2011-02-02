@@ -46,7 +46,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $survey_id = Request :: get(self :: PARAM_SURVEY_ID);
         $publication_id = Request :: get(self :: PARAM_PUBLICATION_ID);
         
-        $invitee_id = $this->get_parent()->get_user_id();
+        $invitee_id = $this->get_invitee_id();
         $this->survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
         
         $this->survey->initialize($invitee_id);
@@ -78,7 +78,8 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
             }
             if ($finished)
             {
-                $this->build_summery_viewer();
+                $this->finished();
+            	$this->build_summery_viewer();
             }
             else
             {
@@ -88,6 +89,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
                     $this->context_path = $page_context_paths[0];
                 
                 }
+//                dump($this->context_path);
                 
                 $this->current_page = $this->survey->get_survey_page($this->context_path);
                 
@@ -196,7 +198,8 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $this->get_parent()->display_header();
         $html = array();
         $html[] = '<div class="assessment">';
-        $html[] = '<h2>' . $this->survey->get_title() . '</h2>';
+        $title = $this->survey->get_title();
+        $html[] = '<h2>' . Survey :: parse($this->survey->get_invitee_id(), $this->context_path, $title) . '</h2>';
         $html[] = '</div>';
         $html[] = '<div class="assessment">';
         $html[] = '<div class="description">';
@@ -284,7 +287,11 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $progress = $this->get_progress();
         $this->get_parent()->finished($progress);
     }
-
+	
+    function get_invitee_id(){
+    	return $this->get_parent()->get_invitee_id();
+    }
+    
     function save_answer($question_id, $answer, $context_path)
     {
         $this->get_parent()->save_answer($question_id, $answer, $context_path);
@@ -322,10 +329,15 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
 
     function get_previous_context_path($context_path)
     {
-        //        dump('now '.$context_path);
-        $previous_page_nr = $this->context_paths[$context_path] - 1;
+//                dump('now '.$context_path);
+//                dump($this->get_page_nrs());
+//                dump();
+//        $previous_page_nr = $this->context_paths[$context_path] - 1;
+        $previous_page_nr = $this->get_page_nr($context_path) - 1;
+        
         $previous_context_path = null;
-        foreach ($this->context_paths as $context_path => $page_nr)
+//        foreach ($this->context_paths as $context_path => $page_nr)
+        foreach ($this->get_page_nrs() as $context_path => $page_nr)
         {
             if ($page_nr == $previous_page_nr)
             {
