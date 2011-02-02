@@ -215,7 +215,7 @@ class Dokeos185Lp extends Dokeos185CourseDataMigrationDataClass
     {
         $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'learnpath', $this->get_id()));
         
-        if (!$this->get_content_maker() == "Dokeos" || ! $this->get_id() || ! $this->get_lp_type() || !($this->get_name() || $this->get_description()) || !$this->get_item_property() || $this->get_item_property()->get_visibility() == 2)
+        if (!$this->get_content_maker() == "Dokeos" || ! $this->get_id() || ! $this->get_lp_type() || !($this->get_name() || $this->get_description()) || ($this->get_item_property() && $this->get_item_property()->get_visibility() == 2))
         {
             $this->create_failed_element($this->get_id());
             if($this->get_content_maker() != "Dokeos")
@@ -239,13 +239,9 @@ class Dokeos185Lp extends Dokeos185CourseDataMigrationDataClass
         $course = $this->get_course();
         
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
-        $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         
         $chamilo_learning_path = new LearningPath();
 
-        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('LearningPaths'));
-        $chamilo_learning_path->set_parent_id($chamilo_category_id);
-        
         if (!$this->get_name())
         {
             $chamilo_learning_path->set_title(substr($this->get_description(), 0, 20));
@@ -264,7 +260,6 @@ class Dokeos185Lp extends Dokeos185CourseDataMigrationDataClass
             $chamilo_learning_path->set_description($this->get_description());
         }
         
-        $chamilo_learning_path->set_owner_id($new_user_id);
         
         if($this->item_property)
         {
@@ -275,12 +270,23 @@ class Dokeos185Lp extends Dokeos185CourseDataMigrationDataClass
             {
                 $chamilo_learning_path->set_state(1);
             }
+
+            $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
         }
         else
         {
             $chamilo_learning_path->set_creation_date(time());
             $chamilo_learning_path->set_modification_date(time());
         }
+
+        if(!$new_user_id)
+        {
+            $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
+        }
+
+        $chamilo_learning_path->set_owner_id($new_user_id);
+        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('LearningPaths'));
+        $chamilo_learning_path->set_parent_id($chamilo_category_id);
         
         $version = strtolower($this->get_content_maker());
         if($version == 'dokeos')
