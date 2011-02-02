@@ -89,6 +89,9 @@ class SurveyManagerOldMailerComponent extends SurveyManager
         $users[SurveyParticipantTracker :: STATUS_NOTSTARTED] = $not_started_count;
         $users[SurveyParticipantTracker :: STATUS_FINISHED] = $finished_count;
 //        $users[SurveyPublicationMailerForm :: USERS_NOT_SELECTED_COUNT] = $this->not_selected_user_count;
+        
+        
+        
         $form = new SurveyPublicationMailerForm($this, $this->get_user(), $users, $this->get_url(array(
                 self :: PARAM_PUBLICATION_ID => $this->publication_id)));
         
@@ -284,8 +287,7 @@ class SurveyManagerOldMailerComponent extends SurveyManager
         $mail->set_reply($reply);
         
         //         Check whether it was sent successfully
-         if ($mail->send() === FALSE);
-        if (true)
+        if ($mail->send() === FALSE)
         {
             $this->mail_send = false;
             $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_NOT_SEND;
