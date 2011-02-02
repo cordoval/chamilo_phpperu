@@ -8,6 +8,9 @@ use common\libraries\FormValidator;
 use group\GroupDataManager;
 use user\UserDataManager;
 
+ini_set("memory_limit", "-1");
+ini_set("max_execution_time", "0");
+
 class SurveyPublicationMailerForm extends FormValidator
 {
 

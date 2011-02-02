@@ -14,6 +14,9 @@ use user\UserDataManager;
 use common\libraries\path;
 use common\libraries\Mail;
 
+ini_set("memory_limit", "-1");
+ini_set("max_execution_time", "0");
+
 class SurveyManagerOldMailerComponent extends SurveyManager
 {
     private $invitees;
