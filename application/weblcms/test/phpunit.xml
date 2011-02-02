@@ -1,4 +1,5 @@
 <phpunit
+    bootstrap="../../../test/TestBootstrap.php" 
     colors="true" 
     syntaxCheck="true"
     convertErrorsToExceptions="true"
