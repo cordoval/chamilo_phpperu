@@ -215,7 +215,7 @@ class SurveyManagerOldMailerComponent extends SurveyManager
 
             if ($this->mail_send == false)
             {
-                $this->redirect(Translation :: get('NotAllMailsSend'), false, array(
+                $this->redirect(Translation :: get('NotAllMailsSend'), true, array(
                         self :: PARAM_ACTION => self :: ACTION_BROWSE));
             }
             else
@@ -279,8 +279,7 @@ class SurveyManagerOldMailerComponent extends SurveyManager
         $mail->set_reply($reply);
         
         //         Check whether it was sent successfully
-        //        if ($mail->send() === FALSE)
-        if (true)
+        if ($mail->send() === FALSE)
         {
             $this->mail_send = false;
             $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_NOT_SEND;
