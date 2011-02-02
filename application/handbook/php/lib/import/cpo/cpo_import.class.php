@@ -1027,7 +1027,7 @@ class HandbookCpoImport extends ContentObjectImport
 
             foreach ($children as $child)
             {
-                if ($this->content_object_reference[$child])
+                                        if ($this->content_object_reference[$child])
                     $lo->include_content_object($this->content_object_reference[$child]);
             }
 
