@@ -49,6 +49,8 @@ class Autoloader
                 'complex_content_object_item_form',
                 'complex_content_object_item',
                 'complex_content_object_menu',
+        		'complex_content_object_path',
+        		'complex_content_object_path_node',
                 'content_object_category_menu',
                 'content_object_copier',
                 'content_object_difference_display',
