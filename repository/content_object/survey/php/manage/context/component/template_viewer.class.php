@@ -92,9 +92,10 @@ class SurveyContextManagerTemplateViewerComponent extends SurveyContextManager
 //    	while ($template = $templates->next_result()){
 //    		$template_ids[] = $template->get_id();
 //    	}
-//    	$template_user_condition = new InCondition(SurveyTemplateUser::PROPERTY_TEMPLATE_ID, $template_ids, SurveyTemplateUser :: get_table_name());
+//    	
+		$template_user_condition = new EqualityCondition(SurveyTemplateUser::PROPERTY_TEMPLATE_ID, $this->template->get_id(), SurveyTemplateUser :: get_table_name());
     	
-    	$template_users = SurveyContextDataManager::get_instance()->retrieve_survey_template_users($this->context_template->get_type());
+    	$template_users = SurveyContextDataManager::get_instance()->retrieve_survey_template_users($this->context_template->get_type(), $template_user_condition);
     	
     	$user_ids = array();
     	while ($template_user = $template_users->next_result()){
