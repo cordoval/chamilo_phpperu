@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace application\survey;
 
 use common\libraries\Translation;
@@ -14,7 +14,7 @@ use user\UserDataManager;
 use common\libraries\path;
 use common\libraries\Mail;
 
-class SurveyManagerMailerComponent extends SurveyManager
+class SurveyManagerOldMailerComponent extends SurveyManager
 {
     private $invitees;
     private $reporting_users;
@@ -24,6 +24,7 @@ class SurveyManagerMailerComponent extends SurveyManager
     private $mail_send = true;
     private $publication_id;
     private $survey_id;
+    private $not_selected_user_count;
 
     function run()
     {
@@ -37,12 +38,17 @@ class SurveyManagerMailerComponent extends SurveyManager
             exit();
         }
         
+
+        
         $this->invitees = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_PARTICIPATE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION);
         $invitee_count = count(array_unique($this->invitees));
+//        $this->not_selected_user_count = $user_count - $invitee_count;
+//        $this->invitees = array_intersect($this->invitees, $user_ids);
         
-        $this->reporting_users = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_REPORTING, $this->publication_id, SurveyRights :: TYPE_PUBLICATION);
-        $reporting_users_count = count(array_unique($this->reporting_users));
+        //        $this->reporting_users = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_REPORTING, $this->publication_id, SurveyRights :: TYPE_PUBLICATION);
+        //        $reporting_users_count = count(array_unique($this->reporting_users));
         
+
         $this->not_started = array();
         
         $this->started = array();
@@ -75,21 +81,24 @@ class SurveyManagerMailerComponent extends SurveyManager
         
         $users = array();
         $users[SurveyRights :: PARTICIPATE_RIGHT_NAME] = $invitee_count;
-        $users[SurveyRights :: REPORTING_RIGHT_NAME] = $reporting_users_count;
+//        $users[SurveyRights :: REPORTING_RIGHT_NAME] = $reporting_users_count;
         $users[SurveyParticipantTracker :: STATUS_STARTED] = $started_count;
         $users[SurveyParticipantTracker :: STATUS_NOTSTARTED] = $not_started_count;
         $users[SurveyParticipantTracker :: STATUS_FINISHED] = $finished_count;
-        
-        $form = new SurveyPublicationMailerForm($this, $this->get_user(), $users, $this->get_url(array(self :: PARAM_PUBLICATION_ID => $this->publication_id)));
+//        $users[SurveyPublicationMailerForm :: USERS_NOT_SELECTED_COUNT] = $this->not_selected_user_count;
+        $form = new SurveyPublicationMailerForm($this, $this->get_user(), $users, $this->get_url(array(
+                self :: PARAM_PUBLICATION_ID => $this->publication_id)));
         
         if ($form->validate())
         {
             $values = $form->exportValues();
-            $this->parse_values($values);
+            $user_ids = $form->get_seleted_group_user_ids();
+//            $user_count = count($user_ids);
+            $this->parse_values($values, $user_ids);
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             echo $this->get_survey_html($survey);
             echo $form->toHtml();
             $this->display_footer();
@@ -108,9 +117,13 @@ class SurveyManagerMailerComponent extends SurveyManager
     
     }
 
-    function parse_values($values)
+    function parse_values($values, $user_ids)
     {
-        
+
+    	$this->invitees = array_intersect($this->invitees, $user_ids);
+    	
+//    	dump(count($user_ids));
+    	
         $users = array();
         $mail_user_ids = array();
         $dm = UserDataManager :: get_instance();
@@ -143,18 +156,26 @@ class SurveyManagerMailerComponent extends SurveyManager
             $mail_user_ids = array_merge($mail_user_ids, $this->invitees);
         }
         
-        $reporting = $values[SurveyRights :: REPORTING_RIGHT_NAME];
-        $reporting_mail_user_ids = array();
-        if ($reporting == 1)
-        {
-            $reporting_mail_user_ids = $this->reporting_users;
-        }
         
+        
+        //        $reporting = $values[SurveyRights :: REPORTING_RIGHT_NAME];
+        //        $reporting_mail_user_ids = array();
+        //        if ($reporting == 1)
+        //        {
+        //            $reporting_mail_user_ids = $this->reporting_users;
+        //        }
+        
+
         $mail_user_ids = array_unique($mail_user_ids);
         
-        if ((count($mail_user_ids) + count($reporting_mail_user_ids)) == 0)
+//        dump(count($mail_user_ids));
+//        exit;
+        
+        //        if ((count($mail_user_ids) + count($reporting_mail_user_ids)) == 0)
+        if (count($mail_user_ids) == 0)
         {
-            $this->redirect(Translation :: get('NoSurveyMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+            $this->redirect(Translation :: get('NoSurveyMailsSend'), false, array(
+                    self :: PARAM_ACTION => self :: ACTION_BROWSE));
         }
         else
         {
@@ -184,20 +205,23 @@ class SurveyManagerMailerComponent extends SurveyManager
             
             }
             
-            foreach ($reporting_mail_user_ids as $user_id)
-            {
-                $user = $dm->retrieve_user($user_id);
-                $to_email = $user->get_email();
-                $this->send_mail($user_id, $to_email, $email);
-            }
+            //            foreach ($reporting_mail_user_ids as $user_id)
+            //            {
+            //                $user = $dm->retrieve_user($user_id);
+            //                $to_email = $user->get_email();
+            //                $this->send_mail($user_id, $to_email, $email);
+            //            }
             
+
             if ($this->mail_send == false)
             {
-                $this->redirect(Translation :: get('NotAllMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+                $this->redirect(Translation :: get('NotAllMailsSend'), true, array(
+                        self :: PARAM_ACTION => self :: ACTION_BROWSE));
             }
             else
             {
-                $this->redirect(Translation :: get('AllMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+                $this->redirect(Translation :: get('AllMailsSend'), false, array(
+                        self :: PARAM_ACTION => self :: ACTION_BROWSE));
             }
         
         }
@@ -227,14 +251,15 @@ class SurveyManagerMailerComponent extends SurveyManager
         $fullbody[] = $email->get_mail_content();
         $fullbody[] = '<br/><br/>';
         $fullbody[] = '<p id="link">';
-    	if (! $participate)
+        if (! $participate)
         {
             $fullbody[] = '<a href=' . $url . '>' . Translation :: get('ClickToViewResults') . '</a>';
         }
         else
         {
             $fullbody[] = '<a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
-        }        $fullbody[] = '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
+        }
+        $fullbody[] = '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
         $fullbody[] = '<br/><a href=' . $url . '>' . $url . '</a>';
         $fullbody[] = '</p>';
         
@@ -278,5 +303,9 @@ class SurveyManagerMailerComponent extends SurveyManager
         return array(self :: PARAM_PUBLICATION_ID);
     }
 
+    function survey_mail_form_submitted()
+    {
+        return ! is_null(Request :: post('_qf__' . SurveyPublicationMailerForm :: FORM_NAME));
+    }
 }
 ?>
