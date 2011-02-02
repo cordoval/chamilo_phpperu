@@ -45,7 +45,7 @@ class SurveyManager extends WebApplication
     const ACTION_BROWSE_PARTICIPANTS = 'participant_browser';
     const ACTION_CANCEL_INVITATION = 'invitation_canceler';
     const ACTION_EXPORT_RESULTS = 'results_exporter';
-    const ACTION_MAIL_INVITEES = 'mailer';
+    const ACTION_MAIL_INVITEES = 'old_mailer';
     const ACTION_INVITE_EXTERNAL_USERS = 'inviter';
 
     //we don't allow to go to the builder of the survey from the publication: building surveys
