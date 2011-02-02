@@ -2,7 +2,9 @@ Acceptance Tests :
 ==================
 
 These tests are automated stories that simulates the usage of the complete system from a client.
-They simulate several request and assert the result, as viewed from the client, is as expected.
+They simulate several request and assert the result is as expected from the client perspective.
+
+These test can train several functionalities at once or can train nonfunctional requirements.
 
 Functional Tests :
 ==================
