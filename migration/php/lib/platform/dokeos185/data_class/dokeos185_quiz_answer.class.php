@@ -1,5 +1,7 @@
 <?php
+
 namespace migration;
+
 use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
@@ -8,11 +10,11 @@ use repository\content_object\fill_in_blanks_question\FillInBlanksQuestion;
 use repository\content_object\assessment_matching_question\AssessmentMatchingQuestion;
 use repository\content_object\assessment_multiple_choice_question\AssessmentMultipleChoiceQuestionOption;
 use repository\content_object\assessment_matching_question\AssessmentMatchingQuestionOption;
+
 /**
  * $Id: dokeos185_quiz_answer.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
@@ -24,7 +26,7 @@ class Dokeos185QuizAnswer extends Dokeos185CourseDataMigrationDataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'quiz_answer';
-    
+
     /**
      * Dokeos185QuizAnswer properties
      */
@@ -37,7 +39,7 @@ class Dokeos185QuizAnswer extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_POSITION = 'position';
     const PROPERTY_HOTSPOT_COORDINATES = 'hotspot_coordinates';
     const PROPERTY_HOTSPOT_TYPE = 'hotspot_type';
-    
+
     /**
      * Get the default properties
      * @return array The property names.
@@ -128,14 +130,14 @@ class Dokeos185QuizAnswer extends Dokeos185CourseDataMigrationDataClass
         return $this->get_default_property(self :: PROPERTY_HOTSPOT_TYPE);
     }
 
-	/**
+    /**
      * Check if the object is valid
      */
     function is_valid()
     {
-    	$new_question_id = $this->get_id_reference($this->get_question_id(), $this->get_database_name() . '.quiz_question');
-    	
-    	if (! $this->get_id() || ! $new_question_id || ! $this->get_answer())
+        $new_question_id = $this->get_id_reference($this->get_question_id(), $this->get_database_name() . '.quiz_question');
+
+        if (!$this->get_id() || !$new_question_id || !$this->get_answer())
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'quiz_answer', 'ID' => $this->get_id())));
@@ -149,93 +151,100 @@ class Dokeos185QuizAnswer extends Dokeos185CourseDataMigrationDataClass
      */
     function convert_data()
     {
-    	$new_question_id = $this->get_id_reference($this->get_question_id(), $this->get_database_name() . '.quiz_question');
-    	$question = RepositoryDataManager :: get_instance()->retrieve_content_object($new_question_id);
-    	switch($question->get_type())
-    	{
-    		case AssessmentMultipleChoiceQuestion :: get_type_name():
-    			$this->convert_multiple_choice_question($question);
-    			break;
-    		case FillInBlanksQuestion :: get_type_name():
-    			$this->convert_fill_in_blanks_question($question);
-    			break;
-    		case AssessmentMatchingQuestion :: get_type_name():
-    			$this->convert_matching_question($question);
-    			break;
-    	}
-    	
-    	$this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'quiz_answer', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $question->get_id())));
+        $new_question_id = $this->get_id_reference($this->get_question_id(), $this->get_database_name() . '.quiz_question');
+        $question = RepositoryDataManager :: get_instance()->retrieve_content_object($new_question_id);
+        switch ($question->get_type())
+        {
+            case AssessmentMultipleChoiceQuestion :: get_type_name():
+                $this->convert_multiple_choice_question($question);
+                break;
+            case FillInBlanksQuestion :: get_type_name():
+                $this->convert_fill_in_blanks_question($question);
+                break;
+            case AssessmentMatchingQuestion :: get_type_name():
+                $this->convert_matching_question($question);
+                break;
+        }
+
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'quiz_answer', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $question->get_id())));
     }
-    
+
     /**
      * Converts multiple choice questions
      * @param AssessmentMultipleChoiceQuestion $question
      */
     private function convert_multiple_choice_question(AssessmentMultipleChoiceQuestion $question)
     {
-    	$option = new AssessmentMultipleChoiceQuestionOption($this->get_answer(), $this->get_correct(), $this->get_ponderation(), $this->get_comment());
-    	$question->add_option($option);
-    	$question->update();
+        $option = new AssessmentMultipleChoiceQuestionOption($this->get_answer(), $this->get_correct(), $this->get_ponderation(), $this->get_comment());
+        $question->add_option($option);
+        $question->update();
     }
-    
-	/**
+
+    /**
      * Converts fill in the blanks questions
      * @param FillInBlanksQuestion $question
      */
     private function convert_fill_in_blanks_question(FillInBlanksQuestion $question)
     {
-    	$answer_text = $this->get_answer();
-    	$question->set_question_type(FillInBlanksQuestion :: TYPE_TEXT);
-    	
-		$split = explode('::', $answer_text);
-		$scores = explode(',', $split[1]);
-		$answer_text = $split[0];
-		
-		$pattern = '/\[[^\[\]]*\]/';
-		$answers = preg_match_all($pattern, $answer_text, $matches);
-		
-		foreach($matches[0] as $i => $answer)
-		{
-			$score = $scores[$i] ? $scores[$i] : 0;
-			
-			$answer = substr($answer, 1, -1);
-			$new_answer = '[' . $answer . '=' . $score . ']';
-			$answer_text = preg_replace('/\[' . $answer . '\]/', $new_answer, $answer_text, 1, $count);
-		}
-    	$question->set_answer_text($answer_text);
-    	$question->update();
+        $answer_text = $this->get_answer();
+        $question->set_question_type(FillInBlanksQuestion :: TYPE_TEXT);
+
+        $split = explode('::', $answer_text);
+        $scores = explode(',', $split[1]);
+        $answer_text = $split[0];
+
+        $pattern = '/\[[^\[\]]*\]/';
+        $answers = preg_match_all($pattern, $answer_text, $matches);
+
+        foreach ($matches[0] as $i => $answer)
+        {
+            $score = $scores[$i] ? $scores[$i] : 0;
+
+            $answer = substr($answer, 1, -1);
+            $new_answer = '[' . $answer . '=' . $score . ']';
+            $answer_text = preg_replace('/\[' . $answer . '\]/', $new_answer, $answer_text, 1, $count);
+        }
+
+        if (is_null($answer_text) || $answer_text == '')
+        {
+            $answer_text = 'error: non-standard fill in the blanks answer';
+        }
+        $question->set_answer_text($answer_text);
+        $question->update();
     }
-    
-	/**
+
+    /**
      * Converts matching questions
      * @param AssessmentMatchingQuestion $question
      */
     private function convert_matching_question(AssessmentMatchingQuestion $question)
     {
-    	if($this->get_correct())
-    	{
-    		$option = new AssessmentMatchingQuestionOption($this->get_answer(), $this->get_correct() - 1, $this->get_ponderation());
-    		$question->add_option($option);
-    	}
-    	else
-    	{
-			$matches = $question->get_matches();
-			$matches[$this->get_position() - 1] = $this->get_answer();
-			$question->set_matches($matches);
-    	}
-    	
-    	$question->update();
+        if ($this->get_correct())
+        {
+            $option = new AssessmentMatchingQuestionOption($this->get_answer(), $this->get_correct() - 1, $this->get_ponderation());
+            $question->add_option($option);
+        }
+        else
+        {
+            $matches = $question->get_matches();
+            $matches[$this->get_position() - 1] = $this->get_answer();
+            $question->set_matches($matches);
+        }
+
+        $question->update();
     }
 
     static function get_table_name()
     {
-                return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));  ;
+        return Utilities :: camelcase_to_underscores(substr(Utilities :: get_classname_from_namespace(__CLASS__), 9));
+        ;
     }
-    
+
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
+
 }
 
 ?>
