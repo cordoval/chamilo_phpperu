@@ -120,9 +120,11 @@ class SurveyManagerOldMailerComponent extends SurveyManager
     function parse_values($values, $user_ids)
     {
 
+//    	dump($this->invitees);
     	$this->invitees = array_intersect($this->invitees, $user_ids);
-    	
-//    	dump(count($user_ids));
+//    	dump($this->invitees);
+    	$this->not_started = array_diff($this->not_started, $this->invitees);
+//		dump($user_ids);
     	
         $users = array();
         $mail_user_ids = array();
@@ -279,7 +281,8 @@ class SurveyManagerOldMailerComponent extends SurveyManager
         $mail->set_reply($reply);
         
         //         Check whether it was sent successfully
-        if ($mail->send() === FALSE)
+         if ($mail->send() === FALSE);
+        if (true)
         {
             $this->mail_send = false;
             $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_NOT_SEND;
