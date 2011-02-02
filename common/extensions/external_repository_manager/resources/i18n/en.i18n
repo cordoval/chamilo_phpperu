@@ -47,5 +47,8 @@ ExternalRepositoryType = "Type"
 Description = "Description"
 ExporterTitle = "Exporter"
 UploaderTitle = "Uploader"
+ViewerTitle = "Viewer"
 TypeName = "External repository"
-CourseExporterTitle = "Course exporter"
+MediamosaExternalRepositoryManagerViewerComponent = "Mediamosa"
+
+
