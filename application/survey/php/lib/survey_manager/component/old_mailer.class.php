@@ -14,6 +14,9 @@ use user\UserDataManager;
 use common\libraries\path;
 use common\libraries\Mail;
 
+ini_set("memory_limit", "-1");
+ini_set("max_execution_time", "0");
+
 class SurveyManagerOldMailerComponent extends SurveyManager
 {
     private $invitees;
@@ -86,6 +89,9 @@ class SurveyManagerOldMailerComponent extends SurveyManager
         $users[SurveyParticipantTracker :: STATUS_NOTSTARTED] = $not_started_count;
         $users[SurveyParticipantTracker :: STATUS_FINISHED] = $finished_count;
 //        $users[SurveyPublicationMailerForm :: USERS_NOT_SELECTED_COUNT] = $this->not_selected_user_count;
+        
+        
+        
         $form = new SurveyPublicationMailerForm($this, $this->get_user(), $users, $this->get_url(array(
                 self :: PARAM_PUBLICATION_ID => $this->publication_id)));
         
@@ -120,9 +126,11 @@ class SurveyManagerOldMailerComponent extends SurveyManager
     function parse_values($values, $user_ids)
     {
 
+//    	dump($this->invitees);
     	$this->invitees = array_intersect($this->invitees, $user_ids);
-    	
-//    	dump(count($user_ids));
+//    	dump($this->invitees);
+    	$this->not_started = array_diff($this->not_started, $this->invitees);
+//		dump($user_ids);
     	
         $users = array();
         $mail_user_ids = array();

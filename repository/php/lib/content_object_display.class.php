@@ -386,7 +386,7 @@ abstract class ContentObjectDisplay
      * Creates an object that can display the given learning object in a
      * standardized fashion.
      * @param ContentObject $object The object to display.
-     * @return ContentObject
+     * @return ContentObjectDisplay
      */
     static function factory(&$object)
     {

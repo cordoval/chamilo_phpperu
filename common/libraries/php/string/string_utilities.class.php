@@ -8,6 +8,8 @@ use Exception;
  */
 class StringUtilities
 {
+    const NEW_LINE = "\n";
+
     /**
      * Tests if a string starts with a given string
      *

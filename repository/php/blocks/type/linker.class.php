@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\CoreApplication;
 use home\HomeManager;
+use common\libraries\Application;
 
 /**
  * $Id: linker.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -32,7 +33,10 @@ class RepositoryLinker extends RepositoryBlock
         {
             $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($configuration['use_object']);
 
-            $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . Theme :: get_image_path() . 'block_' . $this->get_block_info()->get_application() . '.png);">';
+            //$icon = Theme::get_content_object_image_path($content_object->get_type(), Theme::ICON_MEDIUM);
+            $icon = Theme :: get_image_path(Application :: determine_namespace($this->get_block_info()->get_application())) . 'logo/' . Theme :: ICON_MEDIUM . '.png';
+            
+            $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . $icon . ');">';
             $html[] = '<div class="title"><div style="float: left;">' . $content_object->get_title() . '</div>';
             $html[] = $this->display_actions();
             $html[] = '<div style="clear: both;"></div>';

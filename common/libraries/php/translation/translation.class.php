@@ -57,6 +57,10 @@ class Translation
         $this->strings = array();
     }
 
+    /**
+     *
+     * @return Translation
+     */
     static function get_instance()
     {
         if (! isset(self :: $instance))

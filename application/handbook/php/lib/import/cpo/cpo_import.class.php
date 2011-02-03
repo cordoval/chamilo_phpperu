@@ -23,14 +23,28 @@ use repository\ContentObject;
 use application\metadata\MetadataDataManager;
 use repository\ComplexContentObjectItem;
 use application\metadata\ContentObjectMetadataPropertyValue;
+use repository\content_object\handbook\Handbook;
 
 /**
  * Exports content object to the chamilo learning object format (xml)
  * TODO: this is just a temporary class untill the cpo-export from the repository is refactored
+ * code for metadata export should go to metadata, code for co-object export should go to repository/co
+ * code for context link export should go to context linker
  */
 class HandbookCpoImport extends ContentObjectImport
 {
+    const MODE_NEW = 'new';
+    const MODE_EXTEND = 'extend';
+    const MODE_FULL = 'full';
 
+    const LINK_ORIGINAL = 'orig';
+    const LINK_ALTERNATIVE ='alt';
+    const LINK_METADATA = 'meta';
+
+    private $option_strict = false;
+    private $option_limited = false;
+    private $mode = self::MODE_NEW;
+    private $metadata_limitations = array();
     /**
      * @var RepositoryDataManager
      */
@@ -128,6 +142,8 @@ class HandbookCpoImport extends ContentObjectImport
     private $log = array();
     private $copies;
     private $linked_to_copy;
+    private $not_in_scope;
+
 
     function __construct($content_object_file, $user, $category)
     {
@@ -216,16 +232,51 @@ class HandbookCpoImport extends ContentObjectImport
         $this->update_references();
         $this->update_learning_path_prerequisites();
         $this->update_hotspot_questions();
-//        $this->create_context_links();
+        $this->create_context_links();
 
-        var_dump($this->context_links);
-        var_dump($this->content_object_reference);
 
         if ($temp)
         {
             Filesystem :: remove($temp);
         }
         return true;
+    }
+
+    public function create_context_links()
+    {
+        foreach ($this->context_links as $context_link_data)
+        {
+            if (!in_array($context_link_data[self::LINK_ORIGINAL], $this->copies) && !in_array($context_link_data[self::LINK_ORIGINAL], $this->linked_to_copy))
+            {
+                //original was not a copy so add context-link
+                $orig_id = $this->content_object_reference[$context_link_data[self::LINK_ORIGINAL]];
+                $alt_id = $this->content_object_reference[$context_link_data[self::LINK_ALTERNATIVE]];
+                if ($alt_id != null && $orig_id != null)
+                {
+                    $this->log[] = '<i> create the context link between ' . $context_link_data[self::LINK_ORIGINAL] . ' and ' . $context_link_data[self::LINK_ALTERNATIVE] . ' here (on metadata = ' . $context_link_data[self::LINK_METADATA] . ')</i>';
+                }
+                else
+                {
+                    $this->log[] = '<i> something went wrong on creating the context link between ' . $context_link_data[self::LINK_ORIGINAL] . ' and ' . $context_link_data[self::LINK_ALTERNATIVE] . ' here (on metadata = ' . $context_link_data[self::LINK_METADATA] . ')</i>';
+                }
+            }
+            else
+            {
+                $this->log[] = '<i> contextlink for ' . $context_link_data[self::LINK_ORIGINAL] . ' and ' . $context_link_data[self::LINK_ALTERNATIVE] . ' (on metadata = ' . $context_link_data[self::LINK_METADATA] . ') not created since the original is a copy or linked to copy</i>';
+                if ($this->mode == self::MODE_NEW)
+                {
+                    //do nothing
+                }
+                else if ($this->mode == self::MODE_EXTEND)
+                {
+                    $this->log[] = 'add new context links';
+                }
+                else if ($this->mode == self::MODE_FULL)
+                {
+                    $this->log[] = 'add new context links and replace data in existing co\'s with data from import';
+                }
+            }
+        }
     }
 
     private function import_files($dir)
@@ -333,10 +384,6 @@ class HandbookCpoImport extends ContentObjectImport
 
     public function create_metadata_schema($schema)
     {
-//        $prefix = $schema->getAtribute('prefix');
-//        $name = $schema->getAttribute('name');
-//        $url = $schema->getAttribute('url');
-
         foreach ($schema->attributes as $attrName => $attrNode)
         {
             if ($attrName == 'prefix')
@@ -394,8 +441,6 @@ class HandbookCpoImport extends ContentObjectImport
 
     public function create_metadata_element($element)
     {
-//        $namespace_prefix = $element->getAttribute('schema_prefix');
-//        $element_name = $element->getAttribute('element');
         foreach ($element->attributes as $attrName => $attrNode)
         {
             if ($attrName == 'schema_prefix')
@@ -407,8 +452,6 @@ class HandbookCpoImport extends ContentObjectImport
                 $element_name = $attrNode->value;
             }
         }
-
-
         $namespace = MetadataDataManager::get_instance()->retrieve_metadata_namespace_by_prefix($namespace_prefix);
 
         if ($namespace)
@@ -444,10 +487,117 @@ class HandbookCpoImport extends ContentObjectImport
         }
     }
 
+    public function check_uniqueness($content_object, $type, $id)
+    {
+        //handbook_item and handbook: check uuid to see if item already exists (if exists: don't import -> update
+        $exists_already = false;
+        if (($type == 'handbook') || ($type == 'handbook_item'))
+        {
+            $extended = $content_object->getElementsByTagName('extended')->item(0);
+            $nodes = $extended->childNodes;
+            foreach ($nodes as $node)
+            {
+                if ($node->nodeName == 'uuid')
+                {
+                    $uuid = convert_uudecode($node->nodeValue);
+                }
+                if ($node->nodeName == 'reference_id')
+                {
+                    $reference_id = convert_uudecode($node->nodeValue);
+                }
+            }
+            if ($type == 'handbook_item')
+            {
+                $co = HandbookDataManager::get_instance()->retrieve_handbook_item_data_by_uuid($uuid);
+            }
+            if ($type == 'handbook')
+            {
+                $co = HandbookDataManager::get_instance()->retrieve_handbook_data_by_uuid($uuid);
+            }
+            if ($co != false)
+            {
+                $exists_already = true;
+                $this->log[] = 'item with uid ' . $uuid . ' (' . $id . ')exists already';
+                $this->copies[] = $id;
+                $this->content_object_reference[$id] = $co[Handbook :: PROPERTY_ID];
+                if ($reference_id)
+                {
+                    $this->log[] = 'item with id ' . $reference_id . ' added to list linked to copy (wrapper exists)';
+                    $this->linked_to_copy[] = $reference_id;
+                }
+            }
+        }
+
+        return $exists_already;
+    }
+
+    public function render_metadata($content_object, $lo, $id)
+    {
+        //metadata
+        $metadata = $content_object->getElementsByTagName('content_object_metadata')->item(0);
+        if (is_object($metadata))
+        {
+            $children = $metadata->childNodes;
+            for ($i = 0; $i < $children->length; $i++)
+            {
+                $co_metadata = $children->item($i);
+                if ($co_metadata->nodeName == "#text")
+                    continue;
+                if ($co_metadata->hasAttributes())
+                {
+                    foreach ($co_metadata->attributes as $attrName => $attrNode)
+                    {
+                        if ($attrName == 'name')
+                        {
+                            $property = $attrNode->value;
+                        }
+                        elseif ($attrName == 'value')
+                        {
+                            $value = $attrNode->value;
+                        }
+                    }
+                    list($namespace_prefix, $element_name) = explode(':', $property);
+                    $namespace = MetadataDataManager::get_instance()->retrieve_metadata_namespace_by_prefix($namespace_prefix);
+                    if ($namespace)
+                    {
+                        $ns_id = $namespace->get_id();
+                        $property_type = MetadataDataManager::get_instance()->retrieve_metadata_property_type_by_ns_name($ns_id, $element_name);
+                        if ($property_type)
+                        {
+                            $mpv = new ContentObjectMetadataPropertyValue();
+                            $mpv->set_content_object_id($lo->get_id());
+                            $mpv->set_property_type_id($property_type->get_id());
+                            $mpv->set_value($value);
+                            $success = $mpv->create();
+                            if ($success)
+                            {
+                                $this->log[] = '<b> metadata ' . $property . '=' . $value . ' added to item with id ' . $lo->get_id() . '/' . $id . '</b>';
+                            }
+                            else
+                            {
+                                //problem: metadata_property_value not created
+                                $this->log[] = 'Problem! metadata ' . $property . '=' . $value . ' was not added to item with id ' . $lo->get_id() . '/' . $id;
+                            }
+                        }
+                        else
+                        {
+                            //problem: property was not imported
+                            $this->log[] = 'Problem! metadata ' . $property . '=' . $value . ' was not added to item with id ' . $lo->get_id() . '/' . $id . ' because property does not exist in namespace with id ' . $namespace_id;
+                        }
+                    }
+                    else
+                    {
+                        //problem: namespace was not imported
+                        $this->log[] = 'Problem! metadata ' . $property . '=' . $value . ' was not added to item with id ' . $lo->get_id() . '/' . $id . ' because namespace ' . $namespace_prefix . ' does not exist';
+                    }
+                }
+            }
+        }
+    }
+
     public function create_content_object($content_object)
     {
         $exists_already = false;
-
         $id = $content_object->getAttribute('id');
         if (isset($this->content_object_reference[$id]))
             return;
@@ -469,327 +619,268 @@ class HandbookCpoImport extends ContentObjectImport
             {
                 $category = null;
             }
-
             $object_number = $general->getElementsByTagName('object_number')->item(0)->nodeValue;
 
-            //handbook_item and handbook: check uuid to see if item already exists (if exists: don't import -> update
-            if (($type == 'handbook') || ($type == 'handbook_item'))
+            $exists_already = $this->check_uniqueness($content_object, $type, $id);
+
+            //CREATE CONTENT OBJECT
+            if (!$exists_already && !in_array($id, $this->linked_to_copy) && !in_array($id, $this->not_in_scope))
             {
-                $extended = $content_object->getElementsByTagName('extended')->item(0);
-                $nodes = $extended->childNodes;
-                foreach ($nodes as $node)
-                {
-                    if ($node->nodeName == 'uuid')
-                    {
-                        $uuid = convert_uudecode($node->nodeValue);
-                    }
-                    if ($node->nodeName == 'reference_id')
-                    {
-                        $reference_id = convert_uudecode($node->nodeValue);
-                    }
-                }
-
-                if ($type == 'handbook_item')
-                {
-                    $co = HandbookDataManager::get_instance()->retrieve_handbook_item_data_by_uuid($uuid);
-                }
-                if ($type == 'handbook')
-                {
-                    $co = HandbookDataManager::get_instance()->retrieve_handbook_data_by_uuid($uuid);
-                }
-                if ($co != false)
-                {
-                    $exists_already = true;
-                    $this->log[] = 'item with uid ' . $uuid . ' (' . $id . ')exists already';
-                    $this->copies[] = $id;
-                    if ($reference_id)
-                    {
-                        $this->log[] = 'item with id ' . $reference_id . ' added to list linked to copy (wrapper exists)';
-                        $this->linked_to_copy['children'][] = $reference_id;
-                    }
-                }
-            }
-
-            if (!$exists_already && !in_array($id, $this->linked_to_copy['children']))
-            {
-                $this->log[] = '<b>item with title ' . $title . ' and id ' . $id . ' will be created</b>';
-                $lo = ContentObject :: factory($type, array(ContentObject :: PROPERTY_STATE => ContentObject :: STATE_NORMAL));
-
-                if (!$lo)
-                {
-                    return null;
-                }
-
-                $lo->set_title($title);
-                $lo->set_description($description);
-                $lo->set_comment($comment);
-                $lo->set_creation_date($created);
-                $lo->set_modification_date($modified);
-                $lo->set_owner_id($this->get_user()->get_id());
-
-                $object_number_exists = array_key_exists($object_number, $this->object_numbers);
-                if ($object_number_exists)
-                {
-                    $lo->set_object_number($this->object_numbers[$object_number]);
-                }
-
-                if ($category == 'category0' || !$category)
-                {
-                    $lo->set_parent_id($this->get_category());
-                }
-                else
-                {
-                    $lo->set_parent_id($this->categories[$category]);
-                }
-                //extended
-                $extended = $content_object->getElementsByTagName('extended')->item(0);
-                if ($extended->hasChildNodes())
-                {
-                    $nodes = $extended->childNodes;
-                    $additionalProperties = array();
-
-                    foreach ($nodes as $node)
-                    {
-                        if ($node->nodeName == "#text" || $node->nodeName == 'id' || $node->nodeName == 'category')
-                            continue;
-
-                        $prop_names = $lo->get_additional_property_names();
-
-                        if (in_array($node->nodeName, $prop_names))
-                        {
-                            $additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
-                        }
-                    }
-                    $additionalProperties = $this->import_extra_properties($type, $additionalProperties, $lo);
-                    $lo->set_additional_properties($additionalProperties);
-                }
-                if ($type == Document :: get_type_name() && !$lo->get_path())
-                {
-                    return;
-                }
-                if ($object_number_exists)
-                {
-                    $lo->version();
-                }
-                else
-                {
-                    $lo->create_all();
-                    $this->object_numbers[$object_number] = $lo->get_object_number();
-                }
-                if (in_array($type, RepositoryDataManager :: get_active_helper_types()))
-                {
-                    $this->references[$lo->get_id()] = $additionalProperties['reference_id'];
-                }
-                if ($type == HotspotQuestion :: get_type_name())
-                {
-                    $this->hotspot_questions[$lo->get_id()] = $lo->get_image();
-                }
-                $this->content_object_reference[$id] = $lo->get_id();
-
-                //metadata
-                $metadata = $content_object->getElementsByTagName('content_object_metadata')->item(0);
-                if (is_object($metadata))
-                {
-                    $children = $metadata->childNodes;
-                    for ($i = 0; $i < $children->length; $i++)
-                    {
-                        $co_metadata = $children->item($i);
-                        if ($co_metadata->nodeName == "#text")
-                            continue;
-                        if ($co_metadata->hasAttributes())
-                        {
-
-                            foreach ($co_metadata->attributes as $attrName => $attrNode)
-                            {
-                                if ($attrName == 'name')
-                                {
-                                    $property = $attrNode->value;
-                                }
-                                elseif ($attrName == 'value')
-                                {
-                                    $value = $attrNode->value;
-                                }
-                            }
-                            list($namespace_prefix, $element_name) = explode(':', $property);
-//                        var_dump('exploded ' .$namespace_prefix . ' ' . $element_name);
-
-                            $namespace = MetadataDataManager::get_instance()->retrieve_metadata_namespace_by_prefix($namespace_prefix);
-
-                            if ($namespace)
-                            {
-                                $ns_id = $namespace->get_id();
-
-                                $property = MetadataDataManager::get_instance()->retrieve_metadata_property_type_by_ns_name($ns_id, $element_name);
-                                if ($property)
-                                {
-                                    $mpv = new ContentObjectMetadataPropertyValue();
-                                    $mpv->set_content_object_id($lo->get_id());
-                                    $mpv->set_property_type_id($property->get_id());
-                                    $mpv->set_value($value);
-                                    $success = $mpv->create();
-                                    if ($success)
-                                    {
-                                        $this->log[] = '<b> metadata ' . $element_name . '=' . $value . ' added to item with id ' . $lo->get_id() . '/' . $id . '</b>';
-                                    }
-                                    else
-                                    {
-                                        //problem: metadata_property_value not created
-                                        $this->log[] = 'Problem! metadata ' . $element_name . '=' . $value . ' was not added to item with id ' . $lo->get_id() . '/' . $id;
-                                    }
-                                }
-                                else
-                                {
-                                    //problem: property was not imported
-                                    $this->log[] = 'Problem! metadata ' . $element_name . '=' . $value . ' was not added to item with id ' . $lo->get_id() . '/' . $id . ' because property does not exist in namespace with id ' . $namespace_id;
-                                }
-                            }
-                            else
-                            {
-                                //problem: namespace was not imported
-                                $this->log[] = 'Problem! metadata ' . $element_name . '=' . $value . ' was not added to item with id ' . $lo->get_id() . '/' . $id . ' because namespace ' . $namespace_prefix . ' does not exist';
-                            }
-                        }
-                    }
-                }
+                $this->create_object($content_object, $id, $type, $title, $description, $comment, $created, $modified, $object_number, $category);
             }
             else
             {
-                $this->log[] = 'item with id ' . $id . ' linked to copy';
-            }
-
-            //contextlinks
-            $links = $content_object->getElementsByTagName('linked_items')->item(0);
-            if (is_object($links))
-            {
-                $children = $links->childNodes;
-                for ($i = 0; $i < $children->length; $i++)
+                //TODO: provide update possibility
+                $this->log[] = 'item with id ' . $id . ' copy or linked to copy or not in scope';
+                if ($this->mode == self::MODE_NEW)
                 {
-                    $context_link = $co_metadata = $children->item($i);
-
-                    if ($context_link->nodeName == "#text")
-                        continue;
-
-                    if ($context_link->hasAttributes())
+                    //DO NOTHING
+                }
+                else if ($this->mode == self::MODE_EXTEND)
+                {
+                    //CREATE OBJECT IF IT IS LINKED TO COPY
+                    if (in_array($id, $this->linked_to_copy) && !in_array($id, $this->not_in_scope))
                     {
-                        foreach ($context_link->attributes as $attrName => $attrNode)
-                        {
-                            if ($attrName == 'idref')
-                            {
-                                $idref = $attrNode->value;
-                            }
-                            elseif ($attrName == 'metadata_link')
-                            {
-                                $metadata_link = $attrNode->value;
-                            }
-                        }
-
-                        list($namespace_prefix, $element_name) = explode(':', $metadata_link);
-
-                        if (!$exists_already && !in_array($id, $this->linked_to_copy['children']))
-                        {
-                            //store original id - alternative id - metadata id
-                            $this->context_links[] = array($id, $idref, $metadata_link);
-                        }
-                        else
-                        {
-                            $this->linked_to_copy['children'][] = $idref;
-                        }
+                        //TODO: check if co not in system & create
+                        $this->log[] = 'item with id ' . $id . ' is linked to a copy. check if it is already in system';
+                    }
+                }
+                else if ($this->mode == self::MODE_FULL)
+                {
+                    //CREATE OBJECT IF IT IS LINKED TO COPY OR UPDATE DATA OF COPY
+                    if (!in_array($id, $this->not_in_scope))
+                    {
+                        //TODO: update or create
+                        $this->log[] = 'item with id ' . $id . ' will be updated or created';
                     }
                 }
             }
 
-            // Complex children
-            $subitems = $content_object->getElementsByTagName('sub_items')->item(0);
-            if (is_object($subitems))
+            //ADD CONTEXT LINKS
+            $this->render_context_links($content_object, $id);
+
+            //ADD COMPLEX CHILDREN IF ANY
+            $this->render_complex_children($content_object, $id);
+        }
+    }
+
+    public function render_context_links($content_object, $id)
+    {
+        $links = $content_object->getElementsByTagName('linked_items')->item(0);
+        if (is_object($links))
+        {
+            $children = $links->childNodes;
+            for ($i = 0; $i < $children->length; $i++)
             {
-                $children = $subitems->childNodes;
+                $context_link = $co_metadata = $children->item($i);
+                if ($context_link->nodeName == "#text")
+                    continue;
+                if ($context_link->hasAttributes())
+                {
+                    foreach ($context_link->attributes as $attrName => $attrNode)
+                    {
+                        if ($attrName == 'idref')
+                        {
+                            $idref = $attrNode->value;
+                        }
+                        elseif ($attrName == 'metadata_link')
+                        {
+                            $metadata_link = $attrNode->value;
+                        }
+                    }
+                    list($namespace_prefix, $element_name) = explode(':', $metadata_link);
+                    if (!$exists_already && !in_array($id, $this->linked_to_copy) && !in_array($id, $this->not_in_scope))
+                    {
+                        //store original id - alternative id - metadata id
+                        $this->context_links[] = array(self::LINK_ORIGINAL => $id, self::LINK_ALTERNATIVE => $idref, self::LINK_METADATA => $metadata_link);
+                    }
+                    else
+                    {
+                        //store original id - alternative id - metadata id
+                        $this->context_links[] = array(self::LINK_ORIGINAL => $id, self::LINK_ALTERNATIVE => $idref, self::LINK_METADATA => $metadata_link);
+                        $this->linked_to_copy[] = $idref;
+                    }
+                }
+            }
+        }
+    }
+
+    public function render_attachements($content_object, $id)
+    {
+        // Attachments
+        $attachments = $content_object->getElementsByTagName('attachments')->item(0);
+        if (is_object($attachments))
+        {
+            $children = $attachments->childNodes;
+            if ($children)
+            {
                 for ($i = 0; $i < $children->length; $i++)
                 {
-                    $subitem = $children->item($i);
-                    if ($subitem->nodeName == "#text")
+                    $attachment = $children->item($i);
+                    if ($attachment->nodeName == "#text")
                         continue;
 
-                    if ($subitem->hasAttributes())
+                    $idref = $attachment->getAttribute('idref');
+                    $type = $attachment->getAttribute('type');
+                    $this->lo_attachments[$id][] = array('idref' => $idref, 'type' => $type);
+                }
+            }
+        }
+    }
+
+    public function render_includes($content_object, $id)
+    {
+        // Includes
+        $includes = $content_object->getElementsByTagName('includes')->item(0);
+        if (is_object($includes))
+        {
+            $children = $includes->childNodes;
+
+            if ($children)
+            {
+                for ($i = 0; $i < $children->length; $i++)
+                {
+                    $include = $children->item($i);
+                    if ($include->nodeName == "#text")
+                        continue;
+
+                    $idref = $include->getAttribute('idref');
+                    $this->lo_includes[$id][] = $idref;
+                }
+            }
+        }
+    }
+
+    public function create_object($content_object, $id, $type, $title, $description, $comment, $created, $modified, $object_number, $category)
+    {
+        if ($this->option_strict || $this->option_limited)
+        {
+            //TODO: extra checks to see if content_object is in scope
+            //first get metadata for co
+            //if strict: check if dc:publisher & dc:language are set
+            //if limited: check is metadata reqs are met
+        }
+        if (!in_array($id, $this->not_in_scope))
+        {
+            $this->log[] = '<b>item with title ' . $title . ' and id ' . $id . ' will be created</b>';
+            $lo = ContentObject :: factory($type, array(ContentObject :: PROPERTY_STATE => ContentObject :: STATE_NORMAL));
+            if (!$lo)
+            {
+                return null;
+            }
+            $lo->set_title($title);
+            $lo->set_description($description);
+            $lo->set_comment($comment);
+            $lo->set_creation_date($created);
+            $lo->set_modification_date($modified);
+            $lo->set_owner_id($this->get_user()->get_id());
+            $object_number_exists = array_key_exists($object_number, $this->object_numbers);
+            if ($object_number_exists)
+            {
+                $lo->set_object_number($this->object_numbers[$object_number]);
+            }
+            if ($category == 'category0' || !$category)
+            {
+                $lo->set_parent_id($this->get_category());
+            }
+            else
+            {
+                $lo->set_parent_id($this->categories[$category]);
+            }
+
+            //extended
+            $extended = $content_object->getElementsByTagName('extended')->item(0);
+            if ($extended->hasChildNodes())
+            {
+                $nodes = $extended->childNodes;
+                $additionalProperties = array();
+                foreach ($nodes as $node)
+                {
+                    if ($node->nodeName == "#text" || $node->nodeName == 'id' || $node->nodeName == 'category')
+                        continue;
+                    $prop_names = $lo->get_additional_property_names();
+                    if (in_array($node->nodeName, $prop_names))
                     {
-                        $properties = array();
+                        $additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
+                    }
+                }
+                $additionalProperties = $this->import_extra_properties($type, $additionalProperties, $lo);
+                $lo->set_additional_properties($additionalProperties);
+            }
+            if ($type == Document :: get_type_name() && !$lo->get_path())
+            {
+                return;
+            }
+            if ($object_number_exists)
+            {
+                $lo->version();
+            }
+            else
+            {
+                $lo->create_all();
+                $this->object_numbers[$object_number] = $lo->get_object_number();
+            }
+            if (in_array($type, RepositoryDataManager :: get_active_helper_types()))
+            {
+                $this->references[$lo->get_id()] = $additionalProperties['reference_id'];
+            }
+            if ($type == HotspotQuestion :: get_type_name())
+            {
+                $this->hotspot_questions[$lo->get_id()] = $lo->get_image();
+            }
+            $this->content_object_reference[$id] = $lo->get_id();
 
-                        foreach ($subitem->attributes as $attrName => $attrNode)
+            $this->render_metadata($content_object, $lo, $id);
+            $this->render_includes($content_object, $id);
+            $this->render_attachements($content_object, $id);
+        }
+    }
+
+    public function render_complex_children($content_object, $id)
+    {
+        // Complex children
+        $subitems = $content_object->getElementsByTagName('sub_items')->item(0);
+        if (is_object($subitems))
+        {
+            $children = $subitems->childNodes;
+            for ($i = 0; $i < $children->length; $i++)
+            {
+                $subitem = $children->item($i);
+                if ($subitem->nodeName == "#text")
+                    continue;
+                if ($subitem->hasAttributes())
+                {
+                    $properties = array();
+                    foreach ($subitem->attributes as $attrName => $attrNode)
+                    {
+                        if ($attrName == 'idref')
                         {
-                            if ($attrName == 'idref')
-                            {
-                                $idref = $attrNode->value;
-                            }
-                            elseif ($attrName == 'id')
-                            {
-                                $my_id = $attrNode->value;
-                            }
-                            else
-                            {
-                                $properties[$attrName] = $attrNode->value;
-                            }
+                            $idref = $attrNode->value;
                         }
+                        elseif ($attrName == 'id')
+                        {
+                            $my_id = $attrNode->value;
+                        }
+                        else
+                        {
+                            $properties[$attrName] = $attrNode->value;
+                        }
+                    }
 
+                    $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
 
+                    if (!$exists_already && !in_array($id, $this->linked_to_copy))
+                    {
+                        $this->log[] = 'item with id ' . $idref . ' added to list of subitems';
                         $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
-
-                        if (!$exists_already && !in_array($id, $this->linked_to_copy['children']))
-                        {
-                            $this->log[] = 'item with id ' . $idref . ' added to list of subitems';
-                            $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
-                        }
-                        else
-                        {
-                            $this->log[] = 'item with id ' . $idref . ' added to list linked to copy';
-                            $this->linked_to_copy['children'][] = $idref;
-                        }
                     }
-                }
-            }
-
-            if (!$exists_already && !in_array($id, $this->linked_to_copy['children']))
-            {
-                // Attachments
-                $attachments = $content_object->getElementsByTagName('attachments')->item(0);
-                if (is_object($attachments))
-                {
-                    $children = $attachments->childNodes;
-                    if ($children)
+                    else
                     {
-                        for ($i = 0; $i < $children->length; $i++)
-                        {
-                            $attachment = $children->item($i);
-                            if ($attachment->nodeName == "#text")
-                                continue;
-
-                            $idref = $attachment->getAttribute('idref');
-                            $type = $attachment->getAttribute('type');
-                            $this->lo_attachments[$id][] = array('idref' => $idref, 'type' => $type);
-                        }
+                        $this->log[] = 'item with id ' . $idref . ' added to list linked to copy';
+                        $this->linked_to_copy[] = $idref;
+                        //TODO: update functionality?
                     }
                 }
-
-                // Includes
-                $includes = $content_object->getElementsByTagName('includes')->item(0);
-                if (is_object($includes))
-                {
-                    $children = $includes->childNodes;
-
-                    if ($children)
-                    {
-                        for ($i = 0; $i < $children->length; $i++)
-                        {
-                            $include = $children->item($i);
-                            if ($include->nodeName == "#text")
-                                continue;
-
-                            $idref = $include->getAttribute('idref');
-                            $this->lo_includes[$id][] = $idref;
-                        }
-                    }
-                }
-
-
-         
             }
         }
     }
@@ -846,6 +937,7 @@ class HandbookCpoImport extends ContentObjectImport
     {
         if (!$this->lo_subitems)
         {
+            $this->log[] = 'no complex wrappers to be created';
             return;
         }
 
@@ -856,30 +948,39 @@ class HandbookCpoImport extends ContentObjectImport
             if (!$real_parent_id)
                 continue;
 
-            foreach ($children as $child)
+            if (!in_array($parent_id, $this->copies) && !in_array($parent_id, $this->linked_to_copy))
             {
-                $real_child_id = $this->content_object_reference[$child['idref']];
-
-                if (!$real_child_id)
-                    continue;
-
-                $childlo = $this->rdm->retrieve_content_object($real_child_id);
-
-                $cloi = ComplexContentObjectItem :: factory($childlo->get_type());
-
-                $cloi->set_ref($childlo->get_id());
-                $cloi->set_user_id($this->get_user()->get_id());
-                $cloi->set_parent($real_parent_id);
-                $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($real_parent_id));
-                $cloi->set_additional_properties($child['properties']);
-                $cloi->create();
-
-                if ($childlo->get_type() == LearningPathItem :: get_type_name())
+                foreach ($children as $child)
                 {
-                    $this->learning_path_item_wrappers[] = $cloi;
-                }
+                    $real_child_id = $this->content_object_reference[$child['idref']];
 
-                $this->wrapper_reference[$child['id']] = $cloi->get_id();
+                    if (!$real_child_id)
+                        continue;
+
+                    $childlo = $this->rdm->retrieve_content_object($real_child_id);
+
+                    $cloi = ComplexContentObjectItem :: factory($childlo->get_type());
+
+                    $cloi->set_ref($childlo->get_id());
+                    $cloi->set_user_id($this->get_user()->get_id());
+                    $cloi->set_parent($real_parent_id);
+                    $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($real_parent_id));
+                    $cloi->set_additional_properties($child['properties']);
+                    $cloi->create();
+
+                    $this->log[] = '<b>wrapper created to link ' . $parent_id . ' and ' . $child['idref'] . '</b>';
+
+                    if ($childlo->get_type() == LearningPathItem :: get_type_name())
+                    {
+                        $this->learning_path_item_wrappers[] = $cloi;
+                    }
+
+                    $this->wrapper_reference[$child['id']] = $cloi->get_id();
+                }
+            }
+            else
+            {
+                $this->log[] = 'wrapper to link ' . $parent_id . ' and ' . $child['idref'] . 'not created because the parent is a copy or linked to a copy';
             }
         }
     }
@@ -926,7 +1027,7 @@ class HandbookCpoImport extends ContentObjectImport
 
             foreach ($children as $child)
             {
-                if ($this->content_object_reference[$child])
+                                        if ($this->content_object_reference[$child])
                     $lo->include_content_object($this->content_object_reference[$child]);
             }
 
@@ -951,6 +1052,7 @@ class HandbookCpoImport extends ContentObjectImport
             $lo = $this->rdm->retrieve_content_object($lo_id);
             $lo->set_reference($real_reference);
             $lo->update();
+            $this->log[] = '<b> change reference to ' .$reference. ' in real id '. $real_reference . ' in content-object ' . $lo_id. '</b>';
         }
     }
 

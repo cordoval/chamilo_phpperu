@@ -3,6 +3,7 @@ namespace common\libraries;
 
 class FilesystemTest extends \PHPUnit_Framework_TestCase{
     
+   private $work_dir; 
    private $source_file ;
    private $source_dir ;
    private $temp_dir;
@@ -15,15 +16,17 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase{
     
     public function setUp()
     {
-        $this->source_file = __DIR__ . "/__files/source_file";
-        $this->source_dir = __DIR__ . "/__files/source_dir";
-        $this->temp_dir = __DIR__ . "/__files/temp_dir";
-        $this->file1 = __DIR__ . "/__files/source_dir/file1";
-        $this->file2 = __DIR__ . "/__files/source_dir/file2";
-        $this->dir1 = __DIR__ . "/__files/source_dir/dir1";
-        $this->file11 = __DIR__ . "/__files/source_dir/dir1/file11";
-        $this->file12 = __DIR__ . "/__files/source_dir/dir1/file12";
+        $this->work_dir = __DIR__ . "/__generated_during_test";
+        $this->source_file = $this->work_dir . "/source_file";
+        $this->source_dir =  $this->work_dir . "/source_dir";
+        $this->temp_dir =  $this->work_dir . "/temp_dir";
+        $this->file1 =  $this->work_dir . "/source_dir/file1";
+        $this->file2 =  $this->work_dir . "/source_dir/file2";
+        $this->dir1 =  $this->work_dir . "/source_dir/dir1";
+        $this->file11 =  $this->work_dir . "/source_dir/dir1/file11";
+        $this->file12 =  $this->work_dir . "/source_dir/dir1/file12";
         
+        mkdir($this->work_dir);
         touch($this->source_file);
         mkdir($this->source_dir);
         mkdir($this->temp_dir);
@@ -48,15 +51,13 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase{
     } 
     
     public function tearDown() {
-        $this->delTree($this->temp_dir);
-        $this->delTree($this->source_dir);
-        \unlink($this->source_file);
+        $this->delTree($this->work_dir);
     }
     
     public function test_creation_and_deletion_should_be_recursive()
     {
-        $long_path = __DIR__ . "/__files/this/path/does/not/exists";
-        $short_path = __DIR__ . "/__files/this";
+        $long_path =  $this->work_dir . "/this/path/does/not/exists";
+        $short_path =  $this->work_dir . "/this";
         
         $this->assertFileNotExists($short_path);
         Filesystem::create_dir($long_path);
