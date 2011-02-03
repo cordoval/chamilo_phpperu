@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<block name="home_twitter_search">
+    <settings>
+        <category name="object">
+            <setting name="use_object" field="select" default="0">
+                <options type="dynamic" source="get_twitter_search_objects" />
+            </setting>
+        </category>
+        <category name="Features">
+            <setting name="scrollbar" field="checkbox" default="0">
+                <options type="static">
+                    <option name="" value="0" />
+                </options>
+            </setting>
+            <setting name="loop" field="checkbox" default="0">
+                <options type="static">
+                    <option name="" value="0" />
+                </options>
+            </setting>
+            <setting name="live" field="checkbox" default="0">
+                <options type="static">
+                    <option name="" value="0" />
+                </options>
+            </setting>
+            <setting name="hashtags" field="checkbox" default="0">
+                <options type="static">
+                    <option name="" value="0" />
+                </options>
+            </setting>
+            <setting name="timestamp" field="checkbox" default="0">
+                <options type="static">
+                    <option name="" value="0" />
+                </options>
+            </setting>
+            <setting name="avatars" field="checkbox" default="0">
+                <options type="static">
+                    <option name="" value="0" />
+                </options>
+            </setting>
+            <setting name="toptweets" field="checkbox" default="0">
+                <options type="static">
+                    <option name="" value="0" />
+                </options>
+            </setting>
+        </category>
+    </settings>
+</block>

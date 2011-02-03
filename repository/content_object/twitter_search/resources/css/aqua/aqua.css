@@ -1,0 +1,32 @@
+@CHARSET "ISO-8859-1";
+ul.tree-menu li div a.rss_feed {
+    background-image: url(../../images/aqua/logo/16.png);
+}
+
+ul.tree-menu li div a.type_rss_feed {
+    background-image: url(../../images/aqua/logo/16.png);
+}
+
+.twtr-hd, .twtr-ft  {
+    color: #4171B5 !important;
+    display:none !important;
+}
+
+.twtr-container{
+    margin-top:15px;
+    margin-bottom: 15px;
+}
+
+.twtr-bd{
+      background: #ffffff;
+      color: #444444;
+}
+
+.twtr-tweet a:link,
+.twtr-tweet a:visited,
+.twtr-tweet a:hover,
+.twtr-tweets a{
+    color: #4171B5 !important;
+}
+
+

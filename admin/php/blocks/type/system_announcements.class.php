@@ -17,6 +17,11 @@ require_once CoreApplication :: get_application_class_path('admin') . 'blocks/ad
 class AdminSystemAnnouncements extends AdminBlock
 {
 
+    function is_visible()
+    {
+        return true; //i.e.display on homepage when anonymous
+    }
+    
     function as_html()
     {
         $configuration = $this->get_configuration();

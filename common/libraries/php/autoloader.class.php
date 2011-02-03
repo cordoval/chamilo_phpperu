@@ -193,6 +193,7 @@ class Autoloader
                 'datetime_utilities' => 'datetime',
                 'debug_utilities' => 'debug',
                 'string_utilities' => 'string',
+                'simple_template' => 'string',
                 'xml_utilities' => 'xml');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);

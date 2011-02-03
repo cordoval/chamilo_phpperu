@@ -271,3 +271,12 @@ AllowUserThemeSelection = "Allow the user to select a different theme"
 AllowChangeUserPicture = "Allow the user to change his picture"
 FullnameFormat = "Fullname format"
 UserProfileUpdated = ""
+
+About_aai = "AAI";
+Faq = "Faq";
+Help = "Help";
+Data_privacy = "Privacy"
+Unige = "University of Geneva"
+Hug = "HUG - University Hospitals of Geneva"
+Switch = "Switch"
+UnigeLogin = "Unige Login"
