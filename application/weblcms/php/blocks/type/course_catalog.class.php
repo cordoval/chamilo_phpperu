@@ -10,6 +10,9 @@ use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;
+use common\libraries\Translation;
+use common\libraries\StringUtilities;
+use common\libraries\SimpleTemplate;
 
 require_once CoreApplication :: get_application_class_path('weblcms') . 'lib/course/course_category_menu.class.php';
 require_once CoreApplication :: get_application_class_path('weblcms') . 'lib/course/course_category_catalog_menu.class.php';
@@ -23,32 +26,56 @@ require_once CoreApplication :: get_application_class_path('weblcms') . 'lib/web
  * @license GNU General Public License - http://www.gnu.org/copyleft/gpl.html
  * @author lopprecht
  */
-class WeblcmsCatalog extends WeblcmsBlock {
+class WeblcmsCourseCatalog extends WeblcmsBlock {
 
     /**
      * Note, with several widgets on the frontpage we may have name clashes for generic terms such as category.
      * For this reason we use 'course_category_id' instead of something more generic such as 'category.
      */
     const PARAM_COURSE_CATEGORY_ID = 'course_category';
-    function as_html() {
 
+
+    function as_html() {
         $html = array();
         $html[] = $this->display_header();
-
-        $category_menu = new CourseCategoryCatalogMenu();
-        $html[] = '<div style="float: left; width: 20%;">';
-        $html[] = $category_menu->render_as_tree();
-        $html[] = '</div>';
-
-        $table = new CatalogCourseBrowserTable($this, $parameters, $this->get_condition());
-
-        $html[] = '<div style="float: right; width: 80%; text-align: left">';
-        $html[] = $table->as_html();
-        $html[] = '</div>';
-
-
+        $html[] = $this->display_content();
         $html[] = $this->display_footer();
-        return implode($html, "\n");
+        return implode(StringUtilities::NEW_LINE, $html);
+    }
+
+    function display_content(){
+        $html = array();
+        $html[] = '<div style="padding-top:5px; padding-bottom:15px;font-weight:bold; font-size:15px;">';
+        $html[] = '{$CRUMBS}';
+        $html[] = '</div>';
+        $html[] = '<div style="float: left; width: 20%;"><br/>';
+        $html[] = '{$CATEGORY}';
+        $html[] = '</div>';
+        $html[] = '<div style="float: right; width: 80%; text-align: left">';
+        $html[] = '{$COURSE}';
+        $html[] = '</div>';
+
+        $category_menu = $this->get_category_menu();
+        $CRUMBS = array(array('title' => Translation::get('Home'), 'url' => $this->get_url()));
+        $CRUMBS = array_merge($CRUMBS, $category_menu->get_breadcrumbs());
+        $CRUMBS = SimpleTemplate::all('<span><a href="{$url}">{$title}</a></span>', $CRUMBS, ' > ');
+
+        $CATEGORY = $category_menu->render_as_tree();
+        $table = new CatalogCourseBrowserTable($this, $parameters, $this->get_condition());
+        
+        $COURSE = $table->as_html();
+
+        return SimpleTemplate::ex($html, get_defined_vars());
+    }
+
+    private $_category_menu = null;
+    function get_category_menu(){
+        if($this->_category_menu){
+            return $this->_category_menu;
+        }
+
+        $category = Request::get(self::PARAM_COURSE_CATEGORY_ID);
+        return $this->_category_menu = new CourseCategoryCatalogMenu($category);
     }
 
     function get_condition() {
@@ -102,19 +129,19 @@ class WeblcmsCatalog extends WeblcmsBlock {
     }
 
     function get_course_deleting_url($course) {
-
+        return '';
     }
 
     function get_course_changing_course_type_url($course) {
-
+        return '';
     }
 
     function get_course_maintenance_url() {
-        
+        return '';
     }
 
     function get_reporting_url() {
-        
+        return '';
     }
 
     function is_subscribed($course, $user = null) {
@@ -123,7 +150,6 @@ class WeblcmsCatalog extends WeblcmsBlock {
         return $wdm->is_subscribed($course, $user);
     }
 
- 
 }
 
 ?>

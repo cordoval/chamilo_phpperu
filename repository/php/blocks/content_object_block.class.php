@@ -45,17 +45,27 @@ class ContentObjectBlock extends RepositoryBlock {
      * @return int
      */
     function get_object_id() {
+        return $this->get('use_object', 0);
+    }
+
+    /**
+     * Return configuration property.
+     *
+     * @param string $name Name of the configuration property to retrieve
+     * @param object $default Default value to return if property is not defined
+     * @return object Configuration property value.
+     */
+    function get($name, $default = null){
         $configuration = $this->get_configuration();
 
-        $result = isset($configuration['use_object']) ? $configuration['use_object'] : 0;
-        $result = empty($result) ? 0 : $result;
+        $result = isset($configuration[$name]) ? $configuration[$name] : null;
         return $result;
     }
 
     /**
      * If the block is linked to an object returns it. Otherwise returns null.
      *
-     * @return object
+     * @return ContentObject
      */
     function get_object() {
         $object_id = $this->get_object_id();

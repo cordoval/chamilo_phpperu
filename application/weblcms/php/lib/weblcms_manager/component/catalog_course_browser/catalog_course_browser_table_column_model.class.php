@@ -23,7 +23,7 @@ class CatalogCourseBrowserTableColumnModel extends DefaultCourseTableColumnModel
     function __construct()
     {
         parent :: __construct();
-        $this->add_column(new ObjectTableColumn(Course :: PROPERTY_COURSE_TYPE_ID));
+        //$this->add_column(new ObjectTableColumn(Course :: PROPERTY_COURSE_TYPE_ID));
         $this->add_column(new ObjectTableColumn(Course :: PROPERTY_CATEGORY));
         $this->add_column(new ObjectTableColumn(Course :: PROPERTY_TITULAR));
         $this->set_default_order_column(0);
