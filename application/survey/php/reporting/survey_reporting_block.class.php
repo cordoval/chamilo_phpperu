@@ -25,10 +25,10 @@ abstract class SurveyReportingBlock extends ReportingBlock
         $modes = array();
 //        $modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
         $modes[ReportingFormatter ::DISPLAY_TABLE] = Translation :: get('Table');
-        $modes[ReportingChartFormatter::DISPLAY_PIE] = Translation :: get('Chart:Pie');
-        $modes[ReportingChartFormatter ::DISPLAY_BAR ] = Translation :: get('Chart:Bar');
-        $modes[ReportingChartFormatter ::DISPLAY_LINE] = Translation :: get('Chart:Line');
-        $modes[ReportingChartFormatter ::DISPLAY_FILLED_CUBIC] = Translation :: get('Chart:FilledCubic');
+//        $modes[ReportingChartFormatter::DISPLAY_PIE] = Translation :: get('Chart:Pie');
+//        $modes[ReportingChartFormatter ::DISPLAY_BAR ] = Translation :: get('Chart:Bar');
+//        $modes[ReportingChartFormatter ::DISPLAY_LINE] = Translation :: get('Chart:Line');
+//        $modes[ReportingChartFormatter ::DISPLAY_FILLED_CUBIC] = Translation :: get('Chart:FilledCubic');
         return $modes;
     }
     
