@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\adaptive_assessment;
 
+use repository\ComplexContentObjectPath;
+
 use common\libraries\Session;
 
 use common\libraries\Utilities;
@@ -36,6 +38,7 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
      */
     function run()
     {
+        //$path = $this->get_root_content_object()->get_complex_content_object_path();
         ComplexDisplay :: launch($this->get_root_content_object()->get_type(), $this);
     }
 
@@ -158,7 +161,7 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
         $filter[] = ComplexDisplay :: PARAM_DISPLAY_ACTION;
         $filter[] = AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID;
         $filter[] = ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID;
-//
+        //
         $current_step = Request :: get(AdaptiveAssessmentDisplay :: PARAM_STEP);
         return $this->get_url(array(AdaptiveAssessmentDisplay :: PARAM_STEP => $current_step + 1), $filter);
     }
@@ -175,10 +178,8 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
 
     function get_assessment_parameters()
     {
-        return array(
-                AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID,
-                ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID,
-                AdaptiveAssessmentDisplay :: PARAM_STEP);
+        return array(AdaptiveAssessmentDisplay :: PARAM_ADAPTIVE_ASSESSMENT_ITEM_ID,
+                ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, AdaptiveAssessmentDisplay :: PARAM_STEP);
     }
 
     /* (non-PHPdoc)

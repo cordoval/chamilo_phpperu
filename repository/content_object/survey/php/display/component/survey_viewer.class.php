@@ -78,7 +78,8 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
             }
             if ($finished)
             {
-                $this->build_summery_viewer();
+                $this->finished();
+            	$this->build_summery_viewer();
             }
             else
             {

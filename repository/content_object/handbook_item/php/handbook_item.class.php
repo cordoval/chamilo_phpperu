@@ -1,10 +1,7 @@
 <?php
-
-
-
-
 namespace repository\content_object\handbook_item;
 
+use common\libraries\HelperContentObjectSupport;
 use repository\ContentObject;
 use common\libraries\Utilities;
 use common\libraries\Versionable;
@@ -15,7 +12,7 @@ require_once dirname(__FILE__) . '/../../handbook/php/uuid.class.php';
 
 
 
-class HandbookItem extends ContentObject implements Versionable
+class HandbookItem extends ContentObject implements Versionable, HelperContentObjectSupport
 {
     const PROPERTY_REFERENCE = 'reference_id';
     const PROPERTY_UUID = 'uuid';
