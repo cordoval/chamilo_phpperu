@@ -33,23 +33,24 @@ class HandbookManagerHandbookPreferencesCreatorComponent extends HandbookManager
         }
 
         //DISPLAY FORM TO ADD PREFERENCES
-//        //todo_implement!
-//        $preference_form = new HandbookPreferenceForm();
-//
-//         if($preference_form->validate())
-//        {
-//
-//        }
-//        else
-//        {
-//            $this->display_header();
-//            echo $preference_form->toHtml();
-//
-//            $this->display_footer();
-//        }
+        //todo_implement!
+        $preference_form = new HandbookPreferenceForm();
+
+         if($preference_form->validate())
+        {
+
+        }
+        else
+        {
             $this->display_header();
+            $html[] =  $preference_form->toHtml();
             echo implode("\n", $html);
+
             $this->display_footer();
+        }
+//            $this->display_header();
+//            echo implode("\n", $html);
+//            $this->display_footer();
 
     }
 
