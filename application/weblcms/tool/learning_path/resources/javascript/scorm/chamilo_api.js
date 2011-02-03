@@ -65,7 +65,7 @@ function ChamiloTerminate(params)
 	
 	var response = jQuery.ajax({
 		type: "POST",
-		url: "./application/weblcms/php/tool/learning_path/javascript/scorm/ajax/terminate.php",
+		url: "./application/weblcms/tool/learning_path/php/ajax/scorm/terminate.php",
 		data: { tracker_id: tracker_id },
 		async: false
 	}).responseText; //alert(response);
@@ -200,7 +200,7 @@ function ChamiloSetValue(variable, value)
 	
 	var response = jQuery.ajax({
 		type: "POST",
-		url: "./application/weblcms/php/tool/learning_path/javascript/scorm/ajax/set_value.php",
+		url: "./application/weblcms/tool/learning_path/php/ajax/scorm/set_value.php",
 		data: { tracker_id: tracker_id, variable: variable, value: value },
 		async: false
 	}).responseText; //alert(response);
@@ -246,7 +246,7 @@ function get_existing_value(variable)
 {
 	var value = jQuery.ajax({
 		type: "POST",
-		url: "./application/weblcms/php/tool/learning_path/javascript/scorm/ajax/get_value.php",
+		url: "./application/weblcms/tool/learning_path/php/ajax/scorm/get_value.php",
 		data: { tracker_id: tracker_id, variable: variable},
 		async: false
 	}).responseText; 
