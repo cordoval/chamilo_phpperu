@@ -43,7 +43,7 @@ class DefaultParticipantTableCellRenderer extends ObjectTableCellRenderer
             case SurveyParticipantTracker :: PROPERTY_START_TIME :
                 return $this->get_date($survey_participant_tracker->get_start_time());
             case SurveyParticipantTracker :: PROPERTY_TOTAL_TIME :
-                return $this->get_total_time($survey_participant_tracker->get_total_time());
+                return $this->get_total_time($survey_participant_tracker);
             case SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME :
                 return $survey_participant_tracker->get_context_name();
             default :
@@ -51,9 +51,11 @@ class DefaultParticipantTableCellRenderer extends ObjectTableCellRenderer
         }
     }
 
-    private function get_total_time($s)
+    private function get_total_time($survey_participant_tracker)
     {
-
+		$s = $survey_participant_tracker->get_total_time()-$survey_participant_tracker->get_start_time();
+    	
+    	
         $d = intval($s / 86400);
         $s -= $d * 86400;
 
