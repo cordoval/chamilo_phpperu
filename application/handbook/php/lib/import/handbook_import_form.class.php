@@ -1,9 +1,8 @@
 <?php
 
-
 namespace application\handbook;
-use common\libraries;
 
+use common\libraries;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Filesystem;
@@ -67,28 +66,29 @@ class HandbookImportForm extends FormValidator
      */
     private function build_basic_form()
     {
-        if($this->show_category)
+        if ($this->show_category)
         {
-    		$this->add_select(RepositoryManager :: PARAM_CATEGORY_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
+            $this->add_select(RepositoryManager :: PARAM_CATEGORY_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
         }
         else
         {
-        	$this->addElement('hidden', RepositoryManager :: PARAM_CATEGORY_ID);
+            $this->addElement('hidden', RepositoryManager :: PARAM_CATEGORY_ID);
         }
-//
-//        if($this->import_type == null)
-//        {
-//        	$this->add_select('type', Translation :: get('Type'), $this->get_types());
-//        }
-//        else
-//        {
-//        	$this->addElement('hidden', 'type');
-//        }
+
+        //import mode
+        $this->add_select('mode', Translation :: get('Mode'), $this->get_modes());
+        $check_boxes[] = $this->createElement('checkbox', 'option_strict', 'option_strict', Translation :: get('strict'));
+        $check_boxes[] = $this->createElement('checkbox', 'option_limited', 'option_limited', Translation :: get('Limited'));
+
+        $this->addGroup($check_boxes, 'options', Translation :: get('Options'), '&nbsp;', true);
+
+
+
+
+
 
         $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName', null, Utilities :: COMMON_LIBRARIES));
-        //$this->addElement('submit', 'content_object_import', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive import', 'id' => 'import_button'));
-        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/resources/javascript/import.js'));
@@ -109,26 +109,38 @@ class HandbookImportForm extends FormValidator
         return $types;
     }
 
-    function get_messages(){
-    	return empty($this->messages) ? array() : $this->messages;
+    function get_messages()
+    {
+        return empty($this->messages) ? array() : $this->messages;
     }
 
-    function get_warnings(){
-    	return empty($this->warnings) ? array() : $this->warnings;
+    function get_warnings()
+    {
+        return empty($this->warnings) ? array() : $this->warnings;
     }
 
-    function get_errors(){
-    	return empty($this->errors) ? array() : $this->errors;
+    function get_errors()
+    {
+        return empty($this->errors) ? array() : $this->errors;
+    }
+
+    function get_modes()
+    {
+        $modes[HandbookCpoImport::MODE_NEW] = Translation :: get('New', null, Utilities :: COMMON_LIBRARIES);
+        $modes[HandbookCpoImport::MODE_EXTEND] = Translation :: get('Extend', null, Utilities :: COMMON_LIBRARIES);
+        $modes[HandbookCpoImport::MODE_FULL] = Translation :: get('Full_Update', null, Utilities :: COMMON_LIBRARIES);
+
+        return $modes;
     }
 
     /**
      * Sets default values.
      * @param array $defaults Default values for this form's parameters.
      */
-    function setDefaults($defaults = array ())
+    function setDefaults($defaults = array())
     {
         $defaults[RepositoryManager :: PARAM_CATEGORY_ID] = $this->get_category();
-        $defaults['type'] = $this->import_type;
+        $defaults['mode'] = HandbookCpoImport::MODE_NEW;
         parent :: setDefaults($defaults);
     }
 
@@ -143,29 +155,27 @@ class HandbookImportForm extends FormValidator
      */
     function import_content_object()
     {
+        $values = $this->exportValues();
 
-            $importer = new HandbookCpoImport($_FILES[self :: IMPORT_FILE_NAME], $this->get_user(), $this->exportValue(RepositoryManager :: PARAM_CATEGORY_ID));
-            $result = $importer->import_content_object();
+        $importer = new HandbookCpoImport($_FILES[self :: IMPORT_FILE_NAME], $this->get_user(), $this->exportValue(RepositoryManager :: PARAM_CATEGORY_ID, $this->exportValue('mode'), $this->parse_checkbox_value($values['options']['option_strict']), $this->parse_checkbox_value($values['options']['option_limited'])));
+        $result = $importer->import_content_object();
 
-            $this->log .= '<p style="color: green;">'. implode("</br>", $importer->get_log()) . '</p>';
-            $this->messages = $importer->get_messages();
-            $this->warnings = $importer->get_warnings();
-            $this->errors = $importer->get_errors();
-            return $result;
-
+        $this->log .= '<p style="color: green;">' . implode("</br>", $importer->get_log()) . '</p>';
+        $this->messages = $importer->get_messages();
+        $this->warnings = $importer->get_warnings();
+        $this->errors = $importer->get_errors();
+        return $result;
     }
 
     function import_metadata()
     {
-
-            $importer = new HandbookCpoImport($_FILES[self :: IMPORT_FILE_NAME], $this->get_user(), $this->exportValue(RepositoryManager :: PARAM_CATEGORY_ID));
-            $result = $importer->import_metadata();
-            $this->log .= '<p style="color: blue;">'. implode("</br>", $importer->get_log()) . '</p>';
-            $this->messages = $importer->get_messages();
-            $this->warnings = $importer->get_warnings();
-            $this->errors = $importer->get_errors();
-            return $result;
-
+        $importer = new HandbookCpoImport($_FILES[self :: IMPORT_FILE_NAME], $this->get_user(), $this->exportValue(RepositoryManager :: PARAM_CATEGORY_ID));
+        $result = $importer->import_metadata();
+        $this->log .= '<p style="color: blue;">' . implode("</br>", $importer->get_log()) . '</p>';
+        $this->messages = $importer->get_messages();
+        $this->warnings = $importer->get_warnings();
+        $this->errors = $importer->get_errors();
+        return $result;
     }
 
     function get_log()
@@ -182,16 +192,7 @@ class HandbookImportForm extends FormValidator
         {
             return parent :: display();
         }
-
-        //$quotamanager = new QuotaManager($this->get_user());
-        //if ($quotamanager->get_available_database_space() <= 0)
-        //{
-        //    Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfContentObjectsReached')));
-        //}
-        //else
-        //{
-            parent :: display();
-        //}
+        parent :: display();
     }
 
     function get_path($path_type)
@@ -208,5 +209,7 @@ class HandbookImportForm extends FormValidator
     {
         return $this->user;
     }
+
 }
+
 ?>
