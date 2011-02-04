@@ -89,7 +89,7 @@ class HandbookManager extends WebApplication
     const ACTION_PICK_TOPIC = 'handbook_topic_picker';
     const ACTION_PASS_UID = 'handbook_topic_uid_passer';
     const ACTION_EXPORT = 'handbook_exporter';
-     const ACTION_IMPORT = 'handbook_importer';
+    const ACTION_IMPORT = 'handbook_importer';
 
     const PARAM_COMPLEX_OBJECT_ID = 'coid';
     const PARAM_LIGHT_MODE = 'light';
@@ -720,14 +720,32 @@ class HandbookManager extends WebApplication
 
     static function get_publication_preferences_importance($publication_id = null)
     {
-        //TODO: this should not be hardcoded?
-        //get from publication preferences
-        //if not in publication context return defaults
-        //for now just return default
 
         $preference_importance = array();
-        $preference_importance[] = self :: get_first_language_metadata_property();
-        $preference_importance[] = self :: get_first_publisher_metadata_property();
+        //TODO: this should not be hardcoded
+        //get from publication preferences
+        //if not in publication context return defaults
+        //for now always return default
+        $hdm = HandbookDataManager::get_instance();
+        $preference_set = $hdm->retrieve_preferences_for_publication($publication_id);
+     
+        if ($preference_set != false)
+        {
+            while ($pref = $preference_set->next_result())
+            {
+                $importance = $pref->get_importance();
+                $mdm = MetadataDataManager::get_instance();
+                $metadata_property_type = $mdm->retrieve_metadata_property_type($pref->get_metadata_property_type_id());
+                $metadata_element = $metadata_property_type->get_ns_prefix() . ':' . $metadata_property_type->get_name();
+                $preference_importance[$importance] = $metadata_element;
+            }
+        }
+
+        if (count($preference_importance) < 1)
+        {
+            $preference_importance[1] = self :: get_first_language_metadata_property();
+            $preference_importance[2] = self :: get_first_publisher_metadata_property();
+        }
 
         return $preference_importance;
     }
