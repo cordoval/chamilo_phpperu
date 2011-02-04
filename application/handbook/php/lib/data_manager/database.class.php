@@ -72,6 +72,13 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
         return $this->retrieve_objects(ContentObject:: get_table_name(), $condition, $offset, $max_objects, $order_by, ContentObject::CLASS_NAME);
     }
 
+    function retrieve_preferences_for_publication($publication_id, $offset = null, $max_objects = null, $order_by = null)
+    {
+        $condition = new EqualityCondition(HandbookPreference::PROPERTY_HANDBOOK_PUBLICATION_ID, $publication_id);
+        return $this->retrieve_objects(HandbookPreference:: get_table_name(), $condition, $offset, $max_objects, $order_by, HandbookPreference::CLASS_NAME);
+
+    }
+
     function retrieve_published_handbooks($search_condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $conditons = array();
@@ -79,7 +86,7 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
 //                $conditions[] = new EqualityCondition(ContentObject::PROPERTY_TYPE, 'handbook');
         $conditions[] = new SubselectCondition(ContentObject::PROPERTY_ID, HandbookPublication::PROPERTY_CONTENT_OBJECT_ID, HandbookPublication::get_table_name(), null, null, HandbookDataManager::get_instance());
 
-        $condition = new AndCondition($conditions);
+        $condition = new AndCondition($conditions, $offset = null, $max_objects = null, $order_by = null );
 
         return RepositoryDataManager::get_instance()->retrieve_objects(ContentObject:: get_table_name(), $condition, $offset, $max_objects, $order_by, ContentObject::CLASS_NAME);
     }
