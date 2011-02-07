@@ -6,6 +6,7 @@ use common\libraries\Qti;
 
 use repository\content_object\assessment\Assessment;
 use repository\ContentObject;
+use common\libraries\ImsQtiWriter;
 
 /**
  *

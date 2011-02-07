@@ -24,6 +24,8 @@ use application\metadata\MetadataDataManager;
 use repository\ComplexContentObjectItem;
 use application\metadata\ContentObjectMetadataPropertyValue;
 use repository\content_object\handbook\Handbook;
+use application\context_linker\ContextLink;
+use common\libraries\AndCondition;
 
 /**
  * Exports content object to the chamilo learning object format (xml)
@@ -145,10 +147,14 @@ class HandbookCpoImport extends ContentObjectImport
     private $not_in_scope;
 
 
-    function __construct($content_object_file, $user, $category)
+    function __construct($content_object_file, $user, $category, $mode = self::MODE_NEW, $option_strict = false, $option_limited = false, $metadata_limitations = array())
     {
         $this->rdm = RepositoryDataManager :: get_instance();
         parent :: __construct($content_object_file, $user, $category);
+        $this->mode = $mode;
+        $this->option_limited = $option_limited;
+        $this->option_strict = $option_strict;
+        $this->metadata_limitations = $metadata_limitations;
     }
 
     public function get_log()
@@ -253,7 +259,45 @@ class HandbookCpoImport extends ContentObjectImport
                 $alt_id = $this->content_object_reference[$context_link_data[self::LINK_ALTERNATIVE]];
                 if ($alt_id != null && $orig_id != null)
                 {
-                    $this->log[] = '<i> create the context link between ' . $context_link_data[self::LINK_ORIGINAL] . ' and ' . $context_link_data[self::LINK_ALTERNATIVE] . ' here (on metadata = ' . $context_link_data[self::LINK_METADATA] . ')</i>';
+                    //TODO: implement
+                    $link = new ContextLink();
+                    $link->set_original_content_object_id($orig_id);
+                    $link->set_alternative_content_object_id($alt_id);
+
+                    list($namespace_prefix, $element_name) = explode(':', $context_link_data[self::LINK_METADATA]);
+                    $namespace = MetadataDataManager::get_instance()->retrieve_metadata_namespace_by_prefix($namespace_prefix);
+
+                    if ($namespace)
+                    {
+                        $ns_id = $namespace->get_id();
+                        $property = MetadataDataManager::get_instance()->retrieve_metadata_property_type_by_ns_name($ns_id, $element_name);
+                        $property_id = $property->get_id();
+
+                        $mdm = MetadataDataManager::get_instance();
+                        $conditions[] = new EqualityCondition(ContentObjectMetadataPropertyValue::PROPERTY_PROPERTY_TYPE_ID, $property_id);
+                        $conditions[] = new EqualityCondition(ContentObjectMetadataPropertyValue::PROPERTY_CONTENT_OBJECT_ID, $alt_id);
+                        $condition = new AndCondition($conditions);
+                        $value_set = $mdm->retrieve_content_object_metadata_property_values($condition = null);
+
+                        if($value_set != null && $value_set != false)
+                        {
+                            $value = $value_set->next_result();
+                            $metadata_property_value_id = $value->get_id();
+                        }
+
+                    }
+                    $link->set_metadata_property_value_id($metadata_property_value_id);
+                    $success = $link->create();
+                    if($success)
+                    {
+                         $this->log[] = '<b><i> created the context link between ' . $context_link_data[self::LINK_ORIGINAL] . ' and ' . $context_link_data[self::LINK_ALTERNATIVE] . ' (on metadata = ' . $context_link_data[self::LINK_METADATA] . ')</i></b>';
+
+                    }
+                    else
+                    {
+                         $this->log[] = '<i> Problem! the context link between ' . $context_link_data[self::LINK_ORIGINAL] . ' and ' . $context_link_data[self::LINK_ALTERNATIVE] . ' (on metadata = ' . $context_link_data[self::LINK_METADATA] . ') could not be created</i>';
+
+                    }
                 }
                 else
                 {
@@ -269,11 +313,13 @@ class HandbookCpoImport extends ContentObjectImport
                 }
                 else if ($this->mode == self::MODE_EXTEND)
                 {
-                    $this->log[] = 'add new context links';
+                    //TODO: implement
+                    $this->log[] = 'todo: check if this is a new context link & add';
                 }
                 else if ($this->mode == self::MODE_FULL)
                 {
-                    $this->log[] = 'add new context links and replace data in existing co\'s with data from import';
+                    //TODO: IMPLEMENT
+                    $this->log[] = 'todo: add new context links and replace data in existing co\'s with data from import';
                 }
             }
         }
@@ -630,7 +676,6 @@ class HandbookCpoImport extends ContentObjectImport
             }
             else
             {
-                //TODO: provide update possibility
                 $this->log[] = 'item with id ' . $id . ' copy or linked to copy or not in scope';
                 if ($this->mode == self::MODE_NEW)
                 {
@@ -642,7 +687,7 @@ class HandbookCpoImport extends ContentObjectImport
                     if (in_array($id, $this->linked_to_copy) && !in_array($id, $this->not_in_scope))
                     {
                         //TODO: check if co not in system & create
-                        $this->log[] = 'item with id ' . $id . ' is linked to a copy. check if it is already in system';
+                        $this->log[] = 'todo: item with id ' . $id . ' is linked to a copy. check if it is already in system';
                     }
                 }
                 else if ($this->mode == self::MODE_FULL)
@@ -651,7 +696,7 @@ class HandbookCpoImport extends ContentObjectImport
                     if (!in_array($id, $this->not_in_scope))
                     {
                         //TODO: update or create
-                        $this->log[] = 'item with id ' . $id . ' will be updated or created';
+                        $this->log[] = 'todo: item with id ' . $id . ' will be updated or created';
                     }
                 }
             }
@@ -867,9 +912,7 @@ class HandbookCpoImport extends ContentObjectImport
                         }
                     }
 
-                    $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
-
-                    if (!$exists_already && !in_array($id, $this->linked_to_copy))
+                     if (!$exists_already && !in_array($id, $this->linked_to_copy))
                     {
                         $this->log[] = 'item with id ' . $idref . ' added to list of subitems';
                         $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
@@ -1027,7 +1070,7 @@ class HandbookCpoImport extends ContentObjectImport
 
             foreach ($children as $child)
             {
-                                        if ($this->content_object_reference[$child])
+                if ($this->content_object_reference[$child])
                     $lo->include_content_object($this->content_object_reference[$child]);
             }
 
@@ -1052,7 +1095,7 @@ class HandbookCpoImport extends ContentObjectImport
             $lo = $this->rdm->retrieve_content_object($lo_id);
             $lo->set_reference($real_reference);
             $lo->update();
-            $this->log[] = '<b> change reference to ' .$reference. ' in real id '. $real_reference . ' in content-object ' . $lo_id. '</b>';
+            $this->log[] = '<b> change reference to ' . $reference . ' in real id ' . $real_reference . ' in content-object ' . $lo_id . '</b>';
         }
     }
 
