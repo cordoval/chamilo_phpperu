@@ -66,60 +66,6 @@ class RssFeedDisplay extends ContentObjectDisplay {
     }
 
     function parse_file($url) {
-
-//        Zend_Loader :: loadClass('Zend_Gdata_AuthSub');
-//        Zend_Loader :: loadClass('Zend_Gdata_App');
-//
-//        $my_calendar = 'https://mail.google.com/mail/feed/atom';
-//
-//        $sess_name = 'dddsdfsdfds';
-//
-//        if (!isset($_SESSION[$sess_name])) {
-//            if (isset($_GET['token'])) {
-//                // You can convert the single-use token to a session token.
-//                $session_token =
-//                        Zend_Gdata_AuthSub::getAuthSubSessionToken($_GET['token']);
-//                // Store the session token in our session.
-//                $_SESSION[$sess_name] = $session_token;
-//            } else {
-//                // Display link to generate single-use token
-//                $googleUri = Zend_Gdata_AuthSub::getAuthSubTokenUri(
-//                                'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'],
-//                                $my_calendar, 0, 1);
-//                echo "Click <a href='$googleUri'>here</a> " .
-//                "to authorize this application.";
-//                exit();
-//            }
-//        }
-//
-//       // Authorization: AuthSub token="token"
-//        // create curl resource
-//        $ch = curl_init();
-//
-//        // set url
-//        curl_setopt($ch, CURLOPT_URL, 'https://mail.google.com/mail/feed/atom');
-//         $headers = array(
-//            'Authorization: AuthSub token="' . ($_SESSION[$sess_name]) .'"'
-//        );
-//
-//        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-//
-//
-//        //return the transfer as a string
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//
-//        // $output contains the output string
-//        $output = curl_exec($ch);
-//        debug(\curl_error($ch));
-//        debug(\curl_getinfo($ch));
-//        debug($output);
-//
-//        // close curl resource to free up system resources
-//        curl_close($ch);
-//        exit;
-
-
         $rss = new LastRss($url);
         // TODO: Make items limit configurable.
         $rss->set_items_limit(5);

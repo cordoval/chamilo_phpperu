@@ -16,6 +16,14 @@ require_once CoreApplication :: get_application_class_path('repository') . 'bloc
 class RepositoryFeeder extends RepositoryBlock
 {
 
+    public static function get_default_image_path($application='', $type='', $size = Theme :: ICON_MEDIUM) {
+        if($type){
+            return parent::get_default_image_path($application, $type, $size);
+        }else{
+            return Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(RssFeed :: get_type_name())) . 'logo/' . $size .'.png';
+        }
+    }
+    
     function as_html()
     {
         $configuration = $this->get_configuration();
@@ -60,8 +68,8 @@ class RepositoryFeeder extends RepositoryBlock
     function display_header($content_object = null)
     {
         $html = array();
-
-        $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . Theme :: get_image_path() . 'logo/' . Theme :: ICON_MEDIUM . '.png);">';
+        $icon = self::get_default_image_path();
+        $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . $icon . ');">';
         $html[] = $this->display_title($content_object);
         $html[] = '<div class="description"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') . '>';
 

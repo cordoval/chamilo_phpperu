@@ -6,6 +6,7 @@ use common\libraries\Theme;
 use common\libraries\CoreApplication;
 use home\HomeManager;
 use common\libraries\Application;
+use repository\content_object\link\Link;
 
 /**
  * $Id: linker.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -15,6 +16,13 @@ require_once CoreApplication :: get_application_class_path('repository') . 'bloc
 
 class RepositoryLinker extends RepositoryBlock
 {
+    public static function get_default_image_path($application='', $type='', $size = Theme :: ICON_MEDIUM) {
+        if($type){
+            return parent::get_default_image_path($application, $type, $size);
+        }else{
+            return Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Link:: get_type_name())) . 'logo/' . $size .'.png';
+        }
+    }
 
     function as_html()
     {
@@ -34,7 +42,7 @@ class RepositoryLinker extends RepositoryBlock
             $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($configuration['use_object']);
 
             //$icon = Theme::get_content_object_image_path($content_object->get_type(), Theme::ICON_MEDIUM);
-            $icon = Theme :: get_image_path(Application :: determine_namespace($this->get_block_info()->get_application())) . 'logo/' . Theme :: ICON_MEDIUM . '.png';
+            $icon = self::get_default_image_path();
             
             $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . $icon . ');">';
             $html[] = '<div class="title"><div style="float: left;">' . $content_object->get_title() . '</div>';
