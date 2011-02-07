@@ -500,6 +500,16 @@ $(function () {
 		}, "json");
 	}
 	
+    function cancelTabTitle(e)
+    {
+        e.preventDefault();
+	e.data.loading.close();
+			
+        $('#tabSave').unbind();
+        $('#tabTitle').unbind();
+    }
+
+	
 	function editTab(e, ui)
 	{
 		e.preventDefault();
@@ -508,7 +518,10 @@ $(function () {
 		
 		editTabHTML  = '<div id="editTab"><h3>' + translation('EditTabName', 'home') + '</h3>';
 		editTabHTML += '<input id="tabTitle" type="text" value="' + $('.tabTitle', this).text() + '"/>&nbsp;';
+                editTabHTML += '<div style="text-align:right; margin-top:5px;">';
 		editTabHTML += '<input id="tabSave" type="submit" class="button" value="' + translation('Save') + '"/>';
+		editTabHTML += '<input id="tabCancel" type="submit" class="button" value="' + translation('Cancel') + '"/>';
+                editTabHTML += '</div>';
 		editTabHTML += '</div>';
 		
 		loading = $.modal(editTabHTML, {
@@ -527,11 +540,13 @@ $(function () {
 			{
 				loading.close();
 				$('#tabSave').unbind();
+				$('#tabCancel').unbind();
 				$('#tabTitle').unbind();
 			}
 		});
-		
+
 		$('#tabSave').bind('click', {loading: loading, tab: $('.tabTitle', this)}, saveTabTitle);
+		$('#tabCancel').bind('click', {loading: loading, tab: $('.tabTitle', this)}, cancelTabTitle);
 	}
 	
 	function deleteColumn(e, ui) {

@@ -22,7 +22,7 @@ class FillInBlanksQuestionAnswer
      *
      */
     const CLOZE_REGEX = '/\[[^\[\]]*\]/';
-    const QUESTIONS_REGEX = '/\[([^[\]]*)\](?:\{([^[}]*)\})?/';
+const QUESTIONS_REGEX = '/\[([^[\]]*)\](?:\{([^[}]*)\})?/';
     const PARTS_REGEX = '/(?:([^,\n\r(\\\\=)]+)(?:\(([^,\n\r]+)\))?(?:=([0-9]+))?,?)+?/';
 
     /**

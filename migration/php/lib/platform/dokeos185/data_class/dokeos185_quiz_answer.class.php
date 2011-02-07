@@ -207,7 +207,7 @@ class Dokeos185QuizAnswer extends Dokeos185CourseDataMigrationDataClass
 
         if (is_null($answer_text) || $answer_text == '')
         {
-            $answer_text = 'error: non-standard fill in the blanks answer';
+            $answer_text = 'error: non-standard fill in the blanks answer [error]';
         }
         $question->set_answer_text($answer_text);
         $question->update();
