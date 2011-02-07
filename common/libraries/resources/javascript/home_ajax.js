@@ -519,8 +519,8 @@ $(function () {
 		editTabHTML  = '<div id="editTab"><h3>' + translation('EditTabName', 'home') + '</h3>';
 		editTabHTML += '<input id="tabTitle" type="text" value="' + $('.tabTitle', this).text() + '"/>&nbsp;';
                 editTabHTML += '<div style="text-align:right; margin-top:5px;">';
-		editTabHTML += '<input id="tabCancel" type="submit" class="button" value="' + translation('Cancel') + '"/>';
 		editTabHTML += '<input id="tabSave" type="submit" class="button" value="' + translation('Save') + '"/>';
+		editTabHTML += '<input id="tabCancel" type="submit" class="button" value="' + translation('Cancel') + '"/>';
                 editTabHTML += '</div>';
 		editTabHTML += '</div>';
 		
