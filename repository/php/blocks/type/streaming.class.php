@@ -30,6 +30,13 @@ require_once CoreApplication :: get_application_class_path('repository') . 'bloc
 class RepositoryStreaming extends ContentObjectBlock
 {
 
+    public static function get_default_image_path($application='', $type='', $size = Theme :: ICON_MEDIUM) {
+        if($type){
+            return parent::get_default_image_path($application, $type, $size);
+        }else{
+            return Theme :: get_image_path(Application :: determine_namespace('repository')) . 'media_32.png';
+        }
+    }
     /**
      * Returns the list of type names that this block can map to.
      *
@@ -64,7 +71,7 @@ class RepositoryStreaming extends ContentObjectBlock
      * @return string
      */
     function get_icon(){
-        return Theme :: get_image_path(Application :: determine_namespace($this->get_block_info()->get_application())) . 'place_mini_media.png';
+        return self::get_default_image_path();
     }
 
 }
