@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\adaptive_assessment;
 
+use common\libraries\ComplexContentObjectDisclosure;
+
 use common\libraries\Utilities;
 use common\libraries\ComplexContentObjectSupport;
 
@@ -12,7 +14,7 @@ use repository\content_object\adaptive_assessment_item\AdaptiveAssessmentItem;
  * @package repository.content_object.adaptive_assessment
  */
 
-class AdaptiveAssessment extends ContentObject implements ComplexContentObjectSupport
+class AdaptiveAssessment extends ContentObject implements ComplexContentObjectSupport, ComplexContentObjectDisclosure
 {
     const CLASS_NAME = __CLASS__;
 
@@ -23,8 +25,7 @@ class AdaptiveAssessment extends ContentObject implements ComplexContentObjectSu
 
     function get_allowed_types()
     {
-        return array(AdaptiveAssessment :: get_type_name(),
-                AdaptiveAssessmentItem :: get_type_name());
+        return array(AdaptiveAssessment :: get_type_name(), AdaptiveAssessmentItem :: get_type_name());
     }
 }
 ?>

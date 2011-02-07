@@ -39,6 +39,7 @@ class AdaptiveAssessmentComplexDisplayPreview extends ComplexDisplayPreview impl
     function run()
     {
         //$path = $this->get_root_content_object()->get_complex_content_object_path();
+        //var_dump($path);
         ComplexDisplay :: launch($this->get_root_content_object()->get_type(), $this);
     }
 

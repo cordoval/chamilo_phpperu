@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
 
+use common\libraries\ComplexContentObjectDisclosure;
+
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
@@ -28,7 +30,7 @@ use repository\content_object\ordering_question\OrderingQuestion;
  *
  * @package repository.lib.content_object.assessment
  */
-class Assessment extends ContentObject implements ComplexContentObjectSupport
+class Assessment extends ContentObject implements ComplexContentObjectSupport, ComplexContentObjectDisclosure
 {
     const PROPERTY_ASSESSMENT_TYPE = 'assessment_type';
 
