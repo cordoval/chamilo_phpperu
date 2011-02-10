@@ -37,15 +37,6 @@ class WeblcmsCourseMenu extends WeblcmsBlock {
         return $this->get_user()->is_teacher() && (Session::get('studentview') != 'studentenview');
     }
 
-    function as_html() {
-        $html = array();
-        $html[] = $this->display_header();
-        $html[] = $this->display_content();
-        $html[] = $this->display_footer();
-
-        return implode(StringUtilities::NEW_LINE, $html);
-    }
-
     function display_content() {
         $html = array();
         $html[] = '<div class="tool_menu">';

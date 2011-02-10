@@ -32,6 +32,7 @@ class HomeManager extends CoreApplication
     const ACTION_MOVE_HOME = 'mover';
     const ACTION_CREATE_HOME = 'creator';
     const ACTION_CONFIGURE_HOME = 'configurer';
+    const ACTION_WIDGET_VIEWER = 'widget_viewer';
 
     const DEFAULT_ACTION = self :: ACTION_MANAGE_HOME;
 

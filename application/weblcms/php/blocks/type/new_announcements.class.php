@@ -26,14 +26,9 @@ require_once WebApplication :: get_application_class_path('weblcms') . 'lib/cour
 class WeblcmsNewAnnouncements extends WeblcmsBlock
 {
 
-    /*
-	 * Inherited
-	 */
-    function as_html()
-    {
+    function  display_content() {
         $html = array();
 
-        $html[] = $this->display_header();
 
         $dm = WeblcmsDataManager :: get_instance();
         $weblcms = $this->get_parent();
@@ -65,7 +60,6 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
             }
         }
         $html[] = $this->display_new_items($items);
-        $html[] = $this->display_footer();
 
         return implode("\n", $html);
     }

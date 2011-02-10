@@ -215,20 +215,35 @@ class Display
         include (Path :: get_common_libraries_class_path() . 'html/header.inc.php');
     }
 
-    public static function small_header()
+    /**
+     *
+     * @param string $page_title Optional, defaults to site name if empty
+     * @param string $body_style Optional
+     */
+    public static function small_header($page_title = null, $style = null, $html_headers = array())
     {
+        $page_title = is_null($page_title) ? $page_title = PlatformSetting :: get('site_name') : $page_title;
+        $style = is_null($style) ? 'body {background-color:white; padding: 10px;}' : $style;
+        $html_headers = is_array($html_headers) ? $html_headers : array($html_headers);
+        
         $document_language = Translation :: get_language();
         if (empty($document_language))
         {
             //if there was no valid iso-code, use the english one
-            $document_language = 'en';
+            $document_language = 'en'; //@todo: shouldn't we put that in Translation::get_languate()?
         }
 
         $header = new Header($document_language);
         $header->add_default_headers();
         $header->set_page_title(PlatformSetting :: get('site_name'));
-        $header->add_html_header('<style type="text/css">body {background-color:white; padding: 10px;}</style>');
+        //@todo: shouldn't we put that somewhere else? or add a class instead?
+        if($style){
+            $header->add_html_header('<style type="text/css">'. $style . '</style>');
+        }
         $header->add_html_header('<script type="text/javascript">var rootWebPath="' . Path :: get(WEB_PATH) . '"</script>');
+        foreach($html_headers as $html_header){
+            $header->add_html_header($html_header);
+        }
         $header->display();
 
         echo '<body>' . "\n";

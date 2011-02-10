@@ -86,7 +86,14 @@ class ContentObjectBlock extends RepositoryBlock {
         return $object_id != 0;
     }
 
-    function as_html() {
+    function as_html($view = '') {
+        if (!$this->is_visible()) {
+            return '';
+        }
+        if($view){
+            $this->set_view($view);
+        }
+        
         $html = array();
         $html[] = $this->display_header();
         $html[] = $this->is_configured() ? $this->display_content() : $this->display_empty();
@@ -124,49 +131,40 @@ class ContentObjectBlock extends RepositoryBlock {
         return empty($content_object) ? $this->get_default_title() : $content_object->get_title();
     }
 
-    function display_title() {
-        $TITLE = $this->get_title();
-        $ACTIONS = $this->display_actions();
-
-        $result = $this->get_title_template();
-        return $this->process_template($result, get_defined_vars());
-    }
-
-    function get_title_template() {
-        $html = array();
-        $html[] = '<div class="title"><div style="float: left;">{$TITLE}</div>';
-        $html[] = '{$ACTIONS}';
-        $html[] = '<div style="clear: both;"></div>';
-        $html[] = '</div>';
-        return implode(StringUtilities::NEW_LINE, $html);
-    }
-
-    /**
-     * Returns the url to the icon.
-     * 
-     * @return string
-     */
-    function get_icon(){
-        return Theme :: get_image_path(Application :: determine_namespace($this->get_block_info()->get_application())) . 'logo/' . Theme :: ICON_MEDIUM . '.png';
-    }
-
-    function display_header() {
-        $BLOCK_ID = $this->get_block_info()->get_id();
-        $ICON = $this->get_icon();
-        $STYLE = $this->get_block_info()->is_visible();
-        $TITLE = $this->display_title();
-
-        $result = $this->get_header_template();
-        return $this->process_template($result, get_defined_vars());
-    }
-
-    function get_header_template() {
-        $html = array();
-        $html[] = '<div class="block" id="block_{$BLOCK_ID}" style="background-image: url({$ICON});">';
-        $html[] = '{$TITLE}';
-        $html[] = '<div class="description" {$STYLE}>';
-        return implode(StringUtilities::NEW_LINE, $html);
-    }
+//    function display_title() {
+//        $TITLE = $this->get_title();
+//        $ACTIONS = $this->display_actions();
+//
+//        $result = $this->get_title_template();
+//        return $this->process_template($result, get_defined_vars());
+//    }
+//
+//    function get_title_template() {
+//        $html = array();
+//        $html[] = '<div class="title"><div style="float: left;">{$TITLE}</div>';
+//        $html[] = '{$ACTIONS}';
+//        $html[] = '<div style="clear: both;"></div>';
+//        $html[] = '</div>';
+//        return implode(StringUtilities::NEW_LINE, $html);
+//    }
+//
+//    function display_header() {
+//        $BLOCK_ID = $this->get_block_info()->get_id();
+//        $ICON = $this->get_icon();
+//        $STYLE = $this->get_block_info()->is_visible();
+//        $TITLE = $this->display_title();
+//
+//        $result = $this->get_header_template();
+//        return $this->process_template($result, get_defined_vars());
+//    }
+//
+//    function get_header_template() {
+//        $html = array();
+//        $html[] = '<div class="block" id="block_{$BLOCK_ID}" style="background-image: url({$ICON});">';
+//        $html[] = '{$TITLE}';
+//        $html[] = '<div class="description" {$STYLE}>';
+//        return implode(StringUtilities::NEW_LINE, $html);
+//    }
 
     // BASIC TEMPLATING FUNCTIONS.
 

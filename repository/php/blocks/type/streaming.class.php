@@ -1,4 +1,5 @@
 <?php
+
 namespace repository;
 
 use common\libraries\Translation;
@@ -27,16 +28,16 @@ require_once CoreApplication :: get_application_class_path('repository') . 'bloc
  * @license GNU General Public License - http://www.gnu.org/copyleft/gpl.html
  * @author lopprecht
  */
-class RepositoryStreaming extends ContentObjectBlock
-{
+class RepositoryStreaming extends ContentObjectBlock {
 
     public static function get_default_image_path($application='', $type='', $size = Theme :: ICON_MEDIUM) {
-        if($type){
+        if ($type) {
             return parent::get_default_image_path($application, $type, $size);
-        }else{
+        } else {
             return Theme :: get_image_path(Application :: determine_namespace('repository')) . 'media_32.png';
         }
     }
+
     /**
      * Returns the list of type names that this block can map to.
      *
@@ -55,24 +56,24 @@ class RepositoryStreaming extends ContentObjectBlock
         return $result;
     }
 
-    function __construct($parent, $block_info){
+    function __construct($parent, $block_info) {
         parent::__construct($parent, $block_info);
         $this->default_title = Translation::get('Streaming');
     }
-    
-    function is_visible()
-    {
+
+    function is_visible() {
         return true; //i.e.display on homepage when anonymous
     }
-    
+
     /**
      * Returns the url to the icon.
      *
      * @return string
      */
-    function get_icon(){
+    function get_icon() {
         return self::get_default_image_path();
     }
 
 }
+
 ?>
