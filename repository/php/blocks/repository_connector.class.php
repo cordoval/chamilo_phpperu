@@ -11,6 +11,7 @@ use common\libraries\AndCondition;
 use common\libraries\OrCondition;
 
 require_once dirname(__FILE__) . '/type/streaming.class.php';
+require_once dirname(__FILE__) . '/type/twitter_search.class.php';
 
 /**
  * $Id: repository_connector.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -98,6 +99,10 @@ class RepositoryBlockConnector {
      */
     function get_streaming_objects() {
         return self::get_objects(RepositoryStreaming::get_supported_types());
+    }
+
+    function get_twitter_search_objects(){
+        return RepositoryBlockConnector::get_objects(RepositoryTwitterSearch::get_supported_types());
     }
 
 }
