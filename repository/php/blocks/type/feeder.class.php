@@ -23,7 +23,7 @@ class RepositoryFeeder extends RepositoryBlock
             return Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(RssFeed :: get_type_name())) . 'logo/' . $size .'.png';
         }
     }
-    
+
     function as_html()
     {
         $configuration = $this->get_configuration();

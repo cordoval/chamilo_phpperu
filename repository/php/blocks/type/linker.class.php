@@ -1,4 +1,5 @@
 <?php
+
 namespace repository;
 
 use common\libraries\Translation;
@@ -14,36 +15,43 @@ use repository\content_object\link\Link;
  */
 require_once CoreApplication :: get_application_class_path('repository') . 'blocks/repository_block.class.php';
 
-class RepositoryLinker extends RepositoryBlock
-{
+class RepositoryLinker extends RepositoryBlock {
+
     public static function get_default_image_path($application='', $type='', $size = Theme :: ICON_MEDIUM) {
-        if($type){
+        if ($type) {
             return parent::get_default_image_path($application, $type, $size);
-        }else{
-            return Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Link:: get_type_name())) . 'logo/' . $size .'.png';
+        } else {
+            return Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(Link:: get_type_name())) . 'logo/' . $size . '.png';
         }
     }
 
-    function as_html()
-    {
+    function display_header() {
+        $html = array();
+        $icon = $this->get_default_image_path();
+
+        $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . $icon . ');">';
+        $html[] = $this->display_title();
+        $html[] = '<div class="description"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') . '>';
+
+        return implode("\n", $html);
+    }
+
+    function as_html() {
         $configuration = $this->get_configuration();
         $object_id = $configuration['use_object'];
 
         $html = array();
 
-        if (! isset($object_id) || $object_id == 0)
-        {
+        if (!isset($object_id) || $object_id == 0) {
             $html[] = $this->display_header();
             $html[] = Translation :: get('ConfigureBlockFirst', null, HomeManager :: APPLICATION_NAME);
             $html[] = $this->display_footer();
-        }
-        else
-        {
+        } else {
             $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($configuration['use_object']);
 
             //$icon = Theme::get_content_object_image_path($content_object->get_type(), Theme::ICON_MEDIUM);
             $icon = self::get_default_image_path();
-            
+
             $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . $icon . ');">';
             $html[] = '<div class="title"><div style="float: left;">' . $content_object->get_title() . '</div>';
             $html[] = $this->display_actions();
@@ -59,5 +67,7 @@ class RepositoryLinker extends RepositoryBlock
 
         return implode("\n", $html);
     }
+
 }
+
 ?>

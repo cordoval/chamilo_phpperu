@@ -8,6 +8,10 @@
                     <option name="allow_twitter_search_creation" value="1" />
                 </options>
             </setting>
+
+            <setting name="twitter_api_key" field="password"
+				default="">
+            </setting>
         </category>
     </settings>
 </application>	

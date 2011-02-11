@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\CoreApplication;
 use common\libraries\Redirect;
+use repository\content_object\system_announcement\SystemAnnouncement;
 /**
  * @package admin.block
  * $Id: system_announcements.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
@@ -16,6 +17,25 @@ require_once CoreApplication :: get_application_class_path('admin') . 'blocks/ad
 
 class AdminSystemAnnouncements extends AdminBlock
 {
+
+    public static function get_default_image_path($application='', $type='', $size = Theme :: ICON_MEDIUM) {
+        if ($type) {
+            return parent::get_default_image_path($application, $type, $size);
+        } else {
+            return Theme :: get_image_path(ContentObject:: get_content_object_type_namespace(SystemAnnouncement:: get_type_name())) . 'logo/' . $size . '.png';
+        }
+    }
+
+        function display_header() {
+        $html = array();
+
+        $icon = self::get_default_image_path();
+        $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . $icon . ');">';
+        $html[] = $this->display_title();
+        $html[] = '<div class="description"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') . '>';
+
+        return implode("\n", $html);
+    }
 
     function is_visible()
     {
