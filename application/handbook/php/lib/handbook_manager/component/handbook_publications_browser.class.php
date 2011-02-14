@@ -21,11 +21,13 @@ require_once dirname(__FILE__) . '/../../handbook_publication.class.php';
  * handbook component which allows the user to browse his handbook_publications
  * @author Nathalie Blocry
  */
-class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManager {
+class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManager
+{
 
     private $action_bar;
 
-    function run() {
+    function run()
+    {
         $this->action_bar = $this->get_action_bar();
         $output = $this->get_publications_html();
 
@@ -48,7 +50,8 @@ class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManage
         $this->display_footer();
     }
 
-    function get_action_bar() {
+    function get_action_bar()
+    {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
 
@@ -56,17 +59,21 @@ class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManage
 
         $user_id = $this->get_user_id();
         $publish_right = RightsUtilities::is_allowed(HandbookRights::PUBLISH_RIGHT, 0, 0, self::APPLICATION_NAME, $user_id);
-        if ($publish_right) {
+        if ($publish_right)
+        {
+
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishObject', array(
                                 'OBJECT' => Translation :: get('HandbookPublication')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_handbook_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_IMPORT))));
         }
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => self::APPLICATION_NAME, self :: PARAM_ACTION => self :: ACTION_IMPORT))));
+        
 
         return $action_bar;
     }
 
-    private function get_publications_html() {
+    private function get_publications_html()
+    {
         $parameters = $this->get_parameters(true);
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $parameters[Application :: PARAM_APPLICATION] = 'handbook';
@@ -82,22 +89,14 @@ class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManage
         return implode($html, "\n");
     }
 
-    function get_condition() {
-
+    function get_condition()
+    {
         $conditions = array();
-
-        //        $conditions[] = new EqualityCondition('1', '1');
-
-
         $search = $this->action_bar->get_query();
-
-        if (isset($search) && $search != '') {
+        if (isset($search) && $search != '')
+        {
             $conditions[] = new PatternMatchCondition(Handbook :: PROPERTY_TITLE, '*' . $search . '*');
         }
-
-        //        $conditions[] = new SubselectCondition(ContentObject::PROPERTY_ID, HandbookPublication::PROPERTY_CONTENT_OBJECT_ID, HandbookPublication::get_table_name(), null, null, HandbookDataManager::get_instance());
-
-
         $condition = new AndCondition($conditions);
         return $condition;
     }

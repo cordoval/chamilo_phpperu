@@ -44,7 +44,6 @@ class HandbookPublicationBrowserTableDataProvider extends ObjectTableDataProvide
      */
     function get_object_count()
     {
-//        return 1;
         $condition = $this->get_condition();
         return HandbookDataManager :: get_instance()->count_handbook_publications($condition);
     }

@@ -98,10 +98,18 @@ class HandbookPublicationBrowserTableCellRenderer extends DefaultHandbookPublica
             //handbook preferences
             //handbook rights
             $toolbar->add_item(new ToolbarItem(Translation :: get('EditPublicationRights'),
-                    Theme :: get_common_image_path() . 'action_create.png',
-                    $this->browser->get_url(array(Application::PARAM_APPLICATION => HandbookManager::APPLICATION_NAME, HandbookManager :: PARAM_ACTION => HandbookManager :: ACTION_EDIT_RIGHTS, HandbookManager:: PARAM_HANDBOOK_PUBLICATION_ID => $handbook_publication_id)),
-                    ToolbarItem :: DISPLAY_ICON
-            ));
+                    Theme :: get_common_image_path() . 'action_rights.png',
+                    $this->browser->get_url(array(Application::PARAM_APPLICATION => HandbookManager::APPLICATION_NAME, 
+                                                HandbookManager :: PARAM_ACTION => HandbookManager :: ACTION_EDIT_RIGHTS,
+                                                HandbookManager:: PARAM_HANDBOOK_PUBLICATION_ID => $handbook_publication_id)),
+                    ToolbarItem :: DISPLAY_ICON));
+           $toolbar->add_item(new ToolbarItem(Translation :: get('ViewHandbookPreferences'),
+                   Theme :: get_common_image_path() . 'action_build_prerequisites.png',
+                   $this->browser->get_url(array(Application::PARAM_APPLICATION => HandbookManager::APPLICATION_NAME,
+                                                HandbookManager :: PARAM_ACTION => HandbookManager ::ACTION_CREATE_PREFERENCE,
+                                                HandbookManager ::PARAM_HANDBOOK_PUBLICATION_ID => $handbook_publication_id)),
+                   ToolbarItem :: DISPLAY_ICON));
+            
         }
 
         return $toolbar->as_html();
