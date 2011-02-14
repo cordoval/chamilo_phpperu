@@ -31,13 +31,6 @@ class DefaultHandbookPublicationTableColumnModel extends ObjectTableColumnModel
         $columns[] = new StaticTableColumn('', false);
         $columns[] = new ObjectTableColumn(Handbook::PROPERTY_TITLE, true);
         $columns[] = new ObjectTableColumn(Handbook::PROPERTY_DESCRIPTION, true);
-       
-      
-       
-        
-
-
-
         return $columns;
     }
 }
