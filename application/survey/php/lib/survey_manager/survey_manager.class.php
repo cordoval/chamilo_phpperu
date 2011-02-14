@@ -48,7 +48,8 @@ class SurveyManager extends WebApplication
     const ACTION_EXPORT_RESULTS = 'results_exporter';
     const ACTION_MAIL_INVITEES = 'old_mailer';
     const ACTION_INVITE_EXTERNAL_USERS = 'inviter';
-
+const ACTION_DELETE_PARTICIPANT = 'participant_deleter';
+    
     //we don't allow to go to the builder of the survey from the publication: building surveys
     //only in the repository ==> just for usability ==> this has to be evaluated !
     const ACTION_BUILD_SURVEY = 'builder';
@@ -159,7 +160,12 @@ class SurveyManager extends WebApplication
         $survey_id = SurveyDataManager :: get_instance()->retrieve_survey_publication($survey_participant_tracker->get_survey_publication_id())->get_content_object_id();
         return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_VIEW, SurveyManager :: PARAM_PUBLICATION_ID => $survey_participant_tracker->get_survey_publication_id(), SurveyManager :: PARAM_INVITEE_ID => $survey_participant_tracker->get_user_id(), self :: PARAM_SURVEY_ID => $survey_id));
     }
-
+	
+ 	function get_survey_participant_delete_url($survey_participant_tracker)
+    {
+        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_DELETE_PARTICIPANT, self :: PARAM_PARTICIPANT_ID => $survey_participant_tracker->get_id()));
+    }
+    
     function get_survey_invitee_publication_viewer_url($publication_id, $user_id)
     {
         $survey_id = SurveyDataManager :: get_instance()->retrieve_survey_publication($publication_id)->get_content_object_id();

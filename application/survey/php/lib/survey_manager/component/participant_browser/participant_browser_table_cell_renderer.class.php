@@ -8,10 +8,6 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 
 require_once dirname(__FILE__) . '/participant_browser_table_column_model.class.php';
-//require_once dirname(__FILE__) . '/../../../tables/participant_table/default_participant_table_cell_renderer.class.php';
-//require_once dirname(__FILE__) . '/../../../trackers/survey_participant_tracker.class.php';
-//require_once dirname(__FILE__) . '/../../survey_manager.class.php';
-
 
 class SurveyParticipantBrowserTableCellRenderer extends DefaultParticipantTableCellRenderer
 {
@@ -53,6 +49,7 @@ class SurveyParticipantBrowserTableCellRenderer extends DefaultParticipantTableC
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         $toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_survey_participant_publication_viewer_url($survey_participant_tracker), ToolbarItem :: DISPLAY_ICON));
+     	$toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_survey_participant_delete_url($survey_participant_tracker), ToolbarItem :: DISPLAY_ICON));
         
         return $toolbar->as_html();
     }
