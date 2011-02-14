@@ -1,14 +1,17 @@
 <?php
+
 namespace repository\content_object\rss_feed;
 
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Theme;
-
 use repository\ContentObjectDisplay;
-
 use LastRss;
 use repository\ContentObject;
+use Zend_Gdata_Calendar;
+use Zend_Gdata_AuthSub;
+use Zend_Loader;
+use common\libraries\PlatformSetting;
 
 /**
  * $Id: rss_feed_display.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -16,16 +19,15 @@ use repository\ContentObject;
  */
 require_once Path :: get_plugin_path() . 'lastrss/lastrss.class.php';
 
-class RssFeedDisplay extends ContentObjectDisplay
-{
+class RssFeedDisplay extends ContentObjectDisplay {
+
     private $current_tag;
     private $current_value;
     private $xml;
     private $item;
     private $items;
 
-    function get_full_html()
-    {
+    function get_full_html() {
         $object = $this->get_content_object();
         $html = array();
 
@@ -37,8 +39,7 @@ class RssFeedDisplay extends ContentObjectDisplay
 
         $feed = $this->parse_file($object->get_url());
 
-        foreach ($feed['items'] as $item)
-        {
+        foreach ($feed['items'] as $item) {
             $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/rss_feed_item.png);">';
             $html[] = '<div class="title">' . $item['title'] . '</div>';
             $html[] = html_entity_decode($item['description']);
@@ -50,8 +51,7 @@ class RssFeedDisplay extends ContentObjectDisplay
     }
 
     //Inherited
-    function get_list_html()
-    {
+    function get_list_html() {
         $object = $this->get_content_object();
         $html = array();
 
@@ -60,29 +60,25 @@ class RssFeedDisplay extends ContentObjectDisplay
         return implode("\n", $html);
     }
 
-    function get_short_html()
-    {
+    function get_short_html() {
         $object = $this->get_content_object();
         return '<span class="content_object"><a href="' . htmlentities($object->get_url()) . '">' . htmlentities($object->get_title()) . '</a></span>';
     }
 
-    function parse_file($url)
-    {
+    function parse_file($url) {
         $rss = new LastRss($url);
         // TODO: Make items limit configurable.
         $rss->set_items_limit(5);
         $rss->set_cache_dir(Path :: get(SYS_TEMP_PATH));
 
-        if ($rs = $rss->get_feed_content())
-        {
+        if ($rs = $rss->get_feed_content()) {
             return $rs;
-        }
-        else
-        {
+        } else {
             return false;
             //die ('Error: RSS file not found...');
         }
     }
 
 }
+
 ?>

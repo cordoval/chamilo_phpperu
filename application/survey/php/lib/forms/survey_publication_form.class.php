@@ -66,20 +66,20 @@ class SurveyPublicationForm extends FormValidator
     function build_create_form()
     {
 
-        $checkbox = $this->createElement('checkbox', self :: PARAM_PARTICIPATE, '', Translation :: get('ParticipateYourself'), array());
-        $this->addElement($checkbox);
-        $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
-        $locale = array();
-        $locale['Display'] = Translation :: get('ShareWith');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
-        $attributes['locale'] = $locale;
-        $attributes['defaults'] = array();
-        $attributes['options'] = array('load_elements' => false);
-
-        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('Participants'), $attributes);
+//        $checkbox = $this->createElement('checkbox', self :: PARAM_PARTICIPATE, '', Translation :: get('ParticipateYourself'), array());
+//        $this->addElement($checkbox);
+//        $attributes = array();
+//        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
+//        $locale = array();
+//        $locale['Display'] = Translation :: get('ShareWith');
+//        $locale['Searching'] = Translation :: get('Searching');
+//        $locale['NoResults'] = Translation :: get('NoResults');
+//        $locale['Error'] = Translation :: get('Error');
+//        $attributes['locale'] = $locale;
+//        $attributes['defaults'] = array();
+//        $attributes['options'] = array('load_elements' => false);
+//
+//        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('Participants'), $attributes);
 
         $this->add_forever_or_timewindow();
 
@@ -120,16 +120,16 @@ class SurveyPublicationForm extends FormValidator
 
         if ($publication->update())
         {
-            $location_id = SurveyRights :: get_location_id_by_identifier_from_surveys_subtree($publication->get_id(), SurveyRights :: TYPE_PUBLICATION);
-
-            if ($values[self :: PARAM_PARTICIPATE] == 1)
-            {
-                RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $this->user->get_id(), $location_id, 1);
-            }
-            else
-            {
-                RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $this->user->get_id(), $location_id, 0);
-            }
+//            $location_id = SurveyRights :: get_location_id_by_identifier_from_surveys_subtree($publication->get_id(), SurveyRights :: TYPE_PUBLICATION);
+//
+//            if ($values[self :: PARAM_PARTICIPATE] == 1)
+//            {
+//                RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $this->user->get_id(), $location_id, 1);
+//            }
+//            else
+//            {
+//                RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $this->user->get_id(), $location_id, 0);
+//            }
             return true;
         }
         else
@@ -154,40 +154,40 @@ class SurveyPublicationForm extends FormValidator
             $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
         }
 
-        if ($values[self :: PARAM_TARGET_OPTION] != 0)
-        {
-            $user_ids = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
-
-            $group_ids = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
-            $group_user_ids = array();
-            foreach ($group_ids as $group_id)
-            {
-
-                $group = GroupDataManager :: get_instance()->retrieve_group($group_id);
-                $ids = $group->get_users(true, true);
-                $group_user_ids = array_merge($group_user_ids, $ids);
-
-            }
-            if (count($user_ids))
-            {
-                $user_ids = array_merge($user_ids, $group_user_ids);
-            }
-            else
-            {
-                $user_ids = $group_user_ids;
-            }
-        }
-        else
-        {
-            $users = UserDataManager :: get_instance()->retrieve_users();
-            $user_ids = array();
-            while ($user = $users->next_result())
-            {
-                $user_ids[] = $user->get_id();
-            }
-        }
-
-        $user_ids = array_unique($user_ids);
+//        if ($values[self :: PARAM_TARGET_OPTION] != 0)
+//        {
+//            $user_ids = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
+//
+//            $group_ids = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
+//            $group_user_ids = array();
+//            foreach ($group_ids as $group_id)
+//            {
+//
+//                $group = GroupDataManager :: get_instance()->retrieve_group($group_id);
+//                $ids = $group->get_users(true, true);
+//                $group_user_ids = array_merge($group_user_ids, $ids);
+//
+//            }
+//            if (count($user_ids))
+//            {
+//                $user_ids = array_merge($user_ids, $group_user_ids);
+//            }
+//            else
+//            {
+//                $user_ids = $group_user_ids;
+//            }
+//        }
+//        else
+//        {
+//            $users = UserDataManager :: get_instance()->retrieve_users();
+//            $user_ids = array();
+//            while ($user = $users->next_result())
+//            {
+//                $user_ids[] = $user->get_id();
+//            }
+//        }
+//
+//        $user_ids = array_unique($user_ids);
 
         $ids = unserialize($values['ids']);
 
@@ -209,23 +209,24 @@ class SurveyPublicationForm extends FormValidator
             }
             else
             {
-                $location_id = SurveyRights :: get_location_id_by_identifier_from_surveys_subtree($publication->get_id(), SurveyRights :: TYPE_PUBLICATION);
-
-                if (count($user_ids))
-                {
-                    foreach ($user_ids as $user_id)
-                    {
-                        $succes = RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $user_id, $location_id, 1);
-                    }
-                }
-                if ($values[self :: PARAM_PARTICIPATE] == 1)
-                {
-                    $succes = RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $this->user->get_id(), $location_id, 1);
-                }
-                else
-                {
-                    $succes = true;
-                }
+//                $location_id = SurveyRights :: get_location_id_by_identifier_from_surveys_subtree($publication->get_id(), SurveyRights :: TYPE_PUBLICATION);
+//
+//                if (count($user_ids))
+//                {
+//                    foreach ($user_ids as $user_id)
+//                    {
+//                        $succes = RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $user_id, $location_id, 1);
+//                    }
+//                }
+//                if ($values[self :: PARAM_PARTICIPATE] == 1)
+//                {
+//                    $succes = RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $this->user->get_id(), $location_id, 1);
+//                }
+//                else
+//                {
+//                    $succes = true;
+//                }
+				$succes = true;
             }
         }
 
@@ -248,17 +249,17 @@ class SurveyPublicationForm extends FormValidator
         $defaults = array();
         if (! $this->publication)
         {
-            $defaults[self :: PARAM_TARGET_OPTION] = 1;
+//            $defaults[self :: PARAM_TARGET_OPTION] = 1;
             $defaults[self :: PARAM_FOREVER] = 1;
         }
         else
         {
             $defaults[SurveyPublication :: PROPERTY_TYPE] = $this->publication->get_type();
 
-            if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $this->publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $this->user->get_id()))
-            {
-                $defaults[self :: PARAM_PARTICIPATE] = 1;
-            }
+//            if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $this->publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $this->user->get_id()))
+//            {
+//                $defaults[self :: PARAM_PARTICIPATE] = 1;
+//            }
 
             if ($this->publication->get_from_date() == 0)
             {

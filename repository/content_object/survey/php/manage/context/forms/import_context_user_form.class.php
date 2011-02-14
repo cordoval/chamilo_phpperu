@@ -17,7 +17,10 @@ use PHPExcel_Reader_Excel2007;
 use PHPExcel_Reader_Excel5;
 use PHPExcel_Reader_OOCalc;
 
-require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
+ini_set("memory_limit", "-1");
+ini_set("max_execution_time", "0");
+
+//require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 
 class ImportContextUserForm extends FormValidator
 {
@@ -92,16 +95,25 @@ class ImportContextUserForm extends FormValidator
         
         $worksheet = $excel->getSheet(0);
         $excel_array = $worksheet->toArray();
-               
+	
+//        dump($excel_array);
+        
+        
         $context_users = array();
          
         $context_user = new SurveyContextRelUser();
               
         $key_property_name = $excel_array[1][1];
            
+//        dump($key_property_name);
         
         $key_propertie_names = $this->context->get_allowed_keys();
-              
+
+        
+//        dump($key_propertie_names);
+        
+       
+        
         if (! in_array($key_property_name, $key_propertie_names))
         {
 			return false;
@@ -122,11 +134,14 @@ class ImportContextUserForm extends FormValidator
                 if (isset($context))
                 {
                 	$context_user->set_context_id($context->get_id());
-                    $success = $context_user->create();
+				     $success = $context_user->create();
+//				     if(!$success){
+//				     	dump($context_user);
+//				     }
                 }
-            
             }
         }
+//        exit;
         return $success;
     }
 }

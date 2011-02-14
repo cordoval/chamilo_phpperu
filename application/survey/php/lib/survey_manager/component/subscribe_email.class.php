@@ -12,7 +12,7 @@ use common\libraries\DynamicTabsRenderer;
 //require_once Path :: get_application_path() . 'lib/survey/forms/subscribe_user_form.class.php';
 require_once Path :: get_application_path() . 'survey/php/lib/survey_manager/component/participant_browser.class.php';
 
-class SurveyManagerSubscribeUserComponent extends SurveyManager
+class SurveyManagerSubscribeEmailComponent extends SurveyManager
 {
 
     /**
@@ -33,7 +33,7 @@ class SurveyManagerSubscribeUserComponent extends SurveyManager
         
         $publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($publication_id);
         
-        $form = new SurveySubscribeUserForm(SurveySubscribeUserForm :: TYPE_SELECT_USERS, $publication, $this->get_url(array(self :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID))), $this->get_user());
+        $form = new SurveySubscribeUserForm(SurveySubscribeUserForm :: TYPE_IMPORT_EMAILS, $publication, $this->get_url(array(self :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID))), $this->get_user());
         
         if ($form->validate())
         {

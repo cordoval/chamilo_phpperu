@@ -53,7 +53,8 @@ class DefaultParticipantTableCellRenderer extends ObjectTableCellRenderer
 
     private function get_total_time($survey_participant_tracker)
     {
-		$s = $survey_participant_tracker->get_total_time()-$survey_participant_tracker->get_start_time();
+		if($survey_participant_tracker->get_total_time()!=0){
+			$s = $survey_participant_tracker->get_total_time()-$survey_participant_tracker->get_start_time();
     	
     	
         $d = intval($s / 86400);
@@ -73,6 +74,10 @@ class DefaultParticipantTableCellRenderer extends ObjectTableCellRenderer
             $str .= $m . 'm ';
         if ($s)
             $str .= $s . 's';
+		}else{
+			$str = Translation :: get('NotFinished');
+		}
+    	
 
         return $str;
 

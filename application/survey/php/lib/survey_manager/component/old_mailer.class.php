@@ -126,10 +126,14 @@ class SurveyManagerOldMailerComponent extends SurveyManager
     function parse_values($values, $user_ids)
     {
 
-//    	dump($this->invitees);
+//    	dump(count($user_ids));
+//    	dump(count($this->invitees));
     	$this->invitees = array_intersect($this->invitees, $user_ids);
-//    	dump($this->invitees);
-    	$this->not_started = array_diff($this->not_started, $this->invitees);
+//    	dump(count($this->invitees));
+//    	dump(count($this->not_started));
+    	$this->not_started = array_intersect($this->not_started, $this->invitees);
+    	$this->finished = array_intersect($this->finished, $this->invitees);
+//    	dump(count($this->finished));
 //		dump($user_ids);
     	
         $users = array();

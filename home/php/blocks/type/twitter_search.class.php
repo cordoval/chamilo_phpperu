@@ -25,6 +25,14 @@ require_once CoreApplication :: get_application_class_path('repository') . 'bloc
  */
 class HomeTwitterSearch extends ContentObjectBlock {
 
+    public static function get_default_image_path($application='', $type='', $size = Theme :: ICON_MEDIUM) {
+        if($type){
+            return parent::get_default_image_path($application, $type, $size);
+        }else{
+            return Theme :: get_image_path(ContentObject :: get_content_object_type_namespace(TwitterSearch:: get_type_name())) . 'logo/' . $size .'.png';
+        }
+    }
+
     function __construct($parent, $block_info) {
         parent::__construct($parent, $block_info);
         $this->default_title = Translation :: get('TwitterSearch');
@@ -36,7 +44,7 @@ class HomeTwitterSearch extends ContentObjectBlock {
      * @return string
      */
     function get_icon() {
-        return Theme::get_content_object_image_path(TwitterSearch::get_type_name(), Theme::ICON_BIG);
+        return self::get_default_image_path();
     }
 
     /**

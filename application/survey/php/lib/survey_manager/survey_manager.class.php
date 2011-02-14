@@ -38,6 +38,7 @@ class SurveyManager extends WebApplication
     const ACTION_EXPORT = 'exporter';
 
     const ACTION_SUBSCRIBE_USER = 'subscribe_user';
+    const ACTION_SUBSCRIBE_EMAIL = 'subscribe_email';
     const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
     const ACTION_INVITE_USER = 'inviter';
 	const ACTION_INVITE_TEMPLATE_USER = 'subscribe_template_user';
@@ -180,7 +181,12 @@ class SurveyManager extends WebApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER, self :: PARAM_PUBLICATION_ID => $publication_id));
     }
-
+	
+	function get_subscribe_email_url($publication_id)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_EMAIL, self :: PARAM_PUBLICATION_ID => $publication_id));
+    }
+    
     function get_subscribe_group_url($publication_id)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_GROUP, self :: PARAM_PUBLICATION_ID => $publication_id));
