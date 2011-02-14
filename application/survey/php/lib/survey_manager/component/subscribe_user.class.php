@@ -33,7 +33,7 @@ class SurveyManagerSubscribeUserComponent extends SurveyManager
         
         $publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($publication_id);
         
-        $form = new SurveySubscribeUserForm($publication, $this->get_url(array(self :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID))), $this->get_user());
+        $form = new SurveySubscribeUserForm(SurveySubscribeUserForm :: TYPE_SELECT_USERS, $publication, $this->get_url(array(self :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID))), $this->get_user());
         
         if ($form->validate())
         {

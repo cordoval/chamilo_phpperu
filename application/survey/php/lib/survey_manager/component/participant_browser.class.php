@@ -88,9 +88,12 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, SurveyRights :: LOCATION_PARTICIPANT_BROWSER, SurveyRights :: TYPE_COMPONENT))
         {
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_subscribe_user_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            
+                        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeEmails'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_subscribe_email_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeGroups'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_subscribe_group_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('InviteUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_invite_user_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        	$action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeTemplateUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_invite_template_user_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        	
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeTemplateUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_invite_template_user_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             
         }
 
