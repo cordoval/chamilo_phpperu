@@ -56,13 +56,14 @@ class PortfolioManagerBrowserComponent extends PortfolioManager
 
     function get_table()
     {
-         $parameters = $this->get_parameters(true);
+        $parameters = $this->get_parameters(true);
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
+        $parameters['firstletter'] = $this->firstletter;
         $parameters[Application :: PARAM_APPLICATION] = 'portfolio';
         $parameters[Application :: PARAM_ACTION] =  PortfolioManager :: ACTION_BROWSE;
 
 
-        $table = new PortfolioBrowserTable($this, array(Application :: PARAM_APPLICATION => 'portfolio', Application :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE), $this->get_condition());
+        $table = new PortfolioBrowserTable($this, $parameters, $this->get_condition());
         return $table->as_html();
     }
 
