@@ -21,18 +21,22 @@ require_once CoreApplication :: get_application_class_path('user') . 'blocks/use
 class UserLogin extends UserBlock
 {
 
-    function as_html()
+    function is_editable()
     {
-        $html = array();
-
-        $html[] = $this->display_header();
-        $html[] = $this->display_anonymous_right_menu();
-        $html[] = $this->display_footer();
-
-        return implode("\n", $html);
+        return false;
     }
 
-    function display_anonymous_right_menu()
+    function is_hidable()
+    {
+        return false;
+    }
+
+    function is_deletable()
+    {
+        return false;
+    }
+
+    function display_content()
     {
         $html = array();
 
@@ -110,21 +114,6 @@ class UserLogin extends UserBlock
 
         //        $form->setDefaults(array('login' => Translation :: get('EnterUsername'), 'password' => '*******'));
         return $form->toHtml();
-    }
-
-    function is_editable()
-    {
-        return false;
-    }
-
-    function is_hidable()
-    {
-        return false;
-    }
-
-    function is_deletable()
-    {
-        return false;
     }
 }
 ?>

@@ -34,14 +34,14 @@ class WeblcmsCourseCatalog extends WeblcmsBlock {
      */
     const PARAM_COURSE_CATEGORY_ID = 'course_category';
 
-
-    function as_html() {
-        $html = array();
-        $html[] = $this->display_header();
-        $html[] = $this->display_content();
-        $html[] = $this->display_footer();
-        return implode(StringUtilities::NEW_LINE, $html);
-    }
+//
+//    function as_html() {
+//        $html = array();
+//        $html[] = $this->display_header();
+//        $html[] = $this->display_content();
+//        $html[] = $this->display_footer();
+//        return implode(StringUtilities::NEW_LINE, $html);
+//    }
 
     function display_content(){
         $html = array();
