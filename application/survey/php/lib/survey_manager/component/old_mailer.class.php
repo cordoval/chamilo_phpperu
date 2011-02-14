@@ -45,6 +45,7 @@ class SurveyManagerOldMailerComponent extends SurveyManager
         
         $this->invitees = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_PARTICIPATE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION);
         $invitee_count = count(array_unique($this->invitees));
+//        dump($invitee_count);
 //        $this->not_selected_user_count = $user_count - $invitee_count;
 //        $this->invitees = array_intersect($this->invitees, $user_ids);
         
@@ -67,16 +68,19 @@ class SurveyManagerOldMailerComponent extends SurveyManager
         
         while ($tracker = $trackers->next_result())
         {
-            $this->started[] = $tracker->get_user_id();
             if ($tracker->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
             {
                 $this->finished[] = $tracker->get_user_id();
+            }else if($tracker->get_status() == SurveyParticipantTracker :: STATUS_STARTED){
+            	$this->started[] = $tracker->get_user_id();
             }
         
         }
         $started_count = count(array_unique($this->started));
         
-        $this->not_started = array_diff($this->invitees, $this->started);
+//        dump($started_count);
+        
+        $this->not_started = array_diff($this->invitees, $this->started, $this->finished);
         
         $not_started_count = count(array_unique($this->not_started));
         

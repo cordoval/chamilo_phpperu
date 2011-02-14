@@ -20,6 +20,7 @@ class SurveyManagerTakerComponent extends SurveyManager
 {
     private $survey_id;
     private $publication_id;
+    private $publication;
     //    private $invitee_id;
     
 
@@ -43,9 +44,9 @@ class SurveyManagerTakerComponent extends SurveyManager
             Display :: not_allowed();
         }
         
-        $publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($this->publication_id);
+        $this->publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($this->publication_id);
         
-        if (! $publication->is_publication_period())
+        if (! $this->publication->is_publication_period())
         {
             $this->redirect(Translation :: get('NotInPublicationPeriod'), (false), array(
                     self :: PARAM_ACTION => self :: ACTION_BROWSE));
@@ -190,7 +191,17 @@ class SurveyManagerTakerComponent extends SurveyManager
             return null;
         }
     }
-
+	
+    function get_publication(){
+    	$this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+    	$this->publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($this->publication_id);
+    	return $this->publication;
+    }
+    
+    function with_menu(){
+    	return $this->get_publication()->with_menu();
+    }
+    
     function get_invitee_id()
     {
         return $this->get_user_id();

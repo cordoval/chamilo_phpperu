@@ -15,6 +15,8 @@ use PHPExcel_Reader_OOCalc;
 ini_set("memory_limit", "-1");
 ini_set("max_execution_time", "0");
 
+require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
+
 class SurveySubscribeUserForm extends FormValidator
 {
     
@@ -198,6 +200,9 @@ class SurveySubscribeUserForm extends FormValidator
         //        dump($excel_array);
         
         $no_user_emails = array();
+        $publication_id = $this->publication->get_id();
+        $location_id = SurveyRights :: get_location_id_by_identifier_from_surveys_subtree($publication_id, SurveyRights :: TYPE_PUBLICATION);
+        
         
         //each row in excel file starting at row 1,  no header!
         for($i = 1; $i < count($excel_array) + 1; $i ++)

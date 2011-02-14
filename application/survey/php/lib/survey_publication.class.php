@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace application\survey;
 
 use common\libraries\Utilities;
@@ -6,7 +6,6 @@ use common\libraries\Path;
 use rights\RightsUtilities;
 use common\libraries\DataClass;
 use repository\RepositoryDataManager;
-
 
 class SurveyPublication extends DataClass
 {
@@ -22,6 +21,10 @@ class SurveyPublication extends DataClass
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
     const PROPERTY_TYPE = 'type';
+    const PROPERTY_MENU = 'menu';
+    
+    const WITH_MENU = 1;
+    const WITHOUT_MENU = 2;
     
     const TYPE_OFFICIAL = 1;
     const TYPE_NAME_OFFICIAL = 'official';
@@ -70,7 +73,9 @@ class SurveyPublication extends DataClass
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_TYPE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, 
+                self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_PUBLISHER, 
+                self :: PROPERTY_PUBLISHED, self :: PROPERTY_TYPE, self :: PROPERTY_MENU));
     }
 
     function get_data_manager()
@@ -144,7 +149,23 @@ class SurveyPublication extends DataClass
 
     static public function get_types()
     {
-        return array(self :: TYPE_OFFICIAL => self :: TYPE_NAME_OFFICIAL, self :: TYPE_VOLUNTEER => self :: TYPE_NAME_VOLUNTEER);
+        return array(self :: TYPE_OFFICIAL => self :: TYPE_NAME_OFFICIAL, 
+                self :: TYPE_VOLUNTEER => self :: TYPE_NAME_VOLUNTEER);
+    }
+
+    function with_menu()
+    {
+        return $this->get_default_property(self :: PROPERTY_MENU)==1;
+    }
+
+    function get_menu()
+    {
+        return $this->get_default_property(self :: PROPERTY_MENU);
+    }
+
+    function set_menu($menu)
+    {
+        $this->set_default_property(self :: PROPERTY_MENU, $menu);
     }
 
     /**
@@ -182,7 +203,7 @@ class SurveyPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
     }
-   
+
     function is_publication_period()
     {
         
