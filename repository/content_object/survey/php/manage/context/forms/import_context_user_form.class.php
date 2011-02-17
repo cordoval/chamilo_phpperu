@@ -20,7 +20,7 @@ use PHPExcel_Reader_OOCalc;
 ini_set("memory_limit", "-1");
 ini_set("max_execution_time", "0");
 
-//require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
+require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 
 class ImportContextUserForm extends FormValidator
 {

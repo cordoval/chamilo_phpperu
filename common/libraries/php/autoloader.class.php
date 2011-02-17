@@ -315,6 +315,7 @@ class Autoloader
                 'forced_version_support' => 'forced_version_support.class.php',
                 'complex_menu_support' => 'complex_menu_support.class.php',
                 'complex_content_object_support' => 'complex_content_object_support.class.php',
+        		'complex_content_object_disclosure' => 'complex_content_object_disclosure.class.php',
         		'helper_content_object_support' => 'helper_content_object_support.class.php',
                 'administration_component' => 'administration_component.class.php',
                 'delegate_component' => 'delegate_component.class.php');

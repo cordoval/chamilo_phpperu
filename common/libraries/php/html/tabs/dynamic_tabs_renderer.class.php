@@ -47,7 +47,7 @@ class DynamicTabsRenderer
     {
         $this->tabs = $tabs;
     }
-    
+
     /**
      * Retrieves the number of tabs
      */
@@ -114,6 +114,11 @@ class DynamicTabsRenderer
 
         $html[] = '$(document).ready(function ()';
         $html[] = '{';
+
+        $html[] = '	$(\'ul.tabs-header > li > a\').click(function(e) {
+                e.preventDefault();
+            });';
+
         $html[] = '	$("#' . $this->get_name() . '_tabs ul").css(\'display\', \'block\');';
         $html[] = '	$("#' . $this->get_name() . '_tabs h2").hide();';
         $html[] = '	$("#' . $this->get_name() . '_tabs").tabs();';

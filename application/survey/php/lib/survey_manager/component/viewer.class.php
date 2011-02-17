@@ -1,7 +1,6 @@
 <?php
 namespace application\survey;
 
-
 use common\libraries\Path;
 use repository\content_object\survey\SurveyDisplaySurveyViewerComponent;
 use repository\content_object\survey\Survey;
@@ -20,12 +19,14 @@ use common\libraries\Display;
 //require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
 //require_once Path :: get_repository_content_object_path() . '/survey/php/display/component/viewer/survey_viewer_wizard.class.php';
 
+
 class SurveyManagerViewerComponent extends SurveyManagerTakerComponent
 {
     private $survey_id;
     private $publication_id;
     private $invitee_id;
-
+    private $publication;
+    
     /**
      * @var SurveyParticipantTracker
      */
@@ -33,26 +34,26 @@ class SurveyManagerViewerComponent extends SurveyManagerTakerComponent
 
     function run()
     {
-
+        
         $this->survey_id = Request :: get(SurveyDisplaySurveyViewerComponent :: PARAM_SURVEY_ID);
-
+        
         $this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
-
+        
         $this->invitee_id = Request :: get(SurveyDisplaySurveyViewerComponent :: PARAM_INVITEE_ID);
-
+        
         if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION, $this->invitee_id))
         {
             Display :: not_allowed();
         }
-
-        $publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($this->publication_id);
-
-        if (! $publication->is_publication_period())
+        
+        $this->publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($this->publication_id);
+        
+        if (! $this->publication->is_publication_period())
         {
             $this->redirect(Translation :: get('NotInPublicationPeriod'), (false), array(
                     self :: PARAM_ACTION => self :: ACTION_BROWSE));
         }
-
+        
         ComplexDisplay :: launch(Survey :: get_type_name(), $this, false);
     }
 
@@ -63,27 +64,25 @@ class SurveyManagerViewerComponent extends SurveyManagerTakerComponent
 
     function get_additional_parameters()
     {
-        return array(
-                self :: PARAM_PUBLICATION_ID,
-                SurveyDisplaySurveyViewerComponent :: PARAM_SURVEY_ID,
-                SurveyDisplaySurveyViewerComponent :: PARAM_INVITEE_ID,
+        return array(self :: PARAM_PUBLICATION_ID, SurveyDisplaySurveyViewerComponent :: PARAM_SURVEY_ID, 
+                SurveyDisplaySurveyViewerComponent :: PARAM_INVITEE_ID, 
                 SurveyDisplaySurveyViewerComponent :: PARAM_CONTEXT_PATH);
     }
 
     //try out for interface SurveyTaker
-
+    
 
     function started()
     {
         $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->publication_id);
         $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->invitee_id);
         $condition = new AndCondition($conditions);
-
+        
         $tracker_count = Tracker :: count_data(SurveyParticipantTracker :: CLASS_NAME, SurveyManager :: APPLICATION_NAME, $condition);
-
+        
         if ($tracker_count == 0)
         {
-
+            
             $args = array();
             $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->publication_id;
             $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $this->invitee_id;
@@ -104,7 +103,7 @@ class SurveyManagerViewerComponent extends SurveyManagerTakerComponent
 
     function finished()
     {
-
+    
      //        $condition = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->participant_tracker->get_id());
     //
     //        $answer_count = Tracker :: count_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
@@ -169,14 +168,14 @@ class SurveyManagerViewerComponent extends SurveyManagerTakerComponent
 
     function get_answer($complex_question_id, $context_path)
     {
-
+        
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->participant_tracker->get_id());
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $complex_question_id);
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_PATH, $context_path);
         $condition = new AndCondition($conditions);
-
+        
         $tracker = $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: CLASS_NAME, SurveyManager :: APPLICATION_NAME, $condition, 0, 1)->next_result();
-
+        
         if ($tracker)
         {
             return $tracker->get_answer();
@@ -187,10 +186,23 @@ class SurveyManagerViewerComponent extends SurveyManagerTakerComponent
         }
     }
 
-    function get_invitee_id(){
-    	return $this->invitee_id;
+    function get_publication()
+    {
+        $this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+        $this->publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($this->publication_id);
+        return $this->publication;
     }
-    
+
+    function with_menu()
+    {
+        return $this->get_publication()->with_menu();
+    }
+
+    function get_invitee_id()
+    {
+        return $this->invitee_id;
+    }
+
     function get_go_back_url()
     {
         return $this->get_browse_survey_publications_url();

@@ -37,14 +37,15 @@ class SurveyManagerSubscribeEmailComponent extends SurveyManager
         
         if ($form->validate())
         {
-            $success = $form->create_user_rights();
-            if ($success)
+            $no_user_emails = $form->create_email_rights();
+            if (count($no_user_emails)==0)
             {
                 $this->redirect(Translation :: get('SurveyUsersSubscribed'), (false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PARTICIPANTS, self :: PARAM_PUBLICATION_ID => $publication_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyManagerParticipantBrowserComponent :: TAB_INVITEES));
             }
             else
             {
-                $this->redirect(Translation :: get('SurveyUsersNotSubscribed'), (true), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PARTICIPANTS, self :: PARAM_PUBLICATION_ID => $publication_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyManagerParticipantBrowserComponent :: TAB_INVITEES));
+                $emails = implode(', ', $no_user_emails);
+            	$this->redirect(Translation :: get('SurveyUsersNotSubscribed: '.$emails), (true), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PARTICIPANTS, self :: PARAM_PUBLICATION_ID => $publication_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyManagerParticipantBrowserComponent :: TAB_INVITEES));
             }
         }
         else

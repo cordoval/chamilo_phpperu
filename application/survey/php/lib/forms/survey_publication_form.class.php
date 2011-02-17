@@ -25,6 +25,8 @@ class SurveyPublicationForm extends FormValidator
     const PARAM_FROM_DATE = 'from_date';
     const PARAM_TO_DATE = 'to_date';
     const PARAM_PARTICIPATE = 'participate';
+    
+    const PARAM_WITH_MENU = 'with_menu';
 
     private $publication;
     private $publication_type;
@@ -57,7 +59,7 @@ class SurveyPublicationForm extends FormValidator
     function build_edit_form()
     {
 
-        $checkbox = $this->createElement('checkbox', self :: PARAM_PARTICIPATE, Translation :: get('ParticipateYourself'), '', array());
+       	$checkbox = $this->createElement('checkbox', self :: PARAM_WITH_MENU, Translation :: get('WithMenu'), '', array());
         $this->addElement($checkbox);
         $this->add_forever_or_timewindow();
         $this->add_select(SurveyPublication :: PROPERTY_TYPE, Translation :: get('SurveyType'), SurveyPublication :: get_types());
@@ -80,7 +82,10 @@ class SurveyPublicationForm extends FormValidator
 //        $attributes['options'] = array('load_elements' => false);
 //
 //        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('Participants'), $attributes);
-
+	
+    	$checkbox = $this->createElement('checkbox', self :: PARAM_WITH_MENU, Translation :: get('WithMenu'), '', array());
+        $this->addElement($checkbox);
+    	
         $this->add_forever_or_timewindow();
 
         $this->add_select(SurveyPublication :: PROPERTY_TYPE, Translation :: get('SurveyType'), SurveyPublication :: get_types());
@@ -102,7 +107,8 @@ class SurveyPublicationForm extends FormValidator
         $values = $this->exportValues();
 
         $this->publication_type = $values[SurveyPublication :: PROPERTY_TYPE];
-
+		$this->menu = $values[self :: PARAM_WITH_MENU];
+        
         if ($values[self :: PARAM_FOREVER] != 0)
         {
             $from = $to = 0;
@@ -117,7 +123,8 @@ class SurveyPublicationForm extends FormValidator
         $publication->set_from_date($from);
         $publication->set_to_date($to);
         $publication->set_type($this->publication_type);
-
+		$publication->set_menu($this->menu);
+        
         if ($publication->update())
         {
 //            $location_id = SurveyRights :: get_location_id_by_identifier_from_surveys_subtree($publication->get_id(), SurveyRights :: TYPE_PUBLICATION);
@@ -143,6 +150,7 @@ class SurveyPublicationForm extends FormValidator
         $values = $this->exportValues();
 
         $this->publication_type = $values[SurveyPublication :: PROPERTY_TYPE];
+        $this->menu = $values[self :: PARAM_WITH_MENU];
 
         if ($values[self :: PARAM_FOREVER] != 0)
         {
@@ -202,6 +210,7 @@ class SurveyPublicationForm extends FormValidator
             $publication->set_from_date($from);
             $publication->set_to_date($to);
             $publication->set_type($this->publication_type);
+            $publication->set_menu($this->menu);
 
             if (! $publication->create())
             {
@@ -251,11 +260,13 @@ class SurveyPublicationForm extends FormValidator
         {
 //            $defaults[self :: PARAM_TARGET_OPTION] = 1;
             $defaults[self :: PARAM_FOREVER] = 1;
+            $defaults[self :: PARAM_WITH_MENU] = 1;
         }
         else
         {
             $defaults[SurveyPublication :: PROPERTY_TYPE] = $this->publication->get_type();
-
+			$defaults[self :: PARAM_WITH_MENU] = $this->publication->with_menu();
+            
 //            if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $this->publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $this->user->get_id()))
 //            {
 //                $defaults[self :: PARAM_PARTICIPATE] = 1;

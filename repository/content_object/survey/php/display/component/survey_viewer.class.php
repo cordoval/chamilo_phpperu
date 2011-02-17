@@ -50,7 +50,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $this->survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
         
         $this->survey->initialize($invitee_id);
-
+        
         if ($this->survey->count_pages() == 0)
         {
             $this->build_no_page_viewer();
@@ -79,7 +79,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
             if ($finished)
             {
                 $this->finished();
-            	$this->build_summery_viewer();
+                $this->build_summery_viewer();
             }
             else
             {
@@ -89,8 +89,9 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
                     $this->context_path = $page_context_paths[0];
                 
                 }
-//                dump($this->context_path);
+                //                dump($this->context_path);
                 
+
                 $this->current_page = $this->survey->get_survey_page($this->context_path);
                 
                 $action = $this->get_parent()->get_url();
@@ -123,8 +124,13 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
     {
         $html = array();
         $this->get_parent()->display_header();
-        $html[] = $this->get_menu_html();
-        $html[] = '<div style="float: right; width: 70%;">';
+        
+        if ($this->with_menu())
+        {
+            $html[] = $this->get_menu_html();
+            $html[] = '<div style="float: right; width: 70%;">';
+        }
+        
         $html[] = '<div class="assessment">';
         $html[] = '<h2>' . Survey :: parse($this->survey->get_invitee_id(), $this->context_path, $this->survey->get_title()) . '</h2>';
         $html[] = '<br />';
@@ -166,7 +172,11 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $html[] = '</div>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/survey/resources/javascript/survey_question.js');
         $html[] = '<div class="clear"></div>';
-        $html[] = '</div>';
+        
+        if ($this->with_menu())
+        {
+            $html[] = '</div>';
+        }
         
         echo implode("\n", $html);
         
@@ -287,11 +297,12 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $progress = $this->get_progress();
         $this->get_parent()->finished($progress);
     }
-	
-    function get_invitee_id(){
-    	return $this->get_parent()->get_invitee_id();
+
+    function get_invitee_id()
+    {
+        return $this->get_parent()->get_invitee_id();
     }
-    
+
     function save_answer($question_id, $answer, $context_path)
     {
         $this->get_parent()->save_answer($question_id, $answer, $context_path);
@@ -305,6 +316,11 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
     function get_go_back_url()
     {
         return $this->get_parent()->get_go_back_url();
+    }
+
+    function with_menu()
+    {
+        return $this->get_parent()->with_menu();
     }
 
     function survey_view_form_submitted()
@@ -329,14 +345,14 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
 
     function get_previous_context_path($context_path)
     {
-//                dump('now '.$context_path);
-//                dump($this->get_page_nrs());
-//                dump();
-//        $previous_page_nr = $this->context_paths[$context_path] - 1;
+        //                dump('now '.$context_path);
+        //                dump($this->get_page_nrs());
+        //                dump();
+        //        $previous_page_nr = $this->context_paths[$context_path] - 1;
         $previous_page_nr = $this->get_page_nr($context_path) - 1;
         
         $previous_context_path = null;
-//        foreach ($this->context_paths as $context_path => $page_nr)
+        //        foreach ($this->context_paths as $context_path => $page_nr)
         foreach ($this->get_page_nrs() as $context_path => $page_nr)
         {
             if ($page_nr == $previous_page_nr)

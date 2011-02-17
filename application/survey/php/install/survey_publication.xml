@@ -10,7 +10,7 @@
 		<property name="publisher_id" type="integer" notnull="1" />
 		<property name="published" type="integer" notnull="1" />
 		<property name="type" type="integer" notnull="1" />
-
+		<property name="menu" type="integer" notnull="1" />
 	</properties>
 	<index name="content_object_id">
 		<indexproperty name="content_object_id" />
