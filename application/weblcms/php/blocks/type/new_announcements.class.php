@@ -11,6 +11,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 use repository\content_object\announcement\Announcement;
+use common\libraries\Theme;
+use common\libraries\Application;
 
 /**
  * $Id: new_announcements.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -25,6 +27,19 @@ require_once WebApplication :: get_application_class_path('weblcms') . 'lib/cour
  */
 class WeblcmsNewAnnouncements extends WeblcmsBlock
 {
+
+    public static function get_default_image_path($application='', $type='', $size = Theme :: ICON_MEDIUM) {
+        return Theme :: get_image_path(Application :: determine_namespace('weblcms')) . 'course_announcement.png';
+    }
+    
+    /**
+     * Returns the url to the icon.
+     *
+     * @return string
+     */
+    function get_icon() {
+        return self::get_default_image_path();
+    }
 
     function  display_content() {
         $html = array();

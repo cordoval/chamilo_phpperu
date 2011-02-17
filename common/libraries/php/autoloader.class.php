@@ -80,6 +80,25 @@ class Autoloader
         return false;
     }
 
+    static function check_directory($directory, $recursive = true) {
+        $files = scandir($directory);
+        $files = array_diff($files, array('.', '..'));
+        foreach($files as $file){
+            if(is_dir($directory.'/'.$file) && $recursive){
+                if($result = self::check_directory($directory.'/'.$file, $recursive)){
+                    return true;
+                }
+            }else{
+                $name = str_replace('.class.php', '', $file);
+                $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
+                if($name == $lower_case){
+                    require_once $directory.'/'.$file;
+                }
+            }
+        }
+        return false;
+    }
+
     static function check_for_webservice_files()
     {
         $list = array(
@@ -98,20 +117,21 @@ class Autoloader
 
     static function check_for_ims_files()
     {
-        $list = array(
-                'ims_xml_reader' => 'common/reader/ims_xml_reader.class.php',
-                'ims_xml_writer' => 'common/writer/ims_xml_writer.class.php',
-                'qti_import_strategy_base' => 'qti/import_strategy/qti_import_strategy_base.class.php',
-                'qti_renderer_base' => 'qti/qti_renderer_base.class.php');
-        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
-
-        if (array_key_exists($lower_case, $list))
-        {
-            $url = $list[$lower_case];
-            require_once dirname(__FILE__) . '/ims/' . $url;
+        if(self::check_directory(dirname(__FILE__) . '/ims/lib')){
             return true;
         }
-
+        if(self::check_directory(dirname(__FILE__) . '/ims/common')){
+            return true;
+        }
+        if(self::check_directory(dirname(__FILE__) . '/ims/qti')){
+            return true;
+        }
+        if(self::check_directory(dirname(__FILE__) . '/ims/cp')){
+            return true;
+        }
+        if(self::check_directory(dirname(__FILE__) . '/ims/chamilo')){
+            return true;
+        }
         return false;
     }
 
@@ -337,6 +357,7 @@ class Autoloader
                 'application_component',
                 'application',
                 'block',
+                'block_connector_base',
                 'core_application_component',
                 'core_application',
                 'installer',

@@ -10,7 +10,6 @@ use DOMDocument;
  *
  *
  * @copyright (c) 2010 University of Geneva
- *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *

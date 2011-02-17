@@ -10,6 +10,7 @@ use common\libraries\StringUtilities;
 use common\libraries\Block;
 use repository\RepositoryDataManager;
 use repository\ContentObjectBlock;
+use common\libraries\Application;
 
 require_once CoreApplication :: get_application_class_path('repository') . 'blocks/content_object_block.class.php';
 
@@ -23,7 +24,11 @@ require_once CoreApplication :: get_application_class_path('repository') . 'bloc
  * @package home.block
  */
 class HomeStatic extends ContentObjectBlock {
-    
+
+    public static function get_default_image_path($application='', $type='', $size = Theme :: ICON_MEDIUM) {
+        return Theme :: get_image_path(Application :: determine_namespace('home')) . 'static.png';
+    }
+
     /**
      * Returns the list of type names that this block can map to.
      *
@@ -39,9 +44,17 @@ class HomeStatic extends ContentObjectBlock {
         return $result;
     }
 
-    function is_visible()
-    {
+    function is_visible() {
         return true; //i.e.display on homepage when anonymous
+    }
+
+    /**
+     * Returns the url to the icon.
+     *
+     * @return string
+     */
+    function get_icon() {
+        return self::get_default_image_path();
     }
 
 }

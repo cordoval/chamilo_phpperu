@@ -21,9 +21,9 @@ class ContentObjectBlock extends RepositoryBlock {
 
     protected $default_title = '';
 
-    function __construct($parent, $block_info, $configuration){
+    function __construct($parent, $block_info, $configuration, $default_title = ''){
         parent::__construct($parent, $block_info, $configuration);
-        $this->default_title = Translation :: get('Object');
+        $this->default_title = $default_title ? $default_title : Translation :: get('Object');
     }
 
     /**
