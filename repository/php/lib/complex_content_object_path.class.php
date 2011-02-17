@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\ComplexContentObjectDisclosure;
+
 use common\libraries\HelperContentObjectSupport;
 use common\libraries\ComplexContentObjectSupport;
 use common\libraries\EqualityCondition;
@@ -161,7 +163,7 @@ class ComplexContentObjectPath
      */
     function initialize(ContentObject $content_object)
     {
-        $root_id = $this->add(0, $content_object);
+        $root_id = $this->add(0, $content_object->get_title());
         $this->add_items($root_id, $content_object);
     }
 
@@ -184,8 +186,12 @@ class ComplexContentObjectPath
 
                 if ($content_object instanceof ComplexContentObjectSupport)
                 {
-                    $node_id = $this->add($parent_id, $content_object);
+                    $node_id = $this->add($parent_id, $content_object->get_title());
                     $this->add_items($node_id, $content_object);
+                }
+                elseif($root_content_object instanceof ComplexContentObjectDisclosure)
+                {
+                    $node_id = $this->add($parent_id, $content_object->get_title());
                 }
             }
         }
