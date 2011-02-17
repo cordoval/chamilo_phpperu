@@ -4,26 +4,27 @@ namespace common\libraries;
 
 use home\HomeManager;
 use common\libraries\StringUtilities;
+use home\HomeRenderer;
 
 /**
  * $Id: block.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common
  */
 class Block {
+
     const PARAM_ACTION = 'block_action';
     const BLOCK_LIST_SIMPLE = 'simple';
     const BLOCK_LIST_ADVANCED = 'advanced';
 
     const BLOCK_VIEW = 'block_view'; // display the block view for integration into chamil's home page
     const WIDGET_VIEW = 'widget_view'; // dispay the widget view for integration into a third party application such as a portal
-
     /**
      *
      * @param HomeRenderer $renderer
      * @param HomeBlock $block_info
      * @return Block
      */
-    static public function factory(HomeRenderer $renderer, HomeBlock $block_info) {
+    static public function factory(HomeRenderer $renderer, HomeBlock $block_info, $configuration = null) {
         $type = $block_info->get_component();
         $application = $block_info->get_application();
 
@@ -34,7 +35,7 @@ class Block {
         $application_type = Application :: get_application_type($application);
         $class = $application_type :: get_application_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($application . '_' . $type);
         require_once $path;
-        return new $class($renderer, $block_info);
+        return new $class($renderer, $block_info, $configuration);
     }
 
     /**
@@ -73,10 +74,10 @@ class Block {
     private $configuration;
     private $view = self::BLOCK_VIEW;
 
-    function __construct($parent, $block_info) {
+    function __construct($parent, $block_info, $configuration = null) {
         $this->parent = $parent;
         $this->block_info = $block_info;
-        $this->configuration = $block_info->get_configuration();
+        $this->configuration = $configuration ? $configuration : $block_info->get_configuration();
     }
 
     /**
@@ -157,6 +158,13 @@ class Block {
     }
 
     /**
+     * Link target for external links. I.e. links that do not modify the widget itself. In widget mode they should point to a new windows.
+     */
+    public function get_link_target() {
+        return Request::get(HomeRenderer::PARAM_WIDGET_ID, false) ? '_blank' : '';
+    }
+
+    /**
      * Returns the url to the icon.
      *
      * @return string
@@ -187,7 +195,8 @@ class Block {
 
         $block_id = $this->get_block_info()->get_id();
         $icon_url = $this->get_icon();
-        $widget_view_url = $this->get_block_widget_view_link($this->block_info);
+        $widget_view_url = htmlspecialchars($this->get_block_widget_view_link($this->block_info));
+
         $title = $this->display_title();
         if ($this->get_view() == self::BLOCK_VIEW) {//i.e. in widget view it is the portal configuration that decides to show/hide
             $description_style = $this->get_block_info()->is_visible() ? '' : ' style="display: none"';
@@ -196,13 +205,9 @@ class Block {
         }
 
         $html = array();
-        $html[] = '<div class="block hslice" id="block_' . $block_id . '" style="background-image: url(' . $icon_url . ');">';
+        $html[] = '<div class="block" id="block_' . $block_id . '" style="background-image: url(' . $icon_url . ');">';
         $html[] = $title;
-        //support for IE web slices
-        $html[] = '<span class="ttl" style="display:none;">15</span>'; //refresh 15 minutes
-        $html[] = '<a rel="entry-content" href="' . $widget_view_url . '" style="display:none;"></a>';
-        //$html[] = '<a rel="bookmark" href="'. $this->get_url().'" style="display:none;"></a>';
-        $html[] = '<div class="description"' . $description_style . '>';
+        $html[] = '<div class="entry-content description"' . $description_style . '>';
 
         return implode("\n", $html);
     }
@@ -213,7 +218,7 @@ class Block {
         $actions = $this->display_actions();
 
         $html = array();
-        $html[] = '<div class="title entry-title"><div style="float: left;">' . $title . '</div>';
+        $html[] = '<div class="title"><div style="float: left;" class="entry-title">' . $title . '</div>';
         $html[] = $actions;
         $html[] = '<div style="clear: both;"></div>';
         $html[] = '</div>';
@@ -233,22 +238,22 @@ class Block {
         $img_path = htmlspecialchars(Theme :: get_common_image_path());
         if (($user_home_allowed && Authentication :: is_valid()) || (!is_null($this->get_user()) && $this->get_user()->is_platform_admin())) {
             if ($this->is_deletable()) {
-                $html[] = '<a href="' . htmlspecialchars($this->get_block_deleting_link($this->get_block_info())) . '" class="deleteEl"><img src="' . $img_path . 'action_delete.png" /></a>';
+                $html[] = '<a href="' . htmlspecialchars($this->get_block_deleting_link($this->get_block_info())) . '" class="deleteEl"><img src="' . $img_path . 'action_delete.png" alt="Delete"/></a>';
             }
 
             if ($this->block_info->is_configurable()) {
-                $html[] = '<a href="' . htmlspecialchars($this->get_block_configuring_link($this->get_block_info())) . '" class="configEl"><img src="' . $img_path . 'action_config.png" /></a>';
+                $html[] = '<a href="' . htmlspecialchars($this->get_block_configuring_link($this->get_block_info())) . '" class="configEl"><img src="' . $img_path . 'action_config.png" alt="Config"/></a>';
             }
 
             if ($this->is_editable()) {
-                $html[] = '<a href="' . htmlspecialchars($this->get_block_editing_link($this->get_block_info())) . '" class="editEl"><img src="' . $img_path . 'action_edit.png" /></a>';
+                $html[] = '<a href="' . htmlspecialchars($this->get_block_editing_link($this->get_block_info())) . '" class="editEl"><img src="' . $img_path . 'action_edit.png" alt="Edit"/></a>';
             }
 
             if ($this->is_hidable()) {
-                $html[] = '<a href="' . htmlspecialchars($this->get_block_visibility_link($this->get_block_info())) . '" class="closeEl"><img class="visible"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') . ' src="' . $img_path . 'action_visible.png" /><img class="invisible"' . ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') . ' src="' . $img_path . 'action_invisible.png" /></a>';
+                $html[] = '<a href="' . htmlspecialchars($this->get_block_visibility_link($this->get_block_info())) . '" class="closeEl"><img class="visible"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') . ' src="' . $img_path . 'action_visible.png" alt="Visible"/><img class="invisible"' . ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') . ' src="' . $img_path . 'action_invisible.png" alt="Invisible"/></a>';
             }
 
-            $html[] = '<a href="#" id="drag_block_' . $this->get_block_info()->get_id() . '" class="dragEl"><img src="' . $img_path . 'action_drag.png" /></a>';
+            $html[] = '<a href="#" id="drag_block_' . $this->get_block_info()->get_id() . '" class="dragEl"><img src="' . $img_path . 'action_drag.png" alt="Drag"/></a>';
         }
 
         return implode("\n", $html);
@@ -275,10 +280,11 @@ class Block {
      * @return string
      */
     function get_block_widget_view_link($home_block) {
-        return $this->get_link(HomeManager :: APPLICATION_NAME, array(
-            HomeManager :: PARAM_ACTION => HomeManager :: ACTION_WIDGET_VIEWER,
-            HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK,
-            HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
+        $result = Redirect :: get_link('', array(
+                    HomeRenderer :: PARAM_VIEW_TYPE => HomeRenderer :: TYPE_WIDGET,
+                    HomeRenderer :: PARAM_WIDGET_ID => $home_block->get_id()), array(), false, Redirect :: TYPE_INDEX);
+        $result = Path::get(WEB_PATH) . $result;
+        return $result;
     }
 
     function get_block_visibility_link($home_block) {
@@ -367,7 +373,6 @@ class Block {
      * We keep this since Quickform's hierselect element
      * only works if javascript is enabled
      */
-
     function get_platform_blocks_deprecated() {
         $application_components = array();
         $applications = WebApplication :: load_all(false);
@@ -416,11 +421,24 @@ class Block {
     }
 
     function get_url($parameters = array(), $filter = array(), $encode_entities = false) {
-        return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+        if ($widget_id = Request::get(HomeRenderer::PARAM_WIDGET_ID)) {
+            $parameters[HomeRenderer::PARAM_WIDGET_ID] = $widget_id;
+        }
+        $result = $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+        return $result;
     }
 
     function get_parameter($name) {
         return $this->get_parent()->get_parameter($name);
+    }
+
+    function get_parameters() {
+        $result = $this->get_parent()->get_parameters();
+        if ($widget_id = Request::get(HomeRenderer::PARAM_WIDGET_ID)) {
+            $result[HomeRenderer::PARAM_WIDGET_ID] = $widget_id;
+        }
+
+        return $result;
     }
 
 }

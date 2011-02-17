@@ -159,6 +159,8 @@ if (! AdminDataManager :: is_language_active($language_interface))
 // Login
 if (isset($_POST['login']))
 {
+
+
     $user = UserDataManager :: login($_POST['login'], $_POST['password']);
     if ($user instanceof User)
     {
@@ -172,6 +174,7 @@ if (isset($_POST['login']))
             $request_uris = explode("/", $request_uri);
             $request_uri = array_pop($request_uris);
             header('Location: ' . $request_uri);
+            die;
         }
 
         $login_page = PlatformSetting :: get('page_after_login');
@@ -193,7 +196,9 @@ if (isset($_POST['login']))
 }
 else
 {
-    Session :: unregister('request_uri');
+    if(session::get_user_id()){
+        Session :: unregister('request_uri');
+    }
 }
 
 set_error_handler('handle_error');

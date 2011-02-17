@@ -1,4 +1,5 @@
 <?php
+
 namespace application\personal_messenger;
 
 use common\libraries\WebApplication;
@@ -8,99 +9,85 @@ use common\libraries\Theme;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+
 /**
  * $Id: view_messages.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.block
  */
 require_once WebApplication :: get_application_class_path('personal_messenger') . 'blocks/personal_messenger_block.class.php';
 require_once Path :: get_common_libraries_class_path() . 'utilities.class.php';
+
 /**
  * This class represents a calendar publisher component which can be used
  * to browse through the possible learning objects to publish.
  */
-class PersonalMessengerViewMessages extends PersonalMessengerBlock
-{
+class PersonalMessengerViewMessages extends PersonalMessengerBlock {
 
     /*
-	 * Inherited
-	 */
-    function as_html()
-    {
+     * Inherited
+     */
+    function display_content() {
         $nrOfMessages = 5;
         $nrOfNewMessages = 0;
         $html = array();
 
-        $html[] = $this->display_header();
-
         /*
-		$publications = $personal_messenger->retrieve_personal_message_publications($this->get_condition(), array (), array (), $nrOfMessages);
-		if($publications->size() > 0)
-		{
-			while($publication = $publications->next_result())
-			{
-				if($publication->get_status() == 1)
-				{
-					$this->show_publication($publication,$personal_messenger,$html,true);
-				}else
-				{
-					$this->show_publication($publication,$personal_messenger,$html,false);
-				}
-			}
-		}
-		*/
+          $publications = $personal_messenger->retrieve_personal_message_publications($this->get_condition(), array (), array (), $nrOfMessages);
+          if($publications->size() > 0)
+          {
+          while($publication = $publications->next_result())
+          {
+          if($publication->get_status() == 1)
+          {
+          $this->show_publication($publication,$personal_messenger,$html,true);
+          }else
+          {
+          $this->show_publication($publication,$personal_messenger,$html,false);
+          }
+          }
+          }
+         */
 
         $publications_new = PersonalMessengerDataManager :: get_instance()->retrieve_personal_message_publications($this->get_condition("new"), array(), array(), $nrOfMessages);
         $publications_recent = PersonalMessengerDataManager :: get_instance()->retrieve_personal_message_publications($this->get_condition(), array(), array(), $nrOfMessages);
 
         $arr_pub_new = array();
-        while ($publication = $publications_new->next_result())
-        {
+        while ($publication = $publications_new->next_result()) {
             $arr_pub_new[] = $publication;
         }
 
         $arr_pub = array();
-        while ($publication = $publications_recent->next_result())
-        {
+        while ($publication = $publications_recent->next_result()) {
             $arr_pub[] = $publication;
         }
 
-        if ($publications_new->size() > 0)
-        {
-            foreach ($arr_pub_new as $publication)
-            {
+        if ($publications_new->size() > 0) {
+            foreach ($arr_pub_new as $publication) {
                 $this->show_publication($publication, $html, true);
                 $nrOfNewMessages = $nrOfNewMessages + 1;
             }
         }
-        if ($publications_recent->size() > 0 && $nrOfNewMessages < $nrOfMessages)
-        {
-            foreach ($arr_pub as $publication)
-            {
-                if (! $this->is_new($publication, $arr_pub_new))
-                {
+        if ($publications_recent->size() > 0 && $nrOfNewMessages < $nrOfMessages) {
+            foreach ($arr_pub as $publication) {
+                if (!$this->is_new($publication, $arr_pub_new)) {
                     $this->show_publication($publication, $html, false);
                 }
             }
-        }
-        else
-        {
+        } else {
             $html[] = htmlspecialchars(Translation :: get('NoMessages'));
         }
-        //*/
-
-
-        $html[] = $this->display_footer();
 
         return implode("\n", $html);
     }
 
-    function show_publication(&$publication, &$html, $new)
-    {
+    function show_publication(&$publication, &$html, $new) {
         $img_path = htmlspecialchars(Theme :: get_common_image_path());
         $separator = ' - ';
         $html[] = $new ? '<img width="15" height="15" src="' . $img_path . 'content_object/personal_message_new.png" />' : '<img width="15" height="15" src="' . $img_path . 'content_object/personal_message_na.png" />';
 
-        $html[] = '<a href="' . htmlspecialchars($this->get_publication_viewing_link($publication)) . '">';
+        $target = $this->get_link_target();
+        $target = $target ? ' target="' . $target . '" ' : '';
+        $html[] = '<a href="' . htmlspecialchars($this->get_publication_viewing_link($publication)) . '"' . $target . '>';
         //$html[] = htmlspecialchars($this->str_trim($publication->get_publication_sender()->get_fullname())) . $separator;
         //$html[] = htmlspecialchars($this->str_trim($publication->get_publication_object()->get_title()));
         $html[] = Utilities :: truncate_string($publication->get_publication_sender()->get_fullname(), 32) . $separator;
@@ -112,21 +99,17 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
         $html[] = '<br />	';
     }
 
-    function is_new(&$publication, &$arr_pub_new)
-    {
+    function is_new(&$publication, &$arr_pub_new) {
         $result = false;
-        foreach ($arr_pub_new as $publication_new)
-        {
-            if ($publication->get_publication_object()->get_id() == $publication_new->get_publication_object()->get_id())
-            {
+        foreach ($arr_pub_new as $publication_new) {
+            if ($publication->get_publication_object()->get_id() == $publication_new->get_publication_object()->get_id()) {
                 $result = true;
             }
         }
         return $result;
     }
 
-    function get_condition($condition)
-    {
+    function get_condition($condition) {
 
         $conditions = array();
         if ($condition == "new")
@@ -146,4 +129,5 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
 //     	return htmlentities(substr($str, 0, $lim - 3)).$chr;
 // 	}
 }
+
 ?>

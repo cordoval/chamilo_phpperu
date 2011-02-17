@@ -39,8 +39,8 @@ class RepositoryLinker extends ContentObjectBlock {
         return $result;
     }
 
-    function __construct($parent, $block_info) {
-        parent::__construct($parent, $block_info);
+    function __construct($parent, $block_info, $configuration) {
+        parent::__construct($parent, $block_info, $configuration);
         $this->default_title = Translation::get('Linker');
     }
 

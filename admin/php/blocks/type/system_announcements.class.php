@@ -102,7 +102,7 @@ class AdminSystemAnnouncements extends AdminBlock {
             if ($announcement->is_visible_for_target_users()) {
                 $object = $announcement->get_publication_object();
                 $icon = htmlspecialchars(Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($object->get_type()))) . 'logo/' . $object->get_icon_name(Theme :: ICON_MINI) . '.png';
-                $href = $this->get_announcement_link($announcement);
+                $href = htmlspecialchars($this->get_announcement_link($announcement));
                 $title = htmlspecialchars($object->get_title()) ;
                 $target = $this->get_view() == self::WIDGET_VIEW ? ' target="_blank" ' : '';
                 $html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="' . $icon . '"/>&nbsp;&nbsp;<a href="' . $href . '"'. $target .'>' . $title. '</a></li>';

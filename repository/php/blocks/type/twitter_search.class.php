@@ -1,6 +1,6 @@
 <?php
 
-namespace home;
+namespace repository;
 
 use common\libraries\Translation;
 use common\libraries\Theme;
@@ -23,7 +23,7 @@ require_once CoreApplication :: get_application_class_path('repository') . 'bloc
  * @license GNU General Public License - http://www.gnu.org/copyleft/gpl.html
  * @author laurent opprecht
  */
-class HomeTwitterSearch extends ContentObjectBlock {
+class RepositoryTwitterSearch extends ContentObjectBlock {
 
     public static function get_default_image_path($application='', $type='', $size = Theme :: ICON_MEDIUM) {
         if($type){
@@ -33,8 +33,8 @@ class HomeTwitterSearch extends ContentObjectBlock {
         }
     }
 
-    function __construct($parent, $block_info) {
-        parent::__construct($parent, $block_info);
+    function __construct($parent, $block_info, $configuration) {
+        parent::__construct($parent, $block_info, $configuration);
         $this->default_title = Translation :: get('TwitterSearch');
     }
 

@@ -42,8 +42,8 @@ class RepositoryFeeder extends ContentObjectBlock {
         return $result;
     }
 
-    function __construct($parent, $block_info) {
-        parent::__construct($parent, $block_info);
+    function __construct($parent, $block_info, $configuration) {
+        parent::__construct($parent, $block_info, $configuration);
         $this->default_title = Translation::get('Newsfeed');
     }
 
@@ -72,11 +72,13 @@ class RepositoryFeeder extends ContentObjectBlock {
         $html = array();
         $feed = $display->parse_file($content_object->get_url());
         if ($feed) {
+            $target = $this->get_link_target();
+            $target = $target ? 'target="' . $target . '"' : '';
             $icon = self::get_default_image_path('', '', Theme :: ICON_MINI);
             $html[] = '<br /><div class="tool_menu">';
             $html[] = '<ul>';
             foreach ($feed['items'] as $item) {
-                $html[] = '<li class="tool_list_menu" style="background-image: url('. $icon . ')"><a href="' . htmlentities($item['link']) . '">' . $item['title'] . '</a></li>';
+                $html[] = '<li class="tool_list_menu" style="background-image: url(' . $icon . ')"><a href="' . htmlentities($item['link']) . '" '.$target.'>' . $item['title'] . '</a></li>';
             }
             $html[] = '</ul>';
             $html[] = '<div class="clear"></div>';

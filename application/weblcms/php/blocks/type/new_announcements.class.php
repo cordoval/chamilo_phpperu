@@ -66,6 +66,9 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
 
     function display_new_items($items)
     {
+        $target = $this->get_link_target();
+        $target = $target ? 'target="' . $target . '"' : '';
+
         $weblcms = $this->get_parent();
 
         $html = array();
@@ -76,7 +79,7 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
             foreach ($items as $item)
             {
 
-                $html[] = '<li><a href="' . htmlspecialchars($weblcms->get_link(array('go' => 'courseviewer', 'application' => 'weblcms', 'tool' => 'announcement', 'tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $item['id'], 'course' => $item['course']))) . '">' . htmlspecialchars($item['title']) . '</a>';
+                $html[] = '<li><a href="' . htmlspecialchars($weblcms->get_link(array('go' => 'courseviewer', 'application' => 'weblcms', 'tool' => 'announcement', 'tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $item['id'], 'course' => $item['course']))) . '" '.$target.'>' . htmlspecialchars($item['title']) . '</a>';
                 $html[] = '</li>';
             }
             $html[] = '</ul>';

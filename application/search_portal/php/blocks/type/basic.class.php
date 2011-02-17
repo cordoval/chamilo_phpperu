@@ -11,22 +11,16 @@ use common\libraries\FormValidator;
  */
 
 /**
- * This class represents a calendar publisher component which can be used
- * to browse through the possible learning objects to publish.
+ * Search Portal block
  */
 class SearchPortalBasic extends SearchPortalBlock
 {
-
-    /*
-	 * Inherited
-	 */
-    function as_html()
+    function display_content()
     {
         $html = array();
 
-        $html[] = $this->display_header();
         //$html[] = 'Search Portal test block ...';
-        $form = new FormValidator('search_simple', 'get', 'run.php', '', null, false);
+        $form = new FormValidator('search_simple', 'get', 'run.php', $this->get_link_target(), null, false);
         $form->addElement('text', 'query', '', 'style="width:80%;" id="inputString" onkeyup="lookup(this.value);"');
         $form->addElement('submit', 'submit', Translation :: get('Search', null , Utilities :: COMMON_LIBRARIES));
         $form->addElement('hidden', 'application', 'search_portal');
@@ -37,7 +31,6 @@ class SearchPortalBasic extends SearchPortalBlock
         $form->setDefaults(array('application' => 'search_portal'));
         $html[] = $renderer->toHTML();
         $html[] = '</div>';
-        $html[] = $this->display_footer();
 
         return implode("\n", $html);
     }
