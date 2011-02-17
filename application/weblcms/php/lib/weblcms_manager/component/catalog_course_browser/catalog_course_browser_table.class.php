@@ -20,10 +20,10 @@ class CatalogCourseBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function __construct($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition, $target = '')
     {
         $model = new CatalogCourseBrowserTableColumnModel();
-        $renderer = new CatalogCourseBrowserTableCellRenderer($browser);
+        $renderer = new CatalogCourseBrowserTableCellRenderer($browser, $target);
         $data_provider = new CatalogCourseBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, CatalogCourseBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = array();

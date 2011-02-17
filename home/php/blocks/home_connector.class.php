@@ -13,10 +13,12 @@ use repository\ContentObject;
 use repository\RepositoryDataManager;
 use repository\RepositoryBlockConnector;
 use common\libraries\CoreApplication;
+use common\libraries\Path;
+use common\libraries\BlockConnectorBase;
 
 require_once dirname(__FILE__) . '/type/static.class.php';
-require_once dirname(__FILE__) . '/type/twitter_search.class.php';
-require_once CoreApplication :: get_application_class_path('repository') . 'blocks/repository_connector.class.php';
+require_once dirname(__FILE__) . '/type/external.class.php';
+require_once Path::get_common_libraries_class_path() . 'block_connector_base.class.php';
 
 /**
  * Simple connector class to facilitate rendering settings forms by
@@ -24,7 +26,12 @@ require_once CoreApplication :: get_application_class_path('repository') . 'bloc
  * 
  * @author Hans De Bisschop
  */
-class HomeBlockConnector {
+class HomeBlockConnector extends BlockConnectorBase{
+
+
+    function get_external_objects(){
+        return self::get_objects(HomeExternal::get_supported_types());
+    }
 
     /**
      * Returns a list of objects that can be linked to a static block.
@@ -57,10 +64,6 @@ class HomeBlockConnector {
         }
 
         return $result;
-    }
-
-    function get_twitter_search_objects(){
-        return RepositoryBlockConnector::get_objects(HomeTwitterSearch::get_supported_types());
     }
 
 }

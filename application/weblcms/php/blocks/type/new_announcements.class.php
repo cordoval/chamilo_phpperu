@@ -11,6 +11,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 use repository\content_object\announcement\Announcement;
+use common\libraries\Theme;
+use common\libraries\Application;
 
 /**
  * $Id: new_announcements.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -25,6 +27,19 @@ require_once WebApplication :: get_application_class_path('weblcms') . 'lib/cour
  */
 class WeblcmsNewAnnouncements extends WeblcmsBlock
 {
+
+    public static function get_default_image_path($application='', $type='', $size = Theme :: ICON_MEDIUM) {
+        return Theme :: get_image_path(Application :: determine_namespace('weblcms')) . 'course_announcement.png';
+    }
+    
+    /**
+     * Returns the url to the icon.
+     *
+     * @return string
+     */
+    function get_icon() {
+        return self::get_default_image_path();
+    }
 
     function  display_content() {
         $html = array();
@@ -66,6 +81,9 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
 
     function display_new_items($items)
     {
+        $target = $this->get_link_target();
+        $target = $target ? 'target="' . $target . '"' : '';
+
         $weblcms = $this->get_parent();
 
         $html = array();
@@ -76,7 +94,7 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
             foreach ($items as $item)
             {
 
-                $html[] = '<li><a href="' . htmlspecialchars($weblcms->get_link(array('go' => 'courseviewer', 'application' => 'weblcms', 'tool' => 'announcement', 'tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $item['id'], 'course' => $item['course']))) . '">' . htmlspecialchars($item['title']) . '</a>';
+                $html[] = '<li><a href="' . htmlspecialchars($weblcms->get_link(array('go' => 'courseviewer', 'application' => 'weblcms', 'tool' => 'announcement', 'tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $item['id'], 'course' => $item['course']))) . '" '.$target.'>' . htmlspecialchars($item['title']) . '</a>';
                 $html[] = '</li>';
             }
             $html[] = '</ul>';

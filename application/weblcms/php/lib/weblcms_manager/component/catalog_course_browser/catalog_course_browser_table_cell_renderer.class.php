@@ -23,14 +23,16 @@ class CatalogCourseBrowserTableCellRenderer extends DefaultCourseTableCellRender
      * The repository browser component
      */
     private $browser;
+    private $target;
 
     /**
      * Constructor
      * @param WeblcmsBrowserComponent $browser
      */
-    function __construct($browser) {
+    function __construct($browser, $target = '') {
         parent :: __construct();
         $this->browser = $browser;
+        $this->target = $target;
     }
 
     // Inherited
@@ -67,22 +69,22 @@ class CatalogCourseBrowserTableCellRenderer extends DefaultCourseTableCellRender
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
         if ($url = $this->browser->get_course_viewing_url($course)) {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('CourseHome'), Theme :: get_common_image_path() . 'action_home.png', $url, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('CourseHome'), Theme :: get_common_image_path() . 'action_home.png', $url, ToolbarItem :: DISPLAY_ICON, false, null, $this->target));
         }
         if ($url = $this->browser->get_course_editing_url($course)) {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $url, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $url, ToolbarItem :: DISPLAY_ICON, false, null, $this->target));
         }
         if ($url = $this->browser->get_course_deleting_url($course)) {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $url, ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $url, ToolbarItem :: DISPLAY_ICON, true, null, $this->target));
         }
         if ($url = $this->browser->get_course_changing_course_type_url($course)) {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('ChangeCourseType'), Theme :: get_common_image_path() . 'action_move.png', $url, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ChangeCourseType'), Theme :: get_common_image_path() . 'action_move.png', $url, ToolbarItem :: DISPLAY_ICON, false, null, $this->target));
         }
         if ($url = $this->browser->get_course_maintenance_url($course)) {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Maintenance'), Theme :: get_common_image_path() . 'action_maintenance.png', $url, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Maintenance'), Theme :: get_common_image_path() . 'action_maintenance.png', $url, ToolbarItem :: DISPLAY_ICON, false, null, $this->target));
         }
         if ($url = $this->browser->get_reporting_url($course)) {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Report', null, 'reporting'), Theme :: get_common_image_path() . 'action_reporting.png', $url, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Report', null, 'reporting'), Theme :: get_common_image_path() . 'action_reporting.png', $url, ToolbarItem :: DISPLAY_ICON, false, null, $this->target));
         }
 
         if ($this->browser->is_subscribed($course, $this->browser->get_user())) {
@@ -94,7 +96,7 @@ class CatalogCourseBrowserTableCellRenderer extends DefaultCourseTableCellRender
             switch ($current_right) {
                 case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT :
                     $course_subscription_url = $this->browser->get_course_subscription_url($course);
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $course_subscription_url, ToolbarItem :: DISPLAY_ICON));
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $course_subscription_url, ToolbarItem :: DISPLAY_ICON, false, null, $this->target));
                     break;
 
                 case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST :
@@ -112,15 +114,15 @@ class CatalogCourseBrowserTableCellRenderer extends DefaultCourseTableCellRender
                     $teller = WeblcmsDataManager :: get_instance()->count_requests_by_course($condition);
                     if ($teller == 0) {
                         $course_request_form_url = $this->browser->get_course_request_form_url($course);
-                        $toolbar->add_item(new ToolbarItem(Translation :: get('Request'), Theme :: get_common_image_path() . 'action_request.png', $course_request_form_url, ToolbarItem :: DISPLAY_ICON));
+                        $toolbar->add_item(new ToolbarItem(Translation :: get('Request'), Theme :: get_common_image_path() . 'action_request.png', $course_request_form_url, ToolbarItem :: DISPLAY_ICON, false, null, $this->target));
                     } else {
-                        $toolbar->add_item(new ToolbarItem(Translation :: get('Pending'), Theme :: get_common_image_path() . 'status_pending.png', null, ToolbarItem :: DISPLAY_ICON));
+                        $toolbar->add_item(new ToolbarItem(Translation :: get('Pending'), Theme :: get_common_image_path() . 'status_pending.png', null, ToolbarItem :: DISPLAY_ICON, false, null, $this->target));
                     }
                     break;
 
                 case CourseGroupSubscribeRight :: SUBSCRIBE_CODE :
                     $course_code_url = $this->browser->get_course_code_url($course);
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('Code'), Theme :: get_common_image_path() . 'action_code.png', $course_code_url, ToolbarItem :: DISPLAY_ICON));
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('Code'), Theme :: get_common_image_path() . 'action_code.png', $course_code_url, ToolbarItem :: DISPLAY_ICON, false, null, $this->target));
                     break;
 
                 default :

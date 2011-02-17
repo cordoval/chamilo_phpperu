@@ -13,6 +13,7 @@ use common\libraries\OrCondition;
 use common\libraries\Translation;
 use common\libraries\StringUtilities;
 use common\libraries\SimpleTemplate;
+use home\HomeManager;
 
 require_once CoreApplication :: get_application_class_path('weblcms') . 'lib/course/course_category_menu.class.php';
 require_once CoreApplication :: get_application_class_path('weblcms') . 'lib/course/course_category_catalog_menu.class.php';
@@ -34,15 +35,6 @@ class WeblcmsCourseCatalog extends WeblcmsBlock {
      */
     const PARAM_COURSE_CATEGORY_ID = 'course_category';
 
-//
-//    function as_html() {
-//        $html = array();
-//        $html[] = $this->display_header();
-//        $html[] = $this->display_content();
-//        $html[] = $this->display_footer();
-//        return implode(StringUtilities::NEW_LINE, $html);
-//    }
-
     function display_content(){
         $html = array();
         $html[] = '<div style="padding-top:5px; padding-bottom:15px;font-weight:bold; font-size:15px;">';
@@ -61,7 +53,7 @@ class WeblcmsCourseCatalog extends WeblcmsBlock {
         $CRUMBS = SimpleTemplate::all('<span><a href="{$url}">{$title}</a></span>', $CRUMBS, ' > ');
 
         $CATEGORY = $category_menu->render_as_tree();
-        $table = new CatalogCourseBrowserTable($this, $parameters, $this->get_condition());
+        $table = new CatalogCourseBrowserTable($this, $parameters, $this->get_condition(), $this->get_link_target());
         
         $COURSE = $table->as_html();
 
@@ -75,7 +67,13 @@ class WeblcmsCourseCatalog extends WeblcmsBlock {
         }
 
         $category = Request::get(self::PARAM_COURSE_CATEGORY_ID);
-        return $this->_category_menu = new CourseCategoryCatalogMenu($category);
+
+        $params = $this->get_parameters();
+        $params['course_category'] = '__placeholder__';
+
+        $url_format = Redirect::get_url($params) ;
+        $url_format = str_replace('__placeholder__', '%s', $url_format);
+        return $this->_category_menu = new CourseCategoryCatalogMenu($category, $url_format);
     }
 
     function get_condition() {

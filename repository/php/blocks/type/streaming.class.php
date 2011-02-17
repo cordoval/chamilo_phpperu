@@ -56,8 +56,8 @@ class RepositoryStreaming extends ContentObjectBlock {
         return $result;
     }
 
-    function __construct($parent, $block_info) {
-        parent::__construct($parent, $block_info);
+    function __construct($parent, $block_info, $configuration) {
+        parent::__construct($parent, $block_info, $configuration);
         $this->default_title = Translation::get('Streaming');
     }
 
@@ -65,6 +65,18 @@ class RepositoryStreaming extends ContentObjectBlock {
         return true; //i.e.display on homepage when anonymous
     }
 
+    /**
+     * Returns the html to display when the block is configured.
+     *
+     * @return string
+     */
+    function display_content() {
+        $content_object = $this->get_object();
+        $display = ContentObjectDisplay :: factory($content_object);
+        $display->set_link_target($this->get_link_target());
+        return $display->get_description();
+    }
+    
     /**
      * Returns the url to the icon.
      *

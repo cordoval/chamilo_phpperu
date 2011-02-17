@@ -37,15 +37,17 @@ class AlexiaLinks extends PhotoGalleryBlock
         $html[] = '<br /><br />';
         $html[] = '<div class="tool_menu">';
         $html[] = '<ul>';
+        $target = $this->get_link_target();
+        $target = $target ? 'target="' . $target . '"' : '';
         while ($publication = $publications->next_result())
         {
             $link = $publication->get_publication_object();
-            $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'treemenu_types/link.png)"><a href="' . $link->get_url() . '">' . $link->get_title() . '</a></li>';
+            $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'treemenu_types/link.png)"><a href="' . $link->get_url() . '" '. $target .'>' . $link->get_title() . '</a></li>';
         }
         $html[] = '</ul>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
-        $html[] = '<div style="clear: both; text-align: right;"><a href="' . Redirect :: get_link('alexia') . '">' . Translation :: get('MoreLinks') . '&hellip;</a></div>';
+        $html[] = '<div style="clear: both; text-align: right;"><a href="' . Redirect :: get_link('alexia') . '" '. $target .'>' . Translation :: get('MoreLinks') . '&hellip;</a></div>';
         $html[] = $this->display_footer();
 
         return implode("\n", $html);

@@ -8,6 +8,8 @@ use common\libraries\Theme;
 use repository\ContentObjectDisplay;
 use repository\ContentObject;
 use common\libraries\SimpleTemplate;
+use common\libraries\ResourceManager;
+use admin\AdminDataManager;
 
 /**
  *
@@ -17,6 +19,96 @@ use common\libraries\SimpleTemplate;
  * @package repository.lib.content_object.twitter_search
  */
 class TwitterSearchDisplay extends ContentObjectDisplay {
+
+    static $intialized = false;
+
+    /**
+     * This function returns the javascript needed for Twitter @anywere to work. Returns resources only once as those should not be included more than once which is possible with different blocks.
+     */
+    static function get_resource_html() {
+        if (self::$intialized) {
+            return '';
+        }
+
+        $key = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name('twitter_api_key', 'repository');
+        if (empty($key)) {
+            //@todo: remove that when the UI works. This is a hack!!
+            $key = file_get_contents(dirname(__FILE__) . '/../resources/key.txt');
+        }
+
+        $result = array();
+        $result[] = '<script src="http://platform.twitter.com/anywhere.js?id=' . $key . '&amp;v=1" type="text/javascript"></script>';
+        $result[] = ResourceManager :: get_instance()->get_resource_html(Path :: get_repository_content_object_path(true) . 'twitter_search/resources/javascript/twitter.js');
+        $result = implode("\n", $result);
+        self::$intialized = true;
+        return $result;
+    }
+
+    function get_twitter_box_html($id = '', $label = '', $default_content = '', $counter = false, $width = '200px', $height = '100px') {
+        $resources = self::get_resource_html();
+        $user_id = 'twt_pane' . $id;
+        $id = 'twt_box' . $id;
+
+        $result = <<<EOT
+
+        $resources
+        <div>
+        <div id="$user_id"></div>
+        <div id="$id"></div>
+        <script>
+
+
+        twttr.anywhere(function (T) {
+                var currentUser,
+                    screenName,
+                    profileImage,
+                    profileImageTag;
+
+                if (T.isConnected()) {
+                  currentUser = T.currentUser;
+                  screenName = currentUser.data('screen_name');
+                  profileImage = currentUser.data('profile_image_url');
+                  profileImageTag = "<img src='" + profileImage + "'/>";
+                  $('#$user_id').html(profileImageTag + " " + screenName);
+                  $('#$id').html('');
+                  T("#$id").tweetBox({
+                        label: '$label',
+                        counter: '$counter',
+                        height: '$height',
+                        width: '$width',
+                        defaultContent: '$default_content'
+                        });
+                } else {
+                  $('#$user_id').html('');
+                  T("#$user_id").connectButton({
+                      authComplete: function(user) {
+                          currentUser = T.currentUser;
+                          screenName = currentUser.data('screen_name');
+                          profileImage = currentUser.data('profile_image_url');
+                          profileImageTag = "<img src='" + profileImage + "'/>";
+                          $('#$user_id').html(profileImageTag + " " + screenName);
+                          $('#$id').html('');
+                          T("#$id").tweetBox({
+                                label: '$label',
+                                counter: '$counter',
+                                height: '$height',
+                                width: '$width',
+                                defaultContent: '$default_content'
+                                });
+                      },
+                      signOut: function() {
+                        // triggered when user logs out
+                      }
+                    });
+                };
+
+              });
+
+        </script>
+        </div>
+EOT;
+        return $result;
+    }
 
     function get_widget_html($scrollbar = false, $loop = true, $live = true, $hashtags = true, $timestamp = true, $avatars = true, $toptweets = true) {
         $object = $this->get_content_object();
@@ -44,11 +136,12 @@ class TwitterSearchDisplay extends ContentObjectDisplay {
         $avatars = $avatars ? 'true' : 'false';
         $toptweets = $toptweets ? 'true' : 'false';
         $footer = Translation::get('Go');
+        $resources = self::get_resource_html();
 
         $content = <<<EOT
-
+        
+$resources
 <script src="http://widgets.twimg.com/j/2/widget.js"></script>
-
 <div class="action_bar" ><div class="twtr-container"><div class="twtr-widget" id="$bloc_id"></div></div></div>
 <script>
 new TWTR.Widget({
@@ -104,9 +197,13 @@ EOT;
         $avatars = $avatars ? 'true' : 'false';
         $toptweets = $toptweets ? 'true' : 'false';
         $footer = Translation::get('Go');
+        $resources = self::get_resource_html();
 
         $content = <<<EOT
+        
+$resources
 <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<div id="tbox"></div>
 <div class="action_bar" ><div class="twtr-container"><div class="twtr-widget" id="$bloc_id"></div></div></div>
 <script>
 new TWTR.Widget({

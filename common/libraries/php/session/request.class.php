@@ -18,7 +18,7 @@ class Request
         return self :: $security;
     }
 
-	static function get($variable)
+	static function get($variable, $default = null)
 	{
 		if (isset($_GET[$variable]))
 		{
@@ -26,7 +26,7 @@ class Request
 			return self :: get_security()->remove_XSS($_GET[$variable]);
 		}
 
-		return null;
+		return $default;
 	}
 
 	static function set_get($variable, $value)

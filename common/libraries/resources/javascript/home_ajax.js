@@ -425,9 +425,9 @@ $(function () {
 	{
 		loading.dialog.container.append($(loading.opts.closeHTML).addClass(loading.opts.closeClass));
 		loading.bindEvents();
-		$.timeout(function () { 
+		$.timeout(function () {
 			loading.close();
-		}, 3000);
+		}, 1000);
 	}
 	
 	function deleteTab(e, ui)

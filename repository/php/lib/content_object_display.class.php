@@ -32,6 +32,13 @@ abstract class ContentObjectDisplay
     private $url_format;
 
     /**
+     * Link target. I.e. if we need to open a link into the same windows, a new one, etc.
+     *
+     * @var string
+     */
+    private $link_target = '';
+
+    /**
      * Constructor.
      * @param ContentObject $content_object The learning object to display.
      * @param string $url_format A pattern to pass to sprintf(), representing
@@ -65,6 +72,18 @@ abstract class ContentObjectDisplay
             $url_format = $_SERVER['PHP_SELF'] . '?' . implode('&', $new_pairs);
         }
         $this->url_format = $url_format;
+    }
+
+    /**
+     * Link target. I.e. if we need to open a link into the same windows, a new one, etc. One of the usual HTML values: _blank, ...
+     * @return string
+     */
+    public function get_link_target(){
+        return $this->link_target;
+    }
+
+    public function set_link_target($value){
+        $this->link_target = $value;
     }
 
     /**

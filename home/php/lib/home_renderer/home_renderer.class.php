@@ -21,7 +21,11 @@ use Exception;
 abstract class HomeRenderer
 {
     const TYPE_DEFAULT = 'default';
+    const TYPE_WIDGET = 'widget';
+    const TYPE_WIDGET_OPEN_SOCIAL_MODULE = 'widget_open_social_module';
     const PARAM_TAB_ID = 'tab';
+    const PARAM_VIEW_TYPE = 'view_type';
+    const PARAM_WIDGET_ID = 'widget_id';
 
     /**
      * @var User|null

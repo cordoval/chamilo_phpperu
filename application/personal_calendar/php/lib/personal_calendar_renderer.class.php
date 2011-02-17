@@ -25,16 +25,27 @@ abstract class PersonalCalendarRenderer
      */
     private $legend;
 
+    private $link_target = '';
+
     /**
      * Constructor
      * @param PersonalCalendar $personal_calendar
      * @param int $display_time
      */
-    function __construct($personal_calendar, $display_time)
+    function __construct($personal_calendar, $display_time, $link_target = '')
     {
         $this->personal_calendar = $personal_calendar;
         $this->display_time = $display_time;
         $this->legend = array();
+        $this->link_target = $link_target;
+    }
+
+    public function get_link_target(){
+        return $this->link_target;
+    }
+
+    public function set_link_target($value){
+        $this->link_target = $value;
     }
 
     /**
