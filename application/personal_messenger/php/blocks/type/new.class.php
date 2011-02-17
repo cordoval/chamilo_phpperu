@@ -21,21 +21,21 @@ class PersonalMessengerNew extends PersonalMessengerBlock
     /*
 	 * Inherited
 	 */
-    function as_html()
+    function display_content()
     {
         $html = array();
-
-        $html[] = $this->display_header();
 
         $publications = PersonalMessengerDataManager :: get_instance()->retrieve_personal_message_publications($this->get_condition(), array(), array(), 5);
 
         if ($publications->size() > 0)
         {
             $html[] = '<ul>';
+            $target = $this->get_link_target();
+            $target = $target ? ' target="' . $target . '" ' : '';
             while ($publication = $publications->next_result())
             {
                 $html[] = '<li>';
-                $html[] = '<a href="' . htmlspecialchars($this->get_publication_viewing_link($publication)) . '">' . htmlspecialchars($publication->get_publication_object()->get_title()) . '</a>';
+                $html[] = '<a href="' . htmlspecialchars($this->get_publication_viewing_link($publication)) . '"'.$target.'>' . htmlspecialchars($publication->get_publication_object()->get_title()) . '</a>';
                 $html[] = '</li>';
             }
             $html[] = '</ul>';
@@ -44,8 +44,6 @@ class PersonalMessengerNew extends PersonalMessengerBlock
         {
             $html[] = htmlspecialchars(Translation :: get('NoNewMessages'));
         }
-
-        $html[] = $this->display_footer();
 
         return implode("\n", $html);
     }

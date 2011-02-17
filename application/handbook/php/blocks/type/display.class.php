@@ -48,8 +48,8 @@ class HandbookDisplay extends ContentObjectBlock {
         return $result;
     }
 
-    function __construct($parent, $block_info) {
-        parent::__construct($parent, $block_info);
+    function __construct($parent, $block_info, $configuration) {
+        parent::__construct($parent, $block_info, $configuration);
         $this->default_title = Translation::get('Handbook');
     }
     
@@ -57,18 +57,6 @@ class HandbookDisplay extends ContentObjectBlock {
     {
         return true; //i.e.display on homepage when anonymous
     }
-
-//    function get_title() {
-//        $content_object = $this->get_object();
-//        if (empty($content_object)) {
-//            return $this->get_default_title();
-//        }
-//        $title = $content_object->get_title();
-//        $href = $this->get_view_handbook_url($content_object);
-//
-//        $result = "<a href=\"$href\">$title</a>";
-//        return $result;
-//    }
 
     /**
      * Returns the html to display when the block is configured.
@@ -128,7 +116,7 @@ class HandbookDisplay extends ContentObjectBlock {
             $preview_url = $this->get_view_handbook_url($handbook);
             $toolbar_item = new ToolbarItem(' ' . $child->get_title(),
                             Theme :: get_content_object_image_path($child->get_type_name()),
-                            $preview_url, ToolbarItem::DISPLAY_ICON_AND_LABEL, false, '', '');
+                            $preview_url, ToolbarItem::DISPLAY_ICON_AND_LABEL, false, '', $this->get_link_target());
             $DESCRIPTION = $toolbar_item->as_html();
         } else {
             $DESCRIPTION = $display->get_short_html();

@@ -203,7 +203,7 @@ EOT;
         
 $resources
 <script src="http://widgets.twimg.com/j/2/widget.js"></script>
-<div id="tbox">hello</div>
+<div id="tbox"></div>
 <div class="action_bar" ><div class="twtr-container"><div class="twtr-widget" id="$bloc_id"></div></div></div>
 <script>
 new TWTR.Widget({

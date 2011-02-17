@@ -21,20 +21,13 @@ require_once WebApplication :: get_application_class_lib_path('personal_calendar
 class PersonalCalendarMonth extends PersonalCalendarBlock
 {
 
-    /*
-	 * Inherited
-	 */
-    function as_html()
+    function display_content()
     {
         $html = array();
 
-        $html[] = $this->display_header();
-
         $time = Request :: get('time') ? intval(Request :: get('time')) : time();
-        $minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
+        $minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time, $this->get_link_target());
         $html[] = $minimonthcalendar->render();
-
-        $html[] = $this->display_footer();
 
         return implode("\n", $html);
     }

@@ -19,7 +19,7 @@ class WeblcmsCourseList extends WeblcmsBlock {
     function display_content() {
         $html = array();
 
-        $renderer = new CourseListRenderer($this);
+        $renderer = new CourseListRenderer($this, $this->get_link_target());
         $renderer->show_new_publication_icons();
         $html[] = $renderer->as_html();
 

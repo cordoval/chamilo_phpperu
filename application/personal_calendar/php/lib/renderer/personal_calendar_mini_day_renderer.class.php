@@ -19,12 +19,12 @@ class PersonalCalendarMiniDayRenderer extends PersonalCalendarRenderer
     private $start_hour;
     private $end_hour;
 
-    public function __construct($personal_calendar, $display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24')
+    public function __construct($personal_calendar, $display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24', $link_target = '')
     {
         $this->hour_step = $hour_step;
         $this->start_hour = $start_hour;
         $this->end_hour = $end_hour;
-        parent :: __construct($personal_calendar, $display_time);
+        parent :: __construct($personal_calendar, $display_time, $link_target);
     }
 
     /**
@@ -90,7 +90,10 @@ class PersonalCalendarMiniDayRenderer extends PersonalCalendarRenderer
             $html[] = '&darr;';
         }
 
-        $html[] = '<a href="' . htmlspecialchars($event->get_url()) . '">';
+        $target = $this->get_link_target();
+        $target = $target ? ' target="' . $target . '" ' : '';
+
+        $html[] = '<a href="' . htmlspecialchars($event->get_url()) . '"'.$target.'>';
         $html[] = htmlspecialchars($event->get_title());
         $html[] = '</a>';
 

@@ -20,6 +20,8 @@ use common\libraries\RssIconGenerator;
 use common\libraries\Redirect;
 use common\libraries\Session;
 use common\libraries\SimpleTemplate;
+use common\libraries\Request;
+use home\HomeManager;
 
 require_once WebApplication :: get_application_class_path('weblcms') . 'blocks/weblcms_block.class.php';
 require_once WebApplication :: get_application_class_path('weblcms') . 'lib/weblcms_manager/component/home.class.php';
@@ -36,7 +38,7 @@ class WeblcmsCourseMenu extends WeblcmsBlock {
     function is_teacher() {
         return $this->get_user()->is_teacher() && (Session::get('studentview') != 'studentenview');
     }
-
+    
     function display_content() {
         $html = array();
         $html[] = '<div class="tool_menu">';
@@ -46,7 +48,9 @@ class WeblcmsCourseMenu extends WeblcmsBlock {
         $html[] = '</ul>';
         $html[] = '</div>';
 
-        $template = '<li class="tool_list_menu" style="background-image: url({$IMG})"><a style="top: -3px; position: relative;" href="{$HREF}">{$TEXT}</a></li>';
+        $target = $this->get_link_target();
+
+        $template = '<li class="tool_list_menu" style="background-image: url({$IMG})"><a style="top: -3px; position: relative;" href="{$HREF}" target="'. $target .'">{$TEXT}</a></li>';
 
         $ADMIN_MENU = $this->display_admin_menu($template);
         $USER_MENU = SimpleTemplate::all($template, $this->get_edit_course_menu());
@@ -142,7 +146,7 @@ class WeblcmsCourseMenu extends WeblcmsBlock {
     
     function get_course_action_url($action) {
         $params[WeblcmsManager::PARAM_APPLICATION] = WeblcmsManager::APPLICATION_NAME;
-        $params[WeblcmsManager :: PARAM_ACTION] = $action;
+        $params[WeblcmsManager::PARAM_ACTION] = $action;
         return htmlspecialchars(Redirect::get_link(WeblcmsManager::APPLICATION_NAME, $params));
     }
 

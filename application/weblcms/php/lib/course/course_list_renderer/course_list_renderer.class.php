@@ -25,10 +25,18 @@ class CourseListRenderer
      */
     private $new_publication_icons;
 
-    function __construct($parent)
+    /**
+     * Link target.
+     *
+     * @var string
+     */
+    private $target = '';
+
+    function __construct($parent, $target = '')
     {
         $this->parent = $parent;
         $this->new_publication_icons = false;
+        $this->target = $target;
     }
 
     function get_parent()
@@ -54,6 +62,14 @@ class CourseListRenderer
     function get_new_publication_icons()
     {
         return $this->new_publication_icons;
+    }
+
+    function get_target(){
+        return $target;
+    }
+
+    function set_target($value){
+        $this->target = $target;
     }
 
     /**
@@ -129,6 +145,7 @@ class CourseListRenderer
     {
         $html = array();
         $courses = $this->retrieve_courses();
+        $target = $this->target ? ' target="' . $this->target .'" ' : '';
 
         if ($courses->size() > 0)
         {
@@ -140,7 +157,7 @@ class CourseListRenderer
                     continue;
                 }
 
-                $html[] = '<li><a href="' . htmlspecialchars($this->get_course_url($course)) . '">' . htmlspecialchars($course->get_name()) . '</a>';
+                $html[] = '<li><a href="' . htmlspecialchars($this->get_course_url($course)) . '"'.$target.'>' . htmlspecialchars($course->get_name()) . '</a>';
 
                 if ($this->get_new_publication_icons())
                 {
@@ -163,12 +180,13 @@ class CourseListRenderer
     {
         $tools = WeblcmsDataManager :: get_instance()->get_course_modules($course->get_id());
         $html = array();
+        $target = $this->target ? ' target="' . $this->target .'" ' : '';
 
         foreach ($tools as $index => $tool)
         {
             if ($tool->visible && WeblcmsDataManager :: tool_has_new_publications($tool->name, $this->get_user(), $course))
             {
-                $html[] = '<a href="' . htmlspecialchars($this->get_tool_url($tool->name, $course)) . '"><img src="' . htmlspecialchars(Theme :: get_image_path(Tool :: get_tool_type_namespace($tool->name))) . 'logo/' . Theme :: ICON_MEDIUM . '_new.png" alt="' . htmlspecialchars(Translation :: get('New', null, Utilities :: COMMON_LIBRARIES )) . '"/></a>';
+                $html[] = '<a href="' . htmlspecialchars($this->get_tool_url($tool->name, $course)) . '"'.$target.'><img src="' . htmlspecialchars(Theme :: get_image_path(Tool :: get_tool_type_namespace($tool->name))) . 'logo/' . Theme :: ICON_MEDIUM . '_new.png" alt="' . htmlspecialchars(Translation :: get('New', null, Utilities :: COMMON_LIBRARIES )) . '"/></a>';
             }
         }
         return implode($html, "\n");

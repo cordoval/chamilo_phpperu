@@ -3,6 +3,7 @@ use common\libraries\Utilities;
 use common\libraries\Session;
 use common\libraries\Display;
 use common\libraries\Authentication;
+use common\libraries\Request;
 
 use user\UserDataManager;
 use home\HomeRenderer;
@@ -24,7 +25,10 @@ try
         $user = null;
     }
 
-    echo HomeRenderer :: as_html(HomeRenderer :: TYPE_DEFAULT, $user);
+
+    $view = Request::get(HomeRenderer::PARAM_VIEW_TYPE, HomeRenderer :: TYPE_DEFAULT);
+
+    echo HomeRenderer :: as_html($view, $user);
 }
 catch (Exception $exception)
 {
