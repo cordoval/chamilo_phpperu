@@ -104,8 +104,8 @@ class HandbookManager extends WebApplication
 
     const ACTION_BROWSE = 'browse';
 
-    static $language_metadata_properties = array('dc:Language', 'dc:language');
-    static $publisher_metadata_properties = array('dc:Publisher', 'dc:publisher');
+    static $language_metadata_properties = array('dc:language', 'dc:Language');
+    static $publisher_metadata_properties = array('dc:publisher', 'dc:Publisher');
     static $found_glossaries = array();
 
     /**
